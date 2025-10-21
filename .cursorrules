@@ -1,0 +1,542 @@
+# Cursor Rules - Pawel Lipowczan Portfolio Website
+
+## Project Overview
+Modern portfolio website for Pawel Lipowczan built with React 18, Vite, Tailwind CSS, and Framer Motion. Features a green/teal color scheme, animated UI, and blog functionality.
+
+## Code Style & Standards
+
+### JavaScript/React
+- Use functional components with React Hooks
+- Use arrow functions for components: `const Component = () => {}`
+- Prefer named exports over default exports
+- Use destructuring for props: `const Component = ({ prop1, prop2 }) => {}`
+- Use optional chaining and nullish coalescing: `data?.field ?? 'default'`
+- Keep components small and focused (< 200 lines)
+- Extract reusable logic into custom hooks
+- Use PropTypes or TypeScript for type checking (if TypeScript is added later)
+
+### File Naming Conventions
+- Components: PascalCase (e.g., `Hero.jsx`, `ProjectCard.jsx`)
+- Utilities/Hooks: camelCase (e.g., `useScrollAnimation.js`, `formatDate.js`)
+- Pages: PascalCase (e.g., `Home.jsx`, `BlogPost.jsx`)
+- Styles: kebab-case (e.g., `global-styles.css`)
+- Constants: UPPERCASE (e.g., `COLORS.js`, `API_ENDPOINTS.js`)
+
+### Component Structure
+```jsx
+// 1. Imports (libraries, components, hooks, styles)
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Button from './Button';
+
+// 2. Constants (if needed)
+const ANIMATION_DURATION = 0.6;
+
+// 3. Component definition
+const MyComponent = ({ title, data }) => {
+  // 4. Hooks
+  const [state, setState] = useState(null);
+  
+  useEffect(() => {
+    // side effects
+  }, []);
+  
+  // 5. Event handlers
+  const handleClick = () => {
+    // logic
+  };
+  
+  // 6. Render helpers (if needed)
+  const renderContent = () => {
+    // complex rendering logic
+  };
+  
+  // 7. Return JSX
+  return (
+    <motion.div>
+      {/* component content */}
+    </motion.div>
+  );
+};
+
+export default MyComponent;
+```
+
+### CSS/Tailwind
+- Use Tailwind utility classes primarily
+- Custom CSS only when necessary (complex gradients, animations)
+- Use @apply for repeated utility combinations
+- Mobile-first responsive design: `<div className="text-sm md:text-base lg:text-lg">`
+- Color consistency: Use defined color palette from `tailwind.config.js`
+- Avoid inline styles unless dynamic values required
+
+### Tailwind Class Order
+1. Layout (display, position, flex, grid)
+2. Sizing (width, height, padding, margin)
+3. Typography (font, text-size, text-color)
+4. Visual (background, border, shadow)
+5. Effects (opacity, transform, transition)
+
+Example:
+```jsx
+<div className="flex items-center justify-center w-full h-screen px-4 py-8 text-xl font-bold text-white bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg shadow-lg hover:scale-105 transition-transform">
+```
+
+## Design System
+
+### Color Palette (Tailwind Config)
+```js
+colors: {
+  primary: {
+    50: '#e6fff9',
+    100: '#b3ffe9',
+    500: '#00ff9d', // Main brand color
+    600: '#00cc7d',
+    700: '#00995e',
+  },
+  secondary: {
+    500: '#00b8ff', // Cyan accent
+  },
+  dark: {
+    900: '#050810', // Darkest background
+    800: '#0a0e1a', // Dark background
+    700: '#151b2b', // Card background
+  }
+}
+```
+
+### Typography Scale
+- Heading 1 (Hero): `text-6xl md:text-7xl lg:text-8xl font-bold`
+- Heading 2 (Section): `text-4xl md:text-5xl font-bold`
+- Heading 3 (Card title): `text-2xl md:text-3xl font-semibold`
+- Body: `text-base md:text-lg`
+- Small: `text-sm`
+
+### Spacing Scale
+- Section padding: `py-16 md:py-24 lg:py-32`
+- Card padding: `p-6 md:p-8`
+- Gap between items: `gap-6 md:gap-8 lg:gap-12`
+
+### Gradient Classes (Custom)
+```css
+.gradient-text {
+  background: linear-gradient(135deg, #00ff9d 0%, #00b8ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #00ff9d22 0%, #00b8ff22 100%);
+}
+```
+
+## Animation Guidelines
+
+### Framer Motion Variants
+- Always use variants for complex animations
+- Keep animations smooth (0.4-0.8s duration)
+- Use `ease: [0.6, 0.05, 0.01, 0.9]` for smooth easing
+- Implement scroll-triggered animations with `whileInView`
+
+Example:
+```jsx
+const fadeInUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] }
+  }
+};
+
+<motion.div
+  variants={fadeInUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, margin: "-100px" }}
+>
+```
+
+### Performance Optimization
+- Animate only `transform` and `opacity` properties
+- Use `will-change` sparingly
+- Implement `viewport={{ once: true }}` for scroll animations
+- Avoid animating expensive properties (width, height, etc.)
+
+## Component Patterns
+
+### Button Component
+```jsx
+const Button = ({ children, variant = 'primary', onClick, className = '' }) => {
+  const baseStyles = 'px-6 py-3 rounded-lg font-semibold transition-all duration-300';
+  const variants = {
+    primary: 'bg-primary-500 text-dark-900 hover:bg-primary-400 hover:shadow-lg hover:shadow-primary-500/50',
+    outline: 'border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-dark-900',
+  };
+  
+  return (
+    <button 
+      onClick={onClick}
+      className={`${baseStyles} ${variants[variant]} ${className}`}
+    >
+      {children}
+    </button>
+  );
+};
+```
+
+### Card Component
+```jsx
+const Card = ({ children, className = '' }) => {
+  return (
+    <motion.div
+      className={`bg-dark-700/50 backdrop-blur-md rounded-xl p-6 border border-primary-500/20 hover:border-primary-500/40 transition-all ${className}`}
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.3 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+```
+
+## Project Structure
+
+```
+cursorplan/
+├── public/
+│   ├── logo.svg              # Main logo
+│   ├── favicon.ico
+│   └── images/               # Project/blog images
+├── src/
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Navigation.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   └── Layout.jsx
+│   │   ├── sections/
+│   │   │   ├── Hero.jsx
+│   │   │   ├── About.jsx
+│   │   │   ├── Projects.jsx
+│   │   │   ├── Skills.jsx
+│   │   │   └── Contact.jsx
+│   │   ├── blog/
+│   │   │   ├── BlogList.jsx
+│   │   │   ├── BlogCard.jsx
+│   │   │   └── BlogPost.jsx
+│   │   ├── ui/
+│   │   │   ├── Button.jsx
+│   │   │   ├── Card.jsx
+│   │   │   └── Input.jsx
+│   │   └── animations/
+│   │       ├── NetworkBackground.jsx
+│   │       └── ScrollProgress.jsx
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── Blog.jsx
+│   │   ├── BlogPostPage.jsx
+│   │   ├── PrivacyPolicy.jsx
+│   │   ├── TermsOfService.jsx
+│   │   └── CookiePolicy.jsx
+│   ├── hooks/
+│   │   ├── useScrollAnimation.js
+│   │   └── useMediaQuery.js
+│   ├── utils/
+│   │   ├── constants.js
+│   │   └── helpers.js
+│   ├── data/
+│   │   ├── projects.js
+│   │   ├── skills.js
+│   │   └── blogPosts.js
+│   ├── styles/
+│   │   ├── index.css          # Global styles + Tailwind imports
+│   │   └── animations.css     # Custom animations
+│   ├── App.jsx
+│   └── main.jsx
+├── .cursorrules               # This file
+├── PRD.md                     # Product requirements
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+├── postcss.config.js
+└── README.md
+```
+
+## SEO Best Practices
+
+### Meta Tags
+- Use React Helmet for dynamic meta tags
+- Unique title and description per page
+- Include Open Graph and Twitter Card tags
+- Set canonical URLs
+
+Example:
+```jsx
+import { Helmet } from 'react-helmet-async';
+
+<Helmet>
+  <title>Pawel Lipowczan - Full Stack Developer | Your Tech Guide</title>
+  <meta name="description" content="Portfolio of Pawel Lipowczan, showcasing web development projects and technical blog articles." />
+  <meta property="og:title" content="Pawel Lipowczan - Portfolio" />
+  <meta property="og:description" content="Full Stack Developer specializing in React and Node.js" />
+  <meta property="og:image" content="/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+</Helmet>
+```
+
+### Semantic HTML
+- Use proper heading hierarchy (H1 → H2 → H3)
+- One H1 per page (main heading)
+- Use semantic elements: `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`
+- Add descriptive alt text to all images
+
+### URL Structure
+- Clean, readable URLs: `/blog/my-article-title`
+- Use slugs for blog posts
+- Implement breadcrumbs for navigation
+
+## Performance Optimization
+
+### Image Optimization
+- Use WebP format with fallbacks
+- Implement lazy loading: `loading="lazy"`
+- Provide multiple sizes with `srcset`
+- Optimize images before upload (compress to < 200KB)
+
+### Code Splitting
+- Lazy load pages: `const Blog = lazy(() => import('./pages/Blog'))`
+- Use `<Suspense>` with fallback
+- Split large components if needed
+
+### Bundle Optimization
+- Keep bundle size < 200KB (gzipped)
+- Tree-shake unused code
+- Minimize third-party dependencies
+- Use dynamic imports for heavy libraries
+
+## Accessibility (A11y)
+
+### Requirements
+- Keyboard navigation support (Tab, Enter, Escape)
+- ARIA labels on interactive elements
+- Focus visible indicators
+- Color contrast ratio ≥ 4.5:1 (text)
+- Skip to content link
+- Form labels and error messages
+
+### Testing
+- Test with keyboard only (no mouse)
+- Use browser DevTools Accessibility panel
+- Check color contrast with tools
+- Test with screen reader (optional)
+
+## Git Workflow
+
+### Branch Strategy
+- `main` - production code
+- `develop` - development branch
+- `feature/feature-name` - new features
+- `fix/bug-name` - bug fixes
+
+### Commit Messages
+Format: `type: description`
+
+Types:
+- `feat:` - new feature
+- `fix:` - bug fix
+- `style:` - CSS/styling changes
+- `refactor:` - code refactoring
+- `docs:` - documentation
+- `perf:` - performance improvements
+- `test:` - tests
+
+Examples:
+- `feat: add hero section with gradient text`
+- `fix: resolve mobile menu overlay issue`
+- `style: update color scheme to green/teal`
+
+## Testing Checklist
+
+### Before Committing
+- [ ] Components render correctly
+- [ ] No console errors or warnings
+- [ ] Responsive on mobile, tablet, desktop
+- [ ] Animations work smoothly
+- [ ] Links navigate correctly
+- [ ] Forms validate properly
+
+### Before Deploying
+- [ ] Run build: `npm run build`
+- [ ] Test production build locally
+- [ ] Check Lighthouse scores (>90)
+- [ ] Test on multiple browsers
+- [ ] Validate SEO meta tags
+- [ ] Check all links (no 404s)
+- [ ] Verify legal pages are accessible
+
+## Common Patterns
+
+### Data Fetching (Future)
+```jsx
+const [data, setData] = useState(null);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/data');
+      const result = await response.json();
+      setData(result);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  fetchData();
+}, []);
+```
+
+### Form Handling
+```jsx
+const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+const [errors, setErrors] = useState({});
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prev => ({ ...prev, [name]: value }));
+  // Clear error on change
+  if (errors[name]) {
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  }
+};
+
+const validateForm = () => {
+  const newErrors = {};
+  if (!formData.name) newErrors.name = 'Name is required';
+  if (!formData.email) newErrors.email = 'Email is required';
+  if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
+  return newErrors;
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const validationErrors = validateForm();
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    return;
+  }
+  // Submit form
+};
+```
+
+## Environment Variables
+
+Create `.env` file:
+```
+VITE_API_URL=https://api.example.com
+VITE_FORM_ENDPOINT=https://formspree.io/f/YOUR_ID
+```
+
+Access in code:
+```jsx
+const apiUrl = import.meta.env.VITE_API_URL;
+```
+
+## Dependencies to Use
+
+### Core
+- react: ^18.2.0
+- react-dom: ^18.2.0
+- react-router-dom: ^6.20.0
+- vite: ^5.0.0
+
+### Styling
+- tailwindcss: ^3.4.0
+- autoprefixer: ^10.4.16
+- postcss: ^8.4.32
+
+### Animation
+- framer-motion: ^10.16.0
+
+### Forms
+- react-hook-form: ^7.48.0 (optional)
+
+### SEO
+- react-helmet-async: ^2.0.0
+
+### Utilities
+- react-icons: ^4.12.0
+- react-markdown: ^9.0.0 (for blog)
+
+## Debugging Tips
+
+### Common Issues
+1. **Animations not working**: Check if Framer Motion is imported and variants are correct
+2. **Styles not applying**: Verify Tailwind config and CSS import order
+3. **Routing issues**: Ensure BrowserRouter wraps App component
+4. **Build failures**: Check for missing dependencies or import errors
+
+### Development Tools
+- React DevTools (browser extension)
+- Tailwind CSS IntelliSense (VS Code extension)
+- Vite server: `npm run dev`
+- Build preview: `npm run build && npm run preview`
+
+## Documentation Standards
+
+### Component Documentation
+```jsx
+/**
+ * Button component with variants
+ * 
+ * @param {string} children - Button text content
+ * @param {string} variant - Style variant ('primary' | 'outline')
+ * @param {function} onClick - Click handler
+ * @param {string} className - Additional CSS classes
+ * 
+ * @example
+ * <Button variant="primary" onClick={handleClick}>
+ *   Click Me
+ * </Button>
+ */
+const Button = ({ children, variant = 'primary', onClick, className = '' }) => {
+  // implementation
+};
+```
+
+### README Sections
+- Project description
+- Features
+- Tech stack
+- Installation instructions
+- Development commands
+- Deployment guide
+- License
+
+## Additional Notes
+
+- **Prioritize mobile experience** - Most users will view on mobile devices
+- **Keep animations subtle** - Don't overwhelm users with too much motion
+- **Optimize for performance** - Fast loading times are critical
+- **Maintain consistency** - Use design system components throughout
+- **Write clean code** - Future you will thank present you
+- **Test frequently** - Catch bugs early in development
+- **Document decisions** - Leave comments for complex logic
+
+## Resources
+
+- [React Documentation](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Vite Guide](https://vitejs.dev/guide/)
+- [Web.dev - Performance](https://web.dev/performance/)
+- [A11y Project](https://www.a11yproject.com/)
+
+---
+
+**Last Updated:** October 21, 2025
+

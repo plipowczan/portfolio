@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Dashed Circle -->
+  <circle 
+    cx="100" 
+    cy="100" 
+    r="85" 
+    stroke="#00ff9d" 
+    stroke-width="4" 
+    stroke-dasharray="10 5"
+    fill="none"
+  />
+  
+  <!-- Code Icon </>  -->
+  <g fill="#00ff9d">
+    <!-- Left bracket < -->
+    <path d="M 70 70 L 50 100 L 70 130" stroke="#00ff9d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    
+    <!-- Right bracket > -->
+    <path d="M 130 70 L 150 100 L 130 130" stroke="#00ff9d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    
+    <!-- Slash / -->
+    <path d="M 110 70 L 90 130" stroke="#00ff9d" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>
+
