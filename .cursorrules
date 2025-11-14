@@ -452,7 +452,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 - react: ^18.2.0
 - react-dom: ^18.2.0
 - react-router-dom: ^6.20.0
-- vite: ^5.0.0
+- vite: ^7.0.0
 
 ### Styling
 - tailwindcss: ^3.4.0
@@ -538,5 +538,5 @@ const Button = ({ children, variant = 'primary', onClick, className = '' }) => {
 
 ---
 
-**Last Updated:** October 21, 2025
+**Last Updated:** November 14, 2025
 

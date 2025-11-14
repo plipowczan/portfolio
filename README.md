@@ -31,13 +31,18 @@ Modern, responsive portfolio website built with React, Vite, Tailwind CSS, and F
 ## 🛠️ Tech Stack
 
 - **React 18** - UI library
-- **Vite** - Build tool and dev server
+- **Vite 7** - Next-generation build tool and dev server
 - **Tailwind CSS** - Utility-first CSS framework
 - **Framer Motion** - Animation library
 - **React Router** - Client-side routing
 - **React Helmet Async** - SEO meta tags
 - **React Markdown** - Markdown rendering for blog
 - **React Icons** - Icon library
+
+## 📋 Requirements
+
+- **Node.js**: 20.19+ or 22.12+ (required for Vite 7)
+- **npm**: 9.0+ or **yarn**: 1.22+
 
 ## 📦 Installation
 
