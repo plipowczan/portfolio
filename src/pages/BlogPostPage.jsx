@@ -1,33 +1,51 @@
-import { useParams, Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
-import { motion } from 'framer-motion'
-import ReactMarkdown from 'react-markdown'
-import { FaClock, FaCalendar, FaArrowLeft, FaTag } from 'react-icons/fa'
-import { FADE_IN_UP } from '../utils/constants'
-import { blogPosts } from '../data/blogPosts'
-import { SITE_CONFIG } from '../utils/constants'
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { FaArrowLeft, FaCalendar, FaClock, FaTag } from "react-icons/fa";
+import ReactMarkdown from "react-markdown";
+import { Link, useParams } from "react-router-dom";
+import { blogPosts } from "../data/blogPosts";
+import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const BlogPostPage = () => {
-  const { slug } = useParams()
-  const post = blogPosts.find(p => p.slug === slug)
+  const { slug } = useParams();
+  const post = blogPosts.find((p) => p.slug === slug);
 
   if (!post) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
-          <Link to="/blog" className="btn-primary">
-            Back to Blog
-          </Link>
+      <>
+        <Helmet>
+          <title>Post Not Found | {SITE_CONFIG.name}</title>
+          <meta
+            name="description"
+            content="The requested blog post could not be found."
+          />
+          <meta property="og:title" content="Post Not Found" />
+          <meta
+            property="og:description"
+            content="The requested blog post could not be found."
+          />
+        </Helmet>
+
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-white mb-4">
+              Post Not Found
+            </h1>
+            <Link to="/blog" className="btn-primary">
+              Back to Blog
+            </Link>
+          </div>
         </div>
-      </div>
-    )
+      </>
+    );
   }
 
   return (
     <>
       <Helmet>
-        <title>{post.title} | {SITE_CONFIG.name}</title>
+        <title>
+          {post.title} | {SITE_CONFIG.name}
+        </title>
         <meta name="description" content={post.excerpt} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
@@ -94,23 +112,74 @@ const BlogPostPage = () => {
             <div className="prose prose-invert prose-lg max-w-none">
               <ReactMarkdown
                 components={{
-                  h1: ({ node, ...props }) => <h1 className="text-4xl font-bold text-white mt-12 mb-6" {...props} />,
-                  h2: ({ node, ...props }) => <h2 className="text-3xl font-bold text-white mt-10 mb-4" {...props} />,
-                  h3: ({ node, ...props }) => <h3 className="text-2xl font-bold text-white mt-8 mb-3" {...props} />,
-                  p: ({ node, ...props }) => <p className="text-gray-300 leading-relaxed mb-6" {...props} />,
+                  h1: ({ node, ...props }) => (
+                    <h1
+                      className="text-4xl font-bold text-white mt-12 mb-6"
+                      {...props}
+                    />
+                  ),
+                  h2: ({ node, ...props }) => (
+                    <h2
+                      className="text-3xl font-bold text-white mt-10 mb-4"
+                      {...props}
+                    />
+                  ),
+                  h3: ({ node, ...props }) => (
+                    <h3
+                      className="text-2xl font-bold text-white mt-8 mb-3"
+                      {...props}
+                    />
+                  ),
+                  p: ({ node, ...props }) => (
+                    <p
+                      className="text-gray-300 leading-relaxed mb-6"
+                      {...props}
+                    />
+                  ),
                   code: ({ node, inline, ...props }) =>
                     inline ? (
-                      <code className="px-2 py-1 bg-dark-700 text-primary-500 rounded text-sm font-mono" {...props} />
+                      <code
+                        className="px-2 py-1 bg-dark-700 text-primary-500 rounded text-sm font-mono"
+                        {...props}
+                      />
                     ) : (
-                      <code className="block px-6 py-4 bg-dark-700 text-primary-500 rounded-lg overflow-x-auto font-mono text-sm" {...props} />
+                      <code
+                        className="block px-6 py-4 bg-dark-700 text-primary-500 rounded-lg overflow-x-auto font-mono text-sm"
+                        {...props}
+                      />
                     ),
-                  pre: ({ node, ...props }) => <pre className="mb-6 rounded-lg overflow-hidden" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc list-inside text-gray-300 mb-6 space-y-2" {...props} />,
-                  ol: ({ node, ...props }) => <ol className="list-decimal list-inside text-gray-300 mb-6 space-y-2" {...props} />,
-                  li: ({ node, ...props }) => <li className="text-gray-300" {...props} />,
-                  a: ({ node, ...props }) => <a className="text-primary-500 hover:text-primary-400 underline" {...props} />,
+                  pre: ({ node, ...props }) => (
+                    <pre
+                      className="mb-6 rounded-lg overflow-hidden"
+                      {...props}
+                    />
+                  ),
+                  ul: ({ node, ...props }) => (
+                    <ul
+                      className="list-disc list-inside text-gray-300 mb-6 space-y-2"
+                      {...props}
+                    />
+                  ),
+                  ol: ({ node, ...props }) => (
+                    <ol
+                      className="list-decimal list-inside text-gray-300 mb-6 space-y-2"
+                      {...props}
+                    />
+                  ),
+                  li: ({ node, ...props }) => (
+                    <li className="text-gray-300" {...props} />
+                  ),
+                  a: ({ node, ...props }) => (
+                    <a
+                      className="text-primary-500 hover:text-primary-400 underline"
+                      {...props}
+                    />
+                  ),
                   blockquote: ({ node, ...props }) => (
-                    <blockquote className="border-l-4 border-primary-500 pl-6 italic text-gray-400 my-6" {...props} />
+                    <blockquote
+                      className="border-l-4 border-primary-500 pl-6 italic text-gray-400 my-6"
+                      {...props}
+                    />
                   ),
                 }}
               >
@@ -146,8 +215,7 @@ const BlogPostPage = () => {
         </div>
       </article>
     </>
-  )
-}
+  );
+};
 
-export default BlogPostPage
-
+export default BlogPostPage;

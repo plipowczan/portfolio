@@ -18,24 +18,26 @@ Modern, responsive portfolio website built with React, Vite, Tailwind CSS, and F
 ## 🎨 Design System
 
 ### Color Palette
+
 - **Primary Green**: `#00ff9d`
 - **Secondary Cyan**: `#00b8ff`
 - **Dark Background**: `#050810` to `#0a0e1a`
 - **Card Background**: `#151b2b`
 
 ### Typography
+
 - **Headings**: Inter (Bold)
 - **Body**: Inter (Regular)
 - **Code**: Fira Code
 
 ## 🛠️ Tech Stack
 
-- **React 18** - UI library
+- **React 19** - UI library
 - **Vite 7** - Next-generation build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animation library
-- **React Router** - Client-side routing
-- **React Helmet Async** - SEO meta tags
+- **Tailwind CSS 3** - Utility-first CSS framework
+- **Framer Motion 12** - Animation library
+- **React Router 7** - Client-side routing
+- **React Helmet Async** - SEO meta tags (required for client-side SPA)
 - **React Markdown** - Markdown rendering for blog
 - **React Icons** - Icon library
 
@@ -47,27 +49,32 @@ Modern, responsive portfolio website built with React, Vite, Tailwind CSS, and F
 ## 📦 Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/pawellipowczan/portfolio.git
 cd portfolio
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start development server:
+
 ```bash
 npm run dev
 ```
 
 4. Build for production:
+
 ```bash
 npm run build
 ```
 
 5. Preview production build:
+
 ```bash
 npm run preview
 ```
@@ -111,6 +118,7 @@ cursorplan/
 ## 🎯 Sections
 
 ### Home Page
+
 - **Hero** - Animated introduction with gradient text and network background
 - **About** - Personal introduction with stats
 - **Projects** - Grid of featured projects with hover effects
@@ -118,11 +126,13 @@ cursorplan/
 - **Contact** - Contact form and social links
 
 ### Blog
+
 - **Blog Listing** - Grid of blog post cards
 - **Blog Post** - Individual article page with markdown rendering
 - SEO optimized with meta tags and structured data
 
 ### Legal Pages
+
 - Privacy Policy (Polityka Prywatności)
 - Terms of Service (Regulamin)
 - Cookie Policy (Polityka Ciasteczek)
@@ -130,24 +140,31 @@ cursorplan/
 ## 🔧 Configuration
 
 ### Site Configuration
+
 Edit `src/utils/constants.js` to update:
+
 - Site name and title
 - Email and social links
 - Navigation menu items
 
 ### Projects
+
 Add/edit projects in `src/data/projects.js`
 
 ### Skills
+
 Update skills and technologies in `src/data/skills.js`
 
 ### Blog Posts
+
 Create new blog posts in `src/data/blogPosts.js`
 
 ## 🎨 Customization
 
 ### Colors
+
 Edit `tailwind.config.js` to customize the color palette:
+
 ```js
 colors: {
   primary: { /* green shades */ },
@@ -157,7 +174,9 @@ colors: {
 ```
 
 ### Animations
+
 Custom animations are defined in:
+
 - `tailwind.config.js` - Animation utilities
 - `src/styles/index.css` - Custom CSS animations
 - `src/utils/constants.js` - Framer Motion variants
@@ -196,24 +215,28 @@ Custom animations are defined in:
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
+
 ```bash
 npm install -g vercel
 vercel
 ```
 
 ### Netlify
+
 ```bash
 npm run build
 # Drag and drop 'dist' folder to Netlify
 ```
 
 ### GitHub Pages
+
 Update `vite.config.js`:
+
 ```js
 export default defineConfig({
-  base: '/repository-name/',
+  base: "/repository-name/",
   // ... rest of config
-})
+});
 ```
 
 ## 🤝 Contributing
@@ -246,4 +269,3 @@ Project Link: [https://github.com/pawellipowczan/portfolio](https://github.com/p
 ---
 
 **Built with ❤️ using React + Vite**
-
