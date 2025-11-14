@@ -1,6 +1,10 @@
-import { motion } from 'framer-motion'
-import { FADE_IN_UP, STAGGER_CONTAINER, SCALE_IN } from '../../utils/constants'
-import { skillCategories } from '../../data/skills'
+import { motion } from "framer-motion";
+import {
+  FADE_IN_UP,
+  SCALE_IN,
+  STAGGER_CONTAINER,
+} from "../../utils/constants";
+import { skillCategories } from "../../data/skills";
 
 const SkillCard = ({ skill }) => {
   return (
@@ -9,11 +13,11 @@ const SkillCard = ({ skill }) => {
       className="flex flex-col items-center space-y-3 p-4 card group"
       whileHover={{ scale: 1.05 }}
     >
-      <skill.icon 
-        className="text-5xl text-primary-500 group-hover:text-primary-400 transition-colors" 
-      />
-      <span className="text-gray-300 font-medium text-center">{skill.name}</span>
-      
+      <skill.icon className="text-5xl text-primary-500 group-hover:text-primary-400 transition-colors" />
+      <span className="text-gray-300 font-medium text-center">
+        {skill.name}
+      </span>
+
       {/* Skill Level Bar */}
       <div className="w-full bg-dark-600 rounded-full h-2 overflow-hidden">
         <motion.div
@@ -26,8 +30,8 @@ const SkillCard = ({ skill }) => {
       </div>
       <span className="text-xs text-gray-500">{skill.level}%</span>
     </motion.div>
-  )
-}
+  );
+};
 
 const Skills = () => {
   return (
@@ -43,11 +47,11 @@ const Skills = () => {
           {/* Section Title */}
           <motion.div variants={FADE_IN_UP} className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Skills & Expertise
+              Stack Technologiczny
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mb-6" />
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Technologies and tools I use to bring ideas to life.
+              Technologie i narzędzia których używam do realizacji projektów.
             </p>
           </motion.div>
 
@@ -84,8 +88,8 @@ const Skills = () => {
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl" />
     </section>
-  )
-}
+  );
+};
 
-export default Skills
+export default Skills;
 

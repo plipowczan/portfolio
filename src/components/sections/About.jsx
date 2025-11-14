@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion'
-import { FADE_IN_UP, STAGGER_CONTAINER } from '../../utils/constants'
-import { highlights } from '../../data/skills'
+import { motion } from "framer-motion";
+import { highlights } from "../../data/skills";
+import { FADE_IN_UP, STAGGER_CONTAINER } from "../../utils/constants";
 
 const About = () => {
   return (
@@ -26,36 +26,42 @@ const About = () => {
             {/* Text Content */}
             <motion.div variants={FADE_IN_UP} className="space-y-6">
               <h3 className="text-2xl md:text-3xl font-bold text-white">
-                Full Stack Developer & Tech Enthusiast
+                Your Tech Guide
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Hello! I'm Pawel, a passionate Full Stack Developer with a love for creating 
-                modern, responsive web applications. With over 5 years of experience in the field, 
-                I specialize in building scalable solutions using cutting-edge technologies.
+                Cześć! Jestem Paweł, ekspertem optymalizacji procesów
+                biznesowych i specjalistą w zakresie automatyzacji. Jako
+                Technical Lead w Tigers/Automation House pomagam firmom w
+                cyfrowej transformacji poprzez inteligentny dobór technologii i
+                wdrażanie rozwiązań no-code oraz AI.
               </p>
               <p className="text-gray-300 leading-relaxed">
-                My journey in web development started with a curiosity about how things work 
-                on the internet. Today, I combine technical expertise with creative problem-solving 
-                to deliver exceptional digital experiences.
+                Moja droga w IT rozpoczęła się w 2008 roku od programowania w
+                .NET i SQL Server. Przez lata rozwijałem systemy medyczne, byłem
+                CTO w startucie ShareFund, zarządzałem projektami IT. Dziś łączę
+                doświadczenie programistyczne z nowoczesnymi narzędziami
+                automatyzacji, tworząc systemy które rzeczywiście rozwiązują
+                problemy biznesowe.
               </p>
               <p className="text-gray-300 leading-relaxed">
-                When I'm not coding, I enjoy sharing my knowledge through technical blog articles, 
-                contributing to open-source projects, and staying up-to-date with the latest 
-                web development trends.
+                Jestem agnostykiem technologicznym - dobieram narzędzia do
+                problemu, nie problem do narzędzi. Wykorzystuję Make, n8n,
+                Airtable, AI (OpenAI, Claude), Python i wiele innych
+                technologii, by dostarczać optymalne rozwiązania. Dzielę się
+                wiedzą poprzez konsultacje, warsztaty i artykuły techniczne.
               </p>
               <div className="pt-4">
-                <a 
-                  href="/cv.pdf" 
-                  download
-                  className="btn-primary inline-block"
-                >
-                  Download CV
+                <a href="#contact" className="btn-primary inline-block">
+                  Bezpłatna Konsultacja
                 </a>
               </div>
             </motion.div>
 
             {/* Stats Grid */}
-            <motion.div variants={FADE_IN_UP} className="grid grid-cols-2 gap-6">
+            <motion.div
+              variants={FADE_IN_UP}
+              className="grid grid-cols-2 gap-6"
+            >
               {highlights.map((highlight, index) => (
                 <motion.div
                   key={index}
@@ -79,8 +85,7 @@ const About = () => {
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl transform -translate-y-1/2 -translate-x-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl transform translate-x-1/2" />
     </section>
-  )
-}
+  );
+};
 
-export default About
-
+export default About;

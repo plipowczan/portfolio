@@ -1,14 +1,11 @@
-import { motion } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
-import { FADE_IN_UP, STAGGER_CONTAINER } from '../../utils/constants'
-import { projects } from '../../data/projects'
+import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { FADE_IN_UP, STAGGER_CONTAINER } from "../../utils/constants";
+import { projects } from "../../data/projects";
 
 const ProjectCard = ({ project }) => {
   return (
-    <motion.div
-      variants={FADE_IN_UP}
-      className="card group cursor-pointer"
-    >
+    <motion.div variants={FADE_IN_UP} className="card group cursor-pointer">
       {/* Project Image */}
       <div className="relative overflow-hidden rounded-lg mb-6 bg-dark-600 h-48">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-secondary-500/20 flex items-center justify-center">
@@ -16,28 +13,34 @@ const ProjectCard = ({ project }) => {
             {project.title.charAt(0)}
           </span>
         </div>
-        <div className="absolute inset-0 bg-dark-900/0 group-hover:bg-dark-900/90 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-          <div className="flex space-x-4">
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-primary-500 text-dark-900 rounded-full hover:bg-primary-400 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <FaGithub size={24} />
-            </a>
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-secondary-500 text-white rounded-full hover:bg-secondary-400 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <FaExternalLinkAlt size={24} />
-            </a>
+        {(project.githubUrl || project.liveUrl) && (
+          <div className="absolute inset-0 bg-dark-900/0 group-hover:bg-dark-900/90 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <div className="flex space-x-4">
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 bg-primary-500 text-dark-900 rounded-full hover:bg-primary-400 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaGithub size={24} />
+                </a>
+              )}
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 bg-secondary-500 text-white rounded-full hover:bg-secondary-400 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaExternalLinkAlt size={24} />
+                </a>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Project Info */}
@@ -62,8 +65,8 @@ const ProjectCard = ({ project }) => {
         </div>
       </div>
     </motion.div>
-  )
-}
+  );
+};
 
 const Projects = () => {
   return (
@@ -79,11 +82,12 @@ const Projects = () => {
           {/* Section Title */}
           <motion.div variants={FADE_IN_UP} className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Featured Projects
+              Projekty
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mb-6" />
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Here are some of my recent projects that showcase my skills and passion for web development.
+              Wybrane projekty automatyzacji i systemów no-code wdrożone dla
+              klientów.
             </p>
           </motion.div>
 
@@ -100,20 +104,20 @@ const Projects = () => {
           {/* View More */}
           <motion.div variants={FADE_IN_UP} className="text-center pt-8">
             <a
-              href="https://github.com/pawellipowczan"
+              href="https://automation.house"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-outline inline-flex items-center space-x-2"
             >
-              <FaGithub size={20} />
-              <span>View More on GitHub</span>
+              <FaExternalLinkAlt size={20} />
+              <span>Zobacz więcej projektów</span>
             </a>
           </motion.div>
         </motion.div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Projects
+export default Projects;
 

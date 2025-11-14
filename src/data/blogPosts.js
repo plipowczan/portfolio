@@ -1,163 +1,453 @@
 export const blogPosts = [
   {
     id: 1,
-    slug: 'react-performance-optimization',
-    title: 'React Performance Optimization: Best Practices',
-    excerpt: 'Learn how to optimize your React applications for better performance with these proven techniques and best practices.',
-    content: `# React Performance Optimization: Best Practices
+    slug: "automatyzacja-email-frontdesk-ai",
+    title:
+      "Automatyzacja poczty email z AI - Jak Frontdesk AI rewolucjonizuje obsługę klienta",
+    excerpt:
+      "Dowiedz się jak system Frontdesk AI automatycznie przetwarza, kategoryzuje i odpowiada na wiadomości email, oszczędzając dziesiątki godzin pracy miesięcznie.",
+    content: `# Automatyzacja poczty email z AI - Jak Frontdesk AI rewolucjonizuje obsługę klienta
 
-React is an excellent library for building user interfaces, but as applications grow, performance can become a concern. In this article, we'll explore proven techniques to optimize React applications.
+Obsługa zbiorczych skrzynek email to wyzwanie dla wielu firm. Setki wiadomości dziennie, powtarzające się pytania, konieczność szybkiej reakcji. Frontdesk AI rozwiązuje ten problem poprzez inteligentną automatyzację.
 
-## 1. Use React.memo for Component Memoization
+## Czym jest Frontdesk AI?
 
-\`\`\`jsx
-const MyComponent = React.memo(({ data }) => {
-  return <div>{data}</div>
-})
+Frontdesk AI to system do automatycznego przetwarzania i kategoryzacji poczty przychodzącej. Wykorzystuje sztuczną inteligencję (OpenAI) do analizy treści wiadomości, klasyfikacji według kategorii i automatycznego udzielania odpowiedzi.
+
+## Główne funkcjonalności
+
+### 1. Automatyczna kategoryzacja
+
+System analizuje treść każdej wiadomości i automatycznie przypisuje ją do odpowiedniej kategorii:
+- Zapytania o ofertę
+- Reklamacje
+- Pytania techniczne
+- Faktury i płatności
+- Spam
+
+### 2. Inteligentne odpowiedzi
+
+\`\`\`
+Dla najczęstszych pytań system automatycznie generuje odpowiedzi
+bazując na przygotowanej bazie wiedzy FAQ.
 \`\`\`
 
-React.memo prevents unnecessary re-renders by memoizing the component output.
+Każda odpowiedź jest kontekstowa i dopasowana do konkretnego pytania klienta.
 
-## 2. Implement useMemo and useCallback
+### 3. Routing do odpowiednich osób
 
-\`\`\`jsx
-const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b])
-const memoizedCallback = useCallback(() => doSomething(a, b), [a, b])
-\`\`\`
+Wiadomości wymagające ludzkiej interwencji są automatycznie przekierowywane do właściwych działów lub osób.
 
-These hooks help avoid expensive calculations and prevent function recreation on every render.
+## Stack technologiczny
 
-## 3. Code Splitting with React.lazy
+- **Make** - automatyzacja workflow i integracje
+- **OpenAI GPT-4** - analiza treści i generowanie odpowiedzi
+- **Gmail/Outlook API** - integracja z pocztą email
+- **Airtable** - baza wiedzy i tracking wiadomości
 
-\`\`\`jsx
-const LazyComponent = React.lazy(() => import('./LazyComponent'))
-\`\`\`
+## Przykładowy przepływ pracy
 
-Load components only when they're needed to reduce initial bundle size.
+1. Nowa wiadomość email wpływa na skrzynkę info@firma.pl
+2. Make webhook przechwytuje wiadomość
+3. OpenAI analizuje treść i intencję wiadomości
+4. System sprawdza bazę wiedzy w Airtable
+5. Jeśli znajdzie odpowiedź - automatycznie wysyła reply
+6. Jeśli nie - przekierowuje do odpowiedniej osoby z kontekstem
 
-## 4. Virtual Scrolling for Long Lists
+## ROI i oszczędności
 
-For long lists, use libraries like react-window or react-virtualized to render only visible items.
+Typowy klient oszczędza:
+- **20-30 godzin pracy miesięcznie** na obsłudze email
+- **90% redukcja czasu reakcji** na standardowe pytania
+- **100% dostępność** - system działa 24/7
+- **Konsystentna jakość** odpowiedzi
 
-## Conclusion
+## Wdrożenie
 
-Performance optimization is crucial for user experience. Start with these techniques and measure the impact using React DevTools Profiler.`,
-    category: 'React',
-    author: 'Pawel Lipowczan',
-    date: '2025-10-15',
-    readTime: '8 min read',
-    image: '/images/blog-react-performance.jpg',
-    tags: ['React', 'Performance', 'JavaScript', 'Optimization']
+Proces wdrożenia Frontdesk AI:
+
+1. **Analiza** - mapowanie typowych kategorii wiadomości
+2. **Baza wiedzy** - przygotowanie FAQ i szablonów odpowiedzi
+3. **Konfiguracja** - ustawienie przepływów w Make
+4. **Testy** - weryfikacja działania na próbnej grupie
+5. **Go-live** - uruchomienie dla całej poczty
+6. **Optymalizacja** - dostrajanie na podstawie feedbacku
+
+Typowy czas wdrożenia: 1-2 tygodnie.
+
+## Podsumowanie
+
+Frontdesk AI to rozwiązanie dla firm, które:
+- Otrzymują wiele powtarzających się pytań
+- Potrzebują szybkiej reakcji na wiadomości
+- Chcą odciążyć zespół od rutynowych zadań
+- Dbają o jakość obsługi klienta
+
+Zainteresowany wdrożeniem? [Umów bezpłatną konsultację](https://automation.house)`,
+    category: "Automatyzacja",
+    author: "Pawel Lipowczan",
+    date: "2025-11-10",
+    readTime: "8 min",
+    image: "/images/blog-frontdesk-ai.jpg",
+    tags: ["AI", "Automatyzacja", "Email", "Make", "OpenAI"],
   },
   {
     id: 2,
-    slug: 'modern-css-techniques',
-    title: 'Modern CSS Techniques Every Developer Should Know',
-    excerpt: 'Discover modern CSS features and techniques that will level up your styling skills and make your websites more responsive and maintainable.',
-    content: `# Modern CSS Techniques Every Developer Should Know
+    slug: "no-code-lead-generation",
+    title:
+      "No-Code Lead Generation - Jak zbudować system generowania leadów bez programowania",
+    excerpt:
+      "Kompleksowy przewodnik po budowie systemu Lead Generator wykorzystującego n8n, Airtable i różne źródła danych biznesowych. Case study z realnego wdrożenia.",
+    content: `# No-Code Lead Generation - Jak zbudować system generowania leadów bez programowania
 
-CSS has evolved significantly in recent years. Let's explore modern techniques that every developer should know.
+Pozyskiwanie leadów to jeden z najważniejszych procesów w każdej firmie B2B. Ręczne wyszukiwanie kontaktów to jednak czasochłonny proces. Pokażę Ci jak zbudować system, który robi to automatycznie.
 
-## 1. CSS Grid Layout
+## Problem: Ręczne generowanie leadów
 
-\`\`\`css
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
+Typowy proces ręcznego pozyskiwania leadów:
+1. Wyszukiwanie firm w Google (15-30 min na listę)
+2. Odwiedzanie stron firm, szukanie kontaktów (5-10 min na firmę)
+3. Weryfikacja adresów email (2-3 min na kontakt)
+4. Wprowadzanie do CRM (1-2 min na rekord)
+
+**Efekt:** 2-3 godziny pracy = 10-15 zweryfikowanych leadów
+
+## Rozwiązanie: Automatyczny Lead Generator
+
+System wykorzystujący:
+- **n8n** - workflow automation
+- **Snov.io** - email finder & verifier
+- **Apollo** - baza firm i kontaktów
+- **The Company API** - dane firmowe
+- **Airtable** - centralna baza leadów
+
+## Jak to działa?
+
+### 1. Definiowanie kryteriów wyszukiwania
+
+W Airtable tworzymy tabelę "Campaigns" gdzie definiujemy:
+- Branża (np. "e-commerce", "SaaS")
+- Wielkość firmy (pracownicy, przychody)
+- Lokalizacja
+- Stanowiska decydentów (CEO, CTO, Marketing Director)
+
+### 2. Automatyczne wyszukiwanie firm
+
+\`\`\`
+n8n workflow:
+1. Trigger: Nowa kampania w Airtable
+2. Apollo Search: znajdź firmy według kryteriów
+3. The Company API: wzbogać dane o firmie
+4. Filtrowanie: usuń duplikaty i nieaktualne dane
+5. Zapis do Airtable
 \`\`\`
 
-CSS Grid makes complex layouts simple and responsive.
+### 3. Pozyskiwanie kontaktów decydentów
 
-## 2. Custom Properties (CSS Variables)
+Dla każdej firmy system:
+- Wyszukuje profile decydentów na LinkedIn (Apollo)
+- Znajduje adresy email (Snov.io)
+- Weryfikuje poprawność email (Snov.io)
+- Dodaje kontakty do bazy
 
-\`\`\`css
-:root {
-  --primary-color: #00ff9d;
-  --spacing: 1rem;
-}
+### 4. Wzbogacanie danych
 
-.element {
-  color: var(--primary-color);
-  padding: var(--spacing);
-}
-\`\`\`
+System automatycznie dodaje:
+- Wielkość firmy
+- Przychody (jeśli dostępne)
+- Technologie używane na stronie
+- Aktywność w social media
+- Ostatnie newsy o firmie
 
-CSS variables make theming and maintenance easier.
+## Architektura systemu
 
-## 3. Clamp for Responsive Typography
+**Baza Airtable:**
+- Tabela "Campaigns" - definicje kampanii
+- Tabela "Companies" - znalezione firmy
+- Tabela "Contacts" - decydenci w firmach
+- Tabela "Enrichment" - dodatkowe dane
 
-\`\`\`css
-h1 {
-  font-size: clamp(2rem, 5vw, 4rem);
-}
-\`\`\`
+**n8n Workflows:**
+- Company Search (uruchamiany raz dziennie)
+- Contact Finder (ciągły, dla nowych firm)
+- Email Verifier (weryfikacja co 7 dni)
+- Data Enrichment (wzbogacanie danych)
 
-The clamp() function provides responsive sizing without media queries.
+## Efektywność
 
-## Conclusion
+**Ręcznie (8h pracy):**
+- 30-40 firm
+- 60-80 zweryfikowanych kontaktów
+- Koszt: 8h × stawka godzinowa
 
-Modern CSS is powerful and flexible. Embrace these techniques to write better, more maintainable stylesheets.`,
-    category: 'CSS',
-    author: 'Pawel Lipowczan',
-    date: '2025-10-10',
-    readTime: '6 min read',
-    image: '/images/blog-css-modern.jpg',
-    tags: ['CSS', 'Web Development', 'Responsive Design']
+**Automatycznie (24h):**
+- 500-1000 firm
+- 1500-3000 zweryfikowanych kontaktów
+- Koszt: ~$50 (API calls + narzędzia)
+
+**ROI: 95% redukcja kosztów pozyskania leada**
+
+## Koszty operacyjne
+
+Miesięczne koszty przykładowego setup:
+- n8n (self-hosted): $0
+- Snov.io (1000 credits): $39/mo
+- Apollo (Basic): $49/mo
+- The Company API (1000 calls): $29/mo
+- Airtable (Pro): $20/mo
+
+**Razem: ~$140/mo** vs kilkaset godzin pracy ręcznej
+
+## Case Study: Agencja marketingowa
+
+**Przed:**
+- 2 osoby full-time na prospecting
+- ~200 leadów/miesiąc
+- Koszt: 2 × $3000 = $6000/mo
+
+**Po wdrożeniu:**
+- System automatyczny
+- ~2500 leadów/miesiąc
+- 1 osoba part-time na weryfikację
+- Koszt: $140 (tools) + $1000 (część etatu) = $1140/mo
+
+**Oszczędność: $4860/mo (81%)**
+
+## Wdrożenie krok po kroku
+
+1. **Tydzień 1:** Konfiguracja narzędzi i integracji
+2. **Tydzień 2:** Budowa workflow w n8n
+3. **Tydzień 3:** Testy i optymalizacja
+4. **Tydzień 4:** Szkolenia i launch
+
+Czas wdrożenia: 3-4 tygodnie
+
+## Podsumowanie
+
+Lead Generator to system który:
+- Działa 24/7 bez przerw
+- Generuje 10-15x więcej leadów
+- Kosztuje 80-90% mniej niż ręczna praca
+- Dostarcza wyższą jakość danych
+
+Zainteresowany wdrożeniem? [Umów konsultację](https://automation.house)`,
+    category: "No-Code",
+    author: "Pawel Lipowczan",
+    date: "2025-11-05",
+    readTime: "10 min",
+    image: "/images/blog-lead-generation.jpg",
+    tags: ["No-Code", "Lead Generation", "n8n", "Airtable", "Automatyzacja"],
   },
   {
     id: 3,
-    slug: 'typescript-advanced-patterns',
-    title: 'Advanced TypeScript Patterns for Better Code',
-    excerpt: 'Explore advanced TypeScript patterns and techniques that will help you write more type-safe and maintainable code.',
-    content: `# Advanced TypeScript Patterns for Better Code
+    slug: "chatboty-ai-od-koncepcji-do-wdrozenia",
+    title: "Chatboty oparte na AI - Od koncepcji do wdrożenia",
+    excerpt:
+      "Kompletny przewodnik po tworzeniu inteligentnych chatbotów i voicebotów z wykorzystaniem VAPI, n8n, OpenAI i RAG (Retrieval Augmented Generation).",
+    content: `# Chatboty oparte na AI - Od koncepcji do wdrożenia
 
-TypeScript provides powerful type system features. Let's explore advanced patterns for better code.
+Chatboty nowej generacji wykorzystujące LLM (Large Language Models) potrafią prowadzić naturalne, kontekstowe rozmowy. Nie są już ograniczone do sztywnych scenariuszy - rozumieją intencje i adaptują się do kontekstu.
 
-## 1. Utility Types
+## Czym różnią się od tradycyjnych chatbotów?
 
-\`\`\`typescript
-type Partial<T> = {
-  [P in keyof T]?: T[P]
-}
+**Tradycyjne chatboty:**
+- Sztywne scenariusze (decision trees)
+- Rozpoznawanie słów kluczowych
+- Brak rozumienia kontekstu
+- Ograniczona elastyczność
 
-type Pick<T, K extends keyof T> = {
-  [P in K]: T[P]
-}
+**Chatboty AI:**
+- Naturalne zrozumienie języka
+- Kontekstowe odpowiedzi
+- Pamięć konwersacji
+- Wykonywanie akcji (booking, search, etc.)
+
+## Architektura Context-based Chatbota
+
+### 1. Frontend - Interface użytkownika
+
+**Web widget:**
+- Osadzany na stronie
+- Responsywny design
+- Opcje multimedialne (tekst, obrazy, przyciski)
+
+**Voicebot:**
+- Telefon (VAPI)
+- Voice interface na stronie
+- IVR integration
+
+### 2. Backend - Logika konwersacji (n8n)
+
+\`\`\`
+n8n Workflow:
+1. Webhook receive message
+2. Load conversation context
+3. Search knowledge base (RAG)
+4. Call LLM (OpenAI/Claude)
+5. Execute actions if needed
+6. Store conversation history
+7. Return response
 \`\`\`
 
-Built-in utility types make type transformations easier.
+### 3. Knowledge Base - Źródło wiedzy
 
-## 2. Discriminated Unions
+**RAG (Retrieval Augmented Generation):**
 
-\`\`\`typescript
-type Result<T> = 
-  | { success: true; data: T }
-  | { success: false; error: string }
+Zamiast trenować model na swoich danych, używamy RAG:
+1. Dokumenty są podzielone na chunks
+2. Chunks są embedowane (wektory)
+3. Zapisywane w vector database (Qdrant)
+4. Przy zapytaniu: semantic search → top N chunks → context dla LLM
+
+**Zalety RAG:**
+- Aktualna wiedza (update bez retreningu)
+- Mniejsze koszty
+- Lepsze źródła odpowiedzi
+- Kontrola nad danymi
+
+### 4. LLM - Mózg systemu
+
+**OpenAI GPT-4:**
+- Najlepsza jakość odpowiedzi
+- Function calling (akcje)
+- Koszt: ~$0.01 per 1k tokens
+
+**Claude 3.5 Sonnet:**
+- Świetne w analizie
+- Duży kontekst (200k tokens)
+- Koszt: ~$0.003 per 1k tokens
+
+## Implementacja krok po kroku
+
+### Krok 1: Przygotowanie bazy wiedzy
+
+Zbieramy dokumenty:
+- FAQ
+- Dokumentacja produktu
+- Artykuły blog
+- Polityki firmy
+
+Przetwarzanie:
+\`\`\`python
+# Podział na chunks (500-1000 tokenów)
+# Embedding przez OpenAI ada-002
+# Zapis do Qdrant
 \`\`\`
 
-Discriminated unions provide type-safe error handling.
+### Krok 2: Konfiguracja n8n workflow
 
-## 3. Generic Constraints
+**Main conversation flow:**
+1. Webhook trigger (user message)
+2. Vector search w Qdrant (top 3 relevant chunks)
+3. Format prompt z context
+4. Call OpenAI z function calling
+5. If function → execute & respond
+6. Save to conversation history
 
-\`\`\`typescript
-function getProperty<T, K extends keyof T>(obj: T, key: K) {
-  return obj[key]
-}
-\`\`\`
+### Krok 3: Function Calling - Akcje
 
-Generic constraints ensure type safety with flexibility.
+Chatbot może wykonywać akcje:
 
-## Conclusion
-
-Master these patterns to write more robust TypeScript code.`,
-    category: 'TypeScript',
-    author: 'Pawel Lipowczan',
-    date: '2025-10-05',
-    readTime: '10 min read',
-    image: '/images/blog-typescript.jpg',
-    tags: ['TypeScript', 'Programming', 'Type Safety']
+\`\`\`json
+{
+  "name": "book_meeting",
+  "description": "Books a meeting with sales team",
+  "parameters": {
+    "date": "2025-11-20",
+    "time": "14:00",
+    "email": "user@example.com"
   }
-]
+}
+\`\`\`
 
+n8n wykrywa function call → integracja z calendly/Google Calendar → confirmation
+
+### Krok 4: Testing i Optymalizacja
+
+- Test różnych promptów
+- Analiza failed conversations
+- A/B testing responses
+- Monitoring accuracy
+
+## Case Study: automation.house
+
+**Wyzwanie:**
+Strona automation.house - dużo ofert (Note Taker, Lead Generator, etc.)
+Użytkownicy mieli trudności z wyborem odpowiedniego rozwiązania
+
+**Rozwiązanie:**
+Context-based chatbot który:
+- Zadaje pytania o potrzeby klienta
+- Rozumie kontekst biznesowy
+- Rekomenduje odpowiednie rozwiązania
+- Umawia konsultacje
+
+**Stack:**
+- n8n (hosting + workflow)
+- OpenAI GPT-4o (konwersacja)
+- Qdrant (baza wiedzy o produktach)
+- Airtable (tracking rozmów)
+
+**Wyniki:**
+- 40% wzrost engagement
+- 25% więcej umówionych konsultacji
+- 80% użytkowników kończy rozmowę z konkretną akcją
+
+## Voicebots z VAPI
+
+VAPI to platforma do tworzenia voice AI:
+
+**Funkcje:**
+- Real-time voice conversations
+- Integration z telefonią
+- Transfer do człowieka
+- Recording & transcription
+
+**Use cases:**
+- Infolinia automatyczna
+- Kwalifikacja leadów przez telefon
+- Customer support 24/7
+- Appointment booking
+
+## Koszty wdrożenia
+
+**Setup (jednorazowo):**
+- Przygotowanie bazy wiedzy: 1-2 tygodnie
+- Konfiguracja workflow: 1 tydzień
+- Testing: 1 tydzień
+- **Razem: 3-4 tygodnie**
+
+**Miesięczne koszty operacyjne:**
+- n8n (self-hosted): $0-20
+- OpenAI API (1000 rozmów): $30-50
+- Qdrant Cloud: $25
+- VAPI (voicebot): $99
+- **Razem: $150-200/mo**
+
+vs. 1 pracownik customer support: $2500-3500/mo
+
+## Best Practices
+
+1. **Jasny cel konwersacji** - bot musi wiedzieć co ma osiągnąć
+2. **Graceful degradation** - transfer do człowieka gdy nie wie
+3. **Krótkie odpowiedzi** - nie pisz esejów
+4. **Personality** - daj botowi charakter zgodny z brandem
+5. **Testing** - testuj z prawdziwymi użytkownikami
+
+## Podsumowanie
+
+Context-based chatboty to przyszłość customer experience:
+- Dostępność 24/7
+- Konsystentna jakość
+- Skalowalność
+- Niski koszt operacyjny
+
+Gotowy na wdrożenie? [Umów demo](https://automation.house)`,
+    category: "AI",
+    author: "Pawel Lipowczan",
+    date: "2025-11-01",
+    readTime: "12 min",
+    image: "/images/blog-chatbots-ai.jpg",
+    tags: ["AI", "Chatbots", "VAPI", "n8n", "OpenAI", "RAG", "Qdrant"],
+  },
+];

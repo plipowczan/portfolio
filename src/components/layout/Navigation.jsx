@@ -1,41 +1,41 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { HiMenu, HiX } from 'react-icons/hi'
-import { NAV_LINKS } from '../../utils/constants'
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { HiMenu, HiX } from "react-icons/hi";
+import { Link, useLocation } from "react-router-dom";
+import { NAV_LINKS } from "../../utils/constants";
 
 const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const location = useLocation()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
+      setIsScrolled(window.scrollY > 50);
+    };
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
-    setIsMobileMenuOpen(false)
-  }, [location.pathname])
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const handleNavClick = (href) => {
-    if (href.startsWith('#')) {
-      const element = document.querySelector(href)
+    if (href.startsWith("#")) {
+      const element = document.querySelector(href);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
+        element.scrollIntoView({ behavior: "smooth" });
       }
     }
-    setIsMobileMenuOpen(false)
-  }
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass shadow-lg' : 'bg-transparent'
+        isScrolled ? "glass shadow-lg" : "bg-transparent"
       }`}
     >
       <div className="section-container">
@@ -55,8 +55,8 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {NAV_LINKS.map((link) => (
-              link.href.startsWith('#') ? (
+            {NAV_LINKS.map((link) =>
+              link.href.startsWith("#") ? (
                 <button
                   key={link.name}
                   type="button"
@@ -74,7 +74,7 @@ const Navigation = () => {
                   {link.name}
                 </Link>
               )
-            ))}
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -94,14 +94,14 @@ const Navigation = () => {
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
             className="md:hidden glass border-t border-primary-500/20"
           >
             <div className="section-container py-6 space-y-4">
-              {NAV_LINKS.map((link) => (
-                link.href.startsWith('#') ? (
+              {NAV_LINKS.map((link) =>
+                link.href.startsWith("#") ? (
                   <button
                     key={link.name}
                     type="button"
@@ -119,14 +119,15 @@ const Navigation = () => {
                     {link.name}
                   </Link>
                 )
-              ))}
+              )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </nav>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;
+
 

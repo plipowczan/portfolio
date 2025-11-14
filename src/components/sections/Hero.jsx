@@ -1,17 +1,20 @@
-import { motion } from 'framer-motion'
-import { FaArrowDown } from 'react-icons/fa'
-import NetworkBackground from '../animations/NetworkBackground'
+import { motion } from "framer-motion";
+import { FaArrowDown } from "react-icons/fa";
+import NetworkBackground from "../animations/NetworkBackground";
 
 const Hero = () => {
   const handleScrollToAbout = () => {
-    const aboutSection = document.querySelector('#about')
+    const aboutSection = document.querySelector("#about");
     if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' })
+      aboutSection.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
       {/* Network Background */}
       <NetworkBackground />
 
@@ -39,13 +42,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight"
           >
-            <span className="gradient-text glow-text">
-              PAWEL
-            </span>
+            <span className="gradient-text glow-text">PAWEL</span>
             <br />
-            <span className="gradient-text-alt glow-text">
-              LIPOWCZAN
-            </span>
+            <span className="gradient-text-alt glow-text">LIPOWCZAN</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -65,7 +64,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto"
           >
-            Full Stack Developer crafting modern web experiences and sharing knowledge through code
+            Software Architect & Technology Advisor - pomagam firmom
+            optymalizować procesy poprzez dobór optymalnych technologii i
+            automatyzację
           </motion.p>
 
           {/* CTA Buttons */}
@@ -111,8 +112,7 @@ const Hero = () => {
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-dark-900/50 to-dark-900 pointer-events-none" />
     </section>
-  )
-}
+  );
+};
 
-export default Hero
-
+export default Hero;

@@ -1,22 +1,22 @@
-import { Link } from 'react-router-dom'
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from 'react-icons/fa'
-import { SITE_CONFIG } from '../../utils/constants'
+import { FaEnvelope, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { SITE_CONFIG } from "../../utils/constants";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: FaGithub, href: SITE_CONFIG.social.github, label: 'GitHub' },
-    { icon: FaLinkedin, href: SITE_CONFIG.social.linkedin, label: 'LinkedIn' },
-    { icon: FaTwitter, href: SITE_CONFIG.social.twitter, label: 'Twitter' },
-    { icon: FaEnvelope, href: `mailto:${SITE_CONFIG.email}`, label: 'Email' },
-  ]
+    { icon: FaGithub, href: SITE_CONFIG.social.github, label: "GitHub" },
+    { icon: FaLinkedin, href: SITE_CONFIG.social.linkedin, label: "LinkedIn" },
+    { icon: FaTwitter, href: SITE_CONFIG.social.twitter, label: "Twitter" },
+    { icon: FaEnvelope, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
+  ];
 
   const legalLinks = [
-    { name: 'Privacy Policy', href: '/privacy-policy' },
-    { name: 'Terms of Service', href: '/terms-of-service' },
-    { name: 'Cookie Policy', href: '/cookie-policy' },
-  ]
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms of Service", href: "/terms-of-service" },
+    { name: "Cookie Policy", href: "/cookie-policy" },
+  ];
 
   return (
     <footer className="relative bg-dark-800 border-t-2 border-primary-500/30">
@@ -38,7 +38,9 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-400 text-sm">
-              Full Stack Developer passionate about creating modern web experiences and sharing knowledge through code.
+              Software Architect & Technology Advisor - agnostyczny dobór
+              narzędzi do problemu, optymalizacja procesów przez automatyzację i
+              AI.
             </p>
           </div>
 
@@ -106,13 +108,14 @@ const Footer = () => {
             © {currentYear} Pawel Lipowczan. All rights reserved.
           </p>
           <p className="text-gray-400 text-sm">
-            Built with <span className="text-primary-500">React</span> + <span className="text-primary-500">Vite</span>
+            Built with <span className="text-primary-500">React</span> +{" "}
+            <span className="text-primary-500">Vite</span>
           </p>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
 

@@ -1,85 +1,78 @@
-import { 
-  FaReact, 
-  FaNodeJs, 
-  FaPython, 
-  FaGitAlt, 
-  FaDocker,
+import {
+  FaBrain,
+  FaCloud,
+  FaCog,
   FaDatabase,
-  FaHtml5,
-  FaCss3Alt,
-  FaJs
-} from 'react-icons/fa'
-import { 
-  SiTypescript, 
-  SiTailwindcss, 
-  SiMongodb, 
-  SiPostgresql,
-  SiExpress,
-  SiVite,
-  SiNextdotjs,
-  SiFramer,
-  SiRedis,
-  SiGraphql
-} from 'react-icons/si'
+  FaDocker,
+  FaGitAlt,
+  FaPython,
+  FaRobot,
+  FaServer,
+} from "react-icons/fa";
+import {
+  SiAirtable,
+  SiDotnet,
+  SiFastapi,
+  SiGooglebigquery,
+  SiOpenai,
+} from "react-icons/si";
 
 export const skillCategories = [
   {
-    name: 'Frontend Development',
+    name: "No-Code & Automation",
     skills: [
-      { name: 'React', icon: FaReact, level: 90 },
-      { name: 'TypeScript', icon: SiTypescript, level: 85 },
-      { name: 'JavaScript', icon: FaJs, level: 95 },
-      { name: 'Next.js', icon: SiNextdotjs, level: 80 },
-      { name: 'Tailwind CSS', icon: SiTailwindcss, level: 90 },
-      { name: 'Framer Motion', icon: SiFramer, level: 85 },
-      { name: 'HTML5', icon: FaHtml5, level: 95 },
-      { name: 'CSS3', icon: FaCss3Alt, level: 90 },
-    ]
+      { name: "Make", icon: FaCog, level: 95 },
+      { name: "n8n", icon: FaCog, level: 90 },
+      { name: "Airtable", icon: SiAirtable, level: 95 },
+      { name: "VAPI", icon: FaRobot, level: 85 },
+      { name: "AION", icon: FaBrain, level: 80 },
+    ],
   },
   {
-    name: 'Backend Development',
+    name: "AI & Machine Learning",
     skills: [
-      { name: 'Node.js', icon: FaNodeJs, level: 85 },
-      { name: 'Express', icon: SiExpress, level: 85 },
-      { name: 'Python', icon: FaPython, level: 75 },
-      { name: 'GraphQL', icon: SiGraphql, level: 70 },
-    ]
+      { name: "OpenAI (GPT-4o, o1)", icon: SiOpenai, level: 90 },
+      { name: "Claude (Sonnet, Haiku)", icon: FaBrain, level: 90 },
+      { name: "Perplexity AI", icon: FaRobot, level: 85 },
+      { name: "Qdrant", icon: FaDatabase, level: 80 },
+    ],
   },
   {
-    name: 'Database & Tools',
+    name: "Backend & Integration",
     skills: [
-      { name: 'MongoDB', icon: SiMongodb, level: 85 },
-      { name: 'PostgreSQL', icon: SiPostgresql, level: 80 },
-      { name: 'Redis', icon: SiRedis, level: 70 },
-      { name: 'SQL', icon: FaDatabase, level: 85 },
-    ]
+      { name: "Python", icon: FaPython, level: 90 },
+      { name: "FastAPI", icon: SiFastapi, level: 85 },
+      { name: ".NET", icon: SiDotnet, level: 85 },
+      { name: "SQL Server", icon: FaServer, level: 90 },
+      { name: "BigQuery", icon: SiGooglebigquery, level: 80 },
+    ],
   },
   {
-    name: 'Development Tools',
+    name: "Tools & Platforms",
     skills: [
-      { name: 'Git', icon: FaGitAlt, level: 90 },
-      { name: 'Docker', icon: FaDocker, level: 75 },
-      { name: 'Vite', icon: SiVite, level: 85 },
-    ]
-  }
-]
+      { name: "Git", icon: FaGitAlt, level: 95 },
+      { name: "Docker", icon: FaDocker, level: 85 },
+      { name: "Azure", icon: FaCloud, level: 85 },
+      { name: "Meilisearch", icon: FaDatabase, level: 75 },
+    ],
+  },
+];
 
 export const highlights = [
   {
-    number: '5+',
-    label: 'Years Experience'
+    number: "17+",
+    label: "Lat Doświadczenia",
   },
   {
-    number: '50+',
-    label: 'Projects Completed'
+    number: "100+",
+    label: "Zrealizowanych Projektów",
   },
   {
-    number: '30+',
-    label: 'Happy Clients'
+    number: "50+",
+    label: "Zadowolonych Klientów",
   },
   {
-    number: '100+',
-    label: 'Blog Articles'
-  }
-]
-
+    number: "10+",
+    label: "Technologii & Platform",
+  },
+];
