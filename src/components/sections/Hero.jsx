@@ -54,7 +54,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl sm:text-2xl md:text-3xl text-primary-500 uppercase tracking-widest font-light"
           >
-            Your Tech Guide
+            Twój Przewodnik Technologiczny
           </motion.p>
 
           {/* Description */}
@@ -64,9 +64,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto"
           >
-            Software Architect & Technology Advisor - pomagam firmom
+            Architekt oprogramowania i doradca ds. technologii - pomagam firmom
             optymalizować procesy poprzez dobór optymalnych technologii i
-            automatyzację
+            narzędzi
           </motion.p>
 
           {/* CTA Buttons */}
@@ -80,13 +80,13 @@ const Hero = () => {
               href="#projects"
               className="btn-primary w-full sm:w-auto text-center"
             >
-              View Projects
+              Zobacz Projekty
             </a>
             <a
               href="#contact"
               className="btn-outline w-full sm:w-auto text-center"
             >
-              Contact Me
+              Skontaktuj się
             </a>
           </motion.div>
 

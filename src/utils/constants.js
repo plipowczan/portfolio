@@ -1,7 +1,7 @@
 // Site configuration
 export const SITE_CONFIG = {
   name: "Pawel Lipowczan",
-  title: "Your Tech Guide",
+  title: "Twój Przewodnik Technologiczny",
   email: "pawel@lipowczan.pl",
   description:
     "Software Architect & Technology Advisor - agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI.",
@@ -15,12 +15,12 @@ export const SITE_CONFIG = {
 
 // Navigation links
 export const NAV_LINKS = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "/#about" },
-  { name: "Projects", href: "/#projects" },
-  { name: "Skills", href: "/#skills" },
+  { name: "Start", href: "/" },
+  { name: "O mnie", href: "/#about" },
+  { name: "Projekty", href: "/#projects" },
+  { name: "Umiejętności", href: "/#skills" },
   { name: "Blog", href: "/blog" },
-  { name: "Contact", href: "/#contact" },
+  { name: "Kontakt", href: "/#contact" },
 ];
 
 // Animation variants

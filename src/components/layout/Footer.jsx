@@ -13,9 +13,9 @@ const Footer = () => {
   ];
 
   const legalLinks = [
-    { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Terms of Service", href: "/terms-of-service" },
-    { name: "Cookie Policy", href: "/cookie-policy" },
+    { name: "Polityka prywatności", href: "/privacy-policy" },
+    { name: "Regulamin", href: "/terms-of-service" },
+    { name: "Polityka cookies", href: "/cookie-policy" },
   ];
 
   return (
@@ -31,41 +31,55 @@ const Footer = () => {
                 </span>
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white">Pawel Lipowczan</h3>
+                <h3 className="text-lg font-bold text-white">
+                  Pawel Lipowczan
+                </h3>
                 <p className="text-xs text-primary-500 uppercase tracking-wider">
-                  Your Tech Guide
+                  Twój Przewodnik Technologiczny
                 </p>
               </div>
             </div>
             <p className="text-gray-400 text-sm">
-              Software Architect & Technology Advisor - agnostyczny dobór
-              narzędzi do problemu, optymalizacja procesów przez automatyzację i
-              AI.
+              Architekt oprogramowania i doradca ds. technologii - agnostyczny
+              dobór narzędzi do problemu, optymalizacja procesów przez
+              automatyzację i AI.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+            <h4 className="text-white font-semibold mb-4">Szybkie linki</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#about" className="text-gray-400 hover:text-primary-500 transition-colors text-sm">
-                  About
+                <a
+                  href="#about"
+                  className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                >
+                  O mnie
                 </a>
               </li>
               <li>
-                <a href="#projects" className="text-gray-400 hover:text-primary-500 transition-colors text-sm">
-                  Projects
+                <a
+                  href="#projects"
+                  className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                >
+                  Projekty
                 </a>
               </li>
               <li>
-                <Link to="/blog" className="text-gray-400 hover:text-primary-500 transition-colors text-sm">
+                <Link
+                  to="/blog"
+                  className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                >
                   Blog
                 </Link>
               </li>
               <li>
-                <a href="#contact" className="text-gray-400 hover:text-primary-500 transition-colors text-sm">
-                  Contact
+                <a
+                  href="#contact"
+                  className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                >
+                  Kontakt
                 </a>
               </li>
             </ul>
@@ -73,7 +87,7 @@ const Footer = () => {
 
           {/* Social & Legal */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Connect</h4>
+            <h4 className="text-white font-semibold mb-4">Social media</h4>
             <div className="flex space-x-4 mb-6">
               {socialLinks.map((social) => (
                 <a
@@ -105,10 +119,10 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-400 text-sm">
-            © {currentYear} Pawel Lipowczan. All rights reserved.
+            © {currentYear} Pawel Lipowczan. Wszelkie prawa zastrzeżone.
           </p>
           <p className="text-gray-400 text-sm">
-            Built with <span className="text-primary-500">React</span> +{" "}
+            Zbudowane z <span className="text-primary-500">React</span> +{" "}
             <span className="text-primary-500">Vite</span>
           </p>
         </div>
@@ -118,4 +132,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

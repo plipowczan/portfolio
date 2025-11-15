@@ -16,7 +16,7 @@ const About = () => {
           {/* Section Title */}
           <motion.div variants={FADE_IN_UP} className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              About Me
+              O mnie
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full" />
           </motion.div>
@@ -26,7 +26,7 @@ const About = () => {
             {/* Text Content */}
             <motion.div variants={FADE_IN_UP} className="space-y-6">
               <h3 className="text-2xl md:text-3xl font-bold text-white">
-                Your Tech Guide
+                Twój Przewodnik Technologiczny
               </h3>
               <p className="text-gray-300 leading-relaxed">
                 Cześć! Jestem Paweł, ekspertem optymalizacji procesów
