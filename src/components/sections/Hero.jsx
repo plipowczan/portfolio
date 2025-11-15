@@ -1,15 +1,7 @@
 import { motion } from "framer-motion";
-import { FaArrowDown } from "react-icons/fa";
 import NetworkBackground from "../animations/NetworkBackground";
 
 const Hero = () => {
-  const handleScrollToAbout = () => {
-    const aboutSection = document.querySelector("#about");
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <section
       id="home"
@@ -89,23 +81,6 @@ const Hero = () => {
               Skontaktuj się
             </a>
           </motion.div>
-
-          {/* Scroll Indicator */}
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
-            onClick={handleScrollToAbout}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-primary-500 hover:text-primary-400 transition-colors cursor-pointer"
-            aria-label="Scroll to about section"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <FaArrowDown size={32} />
-            </motion.div>
-          </motion.button>
         </div>
       </div>
 
