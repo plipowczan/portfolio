@@ -26,7 +26,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 rounded-full border-2 border-dashed border-primary-500 flex items-center justify-center">
-                <span className="text-primary-500 font-mono text-base font-bold">
+                <span className="text-primary-500 font-mono text-base font-bold tracking-wider">
                   &lt;/&gt;
                 </span>
               </div>

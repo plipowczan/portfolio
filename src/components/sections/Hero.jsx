@@ -21,7 +21,7 @@ const Hero = () => {
             className="flex justify-center mb-8"
           >
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-dashed border-primary-500 flex items-center justify-center glow animate-glow">
-              <span className="text-primary-500 font-mono text-3xl md:text-4xl font-bold">
+              <span className="text-primary-500 font-mono text-3xl md:text-4xl font-bold tracking-wider">
                 &lt;/&gt;
               </span>
             </div>

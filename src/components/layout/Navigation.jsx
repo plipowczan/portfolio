@@ -71,7 +71,7 @@ const Navigation = () => {
             className="flex items-center space-x-3 group"
           >
             <div className="w-12 h-12 rounded-full border-2 border-dashed border-primary-500 flex items-center justify-center group-hover:border-primary-400 transition-colors">
-              <span className="text-primary-500 font-mono text-lg font-bold group-hover:text-primary-400 transition-colors">
+              <span className="text-primary-500 font-mono text-lg font-bold group-hover:text-primary-400 transition-colors tracking-wider">
                 &lt;/&gt;
               </span>
             </div>
