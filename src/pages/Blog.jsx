@@ -8,11 +8,13 @@ import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 const BlogCard = ({ post }) => {
   return (
     <motion.article variants={FADE_IN_UP} className="card group">
-      {/* Featured Image Placeholder */}
+      {/* Featured Image */}
       <div className="relative overflow-hidden rounded-lg mb-6 bg-dark-600 h-48">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-secondary-500/20 flex items-center justify-center">
-          <span className="text-6xl opacity-20">{post.title.charAt(0)}</span>
-        </div>
+        <img
+          src={post.image}
+          alt={post.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
       </div>
 
       {/* Category */}
@@ -78,11 +80,13 @@ const Blog = () => {
           name="description"
           content="Technical articles and insights about web development, React, and modern technologies."
         />
+        <link rel="canonical" href={`${SITE_CONFIG.url}/blog`} />
         <meta property="og:title" content={`Blog - ${SITE_CONFIG.name}`} />
         <meta
           property="og:description"
           content="Technical articles and insights about web development"
         />
+        <meta property="og:url" content={`${SITE_CONFIG.url}/blog`} />
       </Helmet>
 
       <div className="min-h-screen py-24 md:py-32">

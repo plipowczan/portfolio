@@ -11,6 +11,7 @@ const TermsOfService = () => {
           name="description"
           content="Terms of Service and usage guidelines"
         />
+        <link rel="canonical" href={`${SITE_CONFIG.url}/terms-of-service`} />
       </Helmet>
 
       <div className="min-h-screen py-24 md:py-32">

@@ -11,6 +11,7 @@ const CookiePolicy = () => {
           name="description"
           content="Cookie Policy and usage information"
         />
+        <link rel="canonical" href={`${SITE_CONFIG.url}/cookie-policy`} />
       </Helmet>
 
       <div className="min-h-screen py-24 md:py-32">

@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   email: "pawel@lipowczan.pl",
   description:
     "Software Architect & Technology Advisor - agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI.",
-  url: "https://pawellipowczan.com",
+  url: "https://pawel.lipowczan.pl",
   social: {
     github: "https://github.com/pawellipowczan",
     linkedin: "https://linkedin.com/in/pawellipowczan",
@@ -15,12 +15,12 @@ export const SITE_CONFIG = {
 
 // Navigation links
 export const NAV_LINKS = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Projects", href: "#projects" },
-  { name: "Skills", href: "#skills" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/#about" },
+  { name: "Projects", href: "/#projects" },
+  { name: "Skills", href: "/#skills" },
   { name: "Blog", href: "/blog" },
-  { name: "Contact", href: "#contact" },
+  { name: "Contact", href: "/#contact" },
 ];
 
 // Animation variants

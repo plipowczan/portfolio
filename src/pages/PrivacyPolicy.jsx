@@ -11,6 +11,7 @@ const PrivacyPolicy = () => {
           name="description"
           content="Privacy Policy and GDPR compliance information"
         />
+        <link rel="canonical" href={`${SITE_CONFIG.url}/privacy-policy`} />
       </Helmet>
 
       <div className="min-h-screen py-24 md:py-32">

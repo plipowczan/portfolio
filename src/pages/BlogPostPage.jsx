@@ -47,12 +47,26 @@ const BlogPostPage = () => {
           {post.title} | {SITE_CONFIG.name}
         </title>
         <meta name="description" content={post.excerpt} />
+        <link rel="canonical" href={`${SITE_CONFIG.url}/blog/${post.slug}`} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
         <meta property="og:type" content="article" />
+        <meta
+          property="og:url"
+          content={`${SITE_CONFIG.url}/blog/${post.slug}`}
+        />
+        <meta property="og:image" content={`${SITE_CONFIG.url}${post.image}`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="article:published_time" content={post.date} />
         <meta property="article:author" content={post.author} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt} />
+        <meta
+          name="twitter:image"
+          content={`${SITE_CONFIG.url}${post.image}`}
+        />
       </Helmet>
 
       <article className="min-h-screen py-24 md:py-32">
@@ -99,13 +113,14 @@ const BlogPostPage = () => {
               </div>
             </div>
 
-            {/* Featured Image Placeholder */}
+            {/* Featured Image */}
             <div className="relative overflow-hidden rounded-xl bg-dark-700 h-96">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-secondary-500/20 flex items-center justify-center">
-                <span className="text-9xl opacity-10 font-bold">
-                  {post.title.charAt(0)}
-                </span>
-              </div>
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
 
             {/* Content */}
