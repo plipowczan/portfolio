@@ -108,7 +108,15 @@ cursorplan/
 │   ├── App.jsx
 │   └── main.jsx
 ├── .cursorrules             # Development guidelines
-├── PRD.md                   # Product requirements document
+├── docs/                    # Documentation
+│   ├── PRD.md              # Product requirements document
+│   ├── PROJECT_SUMMARY.md  # Project summary
+│   ├── QUICK_START.md      # Quick start guide
+│   ├── deployment/         # Deployment guides
+│   ├── seo/                # SEO documentation
+│   ├── blog/               # Blog system docs
+│   ├── maintenance/        # TODO and bugfixes
+│   └── planning/           # Planning notes
 ├── package.json
 ├── vite.config.js
 ├── tailwind.config.js

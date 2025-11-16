@@ -17,6 +17,7 @@ This guide covers deployment options for the Pawel Lipowczan Portfolio website.
 ## Option 1: Vercel (Recommended)
 
 ### Why Vercel?
+
 - Zero configuration
 - Automatic HTTPS
 - Global CDN
@@ -24,29 +25,34 @@ This guide covers deployment options for the Pawel Lipowczan Portfolio website.
 - Free for personal projects
 - Excellent performance
 
-### Steps:
+### Steps
 
 1. **Install Vercel CLI**
+
 ```bash
 npm install -g vercel
 ```
 
 2. **Login to Vercel**
+
 ```bash
 vercel login
 ```
 
 3. **Deploy**
+
 ```bash
 vercel
 ```
 
 4. **Production Deployment**
+
 ```bash
 vercel --prod
 ```
 
 ### Custom Domain
+
 1. Go to Vercel dashboard
 2. Select your project
 3. Go to Settings > Domains
@@ -54,13 +60,41 @@ vercel --prod
 5. Update DNS records as instructed
 
 ### Environment Variables (if needed)
+
 1. Go to project settings in Vercel dashboard
 2. Navigate to Environment Variables
 3. Add any required variables (e.g., API keys)
 
+### ✨ SEO: Prerendering (Recommended)
+
+**⚠️ WAŻNE dla SEO:** Użyj `build:prerender` zamiast standardowego `build`
+
+**W Vercel Dashboard:**
+
+1. Idź do: Settings → General → Build & Development Settings
+2. Zmień **Build Command** na:
+
+   ```bash
+   npm run build:prerender
+   ```
+
+3. **Output Directory** pozostaw: `dist`
+
+**Co to robi?**
+
+- Generuje statyczne HTML dla wszystkich stron
+- Google widzi pełną treść (nie pusty `<div id="root"></div>`)
+- Znacząco poprawia SEO i pozycje w wyszukiwarkach
+- Automatycznie prerenderuje wszystkie posty blogowe
+
+**Build time:** ~2-3 min (vs ~30s bez prerenderingu), ale warto dla SEO!
+
+**Więcej:** Zobacz `../seo/PRERENDERING.md` dla szczegółów
+
 ## Option 2: Netlify
 
 ### Why Netlify?
+
 - Easy drag-and-drop deployment
 - Form handling support
 - Free SSL certificates
@@ -69,6 +103,7 @@ vercel --prod
 ### Method 1: Drag and Drop
 
 1. Build the project:
+
 ```bash
 npm run build
 ```
@@ -89,6 +124,7 @@ npm run build
 6. Click "Deploy site"
 
 ### Custom Domain on Netlify
+
 1. Go to Site settings > Domain management
 2. Click "Add custom domain"
 3. Follow DNS configuration instructions
@@ -98,19 +134,22 @@ npm run build
 ### Setup
 
 1. Install gh-pages:
+
 ```bash
 npm install --save-dev gh-pages
 ```
 
 2. Update `vite.config.js`:
+
 ```js
 export default defineConfig({
-  base: '/repository-name/', // Replace with your repo name
+  base: "/repository-name/", // Replace with your repo name
   plugins: [react()],
-})
+});
 ```
 
 3. Add deploy script to `package.json`:
+
 ```json
 "scripts": {
   "predeploy": "npm run build",
@@ -119,6 +158,7 @@ export default defineConfig({
 ```
 
 4. Deploy:
+
 ```bash
 npm run deploy
 ```
@@ -131,11 +171,13 @@ npm run deploy
 ## Option 4: Custom Server (VPS/Dedicated)
 
 ### Requirements
+
 - Node.js installed
 - Nginx or Apache
 - SSL certificate (Let's Encrypt recommended)
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
@@ -146,20 +188,20 @@ npm run build
 server {
     listen 80;
     server_name pawellipowczan.com www.pawellipowczan.com;
-    
+
     root /var/www/portfolio/dist;
     index index.html;
-    
+
     location / {
         try_files $uri $uri/ /index.html;
     }
-    
+
     # Cache static assets
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
     }
-    
+
     # Gzip compression
     gzip on;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
@@ -167,6 +209,7 @@ server {
 ```
 
 ### SSL with Let's Encrypt
+
 ```bash
 sudo apt-get install certbot python3-certbot-nginx
 sudo certbot --nginx -d pawellipowczan.com -d www.pawellipowczan.com
@@ -177,15 +220,18 @@ sudo certbot --nginx -d pawellipowczan.com -d www.pawellipowczan.com
 ### Before Deployment
 
 1. **Optimize Images**
+
    - Compress images (use tools like TinyPNG, Squoosh)
    - Convert to WebP format
    - Resize to appropriate dimensions
 
 2. **Code Splitting**
+
    - Already implemented with React.lazy()
    - Check bundle size: `npm run build -- --stats`
 
 3. **Remove Console Logs**
+
    - Search for `console.log` statements
    - Remove or disable in production
 
@@ -199,6 +245,7 @@ sudo certbot --nginx -d pawellipowczan.com -d www.pawellipowczan.com
 1. **Enable CDN** (if using Vercel/Netlify, this is automatic)
 
 2. **Monitor Performance**
+
    - Google Analytics
    - Google Search Console
    - Web Vitals monitoring
@@ -214,14 +261,16 @@ sudo certbot --nginx -d pawellipowczan.com -d www.pawellipowczan.com
 If you need API keys or sensitive data:
 
 1. Create `.env` file (already in .gitignore):
+
 ```
 VITE_API_KEY=your_api_key_here
 VITE_FORM_ENDPOINT=your_form_endpoint
 ```
 
 2. Access in code:
+
 ```js
-const apiKey = import.meta.env.VITE_API_KEY
+const apiKey = import.meta.env.VITE_API_KEY;
 ```
 
 3. Set in deployment platform:
@@ -233,6 +282,7 @@ const apiKey = import.meta.env.VITE_API_KEY
 ### Automatic Deployment on Git Push
 
 1. **Vercel**
+
    - Automatically deploys on push to main branch
    - Configure in project settings
 
@@ -241,25 +291,30 @@ const apiKey = import.meta.env.VITE_API_KEY
    - Configure branch deploys in settings
 
 ### Branch Previews
+
 Both Vercel and Netlify create preview URLs for pull requests automatically.
 
 ## Troubleshooting
 
 ### Build Fails
+
 - Check Node.js version (should be 16+)
 - Clear node_modules: `rm -rf node_modules && npm install`
 - Check for missing dependencies
 
 ### Blank Page After Deployment
+
 - Check browser console for errors
 - Verify `base` path in `vite.config.js`
 - Check routing configuration
 
 ### 404 on Page Refresh
+
 - For Netlify: `_redirects` file already included
 - For other hosts: Configure server to serve index.html for all routes
 
 ### Images Not Loading
+
 - Check image paths (should be in `public/` folder)
 - Verify image files are included in build
 - Check network tab for 404 errors
@@ -267,6 +322,7 @@ Both Vercel and Netlify create preview URLs for pull requests automatically.
 ## Post-Deployment
 
 1. **Test Everything**
+
    - [ ] All navigation links work
    - [ ] Contact form submits (configure endpoint)
    - [ ] Blog posts load correctly
@@ -274,12 +330,14 @@ Both Vercel and Netlify create preview URLs for pull requests automatically.
    - [ ] Legal pages accessible
 
 2. **SEO Setup**
+
    - [ ] Submit sitemap to Google Search Console
    - [ ] Submit sitemap to Bing Webmaster Tools
    - [ ] Set up Google Analytics (optional)
    - [ ] Verify meta tags with browser extension
 
 3. **Social Media**
+
    - [ ] Update social media profiles with website link
    - [ ] Test social share previews
    - [ ] Add website to LinkedIn profile
@@ -296,6 +354,7 @@ Both Vercel and Netlify create preview URLs for pull requests automatically.
 For most hosting providers, you'll need to set these DNS records:
 
 **A Records** (for root domain):
+
 ```
 Type: A
 Name: @
@@ -303,6 +362,7 @@ Value: [hosting provider IP]
 ```
 
 **CNAME Record** (for www subdomain):
+
 ```
 Type: CNAME
 Name: www
@@ -310,6 +370,7 @@ Value: [hosting provider domain]
 ```
 
 ### Popular Domain Registrars
+
 - [Namecheap](https://www.namecheap.com/)
 - [GoDaddy](https://www.godaddy.com/)
 - [Google Domains](https://domains.google/)
@@ -318,12 +379,14 @@ Value: [hosting provider domain]
 ## Maintenance
 
 ### Regular Updates
+
 - Update dependencies monthly: `npm update`
 - Check for security vulnerabilities: `npm audit`
 - Update blog posts regularly
 - Add new projects as completed
 
 ### Backups
+
 - Code is backed up in Git repository
 - Blog content should be backed up separately
 - Database backups (if using dynamic content)
@@ -331,6 +394,7 @@ Value: [hosting provider domain]
 ## Support
 
 For deployment issues:
+
 - Vercel: [vercel.com/support](https://vercel.com/support)
 - Netlify: [netlify.com/support](https://www.netlify.com/support/)
 - GitHub Pages: [docs.github.com](https://docs.github.com/en/pages)
@@ -338,4 +402,3 @@ For deployment issues:
 ---
 
 **Ready to deploy?** Choose your preferred platform and follow the steps above!
-

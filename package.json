@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:prerender": "node scripts/build-with-prerender.mjs",
     "preview": "vite preview",
+    "prerender:run": "node scripts/prerender.mjs",
     "lint": "echo 'Linting complete'",
     "format": "echo 'Formatting complete'",
     "blog:sitemap": "node scripts/update-sitemap.js",
@@ -31,6 +33,7 @@
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.22",
     "postcss": "^8.5.6",
+    "puppeteer": "^24.30.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^3.4.18",
     "vite": "^7.2.2",

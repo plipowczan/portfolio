@@ -9,18 +9,19 @@ Get your portfolio website live in under 30 minutes!
 **1.1 Update Your Information**
 
 Edit `src/utils/constants.js`:
+
 ```javascript
 export const SITE_CONFIG = {
-  name: 'Pawel Lipowczan',
-  title: 'Your Tech Guide',
-  email: 'your-email@example.com',        // ← Change this
-  url: 'https://yoursite.com',             // ← Change this
+  name: "Pawel Lipowczan",
+  title: "Your Tech Guide",
+  email: "your-email@example.com", // ← Change this
+  url: "https://yoursite.com", // ← Change this
   social: {
-    github: 'https://github.com/yourusername',      // ← Change these
-    linkedin: 'https://linkedin.com/in/yourusername',
-    twitter: 'https://twitter.com/yourusername',
-  }
-}
+    github: "https://github.com/yourusername", // ← Change these
+    linkedin: "https://linkedin.com/in/yourusername",
+    twitter: "https://twitter.com/yourusername",
+  },
+};
 ```
 
 **1.2 Add Your Projects**
@@ -34,6 +35,7 @@ Edit `src/components/sections/About.jsx` - Update the paragraphs with your story
 **1.4 Configure Contact Form** (Optional for now)
 
 The form works with validation, but to receive emails:
+
 - Sign up at [FormSpree.io](https://formspree.io/)
 - Get your form endpoint
 - Update Contact.jsx with the endpoint
@@ -49,6 +51,7 @@ npm run dev
 ```
 
 **Quick Checks:**
+
 - [ ] Logo shows up
 - [ ] Smooth scroll works
 - [ ] Mobile menu works
@@ -91,12 +94,14 @@ You'll get a URL like: `https://your-project-name.vercel.app`
 6. Wait 5-10 minutes for DNS propagation
 
 **Don't have a domain yet?**
+
 - Buy one from [Namecheap](https://www.namecheap.com/) (~$10/year)
 - Or use the free Vercel URL for now
 
 ## 🎨 Customization Checklist
 
 ### Must Do Before Launch
+
 - [ ] Update email in `src/utils/constants.js`
 - [ ] Update social media links
 - [ ] Replace sample projects (or keep them for now)
@@ -104,6 +109,7 @@ You'll get a URL like: `https://your-project-name.vercel.app`
 - [ ] Test on mobile device
 
 ### Should Do Soon After Launch
+
 - [ ] Add real project images to `public/images/`
 - [ ] Write your first blog post
 - [ ] Add professional photo to About section
@@ -112,6 +118,7 @@ You'll get a URL like: `https://your-project-name.vercel.app`
 - [ ] Submit to Google Search Console
 
 ### Can Do Later
+
 - [ ] Add more projects
 - [ ] Write more blog posts
 - [ ] Add testimonials
@@ -121,6 +128,7 @@ You'll get a URL like: `https://your-project-name.vercel.app`
 ## 🐛 Common Issues & Quick Fixes
 
 ### "npm run dev" doesn't work
+
 ```bash
 # Delete and reinstall
 rm -rf node_modules
@@ -129,6 +137,7 @@ npm run dev
 ```
 
 ### Build fails
+
 ```bash
 # Make sure all syntax is correct
 npm run build
@@ -137,11 +146,13 @@ npm run build
 ```
 
 ### Site looks broken after deployment
+
 - Check browser console for errors (F12)
 - Verify images are in `public/` folder
 - Check that all imports are correct
 
 ### Contact form doesn't send emails
+
 - Normal! You need to set up FormSpree or EmailJS
 - See `src/components/sections/Contact.jsx` for TODOs
 - Form validation still works without backend
@@ -151,6 +162,7 @@ npm run build
 Before launching, test these:
 
 **Desktop**
+
 - [ ] All menu items work
 - [ ] Smooth scroll to sections
 - [ ] Hover effects on cards
@@ -158,6 +170,7 @@ Before launching, test these:
 - [ ] Blog posts open correctly
 
 **Mobile** (use browser DevTools or real device)
+
 - [ ] Hamburger menu opens/closes
 - [ ] All sections stack vertically
 - [ ] Buttons are tap-friendly
@@ -165,6 +178,7 @@ Before launching, test these:
 - [ ] Images don't overflow
 
 **All Devices**
+
 - [ ] Footer links work
 - [ ] Legal pages load
 - [ ] Logo links to home
@@ -173,6 +187,7 @@ Before launching, test these:
 ## 🚀 Alternative Deployment Options
 
 ### Netlify (Drag & Drop)
+
 ```bash
 npm run build
 # Go to app.netlify.com/drop
@@ -181,6 +196,7 @@ npm run build
 ```
 
 ### GitHub Pages
+
 ```bash
 npm install --save-dev gh-pages
 
@@ -191,34 +207,38 @@ npm run build
 npm run deploy
 ```
 
-See **DEPLOYMENT.md** for detailed guides.
+See **deployment/DEPLOYMENT.md** for detailed guides.
 
 ## 📚 Key Files Reference
 
-| File | What to Update |
-|------|----------------|
-| `src/utils/constants.js` | Name, email, social links |
-| `src/data/projects.js` | Your projects |
-| `src/data/skills.js` | Your skills |
-| `src/data/blogPosts.js` | Blog articles |
-| `src/components/sections/About.jsx` | Personal bio |
-| `src/components/sections/Contact.jsx` | Form backend config |
+| File                                  | What to Update            |
+| ------------------------------------- | ------------------------- |
+| `src/utils/constants.js`              | Name, email, social links |
+| `src/data/projects.js`                | Your projects             |
+| `src/data/skills.js`                  | Your skills               |
+| `src/data/blogPosts.js`               | Blog articles             |
+| `src/components/sections/About.jsx`   | Personal bio              |
+| `src/components/sections/Contact.jsx` | Form backend config       |
 
 ## 💡 Pro Tips
 
 1. **Use the Free Vercel URL First**
+
    - Deploy and test before buying a domain
    - Make sure everything works
 
 2. **Start with Sample Content**
+
    - Launch with placeholder projects
    - Add real content gradually
 
 3. **Mobile First**
+
    - Most visitors will be on mobile
    - Test on your phone!
 
 4. **SEO Can Wait**
+
    - Get the site live first
    - Optimize for search engines later
 
@@ -229,18 +249,21 @@ See **DEPLOYMENT.md** for detailed guides.
 ## 🎯 Success Metrics
 
 **Week 1:**
+
 - [ ] Site is live
 - [ ] All sections work
 - [ ] Mobile responsive
 - [ ] Contact form validates
 
 **Week 2:**
+
 - [ ] Real projects added
 - [ ] First blog post published
 - [ ] Contact form sends emails
 - [ ] Shared on social media
 
 **Month 1:**
+
 - [ ] 3+ blog posts
 - [ ] All projects have real images
 - [ ] Google Search Console setup
@@ -252,7 +275,7 @@ Stuck? Check these resources:
 
 1. **PROJECT_SUMMARY.md** - Complete feature list
 2. **README.md** - Detailed setup guide
-3. **DEPLOYMENT.md** - All deployment options
+3. **deployment/DEPLOYMENT.md** - All deployment options
 4. **.cursorrules** - Development guidelines
 5. **PRD.md** - Full specifications
 
@@ -277,4 +300,3 @@ vercel           # Deploy it
 ---
 
 **Questions?** Check the other documentation files or Google the error message - you've got this! 💪
-

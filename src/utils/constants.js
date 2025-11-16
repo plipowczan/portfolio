@@ -4,7 +4,7 @@ export const SITE_CONFIG = {
   title: "Twój Przewodnik Technologiczny",
   email: "pawel@lipowczan.pl",
   description:
-    "Software Architect & Technology Advisor - agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI.",
+    "Architekt oprogramowania i doradca ds. technologii - agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI.",
   url: "https://pawel.lipowczan.pl",
   social: {
     github: "https://github.com/pawellipowczan",

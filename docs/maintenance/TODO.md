@@ -14,26 +14,27 @@
 
 ### Wysoki priorytet
 
-#### 1. Pre-rendering / SSR dla lepszego crawlingu
+#### 1. ✅ Pre-rendering / SSR dla lepszego crawlingu - UKOŃCZONE
 
-**Problem:** React SPA renderuje się po stronie klienta, co może powodować problemy z indeksacją przez Google.
+**Status:** ✅ **WDROŻONE** (2025-11-16)
 
-**Rozwiązania:**
+**Rozwiązanie:** Custom prerendering z Puppeteer
 
-- **Opcja A (łatwa):** Vite Plugin SSR lub @prerenderer/prerenderer
-  - Generuje statyczne HTML dla każdej strony
-  - Szybkie wdrożenie (2-3h)
-  - Działa z obecnym setupem
-- **Opcja B (średnia):** Astro + React Islands
-  - Ultra szybki
-  - React components tylko tam gdzie potrzeba
-  - Czas migracji: 1-2 dni
-- **Opcja C (zaawansowana):** Next.js 14 (App Router)
-  - Najlepsze SEO dla React
-  - Pełny SSR + ISR
-  - Czas migracji: 3-5 dni
+- ✅ Generuje statyczne HTML dla wszystkich stron
+- ✅ Dynamiczne wykrywanie postów blogowych (pomija README.md i pliki zaczynające się od \_)
+- ✅ Pełna kompatybilność z Vercel
+- ✅ Automatyzacja przez `npm run build:prerender`
+- ✅ 9 stron prerenderowanych: 4 posty blogowe + 5 stron statycznych (automatycznie więcej z nowymi postami)
 
-**Rekomendacja:** Zacznij od Opcji A, później rozważ migrację do Astro/Next.js
+**Rezultat:**
+
+- Google widzi pełną treść HTML (nie pusty `<div id="root"></div>`)
+- SEO znacząco poprawione
+- Social media previews działają perfekcyjnie
+
+**Dokumentacja:** Zobacz `../seo/PRERENDERING.md`
+
+**Czas wdrożenia:** ~1h (jak planowano)
 
 #### 2. Structured Data (Schema.org JSON-LD)
 

@@ -62,14 +62,26 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Simulate form submission (replace with actual API call)
     try {
-      // TODO: Replace with actual form submission logic
-      // For example: FormSpree, EmailJS, or custom backend
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("https://formspree.io/f/xblqpqab", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || "Wiadomość z formularza kontaktowego",
+          message: formData.message,
+        }),
+      });
 
-      setSubmitStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setSubmitStatus("error");
+      }
     } catch {
       setSubmitStatus("error");
     } finally {
