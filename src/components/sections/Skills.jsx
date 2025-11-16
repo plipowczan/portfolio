@@ -1,16 +1,12 @@
 import { motion } from "framer-motion";
-import {
-  FADE_IN_UP,
-  SCALE_IN,
-  STAGGER_CONTAINER,
-} from "../../utils/constants";
 import { skillCategories } from "../../data/skills";
+import { FADE_IN_UP, SCALE_IN, STAGGER_CONTAINER } from "../../utils/constants";
 
 const SkillCard = ({ skill }) => {
   return (
     <motion.div
       variants={SCALE_IN}
-      className="flex flex-col items-center space-y-3 p-4 card group"
+      className="flex flex-col items-center space-y-3 p-4 card skill tech group"
       whileHover={{ scale: 1.05 }}
     >
       <skill.icon className="text-5xl text-primary-500 group-hover:text-primary-400 transition-colors" />
@@ -69,7 +65,7 @@ const Skills = () => {
                 >
                   {category.name}
                 </motion.h3>
-                
+
                 <motion.div
                   variants={STAGGER_CONTAINER}
                   className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6"
@@ -92,4 +88,3 @@ const Skills = () => {
 };
 
 export default Skills;
-

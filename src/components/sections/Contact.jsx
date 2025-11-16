@@ -184,6 +184,9 @@ const Contact = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    required
+                    aria-required="true"
+                    aria-invalid={errors.name ? "true" : "false"}
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.name ? "border-red-500" : "border-primary-500/20"
                     } rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors`}
@@ -207,6 +210,9 @@ const Contact = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    required
+                    aria-required="true"
+                    aria-invalid={errors.email ? "true" : "false"}
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.email ? "border-red-500" : "border-primary-500/20"
                     } rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors`}
@@ -248,6 +254,9 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows="5"
+                    required
+                    aria-required="true"
+                    aria-invalid={errors.message ? "true" : "false"}
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.message
                         ? "border-red-500"
@@ -271,15 +280,19 @@ const Contact = () => {
                 </button>
 
                 {submitStatus === "success" && (
-                  <p className="text-primary-500 text-center">
-                    Wiadomość wysłana! Odezwę się wkrótce.
-                  </p>
+                  <div className="success" role="alert">
+                    <p className="text-primary-500 text-center">
+                      Wiadomość wysłana! Odezwę się wkrótce.
+                    </p>
+                  </div>
                 )}
                 {submitStatus === "error" && (
-                  <p className="text-red-500 text-center">
-                    Błąd wysyłania. Spróbuj ponownie lub napisz bezpośrednio na{" "}
-                    {SITE_CONFIG.email}
-                  </p>
+                  <div className="error" role="alert">
+                    <p className="text-red-500 text-center">
+                      Błąd wysyłania. Spróbuj ponownie lub napisz bezpośrednio
+                      na {SITE_CONFIG.email}
+                    </p>
+                  </div>
                 )}
               </form>
             </motion.div>

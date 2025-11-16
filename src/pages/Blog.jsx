@@ -7,7 +7,7 @@ import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
 const BlogCard = ({ post }) => {
   return (
-    <motion.article variants={FADE_IN_UP} className="card group">
+    <motion.article variants={FADE_IN_UP} className="card blog-card group">
       {/* Featured Image */}
       <div className="relative overflow-hidden rounded-lg mb-6 bg-dark-600 h-48">
         <img
@@ -86,7 +86,24 @@ const Blog = () => {
           property="og:description"
           content="Technical articles and insights about web development"
         />
+        <meta property="og:type" content="website" />
         <meta property="og:url" content={`${SITE_CONFIG.url}/blog`} />
+        <meta
+          property="og:image"
+          content={`${SITE_CONFIG.url}/images/og-blog.webp`}
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`Blog - ${SITE_CONFIG.name}`} />
+        <meta
+          name="twitter:description"
+          content="Technical articles and insights about web development, React, and modern technologies."
+        />
+        <meta
+          name="twitter:image"
+          content={`${SITE_CONFIG.url}/images/og-blog.webp`}
+        />
       </Helmet>
 
       <div className="min-h-screen py-24 md:py-32">

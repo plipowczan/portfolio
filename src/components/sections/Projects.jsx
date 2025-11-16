@@ -1,17 +1,18 @@
-import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { FADE_IN_UP, STAGGER_CONTAINER } from "../../utils/constants";
+import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { projects } from "../../data/projects";
+import { FADE_IN_UP, STAGGER_CONTAINER } from "../../utils/constants";
 
 const ProjectCard = ({ project }) => {
   return (
-    <motion.div variants={FADE_IN_UP} className="card group cursor-pointer">
+    <motion.div
+      variants={FADE_IN_UP}
+      className="card project-card group cursor-pointer"
+    >
       {/* Project Image */}
       <div className="relative overflow-hidden rounded-lg mb-6 bg-dark-600 h-48">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-secondary-500/20 flex items-center justify-center">
-          <span className="text-6xl opacity-20">
-            {project.title.charAt(0)}
-          </span>
+          <span className="text-6xl opacity-20">{project.title.charAt(0)}</span>
         </div>
         {(project.githubUrl || project.liveUrl) && (
           <div className="absolute inset-0 bg-dark-900/0 group-hover:bg-dark-900/90 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -120,4 +121,3 @@ const Projects = () => {
 };
 
 export default Projects;
-

@@ -13,44 +13,69 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Mockowanie API", () => {
   test("powinien zamockować request do API", async ({ page }) => {
-    // Mock successful response
-    await page.route("**/api/contact", (route) => {
+    // Mock successful response - Formspree endpoint
+    await page.route("**/formspree.io/**", (route) => {
       route.fulfill({
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          success: true,
-          message: "Wiadomość wysłana",
+          ok: true,
         }),
       });
     });
 
     await page.goto("http://localhost:3000");
 
+    // Scrolluj do formularza
+    await page.locator("#contact").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+
     // Wypełnij i wyślij formularz
+    await page.fill('input[name="name"]', "Test User");
     await page.fill('input[name="email"]', "test@example.com");
+    await page.fill(
+      'textarea[name="message"]',
+      "Test wiadomość z automatycznego testu"
+    );
     await page.click('button[type="submit"]');
+
+    // Poczekaj na odpowiedź
+    await page.waitForTimeout(2000);
 
     // Sprawdź czy pojawił się komunikat sukcesu
     await expect(page.locator(".success")).toBeVisible();
   });
 
   test("powinien obsłużyć błąd API", async ({ page }) => {
-    // Mock error response
-    await page.route("**/api/contact", (route) => {
+    // Mock error response - Formspree endpoint
+    await page.route("**/formspree.io/**", (route) => {
       route.fulfill({
         status: 500,
         contentType: "application/json",
         body: JSON.stringify({
-          success: false,
+          ok: false,
           error: "Błąd serwera",
         }),
       });
     });
 
     await page.goto("http://localhost:3000");
+
+    // Scrolluj do formularza
+    await page.locator("#contact").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+
+    // Wypełnij i wyślij formularz
+    await page.fill('input[name="name"]', "Test User");
     await page.fill('input[name="email"]', "test@example.com");
+    await page.fill(
+      'textarea[name="message"]',
+      "Test wiadomość z automatycznego testu"
+    );
     await page.click('button[type="submit"]');
+
+    // Poczekaj na odpowiedź
+    await page.waitForTimeout(2000);
 
     // Sprawdź komunikat błędu
     await expect(page.locator(".error")).toBeVisible();
@@ -79,17 +104,16 @@ test.describe("Storage i Cookies", () => {
   });
 
   test("powinien ustawić cookies", async ({ page, context }) => {
-    // Ustaw cookie
-    await context.addCookies([
-      {
-        name: "cookieConsent",
-        value: "accepted",
-        domain: "localhost",
-        path: "/",
-      },
-    ]);
-
+    // Ustaw localStorage zamiast cookies (zgodnie z implementacją)
     await page.goto("http://localhost:3000");
+
+    await page.evaluate(() => {
+      localStorage.setItem("cookieConsent", "accepted");
+    });
+
+    // Przeładuj stronę
+    await page.reload();
+    await page.waitForTimeout(1500); // Czekaj dłużej niż delay w CookieBanner (1000ms)
 
     // Sprawdź czy banner cookies nie pojawia się
     const cookieBanner = page.locator(".cookie-banner");
@@ -202,7 +226,8 @@ test.describe("Hover Effects", () => {
 // ============================================
 
 test.describe("Theme Switching", () => {
-  test("powinien przełączyć na dark mode", async ({ page }) => {
+  test.skip("powinien przełączyć na dark mode", async ({ page }) => {
+    // Strona nie ma theme switchera - test wyłączony
     await page.goto("http://localhost:3000");
 
     // Znajdź przycisk theme toggle (jeśli istnieje)
@@ -257,7 +282,7 @@ test.describe("Network Monitoring", () => {
     const apiCalls = [];
 
     page.on("request", (request) => {
-      if (request.url().includes("/api/")) {
+      if (request.url().includes("formspree.io")) {
         apiCalls.push({
           method: request.method(),
           url: request.url(),
@@ -267,11 +292,28 @@ test.describe("Network Monitoring", () => {
 
     await page.goto("http://localhost:3000");
 
+    // Scrolluj do formularza
+    await page.locator("#contact").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+
+    // Wypełnij formularz przed wysłaniem
+    await page.fill('input[name="name"]', "Test User");
+    await page.fill('input[name="email"]', "test@example.com");
+    await page.fill(
+      'textarea[name="message"]',
+      "Test wiadomość z automatycznego testu"
+    );
+
     // Wykonaj akcję która robi API call
     await page.click('button[type="submit"]');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
 
     console.log("API calls:", apiCalls);
+
+    // Sprawdź czy był wywołany formspree
+    if (apiCalls.length > 0) {
+      expect(apiCalls[0].method).toBe("POST");
+    }
   });
 });
 
@@ -342,7 +384,7 @@ viewports.forEach((viewport) => {
     await page.goto("http://localhost:3000");
 
     // Sprawdź główne elementy
-    await expect(page.locator("h1")).toBeVisible();
+    await expect(page.locator("h1").first()).toBeVisible();
     await expect(page.locator("nav")).toBeVisible();
   });
 });

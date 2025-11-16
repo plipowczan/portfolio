@@ -19,6 +19,7 @@ const blogFiles = import.meta.glob("../content/blog/*.md", {
 ```
 
 **Oznacza to:**
+
 - ✅ Nowe artykuły są **automatycznie** wykrywane
 - ✅ Nie musisz ręcznie importować każdego pliku
 - ✅ Nie musisz aktualizować tablicy blogPosts
@@ -26,11 +27,13 @@ const blogFiles = import.meta.glob("../content/blog/*.md", {
 ### Filtrowanie plików
 
 System automatycznie **pomija**:
+
 - ❌ Pliki wsadowe: `*_wsad.md`
 - ❌ Pliki template: `_*.md`
 - ❌ Dokumentację: `README.md`
 
 **Ładuje tylko:**
+
 - ✅ Regularne pliki: `artykul.md`
 
 ---
@@ -43,16 +46,16 @@ Każdy artykuł **MUSI** zawierać następujące pola w front matter:
 
 ```yaml
 ---
-id: 1                    # Number - unikalne ID
-slug: slug-artykulu      # String - URL-friendly
-title: Tytuł artykułu    # String
-excerpt: Krótki opis...  # String (150-200 znaków)
-category: Kategoria      # String (Automatyzacja/No-Code/AI)
-author: Pawel Lipowczan  # String
-date: 2025-11-15         # String (YYYY-MM-DD)
-readTime: 10 min         # String
+id: 1 # Number - unikalne ID
+slug: slug-artykulu # String - URL-friendly
+title: Tytuł artykułu # String
+excerpt: Krótki opis... # String (150-200 znaków)
+category: Kategoria # String (Automatyzacja/No-Code/AI)
+author: Pawel Lipowczan # String
+date: 2025-11-15 # String (YYYY-MM-DD)
+readTime: 10 min # String
 image: /images/og-*.webp # String (ścieżka do obrazka)
-tags:                    # Array (opcjonalne)
+tags: # Array (opcjonalne)
   - Tag1
   - Tag2
 ---
@@ -71,6 +74,7 @@ System wykonuje następujące sprawdzenia:
 Jeśli artykuł ma **nieprawidłowy front matter**:
 
 1. ❌ Błąd zostaje wylogowany do konsoli:
+
    ```
    Error parsing blog post article.md: Missing required fields: excerpt, date
    ```
@@ -86,6 +90,7 @@ Jeśli artykuł ma **nieprawidłowy front matter**:
 ### Krok po kroku
 
 1. **Utwórz plik markdown** w `src/content/blog/`:
+
    ```
    src/content/blog/nowy-artykul.md
    ```
@@ -137,7 +142,7 @@ console.log(blogPosts);
 console.log(blogPosts.length);
 
 // Sprawdź konkretny artykuł
-console.log(getPostBySlug('slug-artykulu'));
+console.log(getPostBySlug("slug-artykulu"));
 ```
 
 ### Typowe problemy
@@ -145,6 +150,7 @@ console.log(getPostBySlug('slug-artykulu'));
 #### Problem: Artykuł nie pojawia się na liście
 
 **Rozwiązania:**
+
 1. Sprawdź czy nazwa pliku nie kończy się na `_wsad.md`
 2. Sprawdź czy nazwa nie zaczyna się od `_`
 3. Sprawdź console - może być błąd walidacji
@@ -176,7 +182,7 @@ To niemożliwe - walidacja zapobiega ładowaniu artykułów z brakującymi polam
 Główna tablica wszystkich artykułów, posortowana od najnowszych.
 
 ```javascript
-import { blogPosts } from './data/blogPosts';
+import { blogPosts } from "./data/blogPosts";
 
 console.log(blogPosts[0]); // Najnowszy artykuł
 ```
@@ -184,14 +190,15 @@ console.log(blogPosts[0]); // Najnowszy artykuł
 ### `getPostBySlug(slug)`
 
 **Parametry:**
+
 - `slug` (string) - Slug artykułu
 
 **Zwraca:** `Post | null`
 
 ```javascript
-import { getPostBySlug } from './data/blogPosts';
+import { getPostBySlug } from "./data/blogPosts";
 
-const post = getPostBySlug('automatyzacja-email');
+const post = getPostBySlug("automatyzacja-email");
 if (post) {
   console.log(post.title);
 }
@@ -200,28 +207,30 @@ if (post) {
 ### `getPostsByCategory(category)`
 
 **Parametry:**
+
 - `category` (string) - Nazwa kategorii
 
 **Zwraca:** `Array<Post>`
 
 ```javascript
-import { getPostsByCategory } from './data/blogPosts';
+import { getPostsByCategory } from "./data/blogPosts";
 
-const aiPosts = getPostsByCategory('AI');
+const aiPosts = getPostsByCategory("AI");
 console.log(`Artykułów AI: ${aiPosts.length}`);
 ```
 
 ### `getPostsByTag(tag)`
 
 **Parametry:**
+
 - `tag` (string) - Nazwa tagu
 
 **Zwraca:** `Array<Post>`
 
 ```javascript
-import { getPostsByTag } from './data/blogPosts';
+import { getPostsByTag } from "./data/blogPosts";
 
-const n8nPosts = getPostsByTag('n8n');
+const n8nPosts = getPostsByTag("n8n");
 ```
 
 ### `getAllCategories()`
@@ -231,7 +240,7 @@ const n8nPosts = getPostsByTag('n8n');
 Tablica unikalnych kategorii.
 
 ```javascript
-import { getAllCategories } from './data/blogPosts';
+import { getAllCategories } from "./data/blogPosts";
 
 const categories = getAllCategories();
 // ['Automatyzacja', 'No-Code', 'AI']
@@ -244,7 +253,7 @@ const categories = getAllCategories();
 Tablica unikalnych tagów.
 
 ```javascript
-import { getAllTags } from './data/blogPosts';
+import { getAllTags } from "./data/blogPosts";
 
 const tags = getAllTags();
 // ['AI', 'n8n', 'OpenAI', 'Make', ...]
@@ -263,9 +272,9 @@ interface Post {
   content: string;
   category: string;
   author: string;
-  date: string;        // YYYY-MM-DD format
-  readTime: string;    // "X min" format
-  image: string;       // "/images/og-*.webp"
+  date: string; // YYYY-MM-DD format
+  readTime: string; // "X min" format
+  image: string; // "/images/og-*.webp"
   tags: string[];
 }
 ```
@@ -279,11 +288,13 @@ interface Post {
 System używa **eager imports** (`eager: true`), co oznacza:
 
 ✅ **Zalety:**
+
 - Wszystkie artykuły ładują się przy starcie
 - Brak opóźnień przy nawigacji
 - Prostsza implementacja
 
 ⚠️ **Wady:**
+
 - Initial bundle zawiera wszystkie artykuły
 - Dla 100+ artykułów może być wolniejszy
 
@@ -322,17 +333,17 @@ Rozważ dodanie React Error Boundary wokół komponentów blogowych:
 ## 📝 Changelog
 
 ### v2.0 (2025-11-15)
+
 - ✅ Automatyczny import przez `import.meta.glob`
 - ✅ Walidacja front matter
 - ✅ Error handling
 - ✅ Filtrowanie plików wsadowych
 
 ### v1.0 (2025-11-10)
+
 - Manualne importy
 - Brak walidacji
 
 ---
 
 **Ostatnia aktualizacja:** 2025-11-15
-
-

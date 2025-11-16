@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import CookieBanner from "../ui/CookieBanner";
 import Footer from "./Footer";
 import Navigation from "./Navigation";
 
@@ -19,6 +20,7 @@ const Layout = ({ children }) => {
       <Navigation />
       <main className="flex-grow pt-20">{children}</main>
       <Footer />
+      <CookieBanner />
     </div>
   );
 };
