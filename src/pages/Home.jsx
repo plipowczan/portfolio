@@ -38,7 +38,7 @@ const Home = () => {
         <meta property="og:url" content={SITE_CONFIG.url} />
         <meta
           property="og:image"
-          content={`${SITE_CONFIG.url}/images/og-home.png`}
+          content={`${SITE_CONFIG.url}/images/og-home.webp`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -50,7 +50,7 @@ const Home = () => {
         <meta name="twitter:description" content={SITE_CONFIG.description} />
         <meta
           name="twitter:image"
-          content={`${SITE_CONFIG.url}/images/og-home.png`}
+          content={`${SITE_CONFIG.url}/images/og-home.webp`}
         />
       </Helmet>
 
