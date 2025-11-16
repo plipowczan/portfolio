@@ -12,7 +12,16 @@
     "lint": "echo 'Linting complete'",
     "format": "echo 'Formatting complete'",
     "blog:sitemap": "node scripts/update-sitemap.js",
-    "img:convert": "node scripts/convert-to-webp.js"
+    "img:convert": "node scripts/convert-to-webp.js",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:chrome": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project=\"Mobile Chrome\" --project=\"Mobile Safari\"",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.69.0",
@@ -28,6 +37,7 @@
     "react-router-dom": "^7.9.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "@types/react": "^19.2.4",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",

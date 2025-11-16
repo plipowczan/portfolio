@@ -28,6 +28,10 @@ docs/
 │   ├── BLOG_SYSTEM_SUMMARY.md    # Podsumowanie systemu blogowego
 │   └── BLOG_AI_OPTIONS.md        # Opcje AI dla generowania treści
 │
+├── testing/                      # 🧪 Testy E2E
+│   ├── README.md                 # Przegląd dokumentacji testów
+│   └── TESTING_QUICKSTART.md     # Szybki start z Playwright
+│
 └── maintenance/                  # 🛠️ Utrzymanie projektu
     ├── TODO.md                   # Lista zadań do zrobienia
     └── BUGFIX_SUMMARY.md         # Podsumowania napraw bugów
@@ -37,7 +41,7 @@ docs/
 
 ## 🚀 Szybki start
 
-### Nowy użytkownik? Zacznij tutaj:
+### Nowy użytkownik? Zacznij tutaj
 
 1. **[README.md](../README.md)** (katalog główny) - Przegląd projektu, instalacja
 2. **[QUICK_START.md](./QUICK_START.md)** - 5-minutowy quickstart
@@ -89,7 +93,9 @@ Wszystko o wdrażaniu aplikacji na różne platformy:
 Dokumentacja optymalizacji SEO i prerenderingu:
 
 #### PRERENDERING.md
+
 Kompletna dokumentacja techniczna prerenderingu:
+
 - Jak działa prerendering
 - Komendy (`npm run build:prerender`)
 - Konfiguracja Vercel
@@ -97,14 +103,18 @@ Kompletna dokumentacja techniczna prerenderingu:
 - Monitorowanie SEO
 
 #### PRERENDERING_SUMMARY.md
+
 Szybkie podsumowanie wdrożenia prerenderingu:
+
 - Co zostało zrobione
 - Jak używać
 - Rezultaty SEO
 - Następne kroki
 
 #### SEO_VERIFICATION.md
+
 Checklist weryfikacji po wdrożeniu:
+
 - View Page Source
 - Google Rich Results Test
 - Lighthouse SEO Score
@@ -113,6 +123,7 @@ Checklist weryfikacji po wdrożeniu:
 - Timeline oczekiwanych rezultatów
 
 **Kiedy używać:**
+
 - Po wdrożeniu - użyj SEO_VERIFICATION.md
 - Gdy chcesz zrozumieć prerendering - czytaj PRERENDERING.md
 - Szybki przegląd - PRERENDERING_SUMMARY.md
@@ -124,7 +135,9 @@ Checklist weryfikacji po wdrożeniu:
 Dokumentacja systemu blogowego i workflow:
 
 #### BLOG_WORKFLOW.md
+
 Pełny workflow tworzenia postów:
+
 - Jak stworzyć nowy post
 - Struktura plików markdown
 - Front matter (metadane)
@@ -133,22 +146,51 @@ Pełny workflow tworzenia postów:
 - Publikacja
 
 #### BLOG_SYSTEM_SUMMARY.md
+
 Podsumowanie architektury systemu blogowego:
+
 - Jak działa system
 - Struktura folderów
 - Parsowanie markdown
 - Routing
 
 #### BLOG_AI_OPTIONS.md
+
 Opcje użycia AI do generowania treści blogowych:
+
 - Claude, OpenAI, inne
 - Prompty
 - Best practices
 
 **Kiedy używać:**
+
 - Tworzysz nowy post - czytaj BLOG_WORKFLOW.md
 - Chcesz zrozumieć system - BLOG_SYSTEM_SUMMARY.md
 - Chcesz użyć AI - BLOG_AI_OPTIONS.md
+
+---
+
+### 🧪 Testing - Testy E2E
+
+Dokumentacja testów funkcjonalnych z Playwright:
+
+#### TESTING_QUICKSTART.md
+
+Szybki przewodnik (2 minuty):
+
+- Jak uruchomić testy
+- Podstawowe komendy
+- Debugging testów
+- Pisanie własnych testów
+- AI-Assisted Testing z MCP Browser
+
+**Kiedy używać:**
+
+- Chcesz szybko uruchomić testy
+- Uczysz się Playwright
+- Potrzebujesz referencji komend
+
+**Pełna dokumentacja:** `tests/README.md` (katalog główny projektu)
 
 ---
 
@@ -157,24 +199,30 @@ Opcje użycia AI do generowania treści blogowych:
 Zadania do zrobienia i historia napraw:
 
 #### TODO.md
+
 Lista zadań do zrobienia:
+
 - ✅ Ukończone (np. prerendering)
 - 🔄 W toku
 - ⏭️ Do zrobienia (np. structured data, internal linking)
 
 **Zawiera:**
+
 - Priorytetyzację zadań
 - Szacowany czas
 - Instrukcje implementacji
 - Linki do zasobów
 
 #### BUGFIX_SUMMARY.md
+
 Historia naprawionych bugów:
+
 - Co było nie tak
 - Jak naprawiono
 - Czego się nauczono
 
 **Kiedy używać:**
+
 - Planujesz dalszy rozwój - czytaj TODO.md
 - Chcesz zobaczyć historię - BUGFIX_SUMMARY.md
 
@@ -182,7 +230,7 @@ Historia naprawionych bugów:
 
 ## 🎯 Najczęściej używane dokumenty
 
-### Top 5 dokumentów:
+### Top 5 dokumentów
 
 1. **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** - Jak wdrożyć na Vercel
 2. **[seo/SEO_VERIFICATION.md](./seo/SEO_VERIFICATION.md)** - Jak sprawdzić SEO po deploy
@@ -216,6 +264,7 @@ PRD.md              maintenance/TODO.md
 - 🚀 Deployment/Wdrożenie
 - 🔍 SEO/Optymalizacja
 - ✍️ Blog/Content
+- 🧪 Testing/Testy
 - 🛠️ Maintenance/Narzędzia
 - 📝 Planning/Notatki
 - ✅ Ukończone
@@ -264,6 +313,7 @@ PRD.md              maintenance/TODO.md
 - Deployment → `deployment/DEPLOYMENT.md`
 - SEO → `seo/SEO_VERIFICATION.md` lub `seo/PRERENDERING.md`
 - Blog → `blog/BLOG_WORKFLOW.md`
+- Testy → `testing/TESTING_QUICKSTART.md`
 - Planowanie → `maintenance/TODO.md`
 - Przegląd → `PROJECT_SUMMARY.md`
 
@@ -276,4 +326,3 @@ Zacznij od **QUICK_START.md** - to 5-minutowy przewodnik po wszystkim.
 **Ostatnia aktualizacja:** 2025-11-16  
 **Wersja dokumentacji:** 2.0.0  
 **Struktura:** Zorganizowana tematycznie
-
