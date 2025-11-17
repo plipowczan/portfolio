@@ -19,7 +19,6 @@ Kompletny przewodnik krok po kroku dla publikacji nowych artykułów na blogu po
 
 🤖 **Agent AI automatycznie wykonuje za Ciebie:**
 
-- ✅ Tworzenie pliku wsadowego
 - ✅ Generowanie kompletnego artykułu z front matter
 - ✅ Przydzielanie ID i daty publikacji
 - ✅ Tworzenie excerpt i struktury SEO
@@ -83,7 +82,7 @@ Zbierz następujące informacje w dowolnym formacie (tekst, notatki, dokument):
 Otwórz Cursor i w czacie napisz:
 
 ```
-Na podstawie poniższych danych przygotuj plik wsadowy do posta na bloga według workflow @BLOG_WORKFLOW.md
+Na podstawie poniższych danych przygotuj artykuł na bloga według workflow @BLOG_WORKFLOW.md
 
 [Tu wklej swoje dane artykułu]
 ```
@@ -91,7 +90,7 @@ Na podstawie poniższych danych przygotuj plik wsadowy do posta na bloga według
 **Przykład:**
 
 ```
-Na podstawie poniższych danych przygotuj plik wsadowy do posta na bloga według workflow @BLOG_WORKFLOW.md
+Na podstawie poniższych danych przygotuj artykuł na bloga według workflow @BLOG_WORKFLOW.md
 
 Tytuł: Jak zautomatyzować CRM w 3 krokach
 Kategoria: Automatyzacja
@@ -105,15 +104,13 @@ Rozwiązanie: Automatyzacja z n8n...
 
 ### 1.3. Agent AI wykona automatycznie
 
-Agent utworzy:
+Agent utworzy pełny artykuł `src/content/blog/{slug}.md` z:
 
-1. ✅ Plik wsadowy `src/content/blog/{slug}_wsad.md`
-2. ✅ Pełny artykuł `src/content/blog/{slug}.md` z:
-   - Front matter (ID, slug, title, excerpt, itp.)
-   - Kompletną treścią w markdown
-   - Strukturą nagłówków H2/H3
-   - SEO keywords
-   - Call to Action
+- ✅ Front matter (ID, slug, title, excerpt, itp.)
+- ✅ Kompletną treścią w markdown
+- ✅ Strukturą nagłówków H2/H3
+- ✅ SEO keywords
+- ✅ Call to Action
 
 ### 1.4. Powiedz agentowi, jeśli chcesz poprawki
 
@@ -328,7 +325,6 @@ Po wdrożeniu sprawdź:
    [wklej dane artykułu]
 
 2. Agent utworzy:
-   ✅ Plik wsadowy (_wsad.md)
    ✅ Pełny artykuł (.md) z front matter
 
 3. Wygeneruj obrazek OG (1200x630px) → zapisz jako PNG
@@ -380,7 +376,7 @@ git push origin main
 
 **Rozwiązanie:**
 
-1. ✅ Sprawdź czy plik znajduje się w `src/content/blog/{slug}.md` (bez `_wsad.md`)
+1. ✅ Sprawdź czy plik znajduje się w `src/content/blog/{slug}.md`
 2. ✅ Sprawdź czy front matter jest poprawny (YAML):
    - Separatory `---` na początku i końcu
    - Wszystkie wymagane pola (id, slug, title, excerpt, category, author, date, readTime, image, tags)
@@ -445,9 +441,7 @@ portfolio/
 │   ├── content/
 │   │   └── blog/
 │   │       ├── artykul1.md              # Opublikowany artykuł
-│   │       ├── artykul1_wsad.md         # Plik wsadowy (opcjonalny)
-│   │       ├── artykul2.md
-│   │       └── artykul2_wsad.md
+│   │       └── artykul2.md
 │   ├── data/
 │   │   └── blogPosts.js                 # Automatyczne ładowanie
 │   └── pages/
@@ -476,9 +470,8 @@ node scripts/update-sitemap.js
 # Uruchom dev server
 npm run dev
 
-# Lista artykułów (bez plików wsadowych)
-ls src/content/blog/*.md | findstr /v "_wsad"  # Windows
-ls src/content/blog/*.md | grep -v "_wsad"     # Linux/Mac
+# Lista artykułów
+ls src/content/blog/*.md  # Windows/Linux/Mac
 
 # Lista obrazków OG
 ls public/images/og-*.webp
@@ -512,7 +505,7 @@ ls public/images/og-*.webp
 
 ## 🤖 Praca z AI Agent (Cursor)
 
-### Przydatne komendy dla agenta:
+### Przydatne komendy dla agenta
 
 ```
 "Wygeneruj post na bloga na podstawie danych: [dane]"
@@ -524,10 +517,9 @@ ls public/images/og-*.webp
 "Commituj zmiany z komunikatem: feat: dodaj artykuł [tytuł]"
 ```
 
-### Agent AI automatycznie wykona:
+### Agent AI automatycznie wykona
 
 - ✅ Parsowanie danych wejściowych
-- ✅ Tworzenie pliku wsadowego (opcjonalne)
 - ✅ Generowanie pełnego artykułu
 - ✅ Tworzenie front matter z ID i datą
 - ✅ Optymalizacja SEO (excerpt, keywords)
@@ -536,7 +528,7 @@ ls public/images/og-*.webp
 
 ---
 
-## 🎉 Gotowe!
+## 🎉 Gotowe
 
 Gratulacje! Masz teraz zautomatyzowany proces publikacji artykułów z pomocą AI Agent.
 

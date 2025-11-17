@@ -70,26 +70,26 @@ test.describe("Blog - Lista postów", () => {
     page,
   }) => {
     await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 1000);
 
-    const blogCards = page.locator(
-      'article, [class*="blog-card"], [class*="post"]'
-    );
+    const blogCards = page.locator('article[class*="blog-card"]');
     const firstCard = blogCards.first();
 
-    if ((await firstCard.count()) > 0) {
-      const firstLink = firstCard.locator("a").first();
-      const href = await firstLink.getAttribute("href");
+    await expect(firstCard).toBeVisible({ timeout: 15000 });
 
-      expect(href).toBeTruthy();
-      expect(href).toContain("/blog/");
+    const firstLink = firstCard.locator('a[href^="/blog/"]').first();
+    await expect(firstLink).toBeVisible({ timeout: 10000 });
 
-      // Kliknij w link
-      await firstLink.click();
+    const href = await firstLink.getAttribute("href");
+    expect(href).toBeTruthy();
+    expect(href).toContain("/blog/");
 
-      // Sprawdź czy URL się zmienił
-      await page.waitForURL(/\/blog\/.+/);
-      expect(page.url()).toContain("/blog/");
-    }
+    // Kliknij w link
+    await firstLink.click();
+
+    // Sprawdź czy URL się zmienił
+    await page.waitForURL(/\/blog\/.+/, { timeout: 15000 });
+    expect(page.url()).toContain("/blog/");
   });
 
   test("powinna mieć poprawne metatagi SEO dla strony bloga", async ({
@@ -145,141 +145,145 @@ test.describe("Blog - Pojedynczy post", () => {
     // Najpierw idź do listy postów
     await page.goto(testUrls.blog);
     await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 1000);
 
-    // Znajdź pierwszy post i kliknij
-    const firstPostLink = page
-      .locator('article a, [class*="blog-card"] a')
-      .first();
+    // Znajdź pierwszy post (link "Read More" w karcie bloga)
+    const firstPostLink = page.locator('article a[href^="/blog/"]').first();
 
-    if ((await firstPostLink.count()) > 0) {
-      await firstPostLink.click();
-      await page.waitForURL(/\/blog\/.+/);
-      await waitForAnimations(page, 1000);
+    // Czekaj na pojawienie się linka
+    await expect(firstPostLink).toBeVisible({ timeout: 15000 });
 
-      // Sprawdź czy artykuł się załadował
-      const article = page.locator("article, main");
-      await expect(article).toBeVisible();
+    await firstPostLink.click();
+    await page.waitForURL(/\/blog\/.+/, { timeout: 15000 });
+    await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 2000);
 
-      // Sprawdź tytuł artykułu
-      const title = page.locator("h1").first();
-      await expect(title).toBeVisible();
+    // Sprawdź czy artykuł się załadował
+    const article = page.locator("article");
+    await expect(article).toBeVisible({ timeout: 15000 });
 
-      const titleText = await title.textContent();
-      expect(titleText?.length).toBeGreaterThan(0);
-    }
+    // Sprawdź tytuł artykułu
+    const title = page.locator("article h1").first();
+    await expect(title).toBeVisible({ timeout: 15000 });
+
+    const titleText = await title.textContent();
+    expect(titleText?.length).toBeGreaterThan(0);
   });
 
   test("post powinien zawierać treść artykułu", async ({ page }) => {
     await page.goto(testUrls.blog);
     await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 500);
 
-    const firstPostLink = page
-      .locator('article a, [class*="blog-card"] a')
-      .first();
+    const firstPostLink = page.locator('article a[href^="/blog/"]').first();
 
-    if ((await firstPostLink.count()) > 0) {
-      await firstPostLink.click();
-      await page.waitForURL(/\/blog\/.+/);
-      await waitForAnimations(page, 1000);
+    await expect(firstPostLink).toBeVisible({ timeout: 10000 });
+    await firstPostLink.click();
+    await page.waitForURL(/\/blog\/.+/, { timeout: 10000 });
+    await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 1000);
 
-      // Sprawdź czy jest treść (paragrafy)
-      const paragraphs = page.locator("article p, main p");
-      const count = await paragraphs.count();
+    // Sprawdź czy jest treść (paragrafy)
+    const paragraphs = page.locator("article p");
+    const count = await paragraphs.count();
 
-      expect(count).toBeGreaterThan(0);
+    expect(count).toBeGreaterThan(0);
 
-      // Sprawdź długość treści
-      const firstParagraph = paragraphs.first();
-      const text = await firstParagraph.textContent();
-      expect(text?.length).toBeGreaterThan(10);
-    }
+    // Sprawdź długość treści
+    const firstParagraph = paragraphs.first();
+    const text = await firstParagraph.textContent();
+    expect(text?.length).toBeGreaterThan(10);
   });
 
   test("post powinien mieć unikalne metatagi SEO", async ({ page }) => {
     await page.goto(testUrls.blog);
     await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 500);
 
-    const firstPostLink = page
-      .locator('article a, [class*="blog-card"] a')
-      .first();
+    const firstPostLink = page.locator('article a[href^="/blog/"]').first();
 
-    if ((await firstPostLink.count()) > 0) {
-      await firstPostLink.click();
-      await page.waitForURL(/\/blog\/.+/);
-      await waitForAnimations(page, 1000);
+    await expect(firstPostLink).toBeVisible({ timeout: 10000 });
+    await firstPostLink.click();
+    await page.waitForURL(/\/blog\/.+/, { timeout: 10000 });
+    await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 1000);
 
-      const metaTags = await getSeoMetaTags(page);
+    const metaTags = await getSeoMetaTags(page);
 
-      // Sprawdź podstawowe tagi
-      expect(metaTags.title).toBeTruthy();
-      expect(metaTags.description).toBeTruthy();
-      expect(metaTags.description.length).toBeGreaterThan(50);
+    // Sprawdź podstawowe tagi
+    expect(metaTags.title).toBeTruthy();
+    expect(metaTags.description).toBeTruthy();
+    expect(metaTags.description.length).toBeGreaterThan(50);
 
-      // Sprawdź Open Graph dla postów
-      expect(metaTags.ogTitle).toBeTruthy();
-      expect(metaTags.ogDescription).toBeTruthy();
+    // Sprawdź Open Graph dla postów
+    expect(metaTags.ogTitle).toBeTruthy();
+    expect(metaTags.ogDescription).toBeTruthy();
 
-      // Sprawdź czy ma obraz OG (jeśli zdefiniowany)
-      if (metaTags.ogImage) {
-        expect(metaTags.ogImage).toContain("http");
-      }
+    // Sprawdź czy ma obraz OG (jeśli zdefiniowany)
+    if (metaTags.ogImage) {
+      expect(metaTags.ogImage).toContain("http");
     }
   });
 
   test('przycisk "Powrót do bloga" powinien działać', async ({ page }) => {
     await page.goto(testUrls.blog);
     await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 500);
 
-    const firstPostLink = page
-      .locator('article a, [class*="blog-card"] a')
-      .first();
+    const firstPostLink = page.locator('article a[href^="/blog/"]').first();
 
-    if ((await firstPostLink.count()) > 0) {
-      await firstPostLink.click();
-      await page.waitForURL(/\/blog\/.+/);
-      await waitForAnimations(page, 1000);
+    await expect(firstPostLink).toBeVisible({ timeout: 10000 });
+    await firstPostLink.click();
+    await page.waitForURL(/\/blog\/.+/, { timeout: 15000 });
+    await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 1500);
 
-      // Szukaj przycisku powrotu
-      const backButton = page
-        .locator('a:has-text("Powrót"), a:has-text("Wróć"), a[href="/blog"]')
-        .first();
+    // Scroll na górę strony (przycisk Back jest na początku)
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(500);
 
-      if ((await backButton.count()) > 0) {
-        await expect(backButton).toBeVisible();
-        await backButton.click();
+    // Szukaj przycisku powrotu - precyzyjniejszy selektor
+    const backButton = page.locator('a[href="/blog"]:has-text("Back")').first();
 
-        // Sprawdź czy wróciliśmy do listy
-        await page.waitForURL("**/blog");
-        expect(page.url()).toMatch(/\/blog\/?$/);
-      }
-    }
+    await expect(backButton).toBeVisible({ timeout: 15000 });
+    await expect(backButton).toBeInViewport({ timeout: 10000 });
+
+    await backButton.click();
+
+    // Sprawdź czy wróciliśmy do listy
+    await page.waitForURL("**/blog", { timeout: 15000 });
+    expect(page.url()).toMatch(/\/blog\/?$/);
   });
 
   test("obrazy w poście powinny mieć alt text", async ({ page }) => {
     await page.goto(testUrls.blog);
     await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 1000);
 
-    const firstPostLink = page
-      .locator('article a, [class*="blog-card"] a')
-      .first();
+    const firstPostLink = page.locator('article a[href^="/blog/"]').first();
 
-    if ((await firstPostLink.count()) > 0) {
-      await firstPostLink.click();
-      await page.waitForURL(/\/blog\/.+/);
-      await waitForAnimations(page, 1000);
+    await expect(firstPostLink).toBeVisible({ timeout: 15000 });
+    await firstPostLink.click();
+    await page.waitForURL(/\/blog\/.+/, { timeout: 15000 });
+    await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 2000);
 
-      // Sprawdź wszystkie obrazy
-      const images = page.locator("article img, main img");
-      const imageCount = await images.count();
+    // Sprawdź wszystkie obrazy - czekaj aż się załadują
+    const images = page.locator("article img");
 
-      if (imageCount > 0) {
-        for (let i = 0; i < imageCount; i++) {
-          const img = images.nth(i);
-          const alt = await img.getAttribute("alt");
+    // Czekaj na przynajmniej jeden obraz (jeśli istnieje)
+    const imageCount = await images.count();
 
-          // Każdy obraz powinien mieć atrybut alt (może być pusty dla dekoracji)
-          expect(alt).not.toBeNull();
-        }
+    if (imageCount > 0) {
+      // Czekaj aż pierwszy obraz będzie visible
+      await expect(images.first()).toBeVisible({ timeout: 15000 });
+
+      for (let i = 0; i < imageCount; i++) {
+        const img = images.nth(i);
+        const alt = await img.getAttribute("alt");
+
+        // Każdy obraz powinien mieć atrybut alt (może być pusty dla dekoracji)
+        expect(alt).not.toBeNull();
       }
     }
   });
@@ -287,30 +291,27 @@ test.describe("Blog - Pojedynczy post", () => {
   test("linki w poście powinny być dostępne", async ({ page }) => {
     await page.goto(testUrls.blog);
     await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 500);
 
-    const firstPostLink = page
-      .locator('article a, [class*="blog-card"] a')
-      .first();
+    const firstPostLink = page.locator('article a[href^="/blog/"]').first();
 
-    if ((await firstPostLink.count()) > 0) {
-      await firstPostLink.click();
-      await page.waitForURL(/\/blog\/.+/);
-      await waitForAnimations(page, 1000);
+    await expect(firstPostLink).toBeVisible({ timeout: 10000 });
+    await firstPostLink.click();
+    await page.waitForURL(/\/blog\/.+/, { timeout: 10000 });
+    await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 1000);
 
-      // Znajdź linki w treści
-      const contentLinks = page
-        .locator("article a, main a")
-        .filter({ hasNotText: /^$/ });
-      const linkCount = await contentLinks.count();
+    // Znajdź linki w treści
+    const contentLinks = page.locator("article a").filter({ hasNotText: /^$/ });
+    const linkCount = await contentLinks.count();
 
-      if (linkCount > 0) {
-        // Sprawdź pierwszy link
-        const firstLink = contentLinks.first();
-        await expect(firstLink).toBeVisible();
+    if (linkCount > 0) {
+      // Sprawdź pierwszy link
+      const firstLink = contentLinks.first();
+      await expect(firstLink).toBeVisible();
 
-        const href = await firstLink.getAttribute("href");
-        expect(href).toBeTruthy();
-      }
+      const href = await firstLink.getAttribute("href");
+      expect(href).toBeTruthy();
     }
   });
 
@@ -366,23 +367,22 @@ test.describe("Blog - Responsywność", () => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto(testUrls.blog);
     await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 500);
 
-    const firstPostLink = page
-      .locator('article a, [class*="blog-card"] a')
-      .first();
+    const firstPostLink = page.locator('article a[href^="/blog/"]').first();
 
-    if ((await firstPostLink.count()) > 0) {
-      await firstPostLink.click();
-      await page.waitForURL(/\/blog\/.+/);
-      await waitForAnimations(page, 1000);
+    await expect(firstPostLink).toBeVisible({ timeout: 10000 });
+    await firstPostLink.click();
+    await page.waitForURL(/\/blog\/.+/, { timeout: 10000 });
+    await page.waitForLoadState("networkidle");
+    await waitForAnimations(page, 1000);
 
-      // Sprawdź czy tytuł jest widoczny
-      const title = page.locator("h1").first();
-      await expect(title).toBeVisible();
+    // Sprawdź czy tytuł jest widoczny
+    const title = page.locator("article h1").first();
+    await expect(title).toBeVisible({ timeout: 10000 });
 
-      // Sprawdź czy treść nie wychodzi poza viewport
-      const article = page.locator("article, main");
-      await expect(article).toBeVisible();
-    }
+    // Sprawdź czy treść nie wychodzi poza viewport
+    const article = page.locator("article");
+    await expect(article).toBeVisible({ timeout: 10000 });
   });
 });

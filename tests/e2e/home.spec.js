@@ -49,11 +49,13 @@ test.describe("Strona główna - Home", () => {
   });
 
   test("powinna wyświetlić logo w nawigacji", async ({ page }) => {
-    const logo = page
-      .locator('nav img[alt*="logo"]')
-      .or(page.locator("nav svg"))
-      .first();
+    // Logo to link z ikoną </> i nazwą
+    const logo = page.locator('nav a[href="/"]').first();
     await expect(logo).toBeVisible();
+
+    // Sprawdź czy zawiera ikonę lub nazwę
+    const logoText = await logo.textContent();
+    expect(logoText).toBeTruthy();
   });
 
   test("sekcja Hero powinna mieć gradient text", async ({ page }) => {
@@ -67,48 +69,72 @@ test.describe("Strona główna - Home", () => {
   });
 
   test("przyciski CTA powinny być widoczne i klikalne", async ({ page }) => {
-    // Szukaj przycisków CTA w sekcji Hero
+    // Czekaj na załadowanie sekcji Hero
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2000);
+
+    // Szukaj przycisków CTA - "Zobacz Projekty" lub "Skontaktuj się"
     const ctaButtons = page
-      .locator('a[href*="#contact"], button:has-text("Kontakt")')
+      .locator(
+        'a[href="#projects"], a[href="#contact"], a:has-text("Zobacz Projekty"), a:has-text("Skontaktuj")'
+      )
       .first();
 
-    if ((await ctaButtons.count()) > 0) {
-      await expect(ctaButtons).toBeVisible();
-      await expect(ctaButtons).toBeEnabled();
-    }
+    await expect(ctaButtons).toBeVisible({ timeout: 15000 });
+
+    // Sprawdź czy przycisk jest w viewport (ważne na mobile)
+    await expect(ctaButtons).toBeInViewport({ timeout: 10000 });
   });
 
   test("linki nawigacyjne powinny działać poprawnie", async ({ page }) => {
-    // Sprawdź link do bloga
-    const blogLink = page
-      .locator('nav a[href="/blog"]')
-      .or(page.locator('a:has-text("Blog")'))
-      .first();
-    await expect(blogLink).toBeVisible();
+    // Na mobile może być potrzebne otwarcie menu
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(2000);
+
+    // Sprawdź czy jest mobile menu button (na małych ekranach)
+    const mobileMenuButton = page.locator("nav button").first();
+
+    // Spróbuj otworzyć mobile menu jeśli istnieje
+    try {
+      if (await mobileMenuButton.isVisible({ timeout: 2000 })) {
+        console.log("Mobile menu detected, opening...");
+        await mobileMenuButton.click();
+        await page.waitForTimeout(1000);
+      }
+    } catch (e) {
+      console.log("No mobile menu, continuing...");
+    }
+
+    // Sprawdź link do bloga w nawigacji
+    const blogLink = page.locator('nav a[href="/blog"]').first();
+    await expect(blogLink).toBeVisible({ timeout: 20000 });
 
     // Kliknij i sprawdź nawigację
     await blogLink.click();
-    await page.waitForURL("**/blog");
+    await page.waitForURL("**/blog", { timeout: 20000 });
     await expect(page).toHaveURL(/\/blog/);
 
     // Wróć do strony głównej
     await page.goto(testUrls.home);
+    await page.waitForLoadState("networkidle");
   });
 
   test("scroll do sekcji powinien działać płynnie", async ({ page }) => {
+    // Czekaj na pełne załadowanie strony
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(1000);
+
     // Sprawdź czy możemy scrollować do sekcji About
-    const aboutSection = page
-      .locator("#about")
-      .or(page.locator("section").nth(1))
-      .first();
+    const aboutSection = page.locator("#about, section[id*='about']").first();
 
-    if ((await aboutSection.count()) > 0) {
-      await scrollToElement(page, "#about");
-      await waitForAnimations(page, 500);
+    await expect(aboutSection).toBeAttached({ timeout: 10000 });
 
-      // Sprawdź czy sekcja jest widoczna
-      await expect(aboutSection).toBeInViewport();
-    }
+    // Scroll do sekcji
+    await scrollToElement(page, "#about");
+    await waitForAnimations(page, 500);
+
+    // Sprawdź czy sekcja jest widoczna
+    await expect(aboutSection).toBeInViewport();
   });
 
   test("sekcja Projects powinna wyświetlać karty projektów", async ({

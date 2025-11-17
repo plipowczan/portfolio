@@ -186,26 +186,105 @@ export async function testKeyboardNavigation(
 }
 
 /**
- * Pobiera metatagi SEO
+ * Pobiera metatagi SEO z retry pattern
  * @param {import('@playwright/test').Page} page
  */
 export async function getSeoMetaTags(page) {
-  return await page.evaluate(() => {
-    const getMetaContent = (name) => {
-      const meta =
-        document.querySelector(`meta[name="${name}"]`) ||
-        document.querySelector(`meta[property="${name}"]`);
-      return meta?.getAttribute("content") || null;
-    };
+  // Czekaj na kompletne załadowanie strony
+  await page.waitForLoadState("networkidle");
 
-    return {
-      title: document.title,
-      description: getMetaContent("description"),
-      ogTitle: getMetaContent("og:title"),
-      ogDescription: getMetaContent("og:description"),
-      ogImage: getMetaContent("og:image"),
-      twitterCard: getMetaContent("twitter:card"),
-      canonical: document.querySelector('link[rel="canonical"]')?.href || null,
-    };
-  });
+  // Strategia retry - czekaj aż React Helmet ustawi wszystkie tagi
+  let retries = 0;
+  const maxRetries = 5;
+
+  // Inicjalizuj z domyślnymi wartościami - zapobiega crashom
+  let tags = {
+    title: null,
+    description: null,
+    ogTitle: null,
+    ogDescription: null,
+    ogImage: null,
+    twitterCard: null,
+    canonical: null,
+  };
+
+  while (retries < maxRetries) {
+    const currentAttempt = retries + 1;
+    console.log(
+      `🔍 Attempting to load meta tags (${currentAttempt}/${maxRetries})...`
+    );
+
+    // Czekaj na title
+    await page
+      .waitForFunction(
+        () => {
+          const title = document.title;
+          const hasDescription = document.querySelector(
+            'meta[name="description"]'
+          );
+          return (
+            title &&
+            title.length > 0 &&
+            !title.includes("Vite") &&
+            hasDescription
+          );
+        },
+        { timeout: 20000 }
+      )
+      .catch(() => {
+        // waitForFunction timeout - kontynuuj do sprawdzenia tagów
+      });
+
+    // Dodatkowy czas
+    await page.waitForTimeout(2000);
+
+    // Pobierz tagi
+    tags = await page.evaluate(() => {
+      const getMetaContent = (name) => {
+        const meta =
+          document.querySelector(`meta[name="${name}"]`) ||
+          document.querySelector(`meta[property="${name}"]`);
+        return meta?.getAttribute("content") || null;
+      };
+
+      return {
+        title: document.title,
+        description: getMetaContent("description"),
+        ogTitle: getMetaContent("og:title"),
+        ogDescription: getMetaContent("og:description"),
+        ogImage: getMetaContent("og:image"),
+        twitterCard: getMetaContent("twitter:card"),
+        canonical:
+          document.querySelector('link[rel="canonical"]')?.href || null,
+      };
+    });
+
+    // Sprawdź czy mamy przynajmniej title i description
+    if (tags.title && tags.description) {
+      console.log(
+        `✅ Meta tags loaded successfully on attempt ${currentAttempt}/${maxRetries}`
+      );
+      break;
+    }
+
+    // Jeśli nie udało się i to nie ostatnia próba
+    if (currentAttempt < maxRetries) {
+      console.log(
+        `⚠️ Attempt ${currentAttempt}/${maxRetries} failed - missing tags, retrying...`
+      );
+      await page.waitForTimeout(2000);
+    }
+
+    retries++;
+  }
+
+  // Jeśli po wszystkich retry wciąż nie ma tagów, zaloguj ostrzeżenie
+  if (!tags.title || !tags.description) {
+    console.warn(
+      `⚠️ WARNING: Failed to load meta tags after ${maxRetries} retries`
+    );
+    console.warn(`Current tags:`, tags);
+  }
+
+  return tags;
 }
