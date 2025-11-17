@@ -2,6 +2,11 @@
 
 Modern, responsive portfolio website built with React, Vite, Tailwind CSS, and Framer Motion. Features a distinctive green/teal color scheme with animated UI elements and blog functionality.
 
+[![Playwright Tests](https://github.com/plipowczan/portfolio/actions/workflows/playwright.yml/badge.svg)](https://github.com/plipowczan/portfolio/actions/workflows/playwright.yml)
+![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.19-brightgreen)
+![React Version](https://img.shields.io/badge/react-19.2.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 ![Portfolio Preview](./preview.png)
 
 ## 🚀 Features
