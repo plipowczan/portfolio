@@ -38,7 +38,7 @@ const About = () => {
               <p className="text-gray-300 leading-relaxed">
                 Moja droga w IT rozpoczęła się w 2008 roku od programowania w
                 .NET i SQL Server. Przez lata rozwijałem systemy medyczne, byłem
-                CTO w startucie ShareFund, zarządzałem projektami IT. Dziś łączę
+                CTO w startupie ShareFund, zarządzałem projektami IT. Dziś łączę
                 doświadczenie programistyczne z nowoczesnymi narzędziami
                 automatyzacji, tworząc systemy które rzeczywiście rozwiązują
                 problemy biznesowe.
