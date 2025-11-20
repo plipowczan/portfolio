@@ -54,7 +54,6 @@ const blogPosts = getBlogPosts();
 // Konfiguracja
 const BASE_URL = "http://localhost:4173"; // Vite preview port
 const DIST_DIR = join(__dirname, "..", "dist");
-const RENDER_TIMEOUT = 2000; // Czas na renderowanie (ms)
 
 // Wszystkie strony do pre-renderowania
 const staticRoutes = [
@@ -86,8 +85,20 @@ async function prerenderPage(browser, route) {
       timeout: 30000,
     });
 
+    // Czekaj na React Helmet - sprawdź czy metatagi są w DOM
+    await page.waitForFunction(
+      () => {
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        const description = document.querySelector('meta[name="description"]');
+        return ogTitle && description;
+      },
+      { timeout: 10000 }
+    ).catch(() => {
+      console.warn(`  ⚠️  Timeout oczekiwania na React Helmet dla ${route}`);
+    });
+
     // Dodatkowy czas na animacje i lazy loading
-    await new Promise((resolve) => setTimeout(resolve, RENDER_TIMEOUT));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Pobierz pełny HTML po renderowaniu
     const html = await page.content();

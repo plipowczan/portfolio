@@ -56,10 +56,20 @@ function startPreviewServer() {
 
     let output = "";
 
+    // Timeout jeśli server nie uruchomi się w 30 sekund
+    const timeoutId = setTimeout(() => {
+      if (!output.includes("Local:") && !output.includes("4173")) {
+        reject(new Error("Preview server nie uruchomił się w czasie"));
+      }
+    }, 30000);
+
     server.stdout.on("data", (data) => {
-      output += data.toString();
+      const chunk = data.toString();
+      output += chunk;
+      console.log(`[Preview Output Raw]: ${JSON.stringify(chunk)}`); // Debug raw
       // Czekaj aż server będzie gotowy
-      if (output.includes("Local:") || output.includes("localhost:4173")) {
+      if (output.includes("Local:") || output.includes("4173")) {
+        clearTimeout(timeoutId);
         console.log("✅ Preview server gotowy!\n");
         resolve(server);
       }
@@ -70,14 +80,8 @@ function startPreviewServer() {
     });
 
     server.on("error", (error) => {
+      clearTimeout(timeoutId);
       reject(error);
-    });
-
-    // Timeout jeśli server nie uruchomi się w 30 sekund
-    setTimeout(30000).then(() => {
-      if (!output.includes("Local:")) {
-        reject(new Error("Preview server nie uruchomił się w czasie"));
-      }
     });
   });
 }

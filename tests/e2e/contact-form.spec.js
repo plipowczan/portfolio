@@ -8,6 +8,15 @@ import {
 
 test.describe("Formularz kontaktowy", () => {
   test.beforeEach(async ({ page }) => {
+    // Mockowanie requestu do Formspree
+    await page.route("https://formspree.io/f/xblqpqab", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true }),
+      });
+    });
+
     await page.goto(testUrls.home);
     await waitForAnimations(page, 1000);
 

@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:prerender": "node scripts/build-with-prerender.mjs",
-    "preview": "vite preview",
+    "preview": "vite preview --port 4173 --strictPort",
     "prerender:run": "node scripts/prerender.mjs",
     "lint": "echo 'Linting complete'",
     "format": "echo 'Formatting complete'",

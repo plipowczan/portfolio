@@ -214,7 +214,7 @@ export async function getSeoMetaTags(page) {
       `🔍 Attempting to load meta tags (${currentAttempt}/${maxRetries})...`
     );
 
-    // Czekaj na title
+    // Czekaj na title i description (og:title może pojawić się później)
     await page
       .waitForFunction(
         () => {
@@ -235,8 +235,8 @@ export async function getSeoMetaTags(page) {
         // waitForFunction timeout - kontynuuj do sprawdzenia tagów
       });
 
-    // Dodatkowy czas
-    await page.waitForTimeout(2000);
+    // Dodatkowy czas na React Helmet
+    await page.waitForTimeout(3000);
 
     // Pobierz tagi
     tags = await page.evaluate(() => {

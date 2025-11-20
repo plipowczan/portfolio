@@ -56,7 +56,7 @@ Modern, responsive portfolio website built with React, Vite, Tailwind CSS, and F
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/pawellipowczan/portfolio.git
+git clone https://github.com/plipowczan/portfolio.git
 cd portfolio
 ```
 
@@ -268,9 +268,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📧 Contact
 
-Pawel Lipowczan - [contact@pawellipowczan.com](mailto:contact@pawellipowczan.com)
+Pawel Lipowczan - [pawel@lipowczan.pl](mailto:pawel@lipowczan.pl)
 
-Project Link: [https://github.com/pawellipowczan/portfolio](https://github.com/pawellipowczan/portfolio)
+Project Link: [https://github.com/plipowczan/portfolio](https://github.com/plipowczan/portfolio)
 
 ## 🙏 Acknowledgments
 

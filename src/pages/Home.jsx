@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
+import StructuredData from "../components/seo/StructuredData";
 import About from "../components/sections/About";
 import Contact from "../components/sections/Contact";
 import Hero from "../components/sections/Hero";
@@ -24,8 +26,27 @@ const Home = () => {
     }
   }, [location]);
 
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Pawel Lipowczan",
+    jobTitle: "Software Architect & Technology Advisor",
+    url: "https://pawel.lipowczan.pl",
+    sameAs: [
+      "https://github.com/plipowczan",
+      "https://linkedin.com/in/pawellipowczan",
+    ],
+    knowsAbout: ["AI", "Automation", "No-Code", "Software Architecture"],
+    email: "pawel@lipowczan.pl",
+  };
+
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <Helmet>
         <title>
           {SITE_CONFIG.name} | {SITE_CONFIG.title}
@@ -53,13 +74,13 @@ const Home = () => {
           content={`${SITE_CONFIG.url}/images/og-home.webp`}
         />
       </Helmet>
-
+      <StructuredData schema={personSchema} />
       <Hero />
       <About />
       <Projects />
       <Skills />
       <Contact />
-    </>
+    </motion.div>
   );
 };
 

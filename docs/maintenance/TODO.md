@@ -36,55 +36,23 @@
 
 **Czas wdrożenia:** ~1h (jak planowano)
 
-#### 2. Structured Data (Schema.org JSON-LD)
+#### 2. ✅ Structured Data (Schema.org JSON-LD) - UKOŃCZONE
 
-**Dlaczego:** Google używa structured data do Rich Snippets w wynikach wyszukiwania.
+**Status:** ✅ **WDROŻONE** (2025-11-20)
 
-**Do dodania:**
+**Rozwiązanie:** Komponent `StructuredData` wstrzykujący JSON-LD przez `react-helmet-async`
 
-```javascript
-// Person Schema dla strony głównej
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Pawel Lipowczan",
-  "jobTitle": "Software Architect & Technology Advisor",
-  "url": "https://pawel.lipowczan.pl",
-  "sameAs": [
-    "https://github.com/pawellipowczan",
-    "https://linkedin.com/in/pawellipowczan"
-  ],
-  "knowsAbout": ["AI", "Automation", "No-Code", "Software Architecture"],
-  "email": "pawel@lipowczan.pl"
-}
+- ✅ Dodano `Person` schema dla strony głównej
+- ✅ Dodano `BlogPosting` schema dla postów blogowych
+- ✅ Zweryfikowano poprawność generowania tagów w buildzie prerenderowanym
 
-// BlogPosting Schema dla każdego posta
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Tytuł posta",
-  "author": {
-    "@type": "Person",
-    "name": "Pawel Lipowczan"
-  },
-  "datePublished": "2025-11-10",
-  "image": "URL_do_obrazka",
-  "articleBody": "Treść..."
-}
-
-// BreadcrumbList Schema
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [...]
-}
-```
+**Rezultat:**
+- Google otrzymuje pełne dane strukturalne o autorze i artykułach
+- Zwiększona szansa na Rich Snippets (gwiazdki, zdjęcia autora, data publikacji w wynikach wyszukiwania)
 
 **Implementacja:**
-
-- Stwórz hook `useStructuredData.js`
-- Dodaj do Helmet w odpowiednich komponentach
-- Sprawdź w Google Rich Results Test
+- Stworzono komponent `src/components/seo/StructuredData.jsx`
+- Zintegrowano z `Home.jsx` i `BlogPostPage.jsx`
 
 #### 3. Napraw strukturę nagłówków (H1)
 

@@ -4,6 +4,7 @@ import { FaArrowLeft, FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
 import { blogPosts } from "../data/blogPosts";
+import StructuredData from "../components/seo/StructuredData";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const BlogPostPage = () => {
@@ -40,6 +41,20 @@ const BlogPostPage = () => {
     );
   }
 
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    datePublished: post.date,
+    image: `${SITE_CONFIG.url}${post.image}`,
+    articleBody: post.excerpt, // Using excerpt as body summary for now
+    url: `${SITE_CONFIG.url}/blog/${post.slug}`,
+  };
+
   return (
     <>
       <Helmet>
@@ -68,6 +83,7 @@ const BlogPostPage = () => {
           content={`${SITE_CONFIG.url}${post.image}`}
         />
       </Helmet>
+      <StructuredData schema={blogPostingSchema} />
 
       <article className="min-h-screen py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
