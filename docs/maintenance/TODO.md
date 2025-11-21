@@ -54,7 +54,7 @@
 - Stworzono komponent `src/components/seo/StructuredData.jsx`
 - Zintegrowano z `Home.jsx` i `BlogPostPage.jsx`
 
-#### 3. Napraw strukturę nagłówków (H1)
+#### 3. ✅ Napraw strukturę nagłówków (H1) - UKOŃCZONE
 
 **Problem:** W Navigation.jsx jest H1, a powinien być tylko jeden na stronę.
 
