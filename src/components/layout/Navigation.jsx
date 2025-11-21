@@ -76,7 +76,7 @@ const Navigation = () => {
               </span>
             </div>
             <div className="hidden sm:block">
-              <p className="text-xl font-bold text-white">Pawel Lipowczan</p>
+              <div className="text-xl font-bold text-white">Pawel Lipowczan</div>
               <p className="text-xs text-primary-500 uppercase tracking-wider">
                 Twój Przewodnik Technologiczny
               </p>
