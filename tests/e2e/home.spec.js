@@ -121,9 +121,9 @@ test.describe("Strona główna - Home", () => {
     await page.waitForTimeout(2000);
 
     // Sprawdź czy jest mobile menu button (na małych ekranach)
-    const mobileMenuButton = page.locator("nav button").first();
+    const mobileMenuButton = page.locator('button[aria-label="Toggle menu"]').first();
 
-    // Spróbuj otworzyć mobile menu jeśli istnieje
+    // Spróbuj otworzyć mobile menu jeśli istnieje i jest widoczne
     try {
       if (await mobileMenuButton.isVisible({ timeout: 2000 })) {
         console.log("Mobile menu detected, opening...");
@@ -134,8 +134,16 @@ test.describe("Strona główna - Home", () => {
       console.log("No mobile menu, continuing...");
     }
 
-    // Sprawdź link do bloga w nawigacji
-    const blogLink = page.locator('nav a[href="/blog"]').first();
+    // Obsługa cookie banner - jeśli zasłania, zaakceptuj
+    const cookieButton = page.locator('button:has-text("Akceptuję"), button:has-text("Zaakceptuj")').first();
+    if (await cookieButton.isVisible({ timeout: 2000 })) {
+      console.log("Cookie banner detected, accepting...");
+      await cookieButton.click();
+      await page.waitForTimeout(500);
+    }
+
+    // Sprawdź link do bloga w nawigacji (szukaj tylko widocznego)
+    const blogLink = page.locator('nav a[href="/blog"] >> visible=true').first();
     await expect(blogLink).toBeVisible({ timeout: 20000 });
 
     // Kliknij i sprawdź nawigację
