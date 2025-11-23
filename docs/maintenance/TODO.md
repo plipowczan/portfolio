@@ -14,6 +14,50 @@
 
 ### Wysoki priorytet
 
+#### 0. ✅ Lighthouse Performance Audit - COMPLETED (2025-11-23)
+
+**Status:** ✅ **DONE**
+
+**Wyniki Audytu Lighthouse:**
+
+📊 **Metryki:**
+- **First Contentful Paint (FCP):** 5.3s (❌ **słabo** - cel: <1.8s)
+- **Largest Contentful Paint (LCP):** 5.8s (❌ **słabo** - cel: <2.5s)  
+- **Total Blocking Time (TBT):** 78ms (✅ **doskonale** - cel: <200ms)
+- **Cumulative Layout Shift (CLS):** 0 (✅ **perfekcyjnie** - cel: <0.1)
+- **Time to Interactive (TTI):** 5.8s (⚠️ **wymaga poprawy**)
+- **Speed Index:** 5.5s (⚠️ **średnio**)
+
+⚠️ **Błędy znalezione:**
+- 404 Error: `/_vercel/insights/script.js` (nie krytyczne, ale do naprawienia)
+
+📦 **Bundle Analysis:**
+- Total Bundle: ~231 KB (JS)
+- Main Thread Work: 2.3s (wymaga optymalizacji)
+- JavaScript Execution: 0.7s (akceptowalne)
+
+🎯 **Kluczowe problemy:**
+1. **Długi czas ładowania (FCP/LCP > 5s)** - GŁÓWNY PROBLEM
+   - Font loading blocking render
+   - Bundle size może być zoptymalizowany
+   - Brak code-splitting
+
+2. **Main-thread work (2.3s)** - do poprawy
+   - Script evaluation: 677ms
+   - Style & Layout: 628ms
+
+✅ **Co działa świetnie:**
+- TBT (78ms) - doskonałe
+- CLS (0) - perfekcyjne (brak layout shifts!)
+- No render-blocking resources detected
+- Good server response time (10ms)
+
+**Następne kroki:** Zobacz sekcję 12 (Performance optimization) poniżej
+
+---
+
+### Wysoki priorytet
+
 #### 1. ✅ Pre-rendering / SSR dla lepszego crawlingu - UKOŃCZONE
 
 **Status:** ✅ **WDROŻONE** (2025-11-16)
@@ -121,24 +165,6 @@ Obecnie sitemap jest statyczny. Rozważ:
 - [ ] Favicon w różnych rozmiarach (16x16, 32x32, 180x180, 192x192, 512x512)
 
 #### 11. Analytics & Search Console
-
-- [ ] Dodaj Google Analytics 4
-- [ ] Dodaj Google Search Console
-- [ ] Dodaj Microsoft Clarity (heatmaps)
-- [ ] Monitor pozycji w Google
-
-#### 12. Performance optimization
-
-- [ ] Code splitting (lazy loading stron)
-- [ ] Minimize bundle size (obecnie 563 KB)
-- [ ] Use dynamic imports
-- [ ] Cache strategy (Service Worker)
-
-#### 13. Accessibility (A11y)
-
-- [ ] ARIA labels na wszystkich interaktywnych elementach
-- [ ] Keyboard navigation testing
-- [ ] Screen reader testing
 - [ ] Color contrast check (WCAG AA)
 - [ ] Skip to content link
 
