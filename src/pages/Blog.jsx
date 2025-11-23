@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import StructuredData from "../components/seo/StructuredData";
+import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { blogPosts } from "../data/blogPosts";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
@@ -105,6 +107,26 @@ const Blog = () => {
           content={`${SITE_CONFIG.url}/images/og-blog.webp`}
         />
       </Helmet>
+      <StructuredData
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_CONFIG.url}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Blog",
+              item: `${SITE_CONFIG.url}/blog`,
+            },
+          ],
+        }}
+      />
 
       <div className="min-h-screen py-24 md:py-32">
         <div className="section-container">
@@ -116,6 +138,14 @@ const Blog = () => {
           >
             {/* Page Header */}
             <motion.div variants={FADE_IN_UP} className="text-center space-y-4">
+              <div className="flex justify-center">
+                <Breadcrumbs
+                  items={[
+                    { label: "Home", path: "/" },
+                    { label: "Blog", path: "/blog" },
+                  ]}
+                />
+              </div>
               <h1 className="text-5xl md:text-6xl font-bold gradient-text">
                 Tech Blog
               </h1>

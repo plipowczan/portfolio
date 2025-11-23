@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { FaArrowLeft, FaCalendar, FaClock, FaTag } from "react-icons/fa";
+import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
-import { blogPosts } from "../data/blogPosts";
 import StructuredData from "../components/seo/StructuredData";
+import Breadcrumbs from "../components/ui/Breadcrumbs";
+import { blogPosts } from "../data/blogPosts";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const BlogPostPage = () => {
@@ -84,6 +85,32 @@ const BlogPostPage = () => {
         />
       </Helmet>
       <StructuredData schema={blogPostingSchema} />
+      <StructuredData
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_CONFIG.url}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Blog",
+              item: `${SITE_CONFIG.url}/blog`,
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: post.title,
+              item: `${SITE_CONFIG.url}/blog/${post.slug}`,
+            },
+          ],
+        }}
+      />
 
       <article className="min-h-screen py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,14 +120,14 @@ const BlogPostPage = () => {
             variants={FADE_IN_UP}
             className="space-y-8"
           >
-            {/* Back Link */}
-            <Link
-              to="/blog"
-              className="inline-flex items-center space-x-2 text-primary-500 hover:text-primary-400 transition-colors"
-            >
-              <FaArrowLeft />
-              <span>Back to Blog</span>
-            </Link>
+            {/* Breadcrumbs */}
+            <Breadcrumbs
+              items={[
+                { label: "Home", path: "/" },
+                { label: "Blog", path: "/blog" },
+                { label: post.title, path: null },
+              ]}
+            />
 
             {/* Category Badge */}
             <div>

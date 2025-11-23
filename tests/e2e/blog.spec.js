@@ -265,12 +265,11 @@ test.describe("Blog - Pojedynczy post", () => {
     await page.waitForLoadState("networkidle");
     await waitForAnimations(page, 1500);
 
-    // Scroll na górę strony (przycisk Back jest na początku)
-    await page.evaluate(() => window.scrollTo(0, 0));
-    await page.waitForTimeout(500);
+    // Szukaj przycisku powrotu
+    const backButton = page.locator('a[href="/blog"]:has-text("View All Posts")').first();
 
-    // Szukaj przycisku powrotu - precyzyjniejszy selektor
-    const backButton = page.locator('a[href="/blog"]:has-text("Back")').first();
+    // Scroll do elementu aby upewnić się że jest w viewport
+    await backButton.scrollIntoViewIfNeeded();
 
     await expect(backButton).toBeVisible({ timeout: 15000 });
     await expect(backButton).toBeInViewport({ timeout: 10000 });

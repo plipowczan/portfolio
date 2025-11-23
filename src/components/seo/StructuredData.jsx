@@ -1,11 +1,18 @@
-import { Helmet } from "react-helmet-async";
+import { useEffect } from "react";
 
 const StructuredData = ({ schema }) => {
-  return (
-    <Helmet>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
-    </Helmet>
-  );
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(schema);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [schema]);
+
+  return null;
 };
 
 export default StructuredData;

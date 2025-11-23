@@ -68,24 +68,6 @@
 <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
   <span className="gradient-text glow-text">PAWEL</span>
   <br />
-  <span className="gradient-text-alt glow-text">LIPOWCZAN</span>
-</h1>
-```
-
-### Średni priorytet
-
-#### 4. Breadcrumbs (okruszki)
-
-Dodaj breadcrumbs do:
-
-- Strona bloga: `Home > Blog`
-- Post blogowy: `Home > Blog > Tytuł posta`
-
-**Korzyści:**
-
-- Lepsza nawigacja dla użytkownika
-- Rich Snippets w Google
-- Lepszy ranking SEO
 
 #### 5. Internal linking (linkowanie wewnętrzne)
 
