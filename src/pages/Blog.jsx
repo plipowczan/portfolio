@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
 import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { blogPosts } from "../data/blogPosts";
@@ -76,37 +76,12 @@ const BlogCard = ({ post }) => {
 const Blog = () => {
   return (
     <>
-      <Helmet>
-        <title>Blog | {SITE_CONFIG.name}</title>
-        <meta
-          name="description"
-          content="Technical articles and insights about web development, React, and modern technologies."
-        />
-        <link rel="canonical" href={`${SITE_CONFIG.url}/blog`} />
-        <meta property="og:title" content={`Blog - ${SITE_CONFIG.name}`} />
-        <meta
-          property="og:description"
-          content="Technical articles and insights about web development"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${SITE_CONFIG.url}/blog`} />
-        <meta
-          property="og:image"
-          content={`${SITE_CONFIG.url}/images/og-blog.webp`}
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`Blog - ${SITE_CONFIG.name}`} />
-        <meta
-          name="twitter:description"
-          content="Technical articles and insights about web development, React, and modern technologies."
-        />
-        <meta
-          name="twitter:image"
-          content={`${SITE_CONFIG.url}/images/og-blog.webp`}
-        />
-      </Helmet>
+      <SEO 
+        title="Blog"
+        description="Technical articles and insights about web development, React, and modern technologies."
+        path="/blog"
+        image="/images/og-blog.webp"
+      />
       <StructuredData
         schema={{
           "@context": "https://schema.org",

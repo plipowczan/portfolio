@@ -1,18 +1,15 @@
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const CookiePolicy = () => {
   return (
     <>
-      <Helmet>
-        <title>Cookie Policy | {SITE_CONFIG.name}</title>
-        <meta
-          name="description"
-          content="Cookie Policy and usage information"
-        />
-        <link rel="canonical" href={`${SITE_CONFIG.url}/cookie-policy`} />
-      </Helmet>
+      <SEO 
+        title="Cookie Policy"
+        description="Cookie Policy and usage information"
+        path="/cookie-policy"
+      />
 
       <div className="min-h-screen py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

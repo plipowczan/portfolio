@@ -11,7 +11,7 @@
  */
 
 import { spawn } from "child_process";
-import { setTimeout } from "timers/promises";
+import { setTimeout as sleep } from "timers/promises";
 
 console.log("🏗️  Rozpoczynam build z prerenderingiem...\n");
 
@@ -93,20 +93,24 @@ async function main() {
   let previewServer = null;
 
   try {
+    // Krok 0: Generowanie sitemap
+    console.log("📦 Krok 1/4: Generowanie sitemap.xml...\n");
+    await runCommand("node", ["scripts/update-sitemap.js"]);
+
     // Krok 1: Build aplikacji
-    console.log("📦 Krok 1/3: Budowanie aplikacji...\n");
+    console.log("📦 Krok 2/4: Budowanie aplikacji...\n");
     await runCommand("npm", ["run", "build"]);
     console.log("\n✅ Build zakończony!\n");
 
     // Krok 2: Uruchom preview server
-    console.log("📦 Krok 2/3: Uruchamianie preview server...\n");
+    console.log("📦 Krok 3/4: Uruchamianie preview server...\n");
     previewServer = await startPreviewServer();
 
     // Dodatkowy czas na stabilizację servera
-    await setTimeout(2000);
+    await sleep(2000);
 
     // Krok 3: Prerendering
-    console.log("📦 Krok 3/3: Prerendering stron...\n");
+    console.log("📦 Krok 4/4: Prerendering stron...\n");
     await runCommand("node", ["scripts/prerender.mjs"]);
 
     console.log("\n🎉 SUKCES! Build z prerenderingiem zakończony.\n");
@@ -118,7 +122,11 @@ async function main() {
     // Zawsze zamknij preview server
     if (previewServer) {
       console.log("🛑 Zamykam preview server...\n");
-      previewServer.kill();
+      try {
+        process.kill(previewServer.pid);
+      } catch (e) {
+        // Ignoruj błędy jeśli proces już nie istnieje
+      }
     }
   }
 }

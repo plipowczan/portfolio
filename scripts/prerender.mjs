@@ -49,6 +49,8 @@ function getBlogPosts() {
   return posts;
 }
 
+import { projects } from "../src/data/projects.js";
+
 const blogPosts = getBlogPosts();
 
 // Konfiguracja
@@ -65,7 +67,8 @@ const staticRoutes = [
 ];
 
 const blogRoutes = blogPosts.map((post) => `/blog/${post.slug}`);
-const allRoutes = [...staticRoutes, ...blogRoutes];
+const projectRoutes = projects.map((project) => `/projects/${project.slug}`);
+const allRoutes = [...staticRoutes, ...blogRoutes, ...projectRoutes];
 
 console.log(`🚀 Rozpoczynam prerendering ${allRoutes.length} stron...\n`);
 
@@ -82,20 +85,24 @@ async function prerenderPage(browser, route) {
     // Otwórz stronę i poczekaj na pełne załadowanie
     await page.goto(url, {
       waitUntil: "networkidle0",
-      timeout: 30000,
+      timeout: 60000,
     });
 
     // Czekaj na React Helmet - sprawdź czy metatagi są w DOM
-    await page.waitForFunction(
-      () => {
-        const ogTitle = document.querySelector('meta[property="og:title"]');
-        const description = document.querySelector('meta[name="description"]');
-        return ogTitle && description;
-      },
-      { timeout: 10000 }
-    ).catch(() => {
-      console.warn(`  ⚠️  Timeout oczekiwania na React Helmet dla ${route}`);
-    });
+    await page
+      .waitForFunction(
+        () => {
+          const ogTitle = document.querySelector('meta[property="og:title"]');
+          const description = document.querySelector(
+            'meta[name="description"]'
+          );
+          return ogTitle && description;
+        },
+        { timeout: 15000 }
+      )
+      .catch(() => {
+        console.warn(`  ⚠️  Timeout oczekiwania na React Helmet dla ${route}`);
+      });
 
     // Dodatkowy czas na animacje i lazy loading
     await new Promise((resolve) => setTimeout(resolve, 1000));

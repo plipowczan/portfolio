@@ -1,18 +1,15 @@
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const TermsOfService = () => {
   return (
     <>
-      <Helmet>
-        <title>Terms of Service | {SITE_CONFIG.name}</title>
-        <meta
-          name="description"
-          content="Terms of Service and usage guidelines"
-        />
-        <link rel="canonical" href={`${SITE_CONFIG.url}/terms-of-service`} />
-      </Helmet>
+      <SEO 
+        title="Terms of Service"
+        description="Terms of Service and usage guidelines"
+        path="/terms-of-service"
+      />
 
       <div className="min-h-screen py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

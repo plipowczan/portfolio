@@ -1,0 +1,216 @@
+import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { FaArrowLeft, FaCheckCircle, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import ReactMarkdown from "react-markdown";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import SEO from "../components/seo/SEO";
+import Breadcrumbs from "../components/ui/Breadcrumbs";
+import { projects } from "../data/projects";
+import { FADE_IN_UP, STAGGER_CONTAINER } from "../utils/constants";
+
+const ProjectPage = () => {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const project = projects.find((p) => p.slug === slug);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  if (!project) {
+    return (
+      <>
+        <SEO
+          title="Project Not Found"
+          description="The requested project could not be found."
+          path="/projects"
+        />
+        <div className="min-h-screen flex items-center justify-center pt-20">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-white mb-4">
+              Project Not Found
+            </h1>
+            <button
+              onClick={() => navigate("/")}
+              className="px-6 py-3 bg-primary-500 text-dark-900 font-semibold rounded-lg hover:bg-primary-400 transition-colors"
+            >
+              Back to Home
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: project.title,
+    description: project.description,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
+
+  return (
+    <>
+      <SEO
+        title={`${project.title} | Portfolio`}
+        description={project.description}
+        image={project.image}
+        path={`/projects/${project.slug}`}
+        type="article"
+      />
+
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
+
+      <article className="pt-24 pb-20 min-h-screen">
+        <div className="container mx-auto px-4">
+          <div className="mb-8">
+            <Breadcrumbs
+              items={[
+                { label: "Home", path: "/" },
+                { label: "Projects", path: "/#projects" },
+                { label: project.title, path: `/projects/${project.slug}` },
+              ]}
+            />
+          </div>
+
+          {/* Hero Section */}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={STAGGER_CONTAINER}
+            className="max-w-4xl mx-auto"
+          >
+            <motion.div variants={FADE_IN_UP} className="mb-8">
+              <Link
+                to="/#projects"
+                className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-colors mb-6"
+              >
+                <FaArrowLeft className="mr-2" /> Back to Projects
+              </Link>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                {project.title}
+              </h1>
+              
+              {/* Technologies */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {project.technologies.map((tech, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 text-sm font-medium bg-primary-500/10 text-primary-500 rounded-full border border-primary-500/20"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Project Image */}
+            <motion.div
+              variants={FADE_IN_UP}
+              className="relative aspect-video rounded-xl overflow-hidden mb-12 border border-dark-600 shadow-2xl"
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+
+            {/* Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              {/* Main Content */}
+              <div className="lg:col-span-2 space-y-12">
+                {/* Description */}
+                <motion.div variants={FADE_IN_UP} className="prose prose-invert max-w-none">
+                  <ReactMarkdown>{project.fullDescription}</ReactMarkdown>
+                </motion.div>
+
+                {/* Key Features */}
+                {project.features && (
+                  <motion.div variants={FADE_IN_UP}>
+                    <h2 className="text-2xl font-bold text-white mb-6">Key Features</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {project.features.map((feature, index) => (
+                        <div
+                          key={index}
+                          className="flex items-start p-4 bg-dark-800/50 rounded-lg border border-dark-700"
+                        >
+                          <FaCheckCircle className="text-primary-500 mt-1 mr-3 flex-shrink-0" />
+                          <span className="text-gray-300">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Sidebar */}
+              <motion.div variants={FADE_IN_UP} className="space-y-8">
+                {/* Actions Card */}
+                <div className="p-6 bg-dark-800 rounded-xl border border-dark-700 sticky top-24">
+                  <h3 className="text-xl font-bold text-white mb-6">Project Links</h3>
+                  <div className="space-y-4">
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center w-full px-6 py-3 bg-primary-500 text-dark-900 font-bold rounded-lg hover:bg-primary-400 transition-all hover:shadow-lg hover:shadow-primary-500/20"
+                      >
+                        <FaExternalLinkAlt className="mr-2" /> Visit Live Site
+                      </a>
+                    )}
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center w-full px-6 py-3 bg-dark-700 text-white font-bold rounded-lg hover:bg-dark-600 transition-colors border border-dark-600"
+                      >
+                        <FaGithub className="mr-2" /> View Source
+                      </a>
+                    )}
+                    <Link
+                      to="/#contact"
+                      className="flex items-center justify-center w-full px-6 py-3 bg-transparent text-gray-300 font-medium rounded-lg hover:text-white hover:bg-dark-700/50 transition-colors border border-transparent hover:border-dark-600"
+                    >
+                      Contact Me
+                    </Link>
+                  </div>
+
+                  {/* Benefits */}
+                  {project.benefits && (
+                    <div className="mt-8 pt-8 border-t border-dark-700">
+                      <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">
+                        Benefits
+                      </h4>
+                      <ul className="space-y-3">
+                        {project.benefits.map((benefit, index) => (
+                          <li key={index} className="text-sm text-gray-300 flex items-start">
+                            <span className="w-1.5 h-1.5 bg-secondary-500 rounded-full mt-2 mr-2 flex-shrink-0" />
+                            {benefit}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </article>
+    </>
+  );
+};
+
+export default ProjectPage;

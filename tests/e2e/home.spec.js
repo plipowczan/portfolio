@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { sectionIds, testUrls } from "../fixtures/test-data.js";
 import {
-  getSeoMetaTags,
-  scrollToElement,
-  testKeyboardNavigation,
-  waitForAnimations,
+    getSeoMetaTags,
+    scrollToElement,
+    testKeyboardNavigation,
+    waitForAnimations,
 } from "../utils/test-helpers.js";
 
 test.describe("Strona główna - Home", () => {
@@ -74,6 +74,19 @@ test.describe("Strona główna - Home", () => {
       }
     } else {
       expect(metaTags.twitterCard).toBeTruthy();
+    }
+
+    // Sprawdź Canonical Tag
+    if (!metaTags.canonical) {
+      const message = "canonical link tag is missing";
+      if (isDevMode) {
+        console.warn(`⚠️ DEV MODE: ${message} - expected due to React Helmet limitation`);
+      } else {
+        throw new Error(`PRODUCTION: ${message} - canonical tag is required for SEO`);
+      }
+    } else {
+      expect(metaTags.canonical).toBeTruthy();
+      expect(metaTags.canonical).toBe("https://pawel.lipowczan.pl/");
     }
   });
 

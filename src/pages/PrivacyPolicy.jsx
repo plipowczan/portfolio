@@ -1,18 +1,15 @@
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const PrivacyPolicy = () => {
   return (
     <>
-      <Helmet>
-        <title>Privacy Policy | {SITE_CONFIG.name}</title>
-        <meta
-          name="description"
-          content="Privacy Policy and GDPR compliance information"
-        />
-        <link rel="canonical" href={`${SITE_CONFIG.url}/privacy-policy`} />
-      </Helmet>
+      <SEO 
+        title="Privacy Policy"
+        description="Privacy Policy and GDPR compliance information"
+        path="/privacy-policy"
+      />
 
       <div className="min-h-screen py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

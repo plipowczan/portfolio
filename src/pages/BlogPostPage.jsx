@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
 import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
+import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { blogPosts } from "../data/blogPosts";
@@ -15,18 +15,11 @@ const BlogPostPage = () => {
   if (!post) {
     return (
       <>
-        <Helmet>
-          <title>Post Not Found | {SITE_CONFIG.name}</title>
-          <meta
-            name="description"
-            content="The requested blog post could not be found."
-          />
-          <meta property="og:title" content="Post Not Found" />
-          <meta
-            property="og:description"
-            content="The requested blog post could not be found."
-          />
-        </Helmet>
+        <SEO
+          title="Post Not Found"
+          description="The requested blog post could not be found."
+          path="/blog"
+        />
 
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
@@ -58,32 +51,15 @@ const BlogPostPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>
-          {post.title} | {SITE_CONFIG.name}
-        </title>
-        <meta name="description" content={post.excerpt} />
-        <link rel="canonical" href={`${SITE_CONFIG.url}/blog/${post.slug}`} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
-        <meta property="og:type" content="article" />
-        <meta
-          property="og:url"
-          content={`${SITE_CONFIG.url}/blog/${post.slug}`}
-        />
-        <meta property="og:image" content={`${SITE_CONFIG.url}${post.image}`} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="article:published_time" content={post.date} />
-        <meta property="article:author" content={post.author} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.excerpt} />
-        <meta
-          name="twitter:image"
-          content={`${SITE_CONFIG.url}${post.image}`}
-        />
-      </Helmet>
+      <SEO
+        title={post.title}
+        description={post.excerpt}
+        path={`/blog/${post.slug}`}
+        image={post.image}
+        article={true}
+        publishedTime={post.date}
+        author={post.author}
+      />
       <StructuredData schema={blogPostingSchema} />
       <StructuredData
         schema={{

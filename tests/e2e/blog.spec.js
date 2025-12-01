@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 import { testUrls } from "../fixtures/test-data.js";
 import {
-  getSeoMetaTags,
-  scrollToElement,
-  waitForAnimations,
+    getSeoMetaTags,
+    scrollToElement,
+    waitForAnimations,
 } from "../utils/test-helpers.js";
 
 test.describe("Blog - Lista postów", () => {
@@ -96,6 +96,7 @@ test.describe("Blog - Lista postów", () => {
     page,
   }) => {
     const metaTags = await getSeoMetaTags(page);
+    const isDevMode = page.url().includes("localhost") || page.url().includes("127.0.0.1");
 
     expect(metaTags.title).toBeTruthy();
     expect(metaTags.title).toMatch(/Blog/i);
@@ -107,6 +108,18 @@ test.describe("Blog - Lista postów", () => {
       console.warn(
         "⚠️ og:title not found - expected in dev mode, should be present in production"
       );
+    }
+
+    // Sprawdź Canonical Tag
+    if (!metaTags.canonical) {
+      const message = "canonical link tag is missing";
+      if (isDevMode) {
+        console.warn(`⚠️ DEV MODE: ${message} - expected due to React Helmet limitation`);
+      } else {
+        throw new Error(`PRODUCTION: ${message} - canonical tag is required for SEO`);
+      }
+    } else {
+      expect(metaTags.canonical).toBe("https://pawel.lipowczan.pl/blog");
     }
   });
 
@@ -249,6 +262,19 @@ test.describe("Blog - Pojedynczy post", () => {
     // Sprawdź czy ma obraz OG (jeśli zdefiniowany)
     if (metaTags.ogImage) {
       expect(metaTags.ogImage).toContain("http");
+    }
+
+    // Sprawdź Canonical Tag dla posta
+    if (!metaTags.canonical) {
+      const message = "canonical link tag is missing for blog post";
+      if (isDevMode) {
+        console.warn(`⚠️ DEV MODE: ${message} - expected due to React Helmet limitation`);
+      } else {
+        throw new Error(`PRODUCTION: ${message} - canonical tag is required for SEO`);
+      }
+    } else {
+      expect(metaTags.canonical).toBeTruthy();
+      expect(metaTags.canonical).toMatch(/https:\/\/pawel\.lipowczan\.pl\/blog\/.+/);
     }
   });
 

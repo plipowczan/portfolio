@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
-import StructuredData from "../components/seo/StructuredData";
 import About from "../components/sections/About";
 import Contact from "../components/sections/Contact";
 import Hero from "../components/sections/Hero";
 import Projects from "../components/sections/Projects";
 import Skills from "../components/sections/Skills";
+import SEO from "../components/seo/SEO";
+import StructuredData from "../components/seo/StructuredData";
 import { SITE_CONFIG } from "../utils/constants";
 
 const Home = () => {
@@ -47,33 +47,7 @@ const Home = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Helmet>
-        <title>
-          {SITE_CONFIG.name} | {SITE_CONFIG.title}
-        </title>
-        <meta name="description" content={SITE_CONFIG.description} />
-        <link rel="canonical" href={SITE_CONFIG.url} />
-        <meta property="og:title" content={`${SITE_CONFIG.name} - Portfolio`} />
-        <meta property="og:description" content={SITE_CONFIG.description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={SITE_CONFIG.url} />
-        <meta
-          property="og:image"
-          content={`${SITE_CONFIG.url}/images/og-home.webp`}
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content={`${SITE_CONFIG.name} - Portfolio`}
-        />
-        <meta name="twitter:description" content={SITE_CONFIG.description} />
-        <meta
-          name="twitter:image"
-          content={`${SITE_CONFIG.url}/images/og-home.webp`}
-        />
-      </Helmet>
+      <SEO />
       <StructuredData schema={personSchema} />
       <Hero />
       <About />

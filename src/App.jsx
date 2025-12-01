@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 
+import ProjectPage from "./pages/ProjectPage";
+
 function App() {
   return (
     <Layout>
@@ -14,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/projects/:slug" element={<ProjectPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
