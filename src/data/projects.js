@@ -41,7 +41,7 @@ Głównym celem projektu było wyeliminowanie ręcznego przepisywania notatek i 
       "OpenAI GPT-4o",
       "AION",
     ],
-    liveUrl: "https://automation.house",
+
     featured: true,
   },
   {
@@ -79,7 +79,7 @@ System pozwala na zdefiniowanie profilu idealnego klienta (ICP), a następnie au
     ],
     image: "/images/og-lead-generator.webp",
     technologies: ["n8n", "Snov.io", "Apollo", "The Company API", "Airtable"],
-    liveUrl: "https://automation.house",
+
     featured: true,
   },
   {
@@ -117,7 +117,7 @@ System "uczy się" na podstawie dostarczonej bazy wiedzy (dokumenty, strona www,
     ],
     image: "/images/og-context-based-chatbot.webp",
     technologies: ["VAPI", "n8n", "OpenAI", "Qdrant", "Meilisearch"],
-    liveUrl: "https://automation.house",
+
     featured: true,
   },
   {
@@ -196,7 +196,7 @@ Dzięki wykorzystaniu AI, system rozumie kontekst wiadomości, potrafi odróżni
     ],
     image: "/images/og-frontdesk-ai.webp",
     technologies: ["Make", "OpenAI", "Gmail API", "Outlook"],
-    liveUrl: "https://automation.house",
+
     featured: false,
   },
   {
@@ -310,7 +310,7 @@ System monitoruje nowe rekordy w CRM. Gdy pojawi się nowy lead, uruchamia proce
     ],
     image: "/images/og-lead-enrichment.webp",
     technologies: ["n8n", "Perplexity AI", "CRM Connectors"],
-    liveUrl: "https://automation.house",
+
     featured: false,
   },
   {

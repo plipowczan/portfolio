@@ -14,6 +14,11 @@
 
 ### Wysoki priorytet
 
+#### 0. 🔴 Uzupełnić linki do projektów (Live URL / Szablony)
+- [ ] Dodać poprawne linki `liveUrl` do projektów, które miały `automation.house`
+- [ ] Ewentualnie dodać linki do szablonów automatyzacji (Make/n8n)
+- [ ] Przywrócić przyciski "Visit Live Site" po uzupełnieniu linków
+
 #### 0. ✅ Lighthouse Performance Audit - COMPLETED (2025-11-23)
 
 **Status:** ✅ **DONE**
