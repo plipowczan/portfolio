@@ -34,7 +34,7 @@ const ProjectPage = () => {
               onClick={() => navigate("/")}
               className="px-6 py-3 bg-primary-500 text-dark-900 font-semibold rounded-lg hover:bg-primary-400 transition-colors"
             >
-              Back to Home
+              Wróć do strony głównej
             </button>
           </div>
         </div>
@@ -94,7 +94,7 @@ const ProjectPage = () => {
                 to="/#projects"
                 className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-colors mb-6"
               >
-                <FaArrowLeft className="mr-2" /> Back to Projects
+                <FaArrowLeft className="mr-2" /> Powrót do projektów
               </Link>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
                 {project.title}
@@ -137,7 +137,7 @@ const ProjectPage = () => {
                 {/* Key Features */}
                 {project.features && (
                   <motion.div variants={FADE_IN_UP}>
-                    <h2 className="text-2xl font-bold text-white mb-6">Key Features</h2>
+                    <h2 className="text-2xl font-bold text-white mb-6">Kluczowe funkcje</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {project.features.map((feature, index) => (
                         <div
@@ -157,7 +157,7 @@ const ProjectPage = () => {
               <motion.div variants={FADE_IN_UP} className="space-y-8">
                 {/* Actions Card */}
                 <div className="p-6 bg-dark-800 rounded-xl border border-dark-700 sticky top-24">
-                  <h3 className="text-xl font-bold text-white mb-6">Project Links</h3>
+                  <h3 className="text-xl font-bold text-white mb-6">Linki projektu</h3>
                   <div className="space-y-4">
                     {project.liveUrl && (
                       <a
@@ -166,7 +166,7 @@ const ProjectPage = () => {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center w-full px-6 py-3 bg-primary-500 text-dark-900 font-bold rounded-lg hover:bg-primary-400 transition-all hover:shadow-lg hover:shadow-primary-500/20"
                       >
-                        <FaExternalLinkAlt className="mr-2" /> Visit Live Site
+                        <FaExternalLinkAlt className="mr-2" /> Zobacz online
                       </a>
                     )}
                     {project.githubUrl && (
@@ -176,14 +176,14 @@ const ProjectPage = () => {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center w-full px-6 py-3 bg-dark-700 text-white font-bold rounded-lg hover:bg-dark-600 transition-colors border border-dark-600"
                       >
-                        <FaGithub className="mr-2" /> View Source
+                        <FaGithub className="mr-2" /> Zobacz kod
                       </a>
                     )}
                     <Link
                       to="/#contact"
                       className="flex items-center justify-center w-full px-6 py-3 bg-transparent text-gray-300 font-medium rounded-lg hover:text-white hover:bg-dark-700/50 transition-colors border border-transparent hover:border-dark-600"
                     >
-                      Contact Me
+                      Skontaktuj się
                     </Link>
                   </div>
 
@@ -191,7 +191,7 @@ const ProjectPage = () => {
                   {project.benefits && (
                     <div className="mt-8 pt-8 border-t border-dark-700">
                       <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">
-                        Benefits
+                        Korzyści
                       </h4>
                       <ul className="space-y-3">
                         {project.benefits.map((benefit, index) => (
