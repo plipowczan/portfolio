@@ -16,7 +16,7 @@ import {
 } from "fs";
 import matter from "gray-matter";
 import { dirname, join } from "path";
-import puppeteer from "puppeteer";
+import { chromium } from "@playwright/test";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -158,13 +158,13 @@ async function main() {
     console.log(`📦 Używam dist folder: ${DIST_DIR}`);
     console.log(`🌐 Preview URL: ${BASE_URL}\n`);
 
-    // Uruchom Puppeteer
-    browser = await puppeteer.launch({
+    // Uruchom Playwright (Chromium)
+    browser = await chromium.launch({
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
-    console.log("🤖 Puppeteer uruchomiony\n");
+    console.log("🤖 Playwright (Chromium) uruchomiony\n");
 
     // Prerenderuj każdą stronę
     for (const route of allRoutes) {
