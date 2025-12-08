@@ -98,6 +98,8 @@ Realny koszt?
 
 Oszczędność jest kolosalna. Oczywiście są limity – przy intensywnej sesji zdarzało mi się zobaczyć komunikat o ich przekroczeniu. Wtedy po prostu zmieniałem model (skaczę między Gemini 3 Pro High a Claude Sonnet 4.5). Limity odnawiają się co kilka godzin, więc przy regularnej pracy nie stanowi to blokady.
 
+![cursor_usage](/images/cursor_usage.webp)
+
 ## Podsumowanie
 
 Projekt [pawel.lipowczan.pl](https://pawel.lipowczan.pl) to dowód na to, że w 2025 roku rola programisty ewoluuje. Przestajemy być rzemieślnikami od składni, a stajemy się architektami zarządzającymi zespołem cyfrowych agentów.
