@@ -16,7 +16,6 @@ import {
 } from "fs";
 import matter from "gray-matter";
 import { dirname, join } from "path";
-import { chromium } from "@playwright/test";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -57,6 +56,9 @@ const blogPosts = getBlogPosts();
 const BASE_URL = "http://localhost:4173"; // Vite preview port
 const DIST_DIR = join(__dirname, "..", "dist");
 
+// Wykrywanie środowiska Vercel
+const IS_VERCEL = process.env.VERCEL === "1";
+
 // Wszystkie strony do pre-renderowania
 const staticRoutes = [
   "/",
@@ -70,8 +72,6 @@ const blogRoutes = blogPosts.map((post) => `/blog/${post.slug}`);
 const projectRoutes = projects.map((project) => `/projects/${project.slug}`);
 const allRoutes = [...staticRoutes, ...blogRoutes, ...projectRoutes];
 
-console.log(`🚀 Rozpoczynam prerendering ${allRoutes.length} stron...\n`);
-
 /**
  * Prerenderuje pojedynczą stronę
  */
@@ -82,6 +82,13 @@ async function prerenderPage(browser, route) {
     const url = `${BASE_URL}${route}`;
     console.log(`  📄 Renderuję: ${route}`);
 
+    if (IS_VERCEL) {
+      // Puppeteer setup
+      await page.setUserAgent(
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36"
+      );
+    }
+
     // Otwórz stronę i poczekaj na pełne załadowanie
     await page.goto(url, {
       waitUntil: "networkidle0",
@@ -89,8 +96,9 @@ async function prerenderPage(browser, route) {
     });
 
     // Czekaj na React Helmet - sprawdź czy metatagi są w DOM
-    await page
-      .waitForFunction(
+    let metaTagsFound = true;
+    try {
+      await page.waitForFunction(
         () => {
           const ogTitle = document.querySelector('meta[property="og:title"]');
           const description = document.querySelector(
@@ -99,10 +107,11 @@ async function prerenderPage(browser, route) {
           return ogTitle && description;
         },
         { timeout: 15000 }
-      )
-      .catch(() => {
-        console.warn(`  ⚠️  Timeout oczekiwania na React Helmet dla ${route}`);
-      });
+      );
+    } catch (e) {
+      console.error(`  ⚠️  Timeout: Brak metatagów SEO dla ${route} (kontynuuję generowanie)`);
+      metaTagsFound = false;
+    }
 
     // Dodatkowy czas na animacje i lazy loading
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -148,6 +157,8 @@ async function main() {
   let failCount = 0;
 
   try {
+    console.log(`🚀 Rozpoczynam prerendering ${allRoutes.length} stron...\n`);
+
     // Sprawdź czy dist folder istnieje
     if (!existsSync(DIST_DIR)) {
       throw new Error(
@@ -156,15 +167,31 @@ async function main() {
     }
 
     console.log(`📦 Używam dist folder: ${DIST_DIR}`);
-    console.log(`🌐 Preview URL: ${BASE_URL}\n`);
+    console.log(`🌐 Preview URL: ${BASE_URL}`);
 
-    // Uruchom Playwright (Chromium)
-    browser = await chromium.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    if (IS_VERCEL) {
+      console.log("▲ Wykryto środowisko Vercel - używam puppeteer-core + sparticuz/chromium");
+      const chromium = await import("@sparticuz/chromium");
+      const puppeteer = await import("puppeteer-core");
 
-    console.log("🤖 Playwright (Chromium) uruchomiony\n");
+      // Konfiguracja dla Vercel/AWS Lambda
+      browser = await puppeteer.default.launch({
+        args: chromium.default.args,
+        defaultViewport: chromium.default.defaultViewport,
+        executablePath: await chromium.default.executablePath(),
+        headless: chromium.default.headless,
+        ignoreHTTPSErrors: true,
+      });
+    } else {
+      console.log("💻 Wykryto środowisko Lokalne - używam Playwright");
+      const { chromium } = await import("@playwright/test");
+      browser = await chromium.launch({
+        headless: true,
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      });
+    }
+
+    console.log("🤖 Browser uruchomiony\n");
 
     // Prerenderuj każdą stronę
     for (const route of allRoutes) {
