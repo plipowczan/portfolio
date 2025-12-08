@@ -26,7 +26,7 @@ const SEO = ({
     ? image.startsWith("http")
       ? image
       : `${siteUrl}${image}`
-    : `${siteUrl}/images/og-home.webp`;
+    : `${siteUrl}${SITE_CONFIG.ogImage}`;
 
   return (
     <Helmet>
