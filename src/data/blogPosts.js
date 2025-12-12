@@ -5,7 +5,8 @@ import matter from "gray-matter";
 // Import as string explicitly to preserve UTF-8 encoding
 const blogFiles = import.meta.glob("../content/blog/*.md", {
   eager: true,
-  as: "raw",
+  query: "?raw",
+  import: "default",
 });
 
 /**

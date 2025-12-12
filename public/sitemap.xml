@@ -2,33 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://pawel.lipowczan.pl/</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/blog</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/privacy-policy</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/terms-of-service</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/cookie-policy</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/blog/hackathon-hacknation-analiza-doswiadczen</loc>
+    <lastmod>2025-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/blog/kodowanie-w-2025-ai-portfolio</loc>
@@ -74,55 +80,55 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/note-taker-addons</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/lead-generator</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/context-based-chatbot</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/integracja-systemow-phu-impex</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/frontdesk-ai</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/automatyzacje-dokumentow</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/system-hrm</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/lead-enrichment</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/projects/ankiety-badania-satysfakcji</loc>
-    <lastmod>2025-12-08</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

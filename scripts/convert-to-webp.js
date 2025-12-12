@@ -1,6 +1,6 @@
-import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
+import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
  * @param {number} quality - Jakość WebP (0-100), domyślnie 85
  */
 async function convertToWebP(inputPath, quality = 85) {
-  const outputPath = inputPath.replace('.png', '.webp');
+  const outputPath = inputPath.replace(/\.(png|jpg|jpeg)$/i, '.webp');
   
   if (!fs.existsSync(inputPath)) {
     console.log(`⚠️  Plik nie istnieje: ${inputPath}`);
@@ -29,7 +29,7 @@ async function convertToWebP(inputPath, quality = 85) {
     const savings = ((1 - webpSize / pngSize) * 100).toFixed(1);
     
     console.log(`✅ ${path.basename(inputPath)}`);
-    console.log(`   PNG:  ${(pngSize / 1024).toFixed(1)} KB`);
+    console.log(`   Source:  ${(pngSize / 1024).toFixed(1)} KB`);
     console.log(`   WebP: ${(webpSize / 1024).toFixed(1)} KB`);
     console.log(`   Oszczędność: ${savings}%\n`);
     
@@ -48,7 +48,7 @@ async function convertAllInFolder(folderPath) {
   console.log('🔄 Rozpoczynam konwersję PNG → WebP...\n');
   
   const files = fs.readdirSync(folderPath)
-    .filter(file => file.endsWith('.png'));
+    .filter(file => /\.(png|jpg|jpeg)$/i.test(file));
   
   if (files.length === 0) {
     console.log('⚠️  Nie znaleziono plików PNG do konwersji.');
@@ -91,15 +91,15 @@ Przykłady:
     
     if (stats.isDirectory()) {
       convertAllInFolder(targetPath).catch(console.error);
-    } else if (targetPath.endsWith('.png')) {
+    } else if (/\.(png|jpg|jpeg)$/i.test(targetPath)) {
       convertToWebP(targetPath).catch(console.error);
     } else {
-      console.log('❌ Plik musi mieć rozszerzenie .png');
+      console.log('❌ Plik musi mieć rozszerzenie .png, .jpg lub .jpeg');
     }
   } else {
     console.log('❌ Podana ścieżka nie istnieje:', targetPath);
   }
 }
 
-export { convertToWebP, convertAllInFolder };
+export { convertAllInFolder, convertToWebP };
 

@@ -1,89 +1,111 @@
-# Kodowanie w 2025: Czy AI zbudowało moje portfolio? Case Study pawel.lipowczan.pl
+### **Dopracowane Notatki: Hackathon Hacknation – Analiza Doświadczeń**
 
-Często słyszę, że programowanie się kończy. Że wystarczy „zvibecodować” aplikację w jednym z nowych narzędzi no-code, a AI zrobi resztę. Postanowiłem to sprawdzić na żywym organizmie.
+#### **1. Kontekst i Atmosfera Wydarzenia**
 
-Zbudowałem [pawel.lipowczan.pl](https://pawel.lipowczan.pl) – projekt, który miał być wizytówką, a stał się poligonem doświadczalnym dla współpracy na linii Doświadczony Inżynier – Agent AI.
+* **Wydarzenie:** Hackathon Hacknation, organizowany przez GovTech Polska.
+* **Cel:** Stworzenie w 24h działającego rozwiązania dla jednego z wyzwań administracji publicznej.
+* **Skala:** Ponad 1500 uczestników, głównie programistów. Ogromny rozmach.
+* **Pula nagród:** Łącznie 480 tys. zł, rozłożone na ok. 10 zadań (zwycięstwo w kategorii = 25 tys. zł).
+* **Atmosfera i Energia:**
+  * Opisana jako „niesamowita” i „robiąca ogromne wrażenie”.
+  * Duża hala, open space, scena, ciągłe prelekcje i ogłoszenia.
+  * Uczestnicy określani jako „zajarani technologią”, co tworzyło unikalny klimat. Energia miejsca była kluczowym motywatorem, który pozwalał działać mimo zmęczenia.
 
-Wnioski? Jeśli myślisz, że zbudujesz profesjonalny, bezpieczny i skalowalny serwis bez wiedzy technicznej, tylko „rozmawiając” z chatbotem – jesteś w błędzie. Ale jeśli masz fundamenty inżynierskie i potraktujesz AI jako junior developera na sterydach, efekty (i koszty) mogą Cię zaskoczyć.
+#### **2. Analiza Problemu: „Pani Zosia i Tysiące Exceli”**
 
-Oto kulisy powstawania mojego portfolio w stacku React + Vite + Tailwind.
+* **Wyzwanie:** Proces budżetowania w administracji publicznej.
+* **Core Problem:** Proces oparty na ręcznej wymianie setek tysięcy plików Excel, co prowadzi do chaosu informacyjnego i braku transparentności.
+* **Anegdota (metafora procesu):**
+    1. **Start (Dół):** „Pani Zosia” w urzędzie gminy „wróży z fusów”, ręcznie wpisując dane budżetowe do Excela (np. zapotrzebowanie na nowy komputer).
+    2. **Eskalacja (Góra):** Plik wędruje w górę hierarchii (urząd miasta -> województwo -> Ministerstwo Finansów).
+    3. **Konsolidacja:** Specjalna komórka w ministerstwie scala dane ze wszystkich plików.
+    4. **Decyzja i Powrót (Dół):** Limity budżetowe wracają tą samą drogą, często z cięciami. W efekcie „Pani Zosia” dowiaduje się, że nie dostanie nowego komputera, bez jasnego uzasadnienia.
 
-![hero](hero.png)
+#### **3. Rozwiązanie Zespołu: Cyfrowy Budżet**
 
-## 1. Fundament: Nowoczesny stack i SEO w świecie SPA
+* **Koncepcja:** Prosta, scentralizowana aplikacja webowa, która zastępuje obieg plików Excel.
+* **Kluczowe Funkcjonalności:**
+  * **Jedno źródło prawdy:** Wszystkie pozycje budżetowe dodawane w jednym systemie.
+  * **Transparentność i komunikacja:** Możliwość komentowania i dyskutowania nad każdą pozycją.
+  * **Uproszczony proces:** Łatwe zatwierdzanie i konsolidacja budżetu na wyższych szczeblach.
+* **Wybór zadania:** Zespół użył AI do przeanalizowania dostępnych wyzwań i wybrania tego, które najlepiej pasowało do ich kompetencji (zespół „nie-programistów”), aby zmaksymalizować szanse.
 
-Mój cel był prosty: wyjście poza ramy statycznego CV. Chciałem estetyki, wydajności i miejsca na dzielenie się wiedzą. Wybór padł na **React 18 + Vite**.
+#### **4. Przebieg Pracy i Dynamika Zespołu**
 
-Dlaczego? Bo Vite zapewnia błyskawiczny build. Jednak React to zazwyczaj Single Page Application (SPA), co bywa problematyczne dla SEO. Tutaj wchodzi inżynieria. Zastosowałem mechanizm **prerenderingu**. Mimo że pod maską działa React i Tailwind CSS, serwujemy robotom statyczne pliki HTML.
+* **Początek:** Burza mózgów, analiza materiałów, stworzenie mapy procesu na podstawie dostępnych dokumentów.
+* **Zwrot akcji:** Początkowo praca „na żywioł”, każdy tworzył coś osobno. Ostatecznie zespół skonsolidował się wokół prototypu Justyny, który był najbardziej zaawansowany i stał się fundamentem dalszych prac.
+* **Doświadczenie "ludzkie":**
+  * **Zmęczenie:** Praca non-stop przez 24 godziny.
+  * **Warunki:** Spanie przez 2-3 godziny na korytarzu lub w dedykowanej salce sypialnianej, gdzie „co chwilę komuś dzwonił budzik”.
 
-Efekt?
-Strona jest błyskawiczna, a Google widzi ją tak, jak klasyczny dokument. Całość hostuję na **Vercel**, co okazało się strzałem w dziesiątkę. Wbudowana analityka i analiza Core Web Vitals pozwoliły mi wykręcić „zielone wyniki” niemal od razu po deployu.
+#### **5. Technologia i Rola AI**
 
-![speed_insights](speed_insights.png)
+* **Główna teza:** Agenci AI byli „equalizerem”, który pozwolił zespołowi „emerytowanego programisty juniora” i osoby z mniejszym doświadczeniem koderskim konkurować z profesjonalnymi zespołami programistów.
+* **Stack technologiczny:**
+  * **Frontend:** React, TypeScript.
+  * **Backend:** Supabase.
+  * **Prezentacja:** Wideo stworzone w HiGen.
+* **Narzędzia AI w użyciu:**
+  * **Paweł i Kuba:** Antigravity (modele Gemini Pro / Claude 4.5). **Zużycie:** Cały tygodniowy limit tokenów w kilkanaście godzin.
+  * **Justyna:** Bolt (model Claude Code). **Zużycie:** 18 milionów tokenów.
 
-## 2. Design dla nie-designera: Koniec z „wodotryskami” metodą prób i błędów
+#### **6. Wyzwania i Kontrariańskie Spojrzenie na AI**
 
-Bądźmy szczerzy: nie jestem designerem. Zawsze miałem problem z doborem palety barw, ułożeniem elementów czy animacjami. W tradycyjnym modelu spędziłbym godziny na przesuwaniu pikseli w CSS.
+* **Największa Słabość Projektu – Brak Walidacji:**
+  * Zespół nie miał dostępu do praktyka (rzeczywistego urzędnika), który mógłby zweryfikować ich założenia dotyczące procesu.
+  * Mentor przypisany do zadania nie był ekspertem dziedzinowym, co uniemożliwiło walidację logiki aplikacji.
+  * **Wniosek:** Istniało duże ryzyko, że rozwiązanie było „przestrzelone” i nie odpowiadało na realne potrzeby.
+* **Realistyczna Ocena Modeli AI (Wątek Kontrariański):**
+  * **Odczucie:** „Lekkie zawiedzenie” działaniem modeli.
+  * **Konkretne problemy:**
+    * AI często generowało kod, który nie działał.
+    * Proponowane rozwiązania bywały „od czapy”, nieadekwatne do problemu.
+    * Osiągnięcie poprawnego wyniku wymagało wielokrotnego, precyzyjnego promptowania i prowadzenia modelu „za rękę”.
+  * **Przykład blokady:** Justyna napotkała błąd w kodzie (nieprawidłowe filtry `current user`), którego model AI nie był w stanie zdiagnozować. Problem wymagał ręcznego przeanalizowania kodu i znalezienia błędu.
 
-Tutaj ten problem zniknęł.
-Mogłem wskazać AI przykłady stron, które mi się podobają, a agent adaptował ten styl do mojego projektu. Zamiast eksperymentować z kodem CSS, wskazywałem w IDE miejsce do poprawy, a AI korygowało layout w sekundy.
+#### **7. Wyniki i Kluczowe Wnioski (Lessons Learned)**
 
-**Lovable vs. IDE**
-Eksperymentowałem z różnymi narzędziami do „vibe codingu”, m.in. z Lovable, Vercel czy Firebase Studio. Lovable dawało świetne efekty wizualne, ale finalnie zdecydowałem się na generowanie kodu bezpośrednio w IDE (Cursor). Dlaczego? Bo zależało mi na pełnej kontroli i nowoczesnym, schludnym efekcie końcowym, który jest „moim” kodem, a nie zamkniętą czarną skrzynką.
+* **Wynik Końcowy:** 2.15 / 5 punktów. Zespół nie zakwalifikował się do finałowej trójki w swojej kategorii.
+* **Główne Lekcje:**
+    1. **Przygotowanie jest kluczowe:** Inne zespoły (np. twórcy aplikacji o Bydgoszczy) miały wcześniej przygotowane komponenty i frameworki. Podejście „na żywioł” jest znacznie trudniejsze i mniej efektywne.
+    2. **Walidacja > Technologia:** Nawet najbardziej zaawansowane narzędzia AI nie zastąpią rozmowy z realnym użytkownikiem. Brak walidacji był fundamentalnym błędem.
+    3. **AI to mnożnik siły, a nie magiczna różdżka:** Umożliwia szybkie prototypowanie i rywalizację, ale wciąż wymaga głębokiej wiedzy, umiejętności debugowania i krytycznego myślenia. Nie jest to w pełni autonomiczne narzędzie.
 
-## 3. Grafika: Spójność ponad perfekcję
+### Plan na kolejny hackaton
 
-W idealnym świecie każdy projekt w portfolio byłby opatrzony dedykowanymi zrzutami ekranu z konkretnych narzędzi i procesów. Ale przygotowanie setek takich screenów to tytaniczna praca.
+1. Wybór zadania
+1. Zdefiniowanie zespołu - dla każdego członka zespołu zdefiniowanie jego roli w projekcie - mocnych i słabych stron
+2. Dodanie treści zadań - scraping strony z zadaniami - podanie agentowi adresu strony i ocena zadań pod kątem zgodności z zespołem
+3. Priorytetyzacja zadań - wstępna selekcja zadań do wyboru
+ Wniosek: Ten etap mieliśmy dobrze zrealizowany - praktycznie nie traciliśmy czasu na wybór zadania bo od razu wiedzieliśmy mniej więcej jakie zadanie będziemy realizować.
+2. Analiza biznesowa
+1. Przygotowanie mapy obecnego procesu jeśli istnieje
+2. Przygotowanie mapy docelowego procesu
+3. Spisanie wymagań funkcjonalnych i niefunkcjonalnych (user stories)
+4. Przygotowanie specyfikacji wymagań (SRS – Software Requirements Specification)
+5. Przygotowanie wymagań produktu PRD
+  Praktycznie:
 
-Zastosowałem podejście: **Done is better than perfect.**
-Zamiast tracić czas na robienie zrzutów czy szukanie zdjęć stockowych, postawiłem na grafikę generatywną.
-*   Wykorzystałem **Nano Banana MCP**.
-*   Ja dostarczam treść, agent generuje grafikę, a skrypt (konwerter) automatycznie zamienia PNG na WebP.
+* PRD﻿ odpowiada na: „Co budujemy i dlaczego? Dla kogo? Jakie ma mieć możliwości?﻿” – poziom produktu i biznesu.
+* SRS﻿ odpowiada na: „Jaki dokładnie system trzeba zbudować, żeby ten produkt dowieźć? Jakie są wymagania systemowe, interfejsy, jakości?
 
-Dzięki temu strona jest spójna wizualnie, utrzymana w klimacie tech/cyber, a ja nie muszę martwić się o "dziury" w contencie.
+ 6. Przygotowanie reguł i skili dla AI lub wybór już posiadanych skili
+ 3. Development
+ 1. Wybranie/wygenerowanie boilerplate - można już mieć taki kod bazowy przygotowany takie niezbędne minimum jakie narzędzie powinno mieć - taki punkt wyjścia od dalszego developmentu
+ 2. Uruchomienie developmentu wymagania funkcjonalnego
+ 3. Testy manualne
+ 4. Wygenerowanie testów automatycznych
+ 5. Review kodu
+ 6. Commit
+ 7. Powrót do punktu 2
+    Czy można zrównoleglić proces dodawania wymagań funkcjonalnych? - Pewnie tak tylko trzeba podzielić wymagania funkcjonalne na takie które sa od siebie niezależne, wymaga to też pewnego ułożenia wymagań i to dużo zależy od zależności między wymaganiami funkcjonalnymi
+ 4. Przygotowanie dokumentacji - opcjonalnie?
+ 5. Review pod kątem bezpieczeństwa i performance
 
-![og-zapier-vs-make-vs-n8n-wybor-narzedzia](og-zapier-vs-make-vs-n8n-wybor-narzedzia.webp)
+### Dodatkowe wnioski
 
-## 4. Rzeczywistość: Doświadczenie vs Nowe Frameworki
-
-Mam 15 lat doświadczenia w IT (.NET, Python, JS), ale frameworki takie jak React czy Vite były dla mnie nowością. Musiałem się ich poduczyć.
-
-I tu kluczowa uwaga: **Wiedza programistyczna jest niezbędna.**
-Dzięki doświadczeniu w projektowaniu systemów, kod generowany przez AI jest dla mnie zrozumiały. Potrafię ocenić jego poprawność, zanim trafi na produkcję. Bez tego utonąłbym w błędach.
-*   Agenci (nawet Claude Sonnet 4.5 czy Gemini 3 Pro) potrafią się zapętlić.
-*   Zdarzają się halucynacje nieistniejących bibliotek.
-
-Gdybym nie rozumiał fundamentów, nie byłbym w stanie „odkręcić” błędów, które AI wprowadzało przy bardziej skomplikowanej logice.
-
-### Pedantyzm w kodzie
-Jestem pedantyczny, jeśli chodzi o porządek w plikach (Clean Code). Jasna struktura folderów i podział odpowiedzialności to dla mnie świętość. AI ma tendencję do wrzucania wszystkiego do jednego worka. Moja rola polegała na wymuszaniu tej struktury. Dzięki temu projekt jest łatwy w utrzymaniu i reorganizacji, a nie jest „spaghetti kodem” wyplutym przez maszynę.
-
-## 5. Polisa ubezpieczeniowa: Testy i Code Review Agent
-
-W projekcie hobbystycznym łatwo o chaos. Aby temu zapobiec, wdrożyłem dwa poziomy zabezpieczeń:
-
-1.  **Bogate testy E2E (Playwright):** Każda zmiana jest weryfikowana przez automatyczne testy. Mam pewność, że nowa funkcja nie „rozsypała” starej.
-2.  **Code Review Agent w Cursor.sh:** To genialna funkcja. Agent analizuje zmiany w ostatnim commicie *przed* wysłaniem do repozytorium. Wyłapał mi sporo błędów logicznych i potencjalnych problemów, które mogłem przeoczyć.
-
-![playwright_report](playwright_report.png)
-
-## 6. Koszty: Ile kosztuje „darmowy” programista?
-
-To ciekawe zestawienie. Przez cały projekt przepuściłem około **60 milionów tokenów**.
-Rozkład wejście/wyjście to mniej więcej 80/20.
-
-Gdybym płacił cennikowo za API (np. Claude Sonnet 4.5 – $3 input / $15 output), koszt wyniósłby około **325 USD**.
-
-Realny koszt?
-*   Plan PRO+ w Cursor.sh: **60 USD**.
-*   Antigravity (w ramach Google Workspace): **0 USD** (wliczone w pakiet firmowy).
-
-Oszczędność jest kolosalna. Oczywiście są limity – przy intensywnej sesji zdarzało mi się zobaczyć komunikat o ich przekroczeniu. Wtedy po prostu zmieniałem model (skaczę między Gemini 3 Pro High a Claude Sonnet 4.5). Limity odnawiają się co kilka godzin, więc przy regularnej pracy nie stanowi to blokady.
-
-## Podsumowanie
-
-Projekt [pawel.lipowczan.pl](https://pawel.lipowczan.pl) to dowód na to, że w 2025 roku rola programisty ewoluuje. Przestajemy być rzemieślnikami od składni, a stajemy się architektami zarządzającymi zespołem cyfrowych agentów.
-
-Możesz nie być designerem. Możesz nie znać na wylot najnowszego frameworka. Ale jeśli masz inżynierski umysł, dbałość o jakość (i testy!) oraz umiejętność orkiestracji AI – zbudujesz rzeczy, które wcześniej wymagałyby całego zespołu.
-
-Zapraszam do sprawdzenia efektów i code review! Feedback mile widziany.
+1. Dobrze zarządzać agentami - jakimi? Czy korzystać z wbudowanych? Da się ich jakoś spromptować? Może trzeba przygotować dokumenty z promptami tak żeby sprofilować agenta do danego typu zadania.
+2. Skorzystannie ze skili Claude Code - w jaki sposób
+3. Przygotować boilerplate
+4. Przygotować plan działania krok po kroku (na podstawie wstępnego projektu)
+5. Na podstawie treści zadania przygotować wstępny projekt

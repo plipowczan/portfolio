@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
+import rehypeRaw from "rehype-raw";
 import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
@@ -145,6 +146,7 @@ const BlogPostPage = () => {
             {/* Content */}
             <div className="prose prose-invert prose-lg max-w-none">
               <ReactMarkdown
+                rehypePlugins={[rehypeRaw]}
                 components={{
                   h1: ({ node, ...props }) => (
                     <h1
