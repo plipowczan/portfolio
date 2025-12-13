@@ -1,198 +1,198 @@
-# Quick Start Guide 🚀
+# Szybki Start 🚀
 
-Get your portfolio website live in under 30 minutes!
+Uruchom swoją stronę portfolio online w mniej niż 30 minut!
 
-## ⚡ Fast Track to Deployment
+## ⚡ Szybka Ścieżka do Wdrożenia
 
-### Step 1: Customize (15 minutes)
+### Krok 1: Personalizacja (15 minut)
 
-**1.1 Update Your Information**
+**1.1 Zaktualizuj swoje informacje**
 
-Edit `src/utils/constants.js`:
+Edytuj `src/utils/constants.js`:
 
 ```javascript
 export const SITE_CONFIG = {
   name: "Pawel Lipowczan",
   title: "Your Tech Guide",
-  email: "your-email@example.com", // ← Change this
-  url: "https://yoursite.com", // ← Change this
+  email: "your-email@example.com", // ← Zmień to
+  url: "https://yoursite.com", // ← Zmień to
   social: {
-    github: "https://github.com/yourusername", // ← Change these
+    github: "https://github.com/yourusername", // ← Zmień te linki
     linkedin: "https://linkedin.com/in/yourusername",
     twitter: "https://twitter.com/yourusername",
   },
 };
 ```
 
-**1.2 Add Your Projects**
+**1.2 Dodaj swoje projekty**
 
-Edit `src/data/projects.js` - Replace with your real projects or keep sample data for now.
+Edytuj `src/data/projects.js` - Zastąp przykładowymi swoimi prawdziwymi projektami lub zostaw przykładowe na razie.
 
-**1.3 Update About Text**
+**1.3 Zaktualizuj tekst O mnie**
 
-Edit `src/components/sections/About.jsx` - Update the paragraphs with your story.
+Edytuj `src/components/sections/About.jsx` - Zaktualizuj akapity swoją historią.
 
-**1.4 Configure Contact Form** (Optional for now)
+**1.4 Skonfiguruj formularz kontaktowy** (Opcjonalnie na razie)
 
-The form works with validation, but to receive emails:
+Formularz działa z walidacją, ale aby otrzymywać emaile:
 
-- Sign up at [FormSpree.io](https://formspree.io/)
-- Get your form endpoint
-- Update Contact.jsx with the endpoint
+- Zarejestruj się na [FormSpree.io](https://formspree.io/)
+- Uzyskaj swój endpoint formularza
+- Zaktualizuj Contact.jsx z endpointem
 
-### Step 2: Test Locally (5 minutes)
+### Krok 2: Testowanie Lokalnie (5 minut)
 
 ```bash
-# Start dev server
+# Uruchom serwer deweloperski
 npm run dev
 
-# Open http://localhost:3000 in your browser
-# Click around, test navigation, check mobile view
+# Otwórz http://localhost:3000 w przeglądarce
+# Poklikaj, przetestuj nawigację, sprawdź widok mobilny
 ```
 
-**Quick Checks:**
+**Szybkie sprawdzenia:**
 
-- [ ] Logo shows up
-- [ ] Smooth scroll works
-- [ ] Mobile menu works
-- [ ] All sections visible
-- [ ] Footer links work
+- [ ] Logo się wyświetla
+- [ ] Smooth scroll działa
+- [ ] Menu mobilne działa
+- [ ] Wszystkie sekcje są widoczne
+- [ ] Linki w stopce działają
 
-### Step 3: Deploy to Vercel (5 minutes)
+### Krok 3: Wdrożenie na Vercel (5 minut)
 
-**Easiest Deployment Ever:**
+**Najłatwiejsze wdrożenie ever:**
 
 ```bash
-# Install Vercel CLI (one time only)
+# Zainstaluj Vercel CLI (jednorazowo)
 npm install -g vercel
 
-# Deploy
+# Wdróż
 vercel
 
-# Follow the prompts:
+# Postępuj zgodnie z instrukcjami:
 # - Set up and deploy? Y
-# - Which scope? (select your account)
+# - Which scope? (wybierz swoje konto)
 # - Link to existing project? N
-# - What's your project's name? (press enter)
-# - In which directory is your code located? (press enter)
+# - What's your project's name? (naciśnij enter)
+# - In which directory is your code located? (naciśnij enter)
 # - Want to override the settings? N
 
-# 🎉 Your site is now live!
+# 🎉 Twoja strona jest już online!
 ```
 
-You'll get a URL like: `https://your-project-name.vercel.app`
+Otrzymasz URL typu: `https://your-project-name.vercel.app`
 
-### Step 4: Add Custom Domain (Optional - 5 minutes)
+### Krok 4: Dodaj własną domenę (Opcjonalnie - 5 minut)
 
-**If you have a domain:**
+**Jeśli masz domenę:**
 
-1. Go to your Vercel dashboard
-2. Select your project
-3. Click "Settings" → "Domains"
-4. Add your domain (e.g., `pawellipowczan.com`)
-5. Update DNS records as shown by Vercel
-6. Wait 5-10 minutes for DNS propagation
+1. Przejdź do panelu Vercel
+2. Wybierz swój projekt
+3. Kliknij "Settings" → "Domains"
+4. Dodaj swoją domenę (np. `pawellipowczan.com`)
+5. Zaktualizuj rekordy DNS jak pokazuje Vercel
+6. Poczekaj 5-10 minut na propagację DNS
 
-**Don't have a domain yet?**
+**Nie masz jeszcze domeny?**
 
-- Buy one from [Namecheap](https://www.namecheap.com/) (~$10/year)
-- Or use the free Vercel URL for now
+- Kup jedną z [Namecheap](https://www.namecheap.com/) (~40 zł/rok)
+- Lub użyj darmowego URL-a Vercel na razie
 
-## 🎨 Customization Checklist
+## 🎨 Checklist Personalizacji
 
-### Must Do Before Launch
+### Musisz Zrobić Przed Uruchomieniem
 
-- [ ] Update email in `src/utils/constants.js`
-- [ ] Update social media links
-- [ ] Replace sample projects (or keep them for now)
-- [ ] Update About section text
-- [ ] Test on mobile device
+- [ ] Zaktualizuj email w `src/utils/constants.js`
+- [ ] Zaktualizuj linki do mediów społecznościowych
+- [ ] Zastąp przykładowe projekty (lub zostaw je na razie)
+- [ ] Zaktualizuj tekst sekcji O mnie
+- [ ] Przetestuj na urządzeniu mobilnym
 
-### Should Do Soon After Launch
+### Powinieneś Zrobić Wkrótce Po Uruchomieniu
 
-- [ ] Add real project images to `public/images/`
-- [ ] Write your first blog post
-- [ ] Add professional photo to About section
-- [ ] Set up contact form backend (FormSpree/EmailJS)
-- [ ] Update sitemap.xml with your domain
-- [ ] Submit to Google Search Console
+- [ ] Dodaj prawdziwe zdjęcia projektów do `public/images/`
+- [ ] Napisz swój pierwszy post na blogu
+- [ ] Dodaj profesjonalne zdjęcie do sekcji O mnie
+- [ ] Skonfiguruj backend formularza kontaktowego (FormSpree/EmailJS)
+- [ ] Zaktualizuj sitemap.xml swoją domeną
+- [ ] Dodaj stronę do Google Search Console
 
-### Can Do Later
+### Możesz Zrobić Później
 
-- [ ] Add more projects
-- [ ] Write more blog posts
-- [ ] Add testimonials
-- [ ] Set up Google Analytics
-- [ ] Create more detailed case studies
+- [ ] Dodaj więcej projektów
+- [ ] Napisz więcej postów na blogu
+- [ ] Dodaj referencje/testimonials
+- [ ] Skonfiguruj Google Analytics
+- [ ] Utwórz bardziej szczegółowe case studies
 
-## 🐛 Common Issues & Quick Fixes
+## 🐛 Najczęstsze Problemy i Szybkie Rozwiązania
 
-### "npm run dev" doesn't work
+### "npm run dev" nie działa
 
 ```bash
-# Delete and reinstall
+# Usuń i przeinstaluj
 rm -rf node_modules
 npm install
 npm run dev
 ```
 
-### Build fails
+### Build się nie udaje
 
 ```bash
-# Make sure all syntax is correct
+# Upewnij się, że cała składnia jest poprawna
 npm run build
 
-# Check the error message and fix the file mentioned
+# Sprawdź komunikat błędu i napraw wspomniany plik
 ```
 
-### Site looks broken after deployment
+### Strona wygląda źle po wdrożeniu
 
-- Check browser console for errors (F12)
-- Verify images are in `public/` folder
-- Check that all imports are correct
+- Sprawdź konsolę przeglądarki pod kątem błędów (F12)
+- Zweryfikuj, że obrazy są w folderze `public/`
+- Sprawdź, czy wszystkie importy są poprawne
 
-### Contact form doesn't send emails
+### Formularz kontaktowy nie wysyła emaili
 
-- Normal! You need to set up FormSpree or EmailJS
-- See `src/components/sections/Contact.jsx` for TODOs
-- Form validation still works without backend
+- Normalne! Musisz skonfigurować FormSpree lub EmailJS
+- Zobacz `src/components/sections/Contact.jsx` dla TODO
+- Walidacja formularza nadal działa bez backendu
 
-## 📱 Testing Checklist
+## 📱 Checklist Testowania
 
-Before launching, test these:
+Przed uruchomieniem przetestuj:
 
 **Desktop**
 
-- [ ] All menu items work
-- [ ] Smooth scroll to sections
-- [ ] Hover effects on cards
-- [ ] Contact form validation
-- [ ] Blog posts open correctly
+- [ ] Wszystkie elementy menu działają
+- [ ] Smooth scroll do sekcji
+- [ ] Efekty hover na kartach
+- [ ] Walidacja formularza kontaktowego
+- [ ] Posty blogowe otwierają się poprawnie
 
-**Mobile** (use browser DevTools or real device)
+**Mobile** (użyj DevTools przeglądarki lub prawdziwego urządzenia)
 
-- [ ] Hamburger menu opens/closes
-- [ ] All sections stack vertically
-- [ ] Buttons are tap-friendly
-- [ ] Text is readable
-- [ ] Images don't overflow
+- [ ] Menu hamburger otwiera/zamyka się
+- [ ] Wszystkie sekcje układają się pionowo
+- [ ] Przyciski są przyjazne dotykowi
+- [ ] Tekst jest czytelny
+- [ ] Obrazy nie wykraczają poza krawędzie
 
-**All Devices**
+**Wszystkie Urządzenia**
 
-- [ ] Footer links work
-- [ ] Legal pages load
-- [ ] Logo links to home
-- [ ] External links open in new tabs
+- [ ] Linki w stopce działają
+- [ ] Strony prawne się ładują
+- [ ] Logo prowadzi do home
+- [ ] Linki zewnętrzne otwierają się w nowych kartach
 
-## 🚀 Alternative Deployment Options
+## 🚀 Alternatywne Opcje Wdrożenia
 
 ### Netlify (Drag & Drop)
 
 ```bash
 npm run build
-# Go to app.netlify.com/drop
-# Drag the 'dist' folder
-# Done!
+# Przejdź do app.netlify.com/drop
+# Przeciągnij folder 'dist'
+# Gotowe!
 ```
 
 ### GitHub Pages
@@ -200,103 +200,103 @@ npm run build
 ```bash
 npm install --save-dev gh-pages
 
-# Add to package.json scripts:
+# Dodaj do scripts w package.json:
 # "deploy": "gh-pages -d dist"
 
 npm run build
 npm run deploy
 ```
 
-See **deployment/DEPLOYMENT.md** for detailed guides.
+Zobacz **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** dla szczegółowych przewodników.
 
-## 📚 Key Files Reference
+## 📚 Szybki Spis Kluczowych Plików
 
-| File                                  | What to Update            |
-| ------------------------------------- | ------------------------- |
-| `src/utils/constants.js`              | Name, email, social links |
-| `src/data/projects.js`                | Your projects             |
-| `src/data/skills.js`                  | Your skills               |
-| `src/data/blogPosts.js`               | Blog articles             |
-| `src/components/sections/About.jsx`   | Personal bio              |
-| `src/components/sections/Contact.jsx` | Form backend config       |
+| Plik                                  | Co Zaktualizować                  |
+| ------------------------------------- | --------------------------------- |
+| `src/utils/constants.js`              | Imię, email, linki społecznościowe|
+| `src/data/projects.js`                | Twoje projekty                    |
+| `src/data/skills.js`                  | Twoje umiejętności                |
+| `src/data/blogPosts.js`               | Artykuły blogowe                  |
+| `src/components/sections/About.jsx`   | Biografia osobista                |
+| `src/components/sections/Contact.jsx` | Konfiguracja backendu formularza  |
 
-## 💡 Pro Tips
+## 💡 Pro Tipy
 
-1. **Use the Free Vercel URL First**
+1. **Użyj Najpierw Darmowego URL Vercel**
 
-   - Deploy and test before buying a domain
-   - Make sure everything works
+   - Wdróż i przetestuj przed kupnem domeny
+   - Upewnij się, że wszystko działa
 
-2. **Start with Sample Content**
+2. **Zacznij z Przykładową Treścią**
 
-   - Launch with placeholder projects
-   - Add real content gradually
+   - Uruchom z placeholder projektami
+   - Dodawaj prawdziwą treść stopniowo
 
 3. **Mobile First**
 
-   - Most visitors will be on mobile
-   - Test on your phone!
+   - Większość odwiedzających będzie na mobile
+   - Testuj na swoim telefonie!
 
-4. **SEO Can Wait**
+4. **SEO Może Poczekać**
 
-   - Get the site live first
-   - Optimize for search engines later
+   - Najpierw uruchom stronę
+   - Optymalizuj pod wyszukiwarki później
 
-5. **Iterate**
-   - Launch → Get feedback → Improve
-   - Don't wait for perfection
+5. **Iteruj**
+   - Uruchom → Zbierz feedback → Ulepsz
+   - Nie czekaj na perfekcję
 
-## 🎯 Success Metrics
+## 🎯 Metryki Sukcesu
 
-**Week 1:**
+**Tydzień 1:**
 
-- [ ] Site is live
-- [ ] All sections work
-- [ ] Mobile responsive
-- [ ] Contact form validates
+- [ ] Strona jest online
+- [ ] Wszystkie sekcje działają
+- [ ] Responsywna na mobile
+- [ ] Formularz kontaktowy waliduje
 
-**Week 2:**
+**Tydzień 2:**
 
-- [ ] Real projects added
-- [ ] First blog post published
-- [ ] Contact form sends emails
-- [ ] Shared on social media
+- [ ] Prawdziwe projekty dodane
+- [ ] Pierwszy post na blogu opublikowany
+- [ ] Formularz kontaktowy wysyła emaile
+- [ ] Udostępniono w mediach społecznościowych
 
-**Month 1:**
+**Miesiąc 1:**
 
-- [ ] 3+ blog posts
-- [ ] All projects have real images
-- [ ] Google Search Console setup
-- [ ] Regular updates
+- [ ] 3+ posty na blogu
+- [ ] Wszystkie projekty mają prawdziwe zdjęcia
+- [ ] Google Search Console skonfigurowany
+- [ ] Regularne aktualizacje
 
-## 🆘 Need More Help?
+## 🆘 Potrzebujesz Więcej Pomocy?
 
-Stuck? Check these resources:
+Utknąłeś? Sprawdź te zasoby:
 
-1. **PROJECT_SUMMARY.md** - Complete feature list
-2. **README.md** - Detailed setup guide
-3. **deployment/DEPLOYMENT.md** - All deployment options
-4. **.cursorrules** - Development guidelines
-5. **PRD.md** - Full specifications
+1. **[README.md](../README.md)** - Szczegółowy przewodnik konfiguracji
+2. **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** - Wszystkie opcje wdrożenia
+3. **[AGENTS.md](../AGENTS.md)** - Przewodnik dla AI agents (EN)
+4. **[PRD.md](./PRD.md)** - Pełne specyfikacje (EN dla AI)
+5. **[SRS.md](./SRS.md)** - Specyfikacja techniczna (EN dla AI)
 
-## 🎉 Ready to Launch?
+## 🎉 Gotowy do Uruchomienia?
 
-Your portfolio is production-ready! Just:
+Twoje portfolio jest gotowe do produkcji! Wystarczy:
 
-1. ✅ Update your info (15 min)
-2. ✅ Test locally (5 min)
-3. ✅ Deploy to Vercel (5 min)
-4. ✅ Share with the world! 🌍
+1. ✅ Zaktualizuj swoje informacje (15 min)
+2. ✅ Przetestuj lokalnie (5 min)
+3. ✅ Wdróż na Vercel (5 min)
+4. ✅ Podziel się ze światem! 🌍
 
-**Total Time: ~25 minutes to have a live, professional portfolio!**
+**Całkowity czas: ~25 minut aby mieć działające, profesjonalne portfolio!**
 
 ```bash
-# Let's go!
-npm run dev      # Test it
-vercel           # Deploy it
-                 # Share it! 🚀
+# Do dzieła!
+npm run dev      # Przetestuj to
+vercel           # Wdróż to
+                 # Podziel się tym! 🚀
 ```
 
 ---
 
-**Questions?** Check the other documentation files or Google the error message - you've got this! 💪
+**Pytania?** Sprawdź inne pliki dokumentacji lub wyszukaj komunikat błędu w Google - dasz radę! 💪

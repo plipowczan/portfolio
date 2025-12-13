@@ -1,71 +1,71 @@
-# Deployment Guide
+# Przewodnik Wdrożenia
 
-This guide covers deployment options for the Pawel Lipowczan Portfolio website.
+Ten przewodnik obejmuje opcje wdrożenia dla strony portfolio Pawel Lipowczan.
 
-## Pre-Deployment Checklist
+## Checklist Przed Wdrożeniem
 
-- [ ] Update personal information in `src/utils/constants.js`
-- [ ] Add real project data in `src/data/projects.js`
-- [ ] Update skills in `src/data/skills.js`
-- [ ] Add blog posts in `src/data/blogPosts.js`
-- [ ] Add project images to `public/images/`
-- [ ] Test the build: `npm run build`
-- [ ] Preview the build: `npm run preview`
-- [ ] Update sitemap URLs in `public/sitemap.xml`
-- [ ] Update domain in `public/robots.txt`
+- [ ] Zaktualizuj informacje osobiste w `src/utils/constants.js`
+- [ ] Dodaj prawdziwe dane projektów w `src/data/projects.js`
+- [ ] Zaktualizuj umiejętności w `src/data/skills.js`
+- [ ] Dodaj posty blogowe w `src/data/blogPosts.js`
+- [ ] Dodaj zdjęcia projektów do `public/images/`
+- [ ] Przetestuj build: `npm run build`
+- [ ] Podejrzyj build: `npm run preview`
+- [ ] Zaktualizuj URL-e w `public/sitemap.xml`
+- [ ] Zaktualizuj domenę w `public/robots.txt`
 
-## Option 1: Vercel (Recommended)
+## Opcja 1: Vercel (Zalecane)
 
-### Why Vercel?
+### Dlaczego Vercel?
 
-- Zero configuration
-- Automatic HTTPS
-- Global CDN
-- Instant deployments
-- Free for personal projects
-- Excellent performance
+- Zerowa konfiguracja
+- Automatyczny HTTPS
+- Globalny CDN
+- Natychmiastowe wdrożenia
+- Darmowy dla projektów osobistych
+- Doskonała wydajność
 
-### Steps
+### Kroki
 
-1. **Install Vercel CLI**
+1. **Zainstaluj Vercel CLI**
 
 ```bash
 npm install -g vercel
 ```
 
-2. **Login to Vercel**
+2. **Zaloguj się do Vercel**
 
 ```bash
 vercel login
 ```
 
-3. **Deploy**
+3. **Wdróż**
 
 ```bash
 vercel
 ```
 
-4. **Production Deployment**
+4. **Wdrożenie Produkcyjne**
 
 ```bash
 vercel --prod
 ```
 
-### Custom Domain
+### Własna Domena
 
-1. Go to Vercel dashboard
-2. Select your project
-3. Go to Settings > Domains
-4. Add your custom domain
-5. Update DNS records as instructed
+1. Przejdź do panelu Vercel
+2. Wybierz swój projekt
+3. Przejdź do Settings > Domains
+4. Dodaj swoją własną domenę
+5. Zaktualizuj rekordy DNS zgodnie z instrukcjami
 
-### Environment Variables (if needed)
+### Zmienne Środowiskowe (jeśli potrzebne)
 
-1. Go to project settings in Vercel dashboard
-2. Navigate to Environment Variables
-3. Add any required variables (e.g., API keys)
+1. Przejdź do ustawień projektu w panelu Vercel
+2. Nawiguj do Environment Variables
+3. Dodaj wymagane zmienne (np. klucze API)
 
-### ✨ SEO: Prerendering (Recommended)
+### ✨ SEO: Prerendering (Zalecane)
 
 **⚠️ WAŻNE dla SEO:** Użyj `build:prerender` zamiast standardowego `build`
 
@@ -91,64 +91,64 @@ vercel --prod
 
 **Więcej:** Zobacz `../seo/PRERENDERING.md` dla szczegółów
 
-## Option 2: Netlify
+## Opcja 2: Netlify
 
-### Why Netlify?
+### Dlaczego Netlify?
 
-- Easy drag-and-drop deployment
-- Form handling support
-- Free SSL certificates
-- Continuous deployment from Git
+- Łatwe wdrożenie metodą "przeciągnij i upuść"
+- Wsparcie dla formularzy
+- Darmowe certyfikaty SSL
+- Ciągłe wdrażanie z Git
 
-### Method 1: Drag and Drop
+### Metoda 1: Przeciągnij i Upuść
 
-1. Build the project:
+1. Zbuduj projekt:
 
 ```bash
 npm run build
 ```
 
-2. Go to [Netlify Drop](https://app.netlify.com/drop)
-3. Drag the `dist` folder to the upload area
-4. Your site is live!
+2. Przejdź do [Netlify Drop](https://app.netlify.com/drop)
+3. Przeciągnij folder `dist` do obszaru przesyłania
+4. Twoja strona jest online!
 
-### Method 2: Git Integration
+### Metoda 2: Integracja z Git
 
-1. Push your code to GitHub
-2. Go to [Netlify](https://www.netlify.com/)
-3. Click "New site from Git"
-4. Connect your GitHub repository
-5. Build settings:
+1. Wypchnij kod do GitHub
+2. Przejdź do [Netlify](https://www.netlify.com/)
+3. Kliknij "New site from Git"
+4. Połącz swoje repozytorium GitHub
+5. Ustawienia buildu:
    - Build command: `npm run build`
    - Publish directory: `dist`
-6. Click "Deploy site"
+6. Kliknij "Deploy site"
 
-### Custom Domain on Netlify
+### Własna Domena w Netlify
 
-1. Go to Site settings > Domain management
-2. Click "Add custom domain"
-3. Follow DNS configuration instructions
+1. Przejdź do Site settings > Domain management
+2. Kliknij "Add custom domain"
+3. Postępuj zgodnie z instrukcjami konfiguracji DNS
 
-## Option 3: GitHub Pages
+## Opcja 3: GitHub Pages
 
-### Setup
+### Konfiguracja
 
-1. Install gh-pages:
+1. Zainstaluj gh-pages:
 
 ```bash
 npm install --save-dev gh-pages
 ```
 
-2. Update `vite.config.js`:
+2. Zaktualizuj `vite.config.js`:
 
 ```js
 export default defineConfig({
-  base: "/repository-name/", // Replace with your repo name
+  base: "/repository-name/", // Zastąp nazwą swojego repo
   plugins: [react()],
 });
 ```
 
-3. Add deploy script to `package.json`:
+3. Dodaj skrypt deploy do `package.json`:
 
 ```json
 "scripts": {
@@ -157,32 +157,32 @@ export default defineConfig({
 }
 ```
 
-4. Deploy:
+4. Wdróż:
 
 ```bash
 npm run deploy
 ```
 
-5. Enable GitHub Pages in repository settings:
+5. Włącz GitHub Pages w ustawieniach repozytorium:
    - Settings > Pages
    - Source: gh-pages branch
-   - Click Save
+   - Kliknij Save
 
-## Option 4: Custom Server (VPS/Dedicated)
+## Opcja 4: Własny Serwer (VPS/Dedykowany)
 
-### Requirements
+### Wymagania
 
-- Node.js installed
-- Nginx or Apache
-- SSL certificate (Let's Encrypt recommended)
+- Zainstalowany Node.js
+- Nginx lub Apache
+- Certyfikat SSL (zalecany Let's Encrypt)
 
-### Build for Production
+### Build dla Produkcji
 
 ```bash
 npm run build
 ```
 
-### Nginx Configuration Example
+### Przykład Konfiguracji Nginx
 
 ```nginx
 server {
@@ -196,204 +196,204 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    # Cache static assets
+    # Cachowanie statycznych zasobów
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
     }
 
-    # Gzip compression
+    # Kompresja Gzip
     gzip on;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 }
 ```
 
-### SSL with Let's Encrypt
+### SSL z Let's Encrypt
 
 ```bash
 sudo apt-get install certbot python3-certbot-nginx
 sudo certbot --nginx -d pawellipowczan.com -d www.pawellipowczan.com
 ```
 
-## Performance Optimization
+## Optymalizacja Wydajności
 
-### Before Deployment
+### Przed Wdrożeniem
 
-1. **Optimize Images**
+1. **Optymalizuj Obrazy**
 
-   - Compress images (use tools like TinyPNG, Squoosh)
-   - Convert to WebP format
-   - Resize to appropriate dimensions
+   - Skompresuj obrazy (użyj narzędzi jak TinyPNG, Squoosh)
+   - Konwertuj do formatu WebP
+   - Zmień rozmiar do odpowiednich wymiarów
 
 2. **Code Splitting**
 
-   - Already implemented with React.lazy()
-   - Check bundle size: `npm run build -- --stats`
+   - Już zaimplementowane z React.lazy()
+   - Sprawdź rozmiar bundle: `npm run build -- --stats`
 
-3. **Remove Console Logs**
+3. **Usuń Console Logi**
 
-   - Search for `console.log` statements
-   - Remove or disable in production
+   - Szukaj instrukcji `console.log`
+   - Usuń lub wyłącz w produkcji
 
-4. **Test Performance**
-   - Run Lighthouse audit
-   - Check bundle size
-   - Test on slow 3G network
+4. **Przetestuj Wydajność**
+   - Uruchom audyt Lighthouse
+   - Sprawdź rozmiar bundle
+   - Przetestuj na wolnej sieci 3G
 
-### After Deployment
+### Po Wdrożeniu
 
-1. **Enable CDN** (if using Vercel/Netlify, this is automatic)
+1. **Włącz CDN** (jeśli używasz Vercel/Netlify, to automatyczne)
 
-2. **Monitor Performance**
+2. **Monitoruj Wydajność**
 
    - Google Analytics
    - Google Search Console
-   - Web Vitals monitoring
+   - Monitorowanie Web Vitals
 
-3. **SEO Checklist**
-   - Submit sitemap to Google Search Console
-   - Verify meta tags are rendering
-   - Test Open Graph tags (use [opengraph.xyz](https://www.opengraph.xyz/))
-   - Test Twitter Cards (use [Twitter Card Validator](https://cards-dev.twitter.com/validator))
+3. **Checklist SEO**
+   - Prześlij sitemap do Google Search Console
+   - Zweryfikuj czy meta tagi się renderują
+   - Przetestuj tagi Open Graph (użyj [opengraph.xyz](https://www.opengraph.xyz/))
+   - Przetestuj Twitter Cards (użyj [Twitter Card Validator](https://cards-dev.twitter.com/validator))
 
-## Environment Variables
+## Zmienne Środowiskowe
 
-If you need API keys or sensitive data:
+Jeśli potrzebujesz kluczy API lub wrażliwych danych:
 
-1. Create `.env` file (already in .gitignore):
+1. Utwórz plik `.env` (już w .gitignore):
 
 ```
 VITE_API_KEY=your_api_key_here
 VITE_FORM_ENDPOINT=your_form_endpoint
 ```
 
-2. Access in code:
+2. Dostęp w kodzie:
 
 ```js
 const apiKey = import.meta.env.VITE_API_KEY;
 ```
 
-3. Set in deployment platform:
+3. Ustaw na platformie wdrożeniowej:
    - **Vercel**: Settings > Environment Variables
    - **Netlify**: Site settings > Build & deploy > Environment
 
-## Continuous Deployment
+## Ciągłe Wdrażanie
 
-### Automatic Deployment on Git Push
+### Automatyczne Wdrożenie przy Git Push
 
 1. **Vercel**
 
-   - Automatically deploys on push to main branch
-   - Configure in project settings
+   - Automatycznie wdraża przy pushu do gałęzi main
+   - Skonfiguruj w ustawieniach projektu
 
 2. **Netlify**
-   - Automatic with Git integration
-   - Configure branch deploys in settings
+   - Automatyczne z integracją Git
+   - Skonfiguruj wdrożenia gałęzi w ustawieniach
 
-### Branch Previews
+### Podglądy Gałęzi
 
-Both Vercel and Netlify create preview URLs for pull requests automatically.
+Zarówno Vercel jak i Netlify automatycznie tworzą URL-e podglądu dla pull requestów.
 
-## Troubleshooting
+## Rozwiązywanie Problemów
 
-### Build Fails
+### Build Się Nie Udaje
 
-- Check Node.js version (should be 16+)
-- Clear node_modules: `rm -rf node_modules && npm install`
-- Check for missing dependencies
+- Sprawdź wersję Node.js (powinna być 16+)
+- Wyczyść node_modules: `rm -rf node_modules && npm install`
+- Sprawdź brakujące zależności
 
-### Blank Page After Deployment
+### Pusta Strona Po Wdrożeniu
 
-- Check browser console for errors
-- Verify `base` path in `vite.config.js`
-- Check routing configuration
+- Sprawdź konsolę przeglądarki pod kątem błędów
+- Zweryfikuj ścieżkę `base` w `vite.config.js`
+- Sprawdź konfigurację routingu
 
-### 404 on Page Refresh
+### 404 Przy Odświeżeniu Strony
 
-- For Netlify: `_redirects` file already included
-- For other hosts: Configure server to serve index.html for all routes
+- Dla Netlify: plik `_redirects` już dołączony
+- Dla innych hostów: Skonfiguruj serwer aby serwował index.html dla wszystkich ścieżek
 
-### Images Not Loading
+### Obrazy Się Nie Ładują
 
-- Check image paths (should be in `public/` folder)
-- Verify image files are included in build
-- Check network tab for 404 errors
+- Sprawdź ścieżki obrazów (powinny być w folderze `public/`)
+- Zweryfikuj czy pliki obrazów są włączone w build
+- Sprawdź zakładkę network pod kątem błędów 404
 
-## Post-Deployment
+## Po Wdrożeniu
 
-1. **Test Everything**
+1. **Przetestuj Wszystko**
 
-   - [ ] All navigation links work
-   - [ ] Contact form submits (configure endpoint)
-   - [ ] Blog posts load correctly
-   - [ ] Responsive design on mobile
-   - [ ] Legal pages accessible
+   - [ ] Wszystkie linki nawigacji działają
+   - [ ] Formularz kontaktowy się wysyła (skonfiguruj endpoint)
+   - [ ] Posty blogowe ładują się poprawnie
+   - [ ] Responsywny design na mobile
+   - [ ] Strony prawne są dostępne
 
-2. **SEO Setup**
+2. **Konfiguracja SEO**
 
-   - [ ] Submit sitemap to Google Search Console
-   - [ ] Submit sitemap to Bing Webmaster Tools
-   - [ ] Set up Google Analytics (optional)
-   - [ ] Verify meta tags with browser extension
+   - [ ] Prześlij sitemap do Google Search Console
+   - [ ] Prześlij sitemap do Bing Webmaster Tools
+   - [ ] Skonfiguruj Google Analytics (opcjonalnie)
+   - [ ] Zweryfikuj meta tagi z rozszerzeniem przeglądarki
 
-3. **Social Media**
+3. **Media Społecznościowe**
 
-   - [ ] Update social media profiles with website link
-   - [ ] Test social share previews
-   - [ ] Add website to LinkedIn profile
+   - [ ] Zaktualizuj profile w mediach społecznościowych linkiem do strony
+   - [ ] Przetestuj podglądy udostępnień społecznościowych
+   - [ ] Dodaj stronę do profilu LinkedIn
 
-4. **Monitoring**
-   - [ ] Set up uptime monitoring (UptimeRobot, Pingdom)
-   - [ ] Configure error tracking (Sentry - optional)
-   - [ ] Monitor performance with Google PageSpeed Insights
+4. **Monitorowanie**
+   - [ ] Skonfiguruj monitorowanie uptime (UptimeRobot, Pingdom)
+   - [ ] Skonfiguruj śledzenie błędów (Sentry - opcjonalnie)
+   - [ ] Monitoruj wydajność z Google PageSpeed Insights
 
-## Custom Domain Setup
+## Konfiguracja Własnej Domeny
 
-### DNS Configuration
+### Konfiguracja DNS
 
-For most hosting providers, you'll need to set these DNS records:
+Dla większości dostawców hostingu, musisz ustawić te rekordy DNS:
 
-**A Records** (for root domain):
+**Rekordy A** (dla domeny głównej):
 
 ```
 Type: A
 Name: @
-Value: [hosting provider IP]
+Value: [IP dostawcy hostingu]
 ```
 
-**CNAME Record** (for www subdomain):
+**Rekord CNAME** (dla subdomeny www):
 
 ```
 Type: CNAME
 Name: www
-Value: [hosting provider domain]
+Value: [domena dostawcy hostingu]
 ```
 
-### Popular Domain Registrars
+### Popularne Rejestratory Domen
 
 - [Namecheap](https://www.namecheap.com/)
 - [GoDaddy](https://www.godaddy.com/)
 - [Google Domains](https://domains.google/)
-- [Cloudflare](https://www.cloudflare.com/) (also provides DNS)
+- [Cloudflare](https://www.cloudflare.com/) (zapewnia także DNS)
 
-## Maintenance
+## Utrzymanie
 
-### Regular Updates
+### Regularne Aktualizacje
 
-- Update dependencies monthly: `npm update`
-- Check for security vulnerabilities: `npm audit`
-- Update blog posts regularly
-- Add new projects as completed
+- Aktualizuj zależności co miesiąc: `npm update`
+- Sprawdzaj luki bezpieczeństwa: `npm audit`
+- Aktualizuj posty blogowe regularnie
+- Dodawaj nowe projekty gdy są ukończone
 
-### Backups
+### Kopie Zapasowe
 
-- Code is backed up in Git repository
-- Blog content should be backed up separately
-- Database backups (if using dynamic content)
+- Kod jest zabezpieczony w repozytorium Git
+- Treść bloga powinna być zabezpieczona osobno
+- Kopie zapasowe bazy danych (jeśli używasz dynamicznej treści)
 
-## Support
+## Wsparcie
 
-For deployment issues:
+Dla problemów z wdrożeniem:
 
 - Vercel: [vercel.com/support](https://vercel.com/support)
 - Netlify: [netlify.com/support](https://www.netlify.com/support/)
@@ -401,4 +401,4 @@ For deployment issues:
 
 ---
 
-**Ready to deploy?** Choose your preferred platform and follow the steps above!
+**Gotowy do wdrożenia?** Wybierz swoją preferowaną platformę i postępuj zgodnie z powyższymi krokami!

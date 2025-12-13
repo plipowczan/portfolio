@@ -7,13 +7,9 @@ Dokumentacja projektu zorganizowana tematycznie dla łatwego odnajdywania inform
 ```
 docs/
 ├── README.md                      # Ten plik - przegląd dokumentacji
-├── PRD.md                         # Product Requirements Document
-├── PROJECT_SUMMARY.md             # Podsumowanie projektu
+├── PRD.md                         # Product Requirements Document (EN - dla AI)
+├── SRS.md                         # Software Requirements Specification (EN - dla AI)
 ├── QUICK_START.md                 # Szybki start
-│
-├── planning/                      # 📝 Notatki i plany
-│   ├── o-mnie.md                 # Notatki "o mnie"
-│   └── projects.md               # Notatki o projektach
 │
 ├── deployment/                    # 🚀 Deployment
 │   └── DEPLOYMENT.md             # Kompletny przewodnik wdrożenia
@@ -47,28 +43,15 @@ docs/
 2. **[QUICK_START.md](./QUICK_START.md)** - 5-minutowy quickstart
 3. **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** - Jak wdrożyć
 
-### Chcesz zobaczyć co zostało zrobione?
+### Szukasz szczegółów technicznych (dla AI/deweloperów)?
 
-- **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Kompletne podsumowanie projektu
-
-### Szukasz szczegółów technicznych?
-
-- **[PRD.md](./PRD.md)** - Pełna specyfikacja produktu
+- **[SRS.md](./SRS.md)** - Specyfikacja techniczna i architektura (EN - dla AI)
+- **[PRD.md](./PRD.md)** - Wymagania produktowe i wizja (EN - dla AI)
 
 ---
 
 ## 📖 Przewodnik po dokumentacji
 
-### 📝 Planning - Notatki i plany
-
-Folder zawierający wstępne notatki i plany:
-
-- `o-mnie.md` - Notatki do sekcji "O mnie"
-- `projects.md` - Notatki o projektach do zaprezentowania
-
-**Kiedy używać:** Podczas planowania treści lub brainstorming
-
----
 
 ### 🚀 Deployment - Wdrożenie
 
@@ -232,26 +215,27 @@ Historia naprawionych bugów:
 
 ### Top 5 dokumentów
 
-1. **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** - Jak wdrożyć na Vercel
-2. **[seo/SEO_VERIFICATION.md](./seo/SEO_VERIFICATION.md)** - Jak sprawdzić SEO po deploy
-3. **[blog/BLOG_WORKFLOW.md](./blog/BLOG_WORKFLOW.md)** - Jak dodać nowy post
-4. **[maintenance/TODO.md](./maintenance/TODO.md)** - Co dalej rozwijać
-5. **[QUICK_START.md](./QUICK_START.md)** - Szybki start dla nowych
+1. **[SRS.md](./SRS.md)** - Specyfikacja techniczna i architektura (NOWE - dla AI)
+2. **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** - Jak wdrożyć na Vercel
+3. **[PRD.md](./PRD.md)** - Wymagania produktowe (dla AI)
+4. **[maintenance/TODO.md](./maintenance/TODO.md)** - Roadmap i zadania do zrobienia
+5. **[QUICK_START.md](./QUICK_START.md)** - Szybki start dla nowych użytkowników
 
 ---
 
 ## 🔗 Powiązania między dokumentami
 
 ```
-README.md (root)
-    ↓
-QUICK_START.md ──→ deployment/DEPLOYMENT.md
-    ↓                      ↓
-PROJECT_SUMMARY.md    seo/SEO_VERIFICATION.md
-    ↓                      ↓
-PRD.md              maintenance/TODO.md
-                           ↓
-                    seo/PRERENDERING.md
+README.md (root) ──────────────────┐
+    ↓                              ↓
+    ├─→ PRD.md (Biznes & Wizja - EN dla AI)
+    ├─→ SRS.md (Technika & Architektura - EN dla AI) ← NOWE
+    ├─→ QUICK_START.md ──→ deployment/DEPLOYMENT.md
+    └─→ maintenance/TODO.md
+            ↓
+        seo/SEO_VERIFICATION.md
+            ↓
+        seo/PRERENDERING.md
 ```
 
 ---
@@ -315,7 +299,9 @@ PRD.md              maintenance/TODO.md
 - Blog → `blog/BLOG_WORKFLOW.md`
 - Testy → `testing/TESTING_QUICKSTART.md`
 - Planowanie → `maintenance/TODO.md`
-- Przegląd → `PROJECT_SUMMARY.md`
+- Przegląd projektu → `../README.md` (katalog główny)
+- Specyfikacja techniczna (AI) → `SRS.md`
+- Wymagania biznesowe (AI) → `PRD.md`
 
 **Nadal nie wiesz?**
 

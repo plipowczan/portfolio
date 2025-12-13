@@ -1,31 +1,38 @@
 # Product Requirements Document (PRD)
 ## Pawel Lipowczan - Portfolio Website
 
-**Version:** 1.0  
-**Date:** October 21, 2025  
+**Version:** 2.0
+**Created:** 2024-10-21
+**Last Updated:** 2025-12-13
+**Status:** ✅ COMPLETED AND DEPLOYED
 **Project Owner:** Pawel Lipowczan
+**Audience:** AI agents, product owners, technical reviewers
 
 ---
 
 ## Executive Summary
 
-A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") showcasing professional work, technical skills, projects, and blog articles. The website will feature a distinctive green/teal color scheme with geometric network backgrounds and smooth animations.
+A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") showcasing professional work, technical skills, projects, and blog articles. The website features a distinctive green/teal color scheme with geometric network backgrounds and smooth animations.
+
+**Current Status:** All planned features have been implemented and deployed to production at [pawellipowczan.pl](https://pawellipowczan.pl). The project is in maintenance and optimization phase.
 
 ---
 
 ## Goals & Objectives
 
 ### Primary Goals
-1. Present professional portfolio to potential clients/employers
-2. Share technical knowledge through blog articles
-3. Showcase projects and technical expertise
-4. Provide easy contact methods
+1. ✅ Present professional portfolio to potential clients/employers
+2. ✅ Share technical knowledge through blog articles
+3. ✅ Showcase projects and technical expertise
+4. ✅ Provide easy contact methods
 
 ### Success Metrics
-- Page load time < 3 seconds
-- Mobile responsive on all devices
-- SEO optimized (meta tags, semantic HTML)
-- 100% GDPR/RODO compliance for legal pages
+- ⚠️ Page load time < 3 seconds (CURRENT: 5.3s - optimization in progress)
+- ✅ Mobile responsive on all devices
+- ✅ SEO optimized (meta tags, semantic HTML, structured data)
+- ✅ 100% GDPR/RODO compliance for legal pages
+
+**Overall Status:** 3/4 goals achieved, 1 in optimization (performance)
 
 ---
 
@@ -58,24 +65,47 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 
 ## Technical Stack
 
+**Version:** 2.0 (Current - December 2025)
+
 ### Frontend Framework
-- **React 18** with Hooks
-- **Vite** for build tooling and development server
+
+- **React 19.2.0** with Hooks
+- **Vite 7.2.2** for build tooling and development server
 
 ### Styling & UI
-- **Tailwind CSS** for utility-first styling
-- **Framer Motion** for animations
+
+- **Tailwind CSS 3.4.18** for utility-first styling
+- **Framer Motion 12.23.24** for animations
+- **PostCSS 8.5.6** + **Autoprefixer 10.4.22**
 - Custom CSS for advanced gradient effects
 
 ### Routing & Navigation
-- **React Router v6** for client-side routing
-- Hash-based routing for GitHub Pages compatibility (if needed)
 
-### Additional Libraries
-- **React Helmet** for SEO meta tags
-- **React Hook Form** for contact form validation
-- **React Markdown** for blog content rendering
-- **React Icons** for icon components
+- **React Router 7.9.6** for client-side routing
+- Browser routing (BrowserRouter) for clean URLs
+
+### Content & SEO
+
+- **React Helmet Async 2.0.5** for dynamic SEO meta tags
+- **React Markdown 10.1.0** for blog content rendering
+- **gray-matter 4.0.3** for markdown frontmatter parsing
+- **React Icons 5.5.0** for icon components
+
+### Prerendering & Performance
+
+- **Puppeteer Core 24.32.1** for SEO prerendering
+- **@sparticuz/chromium 133.0.0** for Vercel-compatible prerendering
+- **Vercel Analytics 1.5.0** for visitor analytics
+- **Vercel Speed Insights 1.3.0** for Core Web Vitals monitoring
+
+### Testing
+
+- **Playwright 1.56.1** for end-to-end testing
+
+### AI Integration (Optional)
+
+- **@anthropic-ai/sdk 0.69.0** for AI-assisted content generation
+- **openai 6.9.0** for OpenAI API integration
 
 ---
 
@@ -104,194 +134,7 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 - Terms of Service (Regulamin)
 - Cookie Policy (Polityka Ciasteczek)
 
----
-
-## Detailed Feature Requirements
-
-### Hero Section
-**Must Have:**
-- Full viewport height
-- Animated gradient heading: "PAWEL LIPOWCZAN"
-- Subtitle: "YOUR TECH GUIDE"
-- Logo centered above heading
-- Geometric network background animation
-- CTA buttons: "View Projects", "Contact Me"
-- Smooth scroll to next section
-
-**Visual Reference:** Similar to Tech News Weekly Summary design
-
-### About Section
-**Must Have:**
-- Professional photo or avatar
-- 2-3 paragraph introduction
-- Key highlights/statistics (animated counters)
-- "Download CV" button
-- Social media links
-
-### Projects Section
-**Must Have:**
-- Grid layout (3 columns desktop, 2 tablet, 1 mobile)
-- Project cards with:
-  - Project thumbnail/screenshot
-  - Project title
-  - Short description
-  - Tech stack badges
-  - "View Demo" and "GitHub" links
-  - Hover effects (lift, glow)
-
-**Minimum 3-6 sample projects**
-
-### Skills Section
-**Must Have:**
-- Technology categories (Frontend, Backend, Tools, etc.)
-- Icon grid or tag cloud
-- Animated entrance on scroll
-- Skill levels or expertise indicators
-
-**Technologies to highlight:**
-- React, JavaScript, TypeScript
-- Node.js, Python
-- Tailwind CSS, Framer Motion
-- Git, GitHub
-- Other relevant technologies
-
-### Contact Section
-**Must Have:**
-- Contact form with fields:
-  - Name (required)
-  - Email (required, validated)
-  - Subject (optional)
-  - Message (required, min 10 chars)
-- Form validation with error messages
-- Success/error notifications
-- Email: display contact email
-- Social media links
-- Location (optional)
-
-**Form Handling Options:**
-- FormSpree, EmailJS, or custom backend API
-
-### Blog Section
-**Must Have:**
-- Blog listing page at `/blog`
-- Article preview cards with:
-  - Featured image
-  - Title
-  - Excerpt (150 chars)
-  - Publication date
-  - Reading time
-  - Category tags
-- Individual post pages at `/blog/:slug`
-- Markdown rendering for post content
-- Syntax highlighting for code blocks
-- SEO meta tags per article
-- Previous/Next navigation
-
-**Sample Articles:**
-- Minimum 3 placeholder articles for demo
-- Content can be markdown files or JSON data
-
-### Navigation
-**Must Have:**
-- Fixed header on scroll
-- Logo on left
-- Menu items: Home, About, Projects, Skills, Blog, Contact
-- Mobile hamburger menu
-- Smooth scroll to sections
-- Active section highlighting
-- Semi-transparent backdrop blur
-
-### Footer
-**Must Have:**
-- Copyright notice
-- Social media links
-- Links to legal pages
-- "Made with React + Vite" credit
-- Green accent line/border at top
-
-### Legal Pages
-**Must Have:**
-- Privacy Policy (GDPR/RODO compliant)
-  - Data collection details
-  - Cookie usage
-  - User rights
-  - Contact for data requests
-- Terms of Service
-  - Website usage terms
-  - Content rights
-  - Liability disclaimers
-- Cookie Policy
-  - Types of cookies used
-  - Purpose of each cookie
-  - How to disable cookies
-
-**All legal pages:**
-- Clean, readable layout
-- Table of contents
-- Last updated date
-- Easy navigation back to main site
-
----
-
-## Technical Requirements
-
-### Responsiveness (RWD)
-- **Mobile-first approach**
-- Breakpoints:
-  - Mobile: < 640px
-  - Tablet: 640px - 1024px
-  - Desktop: > 1024px
-- Touch-friendly interactions
-- Hamburger menu for mobile
-- Optimized images per device size
-
-### Performance
-**Target Metrics:**
-- First Contentful Paint (FCP) < 1.5s
-- Largest Contentful Paint (LCP) < 2.5s
-- Time to Interactive (TTI) < 3.5s
-- Lighthouse Score > 90
-
-**Optimization Techniques:**
-- Image optimization (WebP format, lazy loading)
-- Code splitting with React.lazy()
-- Minified CSS/JS bundles
-- Efficient animations (transform, opacity only)
-- Caching headers configuration
-
-### SEO Requirements
-**Must Have:**
-- Semantic HTML5 elements (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`)
-- Meta tags:
-  - Title (unique per page)
-  - Description
-  - Keywords
-  - Open Graph tags (Facebook)
-  - Twitter Card tags
-- Structured data (JSON-LD):
-  - Person schema
-  - WebSite schema
-  - BlogPosting schema for articles
-- XML sitemap (`sitemap.xml`)
-- Robots.txt
-- Descriptive alt text for all images
-- Clean URL structure
-- Proper heading hierarchy (H1, H2, H3)
-- Internal linking between pages
-
-### Accessibility (A11y)
-- WCAG 2.1 Level AA compliance
-- Keyboard navigation support
-- ARIA labels where needed
-- Sufficient color contrast ratios
-- Focus indicators on interactive elements
-- Skip to content link
-
-### Browser Support
-- Chrome (last 2 versions)
-- Firefox (last 2 versions)
-- Safari (last 2 versions)
-- Edge (last 2 versions)
+**Note:** Detailed technical requirements and implementation specifications have been moved to [SRS.md](./SRS.md) for AI agents and developers. This section provides high-level feature overview only.
 
 ---
 
@@ -326,44 +169,64 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 
 ## Development Phases
 
-### Phase 1: Setup & Documentation ✓
+**Overall Status:** All phases completed ✅ (October-November 2025)
+
+### Phase 1: Setup & Documentation ✅ (October 2025)
+
 - [x] Create PRD
 - [x] Create .cursorrules
 - [x] Initialize project structure
 
-### Phase 2: Foundation (Week 1)
-- [ ] Initialize Vite + React project
-- [ ] Install dependencies
-- [ ] Configure Tailwind CSS
-- [ ] Set up routing
-- [ ] Create base layout and navigation
+### Phase 2: Foundation ✅ (Week 1)
 
-### Phase 3: Core Pages (Week 1-2)
-- [ ] Build Hero section
-- [ ] Implement About section
-- [ ] Create Projects section
-- [ ] Build Skills section
-- [ ] Add Contact form
+- [x] Initialize Vite + React project
+- [x] Install dependencies
+- [x] Configure Tailwind CSS
+- [x] Set up routing
+- [x] Create base layout and navigation
 
-### Phase 4: Blog System (Week 2)
-- [ ] Blog listing page
-- [ ] Individual blog post pages
-- [ ] Markdown rendering
-- [ ] SEO optimization for blog
+### Phase 3: Core Pages ✅ (Week 1-2)
 
-### Phase 5: Legal & Polish (Week 2-3)
-- [ ] Legal pages (Privacy, Terms, Cookies)
-- [ ] Add animations and transitions
-- [ ] Responsive design testing
-- [ ] Performance optimization
-- [ ] SEO audit and fixes
+- [x] Build Hero section
+- [x] Implement About section
+- [x] Create Projects section
+- [x] Build Skills section
+- [x] Add Contact form
 
-### Phase 6: Testing & Deployment (Week 3)
-- [ ] Cross-browser testing
-- [ ] Mobile device testing
-- [ ] Accessibility audit
-- [ ] Performance testing
-- [ ] Deploy to hosting
+### Phase 4: Blog System ✅ (Week 2)
+
+- [x] Blog listing page
+- [x] Individual blog post pages
+- [x] Markdown rendering
+- [x] SEO optimization for blog
+
+### Phase 5: Legal & Polish ✅ (Week 2-3)
+
+- [x] Legal pages (Privacy, Terms, Cookies)
+- [x] Add animations and transitions
+- [x] Responsive design testing
+- [x] Performance optimization (ongoing)
+- [x] SEO audit and fixes
+
+### Phase 6: Testing & Deployment ✅ (Week 3)
+
+- [x] Cross-browser testing
+- [x] Mobile device testing
+- [x] Accessibility audit
+- [x] Performance testing
+- [x] Deploy to hosting (Vercel)
+- [x] Configure custom domain
+
+### Phase 7: Advanced SEO ✅ (November 2025)
+
+- [x] Implement prerendering with Puppeteer
+- [x] Add structured data (JSON-LD schemas)
+- [x] Implement E2E testing with Playwright
+- [x] Configure Vercel Analytics
+- [x] Dynamic sitemap generation
+- [x] Open Graph images for all pages
+
+**Project Status:** Deployed and operational. Currently in maintenance and optimization phase.
 
 ---
 
@@ -457,22 +320,24 @@ All legal pages must be:
 
 ---
 
-## Questions & Decisions
+## Decisions & Assumptions
 
-### Pending Decisions
-1. ✓ Color scheme: Green/teal confirmed
-2. ✓ Logo usage: Centered in header confirmed
-3. ? Contact form backend: FormSpree, EmailJS, or custom?
-4. ? Hosting platform: Vercel or Netlify?
-5. ? Blog content: Markdown files or CMS?
-6. ? Multi-language: English only or Polish + English?
+### Confirmed Decisions
+1. ✅ Color scheme: Green/teal gradient confirmed and implemented
+2. ✅ Logo usage: Centered in header, SVG format
+3. ✅ Contact form backend: FormSpree (ready for integration, not yet connected)
+4. ✅ Hosting platform: Vercel with automatic deployments
+5. ✅ Blog content: Markdown files with gray-matter frontmatter
+6. ✅ Multi-language: Polish only (English for technical documentation)
 
-### Assumptions
-- Single language version (Polish with English technical terms)
-- Static site (no backend required initially)
-- Blog content stored as markdown files
-- Contact form uses third-party service
-- No user authentication needed
+### Current Implementation
+- **Language:** Polish for user-facing content, English for AI/technical docs
+- **Architecture:** Static SPA with build-time prerendering
+- **Blog system:** File-based markdown (8+ articles published)
+- **Contact form:** Client-side validation ready, backend integration pending
+- **Authentication:** Not required (public portfolio site)
+- **CMS:** Not implemented (file-based content management)
+- **Deployment:** Automated via Vercel (push to main branch)
 
 ---
 
@@ -492,4 +357,11 @@ All legal pages must be:
 ---
 
 **Document End**
+
+**Last Updated:** 2025-12-13
+**Next Review:** Quarterly (March 2026)
+**Status:** Completed and deployed
+
+**For detailed technical specifications, see:** [SRS.md](./SRS.md)
+**For AI agents quick reference, see:** [AGENTS.md](../AGENTS.md)
 
