@@ -149,8 +149,8 @@ const BlogPostPage = () => {
                 rehypePlugins={[rehypeRaw]}
                 components={{
                   h1: ({ node, ...props }) => (
-                    <h1
-                      className="text-4xl font-bold text-white mt-12 mb-6"
+                    <h2
+                      className="text-3xl font-bold text-white mt-10 mb-4"
                       {...props}
                     />
                   ),
@@ -205,12 +205,24 @@ const BlogPostPage = () => {
                   li: ({ node, ...props }) => (
                     <li className="text-gray-300" {...props} />
                   ),
-                  a: ({ node, ...props }) => (
-                    <a
-                      className="text-primary-500 hover:text-primary-400 underline"
-                      {...props}
-                    />
-                  ),
+                  a: ({ node, href, ...props }) => {
+                    const isExternal =
+                      href &&
+                      (href.startsWith("http://") ||
+                        href.startsWith("https://")) &&
+                      !href.includes("pawel.lipowczan.pl");
+                    return (
+                      <a
+                        href={href}
+                        className="text-primary-500 hover:text-primary-400 underline"
+                        {...(isExternal && {
+                          target: "_blank",
+                          rel: "noopener noreferrer",
+                        })}
+                        {...props}
+                      />
+                    );
+                  },
                   blockquote: ({ node, ...props }) => (
                     <blockquote
                       className="border-l-4 border-primary-500 pl-6 italic text-gray-400 my-6"
