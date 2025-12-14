@@ -50,3 +50,9 @@ playwright/.cache/
 .vercel
 .netlify
 
+# Claude Code (except skills)
+.claude/*
+!.claude/skills/
+
+# MCP configs with API keys
+.nano-banana-config.json
