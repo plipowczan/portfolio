@@ -15,6 +15,7 @@ export const navigationLinks = [
   { text: "Projekty", href: "#projects" },
   { text: "Umiejętności", href: "#skills" },
   { text: "Blog", href: "/blog" },
+  { text: "Opinie", href: "/#testimonials" },
   { text: "Kontakt", href: "#contact" },
 ];
 
@@ -23,6 +24,7 @@ export const sectionIds = {
   about: "about",
   projects: "projects",
   skills: "skills",
+  testimonials: "testimonials",
   contact: "contact",
 };
 

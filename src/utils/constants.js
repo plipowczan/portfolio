@@ -20,6 +20,7 @@ export const NAV_LINKS = [
   { name: "O mnie", href: "/#about" },
   { name: "Projekty", href: "/#projects" },
   { name: "Umiejętności", href: "/#skills" },
+  { name: "Opinie", href: "/#testimonials" },
   { name: "Blog", href: "/blog" },
   { name: "Kontakt", href: "/#contact" },
 ];

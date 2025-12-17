@@ -20,7 +20,7 @@ test.describe("Strona główna - Home", () => {
     await expect(page).toHaveTitle(/Pawel Lipowczan/i);
 
     // Sprawdź czy wszystkie główne sekcje są obecne
-    const sections = ["hero", "about", "projects", "skills", "contact"];
+    const sections = ["hero", "about", "projects", "skills", "testimonials", "contact"];
 
     for (const section of sections) {
       const sectionElement = page
