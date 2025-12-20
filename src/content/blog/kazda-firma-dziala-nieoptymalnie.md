@@ -1,5 +1,5 @@
 ---
-id: 6
+id: 8
 slug: kazda-firma-dziala-nieoptymalnie
 title: Każda firma działa nieoptymalnie – jak przestać kłamać pracownikom i zacząć naprawiać procesy?
 excerpt: Czy wiesz, że Twoja firma traci czas i pieniądze na nieefektywne procesy? Dowiedz się, jak mapowanie procesów i automatyzacja mogą to zmienić. Wnioski z Infoshare Katowice 2025.

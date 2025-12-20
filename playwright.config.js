@@ -8,18 +8,18 @@ export default defineConfig({
   // Katalog z testami
   testDir: "./tests",
 
-  // Maksymalny czas na jeden test
-  timeout: 30 * 1000,
+  // Maksymalny czas na jeden test (zwiększony dla Firefox)
+  timeout: 60 * 1000,
 
   // Ustawienia dla expect
   expect: {
-    timeout: 5000,
+    timeout: 10000,
   },
 
   // Konfiguracja uruchamiania testów
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : 1,
   workers: process.env.CI ? 1 : undefined,
 
   // Reporter - HTML dla lokalnego użycia

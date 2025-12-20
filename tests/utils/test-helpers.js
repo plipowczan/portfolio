@@ -229,14 +229,14 @@ export async function getSeoMetaTags(page) {
             hasDescription
           );
         },
-        { timeout: 20000 }
+        { timeout: 30000 }
       )
       .catch(() => {
         // waitForFunction timeout - kontynuuj do sprawdzenia tagów
       });
 
-    // Dodatkowy czas na React Helmet
-    await page.waitForTimeout(3000);
+    // Dodatkowy czas na React Helmet (zwiększony dla Mobile Safari)
+    await page.waitForTimeout(5000);
 
     // Pobierz tagi
     tags = await page.evaluate(() => {

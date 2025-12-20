@@ -36,7 +36,7 @@ test.describe("Project Pages", () => {
     await expect(page.locator(".prose")).toBeVisible();
     
     // Verify features section
-    await expect(page.locator("text=Key Features")).toBeVisible();
+    await expect(page.locator("text=Kluczowe funkcje")).toBeVisible();
     
     // Verify technologies
     await expect(page.getByText("Make", { exact: true })).toBeVisible();
@@ -50,7 +50,7 @@ test.describe("Project Pages", () => {
     await page.goto("/projects/note-taker-addons");
     
     // Click back link
-    await page.click("text=Back to Projects");
+    await page.click("text=Powrót do projektów");
     
     // Verify returned to home/projects section
     await expect(page).toHaveURL(/#projects/);

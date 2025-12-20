@@ -1,5 +1,5 @@
 ---
-id: 6
+id: 9
 slug: kodowanie-w-2025-ai-portfolio
 title: "Kodowanie w 2025: Czy AI zbudowało moje portfolio? Case Study pawel.lipowczan.pl"
 excerpt: "Czy w 2025 roku programowanie się kończy? Zbudowałem portfolio pawel.lipowczan.pl jako poligon doświadczalny współpracy z AI. Wnioski? AI to junior developer na sterydach, ale fundamenty inżynierskie są niezbędne."
