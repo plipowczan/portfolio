@@ -185,6 +185,11 @@
   },
   "active": "b351535af301b0d1",
   "lastOpenFiles": [
+    "docs/design/component-patterns.md",
+    "docs/design/design-tokens.json",
+    "docs/design/design-reference.md",
+    "docs/design/design-brief.md",
+    "docs/design",
     "node_modules/micromark-extension-gfm-table/readme.md",
     "node_modules/micromark-extension-gfm-task-list-item/license",
     "node_modules/remark-gfm",
@@ -194,8 +199,6 @@
     "node_modules/micromark-extension-gfm-footnote",
     "node_modules/micromark-extension-gfm-strikethrough",
     "node_modules/mdast-util-gfm",
-    "node_modules/micromark-extension-gfm-autolink-literal",
-    "node_modules/markdown-table",
     "public/images/og-vibe-coding-przewodnik.webp",
     "public/images/og-vibe-coding-przewodnik.png"
   ]
