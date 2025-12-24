@@ -1,111 +1,118 @@
-### **Dopracowane Notatki: Hackathon Hacknation – Analiza Doświadczeń**
+# 🎯 Summary
 
-#### **1. Kontekst i Atmosfera Wydarzenia**
+The video is a fast‑paced masterclass on **Cursor 2.0**—packed with practical shortcuts, workflow patterns, and power‑user habits gathered from training thousands of developers. The creator walks through setup, interface tricks, model selection, context management, rules/commands, debugging, design workflows, worktrees, and agent steering. The core message: **Cursor becomes dramatically more effective when you control context, prime your project intentionally, and combine it with complementary tools like Claude Code and Recraft.**
 
-* **Wydarzenie:** Hackathon Hacknation, organizowany przez GovTech Polska.
-* **Cel:** Stworzenie w 24h działającego rozwiązania dla jednego z wyzwań administracji publicznej.
-* **Skala:** Ponad 1500 uczestników, głównie programistów. Ogromny rozmach.
-* **Pula nagród:** Łącznie 480 tys. zł, rozłożone na ok. 10 zadań (zwycięstwo w kategorii = 25 tys. zł).
-* **Atmosfera i Energia:**
-  * Opisana jako „niesamowita” i „robiąca ogromne wrażenie”.
-  * Duża hala, open space, scena, ciągłe prelekcje i ogłoszenia.
-  * Uczestnicy określani jako „zajarani technologią”, co tworzyło unikalny klimat. Energia miejsca była kluczowym motywatorem, który pozwalał działać mimo zmęczenia.
+# ## Highlights
 
-#### **2. Analiza Problemu: „Pani Zosia i Tysiące Exceli”**
+### [00:00:01](#timestamp-00:00:01) **Essential UI shortcuts**
 
-* **Wyzwanie:** Proces budżetowania w administracji publicznej.
-* **Core Problem:** Proces oparty na ręcznej wymianie setek tysięcy plików Excel, co prowadzi do chaosu informacyjnego i braku transparentności.
-* **Anegdota (metafora procesu):**
-    1. **Start (Dół):** „Pani Zosia” w urzędzie gminy „wróży z fusów”, ręcznie wpisując dane budżetowe do Excela (np. zapotrzebowanie na nowy komputer).
-    2. **Eskalacja (Góra):** Plik wędruje w górę hierarchii (urząd miasta -> województwo -> Ministerstwo Finansów).
-    3. **Konsolidacja:** Specjalna komórka w ministerstwie scala dane ze wszystkich plików.
-    4. **Decyzja i Powrót (Dół):** Limity budżetowe wracają tą samą drogą, często z cięciami. W efekcie „Pani Zosia” dowiaduje się, że nie dostanie nowego komputera, bez jasnego uzasadnienia.
+- Cmd/Ctrl +B toggles the sidebar
+- Cmd/Ctrl + J toggles the terminal
+- Cmd+Shift +B opens the browser
+- Ctrl + E switches between editor and agent
+- These shortcuts form the “muscle memory” foundation for fast navigation
 
-#### **3. Rozwiązanie Zespołu: Cyfrowy Budżet**
+---
 
-* **Koncepcja:** Prosta, scentralizowana aplikacja webowa, która zastępuje obieg plików Excel.
-* **Kluczowe Funkcjonalności:**
-  * **Jedno źródło prawdy:** Wszystkie pozycje budżetowe dodawane w jednym systemie.
-  * **Transparentność i komunikacja:** Możliwość komentowania i dyskutowania nad każdą pozycją.
-  * **Uproszczony proces:** Łatwe zatwierdzanie i konsolidacja budżetu na wyższych szczeblach.
-* **Wybór zadania:** Zespół użył AI do przeanalizowania dostępnych wyzwań i wybrania tego, które najlepiej pasowało do ich kompetencji (zespół „nie-programistów”), aby zmaksymalizować szanse.
+### [00:01:25](#timestamp-01:25) **Initial setup & managing MCPs**
 
-#### **4. Przebieg Pracy i Dynamika Zespołu**
+- MCPs are powerful but consume a lot of context
+- The recommended workflow: **start with all MCPs off**, enable only when needed
+- Keep browser automation on
+- Turn on completion sounds so you don’t miss when an agent finishes
 
-* **Początek:** Burza mózgów, analiza materiałów, stworzenie mapy procesu na podstawie dostępnych dokumentów.
-* **Zwrot akcji:** Początkowo praca „na żywioł”, każdy tworzył coś osobno. Ostatecznie zespół skonsolidował się wokół prototypu Justyny, który był najbardziej zaawansowany i stał się fundamentem dalszych prac.
-* **Doświadczenie "ludzkie":**
-  * **Zmęczenie:** Praca non-stop przez 24 godziny.
-  * **Warunki:** Spanie przez 2-3 godziny na korytarzu lub w dedykowanej salce sypialnianej, gdzie „co chwilę komuś dzwonił budzik”.
+---
 
-#### **5. Technologia i Rola AI**
+### [00:02:53](#timestamp-02:53) **Rules & user commands**
 
-* **Główna teza:** Agenci AI byli „equalizerem”, który pozwolił zespołowi „emerytowanego programisty juniora” i osoby z mniejszym doświadczeniem koderskim konkurować z profesjonalnymi zespołami programistów.
-* **Stack technologiczny:**
-  * **Frontend:** React, TypeScript.
-  * **Backend:** Supabase.
-  * **Prezentacja:** Wideo stworzone w HiGen.
-* **Narzędzia AI w użyciu:**
-  * **Paweł i Kuba:** Antigravity (modele Gemini Pro / Claude 4.5). **Zużycie:** Cały tygodniowy limit tokenów w kilkanaście godzin.
-  * **Justyna:** Bolt (model Claude Code). **Zużycie:** 18 milionów tokenów.
+- Rules act as automated prompts but can bloat context
+- Best practice: **add rules only when a recurring issue appears**
+- User commands (e.g., `/package health check`) are reusable across projects
+- Commands become a personal toolkit for repeatable tasks
 
-#### **6. Wyzwania i Kontrariańskie Spojrzenie na AI**
+---
 
-* **Największa Słabość Projektu – Brak Walidacji:**
-  * Zespół nie miał dostępu do praktyka (rzeczywistego urzędnika), który mógłby zweryfikować ich założenia dotyczące procesu.
-  * Mentor przypisany do zadania nie był ekspertem dziedzinowym, co uniemożliwiło walidację logiki aplikacji.
-  * **Wniosek:** Istniało duże ryzyko, że rozwiązanie było „przestrzelone” i nie odpowiadało na realne potrzeby.
-* **Realistyczna Ocena Modeli AI (Wątek Kontrariański):**
-  * **Odczucie:** „Lekkie zawiedzenie” działaniem modeli.
-  * **Konkretne problemy:**
-    * AI często generowało kod, który nie działał.
-    * Proponowane rozwiązania bywały „od czapy”, nieadekwatne do problemu.
-    * Osiągnięcie poprawnego wyniku wymagało wielokrotnego, precyzyjnego promptowania i prowadzenia modelu „za rękę”.
-  * **Przykład blokady:** Justyna napotkała błąd w kodzie (nieprawidłowe filtry `current user`), którego model AI nie był w stanie zdiagnozować. Problem wymagał ręcznego przeanalizowania kodu i znalezienia błędu.
+### [00:03:41](#timestamp-03:41) **Using Claude Code alongside Cursor**
 
-#### **7. Wyniki i Kluczowe Wnioski (Lessons Learned)**
+- Many developers overspend on subscriptions
+- The creator uses **Cursor + Claude Code** as a balanced combo
+- Claude is strong at agentic reasoning; Cursor excels at code integration
 
-* **Wynik Końcowy:** 2.15 / 5 punktów. Zespół nie zakwalifikował się do finałowej trójki w swojej kategorii.
-* **Główne Lekcje:**
-    1. **Przygotowanie jest kluczowe:** Inne zespoły (np. twórcy aplikacji o Bydgoszczy) miały wcześniej przygotowane komponenty i frameworki. Podejście „na żywioł” jest znacznie trudniejsze i mniej efektywne.
-    2. **Walidacja > Technologia:** Nawet najbardziej zaawansowane narzędzia AI nie zastąpią rozmowy z realnym użytkownikiem. Brak walidacji był fundamentalnym błędem.
-    3. **AI to mnożnik siły, a nie magiczna różdżka:** Umożliwia szybkie prototypowanie i rywalizację, ale wciąż wymaga głębokiej wiedzy, umiejętności debugowania i krytycznego myślenia. Nie jest to w pełni autonomiczne narzędzie.
+---
 
-### Plan na kolejny hackaton
+### [00:04:17](#timestamp-04:17) **Recraft for design workflows**
 
-1. Wybór zadania
-1. Zdefiniowanie zespołu - dla każdego członka zespołu zdefiniowanie jego roli w projekcie - mocnych i słabych stron
-2. Dodanie treści zadań - scraping strony z zadaniami - podanie agentowi adresu strony i ocena zadań pod kątem zgodności z zespołem
-3. Priorytetyzacja zadań - wstępna selekcja zadań do wyboru
- Wniosek: Ten etap mieliśmy dobrze zrealizowany - praktycznie nie traciliśmy czasu na wybór zadania bo od razu wiedzieliśmy mniej więcej jakie zadanie będziemy realizować.
-2. Analiza biznesowa
-1. Przygotowanie mapy obecnego procesu jeśli istnieje
-2. Przygotowanie mapy docelowego procesu
-3. Spisanie wymagań funkcjonalnych i niefunkcjonalnych (user stories)
-4. Przygotowanie specyfikacji wymagań (SRS – Software Requirements Specification)
-5. Przygotowanie wymagań produktu PRD
-  Praktycznie:
+- Recraft acts like “Cursor for graphic design”
+- Easily convert images to SVG, remove backgrounds, upscale assets
+- Useful for quick logo creation and UI assets
 
-* PRD﻿ odpowiada na: „Co budujemy i dlaczego? Dla kogo? Jakie ma mieć możliwości?﻿” – poziom produktu i biznesu.
-* SRS﻿ odpowiada na: „Jaki dokładnie system trzeba zbudować, żeby ten produkt dowieźć? Jakie są wymagania systemowe, interfejsy, jakości?
+---
 
- 6. Przygotowanie reguł i skili dla AI lub wybór już posiadanych skili
- 3. Development
- 1. Wybranie/wygenerowanie boilerplate - można już mieć taki kod bazowy przygotowany takie niezbędne minimum jakie narzędzie powinno mieć - taki punkt wyjścia od dalszego developmentu
- 2. Uruchomienie developmentu wymagania funkcjonalnego
- 3. Testy manualne
- 4. Wygenerowanie testów automatycznych
- 5. Review kodu
- 6. Commit
- 7. Powrót do punktu 2
-    Czy można zrównoleglić proces dodawania wymagań funkcjonalnych? - Pewnie tak tylko trzeba podzielić wymagania funkcjonalne na takie które sa od siebie niezależne, wymaga to też pewnego ułożenia wymagań i to dużo zależy od zależności między wymaganiami funkcjonalnymi
- 4. Przygotowanie dokumentacji - opcjonalnie?
- 5. Review pod kątem bezpieczeństwa i performance
+### [00:05:12](#timestamp-05:12) **Priming your project**
 
-### Dodatkowe wnioski
+- Every new chat = a fresh model with no memory of your codebase
+- Cursor indexes automatically, but you should still:
+  - Add docs for frameworks (Next.js, Clerk, Prisma, etc.)
+  - Provide URLs or paste relevant documentation
+  - Use `/init` in Claude Code when needed
+- Updated docs are essential because model cutoffs lag behind package releases
 
-1. Dobrze zarządzać agentami - jakimi? Czy korzystać z wbudowanych? Da się ich jakoś spromptować? Może trzeba przygotować dokumenty z promptami tak żeby sprofilować agenta do danego typu zadania.
-2. Skorzystannie ze skili Claude Code - w jaki sposób
-3. Przygotować boilerplate
-4. Przygotować plan działania krok po kroku (na podstawie wstępnego projektu)
-5. Na podstawie treści zadania przygotować wstępny projekt
+---
+
+### [00:07:52](#timestamp-07:52) **Debugging errors effectively**
+
+- Copy console or terminal errors directly into the chat
+- Use the `@browser` context to give the agent full visibility
+- Cursor can run Prisma migrations, fix schema issues, and resolve setup errors automatically
+
+---
+
+### [00:09:01](#timestamp-09:01) **Context window management**
+
+- Keep context usage **below 60%** for best performance
+- Too much mid‑context content confuses models
+- Use natural breaks to start new chats
+- Use `/summarize` to carry over only the essentials
+
+---
+
+### [00:15:19](#timestamp-15:19) **Model selection strategy**
+
+- Composer 1: fastest for iteration
+- Claude Sonnet 4.5: strong general model
+- Opus 4.5: best for planning, expensive—use sparingly
+- Workflow: plan with Opus → build with Composer/Sonnet
+
+---
+
+### [00:17:19](#timestamp-17:19) **Design changes with agents & worktrees**
+
+- Use design mode for safe UI prototyping
+- Upload inspiration images and specify what to copy (e.g., only colors/fonts)
+- Worktrees allow multiple agents/models to attempt the same task in parallel
+- Each worktree runs its own dev server on a unique port
+- You can compare versions and merge the best one back into main
+
+---
+
+### [00:22:50](#timestamp-22:50) **Agent Review (Cursor 2.0’s built‑in bugbot)**
+
+- Automatically reviews commits for issues
+- Useful but not perfect—treat as a helper, not a guarantee
+- Fix suggestions can be applied directly via chat
+
+---
+
+### [00:24:01](#timestamp-24:01) **Branching & safe experimentation**
+
+- Always create a new branch before major UI or feature work
+- Cursor learns your commit style after a few manual commits
+- Use design mode + mock JSON data to prototype interfaces quickly
+
+---
+
+### [00:26:54](#timestamp-26:54) **Building a full feature prototype**
+
+- The video demonstrates building a title‑generation UI
+- Includes mock data, favorites, baskets, and psychological drivers
+- Encourages iterating with multiple models and merging the best ideas

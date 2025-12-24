@@ -3,6 +3,7 @@ import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
 import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
 import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
@@ -146,6 +147,7 @@ const BlogPostPage = () => {
             {/* Content */}
             <div className="prose prose-invert prose-lg max-w-none">
               <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeRaw]}
                 components={{
                   h1: ({ node, ...props }) => (
@@ -172,18 +174,26 @@ const BlogPostPage = () => {
                       {...props}
                     />
                   ),
-                  code: ({ node, inline, ...props }) =>
-                    inline ? (
-                      <code
-                        className="px-2 py-1 bg-dark-700 text-primary-500 rounded text-sm font-mono"
+                  code: ({ node, inline, className, children, ...props }) => {
+                    // Check if it's truly inline by checking parent node
+                    const isInline = inline || !className?.includes('language-');
+
+                    return isInline ? (
+                      <span
+                        className="px-1.5 py-0.5 bg-dark-700 text-primary-500 rounded text-sm font-mono whitespace-nowrap"
                         {...props}
-                      />
+                      >
+                        {children}
+                      </span>
                     ) : (
                       <code
                         className="block px-6 py-4 bg-dark-700 text-primary-500 rounded-lg overflow-x-auto font-mono text-sm"
                         {...props}
-                      />
-                    ),
+                      >
+                        {children}
+                      </code>
+                    );
+                  },
                   pre: ({ node, ...props }) => (
                     <pre
                       className="mb-6 rounded-lg overflow-hidden"
@@ -228,6 +238,32 @@ const BlogPostPage = () => {
                       className="border-l-4 border-primary-500 pl-6 italic text-gray-400 my-6"
                       {...props}
                     />
+                  ),
+                  table: ({ node, ...props }) => (
+                    <div className="overflow-x-auto mb-6">
+                      <table
+                        className="min-w-full divide-y divide-gray-700 border border-gray-700 rounded-lg"
+                        {...props}
+                      />
+                    </div>
+                  ),
+                  thead: ({ node, ...props }) => (
+                    <thead className="bg-dark-700" {...props} />
+                  ),
+                  tbody: ({ node, ...props }) => (
+                    <tbody className="divide-y divide-gray-700 bg-dark-800" {...props} />
+                  ),
+                  tr: ({ node, ...props }) => (
+                    <tr className="hover:bg-dark-700/50 transition-colors" {...props} />
+                  ),
+                  th: ({ node, ...props }) => (
+                    <th
+                      className="px-4 py-3 text-left text-xs font-semibold text-primary-500 uppercase tracking-wider border-b border-gray-700"
+                      {...props}
+                    />
+                  ),
+                  td: ({ node, ...props }) => (
+                    <td className="px-4 py-3 text-sm text-gray-300" {...props} />
                   ),
                 }}
               >
