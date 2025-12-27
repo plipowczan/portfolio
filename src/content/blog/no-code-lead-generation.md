@@ -54,7 +54,7 @@ W Airtable tworzymy tabelę "Campaigns" gdzie definiujemy:
 
 ### 2. Automatyczne wyszukiwanie firm
 
-```
+```text
 n8n workflow:
 1. Trigger: Nowa kampania w Airtable
 2. Apollo Search: znajdź firmy według kryteriów

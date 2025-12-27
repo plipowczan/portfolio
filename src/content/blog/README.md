@@ -8,14 +8,14 @@ Ten folder zawiera wszystkie artykuły blogowe w formacie Markdown.
 
 Każdy artykuł składa się z dwóch plików:
 
-```
+```text
 artykul-slug.md          # Pełna treść artykułu (generowana automatycznie)
 artykul-slug_wsad.md     # Plik wsadowy z punktami kluczowymi (tworzony ręcznie)
 ```
 
 ### Przykład
 
-```
+```text
 automatyzacja-email-frontdesk-ai.md          # Artykuł opublikowany
 automatyzacja-email-frontdesk-ai_wsad.md     # Punkty wsadowe
 ```

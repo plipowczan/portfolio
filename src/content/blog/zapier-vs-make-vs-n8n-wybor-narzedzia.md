@@ -70,7 +70,7 @@ Zapier to platforma **"po prostu działa"**. Prosta konfiguracja trigger-action,
 
 **Lead routing:**
 
-```
+```text
 Formularz kontaktowy → Zapier →
   - Dodaj lead do HubSpot
   - Wyślij powiadomienie na Slack
@@ -80,7 +80,7 @@ Formularz kontaktowy → Zapier →
 
 **Onboarding pracownika:**
 
-```
+```text
 Nowy rekord w BambooHR → Zapier →
   - Utwórz konto w Google Workspace
   - Dodaj do Slack channels
@@ -137,7 +137,7 @@ Make to platforma dla zespołów, które **myślą wizualnie** i potrzebują wi�
 
 **Content pipeline z kategorizacją:**
 
-```
+```text
 Webhook → Make →
   ├─ Jeśli typ = "blog post"
   │   └─ Dodaj do WordPress + notify writers
@@ -149,7 +149,7 @@ Webhook → Make →
 
 **Marketing campaign z personalizacją:**
 
-```
+```text
 Nowy subscriber → Make →
   ├─ Pobierz dane z CRM
   ├─ Router według segmentu:
@@ -212,7 +212,7 @@ n8n to **open-source powerhouse** dla zespołów technicznych, które chcą peł
 
 **Healthcare data pipeline (HIPAA compliant):**
 
-```
+```text
 Patient intake form → n8n (self-hosted) →
   ├─ Encrypt PHI data
   ├─ Store in compliant database
@@ -222,7 +222,7 @@ Patient intake form → n8n (self-hosted) →
 
 **AI agent workflow:**
 
-```
+```text
 User query → n8n →
   ├─ Pre-process with custom code
   ├─ Route do odpowiedniego LLM (OpenAI/Claude/Local)
@@ -233,7 +233,7 @@ User query → n8n →
 
 **Multi-tenant automation product:**
 
-```
+```text
 Client webhook → n8n →
   ├─ Identify tenant
   ├─ Load tenant-specific config
@@ -430,7 +430,7 @@ Nie musisz wybierać tylko jednej platformy!
 
 **Workflow:**
 
-```
+```text
 1. Formularz → HubSpot + Slack
 2. LinkedIn Lead Gen → HubSpot + Email
 3. Chatbot → HubSpot + Asana task
@@ -453,7 +453,7 @@ Nie musisz wybierać tylko jednej platformy!
 
 **Workflow (przykład):**
 
-```
+```text
 Content submission → Make →
   ├─ Classify content type (AI)
   ├─ Router według typu:
@@ -482,7 +482,7 @@ Content submission → Make →
 
 **Workflow (przykłady):**
 
-```
+```text
 1. User registration → Encrypt PII → Store EU database → Email
 2. Payment webhook → Process → Update CRM → Generate invoice
 3. Support ticket → Classify (AI) → Route → Notify → Track SLA

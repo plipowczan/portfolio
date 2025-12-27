@@ -38,7 +38,7 @@ System analizuje treść każdej wiadomości i automatycznie przypisuje ją do o
 
 ### 2. Inteligentne odpowiedzi
 
-```
+```text
 Dla najczęstszych pytań system automatycznie generuje odpowiedzi
 bazując na przygotowanej bazie wiedzy FAQ.
 ```

@@ -56,7 +56,7 @@ Chatboty nowej generacji wykorzystujące LLM (Large Language Models) potrafią p
 
 ### 2. Backend - Logika konwersacji (n8n)
 
-```
+```text
 n8n Workflow:
 1. Webhook receive message
 2. Load conversation context

@@ -65,7 +65,7 @@ Bez kontekstu dostaniesz generyczny, "AI-owaty" design. Z kontekstem - coś unik
 
 Zanim poprosisz AI o kod, musisz wiedzieć **czego chcesz**. Użyj tego promptu:
 
-```
+```text
 I need help creating a design brief for [type of project].
 
 Please help me define:
@@ -135,7 +135,7 @@ Zdefiniuj styl wizualny w tabeli:
 
 Teraz masz brief i style reference. Czas na kod. Użyj tego promptu:
 
-```
+```text
 I need you to build [specific component/page] using React and Tailwind CSS.
 
 DESIGN CONTEXT:
@@ -168,7 +168,7 @@ Start with the code, then explain.
 
 ### Przykład rzeczywistego użycia:
 
-```
+```text
 I need you to build a Hero section for a SaaS landing page using React and Tailwind CSS.
 
 DESIGN CONTEXT:
@@ -319,7 +319,7 @@ Vibe coding to nie "wygeneruj i done". To iteracja:
 
 AI (szczególnie Claude z vision) potrafi odwzorować design ze zdjęcia. Znajdź inspirację na Dribbble/Behance, zrób screenshot, wklej do AI:
 
-```
+```text
 Recreate this design using React and Tailwind CSS.
 Maintain the layout and color scheme, but adapt it to our design system.
 ```
