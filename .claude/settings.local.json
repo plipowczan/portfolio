@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(portfolio-code-review)",
+      "Bash(grep:*)",
+      "Skill(file-to-markdown)",
+      "Skill(portfolio-frontend-design)",
+      "Bash(curl:*)",
+      "Bash(npm run img:convert:*)",
+      "Bash(node scripts/convert-to-webp.js:*)",
+      "Bash(npm test:*)",
+      "Skill(portfolio-copywriting)",
+      "mcp__nano-banana__generate_image",
+      "Bash(copy \"C:\\\\Users\\\\pawel\\\\Documents\\\\nano-banana-images\\\\generated-2025-12-21T08-16-35-987Z-3u3np9.png\" \"public\\\\images\\\\og-dane-jako-paliwo-biznesu.png\")",
+      "WebFetch(domain:pageai.pro)",
+      "mcp__nano-banana__get_last_image_info"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "nano-banana"
+  ]
+}
