@@ -7,7 +7,7 @@ import {
   STAGGER_CONTAINER,
 } from "../../utils/constants";
 
-const Contact = () => {
+const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -108,12 +108,12 @@ const Contact = () => {
           {/* Section Title */}
           <motion.div variants={FADE_IN_UP} className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Skontaktuj się
+              Napisz do mnie
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mb-6" />
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Masz projekt do zrealizowania? Potrzebujesz automatyzacji? Umów
-              bezpłatną konsultację!
+              Masz projekt do zrealizowania? Potrzebujesz automatyzacji? Napisz
+              wiadomość, a wrócę z odpowiedzią.
             </p>
           </motion.div>
 
@@ -122,16 +122,16 @@ const Contact = () => {
             <motion.div variants={FADE_IN_UP} className="space-y-8">
               <div>
                 <h3 className="text-2xl font-bold text-white mb-6">
-                  Bezpłatna Konsultacja
+                  Formularz kontaktowy
                 </h3>
                 <p className="text-gray-400 leading-relaxed mb-4">
-                  Umów się na 30-minutową bezpłatną konsultację, podczas której:
+                  Opisz krótko, czego potrzebujesz, a zaproponuję kolejne kroki:
                 </p>
                 <ul className="text-gray-400 leading-relaxed space-y-2 mb-6">
-                  <li>• Przeanalizujemy Twoje potrzeby biznesowe</li>
-                  <li>• Zaproponuję optymalne rozwiązania technologiczne</li>
-                  <li>• Oszacujemy czas i koszt wdrożenia</li>
-                  <li>• Odpowiem na wszystkie pytania o automatyzację</li>
+                  <li>• Wycena lub konsultacja projektu</li>
+                  <li>• Rekomendacje narzędzi i technologii</li>
+                  <li>• Pomoc w trwającym projekcie lub jego audyt</li>
+                  <li>• Pytania o współpracę lub portfolio</li>
                 </ul>
               </div>
 
@@ -303,4 +303,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactForm;

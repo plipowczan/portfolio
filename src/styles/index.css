@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -102,7 +102,8 @@
 
 /* Background network animation */
 @keyframes network-float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0);
   }
   33% {
@@ -119,14 +120,17 @@
 }
 
 .network-bg::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background-image: 
-    linear-gradient(90deg, rgba(0, 255, 157, 0.03) 1px, transparent 1px),
+  background-image: linear-gradient(
+      90deg,
+      rgba(0, 255, 157, 0.03) 1px,
+      transparent 1px
+    ),
     linear-gradient(rgba(0, 255, 157, 0.03) 1px, transparent 1px);
   background-size: 100px 100px;
   animation: network-float 20s ease-in-out infinite;
@@ -135,14 +139,12 @@
 
 /* Glow effect */
 .glow {
-  box-shadow: 0 0 20px rgba(0, 255, 157, 0.3),
-              0 0 40px rgba(0, 255, 157, 0.2),
-              0 0 60px rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.3), 0 0 40px rgba(0, 255, 157, 0.2),
+    0 0 60px rgba(0, 255, 157, 0.1);
 }
 
 .glow-text {
-  text-shadow: 0 0 20px rgba(0, 255, 157, 0.5),
-               0 0 40px rgba(0, 255, 157, 0.3);
+  text-shadow: 0 0 20px rgba(0, 255, 157, 0.5), 0 0 40px rgba(0, 255, 157, 0.3);
 }
 
 /* Focus visible for accessibility */
@@ -150,3 +152,117 @@
   @apply outline-2 outline-offset-2 outline-primary-500;
 }
 
+/* Zencal widget custom styles
+ *
+ * NOTE:
+ * These rules intentionally use `!important` to override styles coming from
+ * the embedded Zencal/MUI widget. The widget injects its own CSS with high
+ * specificity and inline styles, so normal overrides are insufficient.
+ *
+ * Scope:
+ * All overrides are nested under `.zencal-embed` to avoid leaking into
+ * other Material UI components in the application.
+ *
+ * Maintenance:
+ * - If Zencal or MUI updates their class names or DOM structure, verify
+ *   that these selectors still apply as expected.
+ * - Prefer increasing selector specificity under `.zencal-embed` before
+ *   adding additional `!important` flags.
+ * - If you see unexpected button styling inside a Zencal embed, review
+ *   this block before adding new global overrides elsewhere.
+ */
+.zencal-embed .MuiButton-root {
+  color: #ffffff !important;
+  background-color: #00ff9d !important;
+}
+
+.zencal-embed .MuiButton-root:hover {
+  background-color: #00cc7d !important;
+}
+
+.zencal-embed .MuiButton-root.Mui-disabled {
+  color: rgba(0, 0, 0, 0.4) !important;
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.zencal-embed .MuiButton-root svg {
+  color: currentColor !important;
+  fill: currentColor !important;
+}
+
+/* Fix for text buttons in calendar */
+.zencal-embed .MuiButton-text {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+}
+
+.zencal-embed .MuiButton-text:hover {
+  background-color: #1a1a1a !important;
+}
+
+.zencal-embed .MuiButton-text.Mui-disabled {
+  color: #1a1a1a !important;
+  background-color: #e0e0e0 !important;
+}
+
+/* Calendar date buttons */
+/* Active day (has available slots, not selected) */
+.zencal-embed
+  .zencal-embed-booking-view-calendar-date-button:not(
+    .zencal-embed-booking-view-calendar-date-button-empty
+  ):not(.zencal-embed-booking-view-calendar-date-button-selected):not(
+    .zencal-embed-booking-view-calendar-date-button-active
+  ) {
+  background-color: #c5c5c5 !important;
+}
+
+.zencal-embed
+  .zencal-embed-booking-view-calendar-date-button:not(
+    .zencal-embed-booking-view-calendar-date-button-empty
+  ):not(.zencal-embed-booking-view-calendar-date-button-selected):not(
+    .zencal-embed-booking-view-calendar-date-button-active
+  )
+  span {
+  color: #757575 !important;
+}
+
+/* Inactive day (no available slots) - keep no background, only text color */
+.zencal-embed .zencal-embed-booking-view-calendar-date-button-empty {
+  background-color: transparent !important;
+}
+
+.zencal-embed .zencal-embed-booking-view-calendar-date-button-empty span {
+  color: #757575 !important;
+}
+
+/* Selected day - keep highlight */
+.zencal-embed .zencal-embed-booking-view-calendar-date-button-selected,
+.zencal-embed .zencal-embed-booking-view-calendar-date-button-active {
+  background-color: #000000 !important;
+}
+
+.zencal-embed .zencal-embed-booking-view-calendar-date-button-selected span,
+.zencal-embed .zencal-embed-booking-view-calendar-date-button-active span {
+  color: #ffffff !important;
+}
+
+/* Time slots */
+.zencal-embed
+  .zencal-embed-booking-view-hour-list-item:not(
+    .zencal-embed-booking-view-hour-list-item-selected
+  ) {
+  background-color: #f5f5f5 !important;
+  color: #757575 !important;
+}
+
+.zencal-embed
+  .zencal-embed-booking-view-hour-list-item:not(
+    .zencal-embed-booking-view-hour-list-item-selected
+  ):hover {
+  background-color: #e5e5e5 !important;
+}
+
+.zencal-embed .zencal-embed-booking-view-hour-list-item-selected {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}

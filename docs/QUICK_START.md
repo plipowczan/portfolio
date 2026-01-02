@@ -38,7 +38,7 @@ Formularz działa z walidacją, ale aby otrzymywać emaile:
 
 - Zarejestruj się na [FormSpree.io](https://formspree.io/)
 - Uzyskaj swój endpoint formularza
-- Zaktualizuj Contact.jsx z endpointem
+- Zaktualizuj ContactForm.jsx z endpointem
 
 ### Krok 2: Testowanie Lokalnie (5 minut)
 
@@ -154,7 +154,7 @@ npm run build
 ### Formularz kontaktowy nie wysyła emaili
 
 - Normalne! Musisz skonfigurować FormSpree lub EmailJS
-- Zobacz `src/components/sections/Contact.jsx` dla TODO
+- Zobacz `src/components/sections/ContactForm.jsx` dla TODO
 - Walidacja formularza nadal działa bez backendu
 
 ## 📱 Checklist Testowania
@@ -218,7 +218,7 @@ Zobacz **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** dla szczegół
 | `src/data/skills.js`                  | Twoje umiejętności                |
 | `src/data/blogPosts.js`               | Artykuły blogowe                  |
 | `src/components/sections/About.jsx`   | Biografia osobista                |
-| `src/components/sections/Contact.jsx` | Konfiguracja backendu formularza  |
+| `src/components/sections/ContactForm.jsx` | Konfiguracja backendu formularza  |
 
 ## 💡 Pro Tipy
 

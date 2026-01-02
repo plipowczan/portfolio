@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import About from "../components/sections/About";
-import Contact from "../components/sections/Contact";
+import BookingCTA from "../components/sections/BookingCTA";
+import ContactForm from "../components/sections/ContactForm";
 import Hero from "../components/sections/Hero";
 import Projects from "../components/sections/Projects";
 import Skills from "../components/sections/Skills";
@@ -55,7 +56,8 @@ const Home = () => {
       <Projects />
       <Skills />
       <Testimonials />
-      <Contact />
+      <ContactForm />
+      <BookingCTA />
     </motion.div>
   );
 };

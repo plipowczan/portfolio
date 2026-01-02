@@ -1,9 +1,9 @@
 # Product Requirements Document (PRD)
 ## Pawel Lipowczan - Portfolio Website
 
-**Version:** 2.0
+**Version:** 2.1
 **Created:** 2024-10-21
-**Last Updated:** 2025-12-13
+**Last Updated:** 2026-01-01
 **Status:** ✅ COMPLETED AND DEPLOYED
 **Project Owner:** Pawel Lipowczan
 **Audience:** AI agents, product owners, technical reviewers
@@ -107,6 +107,11 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 - **@anthropic-ai/sdk 0.69.0** for AI-assisted content generation
 - **openai 6.9.0** for OpenAI API integration
 
+### External Services Integration
+
+- **Zencal** - Consultation booking widget for free 30-minute business process optimization consultations
+- Custom CSS styling for Zencal widget (Material-UI components)
+
 ---
 
 ## Page Structure & Features
@@ -117,6 +122,8 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 - About
 - Projects
 - Skills
+- Testimonials
+- Booking CTA (Free consultation scheduling with Zencal)
 - Contact
 - Footer
 
@@ -329,6 +336,7 @@ All legal pages must be:
 4. ✅ Hosting platform: Vercel with automatic deployments
 5. ✅ Blog content: Markdown files with gray-matter frontmatter
 6. ✅ Multi-language: Polish only (English for technical documentation)
+7. ✅ Booking system: Zencal widget for free consultation scheduling
 
 ### Current Implementation
 - **Language:** Polish for user-facing content, English for AI/technical docs
@@ -358,7 +366,7 @@ All legal pages must be:
 
 **Document End**
 
-**Last Updated:** 2025-12-13
+**Last Updated:** 2026-01-01
 **Next Review:** Quarterly (March 2026)
 **Status:** Completed and deployed
 

@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { sectionIds, testUrls } from "../fixtures/test-data.js";
 import {
-    getSeoMetaTags,
-    scrollToElement,
-    testKeyboardNavigation,
-    waitForAnimations,
+  getSeoMetaTags,
+  scrollToElement,
+  testKeyboardNavigation,
+  waitForAnimations,
 } from "../utils/test-helpers.js";
 
 test.describe("Strona główna - Home", () => {
@@ -20,7 +20,15 @@ test.describe("Strona główna - Home", () => {
     await expect(page).toHaveTitle(/Pawel Lipowczan/i);
 
     // Sprawdź czy wszystkie główne sekcje są obecne
-    const sections = ["hero", "about", "projects", "skills", "testimonials", "contact"];
+    const sections = [
+      "hero",
+      "about",
+      "projects",
+      "skills",
+      "testimonials",
+      "booking",
+      "contact",
+    ];
 
     for (const section of sections) {
       const sectionElement = page
@@ -33,7 +41,8 @@ test.describe("Strona główna - Home", () => {
 
   test("powinna mieć poprawne metatagi SEO", async ({ page }) => {
     const metaTags = await getSeoMetaTags(page);
-    const isDevMode = page.url().includes("localhost") || page.url().includes("127.0.0.1");
+    const isDevMode =
+      page.url().includes("localhost") || page.url().includes("127.0.0.1");
 
     // Sprawdź podstawowe tagi (zawsze wymagane)
     expect(metaTags.title).toBeTruthy();
@@ -45,9 +54,13 @@ test.describe("Strona główna - Home", () => {
     if (!metaTags.ogTitle) {
       const message = "og:title meta tag is missing";
       if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - this is expected due to React Helmet async rendering`);
+        console.warn(
+          `⚠️ DEV MODE: ${message} - this is expected due to React Helmet async rendering`
+        );
       } else {
-        throw new Error(`PRODUCTION: ${message} - this should be present in production builds`);
+        throw new Error(
+          `PRODUCTION: ${message} - this should be present in production builds`
+        );
       }
     } else {
       expect(metaTags.ogTitle).toBeTruthy();
@@ -56,9 +69,13 @@ test.describe("Strona główna - Home", () => {
     if (!metaTags.ogDescription) {
       const message = "og:description meta tag is missing";
       if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - this is expected due to React Helmet async rendering`);
+        console.warn(
+          `⚠️ DEV MODE: ${message} - this is expected due to React Helmet async rendering`
+        );
       } else {
-        throw new Error(`PRODUCTION: ${message} - this should be present in production builds`);
+        throw new Error(
+          `PRODUCTION: ${message} - this should be present in production builds`
+        );
       }
     } else {
       expect(metaTags.ogDescription).toBeTruthy();
@@ -68,9 +85,13 @@ test.describe("Strona główna - Home", () => {
     if (!metaTags.twitterCard) {
       const message = "twitter:card meta tag is missing";
       if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - this is expected due to React Helmet async rendering`);
+        console.warn(
+          `⚠️ DEV MODE: ${message} - this is expected due to React Helmet async rendering`
+        );
       } else {
-        throw new Error(`PRODUCTION: ${message} - this should be present in production builds`);
+        throw new Error(
+          `PRODUCTION: ${message} - this should be present in production builds`
+        );
       }
     } else {
       expect(metaTags.twitterCard).toBeTruthy();
@@ -80,9 +101,13 @@ test.describe("Strona główna - Home", () => {
     if (!metaTags.canonical) {
       const message = "canonical link tag is missing";
       if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - expected due to React Helmet limitation`);
+        console.warn(
+          `⚠️ DEV MODE: ${message} - expected due to React Helmet limitation`
+        );
       } else {
-        throw new Error(`PRODUCTION: ${message} - canonical tag is required for SEO`);
+        throw new Error(
+          `PRODUCTION: ${message} - canonical tag is required for SEO`
+        );
       }
     } else {
       expect(metaTags.canonical).toBeTruthy();
@@ -134,7 +159,9 @@ test.describe("Strona główna - Home", () => {
     await page.waitForTimeout(2000);
 
     // Sprawdź czy jest mobile menu button (na małych ekranach)
-    const mobileMenuButton = page.locator('button[aria-label="Toggle menu"]').first();
+    const mobileMenuButton = page
+      .locator('button[aria-label="Toggle menu"]')
+      .first();
 
     // Spróbuj otworzyć mobile menu jeśli istnieje i jest widoczne
     try {
@@ -148,7 +175,9 @@ test.describe("Strona główna - Home", () => {
     }
 
     // Obsługa cookie banner - jeśli zasłania, zaakceptuj
-    const cookieButton = page.locator('button:has-text("Akceptuję"), button:has-text("Zaakceptuj")').first();
+    const cookieButton = page
+      .locator('button:has-text("Akceptuję"), button:has-text("Zaakceptuj")')
+      .first();
     if (await cookieButton.isVisible({ timeout: 2000 })) {
       console.log("Cookie banner detected, accepting...");
       await cookieButton.click();
@@ -156,7 +185,9 @@ test.describe("Strona główna - Home", () => {
     }
 
     // Sprawdź link do bloga w nawigacji (szukaj tylko widocznego)
-    const blogLink = page.locator('nav a[href="/blog"] >> visible=true').first();
+    const blogLink = page
+      .locator('nav a[href="/blog"] >> visible=true')
+      .first();
     await expect(blogLink).toBeVisible({ timeout: 20000 });
 
     // Kliknij i sprawdź nawigację

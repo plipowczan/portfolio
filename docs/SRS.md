@@ -1,8 +1,8 @@
 # SRS - Software Requirements Specification
 ## Pawel Lipowczan Portfolio Website
 
-**Version:** 1.0
-**Date:** 2025-12-13
+**Version:** 1.1
+**Date:** 2026-01-01
 **Status:** Reference document for deployed application
 **Author:** Pawel Lipowczan
 **Audience:** AI agents, developers, technical reviewers
@@ -112,6 +112,11 @@ puppeteer-core 24.32.1
 @vercel/speed-insights 1.3.0
 ```
 
+**External Services:**
+- **Zencal** - Embedded booking widget (loaded via external script)
+- Script: `https://app.zencal.io/js/embed.js?v=3.11.7`
+- Custom CSS for Material-UI component styling
+
 ### 2.3 System Architecture Diagram
 
 ```
@@ -176,7 +181,9 @@ portfolio/
 │   │   │   ├── About.jsx             # About with stats
 │   │   │   ├── Projects.jsx          # Projects grid
 │   │   │   ├── Skills.jsx            # Skills list
-│   │   │   └── Contact.jsx           # Contact form
+│   │   │   ├── Testimonials.jsx      # Client testimonials
+│   │   │   ├── BookingCTA.jsx        # Consultation booking CTA with modal
+│   │   │   └── ContactForm.jsx       # Contact form component
 │   │   │
 │   │   ├── animations/               # Animation components
 │   │   │   └── NetworkBackground.jsx # Canvas network animation
@@ -185,9 +192,13 @@ portfolio/
 │   │   │   ├── SEO.jsx               # react-helmet-async wrapper
 │   │   │   └── StructuredData.jsx    # JSON-LD schema generator
 │   │   │
-│   │   └── ui/                       # Reusable UI components
-│   │       ├── CookieBanner.jsx      # GDPR cookie banner
-│   │       └── Breadcrumbs.jsx       # Breadcrumb navigation
+│   │   ├── ui/                       # Reusable UI components
+│   │   │   ├── Modal.jsx             # Reusable modal with portal rendering
+│   │   │   ├── CookieBanner.jsx      # GDPR cookie banner
+│   │   │   └── Breadcrumbs.jsx       # Breadcrumb navigation
+│   │   │
+│   │   └── widgets/                  # Third-party widget wrappers
+│   │       └── ZencalWidget.jsx      # Zencal booking widget wrapper
 │   │
 │   ├── pages/                        # Route-level components
 │   │   ├── Home.jsx                  # Main page (all sections)
@@ -292,7 +303,9 @@ portfolio/
       │   │   ├─ <About> (stats, CV button)
       │   │   ├─ <Projects> (grid of project cards)
       │   │   ├─ <Skills> (categorized list)
-      │   │   └─ <Contact> (form with validation)
+      │   │   ├─ <Testimonials> (carousel)
+      │   │   ├─ <ContactForm> (form with validation)
+      │   │   └─ <BookingCTA> (modal trigger)
       │   ├─ <Blog> (post listing)
       │   ├─ <BlogPostPage> (markdown rendering)
       │   ├─ <ProjectPage> (project details)
@@ -569,11 +582,11 @@ FR-SKILL-006: **Hover Effect**
 
 ---
 
-### 3.6 Contact Section
+### 3.6 ContactForm Section
 
-**File:** `src/components/sections/Contact.jsx`
+**File:** `src/components/sections/ContactForm.jsx`
 
-**Functional Requirements:**
+**Functional Requirements:****
 
 FR-CONTACT-001: **Contact Form Fields**
 - Name (required, min 2 characters)
@@ -624,7 +637,121 @@ FR-CONTACT-007: **Form Backend Integration (Pending)**
 
 ---
 
-### 3.7 Blog System
+### 3.7 Booking CTA Section
+
+**Files:**
+- `src/components/sections/BookingCTA.jsx` - CTA section with modal trigger
+- `src/components/ui/Modal.jsx` - Reusable modal component
+- `src/components/widgets/ZencalWidget.jsx` - Zencal widget wrapper
+
+**Functional Requirements:**
+
+FR-BOOKING-001: **CTA Section Display**
+- Section displays after ContactForm section (at the end of home page)
+- Background: dark with gradient circle decorations
+- Content centered with max-width container
+- Animated entrance when scrolling into view (Framer Motion)
+
+FR-BOOKING-002: **CTA Content**
+- Main heading: "Gotowy na następny krok?"
+- Subheading: "Umów bezpłatną konsultację"
+- Description paragraph explaining free 30-minute consultation offer
+- Benefits list (4 items):
+  - Analysis of current challenges and optimization opportunities
+  - Proposal of best tools (AI, no-code, automation)
+  - Time and cost estimation for implementation
+  - Answers to all technology questions
+- Primary CTA button: "Zarezerwuj Bezpłatną Konsultację"
+
+FR-BOOKING-003: **Modal Functionality**
+- Modal opens when CTA button clicked
+- Portal rendering to `document.body` (overlay above all content)
+- Glassmorphism styling (dark semi-transparent with backdrop blur)
+- Modal title: "Rezerwacja bezpłatnej konsultacji"
+- Close mechanisms:
+  - X button in top-right corner
+  - Click on backdrop (outside modal)
+  - ESC key press
+- Body scroll lock when modal open
+- Focus trap (Tab navigation stays within modal)
+- ARIA attributes for accessibility (`role="dialog"`, `aria-modal="true"`)
+
+FR-BOOKING-004: **Zencal Widget Integration**
+- Widget loads external Zencal script on component mount
+- Script URL: `https://app.zencal.io/js/embed.js?v=3.11.7`
+- Script attributes: `async`, `data-cookieconsent="ignore"`
+- Widget configuration:
+  - `data-type="u"` (user booking)
+  - `data-owner="pl"` (owner identifier)
+  - `data-slug="konsultacje"` (booking page slug)
+  - `data-lang="pl"` (Polish language)
+  - `data-ampm="0"` (24-hour format)
+- Loading indicator displayed while script loads
+- Smooth fade-in transition when widget ready
+
+FR-BOOKING-005: **Widget Styling**
+- Widget wrapped in white container with rounded corners
+- Container styling: `bg-white rounded-xl p-6 md:p-8 shadow-lg`
+- Custom CSS overrides for Material-UI components:
+  - Calendar date buttons: light gray background for active dates
+  - Hour slot buttons: light gray background with dark text
+  - Selected dates/hours: black background with white text
+  - Text buttons (navigation): dark gray background with white text
+  - Disabled buttons: light gray background with darker text
+
+FR-BOOKING-006: **Responsive Design**
+- Modal full-width on mobile (with padding)
+- Modal max-width 4xl on desktop (1024px)
+- Modal max-height 90vh with scroll
+- Widget responsive within container
+
+FR-BOOKING-007: **Animation Effects**
+- CTA section: FADE_IN_UP animation with stagger
+- Modal backdrop: fade in/out (opacity)
+- Modal content: scale + fade + slide up/down
+- Transition duration: 300ms
+- Easing: custom cubic-bezier
+
+**Implementation Details:**
+- Modal uses `createPortal` from react-dom
+- Script cleanup on component unmount
+- Check for existing script before loading (prevent duplicates)
+- Uses `AnimatePresence` from Framer Motion for smooth exit animations
+- Focus management with `useRef` and `useEffect`
+
+**CSS Customization:**
+Location: `src/styles/index.css`
+
+Custom styles for Zencal widget:
+```css
+/* Calendar date buttons - active (unselected) */
+.zencal-embed .zencal-embed-booking-view-calendar-date-button:not(.empty):not(.selected) {
+  background-color: #f5f5f5 !important;
+  color: #757575 !important;
+}
+
+/* Hour slots - unselected */
+.zencal-embed .zencal-embed-booking-view-hour-list-item:not(.selected) {
+  background-color: #f5f5f5 !important;
+  color: #757575 !important;
+}
+
+/* Selected dates/hours */
+.zencal-embed .selected {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Text buttons (navigation) */
+.zencal-embed .MuiButton-text {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+}
+```
+
+---
+
+### 3.8 Blog System
 
 **Files:**
 - `src/pages/Blog.jsx` - Blog listing page
@@ -954,7 +1081,7 @@ Current implementation:
 **Integration steps:**
 1. Sign up at formspree.io
 2. Get form endpoint ID
-3. Update Contact.jsx:
+3. Update ContactForm.jsx:
    ```jsx
    <form action="https://formspree.io/f/{FORM_ID}" method="POST">
    ```
@@ -1151,6 +1278,29 @@ vercel --prod
 **TODO-004: SEO Enhancements**
 - Add FAQ schema
 - Create more blog content (target: 15+ posts)
+- Improve internal linking structure
+- Add breadcrumbs to all pages
+
+**TODO-005: Accessibility Audit**
+- Run axe-core accessibility tests
+- Add ARIA labels where missing
+- Test keyboard navigation
+- Test screen reader compatibility
+
+### 8.4 Recently Completed (January 2026)
+
+**COMPLETED-001: Booking System Integration**
+- \u2705 Zencal widget integration for free consultation booking
+- \u2705 Reusable Modal component with accessibility features
+- \u2705 BookingCTA section after ContactForm (at end of home page)
+- \u2705 Custom CSS styling for Zencal Material-UI components
+- \u2705 Polish language content for booking flow
+- \u2705 Mobile-responsive modal and widget
+
+**COMPLETED-002: Testimonials Section**
+- \u2705 Client testimonials carousel
+- \u2705 Auto-play with manual controls
+- \u2705 Responsive design
 - Implement breadcrumbs on all pages
 - Add internal linking strategy
 

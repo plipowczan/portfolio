@@ -1,9 +1,9 @@
 # AGENTS.md - Portfolio Project Guide for AI Agents
 
 **Project:** Pawel Lipowczan Portfolio Website
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Status:** ✅ Completed and Deployed (Production)
-**Last Updated:** 2025-12-13
+**Last Updated:** 2026-01-01
 **Deployment:** https://pawellipowczan.pl (Vercel)
 
 ---
@@ -117,15 +117,20 @@ portfolio/
 │   │   │   ├── About.jsx       # About section
 │   │   │   ├── Projects.jsx    # Projects grid
 │   │   │   ├── Skills.jsx      # Skills list
-│   │   │   └── Contact.jsx     # Contact form
+│   │   │   ├── Testimonials.jsx # Client testimonials
+│   │   │   ├── BookingCTA.jsx  # Consultation booking CTA
+│   │   │   └── ContactForm.jsx # Contact form component
 │   │   ├── animations/         # Animation components
 │   │   │   └── NetworkBackground.jsx
 │   │   ├── seo/                # SEO components
 │   │   │   ├── SEO.jsx         # Meta tags wrapper
 │   │   │   └── StructuredData.jsx  # JSON-LD schemas
-│   │   └── ui/                 # Reusable UI components
-│   │       ├── CookieBanner.jsx
-│   │       └── Breadcrumbs.jsx
+│   │   ├── ui/                 # Reusable UI components
+│   │   │   ├── Modal.jsx       # Reusable modal component
+│   │   │   ├── CookieBanner.jsx
+│   │   │   └── Breadcrumbs.jsx
+│   │   └── widgets/            # Third-party widget wrappers
+│   │       └── ZencalWidget.jsx # Zencal booking widget
 │   │
 │   ├── pages/                  # Page components
 │   │   ├── Home.jsx            # Main page
@@ -199,7 +204,9 @@ App (Root)
         │   ├── About
         │   ├── Projects
         │   ├── Skills
-        │   └── Contact
+        │   ├── Testimonials
+        │   ├── BookingCTA (with Modal + ZencalWidget)
+        │   └── ContactForm
         ├── Blog (listing)
         ├── BlogPostPage (individual post)
         ├── ProjectPage (individual project)
@@ -488,10 +495,11 @@ npm run format           # Format code (placeholder)
 
 **Core Functionality:**
 - Responsive design (mobile, tablet, desktop)
-- All home page sections (Hero, About, Projects, Skills, Contact)
+- All home page sections (Hero, About, Projects, Skills, Testimonials, Booking CTA, ContactForm)
 - Blog system with markdown support (8+ posts)
 - Legal pages (Privacy, Terms, Cookies) - GDPR/RODO compliant
 - Contact form with validation (ready for backend)
+- Consultation booking system (Zencal widget integration)
 - SEO optimization with prerendering
 - E2E testing suite with Playwright
 
@@ -510,6 +518,8 @@ npm run format           # Format code (placeholder)
 - Smooth scroll animations (Framer Motion)
 - Mobile hamburger menu
 - Hover effects and transitions
+- Reusable modal component with accessibility
+- Custom-styled third-party widgets (Zencal)
 
 ### In Progress ⚠️
 
@@ -541,6 +551,18 @@ npm run format           # Format code (placeholder)
 - Blog search functionality
 - Blog category filtering
 - Newsletter signup
+
+**Low Priority:**
+- Comments system for blog
+- Google Analytics integration
+- Admin panel for blog management
+
+**Recently Completed (January 2026):**
+- ✅ Testimonials section with carousel
+- ✅ Booking CTA section with modal
+- ✅ Zencal widget integration for consultation scheduling
+- ✅ Reusable Modal component (portal, accessibility, animations)
+- ✅ Custom CSS styling for third-party widgets
 
 **Low Priority:**
 - Testimonials section
@@ -624,6 +646,6 @@ For questions about the codebase, refer to:
 
 ---
 
-**Last Updated:** 2025-12-13
-**Document Version:** 1.0.0
+**Last Updated:** 2026-01-01
+**Document Version:** 1.1.0
 **Project Status:** Production Ready
