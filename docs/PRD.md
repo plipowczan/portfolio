@@ -1,4 +1,5 @@
 # Product Requirements Document (PRD)
+
 ## Pawel Lipowczan - Portfolio Website
 
 **Version:** 2.1
@@ -21,12 +22,14 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ## Goals & Objectives
 
 ### Primary Goals
+
 1. ✅ Present professional portfolio to potential clients/employers
 2. ✅ Share technical knowledge through blog articles
 3. ✅ Showcase projects and technical expertise
 4. ✅ Provide easy contact methods
 
 ### Success Metrics
+
 - ⚠️ Page load time < 3 seconds (CURRENT: 5.3s - optimization in progress)
 - ✅ Mobile responsive on all devices
 - ✅ SEO optimized (meta tags, semantic HTML, structured data)
@@ -39,22 +42,26 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ## Brand Identity
 
 ### Logo
+
 - **Design:** Green dashed circle with `</>` code icon
 - **Usage:** Header, favicon, social media previews
 - **Format:** SVG for scalability
 
 ### Color Palette
+
 - **Primary:** Teal/Green/Cyan gradients (`#00ff9d`, `#00b8ff`, `#00ffa3`)
 - **Background:** Dark navy to black (`#0a0e1a`, `#050810`)
 - **Accent:** Bright green (`#00ff9d`)
 - **Text:** White/light gray (`#ffffff`, `#e5e7eb`)
 
 ### Typography
+
 - **Headings:** Bold, modern sans-serif (Inter, Poppins)
 - **Body:** Clean, readable sans-serif (Inter)
 - **Code:** Monospace font (Fira Code, JetBrains Mono)
 
 ### Visual Style
+
 - Geometric network/mesh backgrounds
 - Gradient text effects on headings
 - Glassmorphism cards with backdrop blur
@@ -117,7 +124,9 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ## Page Structure & Features
 
 ### 1. Home Page
+
 **Sections:**
+
 - Hero
 - About
 - Projects
@@ -128,7 +137,9 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 - Footer
 
 ### 2. Blog Section
+
 **Features:**
+
 - Blog listing page with article cards
 - Individual blog post pages
 - SEO optimized meta tags
@@ -137,6 +148,7 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 - Social share buttons
 
 ### 3. Legal Pages
+
 - Privacy Policy (Polityka Prywatności)
 - Terms of Service (Regulamin)
 - Cookie Policy (Polityka Ciasteczek)
@@ -148,19 +160,24 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ## Content Requirements
 
 ### Copy/Text Content
+
 **To be provided:**
+
 - Personal bio/about text
 - Project descriptions
 - Blog article content
 - Contact information
 
 **Placeholder content acceptable for:**
+
 - Sample projects
 - Sample blog posts
 - Skills list (can be generic)
 
 ### Images/Media
+
 **Required:**
+
 - Logo SVG
 - Professional photo (optional)
 - Project screenshots (3-6 images)
@@ -168,6 +185,7 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 - Favicon (16x16, 32x32, 192x192)
 
 **All images must be:**
+
 - Optimized for web
 - Multiple sizes for responsive design
 - WebP format preferred
@@ -240,6 +258,7 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ## Future Enhancements (Post-Launch)
 
 ### Phase 2 Features
+
 - Dark/Light mode toggle
 - Multi-language support (English/Polish)
 - Blog search functionality
@@ -252,6 +271,7 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 - Contact form backend integration
 
 ### Phase 3 Features
+
 - Admin panel for blog management
 - CMS integration (Strapi, Sanity)
 - Interactive project demos/previews
@@ -264,13 +284,16 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ## Deployment & Hosting
 
 ### Hosting Options
+
 1. **Vercel** (Recommended)
+
    - Zero config deployment
    - Automatic HTTPS
    - Global CDN
    - Free for personal projects
 
 2. **Netlify**
+
    - Easy deployment
    - Form handling
    - Custom domain support
@@ -280,10 +303,12 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
    - Requires hash routing
 
 ### Domain
+
 - Custom domain: `pawellipowczan.com` (or similar)
 - SSL certificate (automatic with Vercel/Netlify)
 
 ### CI/CD
+
 - Automatic deployment on git push to main branch
 - Preview deployments for pull requests
 
@@ -292,12 +317,14 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ## Maintenance & Updates
 
 ### Regular Updates
+
 - Blog articles: Weekly/bi-weekly
 - Projects: Add new work as completed
 - Dependencies: Monthly security updates
 - Content refresh: Quarterly review
 
 ### Monitoring
+
 - Uptime monitoring
 - Performance monitoring (Lighthouse CI)
 - Error tracking (Sentry optional)
@@ -308,6 +335,7 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ## Legal Compliance
 
 ### GDPR/RODO Requirements
+
 - Cookie consent banner (if using tracking cookies)
 - Clear privacy policy
 - Data processing transparency
@@ -315,11 +343,13 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 - Contact for data requests
 
 ### Required Legal Pages
+
 - Privacy Policy (Polityka Prywatności)
 - Terms of Service (Regulamin)
 - Cookie Policy (Polityka Ciasteczek)
 
 All legal pages must be:
+
 - Easily accessible from footer
 - Written in clear language
 - Updated with current date
@@ -330,6 +360,7 @@ All legal pages must be:
 ## Decisions & Assumptions
 
 ### Confirmed Decisions
+
 1. ✅ Color scheme: Green/teal gradient confirmed and implemented
 2. ✅ Logo usage: Centered in header, SVG format
 3. ✅ Contact form backend: FormSpree (ready for integration, not yet connected)
@@ -339,6 +370,7 @@ All legal pages must be:
 7. ✅ Booking system: Zencal widget for free consultation scheduling
 
 ### Current Implementation
+
 - **Language:** Polish for user-facing content, English for AI/technical docs
 - **Architecture:** Static SPA with build-time prerendering
 - **Blog system:** File-based markdown (8+ articles published)
@@ -352,11 +384,13 @@ All legal pages must be:
 ## Appendix
 
 ### Design Inspiration
+
 - [heyalice.app](https://heyalice.app/) - Gradient text, animations
 - Tech News Weekly Summary #51 - Color scheme, background
 - Modern developer portfolio trends
 
 ### Resources
+
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Framer Motion Documentation](https://www.framer.com/motion/)
 - [React Router Documentation](https://reactrouter.com/)
@@ -372,4 +406,3 @@ All legal pages must be:
 
 **For detailed technical specifications, see:** [SRS.md](./SRS.md)
 **For AI agents quick reference, see:** [AGENTS.md](../AGENTS.md)
-

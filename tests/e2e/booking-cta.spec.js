@@ -229,11 +229,12 @@ test.describe("Modal rezerwacji - Funkcjonalność", () => {
     // Kliknij na backdrop - używamy nth-child selektora aby znaleźć parent
 
     await page.evaluate(() => {
-      const modalParent = document.querySelector('[role="dialog"]').parentElement;
-      const clickEvent = new MouseEvent('click', {
+      const modalParent =
+        document.querySelector('[role="dialog"]').parentElement;
+      const clickEvent = new MouseEvent("click", {
         bubbles: true,
         cancelable: true,
-        view: window
+        view: window,
       });
       modalParent.dispatchEvent(clickEvent);
     });
@@ -579,4 +580,3 @@ test.describe("Integracja Booking CTA z innymi sekcjami", () => {
     await expect(contactSection).toBeVisible();
   });
 });
-

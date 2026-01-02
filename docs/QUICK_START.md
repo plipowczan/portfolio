@@ -211,14 +211,14 @@ Zobacz **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** dla szczegół
 
 ## 📚 Szybki Spis Kluczowych Plików
 
-| Plik                                  | Co Zaktualizować                  |
-| ------------------------------------- | --------------------------------- |
-| `src/utils/constants.js`              | Imię, email, linki społecznościowe|
-| `src/data/projects.js`                | Twoje projekty                    |
-| `src/data/skills.js`                  | Twoje umiejętności                |
-| `src/data/blogPosts.js`               | Artykuły blogowe                  |
-| `src/components/sections/About.jsx`   | Biografia osobista                |
-| `src/components/sections/ContactForm.jsx` | Konfiguracja backendu formularza  |
+| Plik                                      | Co Zaktualizować                   |
+| ----------------------------------------- | ---------------------------------- |
+| `src/utils/constants.js`                  | Imię, email, linki społecznościowe |
+| `src/data/projects.js`                    | Twoje projekty                     |
+| `src/data/skills.js`                      | Twoje umiejętności                 |
+| `src/data/blogPosts.js`                   | Artykuły blogowe                   |
+| `src/components/sections/About.jsx`       | Biografia osobista                 |
+| `src/components/sections/ContactForm.jsx` | Konfiguracja backendu formularza   |
 
 ## 💡 Pro Tipy
 

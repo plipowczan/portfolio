@@ -1,4 +1,5 @@
 # SRS - Software Requirements Specification
+
 ## Pawel Lipowczan Portfolio Website
 
 **Version:** 1.1
@@ -16,6 +17,7 @@
 This Software Requirements Specification (SRS) describes the detailed functional and technical requirements for the Pawel Lipowczan portfolio website, currently deployed and operating in production.
 
 This document serves as a comprehensive technical reference for:
+
 - AI agents working on the project
 - Developers maintaining or enhancing the application
 - Technical reviewers assessing the implementation
@@ -23,6 +25,7 @@ This document serves as a comprehensive technical reference for:
 ### 1.2 Scope
 
 This document covers:
+
 - System architecture and component structure
 - Functional requirements for all application features
 - Non-functional requirements (performance, SEO, accessibility)
@@ -34,6 +37,7 @@ This document covers:
 ### 1.3 Intended Audience
 
 **Primary audience:**
+
 - **AI agents** - For automated code generation, refactoring, and feature development
 - **Software developers** - For maintenance, bug fixes, and feature additions
 - **Technical reviewers** - For code quality assessment and architectural review
@@ -51,6 +55,7 @@ This document covers:
 **Application Type:** Single Page Application (SPA) with server-side prerendering
 
 **Key characteristics:**
+
 - Client-side React application with React Router for navigation
 - Build-time prerendering using Puppeteer for SEO optimization
 - Static file deployment to CDN (Vercel)
@@ -58,6 +63,7 @@ This document covers:
 - Dynamic content from markdown files and JavaScript data structures
 
 **Rendering Strategy:**
+
 1. **Build time:** Puppeteer generates static HTML for all routes
 2. **First load:** Browser receives pre-rendered HTML (instant FCP)
 3. **Hydration:** React takes over for interactivity
@@ -66,6 +72,7 @@ This document covers:
 ### 2.2 Technology Stack
 
 **Frontend Framework:**
+
 ```
 React 19.2.0
 ├── react-dom 19.2.0
@@ -74,6 +81,7 @@ React 19.2.0
 ```
 
 **Build System:**
+
 ```
 Vite 7.2.2
 ├── @vitejs/plugin-react 5.1.1
@@ -81,6 +89,7 @@ Vite 7.2.2
 ```
 
 **Styling:**
+
 ```
 Tailwind CSS 3.4.18
 ├── PostCSS 8.5.6
@@ -88,6 +97,7 @@ Tailwind CSS 3.4.18
 ```
 
 **Content & SEO:**
+
 ```
 react-helmet-async 2.0.5
 react-markdown 10.1.0
@@ -96,23 +106,27 @@ react-markdown 10.1.0
 ```
 
 **Prerendering:**
+
 ```
 puppeteer-core 24.32.1
 @sparticuz/chromium 133.0.0
 ```
 
 **Testing:**
+
 ```
 @playwright/test 1.56.1
 ```
 
 **Analytics:**
+
 ```
 @vercel/analytics 1.5.0
 @vercel/speed-insights 1.3.0
 ```
 
 **External Services:**
+
 - **Zencal** - Embedded booking widget (loaded via external script)
 - Script: `https://app.zencal.io/js/embed.js?v=3.11.7`
 - Custom CSS for Material-UI component styling
@@ -328,17 +342,20 @@ portfolio/
 **Functional Requirements:**
 
 FR-NAV-001: **Sticky Header**
+
 - Navigation must remain fixed at top of viewport during scroll
 - Background must have semi-transparent backdrop blur effect
 - Must add shadow when scrolled past 50px
 
 FR-NAV-002: **Desktop Menu**
+
 - Display horizontal menu on screens > 1024px
 - Menu items: Home, About, Projects, Skills, Blog, Contact
 - Clicking menu item must smooth-scroll to section (homepage) or navigate to page
 - Active section must be highlighted during scroll
 
 FR-NAV-003: **Mobile Menu**
+
 - Display hamburger icon on screens ≤ 1024px
 - Clicking hamburger opens full-screen overlay menu
 - Menu must animate in from right
@@ -346,11 +363,13 @@ FR-NAV-003: **Mobile Menu**
 - Clicking outside menu closes it
 
 FR-NAV-004: **Logo**
+
 - Logo must link to homepage (/)
 - Logo must be visible on all pages
 - Logo must be same SVG as brand identity
 
 **Implementation Details:**
+
 - Uses `useState` for mobile menu open/close state
 - Uses `useEffect` for scroll detection and active section highlighting
 - Smooth scroll implemented with `element.scrollIntoView({ behavior: 'smooth' })`
@@ -365,25 +384,30 @@ FR-NAV-004: **Logo**
 **Functional Requirements:**
 
 FR-HERO-001: **Full Viewport Height**
+
 - Section must be 100vh (minus navigation height)
 - Content must be vertically and horizontally centered
 
 FR-HERO-002: **Animated Gradient Text**
+
 - Main heading: "PAWEL LIPOWCZAN" with gradient text effect
 - Gradient colors: green (#00ff9d) to cyan (#00b8ff)
 - Text must have glow animation on hover
 
 FR-HERO-003: **Subtitle**
+
 - Display "YOUR TECH GUIDE" below main heading
 - Smaller font size, uppercase
 - Light gray color
 
 FR-HERO-004: **Logo with Glow**
+
 - Display logo above heading
 - Logo must have pulsating glow animation (0-10px green shadow)
 - Animation duration: 2s, infinite
 
 FR-HERO-005: **Network Background Animation**
+
 - Canvas-based particle system
 - Particles connected by lines when distance < 120px
 - Particles respond to mouse position (repel effect)
@@ -391,16 +415,19 @@ FR-HERO-005: **Network Background Animation**
 - Must be responsive (resize with viewport)
 
 FR-HERO-006: **CTA Buttons**
+
 - Two buttons: "View Projects" and "Contact Me"
 - Buttons scroll to respective sections
 - Hover effect: scale(1.05) + green shadow
 
 FR-HERO-007: **Scroll Indicator**
+
 - Display scroll down arrow icon at bottom
 - Animated bounce effect
 - Clicking scrolls to About section
 
 **Implementation:**
+
 - NetworkBackground component uses HTML5 Canvas API
 - Particle positions updated every frame using `requestAnimationFrame`
 - Mouse tracking with `mousemove` event listener
@@ -416,11 +443,13 @@ FR-HERO-007: **Scroll Indicator**
 **Functional Requirements:**
 
 FR-ABOUT-001: **Personal Introduction**
+
 - 2-3 paragraphs of bio text
 - Content must be editable directly in component
 - Text must be readable (white/light gray on dark background)
 
 FR-ABOUT-002: **Animated Statistics**
+
 - Display 4 key statistics:
   - Years of experience (5+)
   - Projects completed (50+)
@@ -431,17 +460,20 @@ FR-ABOUT-002: **Animated Statistics**
 - Use easing function for smooth animation
 
 FR-ABOUT-003: **Download CV Button**
+
 - Button labeled "Download CV" or "Pobierz CV"
 - Links to PDF file in `/public` folder
 - Opens in new tab (`target="_blank"`)
 - Hover effect: green glow + scale
 
 FR-ABOUT-004: **Gradient Decorative Elements**
+
 - Background decorative elements with blur effects
 - Positioned absolutely, do not affect layout
 - Green/cyan gradient colors
 
 **Implementation:**
+
 - Statistics animation uses Framer Motion `useInView` hook
 - Counter animation implemented with `motion.span` and `animate` prop
 - IntersectionObserver triggers animation when section is 50% visible
@@ -457,6 +489,7 @@ FR-ABOUT-004: **Gradient Decorative Elements**
 **Functional Requirements:**
 
 FR-PROJ-001: **Project Grid Layout**
+
 - Responsive grid:
   - Mobile (< 640px): 1 column
   - Tablet (640px - 1024px): 2 columns
@@ -465,6 +498,7 @@ FR-PROJ-001: **Project Grid Layout**
 
 FR-PROJ-002: **Project Card Structure**
 Each card must display:
+
 - Project image (aspect ratio 16:9)
 - Project title (H3 heading)
 - Short description (2-3 sentences)
@@ -473,33 +507,39 @@ Each card must display:
 - Live demo link (if available)
 
 FR-PROJ-003: **Hover Effects**
+
 - Card lifts on hover (`translateY(-10px)`)
 - Green glow shadow appears
 - Transition duration: 300ms
 - Cursor changes to pointer
 
 FR-PROJ-004: **Technology Badges**
+
 - Each technology displayed as pill badge
 - Green background with semi-transparency
 - Badges wrap to multiple lines if needed
 - Font size: small (0.875rem)
 
 FR-PROJ-005: **External Links**
+
 - GitHub and Live Demo buttons at bottom of card
 - Icons from react-icons (FiGithub, FiExternalLink)
 - Links open in new tab
 - Buttons have hover effect (scale, color change)
 
 FR-PROJ-006: **Featured Projects**
+
 - Projects with `featured: true` displayed first
 - Featured projects have special badge or styling (optional)
 
 FR-PROJ-007: **View More Button**
+
 - "View More on GitHub" button below grid
 - Links to GitHub profile
 - Opens in new tab
 
 **Data Structure (projects.js):**
+
 ```javascript
 {
   id: number,
@@ -514,6 +554,7 @@ FR-PROJ-007: **View More Button**
 ```
 
 **Implementation:**
+
 - Project list imported from `src/data/projects.js`
 - Framer Motion `stagger` animation for cards entering viewport
 - Cards use `motion.div` with `whileHover` for lift effect
@@ -530,6 +571,7 @@ FR-PROJ-007: **View More Button**
 
 FR-SKILL-001: **Category Organization**
 Skills must be organized into categories:
+
 - Frontend Development
 - Backend Development
 - Database & Tools
@@ -538,33 +580,39 @@ Skills must be organized into categories:
 
 FR-SKILL-002: **Skill Display**
 Each skill displays:
+
 - Skill name
 - Icon (from react-icons)
 - Optional: Proficiency level (0-100)
 - Optional: Progress bar visualization
 
 FR-SKILL-003: **Grid Layout**
+
 - Responsive grid within each category
 - Mobile: 2 columns
 - Tablet: 3 columns
 - Desktop: 4 columns
 
 FR-SKILL-004: **Icons**
+
 - Use react-icons (Simple Icons: SiReact, SiJavascript, etc.)
 - Icon size: 2rem (32px)
 - Icon color: Green (#00ff9d) on dark background
 
 FR-SKILL-005: **Animated Entrance**
+
 - Skills fade in and slide up when section enters viewport
 - Stagger animation (each skill animates sequentially)
 - Uses Framer Motion `variants` with `staggerChildren`
 
 FR-SKILL-006: **Hover Effect**
+
 - Skill cards scale slightly on hover (scale(1.05))
 - Icon color intensifies
 - Card background lightens
 
 **Data Structure (skills.js):**
+
 ```javascript
 {
   name: string,  // "React"
@@ -575,6 +623,7 @@ FR-SKILL-006: **Hover Effect**
 ```
 
 **Implementation:**
+
 - Skills grouped by category using `reduce()` or `filter()`
 - Each category rendered as separate section
 - Framer Motion `motion.div` with `initial`, `whileInView`, `viewport` props
@@ -586,27 +635,31 @@ FR-SKILL-006: **Hover Effect**
 
 **File:** `src/components/sections/ContactForm.jsx`
 
-**Functional Requirements:****
+**Functional Requirements:\*\***
 
 FR-CONTACT-001: **Contact Form Fields**
+
 - Name (required, min 2 characters)
 - Email (required, must be valid email format)
 - Subject (optional)
 - Message (required, min 10 characters)
 
 FR-CONTACT-002: **Form Validation**
+
 - Real-time validation on blur (field loses focus)
 - Display error messages below invalid fields
 - Error message color: red
 - Prevent submission if validation fails
 
 FR-CONTACT-003: **Validation Rules**
+
 - Name: Required, min 2 chars, max 100 chars
 - Email: Required, valid email format (regex: `/^[^\s@]+@[^\s@]+\.[^\s@]+$/`)
 - Message: Required, min 10 chars, max 1000 chars
 - Subject: Optional, max 200 chars
 
 FR-CONTACT-004: **Form Submission**
+
 - Submit button disabled if validation fails
 - On submit: Show loading state (spinner + "Sending..." text)
 - After submission: Show success or error message
@@ -614,22 +667,26 @@ FR-CONTACT-004: **Form Submission**
 - Error: Show red error message, keep form data
 
 FR-CONTACT-005: **Form State Management**
+
 - Use `useState` for form data (name, email, subject, message)
 - Use `useState` for errors object
 - Use `useState` for submission status (idle, loading, success, error)
 
 FR-CONTACT-006: **Contact Information Display**
+
 - Display email address: `pawel@lipowczan.pl`
 - Email must be clickable (`mailto:` link)
 - Display social media links (GitHub, LinkedIn, Twitter)
 - Social icons from react-icons
 
 FR-CONTACT-007: **Form Backend Integration (Pending)**
+
 - Form ready for FormSpree or EmailJS integration
 - Form action can be set to external service endpoint
 - Alternative: Custom API endpoint
 
 **Current Implementation:**
+
 - Form validation implemented with custom hooks
 - No backend yet (submissions not sent anywhere)
 - Form displays validation errors correctly
@@ -640,6 +697,7 @@ FR-CONTACT-007: **Form Backend Integration (Pending)**
 ### 3.7 Booking CTA Section
 
 **Files:**
+
 - `src/components/sections/BookingCTA.jsx` - CTA section with modal trigger
 - `src/components/ui/Modal.jsx` - Reusable modal component
 - `src/components/widgets/ZencalWidget.jsx` - Zencal widget wrapper
@@ -647,12 +705,14 @@ FR-CONTACT-007: **Form Backend Integration (Pending)**
 **Functional Requirements:**
 
 FR-BOOKING-001: **CTA Section Display**
+
 - Section displays after ContactForm section (at the end of home page)
 - Background: dark with gradient circle decorations
 - Content centered with max-width container
 - Animated entrance when scrolling into view (Framer Motion)
 
 FR-BOOKING-002: **CTA Content**
+
 - Main heading: "Gotowy na następny krok?"
 - Subheading: "Umów bezpłatną konsultację"
 - Description paragraph explaining free 30-minute consultation offer
@@ -664,6 +724,7 @@ FR-BOOKING-002: **CTA Content**
 - Primary CTA button: "Zarezerwuj Bezpłatną Konsultację"
 
 FR-BOOKING-003: **Modal Functionality**
+
 - Modal opens when CTA button clicked
 - Portal rendering to `document.body` (overlay above all content)
 - Glassmorphism styling (dark semi-transparent with backdrop blur)
@@ -677,6 +738,7 @@ FR-BOOKING-003: **Modal Functionality**
 - ARIA attributes for accessibility (`role="dialog"`, `aria-modal="true"`)
 
 FR-BOOKING-004: **Zencal Widget Integration**
+
 - Widget loads external Zencal script on component mount
 - Script URL: `https://app.zencal.io/js/embed.js?v=3.11.7`
 - Script attributes: `async`, `data-cookieconsent="ignore"`
@@ -690,6 +752,7 @@ FR-BOOKING-004: **Zencal Widget Integration**
 - Smooth fade-in transition when widget ready
 
 FR-BOOKING-005: **Widget Styling**
+
 - Widget wrapped in white container with rounded corners
 - Container styling: `bg-white rounded-xl p-6 md:p-8 shadow-lg`
 - Custom CSS overrides for Material-UI components:
@@ -700,12 +763,14 @@ FR-BOOKING-005: **Widget Styling**
   - Disabled buttons: light gray background with darker text
 
 FR-BOOKING-006: **Responsive Design**
+
 - Modal full-width on mobile (with padding)
 - Modal max-width 4xl on desktop (1024px)
 - Modal max-height 90vh with scroll
 - Widget responsive within container
 
 FR-BOOKING-007: **Animation Effects**
+
 - CTA section: FADE_IN_UP animation with stagger
 - Modal backdrop: fade in/out (opacity)
 - Modal content: scale + fade + slide up/down
@@ -713,6 +778,7 @@ FR-BOOKING-007: **Animation Effects**
 - Easing: custom cubic-bezier
 
 **Implementation Details:**
+
 - Modal uses `createPortal` from react-dom
 - Script cleanup on component unmount
 - Check for existing script before loading (prevent duplicates)
@@ -723,9 +789,11 @@ FR-BOOKING-007: **Animation Effects**
 Location: `src/styles/index.css`
 
 Custom styles for Zencal widget:
+
 ```css
 /* Calendar date buttons - active (unselected) */
-.zencal-embed .zencal-embed-booking-view-calendar-date-button:not(.empty):not(.selected) {
+.zencal-embed
+  .zencal-embed-booking-view-calendar-date-button:not(.empty):not(.selected) {
   background-color: #f5f5f5 !important;
   color: #757575 !important;
 }
@@ -754,6 +822,7 @@ Custom styles for Zencal widget:
 ### 3.8 Blog System
 
 **Files:**
+
 - `src/pages/Blog.jsx` - Blog listing page
 - `src/pages/BlogPostPage.jsx` - Individual post page
 - `src/content/blog/*.md` - Blog post markdown files
@@ -762,6 +831,7 @@ Custom styles for Zencal widget:
 **Functional Requirements:**
 
 FR-BLOG-001: **Blog Listing Page (/blog)**
+
 - Display all blog posts in reverse chronological order (newest first)
 - Grid layout:
   - Mobile: 1 column
@@ -776,11 +846,13 @@ FR-BLOG-001: **Blog Listing Page (/blog)**
   - Category tags (pills)
 
 FR-BLOG-002: **Post Card Interaction**
+
 - Entire card clickable (navigates to `/blog/:slug`)
 - Hover effect: lift + green shadow
 - Image has slight zoom effect on hover
 
 FR-BLOG-003: **Individual Post Page (/blog/:slug)**
+
 - Display full post content from markdown file
 - Components:
   - Breadcrumbs (Home / Blog / Post Title)
@@ -792,6 +864,7 @@ FR-BLOG-003: **Individual Post Page (/blog/:slug)**
   - Back to blog button
 
 FR-BLOG-004: **Markdown Rendering**
+
 - Support standard markdown:
   - Headings (H1-H6)
   - Paragraphs
@@ -806,6 +879,7 @@ FR-BLOG-004: **Markdown Rendering**
 
 FR-BLOG-005: **Frontmatter Parsing**
 Each blog post markdown file must have frontmatter:
+
 ```yaml
 ---
 title: "Post Title"
@@ -819,12 +893,14 @@ author: "Pawel Lipowczan"
 ```
 
 FR-BLOG-006: **Dynamic Post Loading**
+
 - Blog posts loaded using Vite's `import.meta.glob()`
 - Posts auto-discovered from `src/content/blog/*.md`
 - Files starting with `_` or `README.md` are ignored
 - Posts parsed with `gray-matter` library
 
 FR-BLOG-007: **SEO for Blog Posts**
+
 - Each post has unique meta tags:
   - Title: Post title + " - Pawel Lipowczan"
   - Description: Post excerpt
@@ -834,10 +910,12 @@ FR-BLOG-007: **SEO for Blog Posts**
 - Breadcrumbs for navigation
 
 FR-BLOG-008: **404 Handling**
+
 - If blog post slug not found → display 404 message
 - Provide link back to blog listing
 
 **Implementation:**
+
 - Blog posts: `src/content/blog/*.md`
 - Loader uses `import.meta.glob('../content/blog/*.md', { eager: true })`
 - Frontmatter extracted with `gray-matter`
@@ -850,6 +928,7 @@ FR-BLOG-008: **404 Handling**
 ### 3.8 Legal Pages
 
 **Files:**
+
 - `src/pages/PrivacyPolicy.jsx`
 - `src/pages/TermsOfService.jsx`
 - `src/pages/CookiePolicy.jsx`
@@ -858,6 +937,7 @@ FR-BLOG-008: **404 Handling**
 
 FR-LEGAL-001: **Privacy Policy (/privacy-policy)**
 Must include:
+
 - Data collection details (what data is collected)
 - Purpose of data collection
 - Data storage and security
@@ -867,6 +947,7 @@ Must include:
 
 FR-LEGAL-002: **Terms of Service (/terms-of-service)**
 Must include:
+
 - Website usage terms
 - Content rights and intellectual property
 - Liability disclaimers
@@ -876,6 +957,7 @@ Must include:
 
 FR-LEGAL-003: **Cookie Policy (/cookie-policy)**
 Must include:
+
 - Types of cookies used (essential, analytics, marketing)
 - Purpose of each cookie
 - Third-party cookies (if any)
@@ -883,6 +965,7 @@ Must include:
 - Last updated date
 
 FR-LEGAL-004: **Common Requirements for All Legal Pages**
+
 - Clean, readable layout
 - Table of contents (jump links to sections)
 - Breadcrumbs (Home / Legal Page)
@@ -891,6 +974,7 @@ FR-LEGAL-004: **Common Requirements for All Legal Pages**
 - Print-friendly
 
 FR-LEGAL-005: **Cookie Banner (GDPR Compliance)**
+
 - Display cookie consent banner on first visit
 - User can accept or decline cookies
 - User choice stored in localStorage
@@ -898,6 +982,7 @@ FR-LEGAL-005: **Cookie Banner (GDPR Compliance)**
 - Link to Cookie Policy in banner
 
 **Implementation:**
+
 - Legal content hardcoded in JSX (editable by developer)
 - Content in Polish (primary language)
 - English version can be added (future enhancement)
@@ -923,11 +1008,13 @@ Current vs Target:
 | Speed Index | 5.5s | < 3.0s | ⚠️ Needs improvement |
 
 **NFR-PERF-002: Bundle Size**
+
 - Total JS bundle: 483.84 KB (gzip: 155.43 KB)
 - Target: < 300 KB (ungzipped)
 - CSS bundle: 26.86 KB (gzip: 4.97 KB) ✅
 
 **NFR-PERF-003: Optimization Strategies**
+
 - ✅ Prerendering (static HTML)
 - ✅ Image optimization (responsive sizes)
 - ⏳ Code splitting (implement React.lazy())
@@ -937,6 +1024,7 @@ Current vs Target:
 - ✅ Animations optimized (transform/opacity only)
 
 **NFR-PERF-004: Caching Strategy**
+
 - Static assets: Cache-Control headers set by Vercel
 - HTML: No-cache (always fetch latest)
 - JS/CSS: Immutable (filename hashing)
@@ -946,6 +1034,7 @@ Current vs Target:
 
 **NFR-SEO-001: Meta Tags**
 All pages must have:
+
 - ✅ Unique `<title>` tag (< 60 characters)
 - ✅ Meta description (< 160 characters)
 - ✅ Open Graph tags (og:title, og:description, og:image, og:url)
@@ -954,6 +1043,7 @@ All pages must have:
 - ✅ Language tag (`<html lang="pl">`)
 
 **NFR-SEO-002: Structured Data (JSON-LD)**
+
 - ✅ Person schema on homepage
 - ✅ BlogPosting schema on blog posts
 - ✅ WebSite schema (search action)
@@ -961,18 +1051,21 @@ All pages must have:
 - ⏳ Organization schema (future enhancement)
 
 **NFR-SEO-003: Sitemap & Robots**
+
 - ✅ sitemap.xml generated dynamically
 - ✅ robots.txt configured
 - ✅ All pages indexed (no noindex tags)
 - ✅ Clean URL structure (no query parameters)
 
 **NFR-SEO-004: Semantic HTML**
+
 - ✅ Proper heading hierarchy (H1 → H2 → H3)
 - ✅ Semantic tags (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`)
 - ✅ Alt text for all images
 - ✅ Descriptive link text (avoid "click here")
 
 **NFR-SEO-005: Prerendering**
+
 - ✅ All routes prerendered at build time
 - ✅ Puppeteer waits for `networkidle0` + 2s
 - ✅ Full HTML content in source (not empty `<div id="root">`)
@@ -984,6 +1077,7 @@ All pages must have:
 Target: Level AA compliance
 
 Current implementation:
+
 - ✅ Keyboard navigation (Tab, Enter, Escape)
 - ✅ Focus indicators visible
 - ✅ Color contrast ratios > 4.5:1 (text)
@@ -996,12 +1090,14 @@ Current implementation:
 - ⏳ Form error announcements (to be improved)
 
 **NFR-A11Y-002: Keyboard Navigation**
+
 - All interactive elements accessible via Tab
 - Logical tab order (top to bottom, left to right)
 - Mobile menu closable with Escape key
 - Focus trapped in modal/overlay when open
 
 **NFR-A11Y-003: Screen Reader Support**
+
 - Descriptive labels for form inputs
 - ARIA labels for icon-only buttons
 - ARIA live regions for dynamic content
@@ -1010,22 +1106,26 @@ Current implementation:
 ### 4.4 Responsiveness
 
 **NFR-RESP-001: Breakpoints**
+
 - Mobile: < 640px (sm)
 - Tablet: 640px - 1024px (md, lg)
 - Desktop: > 1024px (xl, 2xl)
 
 **NFR-RESP-002: Mobile-First Approach**
+
 - Base styles for mobile
 - Media queries add styles for larger screens
 - Touch-friendly tap targets (min 44x44px)
 
 **NFR-RESP-003: Tested Devices**
+
 - ✅ iPhone SE, 12, 13, 14
 - ✅ iPad, iPad Pro
 - ✅ Desktop (1920x1080, 2560x1440)
 - ✅ Various Android devices (Chrome DevTools)
 
 **NFR-RESP-004: Responsive Images**
+
 - Images scale with container
 - Aspect ratios preserved
 - Responsive sizing with `srcset` (future enhancement)
@@ -1033,12 +1133,14 @@ Current implementation:
 ### 4.5 Browser Support
 
 **NFR-BROWSER-001: Supported Browsers**
+
 - ✅ Chrome/Edge (last 2 versions)
 - ✅ Firefox (last 2 versions)
 - ✅ Safari (last 2 versions)
 - ❌ Internet Explorer (not supported)
 
 **NFR-BROWSER-002: Polyfills**
+
 - Modern JavaScript features used (ES6+)
 - Vite handles transpilation for supported browsers
 - No additional polyfills needed
@@ -1052,12 +1154,14 @@ Current implementation:
 **Integration:** Hosting platform, CDN, analytics
 
 **Configuration:**
+
 - Build command: `npm run build:prerender`
 - Output directory: `dist`
 - Node version: 20.x
 - Environment variables: None currently
 
 **Features Used:**
+
 - ✅ Automatic deployments (git push to main)
 - ✅ Preview deployments (pull requests)
 - ✅ Vercel Analytics (@vercel/analytics)
@@ -1066,6 +1170,7 @@ Current implementation:
 - ✅ HTTPS/SSL (automatic)
 
 **Configuration File:** `vercel.json`
+
 ```json
 {
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
@@ -1079,6 +1184,7 @@ Current implementation:
 **Purpose:** Handle contact form submissions
 
 **Integration steps:**
+
 1. Sign up at formspree.io
 2. Get form endpoint ID
 3. Update ContactForm.jsx:
@@ -1104,6 +1210,7 @@ Current implementation:
 **Purpose:** AI-assisted content generation for blog posts
 
 **Dependencies:**
+
 - @anthropic-ai/sdk 0.69.0
 - openai 6.9.0
 
@@ -1116,11 +1223,13 @@ Current implementation:
 ### 6.1 End-to-End Testing (Playwright)
 
 **Test Files:**
+
 - `tests/home.spec.js`
 - `tests/blog.spec.js`
 - `tests/navigation.spec.js`
 
 **Test Coverage:**
+
 - ✅ Navigation menu (desktop and mobile)
 - ✅ Smooth scrolling to sections
 - ✅ Form validation
@@ -1130,11 +1239,13 @@ Current implementation:
 - ✅ Accessibility (basic checks)
 
 **Browsers Tested:**
+
 - Chromium (headless)
 - Firefox (headless)
 - WebKit (headless)
 
 **Commands:**
+
 ```bash
 npm test              # All tests
 npm run test:headed   # Visible browser
@@ -1142,6 +1253,7 @@ npm run test:ui       # Interactive mode
 ```
 
 **Configuration:** `playwright.config.js`
+
 - 3 browsers configured
 - Mobile viewports included
 - Screenshots on failure
@@ -1150,6 +1262,7 @@ npm run test:ui       # Interactive mode
 ### 6.2 Manual Testing Checklist
 
 **Before deployment:**
+
 - [ ] All navigation links work
 - [ ] Smooth scroll functions correctly
 - [ ] Mobile menu opens/closes
@@ -1163,6 +1276,7 @@ npm run test:ui       # Interactive mode
 - [ ] Performance acceptable (Lighthouse > 70)
 
 **Testing Tools:**
+
 - Lighthouse (Chrome DevTools)
 - Google Rich Results Test
 - Mobile-Friendly Test
@@ -1176,6 +1290,7 @@ npm run test:ui       # Interactive mode
 ### 7.1 Deployment Process
 
 **Automatic Deployment (Recommended):**
+
 1. Push to main branch: `git push origin main`
 2. Vercel detects push and triggers build
 3. Build runs: `npm run build:prerender`
@@ -1185,12 +1300,14 @@ npm run test:ui       # Interactive mode
 7. Deployment live (~2-3 minutes)
 
 **Manual Deployment:**
+
 ```bash
 npm run build:prerender
 vercel --prod
 ```
 
 **Build Timeline:**
+
 - Vite build: ~4 seconds
 - Prerendering (9+ pages): ~2 minutes
 - Total: ~2-3 minutes
@@ -1198,21 +1315,25 @@ vercel --prod
 ### 7.2 Environment Variables
 
 **Vercel Dashboard:**
+
 - `NODE_VERSION`: 20.x (set in dashboard)
 - Future: API keys if integrations added
 
 **Local (.env - not committed):**
+
 - Not currently used
 - Add if API keys needed
 
 ### 7.3 Monitoring
 
 **Active:**
+
 - Vercel Analytics (pageviews, visitors)
 - Vercel Speed Insights (Core Web Vitals)
 - Vercel deployment logs
 
 **To Implement:**
+
 - Google Search Console (SEO monitoring)
 - Error tracking (Sentry - optional)
 - Uptime monitoring (Uptime Robot - optional)
@@ -1220,15 +1341,18 @@ vercel --prod
 ### 7.4 Maintenance Tasks
 
 **Weekly:**
+
 - Check Vercel logs for errors
 - Review analytics
 
 **Monthly:**
+
 - Update dependencies (`npm update`)
 - Security patches (`npm audit fix`)
 - Performance audit (Lighthouse)
 
 **Quarterly:**
+
 - Content refresh (update About section)
 - New blog posts
 - Review and update TODO list
@@ -1241,6 +1365,7 @@ vercel --prod
 ### 8.1 Critical Issues
 
 **ISSUE-001: Performance - Slow FCP/LCP**
+
 - **Current:** FCP 5.3s, LCP 5.8s
 - **Target:** FCP < 1.8s, LCP < 2.5s
 - **Cause:** Font loading blocking render, large bundle size
@@ -1251,6 +1376,7 @@ vercel --prod
   - Consider system fonts as fallback
 
 **ISSUE-002: Missing Project Live URLs**
+
 - **Status:** Some projects missing `liveUrl`
 - **Impact:** "Visit Live Site" button disabled
 - **Solution:** Add live URLs or link to templates/repositories
@@ -1258,17 +1384,20 @@ vercel --prod
 ### 8.2 High Priority TODOs
 
 **TODO-001: Internal Linking**
+
 - Add "Related Posts" section at end of blog posts
 - Link to similar posts by tags
 - Link to portfolio from blog posts
 
 **TODO-002: Image Optimization**
+
 - Convert images to WebP format
 - Implement lazy loading for all images
 - Add `srcset` for responsive images
 - Compress images (target: < 200KB per image)
 
 **TODO-003: Form Backend**
+
 - Integrate FormSpree or EmailJS
 - Test form submissions
 - Add success/error handling
@@ -1276,12 +1405,14 @@ vercel --prod
 ### 8.3 Medium Priority
 
 **TODO-004: SEO Enhancements**
+
 - Add FAQ schema
 - Create more blog content (target: 15+ posts)
 - Improve internal linking structure
 - Add breadcrumbs to all pages
 
 **TODO-005: Accessibility Audit**
+
 - Run axe-core accessibility tests
 - Add ARIA labels where missing
 - Test keyboard navigation
@@ -1290,6 +1421,7 @@ vercel --prod
 ### 8.4 Recently Completed (January 2026)
 
 **COMPLETED-001: Booking System Integration**
+
 - \u2705 Zencal widget integration for free consultation booking
 - \u2705 Reusable Modal component with accessibility features
 - \u2705 BookingCTA section after ContactForm (at end of home page)
@@ -1298,6 +1430,7 @@ vercel --prod
 - \u2705 Mobile-responsive modal and widget
 
 **COMPLETED-002: Testimonials Section**
+
 - \u2705 Client testimonials carousel
 - \u2705 Auto-play with manual controls
 - \u2705 Responsive design
@@ -1305,12 +1438,14 @@ vercel --prod
 - Add internal linking strategy
 
 **TODO-005: Accessibility Improvements**
+
 - Complete screen reader testing
 - Add skip navigation links
 - Improve form error announcements
 - Test with keyboard-only navigation
 
 **TODO-006: Content Expansion**
+
 - Write more blog posts (weekly cadence)
 - Add case studies for projects
 - Create portfolio project pages
@@ -1318,6 +1453,7 @@ vercel --prod
 ### 8.4 Low Priority
 
 **TODO-007: Features**
+
 - Dark/light mode toggle
 - Multi-language (Polish/English)
 - Blog search functionality
@@ -1334,30 +1470,31 @@ vercel --prod
 ### 9.1 Configuration Files
 
 **vite.config.js:**
+
 ```javascript
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist',
+    outDir: "dist",
     sourcemap: false,
   },
 });
 ```
 
 **tailwind.config.js:**
+
 - Custom green/teal color palette
 - Custom animations
 - PurgeCSS for production
 
 **vercel.json:**
+
 ```json
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
 ```
 
@@ -1387,6 +1524,7 @@ vercel --prod                  # Manual deploy
 ### 9.3 Resource Links
 
 **Documentation:**
+
 - [Vite](https://vitejs.dev/)
 - [React 19](https://react.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
@@ -1395,11 +1533,13 @@ vercel --prod                  # Manual deploy
 - [Playwright](https://playwright.dev/)
 
 **SEO & Performance:**
+
 - [Lighthouse](https://developers.google.com/web/tools/lighthouse)
 - [PageSpeed Insights](https://pagespeed.web.dev/)
 - [Google Rich Results Test](https://search.google.com/test/rich-results)
 
 **Accessibility:**
+
 - [WCAG 2.1](https://www.w3.org/WAI/WCAG21/quickref/)
 - [WAVE](https://wave.webaim.org/)
 - [axe DevTools](https://www.deque.com/axe/devtools/)
