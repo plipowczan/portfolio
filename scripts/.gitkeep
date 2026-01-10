@@ -1,0 +1,37 @@
+# Utility Scripts
+
+This directory contains utility scripts for the Pawel Lipowczan Portfolio project.
+
+## Available Scripts
+
+### Build & SEO
+- **`prerender.mjs`** - Generates static HTML for all pages using Puppeteer for SEO
+- **`build-with-prerender.mjs`** - Build orchestrator that runs Vite build + prerendering
+
+### Content Management
+- **`update-sitemap.js`** - Automatically generates `sitemap.xml` from blog posts and static pages
+- **`convert-to-webp.js`** - Converts PNG images to WebP format with optimization
+
+### Image Processing (OG Images)
+- **`resize-og-image.mjs`** - Resizes a single Open Graph image to 1200x630px
+- **`resize-og-images-preview.mjs`** - Preview mode for resizing OG images
+- **`apply-og-resize.mjs`** - Batch resize all OG images
+- **`check-og-images.mjs`** - Validates OG images (size, format, naming)
+
+## Documentation
+
+See `scripts/README.md` for detailed usage instructions and examples.
+
+## Usage
+
+Most scripts can be run via npm commands:
+```bash
+npm run build:prerender  # Full build with prerendering
+npm run blog:sitemap     # Update sitemap.xml
+npm run img:convert      # Convert images to WebP
+```
+
+For direct execution:
+```bash
+node scripts/<script-name>
+```
