@@ -58,6 +58,3 @@ playwright/.cache/
 
 # MCP configs with API keys
 .nano-banana-config.json
-
-# Blog temporary files
-docs/blog

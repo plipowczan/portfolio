@@ -71,13 +71,40 @@ AUTOMATICALLY invoked after `/blog-article-writer:execute` completes.
 ### Level 6: Post-Article Tasks
 
 **Generate OG Image:**
+
+IMPORTANT: Requires GEMINI_API_KEY in .env file.
+
+Use scripts/generate-image.js to generate abstract image:
+```bash
+node scripts/generate-image.js \
+  "Create abstract tech OG image (1200x630px) - NO TEXT AT ALL, pure visual design.
+
+  VISUAL STYLE:
+  - Dark gradient background (charcoal to navy blue)
+  - Minimalist, professional developer aesthetic
+  - Modern tech design inspired by code editor themes
+
+  VISUAL ELEMENTS ONLY (NO TEXT):
+  - Floating code brackets < > symbols
+  - AI brain/neural network icon (purple/blue gradient)
+  - Lightning bolt symbols (bright cyan #00b8ff and green #00ff9d)
+  - Terminal window shapes (minimal outlines)
+  - Abstract circuit board patterns
+  - Geometric shapes (triangles, hexagons)
+
+  COMPOSITION:
+  - Centered but dynamic arrangement
+  - Icons floating at various sizes
+  - Depth through overlapping and glow effects
+  - Professional tech aesthetic
+
+  IMPORTANT: NO TEXT whatsoever - no words, letters, or numbers" \
+  --filename og-{slug} \
+  --output public/images \
+  --model gemini-3-pro-image-preview
 ```
-Use nano-banana MCP to generate image:
-- Prompt: "Modern tech illustration matching article topic,
-  dark background, cyan (#00b8ff) and green (#00ff9d) colors,
-  1200x630 aspect ratio, no text, professional style"
-- Save initially as PNG
-```
+
+Script will save to: public/images/og-{slug}.png
 
 **Convert to WebP:**
 ```

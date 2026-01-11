@@ -17,6 +17,7 @@
     "og:resize": "node scripts/resize-og-image.mjs",
     "og:apply": "node scripts/apply-og-resize.mjs",
     "og:preview": "node scripts/resize-og-images-preview.mjs",
+    "img:generate": "node scripts/generate-image.js",
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
@@ -29,6 +30,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.69.0",
+    "@google/generative-ai": "^0.24.1",
     "@sparticuz/chromium": "^133.0.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.3.0",

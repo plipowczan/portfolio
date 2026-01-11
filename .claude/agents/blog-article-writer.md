@@ -1,33 +1,17 @@
----
-name: blog-article-writer
-description: Creates polished blog articles for Pawel Lipowczan's portfolio following PIV methodology (Prime-Implement-Validate). Use when user provides notes, outlines, research, or ideas to transform into a professional blog post.
+# Blog Article Writer Workflow
 
-Examples:
+**Purpose:** Documentation for creating blog articles using PIV methodology with commands.
 
-<example>
-Context: User provides transcript and wants blog article.
-user: "I have transcript about AI coding techniques - create blog article"
-assistant: "I'll use blog-article-writer agent with PIV workflow to create article"
-<Invokes /blog-article-writer:prime>
-</example>
+## ⚠️ Important: Do NOT Use as Agent
 
-<example>
-Context: User has outline for technical post.
-user: "Here's outline for React Server Components article"
-assistant: "I'll start PIV workflow: prime → plan → execute → validate"
-<Invokes /blog-article-writer:prime>
-</example>
+This is workflow documentation, NOT an invokable agent.
 
-tools: Skill, Edit, Write, Read, Glob, Grep, Bash, mcp__nano-banana__generate_image, mcp__nano-banana__edit_image, mcp__nano-banana__get_configuration_status
-model: sonnet
-color: blue
+**Correct Usage:** Invoke commands sequentially in main conversation
+**Incorrect Usage:** `@agent-blog-article-writer` via Task tool (file access restrictions)
+
 ---
 
-You are a specialized blog article creation agent following PIV (Prime-Implement-Validate) methodology.
-
-## Core Workflow
-
-You MUST follow this exact workflow:
+## PIV Workflow Overview
 
 ```
 1. /blog-article-writer:prime
@@ -48,55 +32,63 @@ You MUST follow this exact workflow:
 6. Validation report → User
 ```
 
-## Command Invocation
+## Quick Start
 
-When user requests blog article creation:
+### Prerequisites
+- Source materials in `docs/blog/`
+- GEMINI_API_KEY configured in .env file
+- scripts/generate-image.js available (uses gemini-3-pro-image-preview)
+- Dev server available (npm run dev)
 
-1. **Start with Prime:**
-   ```
-   "I'll start the blog article creation using PIV methodology.
+### Execution
 
-   First, let me research the source materials and context."
+**Step 1: Prime**
+```
+Run /blog-article-writer:prime
 
-   [Invoke /blog-article-writer:prime command]
-   ```
+Source materials at docs/blog/[your-file].md
+Topic: [describe article topic]
+Target audience: [who is this for]
+```
 
-2. **After Prime, do Planning:**
-   ```
-   "Research complete. Now I'll create a detailed article plan."
+**Step 2: Plan**
+```
+Run /blog-article-writer:plan
+```
+Review plan output, approve or request changes.
 
-   [Invoke /blog-article-writer:plan command]
-   ```
+**Step 3: Execute** (after approval)
+```
+Run /blog-article-writer:execute
+```
 
-3. **Present Plan to User:**
-   ```
-   "I've created a comprehensive plan for the article. Here's the structure:
+**Step 4: Validate** (automatic)
+Validation runs automatically and will:
+- Check quality (code tags, language, structure)
+- Generate OG image (NO TEXT, Gemini 3 Pro)
+- Convert to WebP
+- Update sitemap
+- Test in dev server
 
-   [Show key elements: title, structure, approach]
+## File Locations
 
-   Would you like me to proceed with writing, or would you like any adjustments to the plan?"
-   ```
-
-4. **After Approval, Execute:**
-   ```
-   [Invoke /blog-article-writer:execute command]
-   ```
-
-5. **Validation Happens Automatically:**
-   Validation triggers automatically after execute.
-   Present validation report to user.
+- **Prime Context:** `.claude/agents/context/blog-prime-{topic}.md`
+- **Plans:** `.claude/agents/plans/blog-{slug}.md`
+- **Articles:** `src/content/blog/{slug}.md`
+- **Validation Reports:** `.claude/agents/reports/validation-blog-{slug}.md`
+- **OG Images:** `public/images/og-{slug}.webp`
 
 ## Critical Requirements
 
 ### Code Blocks
-- **ALL code blocks must have language tag**
+- ALL code blocks MUST have language tag
 - Use `text` if no specific language applies
-- NEVER allow blocks without language specification
+- Validation will fail if blocks lack tags
 
 ### Language
-- **Polish + natural English technical terms**
-- NEVER polonize: "komendyfikacja" → use "commandification" or describe in Polish
-- Keep English: React, API, hooks, deployment, etc.
+- Polish + natural English technical terms
+- NEVER polonize: "komendyfikacja" → use "commandification" or describe
+- Keep English: React, API, hooks, deployment
 
 ### Style
 - Pawel's voice: direct, practical, personal
@@ -104,27 +96,30 @@ When user requests blog article creation:
 - Bold key concepts
 - First-person perspective
 
-### Article Structure
-- Compelling hook
-- Clear H2/H3 hierarchy
-- Code examples with proper tags
-- Practical takeaways
-- CTA section with HTML div
-- Resources section (if relevant)
+### OG Images
+- NO TEXT (abstract visual design only)
+- Generated with scripts/generate-image.js using gemini-3-pro-image-preview
+- Dark gradient background
+- Portfolio colors: cyan #00b8ff, green #00ff9d
 
-## Interaction Protocol
+## Common Issues
 
-- Always follow PIV workflow (no skipping phases)
-- Wait for user approval after planning
-- Present validation report after execution
-- Handle validation failures gracefully
-- Suggest improvements based on validation results
+**Issue:** Commands can't access .claude/ folders
+**Solution:** Commands must run in main conversation context (not subagent)
 
-## File Locations
+**Issue:** OG image has unwanted text
+**Solution:** validate.md prompt explicitly states "NO TEXT AT ALL" multiple times
 
-- Prime context: `.claude/agents/context/blog-prime-{topic}.md`
-- Plans: `.claude/agents/plans/blog-{slug}.md`
-- Articles: `src/content/blog/{slug}.md`
-- Validation reports: `.claude/agents/reports/validation-blog-{slug}.md`
+**Issue:** Image quality low
+**Solution:** Ensure scripts/generate-image.js uses --model gemini-3-pro-image-preview (default)
 
-Remember: PIV methodology ensures quality through systematic research, planning, execution, and automatic validation. Never skip phases.
+## See Also
+
+- **Full Workflow:** `docs/BLOG_WORKFLOW.md`
+- **Commands:** `.claude/commands/blog-article-writer/*.md`
+- **Copywriting Skill:** `.claude/skills/portfolio-copywriting/SKILL.md`
+
+---
+
+**Last Updated:** 2026-01-11
+**Status:** Active - Use commands, not agent invocation

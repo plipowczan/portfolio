@@ -15,6 +15,35 @@ Research → Structure → Write → Check Quality
 
 ---
 
+## ⚠️ IMPORTANT: Use Commands, Not Agent
+
+**DO NOT use Task tool with blog-article-writer agent** due to subagent file access restrictions.
+
+**INSTEAD: Invoke commands sequentially:**
+
+```
+1. Run /blog-article-writer:prime
+   ↓
+2. Run /blog-article-writer:plan
+   ↓
+3. Review plan → Approve or request changes
+   ↓
+4. Run /blog-article-writer:execute
+   ↓
+5. /blog-article-writer:validate runs automatically
+   ↓
+6. Review validation report
+```
+
+**This approach ensures:**
+- ✅ Full access to `.claude/agents/` directories
+- ✅ Can read source materials from `docs/blog/`
+- ✅ Skill tool works reliably
+- ✅ PIV methodology followed correctly
+- ✅ User has control at each phase
+
+---
+
 ## Prerequisites
 
 ### Required Files
@@ -50,24 +79,33 @@ Create or gather your source material in `docs/blog/`:
 
 ---
 
-### Step 2: Invoke the Agent
+### Step 2: Start PIV Workflow with Prime Command
 
-Use the Task tool to start the blog-article-writer agent:
+Invoke the prime command using Skill tool:
 
 ```
-@agent-blog-article-writer napisz artykuł na podstawie @docs/blog/[your-file].md
+Run /blog-article-writer:prime with source materials at docs/blog/[your-file].md
 ```
 
 **Example:**
 ```
-@agent-blog-article-writer napisz artykuł na podstawie transkrypcji
-o technikach pracy z Claude Code @docs/blog/transcript.md
+Run /blog-article-writer:prime
 
-Artykuł powinien być w języku polskim i skupić się na praktycznych
-technikach dla programistów.
+Source materials are at:
+- docs/blog/transcript1.md
+- docs/blog/transcript2.md
+- docs/blog/cursor_hacks.md
+
+Article topic: Cursor.sh tips and tricks for Polish developers
+Target audience: Developers using AI coding tools
 ```
 
-**Important:** The agent will automatically start the PIV workflow. You don't need to invoke individual commands manually.
+**What happens:**
+- Claude invokes prime command
+- Analyzes source materials
+- Reviews existing blog style
+- Creates prime artifact in `.claude/agents/context/`
+- Proceeds to planning phase
 
 ---
 
@@ -337,11 +375,17 @@ public/
 - Update source material to be clearer about terminology
 
 ### Issue: "OG image generation failed"
-**Cause:** Nano-banana MCP not configured
+**Cause:** Missing GEMINI_API_KEY or script error
 **Solution:**
 ```bash
-# Configure Gemini API key for nano-banana
-mcp__nano-banana__configure_gemini_token(apiKey: "your-key")
+# Check if API key is configured
+grep GEMINI_API_KEY .env
+
+# If not present, add it:
+echo "GEMINI_API_KEY=your-api-key-here" >> .env
+
+# Test script manually
+node scripts/generate-image.js "test prompt" --filename test-og
 ```
 
 ### Issue: "Validation failed - ID not unique"
@@ -349,6 +393,27 @@ mcp__nano-banana__configure_gemini_token(apiKey: "your-key")
 **Solution:**
 - Check existing IDs: `grep "^id:" src/content/blog/*.md`
 - Update frontmatter with next available ID
+
+### Issue: "Agent couldn't access .claude/ folders"
+**Cause:** blog-article-writer agent ran as subagent with restricted file access
+**Solution:**
+- DO NOT use `@agent-blog-article-writer`
+- Use sequential commands instead: `/blog-article-writer:prime` → `/plan` → `/execute` → `/validate`
+- Commands run in main context with full file access
+
+### Issue: "OG image generated with text"
+**Cause:** Validation command didn't specify "NO TEXT" clearly enough
+**Solution:**
+- Updated validate.md command now explicitly states "NO TEXT AT ALL"
+- Script prompt includes multiple reminders
+- If image still has text, regenerate with clearer prompt
+
+### Issue: "Image quality not good enough"
+**Cause:** Using wrong Gemini model
+**Solution:**
+- Ensure scripts/generate-image.js uses --model gemini-3-pro-image-preview
+- Check GEMINI_API_KEY is set in .env file
+- Default model in script is gemini-3-pro-image-preview (high quality)
 
 ---
 
