@@ -6,7 +6,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Personal portfolio website for Pawel Lipowczan. React 19 + Vite 7 + Tailwind CSS 3 SPA with build-time prerendering for SEO.
 
-**Live:** https://pawellipowczan.pl (Vercel)
+**Live:** [https://pawellipowczan.pl](https://pawellipowczan.pl) (Vercel)
+
+## Quick Reference - PIV Commands
+
+| Command                                     | Purpose                                                            |
+| ------------------------------------------- | ------------------------------------------------------------------ |
+| `/core_piv_loop:prime`                      | Load codebase context and understanding                            |
+| `/core_piv_loop:plan-feature "description"` | Create implementation plan                                         |
+| `/core_piv_loop:execute`                    | Execute implementation plan                                        |
+| `/validation:validate`                      | Run full validation pipeline ✨ _Runs automatically after execute_ |
+| `/validation:code-review`                   | Technical code review on changed files                             |
+| `/validation:execution-report`              | Generate execution report                                          |
+| `/validation:system-review`                 | Analyze implementation vs plan                                     |
+
+See [.claude/PIV-METHODOLOGY.md](.claude/PIV-METHODOLOGY.md) for complete methodology.
 
 ## Commands
 
@@ -27,92 +41,68 @@ npm run blog:sitemap     # Update sitemap.xml with blog posts
 npm run img:convert      # Convert images to WebP format
 ```
 
-## Architecture
+## Rules System
+
+All project rules are centralized in **[.claude/rules/](.claude/rules/)**.
+
+### Universal Rules
+
+- **[00-universal-overview.md](.claude/rules/00-universal-overview.md)**: Core principles, coding style, file organization.
+- **[10-setup.md](.claude/rules/10-setup.md)**: Environment setup and configuration.
+- **[11-git.md](.claude/rules/11-git.md)**: Git workflow and conventions.
+- **[data-storage/00-overview.md](.claude/rules/data-storage/00-overview.md)**: Data handling (Markdown, static files).
+
+### Technology Rules
+
+Specific rules for project technologies:
+
+- **React**: [.claude/rules/react/](.claude/rules/react/)
+- **Tailwind CSS**: [.claude/rules/tailwindcss/](.claude/rules/tailwindcss/)
+- **Vite**: [.claude/rules/vite/](.claude/rules/vite/)
+- **Playwright**: [.claude/rules/playwright/](.claude/rules/playwright/)
+- **Vercel**: [.claude/rules/vercel/](.claude/rules/vercel/)
+
+**Agent Instruction:** Always check specific technology rules when working on related files.
+
+## Documentation Structure
+
+- **[.claude/](.claude/)**: Agent-facing documentation (Rules, Reference, Plans).
+- **[docs/](docs/)**: User-facing documentation (Polish).
+- **[AGENTS.md](AGENTS.md)**: High-level guide for AI agents.
+
+## Architecture & Code Patterns
 
 ### Tech Stack
-- **React 19** + **Vite 7** - UI and build
-- **Tailwind CSS 3** - Styling (utility-first)
-- **Framer Motion 12** - Animations
-- **React Router 7** - Client-side routing
-- **React Helmet Async** - Dynamic meta tags
-- **Puppeteer** - Build-time prerendering for SEO
 
-### Key Directories
-```
-src/
-├── components/
-│   ├── layout/      # Navigation, Footer, Layout
-│   ├── sections/    # Hero, About, Projects, Skills, Contact
-│   ├── animations/  # NetworkBackground (Canvas)
-│   ├── seo/         # SEO, StructuredData
-│   └── ui/          # Breadcrumbs, CookieBanner
-├── pages/           # Route components (Home, Blog, BlogPostPage, ProjectPage)
-├── content/blog/    # Markdown blog posts with frontmatter
-├── data/            # projects.js, skills.js, blogPosts.js
-└── utils/           # constants.js (SITE_CONFIG, animations)
-
-scripts/
-├── prerender.mjs         # Puppeteer prerendering
-├── build-with-prerender.mjs  # Build orchestrator
-└── update-sitemap.js     # Sitemap generator
-```
-
-### Routing
-```
-/                    → Home (all sections)
-/blog                → Blog listing
-/blog/:slug          → Individual blog post
-/projects/:slug      → Individual project page
-/privacy-policy      → Legal pages
-/terms-of-service
-/cookie-policy
-```
-
-## Code Patterns
+- **React 19** + **Vite 7**
+- **Tailwind CSS 3**
+- **Framer Motion 12**
+- **React Router 7**
+- **React Helmet Async**
 
 ### Component Structure
-- Functional components with hooks
-- Arrow functions: `const Component = () => {}`
-- Framer Motion for animations with variants
-- Tailwind classes (mobile-first responsive)
 
-### Styling
-- Use Tailwind utility classes
-- Colors: `primary-500` (#00ff9d), `secondary-500` (#00b8ff), `dark-700/800/900`
-- Custom gradients in `src/styles/index.css`
+- Functional components with hooks.
+- PascalCase for components.
+- Tailwind utility classes (mobile-first).
 
-### SEO Requirements
-- Every page needs `<SEO>` component with title, description, path
-- Blog posts need `<StructuredData>` with BlogPosting schema
-- OG images: 1200x630px WebP in `public/images/`
-- New routes must be added to `scripts/prerender.mjs`
-- Update `public/sitemap.xml` for new pages
+### SEO & Blog
 
-### Blog Posts
-Create markdown in `src/content/blog/` with frontmatter:
-```yaml
----
-id: 1
-slug: post-slug
-title: Post Title
-excerpt: Short description
-category: AI
-author: Pawel Lipowczan
-date: 2025-12-14
-readTime: 8 min
-image: /images/og-post-slug.webp
-tags:
-  - Tag1
-  - Tag2
----
-```
+- Prerendering via Puppeteer.
+- Markdown blog posts in `src/content/blog/`.
+- Frontmatter validation required.
 
-## External Links
-All external links in markdown must render with `target="_blank"` and `rel="noopener noreferrer"` (handled in BlogPostPage.jsx).
+## Agent Artifacts
 
-## Documentation
-- **AGENTS.md** - Detailed guide for AI agents (English)
-- **docs/PRD.md** - Product requirements (English)
-- **docs/SRS.md** - Technical specification (English)
-- **.cursorrules** - Coding standards (English)
-- **docs/maintenance/TODO.md** - Current tasks (Polish)
+PIV workflow creates artifacts in [.claude/agents/](.claude/agents/):
+
+- `context/`
+- `plans/`
+- `reports/`
+- `reviews/`
+
+## Workflow Preferences
+
+1. **Always Prime** (`/core_piv_loop:prime`) at start of session.
+2. **Plan** complex features.
+3. **Execute** & **Validate** (automatic).
