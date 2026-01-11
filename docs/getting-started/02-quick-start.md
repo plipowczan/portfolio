@@ -23,11 +23,13 @@ This guide will get you up and running with the PIV methodology quickly.
 ### Phase 1: Prime (Load Context)
 
 **Ask Claude Code**:
+
 ```
 Run /core_piv_loop:prime to load the project context
 ```
 
 **What happens**:
+
 - Claude reads your project structure
 - Loads relevant rules based on your tech stack
 - Creates context artifact for future reference
@@ -44,16 +46,19 @@ Run /core_piv_loop:prime to load the project context
 **1. Create a Plan**
 
 **Ask Claude Code**:
+
 ```
 Use /core_piv_loop:plan-feature to create a plan for adding [your feature]
 ```
 
 **Example**:
+
 ```
 Use /core_piv_loop:plan-feature to create a plan for adding user authentication
 ```
 
 **What happens**:
+
 - Claude explores your codebase
 - Designs implementation approach
 - Creates detailed step-by-step plan
@@ -65,11 +70,13 @@ Use /core_piv_loop:plan-feature to create a plan for adding user authentication
 **2. Execute the Plan**
 
 **Ask Claude Code**:
+
 ```
 Use /core_piv_loop:execute to implement the plan
 ```
 
 **What happens**:
+
 - Claude reads the plan
 - Implements each step systematically
 - Creates/modifies files as needed
@@ -82,11 +89,13 @@ Use /core_piv_loop:execute to implement the plan
 For simple fixes or small features:
 
 **Ask Claude Code**:
+
 ```
 Implement this change: [describe what you need]
 ```
 
 **Example**:
+
 ```
 Implement this change: Add a timestamp field to the User entity
 ```
@@ -98,6 +107,7 @@ Implement this change: Add a timestamp field to the User entity
 ### Phase 3: Validate (Automatic Verification)
 
 **What happens**:
+
 - Validation runs **automatically** after execute
 - No manual command needed
 - Runs comprehensive checks:
@@ -168,22 +178,22 @@ Fix the bug in UserService where null pointer occurs
 
 ### Core Commands
 
-| Command | Purpose | When to Use |
-|---------|---------|-------------|
-| `/core_piv_loop:prime` | Load context | New session, context switch |
-| `/core_piv_loop:plan-feature "desc"` | Create plan | Complex features, refactoring |
-| `/core_piv_loop:execute` | Implement | Execute from plan |
-| `/validation:validate` | Run validation | Manual validation (optional) |
-| `/validation:code-review` | Code review | Detailed technical review |
-| `/validation:execution-report` | View report | See what was executed |
+| Command                              | Purpose        | When to Use                   |
+| ------------------------------------ | -------------- | ----------------------------- |
+| `/core_piv_loop:prime`               | Load context   | New session, context switch   |
+| `/core_piv_loop:plan-feature "desc"` | Create plan    | Complex features, refactoring |
+| `/core_piv_loop:execute`             | Implement      | Execute from plan             |
+| `/validation:validate`               | Run validation | Manual validation (optional)  |
+| `/validation:code-review`            | Code review    | Detailed technical review     |
+| `/validation:execution-report`       | View report    | See what was executed         |
 
 ### Utility Commands
 
-| Command | Purpose |
-|---------|---------|
-| `/commit` | Create atomic commit |
-| `/github_bug_fix:rca` | Root cause analysis |
-| `/github_bug_fix:implement-fix` | Implement bug fix from RCA |
+| Command                  | Purpose                    |
+| ------------------------ | -------------------------- |
+| `/commit`                | Create atomic commit       |
+| `/bug_fix:rca`           | Root cause analysis        |
+| `/bug_fix:implement-fix` | Implement bug fix from RCA |
 
 ---
 
@@ -255,16 +265,16 @@ Fix the bug where user email validation doesn't reject invalid domains
 
 ### When to Plan vs. Implement Directly
 
-| Scenario | Approach |
-|----------|----------|
-| New API endpoint | Plan → Execute |
-| Database migration | Plan → Execute |
-| Bug fix | Implement directly |
-| Add validation | Implement directly |
-| Refactoring | Plan → Execute |
-| New feature (complex) | Plan → Execute |
-| New feature (simple) | Implement directly |
-| Configuration change | Implement directly |
+| Scenario              | Approach           |
+| --------------------- | ------------------ |
+| New API endpoint      | Plan → Execute     |
+| Database migration    | Plan → Execute     |
+| Bug fix               | Implement directly |
+| Add validation        | Implement directly |
+| Refactoring           | Plan → Execute     |
+| New feature (complex) | Plan → Execute     |
+| New feature (simple)  | Implement directly |
+| Configuration change  | Implement directly |
 
 ### When to Re-Prime
 
@@ -288,6 +298,7 @@ Fix the bug where user email validation doesn't reject invalid domains
 ### "Validation fails"
 
 **Solution**:
+
 1. Check validation report: `/validation:execution-report`
 2. Fix issues manually or ask Claude to fix
 3. Re-run: `/validation:validate`
@@ -295,6 +306,7 @@ Fix the bug where user email validation doesn't reject invalid domains
 ### "Execute makes unexpected changes"
 
 **Solution**:
+
 1. Review plan before execution
 2. Start with git stash, review diff after execute
 3. Revert if needed: `git checkout .`

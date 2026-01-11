@@ -25,6 +25,53 @@ tags:
 ---
 ```
 
+## Bloki kodu - Wymagania
+
+### Zawsze używaj tagu języka
+
+**✅ POPRAWNIE:**
+```markdown
+```javascript
+const greeting = "Hello";
+```
+```
+
+**✅ Gdy brak konkretnego języka, użyj `text`:**
+```markdown
+```text
+Workflow:
+1. Krok pierwszy
+2. Krok drugi
+```
+```
+
+**❌ NIGDY bez tagu:**
+```markdown
+```
+const greeting = "Hello";  ← To będzie źle renderowane!
+```
+```
+
+### Dostępne tagi języków
+
+- **Kod**: `javascript`, `typescript`, `python`, `java`, `go`, `rust`, `php`, `ruby`
+- **Markup**: `html`, `xml`, `markdown`, `yaml`, `json`, `toml`
+- **Shell**: `bash`, `sh`, `powershell`, `cmd`
+- **Inne**: `sql`, `css`, `scss`, `dockerfile`
+- **Uniwersalny**: `text` (gdy żaden powyższy nie pasuje)
+
+### Długość bloków kodu
+
+- **Krótkie przykłady** (< 10 linii): pokazują konkretną technikę
+- **Średnie** (10-30 linii): kompletny komponent/funkcja
+- **Długie** (> 30 linii): unikaj, podziel na sekcje z wyjaśnieniami
+
+### Komentarze w kodzie
+
+- Używaj tylko gdy wyjaśniają nieoczywistą logikę
+- Polski lub angielski w zależności od kontekstu
+- Nie komentuj oczywistego kodu
+
 ## Kategorie
 
 Dostepne kategorie artykulow:

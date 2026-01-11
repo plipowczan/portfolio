@@ -177,7 +177,7 @@ const BlogPostPage = () => {
                   code: ({ node, inline, className, children, ...props }) => {
                     // inline code (single backtick) doesn't have className and inline !== false
                     // block code (triple backtick) has inline === false or has className with language-
-                    const isInline = inline !== false && !className;
+                    const isInline = inline === true;
 
                     return isInline ? (
                       <span
