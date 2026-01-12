@@ -175,9 +175,12 @@ const BlogPostPage = () => {
                     />
                   ),
                   code: ({ node, inline, className, children, ...props }) => {
-                    // inline code (single backtick) doesn't have className and inline !== false
-                    // block code (triple backtick) has inline === false or has className with language-
-                    const isInline = inline === true;
+                    // Block code: inline === false OR className starts with 'language-'
+                    // Inline code: inline !== false AND (no className OR className doesn't start with 'language-')
+                    const isBlockCode =
+                      inline === false ||
+                      (className && className.startsWith("language-"));
+                    const isInline = !isBlockCode;
 
                     return isInline ? (
                       <span
@@ -252,10 +255,16 @@ const BlogPostPage = () => {
                     <thead className="bg-dark-700" {...props} />
                   ),
                   tbody: ({ node, ...props }) => (
-                    <tbody className="divide-y divide-gray-700 bg-dark-800" {...props} />
+                    <tbody
+                      className="divide-y divide-gray-700 bg-dark-800"
+                      {...props}
+                    />
                   ),
                   tr: ({ node, ...props }) => (
-                    <tr className="hover:bg-dark-700/50 transition-colors" {...props} />
+                    <tr
+                      className="hover:bg-dark-700/50 transition-colors"
+                      {...props}
+                    />
                   ),
                   th: ({ node, ...props }) => (
                     <th
@@ -264,7 +273,10 @@ const BlogPostPage = () => {
                     />
                   ),
                   td: ({ node, ...props }) => (
-                    <td className="px-4 py-3 text-sm text-gray-300" {...props} />
+                    <td
+                      className="px-4 py-3 text-sm text-gray-300"
+                      {...props}
+                    />
                   ),
                 }}
               >
