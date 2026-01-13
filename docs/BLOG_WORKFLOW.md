@@ -7,6 +7,7 @@ Comprehensive guide for creating blog articles using the `blog-article-writer` a
 The `blog-article-writer` agent automates blog article creation following PIV (Prime-Implement-Validate) methodology, ensuring consistent quality, proper formatting, and adherence to style guidelines.
 
 **PIV Workflow:**
+
 ```
 Prime → Plan → Execute → Validate
   ↓       ↓       ↓         ↓
@@ -36,6 +37,7 @@ Research → Structure → Write → Check Quality
 ```
 
 **This approach ensures:**
+
 - ✅ Full access to `.claude/agents/` directories
 - ✅ Can read source materials from `docs/blog/`
 - ✅ Skill tool works reliably
@@ -44,18 +46,61 @@ Research → Structure → Write → Check Quality
 
 ---
 
+## 📋 Session Management
+
+**Recommended: Single Session Workflow**
+
+Workflow jest zaprojektowany do wykonania w **jednej sesji**, gdzie:
+
+- ✅ Prime i Plan mogą być wykonane automatycznie (prime może przejść do plan)
+- ✅ Użytkownik przegląda plan i zatwierdza w tej samej sesji
+- ✅ Execute i Validate są automatyczne (validate po execute)
+- ✅ Kontekst jest zachowany między komendami
+
+**Alternative: Multi-Session Workflow**
+
+Możesz też kontynuować w **innej sesji**, ponieważ wszystkie artifacts są zapisywane:
+
+- Prime artifact: `.claude/agents/context/blog-prime-{topic}.md`
+- Plan artifact: `.claude/agents/plans/blog-{slug}.md`
+
+**Aby kontynuować w nowej sesji:**
+
+1. Upewnij się, że artifacts istnieją w `.claude/agents/`
+2. Uruchom odpowiednią komendę (plan/execute/validate)
+3. Komendy automatycznie wczytają zapisane artifacts
+
+**Przykład kontynuacji:**
+
+```
+Sesja 1:
+- /blog-article-writer:prime ✅
+- /blog-article-writer:plan ✅
+- Plan zatwierdzony, ale execute nie wykonany
+
+Sesja 2 (następnego dnia):
+- /blog-article-writer:execute ✅ (wczytuje plan z .claude/agents/plans/)
+- Validate uruchamia się automatycznie ✅
+```
+
+---
+
 ## Prerequisites
 
 ### Required Files
+
 - Source material (transcript, notes, outline, or research)
 - Placed in `docs/blog/` directory (recommended)
 
 ### Agent Commands
+
 Located in `.claude/commands/blog-article-writer/`:
+
 - `prime.md` - Research phase
 - `plan.md` - Planning phase
 - `execute.md` - Execution phase
 - `validate.md` - Validation phase (automatic)
+- `generate-og-prompt.md` - OG image prompt generation (support command)
 
 ---
 
@@ -66,11 +111,13 @@ Located in `.claude/commands/blog-article-writer/`:
 Create or gather your source material in `docs/blog/`:
 
 **Examples:**
+
 - `docs/blog/transcript.md` - Transcript from video/podcast
 - `docs/blog/notes-react-hooks.md` - Raw notes
 - `docs/blog/outline-ai-trends.md` - Article outline
 
 **What to include:**
+
 - Main topics and key points
 - Technical concepts to explain
 - Code examples (if applicable)
@@ -88,6 +135,7 @@ Run /blog-article-writer:prime with source materials at docs/blog/[your-file].md
 ```
 
 **Example:**
+
 ```
 Run /blog-article-writer:prime
 
@@ -101,6 +149,7 @@ Target audience: Developers using AI coding tools
 ```
 
 **What happens:**
+
 - Claude invokes prime command
 - Analyzes source materials
 - Reviews existing blog style
@@ -121,6 +170,7 @@ The agent researches and loads context:
 5. **Creates prime artifact** in `.claude/agents/context/blog-prime-{topic}.md`
 
 **Output:**
+
 ```
 ✅ Source materials analyzed
 ✅ Writing style understood
@@ -147,6 +197,7 @@ The agent creates a detailed implementation plan:
 6. **Creates plan artifact** in `.claude/agents/plans/blog-{slug}.md`
 
 **Output:**
+
 ```
 ✅ Next blog ID: 11
 ✅ Slug: jak-zautomatyzowac-crm
@@ -167,6 +218,7 @@ adjustments to the plan?
 ### Step 5: Review & Approve Plan
 
 **Review checklist:**
+
 - [ ] Title is compelling (50-60 characters)
 - [ ] Slug is SEO-friendly
 - [ ] Excerpt hooks the reader (150-160 characters)
@@ -176,8 +228,118 @@ adjustments to the plan?
 - [ ] Code examples are planned with language tags
 
 **Respond:**
+
 - ✅ To proceed: `"OK, wykonaj"` or `"Wygląda dobrze, pisz artykuł"`
 - 🔄 To adjust: Request specific changes to the plan
+
+### Adding Comments to Plan
+
+Gdy chcesz dodać komentarze lub feedback do planu, masz kilka opcji:
+
+#### **Opcja 1: Sekcja "User Feedback" (Zalecane)**
+
+Dodaj sekcję przed "Ready for Execution" w pliku planu:
+
+```markdown
+---
+
+## 💬 User Feedback & Comments
+
+### Changes Requested
+
+- [ ] **Frontmatter:** Zmień excerpt na bardziej hookujący
+- [ ] **Section 2:** Dodaj więcej przykładów kodu dla hack #5
+- [ ] **Section 3:** Skróć sekcję o worktrees (za długo)
+
+### Notes
+
+- Pamiętaj o dodaniu osobistych anegdot z Pawel's experience
+- Wspomnij o integracji z Claude Code w sekcji zaawansowanej
+- Dodaj więcej praktycznych przykładów użycia
+
+### Questions
+
+- Czy hack #12 jest wystarczająco zaawansowany?
+- Czy warto dodać sekcję o troubleshooting?
+
+---
+
+## 🚀 Ready for Execution
+```
+
+**Zalety:**
+
+- ✅ Strukturalne i łatwe do znalezienia
+- ✅ Komendy execute automatycznie wczytają te komentarze
+- ✅ Można śledzić zmiany (checkboxy)
+- ✅ Oddzielone od głównej treści planu
+
+#### **Opcja 2: HTML Komentarze (Inline)**
+
+Dla komentarzy przy konkretnych sekcjach:
+
+```markdown
+### Section 2: Poziom 1 - Podstawy (600-700 words)
+
+<!-- USER NOTE: Ta sekcja powinna być krótsza, max 500 słów -->
+
+**Introduction to section:** "Te hacki powinien znać każdy..."
+```
+
+**Zalety:**
+
+- ✅ Kontekstowe (przy konkretnej sekcji)
+- ✅ Nie psują struktury markdown
+- ✅ Widoczne w edytorze, niewidoczne w renderowaniu
+
+#### **Opcja 3: Markdown Blockquotes**
+
+Dla krótkich notatek:
+
+```markdown
+### Section 3: Poziom 2 - Średniozaawansowane
+
+> **NOTE:** Użytkownik prosi o więcej przykładów z rzeczywistych projektów
+
+**Content:**
+
+- Hack #8: Custom modes...
+```
+
+**Zalety:**
+
+- ✅ Wizualnie wyróżnione
+- ✅ Czytelne w markdown
+- ✅ Łatwe do usunięcia po implementacji
+
+#### **Opcja 4: Bezpośrednia edycja planu**
+
+Możesz też bezpośrednio edytować sekcje planu:
+
+```markdown
+### Section 2: Poziom 1 - Podstawy (600-700 words)
+
+**CHANGED:** Word count reduced to 500-600 words per user request
+
+**Content:**
+
+- [UPDATED] Hack #3: Dodaj więcej przykładów użycia
+- Hack #4: [USER NOTE: Wyjaśnij lepiej różnicę między...]
+```
+
+**Zalety:**
+
+- ✅ Bezpośrednie zmiany w treści
+- ✅ Komendy execute automatycznie uwzględnią zmiany
+- ✅ Najszybsze dla prostych modyfikacji
+
+#### **Rekomendacja**
+
+**Dla większych zmian:** Użyj Opcji 1 (sekcja "User Feedback")
+**Dla małych notatek:** Użyj Opcji 2 (HTML komentarze) lub Opcji 3 (blockquotes)
+**Dla bezpośrednich edycji:** Użyj Opcji 4 (edycja planu)
+
+**Ważne:** Komendy `/blog-article-writer:execute` automatycznie wczytają plan z wszystkimi komentarzami, więc agent uwzględni Twoje feedback podczas pisania artykułu.
 
 ---
 
@@ -196,6 +358,7 @@ The agent writes the complete article:
 4. **Triggers validation automatically**
 
 **Output:**
+
 ```
 ✅ Article written: src/content/blog/jak-zautomatyzowac-crm.md
 ✅ Word count: 2,847 words (~10 min read)
@@ -214,37 +377,50 @@ Starting automatic validation...
 The agent validates quality across 6 levels:
 
 #### Level 1: File Structure
+
 - ✅ Article file exists
 - ✅ Frontmatter is valid YAML
 - ✅ All required fields present
 - ✅ Blog ID is unique
 
 #### Level 2: Content Quality
+
 - ✅ Frontmatter fields validated
 - ✅ Code blocks have language tags
 - ✅ No polonized terms (e.g., "komendyfikacja")
 - ✅ Structure is correct (H2/H3 hierarchy)
 
 #### Level 3: SEO Validation
+
 - ✅ Title includes primary keyword
 - ✅ Slug is SEO-friendly
 - ✅ Headers use semantic structure
 
 #### Level 4: Technical Accuracy
+
 - ✅ Code examples are syntactically valid
 - ✅ External links are valid
 
 #### Level 5: Rendering Test
+
 - ✅ Dev server started
 - ✅ Article displays without errors
 - ✅ Code blocks render correctly (not inline)
 
 #### Level 6: Post-Article Tasks
-- ✅ OG image generated (nano-banana)
-- ✅ Converted to WebP
+
+- ✅ OG image prompt generated (Gemini API)
+- ✅ OG image created and converted to WebP
 - ✅ Sitemap updated
 
+**Substeps:**
+1. Generate prompt: `/blog-article-writer:generate-og-prompt {slug}`
+2. Use prompt with `scripts/generate-image.js`
+3. Convert PNG to WebP
+4. Update sitemap
+
 **Output:**
+
 ```
 🎉 VALIDATION PASSED
 
@@ -272,18 +448,26 @@ Next steps:
 ### Code Blocks - MANDATORY Language Tags
 
 ❌ **WRONG:**
+
 ```markdown
+
 ```
+
 const greeting = "Hello";
+
 ```
+
 ```
 
 ✅ **CORRECT:**
-```markdown
+
+````markdown
 ```javascript
 const greeting = "Hello";
 ```
-```
+````
+
+````
 
 ✅ **No specific language? Use `text`:**
 ```markdown
@@ -291,7 +475,8 @@ const greeting = "Hello";
 Workflow:
 1. Step one
 2. Step two
-```
+````
+
 ```
 
 **Available language tags:**
@@ -331,24 +516,26 @@ Workflow:
 After running the workflow, you'll have:
 
 ```
+
 .claude/
 └── agents/
-    ├── context/
-    │   └── blog-prime-{topic}.md          # Research context
-    ├── plans/
-    │   └── blog-{slug}.md                 # Implementation plan
-    └── reports/
-        └── validation-blog-{slug}.md      # Validation report
+├── context/
+│ └── blog-prime-{topic}.md # Research context
+├── plans/
+│ └── blog-{slug}.md # Implementation plan
+└── reports/
+└── validation-blog-{slug}.md # Validation report
 
 src/
 └── content/
-    └── blog/
-        └── {slug}.md                      # Published article
+└── blog/
+└── {slug}.md # Published article
 
 public/
 └── images/
-    └── og-{slug}.webp                     # OG image (optimized)
-```
+└── og-{slug}.webp # OG image (optimized)
+
+````
 
 ---
 
@@ -378,39 +565,50 @@ public/
 **Cause:** Missing GEMINI_API_KEY or script error
 **Solution:**
 ```bash
-# Check if API key is configured
+# 1. Generate prompt using the command
+/blog-article-writer:generate-og-prompt {slug}
+
+# 2. Check if API key is configured
 grep GEMINI_API_KEY .env
 
 # If not present, add it:
 echo "GEMINI_API_KEY=your-api-key-here" >> .env
 
-# Test script manually
+# 3. Test script manually with generated prompt
 node scripts/generate-image.js "test prompt" --filename test-og
-```
+````
 
 ### Issue: "Validation failed - ID not unique"
+
 **Cause:** Blog ID collision
 **Solution:**
+
 - Check existing IDs: `grep "^id:" src/content/blog/*.md`
 - Update frontmatter with next available ID
 
 ### Issue: "Agent couldn't access .claude/ folders"
+
 **Cause:** blog-article-writer agent ran as subagent with restricted file access
 **Solution:**
+
 - DO NOT use `@agent-blog-article-writer`
 - Use sequential commands instead: `/blog-article-writer:prime` → `/plan` → `/execute` → `/validate`
 - Commands run in main context with full file access
 
 ### Issue: "OG image generated with text"
+
 **Cause:** Validation command didn't specify "NO TEXT" clearly enough
 **Solution:**
+
 - Updated validate.md command now explicitly states "NO TEXT AT ALL"
 - Script prompt includes multiple reminders
 - If image still has text, regenerate with clearer prompt
 
 ### Issue: "Image quality not good enough"
+
 **Cause:** Using wrong Gemini model
 **Solution:**
+
 - Ensure scripts/generate-image.js uses --model gemini-3-pro-image-preview
 - Check GEMINI_API_KEY is set in .env file
 - Default model in script is gemini-3-pro-image-preview (high quality)
@@ -422,28 +620,49 @@ node scripts/generate-image.js "test prompt" --filename test-og
 If you need to run commands manually (e.g., for debugging):
 
 ### 1. Prime Command
+
 ```
 Run /blog-article-writer:prime with source materials at docs/blog/[file].md
 ```
 
 ### 2. Plan Command
+
 ```
 Run /blog-article-writer:plan for "[article topic]"
 ```
 
 ### 3. Review Plan
+
 Open `.claude/agents/plans/blog-{slug}.md` and review structure
 
 ### 4. Execute Command
+
 ```
 Run /blog-article-writer:execute
 ```
 
 ### 5. Validate Command (Automatic)
+
 Validation runs automatically after execute. To run manually:
+
 ```
 Run /blog-article-writer:validate for article at src/content/blog/{slug}.md
 ```
+
+### 6. Generate OG Image Prompt (Support Command)
+
+Generate optimized Gemini API prompt for OG image:
+
+```
+Run /blog-article-writer:generate-og-prompt {slug}
+```
+
+This will:
+- Load article frontmatter
+- Apply portfolio design tokens (#00ff9d green, #00b8ff cyan, dark gradients)
+- Generate prompt with NO TEXT constraint
+- Save to `.claude/agents/prompts/og-{slug}-prompt.txt`
+- Display usage instructions for `scripts/generate-image.js`
 
 ---
 
@@ -452,6 +671,7 @@ Run /blog-article-writer:validate for article at src/content/blog/{slug}.md
 Before considering article complete:
 
 ### Content
+
 - [ ] Title is compelling and SEO-friendly (50-60 chars)
 - [ ] Excerpt hooks the reader (150-160 chars)
 - [ ] Introduction has strong hook
@@ -461,12 +681,14 @@ Before considering article complete:
 - [ ] Call-to-action included
 
 ### Code Blocks
+
 - [ ] ALL code blocks have language tags
 - [ ] Language tags are appropriate
 - [ ] Code is syntactically correct
 - [ ] Code has helpful comments (if needed)
 
 ### Language & Style
+
 - [ ] Polish language with natural English technical terms
 - [ ] No inappropriately polonized terms
 - [ ] Direct, practical, personal tone (Pawel's voice)
@@ -474,6 +696,7 @@ Before considering article complete:
 - [ ] Key concepts are bolded
 
 ### Technical
+
 - [ ] Frontmatter is complete and valid
 - [ ] Blog ID is unique
 - [ ] Slug matches filename
@@ -488,6 +711,7 @@ Before considering article complete:
 ## Example: Complete Workflow
 
 ### User Input:
+
 ```
 @agent-blog-article-writer napisz artykuł o 5 technikach pracy z Claude Code
 na podstawie @docs/blog/transcript.md
@@ -499,6 +723,7 @@ już używają Claude Code ale chcą być bardziej produktywni.
 ### Agent Response:
 
 **Phase 1 - Prime:**
+
 ```
 ✅ Analyzed transcript.md (5,847 words)
 ✅ Identified 5 main techniques:
@@ -513,6 +738,7 @@ już używają Claude Code ale chcą być bardziej produktywni.
 ```
 
 **Phase 2 - Plan:**
+
 ```
 ✅ Next blog ID: 10
 ✅ Slug: 5-technik-pracy-z-claude-code
@@ -537,6 +763,7 @@ Would you like me to proceed with writing?
 **User:** "OK, wykonaj"
 
 **Phase 3 - Execute:**
+
 ```
 ✅ Article written (4,682 words, 14 min read)
 ✅ All code blocks have language tags (javascript, bash, markdown, text)
@@ -545,6 +772,7 @@ Would you like me to proceed with writing?
 ```
 
 **Phase 4 - Validate (Automatic):**
+
 ```
 🎉 VALIDATION PASSED
 
@@ -568,24 +796,28 @@ Next steps:
 ## Tips for Best Results
 
 ### 1. Prepare Good Source Material
+
 - Be specific about target audience
 - Include key points to emphasize
 - Note any technical details or versions
 - Provide code examples if available
 
 ### 2. Review Plans Carefully
+
 - Check title and excerpt before approving
 - Ensure structure matches your vision
 - Verify word count targets are appropriate
 - Confirm SEO keywords are relevant
 
 ### 3. Trust the Validation
+
 - Validation catches most quality issues
 - Review validation report thoroughly
 - Fix any warnings before publishing
 - Don't skip manual browser testing
 
 ### 4. Iterate on Source Material
+
 - If article doesn't match expectations, improve source material
 - Add more context or examples
 - Clarify technical details
@@ -598,6 +830,7 @@ Next steps:
 After article is validated and published:
 
 ### 1. Git Commit
+
 ```bash
 git add .
 git commit -m "feat: Add blog article [title]
@@ -606,18 +839,21 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
 ```
 
 ### 2. Deploy
+
 ```bash
 git push origin main
 # Vercel automatically deploys
 ```
 
 ### 3. Verify Production
+
 - Check article URL: https://pawellipowczan.pl/blog/{slug}
 - Verify OG image displays in social media previews
 - Test all links (internal and external)
 - Check mobile responsiveness
 
 ### 4. Update TODO
+
 Mark article topic as complete in `docs/TODO.md`
 
 ---

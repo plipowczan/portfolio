@@ -35,6 +35,7 @@ This is workflow documentation, NOT an invokable agent.
 ## Quick Start
 
 ### Prerequisites
+
 - Source materials in `docs/blog/`
 - GEMINI_API_KEY configured in .env file
 - scripts/generate-image.js available (uses gemini-3-pro-image-preview)
@@ -43,6 +44,7 @@ This is workflow documentation, NOT an invokable agent.
 ### Execution
 
 **Step 1: Prime**
+
 ```
 Run /blog-article-writer:prime
 
@@ -52,19 +54,24 @@ Target audience: [who is this for]
 ```
 
 **Step 2: Plan**
+
 ```
 Run /blog-article-writer:plan
 ```
+
 Review plan output, approve or request changes.
 
 **Step 3: Execute** (after approval)
+
 ```
 Run /blog-article-writer:execute
 ```
 
 **Step 4: Validate** (automatic)
 Validation runs automatically and will:
+
 - Check quality (code tags, language, structure)
+- Generate OG image prompt (based on design reference)
 - Generate OG image (NO TEXT, Gemini 3 Pro)
 - Convert to WebP
 - Update sitemap
@@ -81,26 +88,32 @@ Validation runs automatically and will:
 ## Critical Requirements
 
 ### Code Blocks
+
 - ALL code blocks MUST have language tag
 - Use `text` if no specific language applies
 - Validation will fail if blocks lack tags
 
 ### Language
+
 - Polish + natural English technical terms
 - NEVER polonize: "komendyfikacja" → use "commandification" or describe
 - Keep English: React, API, hooks, deployment
 
 ### Style
+
 - Pawel's voice: direct, practical, personal
 - Short paragraphs (2-4 sentences)
 - Bold key concepts
 - First-person perspective
 
 ### OG Images
+
 - NO TEXT (abstract visual design only)
-- Generated with scripts/generate-image.js using gemini-3-pro-image-preview
-- Dark gradient background
-- Portfolio colors: cyan #00b8ff, green #00ff9d
+- Two-step process:
+  1. Generate prompt optimized for Google Gemini API using design reference
+  2. Use generated prompt with scripts/generate-image.js (Gemini API)
+- Design: Dark gradient (#0a0e1a to #151b2b), portfolio colors (cyan #00b8ff, green #00ff9d)
+- Reference: .claude/reference/design/ for complete design specifications
 
 ## Common Issues
 

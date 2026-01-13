@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
@@ -13,6 +14,7 @@ import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 const BlogPostPage = () => {
   const { slug } = useParams();
   const post = blogPosts.find((p) => p.slug === slug);
+  const [imageError, setImageError] = useState(false);
 
   if (!post) {
     return (
@@ -136,12 +138,26 @@ const BlogPostPage = () => {
 
             {/* Featured Image */}
             <div className="relative overflow-hidden rounded-xl bg-dark-700 h-96">
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
+              {!imageError ? (
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={() => {
+                    console.error(`Failed to load image: ${post.image}`);
+                    setImageError(true);
+                  }}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-dark-800">
+                  <p className="text-gray-400 text-center px-4">
+                    Obrazek nie mógł zostać załadowany
+                    <br />
+                    <span className="text-sm text-gray-500">{post.image}</span>
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Content */}

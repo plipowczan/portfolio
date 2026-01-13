@@ -1,12 +1,15 @@
 # Command: /blog-article-writer:execute
 
 ## Purpose
+
 Write complete blog article following the approved plan.
 
 ## Phase
+
 IMPLEMENT (Execution) - Write article content
 
 ## Prerequisites
+
 - `/blog-article-writer:prime` completed
 - `/blog-article-writer:plan` completed and APPROVED by user
 - Plan artifact exists: `.claude/agents/plans/blog-{slug}.md`
@@ -14,12 +17,17 @@ IMPLEMENT (Execution) - Write article content
 ## Steps
 
 ### 1. Load Plan
+
 - Read plan artifact: `.claude/agents/plans/blog-{slug}.md`
+- **IMPORTANT:** Check for "User Feedback & Comments" section and incorporate all requested changes
 - Review structure, frontmatter, style guidelines
+- Note any HTML comments (`<!-- -->`), blockquotes, or inline edits in plan
 - Load prime context if needed for details
 
 ### 2. Invoke Portfolio Copywriting Skill
+
 Use the Skill tool to leverage portfolio-copywriting:
+
 ```
 Skill(
   skill: "portfolio-copywriting",
@@ -28,6 +36,7 @@ Skill(
   Key requirements:
   - Follow exact frontmatter from plan
   - Use approved article structure
+  - **CRITICAL:** Incorporate ALL user feedback and comments from plan (check for 'User Feedback & Comments' section, HTML comments, and inline edits)
   - ALL code blocks must have language tags (use 'text' if no specific language)
   - Never polonize English technical terms (no 'komendyfikacja')
   - Pawel's voice: direct, practical, personal
@@ -40,14 +49,29 @@ Skill(
 ```
 
 ### 3. Write Article to File
+
 After skill generates content:
+
 - Save to: `src/content/blog/{slug}.md`
 - Verify file created successfully
 
-### 4. Validation Triggers Automatically
-After execution, `/blog-article-writer:validate` runs AUTOMATICALLY (see validate.md)
+### 4. Trigger Validation
+
+After successfully writing the article, IMMEDIATELY invoke validation:
+
+```
+/blog-article-writer:validate
+```
+
+This will:
+- Validate all content quality checks
+- Generate OG image (if GEMINI_API_KEY is available)
+- Convert to WebP
+- Update sitemap
+- Create validation report
 
 ## Success Criteria
+
 - [ ] Article written following plan structure
 - [ ] Saved to `src/content/blog/{slug}.md`
 - [ ] All code blocks have language tags
@@ -57,4 +81,5 @@ After execution, `/blog-article-writer:validate` runs AUTOMATICALLY (see validat
 - [ ] Automatic validation triggered
 
 ## Next Phase
-AUTOMATIC: `/blog-article-writer:validate` (no manual invocation needed)
+
+MANUAL: Invoke `/blog-article-writer:validate` immediately after execute completes

@@ -6,16 +6,16 @@ Kazdy artykul musi zawierac kompletny front matter:
 
 ```yaml
 ---
-id: 5                                    # Unikalny numer (inkrementuj od ostatniego)
-slug: automatyzacja-crm-w-3-krokach      # URL-friendly, male litery, myslniki
+id: 5 # Unikalny numer (inkrementuj od ostatniego)
+slug: automatyzacja-crm-w-3-krokach # URL-friendly, male litery, myslniki
 title: Jak zautomatyzowac CRM w 3 krokach
 excerpt: >-
   Dowiedz sie jak zautomatyzowac procesy CRM i zaoszczedzic
   15 godzin tygodniowo dzieki prostym integracjom no-code.
-category: Automatyzacja                  # Automatyzacja | No-Code | AI
+category: Automatyzacja # Automatyzacja | No-Code | AI
 author: Pawel Lipowczan
-date: 2025-12-19                         # Format: YYYY-MM-DD
-readTime: 10 min                         # Szacowany czas czytania
+date: 2025-12-19 # Format: YYYY-MM-DD
+readTime: 10 min # Szacowany czas czytania
 image: /images/og-automatyzacja-crm.webp # Sciezka do obrazka OG
 tags:
   - Automatyzacja
@@ -30,11 +30,14 @@ tags:
 ### Zawsze używaj tagu języka
 
 **✅ POPRAWNIE:**
-```markdown
+
+````markdown
 ```javascript
 const greeting = "Hello";
 ```
-```
+````
+
+````
 
 **✅ Gdy brak konkretnego języka, użyj `text`:**
 ```markdown
@@ -42,14 +45,18 @@ const greeting = "Hello";
 Workflow:
 1. Krok pierwszy
 2. Krok drugi
-```
-```
+````
+
+````
 
 **❌ NIGDY bez tagu:**
 ```markdown
+````
+
+const greeting = "Hello"; ← To będzie źle renderowane!
+
 ```
-const greeting = "Hello";  ← To będzie źle renderowane!
-```
+
 ```
 
 ### Dostępne tagi języków
@@ -76,11 +83,12 @@ const greeting = "Hello";  ← To będzie źle renderowane!
 
 Dostepne kategorie artykulow:
 
-| Kategoria | Tematyka | Przyklady |
-|-----------|----------|-----------|
-| **Automatyzacja** | Procesy biznesowe, workflow, integracje | n8n, Make, Zapier, automatyzacja email |
-| **No-Code** | Narzedzia low-code/no-code, budowanie aplikacji | Bubble, Airtable, Notion, lead generation |
-| **AI** | Sztuczna inteligencja, chatboty, LLM | ChatGPT, Claude, chatboty dla biznesu |
+| Kategoria         | Tematyka                                                              | Przyklady                                                                                        |
+| ----------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Automatyzacja** | Procesy biznesowe, workflow, integracje                               | n8n, Make, Zapier, automatyzacja email                                                           |
+| **No-Code**       | Narzedzia low-code/no-code, budowanie aplikacji                       | Bubble, Airtable, Notion, lead generation                                                        |
+| **AI**            | Sztuczna inteligencja, chatboty, LLM                                  | ChatGPT, Claude, chatboty dla biznesu                                                            |
+| **Code**          | Narzedzia programowania, Projektowanie aplikacji, budowanie aplikacji | Cursor, Visual Studio Code, Antigravity, Kiro, Zed, Cursor Hacks, SDLC, inżynieria programowania |
 
 ## Struktura Tresci
 
@@ -94,6 +102,7 @@ Dostepne kategorie artykulow:
 ## Problem
 
 [2-3 akapity opisujace problem biznesowy lub techniczny]
+
 - Konkretne wyzwania
 - Skutki niewdrozenia rozwiazania
 - Skala problemu (liczby jesli dostepne)
@@ -156,6 +165,7 @@ Dostepne kategorie artykulow:
 [Szczegolowy opis sytuacji przed wdrozeniem]
 
 ### Wyzwania
+
 - [Wyzwanie 1]
 - [Wyzwanie 2]
 - [Wyzwanie 3]
@@ -174,11 +184,11 @@ Dostepne kategorie artykulow:
 
 ## Rezultaty
 
-| Metryka | Przed | Po | Zmiana |
-|---------|-------|-----|--------|
-| Czas przetwarzania | X | Y | -Z% |
-| Bledy | X | Y | -Z% |
-| Koszty | X | Y | -Z% |
+| Metryka            | Przed | Po  | Zmiana |
+| ------------------ | ----- | --- | ------ |
+| Czas przetwarzania | X     | Y   | -Z%    |
+| Bledy              | X     | Y   | -Z%    |
+| Koszty             | X     | Y   | -Z%    |
 
 ### Cytat klienta
 
