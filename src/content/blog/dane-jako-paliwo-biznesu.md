@@ -471,8 +471,12 @@ Z mojego doświadczenia wiem, że te firmy, które zaczęły rok temu - dziś ma
 
 A te, które będą czekać... będą tonąć w morzu danych, umierając z pragnienia informacji.
 
----
-
-**Potrzebujesz pomocy z uporządkowaniem danych w firmie?**
-
-Umów się na [bezpłatną konsultację](https://automation.house/kontakt) i dowiedz się, jak możemy zautomatyzować Twoje procesy danych - czy to przez no-code, kod wspierany przez AI, czy hybrydę obu podejść.
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Potrzebujesz pomocy z uporządkowaniem danych w firmie?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci przejść od chaosu w Excelach do spójnego systemu zarządzania danymi. Od audytu i konsolidacji źródeł przez migrację do Airtable/baz danych po automatyzację raportowania.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>

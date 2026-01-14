@@ -196,8 +196,11 @@ portfolio/
 │   │   │   ├── Projects.jsx          # Projects grid
 │   │   │   ├── Skills.jsx            # Skills list
 │   │   │   ├── Testimonials.jsx      # Client testimonials
-│   │   │   ├── BookingCTA.jsx        # Consultation booking CTA with modal
+│   │   │   ├── BookingCTA.jsx        # Consultation booking CTA (uses global modal)
 │   │   │   └── ContactForm.jsx       # Contact form component
+│   │   │
+│   │   ├── booking/                  # Booking-related components
+│   │   │   └── BookingModalContent.jsx # Reusable modal content (desc + widget)
 │   │   │
 │   │   ├── animations/               # Animation components
 │   │   │   └── NetworkBackground.jsx # Canvas network animation
@@ -213,6 +216,9 @@ portfolio/
 │   │   │
 │   │   └── widgets/                  # Third-party widget wrappers
 │   │       └── ZencalWidget.jsx      # Zencal booking widget wrapper
+│   │
+│   ├── context/                      # React Context providers
+│   │   └── BookingContext.jsx        # Global booking modal state
 │   │
 │   ├── pages/                        # Route-level components
 │   │   ├── Home.jsx                  # Main page (all sections)
@@ -698,9 +704,21 @@ FR-CONTACT-007: **Form Backend Integration (Pending)**
 
 **Files:**
 
+- `src/context/BookingContext.jsx` - Global booking modal state management
 - `src/components/sections/BookingCTA.jsx` - CTA section with modal trigger
+- `src/components/booking/BookingModalContent.jsx` - Reusable modal content
 - `src/components/ui/Modal.jsx` - Reusable modal component
 - `src/components/widgets/ZencalWidget.jsx` - Zencal widget wrapper
+- `src/components/layout/Layout.jsx` - Renders global booking modal
+- `src/pages/BlogPostPage.jsx` - Event delegation for blog CTA clicks
+
+**Architecture:**
+
+The booking system uses a **global modal architecture** with React Context:
+- `BookingContext` provides global state (`isBookingModalOpen`, `openBookingModal()`, `closeBookingModal()`)
+- Modal is rendered once at Layout level, accessible from anywhere
+- Multiple trigger points: BookingCTA section, blog post CTAs
+- Event delegation pattern intercepts blog CTA clicks to open modal instead of navigating
 
 **Functional Requirements:**
 
@@ -777,13 +795,29 @@ FR-BOOKING-007: **Animation Effects**
 - Transition duration: 300ms
 - Easing: custom cubic-bezier
 
+FR-BOOKING-008: **Blog Post CTA Integration**
+
+- Blog post CTAs (HTML links with `href="/#contact"` and class `btn-primary`) open booking modal directly
+- Event delegation pattern intercepts clicks at document level (capture phase)
+- `e.preventDefault()` prevents navigation to `#contact`
+- Modal opens via `openBookingModal()` from BookingContext
+- Zero modifications to blog markdown files required
+- Selector specificity: `a[href="/#contact"].btn-primary` (very targeted)
+- Implementation in `BlogPostPage.jsx` via useEffect hook
+- Cleanup on component unmount
+
 **Implementation Details:**
 
+- **BookingContext**: React Context with custom `useBooking()` hook
+- **Global Modal**: Rendered once in `Layout.jsx`, controlled by context state
+- **BookingModalContent**: Reusable component with description + ZencalWidget
 - Modal uses `createPortal` from react-dom
 - Script cleanup on component unmount
 - Check for existing script before loading (prevent duplicates)
 - Uses `AnimatePresence` from Framer Motion for smooth exit animations
 - Focus management with `useRef` and `useEffect`
+- **Event Delegation**: Document-level click listener in BlogPostPage (capture phase: `true`)
+- **Pattern**: `document.addEventListener('click', handleCtaClick, true)`
 
 **CSS Customization:**
 Location: `src/styles/index.css`
@@ -1428,6 +1462,10 @@ vercel --prod
 - \u2705 Custom CSS styling for Zencal Material-UI components
 - \u2705 Polish language content for booking flow
 - \u2705 Mobile-responsive modal and widget
+- ✅ **NEW (January 14, 2026):** Global modal architecture with BookingContext
+- ✅ **NEW (January 14, 2026):** Blog post CTAs open booking modal directly
+- ✅ **NEW (January 14, 2026):** Event delegation pattern for blog CTA interception
+- ✅ **NEW (January 14, 2026):** Zero markdown file modifications required
 
 **COMPLETED-002: Testimonials Section**
 

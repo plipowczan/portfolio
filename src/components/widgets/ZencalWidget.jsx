@@ -13,7 +13,7 @@ const ZencalWidget = () => {
 
     // Utwórz i dodaj script
     const script = document.createElement("script");
-    script.src = "https://app.zencal.io/js/embed.js?v=3.11.7";
+    script.src = "https://app.zencal.io/js/embed.js?v=3.11.8";
     script.async = true;
     script.setAttribute("data-cookieconsent", "ignore");
 
@@ -39,14 +39,14 @@ const ZencalWidget = () => {
   }, []);
 
   return (
-    <div className="bg-white rounded-xl p-6 md:p-8 shadow-lg">
+    <div className="bg-dark-800/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8 shadow-lg">
       <div className="relative min-h-[600px]">
         {/* Loading indicator */}
         {!isLoaded && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center space-y-4">
               <div className="w-12 h-12 border-4 border-primary-500/20 border-t-primary-500 rounded-full animate-spin mx-auto" />
-              <p className="text-gray-600">Ładowanie kalendarza...</p>
+              <p className="text-gray-300">Ładowanie kalendarza...</p>
             </div>
           </div>
         )}
@@ -55,9 +55,9 @@ const ZencalWidget = () => {
         <div
           data-type="u"
           data-owner="pl"
-          data-slug="konsultacje"
-          data-primary="#000000ff"
-          data-secondary="#000000ff"
+          data-slug="konsultacja"
+          data-primary="#00ff9d"
+          data-secondary="#00b8ff"
           data-avatar="https://meetendly.fra1.digitaloceanspaces.com/profile-images/a1wSWEyLimmWBNqhXhAk6aIMvNfKPf.jpg"
           data-lang="pl"
           data-ampm="0"

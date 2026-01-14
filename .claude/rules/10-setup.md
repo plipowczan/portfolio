@@ -3,15 +3,18 @@
 ## Environment
 
 ### Node.js & Dependencies
+
 - **Runtime**: Node.js 20.x
 - **Package Manager**: npm
 - **Installation**: `npm install`
 
 ### Environment Variables
+
 - Create `.env` file based on `.env.example` (if exists) or usage context.
 - Access via `import.meta.env.VITE_VARIABLE_NAME`.
 
 **Common Variables:**
+
 ```
 VITE_API_URL=https://api.example.com
 VITE_FORM_ENDPOINT=https://formspree.io/f/...
@@ -22,6 +25,7 @@ VITE_FORM_ENDPOINT=https://formspree.io/f/...
 ## Development Workflow
 
 ### Commands
+
 - **Start Dev Server**: `npm run dev` (localhost:5173)
 - **Build**: `npm run build` (standard build)
 - **Build & Prerender**: `npm run build:prerender` (production build with SEO)
@@ -30,6 +34,7 @@ VITE_FORM_ENDPOINT=https://formspree.io/f/...
 - **Test UI**: `npm test:ui` (Interactive mode)
 
 ### Configuration Files
+
 - **Vite**: `vite.config.js` - Build, proxy, and plugin settings.
 - **Tailwind**: `tailwind.config.js` - Theme, colors, and content paths.
 - **Playwright**: `playwright.config.js` - E2E test configuration.
@@ -38,6 +43,7 @@ VITE_FORM_ENDPOINT=https://formspree.io/f/...
 ---
 
 ## Directory Structure
+
 ```
 src/
 ├── components/     # React components
@@ -54,6 +60,7 @@ src/
 ```
 
 ## Key Integration Points
+
 - **Routing**: React Router 7 (`src/App.jsx`).
 - **State**: Local state + Props (Context where necessary).
 - **Animations**: Framer Motion (`src/components/animations/`).

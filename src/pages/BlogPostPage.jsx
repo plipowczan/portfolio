@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
@@ -10,11 +10,34 @@ import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { blogPosts } from "../data/blogPosts";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
+import { useBooking } from "../context/BookingContext";
 
 const BlogPostPage = () => {
   const { slug } = useParams();
   const post = blogPosts.find((p) => p.slug === slug);
   const [imageError, setImageError] = useState(false);
+  const { openBookingModal } = useBooking();
+
+  // Intercept blog CTA clicks to open modal instead of navigating
+  useEffect(() => {
+    const handleCtaClick = (e) => {
+      // Check if clicked element is a CTA button to contact section
+      const target = e.target.closest('a[href="/#contact"]');
+
+      if (target && target.classList.contains('btn-primary')) {
+        e.preventDefault();
+        e.stopPropagation();
+        openBookingModal();
+      }
+    };
+
+    // Use capture phase to intercept before default navigation
+    document.addEventListener('click', handleCtaClick, true);
+
+    return () => {
+      document.removeEventListener('click', handleCtaClick, true);
+    };
+  }, [openBookingModal]);
 
   if (!post) {
     return (

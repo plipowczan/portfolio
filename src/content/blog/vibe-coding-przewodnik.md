@@ -384,10 +384,12 @@ Jeśli chcesz zacząć z vibe coding:
 4. **Wygeneruj pierwszy komponent** (zacznij od Button)
 5. **Iteruj i ucz się**
 
-A jeśli potrzebujesz pomocy z konfiguracją AI tools, automatyzacją workflow czy integracją vibe coding w Twoim projekcie - [skontaktuj się ze mną](https://automation.house/kontakt).
-
----
-
-**Potrzebujesz pomocy z wdrożeniem AI w Twoim projekcie?**
-
-Umów się na [bezpłatną konsultację](https://automation.house/kontakt) i dowiedz się, jak mogę pomóc Ci zautomatyzować procesy tworzenia UI.
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Potrzebujesz wsparcia we wdrożeniu AI w rozwoju produktu?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci skonfigurować AI tools, zautomatyzować workflow i wdrożyć vibe coding w Twoim projekcie. Od wyboru narzędzi przez konfigurację środowiska po optymalizację procesów deweloperskich.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>

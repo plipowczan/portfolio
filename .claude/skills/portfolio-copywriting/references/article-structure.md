@@ -275,20 +275,107 @@ Wiecej o automatyzacji email znajdziesz w
 
 ## Call to Action (CTA)
 
-Kazdy artykul konczy sie CTA:
+Kazdy artykul konczy sie **kontekstowym CTA** prowadzacym do konsultacji z Pawlem Lipowczanem.
 
-```markdown
----
+### Format CTA (HTML + Tailwind)
 
-**Potrzebujesz pomocy z [tematem artykulu]?**
+Wszystkie artykuly uzywaja **tego samego formatu wizualnego**, ale z **kontekstowym tekstem** dopasowanym do tematu artykulu.
 
-Umow sie na [bezplatna konsultacje](https://automation.house/kontakt)
-i dowiedz sie jak mozemy zautomatyzowac Twoje procesy.
+```html
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    [Kontekstowy tytul - pytanie lub stwierdzenie zwiazane z tematem]
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    [Kontekstowy opis - jak Pawel moze pomoc w tym konkretnym temacie]
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
 ```
 
-Alternatywne CTA:
+### Wytyczne tworzenia CTA
 
-- Link do powiazanego artykulu
-- Zaproszenie do newslettera
-- Link do uslugi/produktu
-- Formularz kontaktowy
+**Tytul (H3):**
+- Pytanie lub stwierdzenie zwiazane z tematem artykulu
+- 8-12 slow
+- Konkretny, nie generyczny
+- Przyklady:
+  - "Potrzebujesz pomocy z automatyzacją?"
+  - "Chcesz wdrożyć chatboty AI w swojej firmie?"
+  - "Szukasz rozwiązań no-code dla biznesu?"
+
+**Opis (paragraph):**
+- Jasna wartosc - jak Pawel moze pomoc
+- 2-3 zdania
+- Konkretne benefity (np. "od analizy potrzeb przez implementacje po szkolenia zespolu")
+- Ton: pomocny, kompetentny, bezposredni
+
+**Przycisk:**
+- Zawsze: "Umów bezpłatną konsultację"
+- Link zawsze: `/#contact` (prowadzi do BookingCTA w sekcji kontakt)
+
+### Szablony CTA wedlug kategorii
+
+#### Automatyzacja
+
+```html
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Potrzebujesz pomocy z automatyzacją?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci zidentyfikować procesy do automatyzacji, wybrać odpowiednie narzędzia i wdrożyć rozwiązania, które zaoszczędzą czas i pieniądze Twojej firmie.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+```
+
+#### No-Code
+
+```html
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz wdrożyć rozwiązania no-code w firmie?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci wybrać odpowiednie narzędzia, zaprojektować architekturę rozwiązania i wdrożyć je krok po kroku. Od analizy potrzeb przez implementację po szkolenia zespołu.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+```
+
+#### AI
+
+```html
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz wdrożyć AI w swojej organizacji?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci znaleźć realne zastosowania AI w Twoim biznesie, uniknąć popularnych pułapek i wdrożyć rozwiązania, które przynoszą mierzalne rezultaty.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+```
+
+#### Code
+
+```html
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Potrzebujesz wsparcia w rozwoju produktu?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci w wyborze technologii, projektowaniu architektury i wdrożeniu najlepszych praktyk. Od MVP przez skalowanie po optymalizację procesów deweloperskich.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+```
+
+### Zasady
+
+- **NIE** uzywaj markdown CTA (starych wersji)
+- **ZAWSZE** uzywaj HTML z Tailwind classes (jak w przykladach powyzej)
+- **Kontekstualizuj** tresc CTA do tematu artykulu
+- **ZAWSZE** linkuj do `/#contact` (nie do zewnetrznych serwisow)
+- **ZAWSZE** uzywaj tekstu przycisku: "Umów bezpłatną konsultację"

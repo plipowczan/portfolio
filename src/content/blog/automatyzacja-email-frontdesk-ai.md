@@ -96,4 +96,12 @@ Frontdesk AI to rozwiązanie dla firm, które:
 - Chcą odciążyć zespół od rutynowych zadań
 - Dbają o jakość obsługi klienta
 
-Zainteresowany wdrożeniem? [Umów bezpłatną konsultację](https://automation.house)
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz zautomatyzować obsługę emaili w swojej firmie?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci wdrożyć inteligentną automatyzację poczty email, która odciąży zespół od rutynowych pytań i przyspieszy reakcję na zapytania klientów. Od analizy przypadków przez konfigurację po testy i uruchomienie.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
