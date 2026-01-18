@@ -1,5 +1,5 @@
 ---
-id: 6
+id: 13
 slug: trendy-ai-2026-od-eksperymentow-do-operacjonalizacji
 title: "2026: Rok, w którym AI przeszła z laboratoriów do hal produkcyjnych"
 excerpt: "Koniec hype'u, początek weryfikacji. Jak agentic AI, specjalizacja modeli i regulacje EU AI Act zmienią sposób, w jaki budujemy i wdrażamy sztuczną inteligencję w biznesie."

@@ -1,5 +1,5 @@
 ---
-id: 8
+id: 14
 slug: vibe-coding-przewodnik
 title: Vibe Coding - jak tworzyć UI z AI bez znajomości designu
 excerpt: Odkryj 3 filary skutecznego vibe codingu i dowiedz się, jak AI może zamienić Twoje pomysły w profesjonalne interfejsy - nawet jeśli nie masz umiejętności projektowych.

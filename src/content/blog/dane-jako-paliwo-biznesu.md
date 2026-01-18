@@ -1,5 +1,5 @@
 ---
-id: 6
+id: 12
 slug: dane-jako-paliwo-biznesu
 title: Dane jako paliwo biznesu - od Excela do AI
 excerpt: Jak przekształcić surowe dane w wartość biznesową? No-code, agenty AI i case study transformacji z chaosu do klarowności.
