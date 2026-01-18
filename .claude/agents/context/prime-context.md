@@ -1,8 +1,8 @@
 # Portfolio Prime Context
 
-**Last Updated:** 2026-01-13
+**Last Updated:** 2026-01-16
 **Branch:** main
-**Commit:** b3be3d130e599808b06d0b955c67af15a998450d
+**Commit:** d72a13e7efd32764aa366874e0d45c22175591b7
 
 ## Project Overview
 
@@ -59,17 +59,18 @@
 src/components/
 ├── layout/         # Structural components (Header, Footer, Layout)
 ├── sections/       # Landing page sections (Hero, About, Projects)
-├── ui/             # Reusable UI elements (Button, Card, Badge)
-├── widgets/        # Composite components (ContactForm, BlogCard)
+├── ui/             # Reusable UI elements (Modal, Breadcrumbs, CookieBanner)
+├── widgets/        # Third-party integrations (ZencalWidget)
+├── booking/        # Booking modal components (BookingModalContent)
 ├── animations/     # Framer Motion animation wrappers
 └── seo/            # SEO components (Meta, StructuredData)
 ```
 
 **State Management:**
 - Local state with `useState` for component-specific state
+- Context API for global concerns (BookingContext for modal state)
 - Props drilling for simple cases (max 2-3 levels)
-- Custom hooks for reusable stateful logic
-- No Context API (not needed for this project size)
+- Custom hooks for reusable stateful logic (`useBooking`)
 
 **Styling Approach:**
 - Utility-first with Tailwind CSS
@@ -98,6 +99,15 @@ src/components/
 - CSS transitions for simple hover states
 - `useReducedMotion` hook for accessibility
 - Variants for orchestrated animations
+
+**Booking Modal Architecture:**
+- Global modal state managed via BookingContext
+- Custom hook `useBooking()` for accessing modal controls
+- Modal component: `src/components/ui/Modal.jsx`
+- Modal content: `src/components/booking/BookingModalContent.jsx`
+- Zencal widget integration: `src/components/widgets/ZencalWidget.jsx`
+- Can be triggered from anywhere in the app via `openBookingModal()`
+- CTA buttons in Hero, BookingCTA section, and Navigation
 
 ### Backend Patterns (Static Data)
 
@@ -168,12 +178,13 @@ portfolio/
 │
 ├── src/
 │   ├── components/
-│   │   ├── layout/             # Header, Footer, Layout
-│   │   ├── sections/           # Hero, About, Projects, Contact
-│   │   ├── ui/                 # Button, Card, Badge
-│   │   ├── widgets/            # ContactForm, BlogCard
-│   │   ├── animations/         # FadeIn, SlideIn wrappers
-│   │   └── seo/                # Meta, StructuredData
+│   │   ├── layout/             # Navigation, Footer, Layout
+│   │   ├── sections/           # Hero, About, Projects, Skills, ContactForm, BookingCTA
+│   │   ├── ui/                 # Modal, Breadcrumbs, CookieBanner
+│   │   ├── widgets/            # ZencalWidget (third-party integrations)
+│   │   ├── booking/            # BookingModalContent
+│   │   ├── animations/         # NetworkBackground (Canvas-based)
+│   │   └── seo/                # SEO, StructuredData
 │   │
 │   ├── content/
 │   │   └── blog/               # Markdown blog posts
@@ -184,12 +195,17 @@ portfolio/
 │   │   ├── skills.js
 │   │   └── testimonials.js
 │   │
+│   ├── context/                # React Context providers
+│   │   └── BookingContext.jsx  # Global booking modal state
+│   │
 │   ├── pages/                  # Route components
 │   │   ├── Home.jsx
 │   │   ├── Blog.jsx
 │   │   ├── BlogPostPage.jsx
 │   │   ├── ProjectPage.jsx
-│   │   └── PrivacyPolicy.jsx
+│   │   ├── PrivacyPolicy.jsx
+│   │   ├── TermsOfService.jsx
+│   │   └── CookiePolicy.jsx
 │   │
 │   ├── styles/
 │   │   └── index.css           # Global styles, custom animations
@@ -314,6 +330,7 @@ npm run test:ui           # Interactive test UI
 ## Recent Activity
 
 ```
+d72a13e Implement global booking modal architecture and enhance CTA integration
 b3be3d1 Enhance blog article workflow documentation and validation process
 b5330ae Refactor BlogPostPage component to improve code readability and clarity
 b79d103 updated blog workflow - moved from agent blog-article-writer to command based article generation in 4 steps flow prime, plan, execute, validate
@@ -323,19 +340,14 @@ ee1f360 updated blog-writer agent workflow using PIV
 91c1d3c adjustments to piv methodology
 57655a1 added gitkeep for scripts folder
 611d1df Add new blog article: "5 technik pracy z Claude Code"
-bc9afaf Update PRD, SRS, and documentation; enhance booking CTA tests
 ```
 
 ### Current State
 - **Branch:** main
-- **Status:** Working directory has unstaged changes
+- **Status:** Working directory has modified files
 - **Modified Files:**
-  - `.claude/rules/react/20-coding-standards.md`
-  - `CLAUDE.md`
-  - `docs/BLOG_WORKFLOW.md`
-  - `scripts/generate-image.js`
-  - `src/pages/BlogPostPage.jsx`
-- **Last Commit:** Enhanced blog article workflow documentation and validation process
+  - `src/components/widgets/ZencalWidget.jsx`
+- **Last Commit:** Implement global booking modal architecture and enhance CTA integration
 
 ---
 

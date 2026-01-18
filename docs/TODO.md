@@ -4,7 +4,7 @@
 - [ ] Sidebar navigation
 - [ ] Related posts section
 - [ ] Add case studies
-- [ ] Complete cta for all blog posts - remove cta to Automation House
+- [x] Complete cta for all blog posts - remove cta to Automation House
 - [ ] Extend blog categories - add more categories
 
 ### Social Media optimization
