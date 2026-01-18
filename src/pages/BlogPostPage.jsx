@@ -11,6 +11,7 @@ import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { useBooking } from "../context/BookingContext";
 import { blogPosts } from "../data/blogPosts";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
+import { extractFAQ, generateFAQSchema } from "../utils/faqExtractor";
 
 // Desktop TOC Sidebar Component - defined outside to prevent remounting
 const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
@@ -199,11 +200,22 @@ const BlogPostPage = () => {
   const generateSlug = (text) => {
     if (!text) return '';
 
+    // Transliterate Polish characters to their ASCII equivalents
+    // This ensures consistent, readable slugs instead of removing characters
+    const polishCharsMap = {
+      'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n',
+      'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+      'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n',
+      'Ó': 'o', 'Ś': 's', 'Ź': 'z', 'Ż': 'z'
+    };
+
     let baseSlug = text
       .toString()
       .toLowerCase()
       .trim()
-      .replace(/[^\w\s-]/g, '') // Remove special chars
+      // Replace Polish characters with ASCII equivalents
+      .replace(/[ąćęłńóśźż]/g, (char) => polishCharsMap[char] || char)
+      .replace(/[^\w\s-]/g, '') // Remove remaining special chars
       .replace(/\s+/g, '-') // Replace spaces with hyphens
       .replace(/-+/g, '-'); // Remove consecutive hyphens
 
@@ -308,8 +320,16 @@ const BlogPostPage = () => {
   // Extract TOC items from rendered content
   const [contentElement, setContentElement] = useState(null);
   const [tocItems, setTocItems] = useState([]);
+  const [faqSchema, setFaqSchema] = useState(null);
 
   useEffect(() => {
+    // Guard: Don't run if post doesn't exist (handles navigation to non-existent post)
+    if (!post) {
+      setTocItems([]);
+      setFaqSchema(null);
+      return;
+    }
+
     // Use setTimeout to allow React to render headings with IDs
     const timer = setTimeout(() => {
       if (contentRef.current) {
@@ -324,6 +344,16 @@ const BlogPostPage = () => {
         }));
 
         setTocItems(items);
+
+        // Extract FAQ and generate schema
+        const faqData = extractFAQ(contentRef.current);
+        if (faqData.hasFAQ) {
+          const postUrl = `${SITE_CONFIG.url}/blog/${post.slug}`;
+          const schema = generateFAQSchema(faqData.questions, postUrl);
+          setFaqSchema(schema);
+        } else {
+          setFaqSchema(null);
+        }
       }
     }, 150); // Increase to 150ms for safer timing
 
@@ -457,6 +487,7 @@ const BlogPostPage = () => {
           ],
         }}
       />
+      <StructuredData schema={faqSchema} />
 
       <article className="min-h-screen py-24 md:py-32">
         <div className="section-container">

@@ -152,6 +152,59 @@
   @apply outline-2 outline-offset-2 outline-primary-500;
 }
 
+/* FAQ section styling for blog posts
+ *
+ * NOTE:
+ * These styles apply to FAQ sections in blog post markdown content.
+ * FAQ sections are identified by H2 heading containing "FAQ" followed by
+ * H3 questions and paragraph answers.
+ *
+ * Structure:
+ * <h2>FAQ</h2>                    ← Section header
+ * <h3>Question text?</h3>         ← Individual question
+ * <p>Answer text...</p>           ← Answer (can be multiple paragraphs)
+ *
+ * Purpose:
+ * - Visual distinction for FAQ sections
+ * - Improved readability for LLM/AI consumption
+ * - Accessibility enhancements
+ *
+ * IMPORTANT: Polish character transliteration
+ * - "Najczęściej zadawane pytania" → ID becomes "najczesciej-zadawane-pytania"
+ * - The generateSlug function transliterates Polish characters (ę → e, ś → s, etc.)
+ * - CSS selectors must match the actual generated IDs
+ */
+
+/* FAQ section headers */
+.prose h2#faq,
+.prose h2#najczesciej-zadawane-pytania,
+.prose h2#pytania-i-odpowiedzi {
+  @apply text-primary-400 border-b-2 border-primary-500/30 pb-3 mb-6;
+}
+
+/* FAQ question styling (H3 within FAQ section)
+ * NOTE: Uses general sibling combinator (~) to target only H3s following FAQ headers
+ * This scopes the "Q:" prefix to FAQ questions only, not all H3s in the article
+ * Limitation: Will style H3s between FAQ and next H2, but this is rare in practice
+ */
+.prose h2#faq ~ h3,
+.prose h2#najczesciej-zadawane-pytania ~ h3,
+.prose h2#pytania-i-odpowiedzi ~ h3 {
+  @apply relative pl-6 transition-colors duration-200;
+}
+
+.prose h2#faq ~ h3::before,
+.prose h2#najczesciej-zadawane-pytania ~ h3::before,
+.prose h2#pytania-i-odpowiedzi ~ h3::before {
+  content: "Q:";
+  @apply absolute left-0 top-0 text-primary-500 font-bold text-lg;
+}
+
+/* FAQ answer styling (paragraphs immediately following H3)
+ * No specific targeting needed - default prose p styles apply
+ * Answers benefit from standard prose spacing and line-height
+ */
+
 /* Zencal widget custom styles
  *
  * NOTE:

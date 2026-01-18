@@ -48,16 +48,24 @@ PLAN (Planning) - Design article structure and approach
    - Bullet points and numbered lists
    - Practical examples
 
-3. **Conclusion** (~200 words)
+3. **FAQ Section** (~400-600 words) **[REQUIRED]**
+   - H2 header: "FAQ"
+   - 4-6 natural questions (10-25 words each)
+   - Snippet-style answers (2-4 sentences)
+   - Follow `docs/blog/FAQ_TEMPLATE.md` structure
+   - Optimize for LLM/AI consumption (AEO)
+   - FAQPage schema will auto-generate from content
+
+4. **Conclusion** (~200 words)
    - Summary of key takeaways (numbered list)
    - Personal closing from Pawel
    - Call to action
 
-4. **CTA Section**
+5. **CTA Section**
    - HTML div with consultation offer
    - Link to /#contact
 
-5. **Resources** (optional)
+6. **Resources** (optional)
    - External links with descriptions
 
 ### 4. Language & Style Plan
@@ -108,6 +116,7 @@ Save to `.claude/agents/plans/blog-{slug}.md` with:
 - [ ] Next blog ID determined
 - [ ] Frontmatter completely specified
 - [ ] All main sections outlined with word targets
+- [ ] FAQ section planned (4-6 questions)
 - [ ] Code examples identified with language tags
 - [ ] Language guidelines noted (no polonization)
 - [ ] SEO keywords identified

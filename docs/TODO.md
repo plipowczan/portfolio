@@ -1,7 +1,7 @@
 ## TODO
 
 - [ ] Add FAQ section
-- [ ] Sidebar navigation
+- [x] Sidebar navigation
 - [ ] Related posts section
 - [ ] Add case studies
 - [x] Complete cta for all blog posts - remove cta to Automation House

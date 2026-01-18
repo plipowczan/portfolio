@@ -75,6 +75,13 @@ tags:
 ## Rezultaty
 [Metryki, liczby, ROI]
 
+## FAQ
+### [Pytanie 1 - naturalne, 10-25 slow]
+[Snippet-style odpowiedz, 2-4 zdania. Kluczowa info na poczatku.]
+
+### [Pytanie 2...]
+[Odpowiedz...]
+
 ## Kluczowe wnioski
 [Lista 3-5 wnioskow]
 
@@ -132,6 +139,34 @@ tags:
 - **Excerpt:** 150-160 znakow, odpowiada "dlaczego przeczytac"
 - **Slug:** male litery, myslniki, 3-6 slow
 - **Naglowki:** naturalne uzycie slow kluczowych
+
+### FAQ (WYMAGANE)
+
+Kazdy artykul musi zawierac sekcje FAQ zoptymalizowana pod AI/LLM (AEO - Answer Engine Optimization):
+
+**Struktura:**
+```markdown
+## FAQ
+
+### [Naturalne pytanie po polsku, 10-25 slow]
+
+[Snippet-style odpowiedz, 2-4 zdania. Kluczowa informacja w pierwszym zdaniu.]
+
+### [Kolejne pytanie...]
+
+[Odpowiedz...]
+```
+
+**Wytyczne:**
+- **Pytania:** 4-6 naturalnych pytan, pelnymi zdaniami (nie slowa kluczowe)
+- **Dlugosc pytan:** 10-25 slow, konwersacyjne
+- **Odpowiedzi:** 2-4 zdania, kluczowa info na poczatku
+- **Konkretnosc:** liczby, definicje, fakty, mini how-to
+- **Jezyk:** polski + angielskie terminy techniczne (jak w reszcie artykulu)
+
+**Szczegolowe guidelines:** `docs/blog/FAQ_TEMPLATE.md` i `docs/blog/FAQ_GUIDELINES.md`
+
+**Technical:** FAQPage schema auto-generuje sie z HTML (nie trzeba recznej konfiguracji)
 
 ### CTA
 
