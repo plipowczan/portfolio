@@ -142,6 +142,11 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 
 - Blog listing page with article cards
 - Individual blog post pages
+- **Automatic Table of Contents (TOC)** for blog posts
+  - Desktop: Sticky sidebar with hierarchical navigation
+  - Mobile: Floating button with slide-up drawer
+  - Auto-generated from H2 and H3 headings
+  - Scroll spy with active section highlighting
 - SEO optimized meta tags
 - Reading time estimates
 - Categories/tags

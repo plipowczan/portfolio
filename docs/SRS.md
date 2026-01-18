@@ -853,6 +853,126 @@ Custom styles for Zencal widget:
 
 ---
 
+### 3.9 Blog Post Table of Contents (TOC)
+
+**Files:**
+- `src/pages/BlogPostPage.jsx` - TOC implementation with custom hooks
+
+**Architecture:**
+
+The TOC system uses **custom React hooks** for state management:
+- `useTableOfContents(contentElement)` - Extracts H2/H3 headings from rendered DOM
+- `useScrollSpy(tocItems)` - Tracks active section using IntersectionObserver
+- Inline components: `TableOfContentsSidebar`, `FloatingTOCButton`, `TableOfContentsDrawer`
+
+**Functional Requirements:**
+
+FR-TOC-001: **Automatic TOC Generation**
+- Extract all H2 and H3 headings from markdown content
+- Generate unique ID slugs for each heading (URL-safe)
+- Build hierarchical structure (H3 nested under H2)
+- TOC only renders if article has ≥2 headings
+
+FR-TOC-002: **Desktop TOC Sidebar (≥1024px)**
+- Fixed sidebar on right side of article (280px width)
+- Sticky positioning (`sticky top-24`)
+- Shows hierarchical list of sections
+- Active section highlighted with primary color
+- Smooth scroll to section on click
+- Independent scrolling within sidebar for long TOCs
+
+FR-TOC-003: **Mobile TOC (< 1024px)**
+- Floating Action Button (FAB) at bottom-right corner
+- Icon: List icon (FaList)
+- Click opens slide-up drawer with backdrop
+- Drawer shows same TOC structure
+- Auto-closes after clicking TOC link
+- Prevents body scroll when drawer open
+
+FR-TOC-004: **Scroll Spy**
+- Track visible heading with IntersectionObserver
+- Highlight active section in TOC
+- Update on scroll (throttled for performance)
+- rootMargin: `-20% 0px -35% 0px` for natural feel
+
+FR-TOC-005: **Slug Generation**
+- Convert heading text to URL-safe slug
+- Handle special characters, spaces, Unicode
+- Ensure unique IDs (append counter for duplicates)
+- Reset ID tracking when post changes
+
+FR-TOC-006: **Accessibility**
+- ARIA labels: `aria-label="Table of Contents"`
+- Keyboard navigation support (Tab, Enter)
+- Visible focus indicators
+- Semantic HTML (`<nav>`, `<aside>`)
+- Screen reader friendly
+
+**Implementation Details:**
+
+**Custom Hooks:**
+
+```javascript
+// Extract TOC items from rendered content
+const useTableOfContents = (contentElement) => {
+  return useMemo(() => {
+    if (!contentElement) return [];
+    const headings = contentElement.querySelectorAll('h2, h3');
+    return Array.from(headings).map(heading => ({
+      id: heading.id,
+      text: heading.textContent,
+      level: heading.tagName.toLowerCase()
+    }));
+  }, [contentElement]);
+};
+
+// Track active section with IntersectionObserver
+const useScrollSpy = (tocItems) => {
+  const [activeId, setActiveId] = useState('');
+  // ... IntersectionObserver implementation
+  return activeId;
+};
+```
+
+**Component Structure:**
+
+```
+BlogPostPage
+├── generateSlug(text) → unique ID
+├── useTableOfContents(contentElement) → tocItems
+├── useScrollSpy(tocItems) → activeId
+├── Desktop: TableOfContentsSidebar (hidden lg:block)
+└── Mobile:
+    ├── FloatingTOCButton (fixed bottom-right)
+    └── TableOfContentsDrawer (slide-up modal)
+```
+
+**Styling:**
+- Desktop sidebar: `sticky top-24 max-h-[calc(100vh-10rem)] overflow-y-auto`
+- Background: `bg-dark-800/50 backdrop-blur-sm border border-white/10`
+- Active link: `text-primary-500 font-medium`
+- FAB: `fixed bottom-6 right-6 z-50 bg-gradient-to-r from-primary-500 to-primary-400`
+
+**Performance:**
+- IntersectionObserver (better than scroll listeners)
+- Memoized TOC items with `useMemo`
+- Conditional rendering (only if ≥2 headings)
+- Ref-based slug tracking (no re-renders)
+
+**Browser Compatibility:**
+- IntersectionObserver: 98% coverage
+- scrollIntoView smooth: widely supported
+- No polyfills needed for target browsers
+
+**Edge Cases Handled:**
+- Articles with 0-1 headings: TOC does not render
+- Duplicate heading text: IDs made unique with counter
+- Long TOC: Independent scrolling in sidebar
+- Fast scrolling: Scroll spy updates correctly
+- Body scroll lock when drawer open
+
+---
+
 ### 3.8 Blog System
 
 **Files:**

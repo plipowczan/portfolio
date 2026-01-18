@@ -371,6 +371,66 @@ Starting automatic validation...
 
 ---
 
+### Spis treści (Table of Contents)
+
+**Automatyczne generowanie:**
+- TOC generuje się automatycznie z nagłówków H2 (`##`) i H3 (`###`) w artykule
+- TOC wyświetla się tylko gdy artykuł ma **co najmniej 2 nagłówki**
+- ID sekcji generowane są automatycznie z tekstu nagłówka (slug-based)
+
+**Wyświetlanie:**
+- **Desktop (≥1024px):** Sticky sidebar po prawej stronie artykułu
+- **Mobile (<1024px):** FAB (Floating Action Button) w prawym dolnym rogu + drawer
+
+**Funkcje:**
+- Smooth scrolling do sekcji po kliknięciu
+- Aktywne podświetlanie bieżącej sekcji (scroll spy)
+- Hierarchiczna struktura (H3 zagnieżdżone pod H2)
+
+**Wytyczne dla autorów:**
+
+✅ **DO:**
+- Używaj nagłówków H2 (`##`) dla głównych sekcji
+- Używaj nagłówków H3 (`###`) dla podsekcji
+- Twórz opisowe, zwięzłe nagłówki (idealne: 3-8 słów)
+- Zachowaj hierarchię: H2 → H3 (nie przeskakuj poziomów)
+- Minimum 2 nagłówki dla TOC (idealne: 5-8 dla długich artykułów)
+
+❌ **DON'T:**
+- Nie używaj H1 (`#`) w treści artykułu (zarezerwowany dla tytułu)
+- Nie twórz bardzo długich nagłówków (>80 znaków)
+- Nie używaj nagłówków głębszych niż H3 (H4, H5, H6 nie są w TOC)
+- Nie duplikuj tekstów nagłówków (generuje nieunikalne ID)
+- Nie używaj emoji lub znaków specjalnych w nagłówkach
+
+**Przykład dobrej struktury:**
+
+```markdown
+## Wprowadzenie
+
+Tekst wprowadzenia...
+
+## Główna sekcja 1
+
+### Podsekcja 1.1
+
+### Podsekcja 1.2
+
+## Główna sekcja 2
+
+### Podsekcja 2.1
+
+## Podsumowanie
+```
+
+**TOC Accessibility:**
+- TOC ma właściwe ARIA labels (`aria-label="Table of Contents"`)
+- Keyboard navigation support (Tab, Enter)
+- Focus indicators visible
+- Screen reader friendly
+
+---
+
 ### Step 7: Validate Phase (Automatic)
 
 **What happens:**
@@ -389,6 +449,7 @@ The agent validates quality across 6 levels:
 - ✅ Code blocks have language tags
 - ✅ No polonized terms (e.g., "komendyfikacja")
 - ✅ Structure is correct (H2/H3 hierarchy)
+- ✅ **TOC-ready:** At least 2 headings for auto-generated Table of Contents
 
 #### Level 3: SEO Validation
 
