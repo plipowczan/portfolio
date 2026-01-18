@@ -371,12 +371,57 @@ Starting automatic validation...
 
 ---
 
+### FAQ Section (Frequently Asked Questions)
+
+**Purpose:**
+- Optimize article for AI/LLM consumption (ChatGPT, Perplexity, Claude)
+- Answer Engine Optimization (AEO)
+- Google Rich Results (FAQPage schema)
+- Quick answers to reader follow-up questions
+
+**Implementation:**
+The blog-article-writer agent **automatically includes FAQ section** in every article.
+
+**Structure:**
+```markdown
+## FAQ
+
+### [Natural question prompt in Polish, 10-25 words]
+
+[Snippet-style answer, 2-4 sentences. Key info first.]
+
+### [Next question...]
+
+[Answer...]
+```
+
+**Guidelines Summary:**
+- **Questions:** Full, natural prompts (10-25 words), conversational, one intent per question
+- **Answers:** Snippet-style (2-4 sentences), key info in first sentence, concrete facts
+- **Count:** 4-6 questions per article (optimal)
+- **Language:** Polish with technical English terms (unchanged)
+- **Schema:** FAQPage structured data auto-generated from content
+
+**Technical:**
+- FAQ sections detected automatically (H2 with "FAQ" text)
+- FAQPage JSON-LD schema generated at runtime
+- Renders as semantic HTML: H2 → H3 → p
+- Schema validates in Google Rich Results Test
+
+**Resources:**
+- **Template:** `docs/blog/FAQ_TEMPLATE.md` - Quick reference
+- **Guidelines:** `docs/blog/FAQ_GUIDELINES.md` - Comprehensive LLM optimization guide
+- **Implementation:** `src/utils/faqExtractor.js` - FAQ extraction & schema generation
+
+---
+
 ### Spis treści (Table of Contents)
 
 **Automatyczne generowanie:**
 - TOC generuje się automatycznie z nagłówków H2 (`##`) i H3 (`###`) w artykule
 - TOC wyświetla się tylko gdy artykuł ma **co najmniej 2 nagłówki**
 - ID sekcji generowane są automatycznie z tekstu nagłówka (slug-based)
+- **FAQ section included in TOC automatically**
 
 **Wyświetlanie:**
 - **Desktop (≥1024px):** Sticky sidebar po prawej stronie artykułu
