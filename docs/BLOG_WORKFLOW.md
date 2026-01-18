@@ -414,6 +414,7 @@ The agent validates quality across 6 levels:
 - ✅ Sitemap updated
 
 **Substeps:**
+
 1. Generate prompt: `/blog-article-writer:generate-og-prompt {slug}`
 2. Use prompt with `scripts/generate-image.js`
 3. Convert PNG to WebP
@@ -658,6 +659,7 @@ Run /blog-article-writer:generate-og-prompt {slug}
 ```
 
 This will:
+
 - Load article frontmatter
 - Apply portfolio design tokens (#00ff9d green, #00b8ff cyan, dark gradients)
 - Generate prompt with NO TEXT constraint
@@ -710,7 +712,7 @@ Before considering article complete:
 
 ## Example: Complete Workflow
 
-### User Input:
+### User Input
 
 ```
 @agent-blog-article-writer napisz artykuł o 5 technikach pracy z Claude Code
@@ -720,7 +722,7 @@ Artykuł ma być praktyczny, z przykładami kodu, dla programistów którzy
 już używają Claude Code ale chcą być bardziej produktywni.
 ```
 
-### Agent Response:
+### Agent Response
 
 **Phase 1 - Prime:**
 
@@ -847,7 +849,7 @@ git push origin main
 
 ### 3. Verify Production
 
-- Check article URL: https://pawellipowczan.pl/blog/{slug}
+- Check article URL: <https://pawellipowczan.pl/blog/{slug}>
 - Verify OG image displays in social media previews
 - Test all links (internal and external)
 - Check mobile responsiveness

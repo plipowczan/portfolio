@@ -192,19 +192,14 @@ const BlogPostPage = () => {
   // Flag to prevent scroll spy updates during manual scrolling
   const isManualScrollingRef = useRef(false);
 
-  // Track seen IDs to handle duplicates - use Map to store stable IDs per heading text
-  const headingIdsRef = useRef(new Map());
+  // Track used IDs to prevent duplicates
+  const usedIdsRef = useRef(new Set());
 
-  // Generate or retrieve stable slug for heading text
+  // Generate unique slug for heading text
   const generateSlug = (text) => {
     if (!text) return '';
 
-    // If we already have an ID for this exact text, return it
-    if (headingIdsRef.current.has(text)) {
-      return headingIdsRef.current.get(text);
-    }
-
-    const baseSlug = text
+    let baseSlug = text
       .toString()
       .toLowerCase()
       .trim()
@@ -212,23 +207,27 @@ const BlogPostPage = () => {
       .replace(/\s+/g, '-') // Replace spaces with hyphens
       .replace(/-+/g, '-'); // Remove consecutive hyphens
 
+    // Handle empty slugs from special-char-only headings
+    if (!baseSlug || baseSlug === '-') {
+      baseSlug = 'untitled';
+    }
+
     // Handle duplicate slugs by appending counter
     let finalSlug = baseSlug;
     let counter = 1;
-    const existingIds = new Set(headingIdsRef.current.values());
-    while (existingIds.has(finalSlug)) {
+    while (usedIdsRef.current.has(finalSlug)) {
       finalSlug = `${baseSlug}-${counter}`;
       counter++;
     }
 
-    // Store and return the stable ID
-    headingIdsRef.current.set(text, finalSlug);
+    // Track this ID as used
+    usedIdsRef.current.add(finalSlug);
     return finalSlug;
   };
 
-  // Reset heading IDs when post changes
+  // Reset used IDs when post changes
   useEffect(() => {
-    headingIdsRef.current.clear();
+    usedIdsRef.current.clear();
   }, [slug]);
 
   // Reference to content container for TOC extraction

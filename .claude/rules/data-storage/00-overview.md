@@ -7,18 +7,23 @@ This project uses a file-based data storage approach for content, primarily leve
 ## Blog Content System
 
 ### Architecture
+
 The blog system is built on a static file architecture:
+
 - **Source**: `src/content/blog/*.md`
 - **Loader**: `src/data/blogPosts.js` (uses Vite's `import.meta.glob`)
 - **Parser**: `gray-matter` for frontmatter extraction
 - **Renderer**: `react-markdown`
 
 ### File Structure
+
 Each blog post consists of two files in `src/content/blog/`:
+
 1. `[slug].md`: The published article (auto-generated or manually created).
 2. `[slug]_wsad.md`: Input file with key points/draft (source of truth for generation).
 
 ### Frontmatter Schema
+
 Every `.md` file MUST contain a valid frontmatter block:
 
 ```yaml
@@ -39,6 +44,7 @@ tags:                                   # List of tags
 ```
 
 ### Loading Mechanism
+
 Data is loaded eagerly at build time via `src/data/blogPosts.js`:
 
 ```javascript
@@ -55,6 +61,7 @@ const blogFiles = import.meta.glob("../content/blog/*.md", {
 ## Static Data
 
 Non-blog static data is stored in `src/data/`:
+
 - `projects.js`: Portfolio projects list.
 - `skills.js`: Technical skills categorization.
 
