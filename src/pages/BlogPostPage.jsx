@@ -1,6 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useMemo, useRef } from "react";
-import { FaCalendar, FaClock, FaTag, FaList, FaTimes } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { FaCalendar, FaClock, FaList, FaTag, FaTimes } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
 import rehypeRaw from "rehype-raw";
@@ -8,9 +8,9 @@ import remarkGfm from "remark-gfm";
 import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
+import { useBooking } from "../context/BookingContext";
 import { blogPosts } from "../data/blogPosts";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
-import { useBooking } from "../context/BookingContext";
 
 // Desktop TOC Sidebar Component - defined outside to prevent remounting
 const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
@@ -535,12 +535,32 @@ const BlogPostPage = () => {
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeRaw]}
                 components={{
-                  h1: ({ node, ...props }) => (
-                    <h2
-                      className="text-3xl font-bold text-white mt-10 mb-4"
-                      {...props}
-                    />
-                  ),
+                  h1: ({ node, children, ...props }) => {
+                    // Recursively extract text from children (handles arrays, nested elements)
+                    const extractText = (children) => {
+                      if (typeof children === 'string') return children;
+                      if (Array.isArray(children)) {
+                        return children.map(extractText).join('');
+                      }
+                      if (children?.props?.children) {
+                        return extractText(children.props.children);
+                      }
+                      return '';
+                    };
+
+                    const text = extractText(children);
+                    const id = generateSlug(text);
+
+                    return (
+                      <h2
+                        id={id}
+                        className="text-3xl font-bold text-white mt-10 mb-4"
+                        {...props}
+                      >
+                        {children}
+                      </h2>
+                    );
+                  },
                   h2: ({ node, children, ...props }) => {
                     // Recursively extract text from children (handles arrays, nested elements)
                     const extractText = (children) => {
