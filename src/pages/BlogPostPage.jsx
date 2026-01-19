@@ -61,7 +61,7 @@ const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
     >
       <div className="bg-dark-800/50 backdrop-blur-sm border border-white/10 rounded-xl p-6">
         <h2 className="text-base font-bold text-white mb-3">Spis treści</h2>
-        <ul className="space-y-1">
+        <ul className="space-y-0.5">
           {items.map((item) => (
             <li key={item.id} className={item.level === 'h3' ? 'pl-4' : ''}>
               <button
@@ -157,7 +157,7 @@ const TableOfContentsDrawer = ({ items, activeId, isOpen, onClose, onScrollToSec
 
               {/* TOC List */}
               <nav aria-label="Table of Contents">
-                <ul className="space-y-2">
+                <ul className="space-y-1">
                   {items.map((item) => (
                     <li key={item.id} className={item.level === 'h3' ? 'pl-4' : ''}>
                       <button
@@ -193,54 +193,69 @@ const BlogPostPage = () => {
   // Flag to prevent scroll spy updates during manual scrolling
   const isManualScrollingRef = useRef(false);
 
-  // Track used IDs to prevent duplicates
-  const usedIdsRef = useRef(new Set());
+  // Track ID counters per slug to generate consistent IDs across re-renders
+  // Key: heading text -> Value: assigned counter
+  const headingCountersRef = useRef(new Map());
 
-  // Generate unique slug for heading text
-  const generateSlug = (text) => {
-    if (!text) return '';
+  // Generate unique slug for heading text (memoized per article)
+  const generateSlug = useMemo(() => {
+    // Reset counters when post changes
+    headingCountersRef.current.clear();
 
-    // Transliterate Polish characters to their ASCII equivalents
-    // This ensures consistent, readable slugs instead of removing characters
-    const polishCharsMap = {
-      'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n',
-      'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
-      'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n',
-      'Ó': 'o', 'Ś': 's', 'Ź': 'z', 'Ż': 'z'
+    // Shared normalization function for consistent slug generation
+    const normalizeToSlug = (text) => {
+      if (!text) return '';
+
+      const polishCharsMap = {
+        'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n',
+        'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+        'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n',
+        'Ó': 'o', 'Ś': 's', 'Ź': 'z', 'Ż': 'z'
+      };
+
+      return text
+        .toString()
+        .trim()
+        // Replace Polish characters with ASCII equivalents (both upper and lowercase)
+        .replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, (char) => polishCharsMap[char] || char)
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove remaining special chars
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-') // Remove consecutive hyphens
+        .replace(/^-+|-+$/g, ''); // Trim hyphens from start/end
     };
 
-    let baseSlug = text
-      .toString()
-      .toLowerCase()
-      .trim()
-      // Replace Polish characters with ASCII equivalents
-      .replace(/[ąćęłńóśźż]/g, (char) => polishCharsMap[char] || char)
-      .replace(/[^\w\s-]/g, '') // Remove remaining special chars
-      .replace(/\s+/g, '-') // Replace spaces with hyphens
-      .replace(/-+/g, '-'); // Remove consecutive hyphens
+    return (text) => {
+    if (!text) return '';
+
+    let baseSlug = normalizeToSlug(text);
 
     // Handle empty slugs from special-char-only headings
     if (!baseSlug || baseSlug === '-') {
       baseSlug = 'untitled';
     }
 
-    // Handle duplicate slugs by appending counter
-    let finalSlug = baseSlug;
-    let counter = 1;
-    while (usedIdsRef.current.has(finalSlug)) {
-      finalSlug = `${baseSlug}-${counter}`;
-      counter++;
+    // Check if we've already assigned an ID for this exact text (cache for re-renders)
+    if (headingCountersRef.current.has(text)) {
+      const existingCounter = headingCountersRef.current.get(text);
+      const finalSlug = existingCounter === 0 ? baseSlug : `${baseSlug}-${existingCounter}`;
+      return finalSlug;
     }
 
-    // Track this ID as used
-    usedIdsRef.current.add(finalSlug);
-    return finalSlug;
-  };
+    // Find the next available counter for this base slug (for duplicates)
+    let counter = 0;
+    for (const [existingText, existingCounter] of headingCountersRef.current.entries()) {
+      const existingBase = normalizeToSlug(existingText);
+      if (existingBase === baseSlug && existingCounter >= counter) {
+        counter = existingCounter + 1;
+      }
+    }
 
-  // Reset used IDs when post changes
-  useEffect(() => {
-    usedIdsRef.current.clear();
-  }, [slug]);
+    const finalSlug = counter === 0 ? baseSlug : `${baseSlug}-${counter}`;
+    headingCountersRef.current.set(text, counter);
+    return finalSlug;
+    };
+  }, [post]);
 
   // Reference to content container for TOC extraction
   const contentRef = useRef(null);
@@ -317,6 +332,19 @@ const BlogPostPage = () => {
     return activeId;
   };
 
+  // Helper: Check if an H2 heading is an FAQ section by text content
+  // This matches the detection logic in faqExtractor.js for consistency
+  const isFAQSection = (heading) => {
+    if (heading.tagName.toLowerCase() !== 'h2') return false;
+    const text = heading.textContent.trim().toLowerCase();
+    return (
+      text.includes('faq') ||
+      text.includes('najczęściej zadawane pytania') ||
+      text.includes('pytania i odpowiedzi') ||
+      text.includes('najczesciej zadawane pytania') // Without Polish characters
+    );
+  };
+
   // Extract TOC items from rendered content
   const [contentElement, setContentElement] = useState(null);
   const [tocItems, setTocItems] = useState([]);
@@ -337,11 +365,29 @@ const BlogPostPage = () => {
 
         // Extract TOC immediately after contentElement is set
         const headings = contentRef.current.querySelectorAll('h2, h3');
-        const items = Array.from(headings).map((heading) => ({
-          id: heading.id,
-          text: heading.textContent,
-          level: heading.tagName.toLowerCase(),
-        }));
+
+        let currentlyInFAQ = false;
+
+        const items = Array.from(headings)
+          .map((heading) => {
+            const level = heading.tagName.toLowerCase();
+            const id = heading.id;
+
+            // Track if we're in FAQ section using text content detection
+            if (level === 'h2') {
+              currentlyInFAQ = isFAQSection(heading);
+            }
+
+            // Filter out H3s that are FAQ questions (keep FAQ H2 header)
+            const shouldInclude = !(level === 'h3' && currentlyInFAQ);
+
+            return shouldInclude ? {
+              id: id,
+              text: heading.textContent,
+              level: level,
+            } : null;
+          })
+          .filter(Boolean); // Remove nulls
 
         setTocItems(items);
 

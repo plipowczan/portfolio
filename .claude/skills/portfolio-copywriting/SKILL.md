@@ -76,11 +76,28 @@ tags:
 [Metryki, liczby, ROI]
 
 ## FAQ
+
+<details open>
+<summary>
+
 ### [Pytanie 1 - naturalne, 10-25 slow]
+
+</summary>
+
 [Snippet-style odpowiedz, 2-4 zdania. Kluczowa info na poczatku.]
 
+</details>
+
+<details open>
+<summary>
+
 ### [Pytanie 2...]
+
+</summary>
+
 [Odpowiedz...]
+
+</details>
 
 ## Kluczowe wnioski
 [Lista 3-5 wnioskow]
@@ -144,17 +161,31 @@ tags:
 
 Kazdy artykul musi zawierac sekcje FAQ zoptymalizowana pod AI/LLM (AEO - Answer Engine Optimization):
 
-**Struktura:**
+**Struktura z akordeonem:**
 ```markdown
 ## FAQ
 
+<details open>
+<summary>
+
 ### [Naturalne pytanie po polsku, 10-25 slow]
+
+</summary>
 
 [Snippet-style odpowiedz, 2-4 zdania. Kluczowa informacja w pierwszym zdaniu.]
 
+</details>
+
+<details open>
+<summary>
+
 ### [Kolejne pytanie...]
 
+</summary>
+
 [Odpowiedz...]
+
+</details>
 ```
 
 **Wytyczne:**
@@ -163,6 +194,8 @@ Kazdy artykul musi zawierac sekcje FAQ zoptymalizowana pod AI/LLM (AEO - Answer 
 - **Odpowiedzi:** 2-4 zdania, kluczowa info na poczatku
 - **Konkretnosc:** liczby, definicje, fakty, mini how-to
 - **Jezyk:** polski + angielskie terminy techniczne (jak w reszcie artykulu)
+- **Accordion:** Kazde pytanie w `<details open>` (default expanded dla SEO)
+- **Struktura:** H3 w `<summary>`, odpowiedz jako paragraf w details body
 
 **Szczegolowe guidelines:** `docs/blog/FAQ_TEMPLATE.md` i `docs/blog/FAQ_GUIDELINES.md`
 

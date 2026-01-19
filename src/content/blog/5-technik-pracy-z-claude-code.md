@@ -697,10 +697,78 @@ Teraz mój workflow z Claude Code jest przewidywalny. Efektywny. I co najważnie
 
 To transformacja, którą możesz mieć w swoim zespole. Wymaga to zmiany mindset z "AI to szybszy Google" na "AI to evolving development partner". Ale jeśli to zrobisz? Różnica będzie gigantyczna.
 
+## FAQ
+
+<details open>
+<summary>
+
+### Jak zacząć z PRD-first development jeśli nigdy wcześniej nie tworzyłem dokumentów projektowych?
+
+</summary>
+
+Zacznij od minimalnego PRD z czterema sekcjami: Target Users (dla kogo), Mission (co robi), In Scope (MVP features) i Out of Scope (co na później). Nie potrzebujesz 50-stronicowego dokumentu – wystarczy prosty markdown z kluczowymi decyzjami. PRD dla małego projektu może mieć dosłownie 20-30 linijek i już daje ogromną wartość jako single source of truth dla AI.
+
+</details>
+
+<details open>
+<summary>
+
+### Ile dokładnie reguł powinienem mieć w głównym pliku CLAUDE.md żeby nie przytłoczyć kontekstu LLM?
+
+</summary>
+
+Maksymalnie 200 linijek w głównym CLAUDE.md – tech stack, struktura projektu, podstawowe komendy i linki do reference docs. Wszystkie szczegółowe wzorce (API design, component patterns, testing) przenoś do osobnych plików w folderze reference. Claude Code automatycznie załaduje je tylko wtedy gdy pracujesz nad danym obszarem, oszczędzając cenne miejsce w oknie kontekstu.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy komendyfikacja workflow działa tylko z Claude Code czy mogę używać tych samych komend z ChatGPT lub innymi LLM?
+
+</summary>
+
+Komendy to zwykłe pliki markdown z instrukcjami workflow, więc działają z dowolnym LLM (ChatGPT, Claude, Cursor, Windsurf). Jedyna różnica to sposób ładowania – w Claude Code to slash commands, w ChatGPT kopiujesz zawartość jako prompt. Sama metodologia i struktura komend jest uniwersalna i przenośna między narzędziami.
+
+</details>
+
+<details open>
+<summary>
+
+### Dlaczego muszę resetować kontekst między planowaniem a wykonaniem zamiast zrobić wszystko w jednej sesji?
+
+</summary>
+
+Podczas planowania ładujesz TONY eksploracyjnego kontekstu (czytasz wiele plików, dyskutujesz o różnych podejściach), który zaśmieca okno kontekstu LLM. Reset daje agentowi czysty slate z maksymalną przestrzenią do rozumowania i self-validation podczas implementacji. To counterintuitive, ale empirycznie daje znacznie lepsze rezultaty – agent ma miejsce na quality checks zamiast walczyć z przeładowanym kontekstem.
+
+</details>
+
+<details open>
+<summary>
+
+### Czym dokładnie różni się claude-piv-skeleton od zwykłego używania Claude Code bez żadnego systemu?
+
+</summary>
+
+PIV Skeleton to gotowy framework z predefiniowanymi komendami (/prime, /plan-feature, /execute, /validate), strukturą folderów (.claude/commands, .claude/agents), szablonami dokumentów (PRD, rules) i procesem ewolucji systemu. Zamiast wymyślać workflow od zera, dostajesz sprawdzony system używany przez teams w produkcji – po prostu fork'ujesz repo i masz gotowe best practices. To jak różnica między pisaniem własnego framework'a a użyciem Next.js.
+
+</details>
+
+<details open>
+<summary>
+
+### Ile czasu realistycznie zajmuje wdrożenie tych 5 technik w istniejącym projekcie który już trwa kilka miesięcy?
+
+</summary>
+
+Start small – dzień 1: stwórz minimalny PRD (1-2h), dzień 2: lekki CLAUDE.md + jedna komenda /prime (1-2h), tydzień 1: dodaj /plan-feature i /execute (2-3h łącznie). Nie implementuj wszystkiego naraz. Po 2 tygodniach pracy z systemem zobaczysz naturalne miejsca do dodania kolejnych komend i reguł. Brownfield projects wymagają około 5-8 godzin total setup, ale ROI widzisz już po pierwszej sesji z nowym workflow.
+
+</details>
+
 ---
 
 <div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
-  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Chcesz wdrożyć AI w swoim zespole?</h3>
+  <p class="text-2xl md:text-3xl font-bold text-white mb-4">Chcesz wdrożyć AI w swoim zespole?</p>
   <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
     Pomogę Ci zbudować system pracy z agentami AI, który zwiększy produktywność Twojego zespołu. Od strategii przez implementację po szkolenia.
   </p>

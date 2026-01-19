@@ -207,30 +207,70 @@ Each question should address **one clear user intent**:
 
 ## Technical Implementation
 
-### HTML Structure
+### HTML Structure with Accordion
 
-FAQ sections use **semantic HTML** for accessibility and AI parsing:
+FAQ sections use **semantic HTML with native accordion** for better UX and accessibility:
 
 ```markdown
 ## FAQ
 
+<details open>
+<summary>
+
 ### [Question text]
+
+</summary>
 
 [Answer text]
 
+</details>
+
+<details open>
+<summary>
+
 ### [Question text]
 
+</summary>
+
 [Answer text]
+
+</details>
 ```
 
 **Renders as**:
 ```html
 <h2 id="faq">FAQ</h2>
-<h3 id="question-slug">[Question text]</h3>
-<p>[Answer text]</p>
-<h3 id="question-slug-2">[Question text 2]</h3>
-<p>[Answer text 2]</p>
+
+<details open>
+  <summary>
+    <h3 id="question-slug">[Question text]</h3>
+  </summary>
+  <p>[Answer text]</p>
+</details>
+
+<details open>
+  <summary>
+    <h3 id="question-slug-2">[Question text 2]</h3>
+  </summary>
+  <p>[Answer text 2]</p>
+</details>
 ```
+
+### Accordion Benefits
+
+**Why use `<details>` accordion?**
+1. **Progressive Enhancement**: Works without JavaScript
+2. **Native Accessibility**: Built-in keyboard support (Space/Enter to toggle)
+3. **SEO-Friendly**: `open` attribute shows content by default
+4. **LLM-Compatible**: Bots read expanded content from HTML
+5. **Better UX**: Users can collapse answers they don't need
+6. **Clean Design**: Reduces visual clutter on long FAQs
+
+**Why `open` attribute?**
+- Content visible by default = indexed by search engines
+- LLM bots see all answers without JavaScript execution
+- Users get immediate value (can collapse if desired)
+- Best of both worlds: accessibility + interactivity
 
 ### FAQPage Schema Auto-Generation
 
@@ -274,14 +314,20 @@ FAQ sections are detected by:
 
 **Important**: Only the first FAQ section is used if multiple exist.
 
-### No JavaScript-Only Content
+### Content Visibility for Bots
 
 **Critical**: FAQ content must be in **HTML DOM**, not only in JavaScript.
 
-❌ **DON'T**: Accordion that hides answers in JS-only state
-✅ **DO**: Plain HTML with optional JavaScript enhancement
+❌ **DON'T**: JavaScript-only accordion that requires JS execution to show content
+✅ **DO**: Native HTML `<details open>` accordion (content in DOM, works without JS)
 
-**Reason**: AI bots and crawlers read HTML, not JS execution results.
+**Our Implementation**: Native `<details>` elements with `open` attribute
+- Content is **always in HTML**, visible to bots
+- Browser handles collapse/expand natively (no JS required)
+- Works even if JavaScript is disabled
+- AI bots see all answers via `textContent` extraction
+
+**Reason**: AI bots and crawlers read HTML DOM, not JS-rendered results.
 
 ---
 

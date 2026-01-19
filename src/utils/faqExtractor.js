@@ -52,7 +52,7 @@ export function extractFAQ(contentElement) {
     console.warn('[FAQ Extractor] Multiple FAQ sections detected. Only the first one will be used for schema generation.');
   }
 
-  // Extract FAQ items (H3 questions + following p answers)
+  // Extract FAQ items - supports both accordion and plain structure
   const faqItems = [];
   let currentElement = faqSection.nextElementSibling;
 
@@ -62,8 +62,65 @@ export function extractFAQ(contentElement) {
       break;
     }
 
-    // H3 = Question
-    if (currentElement.tagName === 'H3') {
+    // Check for accordion structure: <details><summary><h3>Q</h3></summary><p>A</p></details>
+    if (currentElement.tagName === 'DETAILS') {
+      const summary = currentElement.querySelector('summary');
+      const h3 = summary ? summary.querySelector('h3') : null;
+
+      if (h3) {
+        const question = sanitizeText(h3.textContent);
+
+        // Collect all paragraphs inside <details> but NOT in <summary>
+        const answerParagraphs = [];
+        const paragraphs = currentElement.querySelectorAll('p');
+
+        paragraphs.forEach(p => {
+          // Check if paragraph is inside summary (skip it)
+          if (!summary.contains(p)) {
+            answerParagraphs.push(sanitizeText(p.textContent));
+          }
+        });
+
+        let answer = answerParagraphs.join(' ').trim();
+
+        // Fallback: If no <p> tags found, extract text content directly
+        // This handles markdown rendered without explicit paragraph wrapping
+        if (!answer) {
+          // Collect text from all child nodes except summary
+          const textNodes = [];
+          const walker = document.createTreeWalker(
+            currentElement,
+            NodeFilter.SHOW_TEXT,
+            {
+              acceptNode: (node) => {
+                // Reject text nodes inside summary
+                return summary && summary.contains(node)
+                  ? NodeFilter.FILTER_REJECT
+                  : NodeFilter.FILTER_ACCEPT;
+              }
+            }
+          );
+
+          let node;
+          while (node = walker.nextNode()) {
+            const text = node.textContent.trim();
+            if (text) {
+              textNodes.push(text);
+            }
+          }
+
+          answer = sanitizeText(textNodes.join(' '));
+        }
+
+        if (question && answer) {
+          faqItems.push({ question, answer });
+        } else if (question && !answer) {
+          console.warn(`[FAQ Extractor] Question without answer: "${question}"`);
+        }
+      }
+    }
+    // Plain structure: H3 = Question, following P = Answer
+    else if (currentElement.tagName === 'H3') {
       const question = sanitizeText(currentElement.textContent);
 
       // Collect all following paragraphs until next H3 or H2
@@ -82,7 +139,6 @@ export function extractFAQ(contentElement) {
 
       const answer = answerParagraphs.join(' ').trim();
 
-      // Only add if both question and answer exist
       if (question && answer) {
         faqItems.push({ question, answer });
       } else if (question && !answer) {

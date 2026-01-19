@@ -41,8 +41,9 @@ Skill(
     - 4-6 questions optimized for LLM discovery
     - Natural Polish questions (10-25 words each)
     - Snippet-style answers (2-4 sentences, key info first)
+    - Wrap each Q&A in `<details open>` accordion
     - H2 header: '## FAQ'
-    - Questions as H3, answers as paragraphs
+    - Questions as H3 inside `<summary>`, answers as paragraphs in details body
   - ALL code blocks must have language tags (use 'text' if no specific language)
   - Never polonize English technical terms (no 'komendyfikacja')
   - Pawel's voice: direct, practical, personal
