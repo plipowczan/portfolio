@@ -21,6 +21,7 @@
 **Purpose**: Create FAQ sections optimized for AI/LLM discovery and Answer Engine Optimization (AEO).
 
 **Target AI Systems**:
+
 - ChatGPT (OpenAI)
 - Perplexity AI
 - Claude (Anthropic)
@@ -29,6 +30,7 @@
 - Bing Copilot
 
 **Key Principles**:
+
 1. **Natural Language**: Full questions, not keywords
 2. **Snippet-Ready**: 2-4 sentence answers with key info first
 3. **Structured Data**: FAQPage schema for machine consumption
@@ -77,6 +79,7 @@ Traditional SEO optimizes for search engines (Google, Bing).
 ### Core Principles
 
 **✅ DO**:
+
 - Write full, natural questions (10-25 words)
 - Use conversational language
 - Include context in the question itself
@@ -85,6 +88,7 @@ Traditional SEO optimizes for search engines (Google, Bing).
 - Mirror how users actually search/ask
 
 **❌ DON'T**:
+
 - Use keyword-only questions ("AI FAQ")
 - Write vague, generic questions
 - Mix multiple intents in one question
@@ -94,6 +98,7 @@ Traditional SEO optimizes for search engines (Google, Bing).
 ### Question Length: 10-25 Words
 
 **Why 10-25 words?**
+
 - **Too short (< 10 words)**: Lacks context, ambiguous intent
 - **Sweet spot (10-25 words)**: Complete thought, clear intent, conversational
 - **Too long (> 25 words)**: Overwhelming, multiple intents, loses focus
@@ -114,6 +119,7 @@ Traditional SEO optimizes for search engines (Google, Bing).
 **Pattern**: Natural Polish with English technical terms (unchanged).
 
 **Rationale**:
+
 - Matches existing blog style
 - Technical terms are universal (API, schema, JSON)
 - Polish readers expect English tech vocabulary
@@ -149,6 +155,7 @@ Each question should address **one clear user intent**:
 **Format**: 2-4 sentences with key information in the first sentence.
 
 **Why Snippet-Style?**
+
 - AI/LLMs extract first sentence as "answer"
 - Google Featured Snippets prioritize concise answers
 - Users scan for quick information
@@ -176,6 +183,7 @@ Each question should address **one clear user intent**:
 ### Content Types to Include
 
 **Concrete Elements** (AI/LLM-friendly):
+
 - **Numbers**: "4-6 pytań", "10-25 słów", "2-4 zdania"
 - **Definitions**: "FAQPage schema to...", "AEO oznacza..."
 - **Steps**: "Najpierw X, następnie Y, na końcu Z"
@@ -184,12 +192,14 @@ Each question should address **one clear user intent**:
 - **Facts**: "Research pokazuje, że...", "85% AI botów..."
 
 **Avoid Vague Language**:
+
 - ❌ "to zależy", "może być", "zwykle", "czasami"
 - ✅ Specific conditions: "jeśli X, wtedy Y", "w przypadku Z, użyj W"
 
 ### Link to Sources
 
 **Enhance Authority** with external links:
+
 - Research papers
 - Official documentation (Google, OpenAI)
 - Case studies
@@ -197,6 +207,7 @@ Each question should address **one clear user intent**:
 - Statistics sources
 
 **Format**:
+
 ```markdown
 [Google Rich Results Test](https://search.google.com/test/rich-results)
 ```
@@ -238,6 +249,7 @@ FAQ sections use **semantic HTML with native accordion** for better UX and acces
 ```
 
 **Renders as**:
+
 ```html
 <h2 id="faq">FAQ</h2>
 
@@ -259,6 +271,7 @@ FAQ sections use **semantic HTML with native accordion** for better UX and acces
 ### Accordion Benefits
 
 **Why use `<details>` accordion?**
+
 1. **Progressive Enhancement**: Works without JavaScript
 2. **Native Accessibility**: Built-in keyboard support (Space/Enter to toggle)
 3. **SEO-Friendly**: `open` attribute shows content by default
@@ -267,6 +280,7 @@ FAQ sections use **semantic HTML with native accordion** for better UX and acces
 6. **Clean Design**: Reduces visual clutter on long FAQs
 
 **Why `open` attribute?**
+
 - Content visible by default = indexed by search engines
 - LLM bots see all answers without JavaScript execution
 - Users get immediate value (can collapse if desired)
@@ -277,6 +291,7 @@ FAQ sections use **semantic HTML with native accordion** for better UX and acces
 The system automatically generates FAQPage schema from FAQ content:
 
 **Input** (Markdown):
+
 ```markdown
 ## FAQ
 
@@ -286,6 +301,7 @@ FAQ schema to structured data format dla Google.
 ```
 
 **Output** (JSON-LD):
+
 ```json
 {
   "@context": "https://schema.org",
@@ -306,6 +322,7 @@ FAQ schema to structured data format dla Google.
 ### Detection Logic
 
 FAQ sections are detected by:
+
 1. **H2 heading** containing one of:
    - "FAQ"
    - "Najczęściej zadawane pytania"
@@ -322,6 +339,7 @@ FAQ sections are detected by:
 ✅ **DO**: Native HTML `<details open>` accordion (content in DOM, works without JS)
 
 **Our Implementation**: Native `<details>` elements with `open` attribute
+
 - Content is **always in HTML**, visible to bots
 - Browser handles collapse/expand natively (no JS required)
 - Works even if JavaScript is disabled
@@ -338,14 +356,16 @@ FAQ sections are detected by:
 **The FAQ section must be placed at the very end of the article**, after the Conclusion, CTA, and Resources/References sections.
 
 **Why?**
-1.  **Reading Flow**: Readers who read the full article get core value first without interruption.
-2.  **Skimmers**: Users looking for quick answers often scroll to the bottom.
-3.  **Bot Efficiency**: Bots scanning for structured data find it consistently in the footer area.
-4.  **AEO Standard**: Matches the pattern of "related questions" often found at the bottom of SERPs.
+
+1. **Reading Flow**: Readers who read the full article get core value first without interruption.
+2. **Skimmers**: Users looking for quick answers often scroll to the bottom.
+3. **Bot Efficiency**: Bots scanning for structured data find it consistently in the footer area.
+4. **AEO Standard**: Matches the pattern of "related questions" often found at the bottom of SERPs.
 
 ### When to Add FAQ
 
 **Always Add FAQ When**:
+
 - Tutorial/how-to article
 - Comparison article (X vs Y)
 - Technical deep-dive
@@ -353,6 +373,7 @@ FAQ sections are detected by:
 - Troubleshooting guide
 
 **Consider Skipping FAQ When**:
+
 - Very short article (< 1000 words)
 - Pure opinion piece
 - News/announcement
@@ -372,6 +393,7 @@ FAQ sections are detected by:
 ### Question Selection Strategy
 
 **Prioritize**:
+
 1. **Follow-up questions** readers ask after main content
 2. **Clarifications** of complex points
 3. **Common objections** or concerns
@@ -380,6 +402,7 @@ FAQ sections are detected by:
 6. **Troubleshooting** common issues
 
 **Don't Include**:
+
 - Questions fully answered in main article (redundancy)
 - Off-topic or tangentially related questions
 - Yes/no questions without explanation
@@ -390,10 +413,12 @@ FAQ sections are detected by:
 **Critical**: FAQ content and schema must match exactly.
 
 ✅ **Correct**:
+
 - HTML: "Jak działa FAQ schema?"
 - Schema: "Jak działa FAQ schema?"
 
 ❌ **Incorrect**:
+
 - HTML: "Jak działa FAQ schema?"
 - Schema: "Jak działa schemat FAQ?" (mismatch!)
 
@@ -466,6 +491,7 @@ FAQPage schema to structured data format, który pozwala AI botom i wyszukiwarko
 ```
 
 **Why This Works**:
+
 - ✅ Natural, full questions (15-20 words)
 - ✅ Clear intent (how-to, why)
 - ✅ Snippet-style answers (3 sentences)
@@ -490,6 +516,7 @@ Google Rich Results Test (https://search.google.com/test/rich-results) to primar
 ```
 
 **Why This Works**:
+
 - ✅ Technical questions with context
 - ✅ How-to answers with concrete steps
 - ✅ Tool recommendations with URLs
@@ -502,6 +529,7 @@ Google Rich Results Test (https://search.google.com/test/rich-results) to primar
 ### ❌ Pitfall 1: Keyword-Only Questions
 
 **Bad**:
+
 ```markdown
 ### FAQ AI?
 ```
@@ -509,6 +537,7 @@ Google Rich Results Test (https://search.google.com/test/rich-results) to primar
 **Why Bad**: No clear intent, not conversational, AI can't extract meaning.
 
 **Good**:
+
 ```markdown
 ### Jak zoptymalizować FAQ pod AI chatboty takie jak ChatGPT?
 ```
@@ -518,6 +547,7 @@ Google Rich Results Test (https://search.google.com/test/rich-results) to primar
 ### ❌ Pitfall 2: Vague Answers
 
 **Bad**:
+
 ```markdown
 To zależy od wielu czynników i może być różnie w zależności od sytuacji.
 ```
@@ -525,6 +555,7 @@ To zależy od wielu czynników i może być różnie w zależności od sytuacji.
 **Why Bad**: No concrete information, AI can't extract useful data.
 
 **Good**:
+
 ```markdown
 Optymalna liczba to 4-6 pytań, które pokrywają najczęstsze follow-up questions czytelników.
 ```
@@ -544,6 +575,7 @@ Optymalna liczba to 4-6 pytań, które pokrywają najczęstsze follow-up questio
 ### ❌ Pitfall 4: Unexplained Acronyms
 
 **Bad**:
+
 ```markdown
 ### Jak używać AEO w SPA z CSR?
 ```
@@ -551,6 +583,7 @@ Optymalna liczba to 4-6 pytań, które pokrywają najczęstsze follow-up questio
 **Why Bad**: Acronyms without context confuse non-experts and AI.
 
 **Good**:
+
 ```markdown
 ### Jak zastosować Answer Engine Optimization (AEO) w Single Page Application (SPA) z client-side rendering?
 ```
@@ -560,6 +593,7 @@ Optymalna liczba to 4-6 pytań, które pokrywają najczęstsze follow-up questio
 ### ❌ Pitfall 5: Yes/No Questions Without Explanation
 
 **Bad**:
+
 ```markdown
 ### Czy FAQ pomaga w SEO?
 
@@ -569,6 +603,7 @@ Tak.
 **Why Bad**: Too short, no value, AI skips it.
 
 **Good**:
+
 ```markdown
 ### Czy FAQ z FAQPage schema poprawia SEO i pozycje w wyszukiwarce Google?
 
@@ -583,9 +618,9 @@ Tak, FAQ z poprawnym FAQPage schema zwiększa szanse na featured snippets w Goog
 
 | Tool | Purpose | URL |
 |------|---------|-----|
-| **Google Rich Results Test** | Validate FAQPage schema for Google | https://search.google.com/test/rich-results |
-| **Schema.org Validator** | General schema.org compliance | https://validator.schema.org/ |
-| **Google Search Console** | Monitor schema performance | https://search.google.com/search-console |
+| **Google Rich Results Test** | Validate FAQPage schema for Google | <https://search.google.com/test/rich-results> |
+| **Schema.org Validator** | General schema.org compliance | <https://validator.schema.org/> |
+| **Google Search Console** | Monitor schema performance | <https://search.google.com/search-console> |
 | **Lighthouse** | SEO & Accessibility audit | Chrome DevTools |
 
 ### How to Validate
@@ -600,6 +635,7 @@ Tak, FAQ z poprawnym FAQPage schema zwiększa szanse na featured snippets w Goog
 ### Manual Verification
 
 **Browser DevTools**:
+
 1. Open article in browser
 2. Open DevTools (F12)
 3. Go to Elements tab
@@ -643,6 +679,7 @@ Tak, FAQ z poprawnym FAQPage schema zwiększa szanse na featured snippets w Goog
 **Maintainer**: Pawel Lipowczan
 **Last Updated**: 2026-01-18
 **Related Files**:
+
 - `docs/blog/FAQ_TEMPLATE.md` - Quick reference template
 - `.claude/agents/plans/llm-optimized-faq-sections.md` - Feature implementation plan
 - `src/utils/faqExtractor.js` - FAQ extraction utility

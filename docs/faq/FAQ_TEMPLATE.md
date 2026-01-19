@@ -3,12 +3,14 @@
 ## Purpose
 
 This template provides the structure for creating FAQ sections in blog articles that are optimized for:
+
 - **AI/LLM consumption** (ChatGPT, Perplexity, Claude, Gemini)
 - **Answer Engine Optimization (AEO)**
 - **Google Rich Results** (FAQPage schema)
 - **User experience** (quick answers to follow-up questions)
 
 ## Placement
+
 **ALWAYS place the FAQ section at the very end of the article**, after the Conclusion, CTA, and Resources/References sections.
 
 ## Template Structure
@@ -64,6 +66,7 @@ Copy and paste this structure into your blog article markdown file:
 ```
 
 **Important Notes:**
+
 - Each question-answer pair is wrapped in `<details open>` tags for collapsible accordion UX
 - The `open` attribute ensures questions are expanded by default (SEO-friendly)
 - Questions are H3 headings inside `<summary>` tags
@@ -123,6 +126,7 @@ Użyj Google Rich Results Test (https://search.google.com/test/rich-results) wkl
 ## Guidelines Summary
 
 **Questions:**
+
 - Full, natural prompts (not keywords)
 - 10-25 words
 - Conversational language
@@ -130,6 +134,7 @@ Użyj Google Rich Results Test (https://search.google.com/test/rich-results) wkl
 - Polish with technical English terms
 
 **Answers:**
+
 - Snippet-style: 2-4 sentences
 - Key info in first sentence
 - Concrete facts, numbers, definitions, mini how-tos
@@ -137,6 +142,7 @@ Użyj Google Rich Results Test (https://search.google.com/test/rich-results) wkl
 - Avoid unexplained jargon
 
 **Technical:**
+
 - Use accordion structure: `<details open>` wrapping each Q&A pair
 - FAQ section header: "## FAQ"
 - Questions as H3 inside `<summary>`: "### [Question text]"
@@ -147,6 +153,7 @@ Użyj Google Rich Results Test (https://search.google.com/test/rich-results) wkl
 ## Common Mistakes to Avoid
 
 ❌ **DON'T:**
+
 - Use keyword-only questions ("AI FAQ")
 - Write generic, vague answers
 - Duplicate entire sections from main article
@@ -155,6 +162,7 @@ Użyj Google Rich Results Test (https://search.google.com/test/rich-results) wkl
 - Create FAQ with more than 8 questions (overwhelming)
 
 ✅ **DO:**
+
 - Write full, natural questions readers would ask
 - Provide specific, actionable answers
 - Link to sources, case studies, research
