@@ -396,6 +396,7 @@ The blog-article-writer agent **automatically includes FAQ section** in every ar
 ```
 
 **Guidelines Summary:**
+- **Placement:** ALWAYS at the very end of the article (after Conclusion, CTA, Resources)
 - **Questions:** Full, natural prompts (10-25 words), conversational, one intent per question
 - **Answers:** Snippet-style (2-4 sentences), key info in first sentence, concrete facts
 - **Count:** 4-6 questions per article (optimal)

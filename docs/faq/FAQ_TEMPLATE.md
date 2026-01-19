@@ -8,6 +8,9 @@ This template provides the structure for creating FAQ sections in blog articles 
 - **Google Rich Results** (FAQPage schema)
 - **User experience** (quick answers to follow-up questions)
 
+## Placement
+**ALWAYS place the FAQ section at the very end of the article**, after the Conclusion, CTA, and Resources/References sections.
+
 ## Template Structure
 
 Copy and paste this structure into your blog article markdown file:

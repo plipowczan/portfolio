@@ -333,6 +333,16 @@ FAQ sections are detected by:
 
 ## Content Strategy
 
+### Placement
+
+**The FAQ section must be placed at the very end of the article**, after the Conclusion, CTA, and Resources/References sections.
+
+**Why?**
+1.  **Reading Flow**: Readers who read the full article get core value first without interruption.
+2.  **Skimmers**: Users looking for quick answers often scroll to the bottom.
+3.  **Bot Efficiency**: Bots scanning for structured data find it consistently in the footer area.
+4.  **AEO Standard**: Matches the pattern of "related questions" often found at the bottom of SERPs.
+
 ### When to Add FAQ
 
 **Always Add FAQ When**:
