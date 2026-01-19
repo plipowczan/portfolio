@@ -1,8 +1,8 @@
 # Portfolio Prime Context
 
-**Last Updated:** 2026-01-16
+**Last Updated:** 2026-01-18
 **Branch:** main
-**Commit:** d72a13e7efd32764aa366874e0d45c22175591b7
+**Commit:** aed46b25975747ce722f14452015c7669c7e0f01
 
 ## Project Overview
 
@@ -24,7 +24,7 @@
 - **Animations:** Framer Motion 12.23.24 (declarative animations)
 - **Routing:** React Router DOM 7.9.6 (client-side routing)
 - **SEO:** React Helmet Async 2.0.5 + Puppeteer prerendering
-- **State Management:** Local state + props (no global state manager)
+- **State Management:** Local state + props (Context API for global concerns)
 - **HTTP Client:** Fetch API (native)
 
 ### Backend (Static Data)
@@ -87,18 +87,21 @@ src/components/
 - Routes defined in `App.jsx`
 - Page components in `src/pages/`
 - Dynamic routes: `/blog/:slug`, `/projects/:slug`
+- Hash navigation handled in Navigation and Home components
 
 **SEO Pattern:**
 - React Helmet Async for meta tags
 - Unique title and description per page
 - OpenGraph images for social media
 - Prerendering for search engines (Puppeteer)
+- Structured data (JSON-LD) for rich snippets
 
 **Animation Pattern:**
 - Framer Motion for complex animations
 - CSS transitions for simple hover states
 - `useReducedMotion` hook for accessibility
 - Variants for orchestrated animations
+- Animate `transform` and `opacity` only (performance)
 
 **Booking Modal Architecture:**
 - Global modal state managed via BookingContext
@@ -140,6 +143,7 @@ tags:                                   # List of tags
 - Required field checks
 - Type validation (id must be number)
 - Files starting with `_` or ending with `_wsad.md` are excluded
+- Files named `README.md` are excluded
 
 **Static Data Files:**
 - `src/data/projects.js` - Portfolio projects (9 projects)
@@ -211,6 +215,7 @@ portfolio/
 │   │   └── index.css           # Global styles, custom animations
 │   │
 │   ├── utils/                  # Helper functions
+│   │   └── constants.js        # Navigation links, constants
 │   │
 │   ├── App.jsx                 # Route definitions
 │   └── main.jsx                # Application entry point
@@ -232,9 +237,10 @@ portfolio/
 ## Configuration Files
 
 ### Key Configuration Files
-- `vite.config.js` - Vite build configuration, dev server settings
+- `vite.config.js` - Vite build configuration, dev server settings, node polyfills
 - `tailwind.config.js` - Theme, colors, animations, content paths
-- `playwright.config.js` - E2E test configuration (3 browsers + 2 mobile)
+- `playwright.config.js` - E2E test configuration (5 browsers: 3 desktop + 2 mobile)
+- `vercel.json` - Vercel deployment configuration, routing, security headers
 - `.claude/settings.local.json` - Claude Code settings (permissions, skills)
 - `package.json` - Dependencies, scripts, project metadata
 
@@ -257,6 +263,7 @@ portfolio/
 ### Content & Assets
 - **Formspree** - Contact form handling (via VITE_FORM_ENDPOINT)
 - **Google Gemini API** - OG image generation (gemini-3-pro-image-preview)
+- **Zencal** - Booking widget for consultation scheduling
 
 ### Development Tools
 - **Puppeteer** - Prerendering for SEO
@@ -285,6 +292,10 @@ portfolio/
 - SEO meta tags
 - Accessibility (WCAG 2.1 AA)
 - Responsiveness (mobile + desktop)
+- Booking CTA integration
+- Breadcrumbs
+- Policy pages
+- Testimonials
 
 **Running Tests:**
 ```bash
@@ -292,6 +303,9 @@ npm test                  # Run all tests
 npm run test:headed       # Run with visible browser
 npm run test:ui           # Interactive test UI
 npm run test:chrome       # Chromium only
+npm run test:firefox      # Firefox only
+npm run test:webkit       # WebKit only
+npm run test:mobile       # Mobile Chrome + Safari
 ```
 
 ---
@@ -317,12 +331,17 @@ npm run blog:sitemap      # Update sitemap.xml with blog posts
 npm run img:convert       # Convert images to WebP format
 npm run img:generate      # Generate OG image (Gemini API)
 npm run og:check          # Check OG image dimensions
+npm run og:resize         # Resize OG images
+npm run og:apply          # Apply OG image resize
+npm run og:preview        # Preview OG image resize
 ```
 
 ### Testing
 ```bash
 npm test                  # Run Playwright E2E tests
 npm run test:ui           # Interactive test UI
+npm run test:debug        # Debug mode
+npm run test:report       # Show last test report
 ```
 
 ---
@@ -330,6 +349,10 @@ npm run test:ui           # Interactive test UI
 ## Recent Activity
 
 ```
+aed46b2 Enhance documentation and refactor BlogPostPage for improved slug generation
+31ae407 Refactor BlogPostPage component for improved heading ID generation
+febefd7 Refactor blog article IDs for improved organization and consistency
+ec1994b Update blog article IDs for consistency and organization
 d72a13e Implement global booking modal architecture and enhance CTA integration
 b3be3d1 Enhance blog article workflow documentation and validation process
 b5330ae Refactor BlogPostPage component to improve code readability and clarity
@@ -340,14 +363,13 @@ ee1f360 updated blog-writer agent workflow using PIV
 91c1d3c adjustments to piv methodology
 57655a1 added gitkeep for scripts folder
 611d1df Add new blog article: "5 technik pracy z Claude Code"
+bc9afaf Update PRD, SRS, and documentation; enhance booking CTA tests
 ```
 
 ### Current State
 - **Branch:** main
-- **Status:** Working directory has modified files
-- **Modified Files:**
-  - `src/components/widgets/ZencalWidget.jsx`
-- **Last Commit:** Implement global booking modal architecture and enhance CTA integration
+- **Status:** Clean working directory
+- **Last Commit:** Enhance documentation and refactor BlogPostPage for improved slug generation
 
 ---
 
@@ -389,7 +411,7 @@ ee1f360 updated blog-writer agent workflow using PIV
 **Git Workflow:**
 - Branch naming: `feature/name`, `fix/name`
 - Conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`
-- Never commit directly to main
+- Never commit directly to main (except for updates that don't require a feature branch)
 - Co-authored commits: `Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>`
 
 ### PIV Methodology

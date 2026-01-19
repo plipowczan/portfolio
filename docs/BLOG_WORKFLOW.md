@@ -371,6 +371,112 @@ Starting automatic validation...
 
 ---
 
+### FAQ Section (Frequently Asked Questions)
+
+**Purpose:**
+- Optimize article for AI/LLM consumption (ChatGPT, Perplexity, Claude)
+- Answer Engine Optimization (AEO)
+- Google Rich Results (FAQPage schema)
+- Quick answers to reader follow-up questions
+
+**Implementation:**
+The blog-article-writer agent **automatically includes FAQ section** in every article.
+
+**Structure:**
+```markdown
+## FAQ
+
+### [Natural question prompt in Polish, 10-25 words]
+
+[Snippet-style answer, 2-4 sentences. Key info first.]
+
+### [Next question...]
+
+[Answer...]
+```
+
+**Guidelines Summary:**
+- **Placement:** ALWAYS at the very end of the article (after Conclusion, CTA, Resources)
+- **Questions:** Full, natural prompts (10-25 words), conversational, one intent per question
+- **Answers:** Snippet-style (2-4 sentences), key info in first sentence, concrete facts
+- **Count:** 4-6 questions per article (optimal)
+- **Language:** Polish with technical English terms (unchanged)
+- **Schema:** FAQPage structured data auto-generated from content
+
+**Technical:**
+- FAQ sections detected automatically (H2 with "FAQ" text)
+- FAQPage JSON-LD schema generated at runtime
+- Renders as semantic HTML: H2 → H3 → p
+- Schema validates in Google Rich Results Test
+
+**Resources:**
+- **Template:** `docs/blog/FAQ_TEMPLATE.md` - Quick reference
+- **Guidelines:** `docs/blog/FAQ_GUIDELINES.md` - Comprehensive LLM optimization guide
+- **Implementation:** `src/utils/faqExtractor.js` - FAQ extraction & schema generation
+
+---
+
+### Spis treści (Table of Contents)
+
+**Automatyczne generowanie:**
+- TOC generuje się automatycznie z nagłówków H2 (`##`) i H3 (`###`) w artykule
+- TOC wyświetla się tylko gdy artykuł ma **co najmniej 2 nagłówki**
+- ID sekcji generowane są automatycznie z tekstu nagłówka (slug-based)
+- **FAQ section included in TOC automatically**
+
+**Wyświetlanie:**
+- **Desktop (≥1024px):** Sticky sidebar po prawej stronie artykułu
+- **Mobile (<1024px):** FAB (Floating Action Button) w prawym dolnym rogu + drawer
+
+**Funkcje:**
+- Smooth scrolling do sekcji po kliknięciu
+- Aktywne podświetlanie bieżącej sekcji (scroll spy)
+- Hierarchiczna struktura (H3 zagnieżdżone pod H2)
+
+**Wytyczne dla autorów:**
+
+✅ **DO:**
+- Używaj nagłówków H2 (`##`) dla głównych sekcji
+- Używaj nagłówków H3 (`###`) dla podsekcji
+- Twórz opisowe, zwięzłe nagłówki (idealne: 3-8 słów)
+- Zachowaj hierarchię: H2 → H3 (nie przeskakuj poziomów)
+- Minimum 2 nagłówki dla TOC (idealne: 5-8 dla długich artykułów)
+
+❌ **DON'T:**
+- Nie używaj H1 (`#`) w treści artykułu (zarezerwowany dla tytułu)
+- Nie twórz bardzo długich nagłówków (>80 znaków)
+- Nie używaj nagłówków głębszych niż H3 (H4, H5, H6 nie są w TOC)
+- Nie duplikuj tekstów nagłówków (generuje nieunikalne ID)
+- Nie używaj emoji lub znaków specjalnych w nagłówkach
+
+**Przykład dobrej struktury:**
+
+```markdown
+## Wprowadzenie
+
+Tekst wprowadzenia...
+
+## Główna sekcja 1
+
+### Podsekcja 1.1
+
+### Podsekcja 1.2
+
+## Główna sekcja 2
+
+### Podsekcja 2.1
+
+## Podsumowanie
+```
+
+**TOC Accessibility:**
+- TOC ma właściwe ARIA labels (`aria-label="Table of Contents"`)
+- Keyboard navigation support (Tab, Enter)
+- Focus indicators visible
+- Screen reader friendly
+
+---
+
 ### Step 7: Validate Phase (Automatic)
 
 **What happens:**
@@ -389,6 +495,7 @@ The agent validates quality across 6 levels:
 - ✅ Code blocks have language tags
 - ✅ No polonized terms (e.g., "komendyfikacja")
 - ✅ Structure is correct (H2/H3 hierarchy)
+- ✅ **TOC-ready:** At least 2 headings for auto-generated Table of Contents
 
 #### Level 3: SEO Validation
 

@@ -722,3 +722,60 @@ Powodzenia. I pamiętaj - **$20 miesięcznie** to inwestycja, nie koszt. Pod war
 - [5 technik pracy z Claude Code](/blog/5-technik-pracy-z-claude-code) - Komplementarny artykuł o Claude Code
 - [Cursor Community Discord](https://discord.gg/cursor) - Społeczność użytkowników
 - [GitHub: claude-piv-skeleton](https://github.com/plipowczan/claude-piv-skeleton) - Workflow methodology z custom commands
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czy subskrypcja Cursor za $20 miesięcznie opłaca się początkującym programistom i jak szybko się zwraca?
+
+</summary>
+
+Tak, subskrypcja zwraca się błyskawicznie dzięki dostępowi do funkcji Pro jak worktrees, nielimitowany Claude 3.5 Sonnet i tryb Composer. Nawet początkujący zyskują godziny tygodniowo, unikając manualnego debugowania i pisania boilerplate kodu. Koszt $20 to inwestycja w produktywność, a nie tylko wydatek na narzędzie.
+
+</details>
+
+<details open>
+<summary>
+
+### Jakie skróty klawiszowe w Cursor są najważniejsze dla zachowania płynności pracy i flow z AI?
+
+</summary>
+
+Absolutnym minimum jest `Cmd+E` do przełączania między kodem a agentem oraz `Shift+Tab` do szybkiej zmiany trybów (Ask/Agent/Plan). Warto też używać `Cmd+J` do togglowania terminala, co eliminuje odrywanie rąk od klawiatury. Te skróty pozwalają traktować AI jak naturalne rozszerzenie edytora.
+
+</details>
+
+<details open>
+<summary>
+
+### Jak skutecznie zarządzać limitem context window w Cursor aby uniknąć problemów z pamięcią agenta?
+
+</summary>
+
+Kluczem jest monitorowanie wskaźnika użycia i resetowanie czatu po przekroczeniu 60% pojemności, co zapobiega halucynacjom modelu. Należy też wyłączać nieużywane MCP w ustawieniach, ponieważ każdy aktywny dodatek konsumuje cenne tokeny. Precyzyjne używanie `@Files` zamiast całych folderów również oszczędza kontekst.
+
+</details>
+
+<details open>
+<summary>
+
+### Na czym polega praca z worktrees w Cursor i w jakich sytuacjach najlepiej ją stosować?
+
+</summary>
+
+Worktrees umożliwiają równoległe generowanie i testowanie kilku wariantów kodu (np. przez różne modele AI) na izolowanych branchach. Cursor automatycznie stawia środowiska dla każdej wersji, co pozwala w kilka minut porównać np. trzy podejścia do UI. To idealne narzędzie do eksperymentowania i podejmowania decyzji architektonicznych.
+
+</details>
+
+<details open>
+<summary>
+
+### Dlaczego warto dodawać własną dokumentację do indeksu Cursor zamiast polegać na ogólnej wiedzy modelu?
+
+</summary>
+
+Modele AI często mają nieaktualną wiedzę o najnowszych wersjach bibliotek (np. Tailwind v4), co prowadzi do generowania błędnego kodu. Dodanie URL dokumentacji w "Docs" sprawia, że agent korzysta z "single source of truth" i nie zmyśla nieistniejących funkcji. To eliminuje problem "cutoff date" i poprawia jakość generowanego kodu.
+
+</details>

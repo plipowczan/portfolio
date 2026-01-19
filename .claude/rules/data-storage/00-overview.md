@@ -43,6 +43,29 @@ tags:                                   # List of tags
 ---
 ```
 
+### FAQ Section Structure (Optional but Recommended)
+
+Blog articles can include FAQ sections for AEO (Answer Engine Optimization):
+
+```markdown
+## FAQ
+
+### [Natural question in Polish, 10-25 words]
+
+[Snippet-style answer, 2-4 sentences. Key info first.]
+
+### [Next question...]
+
+[Answer...]
+```
+
+**Technical Details:**
+- FAQ sections detected by H2 heading containing "FAQ" or "Najczęściej zadawane pytania"
+- Questions formatted as H3 headings
+- Answers as paragraph elements
+- FAQPage schema auto-generated from content by `src/utils/faqExtractor.js`
+- See `docs/blog/FAQ_TEMPLATE.md` and `docs/blog/FAQ_GUIDELINES.md` for full guidelines
+
 ### Loading Mechanism
 
 Data is loaded eagerly at build time via `src/data/blogPosts.js`:

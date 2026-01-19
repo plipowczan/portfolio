@@ -152,6 +152,132 @@
   @apply outline-2 outline-offset-2 outline-primary-500;
 }
 
+/* FAQ section styling for blog posts
+ *
+ * NOTE:
+ * These styles apply to FAQ sections in blog post markdown content.
+ * FAQ sections are identified by H2 heading containing "FAQ" followed by
+ * H3 questions and paragraph answers.
+ *
+ * Structure:
+ * <h2>FAQ</h2>                    ← Section header
+ * <h3>Question text?</h3>         ← Individual question
+ * <p>Answer text...</p>           ← Answer (can be multiple paragraphs)
+ *
+ * Purpose:
+ * - Visual distinction for FAQ sections
+ * - Improved readability for LLM/AI consumption
+ * - Accessibility enhancements
+ *
+ * IMPORTANT: Polish character transliteration
+ * - "Najczęściej zadawane pytania" → ID becomes "najczesciej-zadawane-pytania"
+ * - The generateSlug function transliterates Polish characters (ę → e, ś → s, etc.)
+ * - CSS selectors must match the actual generated IDs
+ */
+
+/* FAQ section headers */
+.prose h2#faq,
+.prose h2#najczesciej-zadawane-pytania,
+.prose h2#pytania-i-odpowiedzi {
+  @apply text-primary-400 border-b-2 border-primary-500/30 pb-3 mb-6;
+}
+
+/* FAQ question styling (H3 within FAQ section)
+ * NOTE: Uses general sibling combinator (~) to target only H3s following FAQ headers
+ * This scopes the "Q:" prefix to FAQ questions only, not all H3s in the article
+ * Limitation: Will style H3s between FAQ and next H2, but this is rare in practice
+ */
+.prose h2#faq ~ h3,
+.prose h2#najczesciej-zadawane-pytania ~ h3,
+.prose h2#pytania-i-odpowiedzi ~ h3 {
+  @apply relative pl-6 transition-colors duration-200;
+}
+
+/* Add Q: prefix only to plain FAQ h3s (not inside details accordion) */
+.prose h2#faq ~ h3:not(details *)::before,
+.prose h2#najczesciej-zadawane-pytania ~ h3:not(details *)::before,
+.prose h2#pytania-i-odpowiedzi ~ h3:not(details *)::before {
+  content: "Q:";
+  @apply absolute left-0 top-0 text-primary-500 font-bold text-lg;
+}
+
+/* FAQ answer styling (paragraphs immediately following H3)
+ * No specific targeting needed - default prose p styles apply
+ * Answers benefit from standard prose spacing and line-height
+ */
+
+/* FAQ Accordion Styling
+ *
+ * NOTE:
+ * These styles apply to FAQ sections wrapped in <details> tags for collapsible behavior.
+ * The accordion structure uses native HTML <details>/<summary> for better accessibility
+ * and progressive enhancement (works without JavaScript).
+ *
+ * Structure:
+ * <details open>                      ← Container (open by default for SEO)
+ *   <summary>                         ← Click target
+ *     <h3>Question text?</h3>         ← Question heading inside summary
+ *   </summary>
+ *   <p>Answer text...</p>             ← Answer content
+ * </details>
+ *
+ * Benefits:
+ * - No JavaScript required (progressive enhancement)
+ * - Native keyboard support (Space/Enter to toggle)
+ * - Screen reader accessible
+ * - SEO-friendly (content visible by default with `open` attribute)
+ * - LLM-friendly (bots can read expanded content)
+ */
+
+/* FAQ accordion container */
+.prose details {
+  @apply mb-4 border border-white/10 rounded-lg overflow-hidden bg-dark-800/30 backdrop-blur-sm;
+}
+
+/* FAQ accordion summary (clickable header) */
+.prose details summary {
+  @apply cursor-pointer p-4 transition-colors hover:bg-dark-700/50;
+  list-style: none; /* Remove default arrow */
+}
+
+/* Remove default arrow in webkit browsers */
+.prose details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom arrow indicator */
+.prose details summary::before {
+  content: "▶";
+  @apply inline-block mr-3 text-primary-500 transition-transform duration-200;
+}
+
+/* Rotate arrow when open */
+.prose details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* FAQ question heading inside summary */
+.prose details summary h3 {
+  @apply inline text-xl font-semibold text-white mb-0 pl-0;
+}
+
+/* Ensure no Q: prefix in accordion h3s (redundant with :not(details *) above, kept for clarity) */
+.prose details summary h3::before {
+  content: none;
+}
+
+/* FAQ answer content (all content except summary) */
+.prose details > *:not(summary) {
+  @apply px-4 pb-4 pt-0 text-gray-300;
+}
+
+/* Special styling for FAQ section header (H2) */
+.prose h2#faq,
+.prose h2#najczesciej-zadawane-pytania,
+.prose h2#pytania-i-odpowiedzi {
+  @apply text-primary-400 border-b-2 border-primary-500/30 pb-3 mb-6;
+}
+
 /* Zencal widget custom styles
  *
  * NOTE:

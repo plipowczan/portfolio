@@ -37,6 +37,13 @@ Skill(
   - Follow exact frontmatter from plan
   - Use approved article structure
   - **CRITICAL:** Incorporate ALL user feedback and comments from plan (check for 'User Feedback & Comments' section, HTML comments, and inline edits)
+  - **REQUIRED:** Include FAQ section following docs/blog/FAQ_TEMPLATE.md
+    - 4-6 questions optimized for LLM discovery
+    - Natural Polish questions (10-25 words each)
+    - Snippet-style answers (2-4 sentences, key info first)
+    - Wrap each Q&A in `<details open>` accordion
+    - H2 header: '## FAQ'
+    - Questions as H3 inside `<summary>`, answers as paragraphs in details body
   - ALL code blocks must have language tags (use 'text' if no specific language)
   - Never polonize English technical terms (no 'komendyfikacja')
   - Pawel's voice: direct, practical, personal
@@ -74,6 +81,7 @@ This will:
 
 - [ ] Article written following plan structure
 - [ ] Saved to `src/content/blog/{slug}.md`
+- [ ] FAQ section included (4-6 questions)
 - [ ] All code blocks have language tags
 - [ ] No polonized English terms
 - [ ] Matches Pawel's writing style
