@@ -329,3 +329,60 @@ A jeśli pytasz się, od czego zacząć – **zacznij od audytu**. Sprawdź, gdz
 </div>
 
 **Źródła i referencje**: Artykuł powstał na podstawie analizy raportów Gartner, Forrester, IDC, Deloitte, McKinsey, Cisco oraz dokumentacji EU AI Act. Wszystkie prognozy i dane są aktualne na dzień 1 stycznia 2026 roku.
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czym różni się Agentic AI od modeli generatywnych takich jak ChatGPT czy Claude?
+
+</summary>
+
+Agentic AI nie tylko odpowiada na pytania, ale samodzielnie planuje i wykonuje zadania w systemach biznesowych. Zamiast czekać na instrukcje krok po kroku, agenci autonomicznie podejmują decyzje i używają narzędzi, działając jako "wirtualni pracownicy" a nie tylko asystenci.
+
+</details>
+
+<details open>
+<summary>
+
+### Jakie obowiązki nakłada EU AI Act na firmy od sierpnia 2026 roku?
+
+</summary>
+
+Od 2 sierpnia 2026 firmy muszą wdrożyć systemy zarządzania ryzykiem, nadzór ludzki oraz pełną dokumentację techniczną dla systemów AI wysokiego ryzyka. Wymagana jest gwarancja jakości danych treningowych i procedury raportowania incydentów, a kary za brak zgodności sięgają 35 mln euro lub 7% obrotu.
+
+</details>
+
+<details open>
+<summary>
+
+### Dlaczego modele specyficzne dla domeny (DSLM) są lepsze dla biznesu niż ogólne LLM?
+
+</summary>
+
+Modele DSLM oferują wyższą precyzję w specjalistycznych zadaniach (np. prawo, medycyna) przy znacznie niższych kosztach operacyjnych dzięki mniejszej liczbie parametrów. Gwarantują też lepszą zgodność z regulacjami i bezpieczeństwo danych, co jest kluczowe w branżach regulowanych, gdzie ogólne modele często "halucynują".
+
+</details>
+
+<details open>
+<summary>
+
+### Czy AI w 2026 roku zastąpi miejsca pracy czy zmieni ich charakter?
+
+</summary>
+
+AI w 2026 roku nie eliminuje zawodów hurtowo, lecz redefiniuje role, automatyzując rutynowe zadania poznawcze. Powstają nowe stanowiska jak AI Orchestrator czy AI Risk Officer, a kluczem do utrzymania zatrudnienia staje się reskilling i umiejętność współpracy z agentami cyfrowymi.
+
+</details>
+
+<details open>
+<summary>
+
+### Na czym polega przewaga modeli rozumowania (Reasoning Models) nad tradycyjnymi modelami językowymi?
+
+</summary>
+
+Modele rozumowania (System 2) poświęcają dodatkowy czas obliczeniowy na "namysł", symulację i weryfikację hipotez przed udzieleniem odpowiedzi. Pozwala to na rozwiązywanie złożonych problemów logicznych i matematycznych z dokładnością powyżej 90%, kosztem dłuższego czasu reakcji i wyższego zużycia tokenów.
+
+</details>
