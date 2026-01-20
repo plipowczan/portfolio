@@ -106,8 +106,10 @@ async function main() {
     console.log("📦 Krok 3/4: Uruchamianie preview server...\n");
     previewServer = await startPreviewServer();
 
-    // Dodatkowy czas na stabilizację servera
-    await sleep(2000);
+    // Dodatkowy czas na stabilizację servera (dłuższy na Vercel)
+    const stabilizationTime = process.env.VERCEL === "1" ? 5000 : 2000;
+    console.log(`⏳ Czekam ${stabilizationTime}ms na stabilizację serwera...\n`);
+    await sleep(stabilizationTime);
 
     // Krok 3: Prerendering
     console.log("📦 Krok 4/4: Prerendering stron...\n");

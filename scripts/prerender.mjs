@@ -73,10 +73,11 @@ const projectRoutes = projects.map((project) => `/projects/${project.slug}`);
 const allRoutes = [...staticRoutes, ...blogRoutes, ...projectRoutes];
 
 /**
- * Prerenderuje pojedynczą stronę
+ * Prerenderuje pojedynczą stronę z retry logic
  */
-async function prerenderPage(browser, route) {
+async function prerenderPage(browser, route, retries = 2) {
   const page = await browser.newPage();
+  let pageClosed = false;
 
   try {
     const url = `${BASE_URL}${route}`;
@@ -89,10 +90,16 @@ async function prerenderPage(browser, route) {
       );
     }
 
+    // Dla Vercel używamy dłuższego timeoutu i mniej restrykcyjnego waitUntil
+    const timeout = IS_VERCEL ? 120000 : 60000; // 120s na Vercel, 60s lokalnie
+    // Używamy 'load' zamiast 'networkidle0' - szybsze i bardziej niezawodne na Vercel
+    // 'load' czeka na załadowanie wszystkich zasobów, ale nie wymaga 500ms bez requestów
+    const waitUntil = IS_VERCEL ? "load" : "networkidle0";
+
     // Otwórz stronę i poczekaj na pełne załadowanie
     await page.goto(url, {
-      waitUntil: "networkidle0",
-      timeout: 60000,
+      waitUntil: waitUntil,
+      timeout: timeout,
     });
 
     // Czekaj na React Helmet - sprawdź czy metatagi są w DOM
@@ -106,15 +113,16 @@ async function prerenderPage(browser, route) {
           );
           return ogTitle && description;
         },
-        { timeout: 15000 }
+        { timeout: 20000 } // Zwiększony timeout dla metatagów
       );
     } catch (e) {
       console.error(`  ⚠️  Timeout: Brak metatagów SEO dla ${route} (kontynuuję generowanie)`);
       metaTagsFound = false;
     }
 
-    // Dodatkowy czas na animacje i lazy loading
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Dodatkowy czas na animacje i lazy loading (zmniejszony dla Vercel)
+    const waitTime = IS_VERCEL ? 2000 : 1000;
+    await new Promise((resolve) => setTimeout(resolve, waitTime));
 
     // Pobierz pełny HTML po renderowaniu
     const html = await page.content();
@@ -141,10 +149,28 @@ async function prerenderPage(browser, route) {
 
     return true;
   } catch (error) {
+    // Retry logic dla timeoutów
+    if (retries > 0 && error.message.includes("timeout")) {
+      console.error(`  ⚠️  Timeout dla ${route}, ponawiam próbę (pozostało ${retries} prób)...`);
+      await page.close();
+      pageClosed = true; // Oznacz stronę jako zamkniętą
+      // Krótka przerwa przed retry
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      return prerenderPage(browser, route, retries - 1);
+    }
+    
     console.error(`  ❌ Błąd dla ${route}:`, error.message);
     return false;
   } finally {
-    await page.close();
+    // Zamknij stronę tylko jeśli nie została już zamknięta (np. w retry)
+    if (!pageClosed) {
+      try {
+        await page.close();
+      } catch (closeError) {
+        // Ignoruj błędy zamykania (strona może być już zamknięta)
+        // To może się zdarzyć w edge cases, ale nie powinno przerwać procesu
+      }
+    }
   }
 }
 
@@ -171,6 +197,7 @@ async function main() {
 
     if (IS_VERCEL) {
       console.log("▲ Wykryto środowisko Vercel - używam puppeteer-core + sparticuz/chromium");
+      console.log("⚙️  Konfiguracja: timeout=120s, waitUntil=load (zoptymalizowane dla Vercel)");
       const chromium = await import("@sparticuz/chromium");
       const puppeteer = await import("puppeteer-core");
 
