@@ -121,7 +121,7 @@ async function prerenderPage(browser, route, retries = 2) {
     }
 
     // Dodatkowy czas na animacje i lazy loading (zmniejszony dla Vercel)
-    const waitTime = IS_VERCEL ? 2000 : 1000;
+    const waitTime = IS_VERCEL ? 1000 : 2000;
     await new Promise((resolve) => setTimeout(resolve, waitTime));
 
     // Pobierz pełny HTML po renderowaniu
@@ -152,8 +152,16 @@ async function prerenderPage(browser, route, retries = 2) {
     // Retry logic dla timeoutów
     if (retries > 0 && error.message.includes("timeout")) {
       console.error(`  ⚠️  Timeout dla ${route}, ponawiam próbę (pozostało ${retries} prób)...`);
-      await page.close();
-      pageClosed = true; // Oznacz stronę jako zamkniętą
+      // Zamknij stronę bezpiecznie - nawet jeśli się nie powiedzie, kontynuuj retry
+      try {
+        await page.close();
+        pageClosed = true; // Oznacz stronę jako zamkniętą tylko jeśli zamknięcie się powiodło
+      } catch (closeError) {
+        // Jeśli zamknięcie się nie powiodło, strona może być już zamknięta lub uszkodzona
+        // Oznacz jako zamkniętą, aby finally nie próbował ponownie
+        pageClosed = true;
+        console.error(`  ⚠️  Błąd przy zamykaniu strony przed retry (ignoruję): ${closeError.message}`);
+      }
       // Krótka przerwa przed retry
       await new Promise((resolve) => setTimeout(resolve, 2000));
       return prerenderPage(browser, route, retries - 1);
