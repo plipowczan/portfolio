@@ -184,16 +184,12 @@ Wdrożenie AI w procesach ofertowania sprawdzi się szczególnie w:
 
 Jeśli Twoja firma boryka się z podobnymi wyzwaniami – **przeciążonymi zespołami**, **czasochłonnymi procesami**, **brakiem centralizacji wiedzy** – warto rozważyć wdrożenie AI.
 
-## Następny krok: Porozmawiajmy o Twoim projekcie
-
-Czeka Cię podobne wyzwanie? **Nie musisz tego robić samodzielnie.**
-
-Pomogliśmy El Padre zaoszczędzić setki godzin miesięcznie – możemy zrobić to samo dla Twojej firmy.
-
-**[👉 Umów bezpłatną konsultację](https://automation.house/contact)**
-
-30 minut rozmowy, które mogą zmienić sposób pracy Twojego zespołu. Przeanalizujemy Twoje procesy i pokażemy, gdzie AI może przynieść największe korzyści.
-
----
-
-**Chcesz więcej case studies i praktycznych porad?** Śledź mojego bloga, gdzie regularnie dzielę się wiedzą o automatyzacji, AI i no-code dla biznesu.
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz zautomatyzować procesy ofertowania w firmie?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci zbudować inteligentny system, który przyspieszy tworzenie ofert, wykorzysta wiedzę zespołu i ograniczy pracę manualną. Od analizy procesu przez projektowanie asystentów AI po wdrożenie i szkolenia.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>

@@ -585,26 +585,12 @@ Content submission → Make →
 
 **Pamiętaj:** Najlepsze narzędzie to to, którego będzie używać Twój zespół. Dopasuj platformę do kompetencji zespołu, nie na odwrót.
 
-## Potrzebujesz pomocy w wyborze?
-
-W **[Automation House](https://automation.house)** pomagamy firmom wybierać i wdrażać narzędzia automatyzacji dopasowane do ich zespołów i potrzeb biznesowych.
-
-**Oferujemy:**
-
-- 🔍 Audyt procesów i rekomendacje platform
-- 🛠️ Wdrożenie workflow na wybranej platformie
-- 📚 Szkolenia dla zespołów (Zapier/Make/n8n)
-- 🚀 Ongoing support i optymalizację
-
-**Skontaktuj się**, jeśli:
-
-- Nie wiesz, którą platformę wybrać
-- Chcesz zmigrować z jednej platformy na inną
-- Potrzebujesz wdrożyć konkretne workflow
-- Szukasz partnera do automatyzacji na stałe
-
-→ [automation.house](https://automation.house)
-
----
-
-**Autor:** Pawel Lipowczan - Automation Architect w Automation House. Pomaga firmom wybierać i wdrażać narzędzia automatyzacji od 2020 roku. 100+ wdrożeń, 500+ workflow, oszczędność 10,000+ godzin pracy dla klientów.
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Potrzebujesz pomocy w wyborze narzędzia do automatyzacji?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci przeanalizować potrzeby Twojej firmy, wybrać odpowiednią platformę (Zapier, Make lub n8n) i wdrożyć pierwsze workflow. Od audytu procesów przez wybór narzędzi po szkolenia zespołu.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>

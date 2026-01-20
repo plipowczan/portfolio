@@ -191,3 +191,35 @@ Struktura:
 - Kluczowe wnioski (lista)
 - Jak to zmienilo moje podejscie
 - Komu polecam
+
+## Język techniczny: Kiedy English vs Polish
+
+### Zasady używania terminów angielskich
+
+**✅ ZAWSZE po angielsku:**
+- Nazwy technologii: React, Vue, TypeScript, Docker, Kubernetes
+- Nazwy frameworków: Next.js, Express, Django, FastAPI
+- Koncepcje bez polskiego odpowiednika: hooks, props, middleware, webhook
+- Terminy branżowe: deployment, staging, production, CI/CD
+- Nazwy wzorców: singleton, factory, observer, MVC
+- Skróty: API, SDK, CLI, GUI, REST, GraphQL
+
+**✅ PO POLSKU (z ang. w nawiasie przy pierwszym użyciu):**
+- Koncepcje z polskim odpowiednikiem:
+  - autentykacja (authentication)
+  - autoryzacja (authorization)
+  - walidacja (validation)
+  - testowanie (testing)
+  - wdrożenie (deployment) - ale można też "deploy"
+
+**❌ NIGDY nie polonizuj:**
+- "komendyfikacja" → użyj "przekształcanie w komendy" LUB zostaw "commandification"
+- "skomendyfikować" → użyj "przekształcić w komendę"
+- "zvalidować" → użyj "zwalidować" (akceptowalne) LUB "sprawdzić poprawność"
+
+### Formatowanie terminów technicznych
+
+- **Nazwy produktów/technologii**: `React`, `Claude Code`, `TypeScript` (backticks pierwszym razem)
+- **Komendy**: `/prime`, `npm install` (backticks zawsze)
+- **Ścieżki plików**: `src/components/Header.jsx` (backticks zawsze)
+- **Fragmenty kodu inline**: `const x = 5` (backticks zawsze)

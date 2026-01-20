@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { FADE_IN_UP, STAGGER_CONTAINER } from "../../utils/constants";
-import Modal from "../ui/Modal";
-import ZencalWidget from "../widgets/ZencalWidget";
+import { useBooking } from "../../context/BookingContext";
 
 const BookingCTA = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { openBookingModal } = useBooking();
 
   const benefits = [
     "Analiza obecnych wyzwań i możliwości optymalizacji",
@@ -64,7 +62,7 @@ const BookingCTA = () => {
           {/* CTA Button */}
           <motion.div variants={FADE_IN_UP} className="text-center space-y-4">
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={openBookingModal}
               className="btn-primary text-lg px-8 py-4 hover:scale-105 transition-transform"
             >
               Zarezerwuj Bezpłatną Konsultację
@@ -75,21 +73,6 @@ const BookingCTA = () => {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Modal with Zencal Widget */}
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Rezerwacja bezpłatnej konsultacji"
-      >
-        <div className="space-y-4">
-          <p className="text-gray-400 text-center">
-            Wybierz dogodny termin z kalendarza poniżej. Po rezerwacji otrzymasz
-            link do spotkania online oraz instrukcje przygotowania.
-          </p>
-          <ZencalWidget />
-        </div>
-      </Modal>
 
       {/* Background Decorations */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl transform -translate-x-1/2" />

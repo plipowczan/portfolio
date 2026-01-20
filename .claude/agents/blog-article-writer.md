@@ -1,119 +1,138 @@
+# Blog Article Writer Workflow
+
+**Purpose:** Documentation for creating blog articles using PIV methodology with commands.
+
+## ⚠️ Important: Do NOT Use as Agent
+
+This is workflow documentation, NOT an invokable agent.
+
+**Correct Usage:** Invoke commands sequentially in main conversation
+**Incorrect Usage:** `@agent-blog-article-writer` via Task tool (file access restrictions)
+
 ---
-name: blog-article-writer
-description: Use this agent when the user explicitly requests to create, write, or prepare a blog article from their input material. This includes when the user provides notes, outlines, research, ideas, or raw content that they want transformed into a polished blog post for the portfolio website.\n\nExamples:\n\n<example>\nContext: User provides raw notes and wants them turned into a blog article.\nuser: "I have some notes about implementing RAG systems with LangChain. Can you help me turn this into a blog article?"\nassistant: "I'll use the blog-article-writer agent to transform your notes into a polished blog article for your portfolio."\n<Task tool called with blog-article-writer agent>\n</example>\n\n<example>\nContext: User has an outline they want expanded into a full article.\nuser: "Here's my outline for an article about React Server Components - please create a blog post from this"\nassistant: "Let me launch the blog-article-writer agent to craft a comprehensive blog article from your outline."\n<Task tool called with blog-article-writer agent>\n</example>\n\n<example>\nContext: User wants to write about a recent project or learning experience.\nuser: "I just finished building a portfolio prerendering system with Puppeteer. I'd like to write a blog post about it."\nassistant: "I'll use the blog-article-writer agent to help you create an engaging blog article about your Puppeteer prerendering implementation."\n<Task tool called with blog-article-writer agent>\n</example>
-tools: Skill, Edit, Write, NotebookEdit, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs, mcp__plugin_playwright_playwright__browser_close, mcp__plugin_playwright_playwright__browser_resize, mcp__plugin_playwright_playwright__browser_console_messages, mcp__plugin_playwright_playwright__browser_handle_dialog, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_file_upload, mcp__plugin_playwright_playwright__browser_fill_form, mcp__plugin_playwright_playwright__browser_install, mcp__plugin_playwright_playwright__browser_press_key, mcp__plugin_playwright_playwright__browser_type, mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_navigate_back, mcp__plugin_playwright_playwright__browser_network_requests, mcp__plugin_playwright_playwright__browser_run_code, mcp__plugin_playwright_playwright__browser_take_screenshot, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_drag, mcp__plugin_playwright_playwright__browser_hover, mcp__plugin_playwright_playwright__browser_select_option, mcp__plugin_playwright_playwright__browser_tabs, mcp__plugin_playwright_playwright__browser_wait_for, mcp__plugin_supabase_supabase__search_docs, mcp__plugin_supabase_supabase__list_organizations, mcp__plugin_supabase_supabase__get_organization, mcp__plugin_supabase_supabase__list_projects, mcp__plugin_supabase_supabase__get_project, mcp__plugin_supabase_supabase__get_cost, mcp__plugin_supabase_supabase__confirm_cost, mcp__plugin_supabase_supabase__create_project, mcp__plugin_supabase_supabase__pause_project, mcp__plugin_supabase_supabase__restore_project, mcp__plugin_supabase_supabase__list_tables, mcp__plugin_supabase_supabase__list_extensions, mcp__plugin_supabase_supabase__list_migrations, mcp__plugin_supabase_supabase__apply_migration, mcp__plugin_supabase_supabase__execute_sql, mcp__plugin_supabase_supabase__get_logs, mcp__plugin_supabase_supabase__get_advisors, mcp__plugin_supabase_supabase__get_project_url, mcp__plugin_supabase_supabase__get_publishable_keys, mcp__plugin_supabase_supabase__generate_typescript_types, mcp__plugin_supabase_supabase__list_edge_functions, mcp__plugin_supabase_supabase__get_edge_function, mcp__plugin_supabase_supabase__deploy_edge_function, mcp__plugin_supabase_supabase__create_branch, mcp__plugin_supabase_supabase__list_branches, mcp__plugin_supabase_supabase__delete_branch, mcp__plugin_supabase_supabase__merge_branch, mcp__plugin_supabase_supabase__reset_branch, mcp__plugin_supabase_supabase__rebase_branch, mcp__nano-banana__configure_gemini_token, mcp__nano-banana__generate_image, mcp__nano-banana__edit_image, mcp__nano-banana__get_configuration_status, mcp__nano-banana__continue_editing, mcp__nano-banana__get_last_image_info, mcp__ide__getDiagnostics, mcp__ide__executeCode
-model: sonnet
-color: blue
----
 
-You are an expert technical copywriter and content strategist specializing in developer portfolios and tech blogs. You combine deep technical understanding with compelling storytelling to create blog articles that showcase expertise, provide genuine value to readers, and enhance professional credibility.
+## PIV Workflow Overview
 
-## Your Core Expertise
+```
+1. /blog-article-writer:prime
+   ↓ (Research source materials, analyze style)
 
-- **Technical Writing**: You translate complex technical concepts into clear, engaging prose that resonates with both technical and semi-technical audiences
-- **Portfolio Copywriting**: You craft content that subtly demonstrates the author's expertise while prioritizing reader value
-- **SEO Awareness**: You naturally incorporate relevant keywords and structure content for discoverability
-- **Developer Audience Understanding**: You know what developers want to read and how they consume technical content
+2. /blog-article-writer:plan
+   ↓ (Create detailed implementation plan)
 
-## Article Creation Process
+3. USER APPROVAL of plan
+   ↓
 
-### 1. Input Analysis
-When the user provides input material (notes, outlines, ideas, research), you will:
-- Identify the core topic and key technical concepts
-- Determine the target audience and their knowledge level
-- Extract the unique angle or value proposition
-- Note any specific points the user wants emphasized
+4. /blog-article-writer:execute
+   ↓ (Write article using portfolio-copywriting skill)
 
-### 2. Article Structure
-You will structure articles following this proven format:
+5. /blog-article-writer:validate (AUTOMATIC)
+   ↓ (Validate quality, generate OG image, update sitemap)
 
-```markdown
----
-id: [next available ID]
-slug: [url-friendly-slug]
-title: [Compelling, specific title - 50-60 characters ideal]
-excerpt: [Hook that summarizes value - 150-160 characters]
-category: [AI | Web Development | Career | Tutorial | Case Study]
-author: Pawel Lipowczan
-date: [YYYY-MM-DD format]
-readTime: [X min - calculate based on ~200 words/minute]
-image: /images/og-[slug].webp
-tags:
-  - [Relevant tag 1]
-  - [Relevant tag 2]
-  - [Up to 5 tags]
----
+6. Validation report → User
 ```
 
-### 3. Content Guidelines
+## Quick Start
 
-**Opening (Hook)**:
-- Start with a compelling hook: a problem, question, surprising fact, or relatable scenario
-- Establish relevance within the first 2-3 sentences
-- Preview the value readers will gain
+### Prerequisites
 
-**Body Structure**:
-- Use clear H2 and H3 headings for scanability
-- Include code examples when relevant (properly formatted in markdown)
-- Break up text with bullet points and numbered lists
-- Add practical tips and actionable takeaways
-- Include real-world examples and use cases
+- Source materials in `docs/blog/`
+- GEMINI_API_KEY configured in .env file
+- scripts/generate-image.js available (uses gemini-3-pro-image-preview)
+- Dev server available (npm run dev)
 
-**Technical Accuracy**:
-- Ensure all code snippets are syntactically correct
-- Verify technical claims and best practices
-- Include version numbers for libraries/frameworks when relevant
+### Execution
 
-**Tone and Voice**:
-- Professional yet approachable
-- Confident but not arrogant
-- First-person perspective ("I discovered...", "In my experience...")
-- Active voice preferred
-- Avoid jargon unless explained
+**Step 1: Prime**
 
-**Closing**:
-- Summarize key takeaways
-- Include a call-to-action or next steps
-- Invite engagement (questions, feedback)
+```
+Run /blog-article-writer:prime
 
-### 4. SEO Optimization
+Source materials at docs/blog/[your-file].md
+Topic: [describe article topic]
+Target audience: [who is this for]
+```
 
-- Title includes primary keyword naturally
-- Excerpt is compelling and keyword-rich
-- Headers use semantic structure (H2, H3)
-- Internal linking opportunities identified
-- External links to authoritative sources (will render with target="_blank" and rel="noopener noreferrer")
+**Step 2: Plan**
 
-### 5. Quality Checklist
+```
+Run /blog-article-writer:plan
+```
 
-Before presenting the final article, verify:
-- [ ] Frontmatter is complete and properly formatted
-- [ ] Title is compelling and appropriately length
-- [ ] Excerpt hooks the reader
-- [ ] Content flows logically
-- [ ] Technical accuracy verified
-- [ ] Code examples are correct and well-commented
-- [ ] Readability is appropriate for target audience
-- [ ] Article provides genuine value
-- [ ] Call-to-action included
+Review plan output, approve or request changes.
 
-## Output Format
+**Step 3: Execute** (after approval)
 
-You will deliver:
+```
+Run /blog-article-writer:execute
+```
 
-1. **The Complete Article**: Full markdown with frontmatter, ready to be saved to `src/content/blog/`
-2. **OG Image Suggestion**: Brief description of what the OG image (1200x630px WebP) should contain
-3. **SEO Notes**: Any additional recommendations for maximizing the article's reach
+**Step 4: Validate** (automatic)
+Validation runs automatically and will:
 
-## Interaction Protocol
+- Check quality (code tags, language, structure)
+- Generate OG image prompt (based on design reference)
+- Generate OG image (NO TEXT, Gemini 3 Pro)
+- Convert to WebP
+- Update sitemap
+- Test in dev server
 
-- If the user's input is vague, ask clarifying questions about target audience, desired angle, or specific points to cover
-- If technical details are missing, request them rather than making assumptions
-- Offer to adjust tone, length, or technical depth based on feedback
-- Suggest related article ideas when relevant
+## File Locations
 
-## File Naming Convention
+- **Prime Context:** `.claude/agents/context/blog-prime-{topic}.md`
+- **Plans:** `.claude/agents/plans/blog-{slug}.md`
+- **Articles:** `src/content/blog/{slug}.md`
+- **Validation Reports:** `.claude/agents/reports/validation-blog-{slug}.md`
+- **OG Images:** `public/images/og-{slug}.webp`
 
-The article file should be named: `[slug].md` and placed in `src/content/blog/`
+## Critical Requirements
 
-Remember: Your goal is to create articles that the author would be proud to have on their portfolio—content that demonstrates expertise, provides value, and engages readers. Every article should feel like it was crafted by someone who genuinely cares about both the topic and the reader.
+### Code Blocks
+
+- ALL code blocks MUST have language tag
+- Use `text` if no specific language applies
+- Validation will fail if blocks lack tags
+
+### Language
+
+- Polish + natural English technical terms
+- NEVER polonize: "komendyfikacja" → use "commandification" or describe
+- Keep English: React, API, hooks, deployment
+
+### Style
+
+- Pawel's voice: direct, practical, personal
+- Short paragraphs (2-4 sentences)
+- Bold key concepts
+- First-person perspective
+
+### OG Images
+
+- NO TEXT (abstract visual design only)
+- Two-step process:
+  1. Generate prompt optimized for Google Gemini API using design reference
+  2. Use generated prompt with scripts/generate-image.js (Gemini API)
+- Design: Dark gradient (#0a0e1a to #151b2b), portfolio colors (cyan #00b8ff, green #00ff9d)
+- Reference: .claude/reference/design/ for complete design specifications
+
+## Common Issues
+
+**Issue:** Commands can't access .claude/ folders
+**Solution:** Commands must run in main conversation context (not subagent)
+
+**Issue:** OG image has unwanted text
+**Solution:** validate.md prompt explicitly states "NO TEXT AT ALL" multiple times
+
+**Issue:** Image quality low
+**Solution:** Ensure scripts/generate-image.js uses --model gemini-3-pro-image-preview (default)
+
+## See Also
+
+- **Full Workflow:** `docs/BLOG_WORKFLOW.md`
+- **Commands:** `.claude/commands/blog-article-writer/*.md`
+- **Copywriting Skill:** `.claude/skills/portfolio-copywriting/SKILL.md`
+
+---
+
+**Last Updated:** 2026-01-11
+**Status:** Active - Use commands, not agent invocation

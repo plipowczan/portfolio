@@ -14,7 +14,9 @@
       "Bash(copy \"C:\\\\Users\\\\pawel\\\\Documents\\\\nano-banana-images\\\\generated-2025-12-21T08-16-35-987Z-3u3np9.png\" \"public\\\\images\\\\og-dane-jako-paliwo-biznesu.png\")",
       "WebFetch(domain:pageai.pro)",
       "mcp__nano-banana__get_last_image_info",
-      "mcp__plugin_playwright_playwright__browser_navigate"
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "Bash(git rev-parse:*)",
+      "Bash(npm run dev:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

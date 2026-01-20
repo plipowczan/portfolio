@@ -161,4 +161,12 @@ Lead Generator to system który:
 - Kosztuje 80-90% mniej niż ręczna praca
 - Dostarcza wyższą jakość danych
 
-Zainteresowany wdrożeniem? [Umów konsultację](https://automation.house)
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz zautomatyzować generowanie leadów?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci zbudować system automatycznej generacji leadów, który będzie działał 24/7, znajdował potencjalnych klientów i kwalifikował ich przed pierwszym kontaktem. Od koncepcji przez konfigurację po optymalizację.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>

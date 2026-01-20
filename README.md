@@ -14,7 +14,7 @@ Nowoczesna, responsywna strona portfolio zbudowana przy użyciu React, Vite, Tai
 - **Status:** ✅ WDROŻONE i DZIAŁAJĄCE w produkcji
 - **URL:** [pawellipowczan.pl](https://pawellipowczan.pl)
 - **Aktualna wersja:** 1.0.0
-- **Ostatnia aktualizacja:** 2025-11-23
+- **Ostatnia aktualizacja:** 2026-01-19
 - **Hosting:** Vercel z automatycznymi wdrożeniami
 
 ## 🚀 Główne Funkcjonalności
@@ -33,6 +33,10 @@ Nowoczesna, responsywna strona portfolio zbudowana przy użyciu React, Vite, Tai
 - ✅ **Meta tagi SEO** - Open Graph i Twitter Cards dla wszystkich stron
 - ✅ **Dynamiczny sitemap** - Automatyczne generowanie z postami blogowymi
 - ✅ **Vercel Analytics** - Monitorowanie ruchu i Core Web Vitals
+- ✅ **Automatyczny spis treści (TOC)** - Sticky sidebar na desktop i drawer na mobile
+- ✅ **System FAQ (AEO)** - Sekcje pytań zoptymalizowane pod AI (Answer Engine Optimization)
+- ✅ **Rezerwacja konsultacji** - Integracja z widgetem Zencal i dedykowany modal
+- ✅ **Testimonials** - Karuzela opinii klientów
 
 ### Sekcje Strony
 
@@ -58,6 +62,7 @@ Nowoczesna, responsywna strona portfolio zbudowana przy użyciu React, Vite, Tai
 - **Speed Index:** 5.5s ⚠️ (średnio)
 
 **Bundle Size:**
+
 - JavaScript: ~231 KB (gzipped: ~155 KB)
 - CSS: ~27 KB (gzipped: ~5 KB)
 - Czas buildu: ~4 sekundy
@@ -175,25 +180,25 @@ git clone https://github.com/plipowczan/portfolio.git
 cd portfolio
 ```
 
-2. Zainstaluj zależności:
+1. Zainstaluj zależności:
 
 ```bash
 npm install
 ```
 
-3. Uruchom serwer deweloperski:
+1. Uruchom serwer deweloperski:
 
 ```bash
 npm run dev
 ```
 
-4. Zbuduj wersję produkcyjną:
+1. Zbuduj wersję produkcyjną:
 
 ```bash
 npm run build
 ```
 
-5. Podgląd wersji produkcyjnej:
+1. Podgląd wersji produkcyjnej:
 
 ```bash
 npm run preview
@@ -368,6 +373,7 @@ export default defineConfig({
 - **[Przewodnik wdrożenia](./docs/deployment/DEPLOYMENT.md)** - Jak wdrożyć na Vercel/Netlify
 - **[Weryfikacja SEO](./docs/seo/SEO_VERIFICATION.md)** - Checklist po wdrożeniu
 - **[Workflow bloga](./docs/blog/BLOG_WORKFLOW.md)** - Jak dodać nowy post
+- **[Wytyczne FAQ](./docs/faq/FAQ_GUIDELINES.md)** - Optymalizacja treści pod AI
 - **[Testy E2E](./docs/testing/TESTING_QUICKSTART.md)** - Jak uruchomić testy
 - **[Zadania i ulepszenia](./docs/maintenance/TODO.md)** - Roadmap i TODOs
 

@@ -235,4 +235,12 @@ Context-based chatboty to przyszłość customer experience:
 - Skalowalność
 - Niski koszt operacyjny
 
-Gotowy na wdrożenie? [Umów demo](https://automation.house)
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz wdrożyć chatbota AI w swojej firmie?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci zaprojektować, zbudować i wdrożyć chatbota dostosowanego do Twoich potrzeb biznesowych. Od analizy przypadków użycia przez konfigurację bazy wiedzy po integrację i optymalizację.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>

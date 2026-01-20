@@ -212,8 +212,12 @@ Porównanie **airtable vs excel** nie ma jednoznacznego zwycięzcy - to zależy 
 
 Sam przeszedłem tę drogę kilka lat temu i nie wyobrażam sobie powrotu do zarządzania projektami i danymi klientów w Excelu. To jak przesiadka z Nokie 3310 na smartphone'a - teoretycznie oba są telefonami, ale możliwości są nie do porównania.
 
----
-
-**Potrzebujesz pomocy z migracją z Excel do Airtable lub automatyzacją procesów?**
-
-Umów się na [bezpłatną konsultację](https://automation.house/kontakt) i dowiedz się, jak możemy zautomatyzować Twoje procesy i uporządkować dane.
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Potrzebujesz pomocy z migracją z Excel do Airtable?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci bezpiecznie przenieść dane, zaprojektować strukturę bazy, skonfigurować automatyzacje i przeszkolić zespół. Od analizy potrzeb przez migrację po wdrożenie i wsparcie.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
