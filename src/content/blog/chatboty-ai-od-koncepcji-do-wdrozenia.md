@@ -244,3 +244,60 @@ Context-based chatboty to przyszłość customer experience:
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Co to jest RAG i dlaczego jest lepszy od fine-tuningu modelu AI?
+
+</summary>
+
+RAG (Retrieval Augmented Generation) to technika, w której chatbot przeszukuje bazę wiedzy i podaje znalezione informacje jako kontekst dla LLM. Zalety nad fine-tuningiem: aktualizacja wiedzy bez kosztownego retreningu, niższe koszty, lepsza kontrola nad źródłami odpowiedzi i możliwość wskazania skąd pochodzi informacja.
+
+</details>
+
+<details>
+<summary>
+
+### Ile kosztuje wdrożenie i utrzymanie chatbota AI dla firmy?
+
+</summary>
+
+Setup zajmuje 3-4 tygodnie (baza wiedzy, workflow, testy). Miesięczne koszty operacyjne dla 1000 rozmów: n8n self-hosted $0-20, OpenAI API $30-50, Qdrant Cloud $25, opcjonalnie VAPI dla voicebota $99. Łącznie $150-200/miesiąc vs $2500-3500 za pracownika customer support.
+
+</details>
+
+<details>
+<summary>
+
+### Czym chatboty AI różnią się od tradycyjnych chatbotów opartych na słowach kluczowych?
+
+</summary>
+
+Tradycyjne chatboty działają na sztywnych scenariuszach (decision trees) i rozpoznają słowa kluczowe. Chatboty AI rozumieją naturalny język, pamiętają kontekst rozmowy, adaptują się do intencji użytkownika i wykonują akcje (rezerwacje, wyszukiwanie). Różnica to skala elastyczności - AI obsługuje zapytania, których twórca nie przewidział.
+
+</details>
+
+<details>
+<summary>
+
+### Jak przygotować bazę wiedzy dla chatbota opartego na RAG?
+
+</summary>
+
+Zbierz dokumenty (FAQ, dokumentacja produktu, artykuły, polityki firmy), podziel je na chunks 500-1000 tokenów, wygeneruj embeddingi przez OpenAI ada-002 i zapisz w bazie wektorowej (np. Qdrant). Przy każdym zapytaniu chatbot wyszukuje 3-5 najbardziej relevantnych fragmentów jako kontekst dla odpowiedzi.
+
+</details>
+
+<details>
+<summary>
+
+### Kiedy chatbot AI powinien przekazać rozmowę człowiekowi?
+
+</summary>
+
+Gdy nie zna odpowiedzi, użytkownik jest sfrustrowany, sprawa wymaga decyzji wykraczających poza uprawnienia bota lub dotyczy wrażliwych tematów (reklamacje, sprawy prawne). Graceful degradation to kluczowa best practice - bot informuje, że przekazuje do konsultanta, zamiast generować niepewne odpowiedzi.
+
+</details>
