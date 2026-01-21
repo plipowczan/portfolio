@@ -221,3 +221,60 @@ Sam przeszedłem tę drogę kilka lat temu i nie wyobrażam sobie powrotu do zar
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Jaka jest główna różnica między Airtable a Excel?
+
+</summary>
+
+Airtable to relacyjna baza danych z interfejsem arkusza kalkulacyjnego, Excel to arkusz kalkulacyjny. W Airtable możesz tworzyć relacje między tabelami (np. Klienci → Projekty → Faktury) bez VLOOKUP-ów, a dane automatycznie się synchronizują. Excel sprawdza się przy indywidualnej pracy i obliczeniach, Airtable przy współpracy zespołowej.
+
+</details>
+
+<details>
+<summary>
+
+### Jak przenieść dane z Excel do Airtable krok po kroku?
+
+</summary>
+
+Przygotuj dane w Excelu (nagłówki w pierwszym wierszu, usuń puste wiersze), zaimportuj plik .xlsx do nowej bazy Airtable, dopracuj typy pól i stwórz relacje między tabelami. Na końcu dodaj widoki (Calendar, Kanban, Gallery) i skonfiguruj automatyzacje. Cały proces zajmuje od kilku godzin do kilku dni w zależności od złożoności danych.
+
+</details>
+
+<details>
+<summary>
+
+### Kiedy lepiej zostać przy Excel zamiast migrować do Airtable?
+
+</summary>
+
+Excel wygrywa przy zaawansowanych obliczeniach finansowych i statystycznych, indywidualnej analizie danych, jednorazowych raportach oraz pracy offline bez dostępu do internetu. Jeśli pracujesz samodzielnie nad danymi bez relacji i nie potrzebujesz automatyzacji - Excel jest wystarczający.
+
+</details>
+
+<details>
+<summary>
+
+### Co to są relacje między tabelami w Airtable i dlaczego są ważne?
+
+</summary>
+
+Relacje to połączenia między tabelami pozwalające powiązać np. artykuły z autorami jednym kliknięciem. Zamiast VLOOKUP-ów, które łamią się przy zmianach struktury, Airtable automatycznie synchronizuje powiązane dane. Kliknięcie w autora pokazuje wszystkie jego artykuły bez ręcznego filtrowania czy kopiowania danych.
+
+</details>
+
+<details>
+<summary>
+
+### Od jakiego procesu najlepiej zacząć migrację do Airtable?
+
+</summary>
+
+Najlepiej sprawdzają się: kalendarze contentu, bazy klientów/CRM, zarządzanie projektami, listy zadań zespołowych i katalogi produktów. Wybierz jeden prosty proces, przetestuj przez tydzień na darmowym planie Airtable, sprawdź czy rozwiązuje problemy z Excelem - dopiero wtedy planuj pełną migrację.
+
+</details>
