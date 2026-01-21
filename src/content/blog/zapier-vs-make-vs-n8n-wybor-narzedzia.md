@@ -594,3 +594,60 @@ Content submission → Make →
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Jak wybrać między Zapier, Make i n8n dla swojego zespołu?
+
+</summary>
+
+Wybór zależy od trzech czynników: kompetencji zespołu, skali operacji i budżetu. Zapier dla zespołów non-technical (<5K zadań/miesiąc), Make dla power userów szukających najlepszej wartości (5-50K zadań), n8n dla technical teams z wymaganiami compliance (>50K zadań).
+
+</details>
+
+<details>
+<summary>
+
+### Która platforma automatyzacji oferuje najlepszy stosunek ceny do możliwości?
+
+</summary>
+
+n8n oferuje najlepszą wartość przy złożonych workflow - 1 kredyt to uruchomienie całego workflow niezależnie od liczby modułów. W Make każdy moduł zużywa osobny kredyt. Dla prostych workflow (3-5 kroków) Make może być bardziej opłacalne dzięki niższej cenie pojedynczego kredytu, ale przy rozbudowanych procesach n8n wygrywa ekonomicznie.
+
+</details>
+
+<details>
+<summary>
+
+### Czy n8n self-hosted rzeczywiście jest tańsze od Zapier i Make?
+
+</summary>
+
+Tylko przy bardzo dużej skali (>50K zadań/miesiąc) lub wymaganiach compliance. Koszt infrastruktury to $20-50/miesiąc, ale dochodzi 10h/miesiąc pracy DevOps ($500+). Make za $50/miesiąc obsługuje większość przypadków bez maintenance overhead.
+
+</details>
+
+<details>
+<summary>
+
+### Kiedy warto używać kilku platform automatyzacji jednocześnie zamiast jednej?
+
+</summary>
+
+Multi-platform approach sprawdza się gdy różne działy mają różne potrzeby. Typowa strategia: Zapier dla prototypów i szybkich testów, Make dla production workflows, n8n dla high-volume lub wrażliwych danych. Eliminuje to kompromisy wynikające z wyboru jednego narzędzia.
+
+</details>
+
+<details>
+<summary>
+
+### Dlaczego migracja z Zapier do Make wymaga przepisania workflow od zera?
+
+</summary>
+
+Platformy używają różnych modeli danych i struktur workflow - nie ma bezpośredniej kompatybilności. Zapier liczy każdy krok jako osobne zadanie, Make traktuje cały workflow jako jedną operację. Migracja wymaga 2-4h na workflow, ale długoterminowo zwraca się przez 5-10x niższe koszty operacyjne.
+
+</details>
