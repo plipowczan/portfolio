@@ -393,3 +393,60 @@ Jeśli chcesz zacząć z vibe coding:
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Co to jest vibe coding i dla kogo jest przeznaczony?
+
+</summary>
+
+Vibe coding to podejście do tworzenia UI, gdzie zamiast pixel-perfect mockupów opisujesz wrażenie i styl, jaki chcesz osiągnąć. AI tłumaczy to na działający kod. Przeznaczony dla osób bez wykształcenia UX/UI, które chcą tworzyć profesjonalne interfejsy - developerów, przedsiębiorców, twórców produktów.
+
+</details>
+
+<details>
+<summary>
+
+### Jakie są 3 filary skutecznego vibe codingu?
+
+</summary>
+
+Dobra baza (starter kit z Vite, React, Tailwind i podstawowymi komponentami), dobre prompty (konkretne instrukcje dla AI z kontekstem designu) i dobry kontekst (design system, biblioteki, styl projektu). Bez tych trzech elementów AI generuje generyczny, niespójny design.
+
+</details>
+
+<details>
+<summary>
+
+### Dlaczego warto trzymać design tokens w pliku JSON?
+
+</summary>
+
+Design tokens to pojedyncze źródło prawdy o kolorach, spacingu i typografii projektu. AI załączając ten plik w kontekście trzyma się spójnego systemu designu. Bez tokenów każdy komponent ma inne odcienie i zaokrąglenia - interfejs wygląda jak Frankenstein złożony z przypadkowych elementów.
+
+</details>
+
+<details>
+<summary>
+
+### Jakie narzędzia są najlepsze do vibe codingu z AI?
+
+</summary>
+
+Cursor (IDE z wbudowanym AI widzi cały projekt), shadcn/ui (komponenty kopiowane do projektu, świetnie znane przez AI) i opcjonalnie v0.dev (Vercel do szybkich prototypów). Cursor to wybór numer jeden - AI generuje spójny kod, bo zna strukturę folderów i istniejące komponenty.
+
+</details>
+
+<details>
+<summary>
+
+### Jak uniknąć generycznego "AI design" przy vibe codingu?
+
+</summary>
+
+Zawsze podaj konkretny styl (minimalist, brutalist, glassmorphic), wskaż inspiracje ("jak strona Stripe"), zdefiniuj kolory i typografię w design reference. Dziel zadania na małe komponenty zamiast prosić o całą stronę naraz. Iteruj - vibe coding to proces generowania, podglądu i poprawiania, nie jednorazowe wygenerowanie gotowego UI.
+
+</details>

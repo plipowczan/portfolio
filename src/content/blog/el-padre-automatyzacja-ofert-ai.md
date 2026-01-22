@@ -193,3 +193,60 @@ Jeśli Twoja firma boryka się z podobnymi wyzwaniami – **przeciążonymi zesp
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Jakie wyniki można osiągnąć dzięki automatyzacji procesu ofertowania z AI?
+
+</summary>
+
+Typowe rezultaty to 10-50% szybsze przygotowywanie ofert, 10-15% wzrost produktywności zespołu i oszczędność 75-120 godzin miesięcznie przy 15 ofertach. Pozwala to obsługiwać więcej klientów bez zwiększania zespołu i składać oferty na mniejsze projekty, które wcześniej były nierentowne.
+
+</details>
+
+<details>
+<summary>
+
+### Ile trwa wdrożenie AI w procesie ofertowania?
+
+</summary>
+
+Typowe wdrożenie zajmuje około 6 tygodni w trzech etapach: integracja i centralizacja danych (tydzień 1-2), wdrożenie narzędzi AI (tydzień 3-4), implementacja workflow i szkolenie zespołu (tydzień 5-6). Nie trzeba wielomiesięcznych projektów transformacyjnych, by zobaczyć pierwsze efekty.
+
+</details>
+
+<details>
+<summary>
+
+### Jak AI wspiera proces tworzenia ofert w agencjach kreatywnych i eventowych?
+
+</summary>
+
+Automatyczna transkrypcja spotkań z klientami i wyciąganie kluczowych informacji (budżet, wymagania, terminy), przeszukiwanie bazy archiwalnych ofert jako wzorców, automatyzacja kosztorysów i wycen, generator wstępnych wizualizacji. AI odciąża od żmudnych zadań, zespół kreatywny skupia się na unikalnych koncepcjach.
+
+</details>
+
+<details>
+<summary>
+
+### Jak obliczyć ROI z automatyzacji procesu ofertowania?
+
+</summary>
+
+Zmierz średni czas przygotowania oferty przed i po wdrożeniu, pomnóż oszczędność przez liczbę ofert miesięcznie i stawkę godzinową zespołu. Przykład: 5-8h oszczędności × 15 ofert = 75-120h/miesiąc. Te godziny można przeznaczyć na więcej ofert lub projekty kreatywne bez dodatkowych kosztów.
+
+</details>
+
+<details>
+<summary>
+
+### Dla jakich firm sprawdzi się automatyzacja ofertowania z AI?
+
+</summary>
+
+Agencje kreatywne i eventowe z dużą liczbą ofert, firmy ze złożonym i czasochłonnym procesem ofertowania, organizacje chcące skalować bez proporcjonalnego wzrostu zespołu. Kluczowe sygnały kwalifikujące: przeciążone zespoły, rozproszona wiedza w folderach, nierentowne mniejsze projekty.
+
+</details>

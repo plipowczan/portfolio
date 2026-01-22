@@ -105,3 +105,60 @@ Frontdesk AI to rozwiązanie dla firm, które:
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czym jest Frontdesk AI i jak automatyzuje obsługę poczty email?
+
+</summary>
+
+Frontdesk AI to system automatycznego przetwarzania poczty przychodzącej wykorzystujący OpenAI do analizy treści. System kategoryzuje wiadomości (zapytania, reklamacje, faktury, spam), automatycznie odpowiada na standardowe pytania z bazy wiedzy FAQ i przekierowuje złożone sprawy do odpowiednich osób z kontekstem.
+
+</details>
+
+<details>
+<summary>
+
+### Jak działa automatyczna kategoryzacja wiadomości email przez AI?
+
+</summary>
+
+OpenAI GPT-4 analizuje treść i intencję każdej wiadomości, przypisując ją do zdefiniowanej kategorii. System sprawdza bazę wiedzy w Airtable - jeśli znajdzie odpowiedź, automatycznie wysyła reply. Jeśli nie, przekazuje wiadomość do właściwej osoby wraz z kontekstem i sugerowaną kategorią.
+
+</details>
+
+<details>
+<summary>
+
+### Jakie oszczędności daje automatyzacja poczty email z AI?
+
+</summary>
+
+Typowy klient oszczędza 20-30 godzin pracy miesięcznie, redukuje czas reakcji na standardowe pytania o 90% i zyskuje całodobową dostępność (24/7). Dodatkowa korzyść: konsystentna jakość odpowiedzi - każdy klient otrzymuje ten sam standard obsługi niezależnie od pory dnia.
+
+</details>
+
+<details>
+<summary>
+
+### Dla jakich firm sprawdzi się system automatyzacji emaili typu Frontdesk AI?
+
+</summary>
+
+Dla firm otrzymujących wiele powtarzających się pytań, potrzebujących szybkiej reakcji na wiadomości i chcących odciążyć zespół od rutynowych zadań. Idealne dla działów obsługi klienta, skrzynek info@ i support@, gdzie duża część zapytań dotyczy FAQ, statusu zamówień lub standardowych procedur.
+
+</details>
+
+<details>
+<summary>
+
+### Ile trwa wdrożenie systemu automatyzacji poczty email?
+
+</summary>
+
+Typowy czas wdrożenia to 1-2 tygodnie. Proces obejmuje: analizę typowych kategorii wiadomości, przygotowanie bazy wiedzy i szablonów odpowiedzi, konfigurację przepływów w Make, testy na próbnej grupie, uruchomienie dla całej poczty i optymalizację na podstawie feedbacku.
+
+</details>

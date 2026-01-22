@@ -170,3 +170,60 @@ Lead Generator to system który:
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Z jakich narzędzi składa się system automatycznego generowania leadów no-code?
+
+</summary>
+
+Stack technologiczny obejmuje: n8n (workflow automation, self-hosted za $0), Snov.io (email finder i weryfikacja), Apollo (baza firm i kontaktów), The Company API (dane firmowe) oraz Airtable (centralna baza leadów). Wszystkie narzędzia integrują się bez pisania kodu przez API i gotowe konektory.
+
+</details>
+
+<details>
+<summary>
+
+### Jakie oszczędności daje automatyzacja generowania leadów w porównaniu z pracą ręczną?
+
+</summary>
+
+95% redukcja kosztów pozyskania leada i 10-15x więcej leadów. Ręcznie: 8h pracy = 30-40 firm i 60-80 kontaktów. Automatycznie: 24h działania systemu = 500-1000 firm i 1500-3000 zweryfikowanych kontaktów za ~$50 kosztów API. System działa 24/7 bez przerw.
+
+</details>
+
+<details>
+<summary>
+
+### Jak działa automatyczne wyszukiwanie firm i kontaktów decydentów?
+
+</summary>
+
+Definiujesz kryteria w Airtable (branża, wielkość firmy, lokalizacja, stanowiska), n8n uruchamia workflow: Apollo wyszukuje firmy, The Company API wzbogaca dane, system filtruje duplikaty, Snov.io znajduje i weryfikuje emaile decydentów. Kontakty trafiają do centralnej bazy gotowe do outreach.
+
+</details>
+
+<details>
+<summary>
+
+### Ile kosztuje miesięcznie automatyczny system lead generation?
+
+</summary>
+
+Około $140/miesiąc: n8n self-hosted $0, Snov.io (1000 credits) $39, Apollo Basic $49, The Company API (1000 calls) $29, Airtable Pro $20. Dla porównania: 2 osoby full-time na ręczny prospecting to koszt $6000/miesiąc przy znacznie mniejszej skali.
+
+</details>
+
+<details>
+<summary>
+
+### Ile trwa wdrożenie systemu automatycznego generowania leadów?
+
+</summary>
+
+3-4 tygodnie: konfiguracja narzędzi i integracji (tydzień 1), budowa workflow w n8n (tydzień 2), testy i optymalizacja (tydzień 3), szkolenia i uruchomienie produkcyjne (tydzień 4). Po wdrożeniu system wymaga minimalnej obsługi - część etatu na weryfikację jakości leadów.
+
+</details>

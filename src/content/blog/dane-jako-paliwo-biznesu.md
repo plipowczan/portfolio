@@ -480,3 +480,60 @@ A te, które będą czekać... będą tonąć w morzu danych, umierając z pragn
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Co oznacza stwierdzenie "dane to nowa ropa naftowa" w praktyce biznesowej?
+
+</summary>
+
+Dane, podobnie jak ropa, same w sobie nie mają wartości - muszą przejść "rafinację" (czyszczenie, integrację, analizę), żeby stać się paliwem dla decyzji biznesowych. Większość firm siedzi na kopalni złota, ale nie potrafi go wydobyć - mają tony danych, ale brakuje im procesów i narzędzi do przekształcenia ich w użyteczne informacje.
+
+</details>
+
+<details>
+<summary>
+
+### Jakie są główne przeszkody w wykorzystaniu danych przez firmy?
+
+</summary>
+
+Cztery kluczowe wyzwania: silosy danych (informacje rozproszone w różnych systemach bez integracji), niska jakość (duplikaty, literówki, niespójne formaty), trudny dostęp (potrzeba IT do każdego raportu) oraz brak kultury danych (ludzie nie wiedzą, jakie pytania zadawać i jak interpretować wyniki).
+
+</details>
+
+<details>
+<summary>
+
+### Kiedy wybrać rozwiązania no-code, a kiedy kod z pomocą AI do zarządzania danymi?
+
+</summary>
+
+Masz senior programistę w zespole - wybierz kod z AI (Claude Code, Cursor) dla pełnej elastyczności. Nie masz technicznego zaplecza - zostań przy no-code (Airtable, Make, n8n). Hybryda ma sens tylko z mocnym zapleczem technicznym - wtedy łączysz zwinność prototypowania z praktycznym brakiem ograniczeń.
+
+</details>
+
+<details>
+<summary>
+
+### Jak ocenić poziom dojrzałości danych w firmie?
+
+</summary>
+
+Pięć poziomów: (1) Ad hoc - rozproszone Excele bez standardów, (2) Konsolidacja - dane w jednym systemie, (3) Standaryzacja - procedury, governance, walidacja, (4) Optymalizacja - monetyzacja i zaawansowane analizy, (5) Innowacja - kultura w pełni oparta na danych. Większość firm utyka na poziomie 1-2.
+
+</details>
+
+<details>
+<summary>
+
+### Od czego zacząć transformację danych w firmie?
+
+</summary>
+
+Wybierz jeden konkretny problem (np. duplikaty klientów, chaos w projektach), zbuduj mały prototyp w Airtable lub z pomocą AI, przetestuj z zespołem, zbierz feedback i iteruj. Nie szukaj perfekcji od razu - małe zwycięstwa budują momentum. Transformacja całej firmy naraz to przepis na porażkę.
+
+</details>

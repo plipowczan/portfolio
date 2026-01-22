@@ -154,3 +154,60 @@ AI to przyszłość programowania, ale to człowiek wciąż musi być pilotem, k
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czy AI pozwala nieprogramistom konkurować z profesjonalnymi zespołami na hackathonach?
+
+</summary>
+
+AI to equalizer - zespół bez doświadczenia koderskiego może w 24h stworzyć działającą aplikację webową. Jednak AI nie jest magiczną różdżką: kod często nie działa, modele halucynują nieistniejące biblioteki, a osiągnięcie wyniku wymaga ciągłego korygowania kursu. Bez umiejętności technicznych i krytycznego myślenia utkniesz w połowie drogi.
+
+</details>
+
+<details>
+<summary>
+
+### Jaki jest największy błąd zespołów na hackathonach technologicznych?
+
+</summary>
+
+Brak walidacji rozwiązania z użytkownikiem końcowym. Można stworzyć technicznie działający system, który jest kompletnie oderwany od realiów - "przestrzelony". Zespoły wygrywają nie najlepszym kodem, ale lepszą analizą biznesową. Walidacja > Technologia: nawet najlepszy kod nie obroni rozwiązania, które nie odpowiada na realne potrzeby.
+
+</details>
+
+<details>
+<summary>
+
+### Ile AI realnie pomaga przy tworzeniu projektu w 24 godziny?
+
+</summary>
+
+AI jest potężnym mnożnikiem siły - pozwala zużyć 18 milionów tokenów i wygenerować tony kodu. Ale wymaga prowadzenia za rękę: proponowane rozwiązania wyglądają poprawnie, ale sypią się przy uruchomieniu. Debugowanie nadal wymaga ręcznego czytania kodu. AI przyspiesza development, ale nie eliminuje potrzeby fundamentów technicznych.
+
+</details>
+
+<details>
+<summary>
+
+### Jaki proces przygotowania zwiększa szanse na wygraną w hackathonie?
+
+</summary>
+
+Cztery etapy: (1) wybór zadania dopasowanego do kompetencji zespołu, (2) analiza biznesowa z mapą procesu AS-IS/TO-BE i user stories, (3) development z gotowym boilerplate i testami, (4) dokumentacja i weryfikacja. Kluczowy błąd to pomijanie etapu 2 - analiza biznesowa decyduje o sukcesie bardziej niż jakość kodu.
+
+</details>
+
+<details>
+<summary>
+
+### Dlaczego zrozumienie problemu jest ważniejsze niż technologia na hackathonach?
+
+</summary>
+
+Technologia jest wtórna wobec zrozumienia problemu użytkownika. Zespoły z gotowymi komponentami i lepszą analizą biznesową wygrywają z zespołami, które mają lepszy kod, ale nie zwalidowały rozwiązania. Podejście "na żywioł" jest romantyczne, ale w starciu z przygotowaniem przegrywa.
+
+</details>

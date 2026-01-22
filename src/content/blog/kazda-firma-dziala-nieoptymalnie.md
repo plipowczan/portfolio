@@ -108,6 +108,63 @@ Jeśli chcesz przestać kłamać swoim pracownikom, że "jakoś to będzie", zac
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
 
+## FAQ
+
+<details open>
+<summary>
+
+### Dlaczego każda firma działa nieoptymalnie?
+
+</summary>
+
+Procesy narastają organicznie przez lata, wyobrażenia zarządu często mijają się z rzeczywistością, a pracownicy wykonują pracę robota (kopiuj-wklej między systemami). Z mapowania ponad 400 procesów wynika jeden wniosek: nieoptymalne miejsca są wszędzie. Pytanie brzmi tylko, jak szybko je znajdziesz i naprawisz.
+
+</details>
+
+<details>
+<summary>
+
+### Jakie elementy powinna zawierać skuteczna mapa procesu?
+
+</summary>
+
+Cztery elementy dla każdego kroku: akcja (co się dzieje), aktor (kto to robi), narzędzie (czym - Excel, CRM, Slack) i tryb (manualny czy automatyczny). Dzięki temu od razu widać, gdzie człowiek wykonuje pracę robota i gdzie brakuje integracji między systemami.
+
+</details>
+
+<details>
+<summary>
+
+### Jak znajdować miejsca do optymalizacji w procesach firmowych?
+
+</summary>
+
+Szukaj miejsc, gdzie: występuje najwięcej błędów, proces trwa najdłużej, dane są przepisywane ręcznie (ryzyko błędu, strata czasu), oraz gdzie zmiana będzie miała największy wpływ na zespół. Przed automatyzacją zadaj pytanie: czy ten krok w ogóle jest potrzebny?
+
+</details>
+
+<details>
+<summary>
+
+### Dlaczego większość map procesów jest bezużyteczna?
+
+</summary>
+
+SIPOC (tabelki) jest niezrozumiałe dla biznesu, BPMN jest zbyt skomplikowane (nadmiar bramek i symboli), a zwykły flowchart zbyt prosty - pokazuje "co" bez "kto" i "czym". Złoty środek to rozszerzony flowchart z czterema elementami: akcja, aktor, narzędzie, tryb.
+
+</details>
+
+<details>
+<summary>
+
+### Jaka jest właściwa kolejność działań przy optymalizacji procesów?
+
+</summary>
+
+Najpierw usuwaj (czy ten krok jest potrzebny?), potem upraszczaj (czy można go skrócić?), dopiero na końcu automatyzuj. Najgorszą rzeczą jest automatyzowanie czegoś, co w procesie w ogóle nie powinno się znaleźć. To złota zasada przed każdym projektem optymalizacji.
+
+</details>
+
 ---
 
 _Artykuł powstał na bazie prezentacji Pawła Lipowczana "Każda firma działa nieoptymalnie" wygłoszonej podczas InfoShare Katowice 2025._

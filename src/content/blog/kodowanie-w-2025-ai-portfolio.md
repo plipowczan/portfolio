@@ -117,3 +117,60 @@ Zapraszam do sprawdzenia efektów i code review! Feedback mile widziany.
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czy AI może zastąpić programistów w 2025 roku?
+
+</summary>
+
+AI to junior developer na sterydach - przyspiesza pracę 10x, ale wymaga nadzoru doświadczonego inżyniera. Agenci potrafią się zapętlić, halucynują nieistniejące biblioteki i generują "spaghetti kod" bez narzuconej struktury. Fundamenty inżynierskie są niezbędne do oceny poprawności kodu i odkręcania błędów.
+
+</details>
+
+<details>
+<summary>
+
+### Jakie umiejętności są potrzebne programiście do efektywnej pracy z AI?
+
+</summary>
+
+Znajomość architektury systemów, clean code i podział odpowiedzialności - AI ma tendencję do wrzucania wszystkiego do jednego worka. Umiejętność czytania i oceny kodu, nawet w nieznanym frameworku. Dbałość o jakość: testy E2E i code review przed każdym commitem. Bez tych fundamentów utoniesz w błędach.
+
+</details>
+
+<details>
+<summary>
+
+### Ile kosztuje rozwijanie projektu z pomocą AI zamiast tradycyjnego programowania?
+
+</summary>
+
+Plan PRO+ w Cursor.sh to około $60/miesiąc przy intensywnej pracy. Dla porównania: te same 60 milionów tokenów przez API kosztowałyby ~$325. Oszczędność jest kolosalna, ale są limity - przy intensywnej sesji trzeba zmieniać model lub czekać na odnowienie. Regularną pracę da się prowadzić bez blokad.
+
+</details>
+
+<details>
+<summary>
+
+### Jak zapewnić jakość kodu generowanego przez AI?
+
+</summary>
+
+Dwa poziomy zabezpieczeń: testy E2E (Playwright) weryfikujące każdą zmianę automatycznie oraz code review agent analizujący zmiany przed commitem. Agent wyłapuje błędy logiczne i potencjalne problemy, które łatwo przeoczyć. Bez testów i review chaos w projekcie jest nieunikniony.
+
+</details>
+
+<details>
+<summary>
+
+### Czy osoba bez doświadczenia programistycznego może zbudować profesjonalną aplikację z AI?
+
+</summary>
+
+Nie - profesjonalny, bezpieczny i skalowalny serwis wymaga wiedzy technicznej. "Vibe coding" i rozmowa z chatbotem dają efekty wizualne, ale nie pełną kontrolę nad kodem. AI doskonale wspiera doświadczonych inżynierów, ale nie zastępuje fundamentów programistycznych przy złożonych projektach.
+
+</details>
