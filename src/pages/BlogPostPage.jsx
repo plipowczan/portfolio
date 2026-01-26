@@ -21,7 +21,7 @@ const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
   // Auto-scroll within sidebar to keep active item visible (only on lg screens)
   useEffect(() => {
     // Only run on lg breakpoint where sidebar is visible
-    if (!window.matchMedia('(min-width: 1024px)').matches) return;
+    if (!window.matchMedia("(min-width: 1024px)").matches) return;
     if (!activeItemRef.current || !navRef.current || !activeId) return;
 
     // Calculate position relative to nav container and scroll nav directly
@@ -38,9 +38,12 @@ const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
 
     // Scroll nav container if item is outside visible area
     if (itemTop < visibleTop) {
-      nav.scrollTo({ top: itemTop - 10, behavior: 'smooth' });
+      nav.scrollTo({ top: itemTop - 10, behavior: "smooth" });
     } else if (itemBottom > visibleBottom) {
-      nav.scrollTo({ top: itemBottom - navRect.height + 10, behavior: 'smooth' });
+      nav.scrollTo({
+        top: itemBottom - navRect.height + 10,
+        behavior: "smooth",
+      });
     }
   }, [activeId]);
 
@@ -48,8 +51,8 @@ const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
 
   // Hide scrollbar styles
   const hideScrollbarStyle = {
-    scrollbarWidth: 'none', // Firefox
-    msOverflowStyle: 'none', // IE/Edge
+    scrollbarWidth: "none", // Firefox
+    msOverflowStyle: "none", // IE/Edge
   };
 
   return (
@@ -63,16 +66,16 @@ const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
         <h2 className="text-base font-bold text-white mb-3">Spis treści</h2>
         <ul className="space-y-0.5">
           {items.map((item) => (
-            <li key={item.id} className={item.level === 'h3' ? 'pl-4' : ''}>
+            <li key={item.id} className={item.level === "h3" ? "pl-4" : ""}>
               <button
                 ref={activeId === item.id ? activeItemRef : null}
                 onClick={() => onScrollToSection(item.id)}
                 className={`text-left w-full ${
-                  item.level === 'h2' ? 'text-sm' : 'text-xs'
+                  item.level === "h2" ? "text-sm" : "text-xs"
                 } transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-2 py-1 -mx-2 ${
                   activeId === item.id
-                    ? 'text-primary-500 font-medium'
-                    : 'text-gray-400 hover:text-primary-400'
+                    ? "text-primary-500 font-medium"
+                    : "text-gray-400 hover:text-primary-400"
                 }`}
               >
                 {item.text}
@@ -97,17 +100,23 @@ const FloatingTOCButton = ({ onClick }) => (
 );
 
 // Mobile Drawer Component - defined outside to prevent remounting
-const TableOfContentsDrawer = ({ items, activeId, isOpen, onClose, onScrollToSection }) => {
+const TableOfContentsDrawer = ({
+  items,
+  activeId,
+  isOpen,
+  onClose,
+  onScrollToSection,
+}) => {
   // Prevent body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
@@ -136,10 +145,10 @@ const TableOfContentsDrawer = ({ items, activeId, isOpen, onClose, onScrollToSec
 
           {/* Drawer */}
           <motion.div
-            initial={{ y: '100%' }}
+            initial={{ y: "100%" }}
             animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-0 left-0 right-0 bg-dark-800 border-t border-white/10 rounded-t-2xl z-50 lg:hidden max-h-[80vh] overflow-y-auto"
           >
             <div className="p-6">
@@ -159,15 +168,18 @@ const TableOfContentsDrawer = ({ items, activeId, isOpen, onClose, onScrollToSec
               <nav aria-label="Table of Contents">
                 <ul className="space-y-1">
                   {items.map((item) => (
-                    <li key={item.id} className={item.level === 'h3' ? 'pl-4' : ''}>
+                    <li
+                      key={item.id}
+                      className={item.level === "h3" ? "pl-4" : ""}
+                    >
                       <button
                         onClick={() => handleLinkClick(item.id)}
                         className={`text-left w-full ${
-                          item.level === 'h2' ? 'text-sm' : 'text-xs'
+                          item.level === "h2" ? "text-sm" : "text-xs"
                         } transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 rounded px-2 py-1 -mx-2 ${
                           activeId === item.id
-                            ? 'text-primary-500 font-medium'
-                            : 'text-gray-300 hover:text-primary-400'
+                            ? "text-primary-500 font-medium"
+                            : "text-gray-300 hover:text-primary-400"
                         }`}
                       >
                         {item.text}
@@ -204,56 +216,79 @@ const BlogPostPage = () => {
 
     // Shared normalization function for consistent slug generation
     const normalizeToSlug = (text) => {
-      if (!text) return '';
+      if (!text) return "";
 
       const polishCharsMap = {
-        'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n',
-        'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
-        'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n',
-        'Ó': 'o', 'Ś': 's', 'Ź': 'z', 'Ż': 'z'
+        ą: "a",
+        ć: "c",
+        ę: "e",
+        ł: "l",
+        ń: "n",
+        ó: "o",
+        ś: "s",
+        ź: "z",
+        ż: "z",
+        Ą: "a",
+        Ć: "c",
+        Ę: "e",
+        Ł: "l",
+        Ń: "n",
+        Ó: "o",
+        Ś: "s",
+        Ź: "z",
+        Ż: "z",
       };
 
-      return text
-        .toString()
-        .trim()
-        // Replace Polish characters with ASCII equivalents (both upper and lowercase)
-        .replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, (char) => polishCharsMap[char] || char)
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '') // Remove remaining special chars
-        .replace(/\s+/g, '-') // Replace spaces with hyphens
-        .replace(/-+/g, '-') // Remove consecutive hyphens
-        .replace(/^-+|-+$/g, ''); // Trim hyphens from start/end
+      return (
+        text
+          .toString()
+          .trim()
+          // Replace Polish characters with ASCII equivalents (both upper and lowercase)
+          .replace(
+            /[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g,
+            (char) => polishCharsMap[char] || char,
+          )
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, "") // Remove remaining special chars
+          .replace(/\s+/g, "-") // Replace spaces with hyphens
+          .replace(/-+/g, "-") // Remove consecutive hyphens
+          .replace(/^-+|-+$/g, "")
+      ); // Trim hyphens from start/end
     };
 
     return (text) => {
-    if (!text) return '';
+      if (!text) return "";
 
-    let baseSlug = normalizeToSlug(text);
+      let baseSlug = normalizeToSlug(text);
 
-    // Handle empty slugs from special-char-only headings
-    if (!baseSlug || baseSlug === '-') {
-      baseSlug = 'untitled';
-    }
-
-    // Check if we've already assigned an ID for this exact text (cache for re-renders)
-    if (headingCountersRef.current.has(text)) {
-      const existingCounter = headingCountersRef.current.get(text);
-      const finalSlug = existingCounter === 0 ? baseSlug : `${baseSlug}-${existingCounter}`;
-      return finalSlug;
-    }
-
-    // Find the next available counter for this base slug (for duplicates)
-    let counter = 0;
-    for (const [existingText, existingCounter] of headingCountersRef.current.entries()) {
-      const existingBase = normalizeToSlug(existingText);
-      if (existingBase === baseSlug && existingCounter >= counter) {
-        counter = existingCounter + 1;
+      // Handle empty slugs from special-char-only headings
+      if (!baseSlug || baseSlug === "-") {
+        baseSlug = "untitled";
       }
-    }
 
-    const finalSlug = counter === 0 ? baseSlug : `${baseSlug}-${counter}`;
-    headingCountersRef.current.set(text, counter);
-    return finalSlug;
+      // Check if we've already assigned an ID for this exact text (cache for re-renders)
+      if (headingCountersRef.current.has(text)) {
+        const existingCounter = headingCountersRef.current.get(text);
+        const finalSlug =
+          existingCounter === 0 ? baseSlug : `${baseSlug}-${existingCounter}`;
+        return finalSlug;
+      }
+
+      // Find the next available counter for this base slug (for duplicates)
+      let counter = 0;
+      for (const [
+        existingText,
+        existingCounter,
+      ] of headingCountersRef.current.entries()) {
+        const existingBase = normalizeToSlug(existingText);
+        if (existingBase === baseSlug && existingCounter >= counter) {
+          counter = existingCounter + 1;
+        }
+      }
+
+      const finalSlug = counter === 0 ? baseSlug : `${baseSlug}-${counter}`;
+      headingCountersRef.current.set(text, counter);
+      return finalSlug;
     };
   }, [post]);
 
@@ -262,7 +297,7 @@ const BlogPostPage = () => {
 
   // Custom hook: Track active section based on scroll position
   const useScrollSpy = (tocItems, manualScrollingRef) => {
-    const [activeId, setActiveId] = useState('');
+    const [activeId, setActiveId] = useState("");
 
     useEffect(() => {
       if (!tocItems || tocItems.length === 0) {
@@ -322,10 +357,10 @@ const BlogPostPage = () => {
         }
       };
 
-      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener("scroll", onScroll, { passive: true });
 
       return () => {
-        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener("scroll", onScroll);
       };
     }, [tocItems]);
 
@@ -335,13 +370,13 @@ const BlogPostPage = () => {
   // Helper: Check if an H2 heading is an FAQ section by text content
   // This matches the detection logic in faqExtractor.js for consistency
   const isFAQSection = (heading) => {
-    if (heading.tagName.toLowerCase() !== 'h2') return false;
+    if (heading.tagName.toLowerCase() !== "h2") return false;
     const text = heading.textContent.trim().toLowerCase();
     return (
-      text.includes('faq') ||
-      text.includes('najczęściej zadawane pytania') ||
-      text.includes('pytania i odpowiedzi') ||
-      text.includes('najczesciej zadawane pytania') // Without Polish characters
+      text.includes("faq") ||
+      text.includes("najczęściej zadawane pytania") ||
+      text.includes("pytania i odpowiedzi") ||
+      text.includes("najczesciej zadawane pytania") // Without Polish characters
     );
   };
 
@@ -364,7 +399,7 @@ const BlogPostPage = () => {
         setContentElement(contentRef.current);
 
         // Extract TOC immediately after contentElement is set
-        const headings = contentRef.current.querySelectorAll('h2, h3');
+        const headings = contentRef.current.querySelectorAll("h2, h3");
 
         let currentlyInFAQ = false;
 
@@ -374,18 +409,20 @@ const BlogPostPage = () => {
             const id = heading.id;
 
             // Track if we're in FAQ section using text content detection
-            if (level === 'h2') {
+            if (level === "h2") {
               currentlyInFAQ = isFAQSection(heading);
             }
 
             // Filter out H3s that are FAQ questions (keep FAQ H2 header)
-            const shouldInclude = !(level === 'h3' && currentlyInFAQ);
+            const shouldInclude = !(level === "h3" && currentlyInFAQ);
 
-            return shouldInclude ? {
-              id: id,
-              text: heading.textContent,
-              level: level,
-            } : null;
+            return shouldInclude
+              ? {
+                  id: id,
+                  text: heading.textContent,
+                  level: level,
+                }
+              : null;
           })
           .filter(Boolean); // Remove nulls
 
@@ -417,7 +454,7 @@ const BlogPostPage = () => {
       // Check if clicked element is a CTA button to contact section
       const target = e.target.closest('a[href="/#contact"]');
 
-      if (target && target.classList.contains('btn-primary')) {
+      if (target && target.classList.contains("btn-primary")) {
         e.preventDefault();
         e.stopPropagation();
         openBookingModal();
@@ -425,10 +462,10 @@ const BlogPostPage = () => {
     };
 
     // Use capture phase to intercept before default navigation
-    document.addEventListener('click', handleCtaClick, true);
+    document.addEventListener("click", handleCtaClick, true);
 
     return () => {
-      document.removeEventListener('click', handleCtaClick, true);
+      document.removeEventListener("click", handleCtaClick, true);
     };
   }, [openBookingModal]);
 
@@ -472,7 +509,7 @@ const BlogPostPage = () => {
     // Use native scrollTo with smooth behavior
     window.scrollTo({
       top: targetPosition,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
 
     // Clear flag after scroll completes (max 1s for smooth scroll animation)
@@ -543,298 +580,304 @@ const BlogPostPage = () => {
               initial="hidden"
               animate="visible"
               variants={FADE_IN_UP}
-              className="space-y-8"
+              className="space-y-8 w-full min-w-0"
             >
-            {/* Breadcrumbs */}
-            <Breadcrumbs
-              items={[
-                { label: "Home", path: "/" },
-                { label: "Blog", path: "/blog" },
-                { label: post.title, path: null },
-              ]}
-            />
+              {/* Breadcrumbs */}
+              <Breadcrumbs
+                items={[
+                  { label: "Home", path: "/" },
+                  { label: "Blog", path: "/blog" },
+                  { label: post.title, path: null },
+                ]}
+              />
 
-            {/* Category Badge */}
-            <div>
-              <span className="px-4 py-2 text-sm font-medium bg-primary-500/10 text-primary-500 rounded-full border border-primary-500/20">
-                {post.category}
-              </span>
-            </div>
-
-            {/* Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              {post.title}
-            </h1>
-
-            {/* Meta Info */}
-            <div className="flex flex-wrap items-center gap-6 text-gray-400 pb-8 border-b border-gray-700">
-              <div className="flex items-center space-x-2">
-                <FaCalendar className="text-primary-500" />
-                <span>{post.date}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <FaClock className="text-primary-500" />
-                <span>{post.readTime}</span>
-              </div>
+              {/* Category Badge */}
               <div>
-                By <span className="text-primary-500">{post.author}</span>
-              </div>
-            </div>
-
-            {/* Featured Image */}
-            <div className="relative overflow-hidden rounded-xl bg-dark-700 h-96">
-              {!imageError ? (
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  onError={() => {
-                    console.error(`Failed to load image: ${post.image}`);
-                    setImageError(true);
-                  }}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-dark-800">
-                  <p className="text-gray-400 text-center px-4">
-                    Obrazek nie mógł zostać załadowany
-                    <br />
-                    <span className="text-sm text-gray-500">{post.image}</span>
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Content */}
-            <div ref={contentRef} className="prose prose-invert prose-lg max-w-none">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={{
-                  h1: ({ node, children, ...props }) => {
-                    // Recursively extract text from children (handles arrays, nested elements)
-                    const extractText = (children) => {
-                      if (typeof children === 'string') return children;
-                      if (Array.isArray(children)) {
-                        return children.map(extractText).join('');
-                      }
-                      if (children?.props?.children) {
-                        return extractText(children.props.children);
-                      }
-                      return '';
-                    };
-
-                    const text = extractText(children);
-                    const id = generateSlug(text);
-
-                    return (
-                      <h2
-                        id={id}
-                        className="text-3xl font-bold text-white mt-10 mb-4"
-                        {...props}
-                      >
-                        {children}
-                      </h2>
-                    );
-                  },
-                  h2: ({ node, children, ...props }) => {
-                    // Recursively extract text from children (handles arrays, nested elements)
-                    const extractText = (children) => {
-                      if (typeof children === 'string') return children;
-                      if (Array.isArray(children)) {
-                        return children.map(extractText).join('');
-                      }
-                      if (children?.props?.children) {
-                        return extractText(children.props.children);
-                      }
-                      return '';
-                    };
-
-                    const text = extractText(children);
-                    const id = generateSlug(text);
-
-                    return (
-                      <h2
-                        id={id}
-                        className="text-3xl font-bold text-white mt-10 mb-4"
-                        {...props}
-                      >
-                        {children}
-                      </h2>
-                    );
-                  },
-                  h3: ({ node, children, ...props }) => {
-                    // Recursively extract text from children (handles arrays, nested elements)
-                    const extractText = (children) => {
-                      if (typeof children === 'string') return children;
-                      if (Array.isArray(children)) {
-                        return children.map(extractText).join('');
-                      }
-                      if (children?.props?.children) {
-                        return extractText(children.props.children);
-                      }
-                      return '';
-                    };
-
-                    const text = extractText(children);
-                    const id = generateSlug(text);
-
-                    return (
-                      <h3
-                        id={id}
-                        className="text-2xl font-bold text-white mt-8 mb-3"
-                        {...props}
-                      >
-                        {children}
-                      </h3>
-                    );
-                  },
-                  p: ({ node, ...props }) => (
-                    <p
-                      className="text-gray-300 leading-relaxed mb-6"
-                      {...props}
-                    />
-                  ),
-                  code: ({ node, inline, className, children, ...props }) => {
-                    // Block code: inline === false OR className starts with 'language-'
-                    // Inline code: inline !== false AND (no className OR className doesn't start with 'language-')
-                    const isBlockCode =
-                      inline === false ||
-                      (className && className.startsWith("language-"));
-                    const isInline = !isBlockCode;
-
-                    return isInline ? (
-                      <span
-                        className="px-1.5 py-0.5 bg-dark-700 text-primary-500 rounded text-sm font-mono whitespace-nowrap"
-                        {...props}
-                      >
-                        {children}
-                      </span>
-                    ) : (
-                      <code
-                        className="block px-6 py-4 bg-dark-700 text-primary-500 rounded-lg overflow-x-auto font-mono text-sm"
-                        {...props}
-                      >
-                        {children}
-                      </code>
-                    );
-                  },
-                  pre: ({ node, ...props }) => (
-                    <pre
-                      className="mb-6 rounded-lg overflow-hidden"
-                      {...props}
-                    />
-                  ),
-                  ul: ({ node, ...props }) => (
-                    <ul
-                      className="list-disc list-inside text-gray-300 mb-6 space-y-2"
-                      {...props}
-                    />
-                  ),
-                  ol: ({ node, ...props }) => (
-                    <ol
-                      className="list-decimal list-inside text-gray-300 mb-6 space-y-2"
-                      {...props}
-                    />
-                  ),
-                  li: ({ node, ...props }) => (
-                    <li className="text-gray-300" {...props} />
-                  ),
-                  a: ({ node, href, ...props }) => {
-                    const isExternal =
-                      href &&
-                      (href.startsWith("http://") ||
-                        href.startsWith("https://")) &&
-                      !href.includes("pawel.lipowczan.pl");
-                    return (
-                      <a
-                        href={href}
-                        className="text-primary-500 hover:text-primary-400 underline"
-                        {...(isExternal && {
-                          target: "_blank",
-                          rel: "noopener noreferrer",
-                        })}
-                        {...props}
-                      />
-                    );
-                  },
-                  blockquote: ({ node, ...props }) => (
-                    <blockquote
-                      className="border-l-4 border-primary-500 pl-6 italic text-gray-400 my-6"
-                      {...props}
-                    />
-                  ),
-                  table: ({ node, ...props }) => (
-                    <div className="overflow-x-auto mb-6">
-                      <table
-                        className="min-w-full divide-y divide-gray-700 border border-gray-700 rounded-lg"
-                        {...props}
-                      />
-                    </div>
-                  ),
-                  thead: ({ node, ...props }) => (
-                    <thead className="bg-dark-700" {...props} />
-                  ),
-                  tbody: ({ node, ...props }) => (
-                    <tbody
-                      className="divide-y divide-gray-700 bg-dark-800"
-                      {...props}
-                    />
-                  ),
-                  tr: ({ node, ...props }) => (
-                    <tr
-                      className="hover:bg-dark-700/50 transition-colors"
-                      {...props}
-                    />
-                  ),
-                  th: ({ node, ...props }) => (
-                    <th
-                      className="px-4 py-3 text-left text-xs font-semibold text-primary-500 uppercase tracking-wider border-b border-gray-700"
-                      {...props}
-                    />
-                  ),
-                  td: ({ node, ...props }) => (
-                    <td
-                      className="px-4 py-3 text-sm text-gray-300"
-                      {...props}
-                    />
-                  ),
-                }}
-              >
-                {post.content}
-              </ReactMarkdown>
-            </div>
-
-            {/* Tags */}
-            <div className="pt-8 border-t border-gray-700">
-              <div className="flex flex-wrap gap-3">
-                <span className="text-gray-400 flex items-center space-x-2">
-                  <FaTag className="text-primary-500" />
-                  <span>Tags:</span>
+                <span className="px-4 py-2 text-sm font-medium bg-primary-500/10 text-primary-500 rounded-full border border-primary-500/20">
+                  {post.category}
                 </span>
-                {post.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 text-sm bg-primary-500/10 text-primary-500 rounded-full border border-primary-500/20"
-                  >
-                    {tag}
-                  </span>
-                ))}
               </div>
-            </div>
 
-            {/* Navigation */}
-            <div className="pt-8 border-t border-gray-700 flex justify-center">
-              <Link to="/blog" className="btn-outline">
-                View All Posts
-              </Link>
-            </div>
+              {/* Title */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                {post.title}
+              </h1>
+
+              {/* Meta Info */}
+              <div className="flex flex-wrap items-center gap-6 text-gray-400 pb-8 border-b border-gray-700">
+                <div className="flex items-center space-x-2">
+                  <FaCalendar className="text-primary-500" />
+                  <span>{post.date}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <FaClock className="text-primary-500" />
+                  <span>{post.readTime}</span>
+                </div>
+                <div>
+                  By <span className="text-primary-500">{post.author}</span>
+                </div>
+              </div>
+
+              {/* Featured Image */}
+              <div className="relative overflow-hidden rounded-xl bg-dark-700 h-96">
+                {!imageError ? (
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    onError={() => {
+                      console.error(`Failed to load image: ${post.image}`);
+                      setImageError(true);
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-dark-800">
+                    <p className="text-gray-400 text-center px-4">
+                      Obrazek nie mógł zostać załadowany
+                      <br />
+                      <span className="text-sm text-gray-500">
+                        {post.image}
+                      </span>
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Content */}
+              <div
+                ref={contentRef}
+                className="prose prose-invert prose-lg max-w-none"
+              >
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                  components={{
+                    h1: ({ node, children, ...props }) => {
+                      // Recursively extract text from children (handles arrays, nested elements)
+                      const extractText = (children) => {
+                        if (typeof children === "string") return children;
+                        if (Array.isArray(children)) {
+                          return children.map(extractText).join("");
+                        }
+                        if (children?.props?.children) {
+                          return extractText(children.props.children);
+                        }
+                        return "";
+                      };
+
+                      const text = extractText(children);
+                      const id = generateSlug(text);
+
+                      return (
+                        <h2
+                          id={id}
+                          className="text-3xl font-bold text-white mt-10 mb-4"
+                          {...props}
+                        >
+                          {children}
+                        </h2>
+                      );
+                    },
+                    h2: ({ node, children, ...props }) => {
+                      // Recursively extract text from children (handles arrays, nested elements)
+                      const extractText = (children) => {
+                        if (typeof children === "string") return children;
+                        if (Array.isArray(children)) {
+                          return children.map(extractText).join("");
+                        }
+                        if (children?.props?.children) {
+                          return extractText(children.props.children);
+                        }
+                        return "";
+                      };
+
+                      const text = extractText(children);
+                      const id = generateSlug(text);
+
+                      return (
+                        <h2
+                          id={id}
+                          className="text-3xl font-bold text-white mt-10 mb-4"
+                          {...props}
+                        >
+                          {children}
+                        </h2>
+                      );
+                    },
+                    h3: ({ node, children, ...props }) => {
+                      // Recursively extract text from children (handles arrays, nested elements)
+                      const extractText = (children) => {
+                        if (typeof children === "string") return children;
+                        if (Array.isArray(children)) {
+                          return children.map(extractText).join("");
+                        }
+                        if (children?.props?.children) {
+                          return extractText(children.props.children);
+                        }
+                        return "";
+                      };
+
+                      const text = extractText(children);
+                      const id = generateSlug(text);
+
+                      return (
+                        <h3
+                          id={id}
+                          className="text-2xl font-bold text-white mt-8 mb-3"
+                          {...props}
+                        >
+                          {children}
+                        </h3>
+                      );
+                    },
+                    p: ({ node, ...props }) => (
+                      <p
+                        className="text-gray-300 leading-relaxed mb-6"
+                        {...props}
+                      />
+                    ),
+                    code: ({ node, inline, className, children, ...props }) => {
+                      // Block code: inline === false OR className starts with 'language-'
+                      // Inline code: inline !== false AND (no className OR className doesn't start with 'language-')
+                      const isBlockCode =
+                        inline === false ||
+                        (className && className.startsWith("language-"));
+                      const isInline = !isBlockCode;
+
+                      return isInline ? (
+                        <span
+                          className="px-1.5 py-0.5 bg-dark-700 text-primary-500 rounded text-sm font-mono inline-block max-w-full [overflow-wrap:anywhere]"
+                          {...props}
+                        >
+                          {children}
+                        </span>
+                      ) : (
+                        <code
+                          className="block px-6 py-4 bg-dark-700 text-primary-500 rounded-lg overflow-x-auto font-mono text-sm"
+                          {...props}
+                        >
+                          {children}
+                        </code>
+                      );
+                    },
+                    pre: ({ node, ...props }) => (
+                      <pre className="mb-6 rounded-lg" {...props} />
+                    ),
+                    ul: ({ node, ...props }) => (
+                      <ul
+                        className="list-disc list-inside text-gray-300 mb-6 space-y-2"
+                        {...props}
+                      />
+                    ),
+                    ol: ({ node, ...props }) => (
+                      <ol
+                        className="list-decimal list-inside text-gray-300 mb-6 space-y-2"
+                        {...props}
+                      />
+                    ),
+                    li: ({ node, ...props }) => (
+                      <li className="text-gray-300" {...props} />
+                    ),
+                    a: ({ node, href, ...props }) => {
+                      const isExternal =
+                        href &&
+                        (href.startsWith("http://") ||
+                          href.startsWith("https://")) &&
+                        !href.includes("pawel.lipowczan.pl");
+                      return (
+                        <a
+                          href={href}
+                          className="text-primary-500 hover:text-primary-400 underline"
+                          {...(isExternal && {
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                          })}
+                          {...props}
+                        />
+                      );
+                    },
+                    blockquote: ({ node, ...props }) => (
+                      <blockquote
+                        className="border-l-4 border-primary-500 pl-6 italic text-gray-400 my-6"
+                        {...props}
+                      />
+                    ),
+                    table: ({ node, ...props }) => (
+                      <div className="overflow-x-auto mb-6">
+                        <table
+                          className="min-w-full divide-y divide-gray-700 border border-gray-700 rounded-lg"
+                          {...props}
+                        />
+                      </div>
+                    ),
+                    thead: ({ node, ...props }) => (
+                      <thead className="bg-dark-700" {...props} />
+                    ),
+                    tbody: ({ node, ...props }) => (
+                      <tbody
+                        className="divide-y divide-gray-700 bg-dark-800"
+                        {...props}
+                      />
+                    ),
+                    tr: ({ node, ...props }) => (
+                      <tr
+                        className="hover:bg-dark-700/50 transition-colors"
+                        {...props}
+                      />
+                    ),
+                    th: ({ node, ...props }) => (
+                      <th
+                        className="px-4 py-3 text-left text-xs font-semibold text-primary-500 uppercase tracking-wider border-b border-gray-700"
+                        {...props}
+                      />
+                    ),
+                    td: ({ node, ...props }) => (
+                      <td
+                        className="px-4 py-3 text-sm text-gray-300"
+                        {...props}
+                      />
+                    ),
+                  }}
+                >
+                  {post.content}
+                </ReactMarkdown>
+              </div>
+
+              {/* Tags */}
+              <div className="pt-8 border-t border-gray-700">
+                <div className="flex flex-wrap gap-3">
+                  <span className="text-gray-400 flex items-center space-x-2">
+                    <FaTag className="text-primary-500" />
+                    <span>Tags:</span>
+                  </span>
+                  {post.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 text-sm bg-primary-500/10 text-primary-500 rounded-full border border-primary-500/20"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div className="pt-8 border-t border-gray-700 flex justify-center">
+                <Link to="/blog" className="btn-outline">
+                  View All Posts
+                </Link>
+              </div>
             </motion.div>
 
             {/* Desktop TOC Sidebar */}
             {tocItems.length >= 2 && (
               <aside className="hidden lg:block">
-                <TableOfContentsSidebar items={tocItems} activeId={activeId} onScrollToSection={scrollToSection} />
+                <TableOfContentsSidebar
+                  items={tocItems}
+                  activeId={activeId}
+                  onScrollToSection={scrollToSection}
+                />
               </aside>
             )}
           </div>

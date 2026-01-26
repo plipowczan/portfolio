@@ -7,8 +7,7 @@
 
 @layer base {
   body {
-    @apply bg-dark-900 text-gray-100 font-sans antialiased;
-    overflow-x: hidden;
+    @apply bg-dark-900 text-gray-100 font-sans antialiased overflow-x-hidden;
   }
 
   html {
@@ -126,11 +125,8 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background-image: linear-gradient(
-      90deg,
-      rgba(0, 255, 157, 0.03) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(90deg, rgba(0, 255, 157, 0.03) 1px, transparent 1px),
     linear-gradient(rgba(0, 255, 157, 0.03) 1px, transparent 1px);
   background-size: 100px 100px;
   animation: network-float 20s ease-in-out infinite;
@@ -139,12 +135,16 @@
 
 /* Glow effect */
 .glow {
-  box-shadow: 0 0 20px rgba(0, 255, 157, 0.3), 0 0 40px rgba(0, 255, 157, 0.2),
+  box-shadow:
+    0 0 20px rgba(0, 255, 157, 0.3),
+    0 0 40px rgba(0, 255, 157, 0.2),
     0 0 60px rgba(0, 255, 157, 0.1);
 }
 
 .glow-text {
-  text-shadow: 0 0 20px rgba(0, 255, 157, 0.5), 0 0 40px rgba(0, 255, 157, 0.3);
+  text-shadow:
+    0 0 20px rgba(0, 255, 157, 0.5),
+    0 0 40px rgba(0, 255, 157, 0.3);
 }
 
 /* Focus visible for accessibility */
@@ -269,6 +269,20 @@
 /* FAQ answer content (all content except summary) */
 .prose details > *:not(summary) {
   @apply px-4 pb-4 pt-0 text-gray-300;
+  /* Handle long URLs and other unbreakable text in FAQ answers by allowing them to wrap within the container */
+  overflow-wrap: break-word;
+}
+
+/* Code blocks: preserve formatting and allow horizontal scrolling instead of forcing line breaks */
+.prose pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Inline code inside flowing text: allow aggressive breaking so a single long token/URL does not overflow the layout */
+.prose code {
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 /* Special styling for FAQ section header (H2) */
