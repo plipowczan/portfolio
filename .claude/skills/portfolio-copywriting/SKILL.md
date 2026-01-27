@@ -12,12 +12,12 @@ Skill do tworzenia artykulow na bloga portfolio pawellipowczan.pl w charakteryst
 
 ### Styl pisania
 
-| Aspekt | Charakterystyka |
-|--------|-----------------|
-| Jezyk | Polski + angielskie terminy techniczne |
-| Ton | Bezposredni, praktyczny, osobisty |
-| Perspektywa | Pierwsza osoba (ja, my) |
-| Podejscie | Oparte na doswiadczeniu, konkretne przyklady |
+| Aspekt      | Charakterystyka                              |
+| ----------- | -------------------------------------------- |
+| Jezyk       | Polski + angielskie terminy techniczne       |
+| Ton         | Bezposredni, praktyczny, osobisty            |
+| Perspektywa | Pierwsza osoba (ja, my)                      |
+| Podejscie   | Oparte na doswiadczeniu, konkretne przyklady |
 
 ### Kategorie artykulow
 
@@ -144,11 +144,11 @@ tags:
 
 ### Dlugosc
 
-| Typ | Slowa |
-|-----|-------|
+| Typ         | Slowa     |
+| ----------- | --------- |
 | Standardowy | 2000-3000 |
-| Case study | 1500-2500 |
-| Quick tip | 800-1500 |
+| Case study  | 1500-2500 |
+| Quick tip   | 800-1500  |
 
 ### SEO
 
@@ -162,6 +162,7 @@ tags:
 Kazdy artykul musi zawierac sekcje FAQ zoptymalizowana pod AI/LLM (AEO - Answer Engine Optimization):
 
 **Struktura z akordeonem:**
+
 ```markdown
 ## FAQ
 
@@ -189,6 +190,7 @@ Kazdy artykul musi zawierac sekcje FAQ zoptymalizowana pod AI/LLM (AEO - Answer 
 ```
 
 **Wytyczne:**
+
 - **Pytania:** 4-6 naturalnych pytan, pelnymi zdaniami (nie slowa kluczowe)
 - **Dlugosc pytan:** 10-25 slow, konwersacyjne
 - **Odpowiedzi:** 2-4 zdania, kluczowa info na poczatku
@@ -197,7 +199,7 @@ Kazdy artykul musi zawierac sekcje FAQ zoptymalizowana pod AI/LLM (AEO - Answer 
 - **Accordion:** Kazde pytanie w `<details open>` (default expanded dla SEO)
 - **Struktura:** H3 w `<summary>`, odpowiedz jako paragraf w details body
 
-**Szczegolowe guidelines:** `docs/blog/FAQ_TEMPLATE.md` i `docs/blog/FAQ_GUIDELINES.md`
+**Szczegolowe guidelines:** `docs/faq/FAQ_TEMPLATE.md` i `docs/faq/FAQ_GUIDELINES.md`
 
 **Technical:** FAQPage schema auto-generuje sie z HTML (nie trzeba recznej konfiguracji)
 
@@ -240,10 +242,12 @@ procesu. Sam popelnilem ten blad przy pierwszym projekcie...
 ## Czego sie nauczylismy
 
 ### Co nie zadzialo
+
 1. Brak walidacji z uzytkownikiem
 2. Zbyt optymistyczne zalozenia
 
 ### Co zadzialo
+
 1. Szybkie prototypowanie
 2. Regularne demo
 ```

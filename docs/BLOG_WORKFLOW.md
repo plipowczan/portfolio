@@ -415,7 +415,7 @@ The blog-article-writer agent **automatically includes FAQ section** in every ar
 
 **Resources:**
 
-- **Template:** `docs/blog/FAQ_TEMPLATE.md` - Quick reference
+- **Template:** `docs/faq/FAQ_TEMPLATE.md` - Quick reference
 - **Guidelines:** `docs/blog/FAQ_GUIDELINES.md` - Comprehensive LLM optimization guide
 - **Implementation:** `src/utils/faqExtractor.js` - FAQ extraction & schema generation
 

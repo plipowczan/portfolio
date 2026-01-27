@@ -72,7 +72,7 @@ PLAN (Planning) - Design article structure and approach
    - H2 header: "FAQ"
    - 4-6 natural questions (10-25 words each)
    - Snippet-style answers (2-4 sentences)
-   - Follow `docs/blog/FAQ_TEMPLATE.md` structure
+   - Follow `docs/faq/FAQ_TEMPLATE.md` structure
    - Optimize for LLM/AI consumption (AEO)
    - FAQPage schema will auto-generate from content
 

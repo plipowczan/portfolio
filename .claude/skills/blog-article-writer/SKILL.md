@@ -12,13 +12,13 @@ Complete workflow for creating blog articles on pawellipowczan.pl with automatic
 
 ### Available Subcommands
 
-| Command | Purpose |
-|---------|---------|
-| `/blog-article-writer:prime` | Research and analyze source materials |
-| `/blog-article-writer:plan` | Create detailed article plan |
-| `/blog-article-writer:execute` | Write article following approved plan |
-| `/blog-article-writer:validate` | Validate article + generate OG image + update sitemap |
-| `/blog-article-writer:generate-og-prompt` | Generate Gemini API prompt for OG image |
+| Command                                   | Purpose                                               |
+| ----------------------------------------- | ----------------------------------------------------- |
+| `/blog-article-writer:prime`              | Research and analyze source materials                 |
+| `/blog-article-writer:plan`               | Create detailed article plan                          |
+| `/blog-article-writer:execute`            | Write article following approved plan                 |
+| `/blog-article-writer:validate`           | Validate article + generate OG image + update sitemap |
+| `/blog-article-writer:generate-og-prompt` | Generate Gemini API prompt for OG image               |
 
 ### Workflow Overview
 
@@ -50,41 +50,46 @@ Complete workflow for creating blog articles on pawellipowczan.pl with automatic
 
 ## File Locations
 
-| Artifact | Path |
-|----------|------|
-| Prime Context | `.claude/agents/context/blog-prime-{topic}.md` |
-| Plans | `.claude/agents/plans/blog-{slug}.md` |
-| Articles | `src/content/blog/{slug}.md` |
+| Artifact           | Path                                               |
+| ------------------ | -------------------------------------------------- |
+| Prime Context      | `.claude/agents/context/blog-prime-{topic}.md`     |
+| Plans              | `.claude/agents/plans/blog-{slug}.md`              |
+| Articles           | `src/content/blog/{slug}.md`                       |
 | Validation Reports | `.claude/agents/reports/validation-blog-{slug}.md` |
-| OG Images | `public/images/og-{slug}.webp` |
-| OG Prompts | `.claude/agents/prompts/og-{slug}-prompt.txt` |
+| OG Images          | `public/images/og-{slug}.webp`                     |
+| OG Prompts         | `.claude/agents/prompts/og-{slug}-prompt.txt`      |
 
 ## Critical Requirements
 
 ### Code Blocks
+
 - ALL code blocks MUST have language tag
 - Use `text` if no specific language applies
 - Validation will fail if blocks lack tags
 
 ### Language
+
 - Polish + natural English technical terms
 - NEVER polonize: "komendyfikacja" → use "commandification" or describe
 - Keep English: React, API, hooks, deployment, skills
 
 ### Style
+
 - Pawel's voice: direct, practical, personal
 - Short paragraphs (2-4 sentences)
 - Bold key concepts on first mention
 - First-person perspective
 
 ### FAQ Section (Required)
+
 - 4-6 questions optimized for LLM discovery
 - Natural Polish questions (10-25 words each)
 - Snippet-style answers (2-4 sentences)
 - Use `<details open>` accordion format
-- See `docs/blog/FAQ_TEMPLATE.md` for structure
+- See `docs/faq/FAQ_TEMPLATE.md` for structure
 
 ### OG Images
+
 - NO TEXT (abstract visual design only)
 - Uses portfolio design tokens (#00ff9d, #00b8ff, #0a0e1a, #151b2b)
 - Generated via `scripts/generate-image.js` + Gemini API
@@ -97,6 +102,7 @@ Complete workflow for creating blog articles on pawellipowczan.pl with automatic
 **Purpose:** Research and analyze source materials before writing.
 
 **Steps:**
+
 1. Check `docs/blog/` for source materials
 2. Read 2-3 recent articles from `src/content/blog/`
 3. Review portfolio-copywriting skill guidelines
@@ -114,6 +120,7 @@ Complete workflow for creating blog articles on pawellipowczan.pl with automatic
 **Prerequisites:** Prime completed
 
 **Steps:**
+
 1. Load prime context
 2. Determine next blog ID (grep existing IDs)
 3. Design frontmatter (title, excerpt, slug, tags)
@@ -132,6 +139,7 @@ Complete workflow for creating blog articles on pawellipowczan.pl with automatic
 **Prerequisites:** Plan approved by user
 
 **Steps:**
+
 1. Load plan from `.claude/agents/plans/blog-{slug}.md`
 2. Check for user feedback in plan
 3. Use `portfolio-copywriting` skill to write article
@@ -151,12 +159,14 @@ Complete workflow for creating blog articles on pawellipowczan.pl with automatic
 **Steps:**
 
 **Level 1: File Structure**
+
 - Article file exists
 - Frontmatter valid YAML
 - All required fields present
 - Blog ID unique
 
 **Level 2: Content Quality**
+
 - Code blocks have language tags
 - No polonized terms
 - FAQ section present
@@ -181,11 +191,13 @@ node scripts/convert-to-webp.js public/images/og-{slug}.png
 ```
 
 **Level 4: Update Sitemap**
+
 ```bash
 node scripts/update-sitemap.js
 ```
 
 **Level 5: Create Validation Report**
+
 - Save to `.claude/agents/reports/validation-blog-{slug}.md`
 
 **Output:** Validation report + OG image generated
@@ -199,6 +211,7 @@ node scripts/update-sitemap.js
 **Input:** Article slug
 
 **Steps:**
+
 1. Read article frontmatter from `src/content/blog/{slug}.md`
 2. Load design tokens from `.claude/reference/design/design-tokens.json`
 3. Build Gemini-optimized prompt
@@ -206,6 +219,7 @@ node scripts/update-sitemap.js
 5. Display prompt and usage instructions
 
 **Prompt Template:**
+
 ```text
 Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [{category}]:
 
@@ -244,6 +258,7 @@ Secondary Visual Elements (cyan #00b8ff):
 Located at: `scripts/generate-image.js`
 
 **Usage:**
+
 ```bash
 node scripts/generate-image.js "prompt text" \
   --filename og-slug-name \
@@ -252,6 +267,7 @@ node scripts/generate-image.js "prompt text" \
 ```
 
 **Requirements:**
+
 - GEMINI_API_KEY in `.env`
 - Default model: gemini-3-pro-image-preview
 
@@ -260,6 +276,7 @@ node scripts/generate-image.js "prompt text" \
 Located at: `scripts/convert-to-webp.js`
 
 **Usage:**
+
 ```bash
 node scripts/convert-to-webp.js public/images/og-slug.png
 ```
@@ -269,6 +286,7 @@ node scripts/convert-to-webp.js public/images/og-slug.png
 Located at: `scripts/update-sitemap.js`
 
 **Usage:**
+
 ```bash
 node scripts/update-sitemap.js
 ```
@@ -278,6 +296,7 @@ node scripts/update-sitemap.js
 ### Missing GEMINI_API_KEY
 
 If API key not configured:
+
 1. Skip automatic OG generation
 2. Generate prompt and save to file
 3. Notify user to generate manually or add API key
@@ -285,6 +304,7 @@ If API key not configured:
 ### Image Generation Failure
 
 If Gemini API fails:
+
 1. Log error details
 2. Save prompt for manual retry
 3. Continue with other validation steps
@@ -293,6 +313,7 @@ If Gemini API fails:
 ### Article Validation Failure
 
 If validation finds issues:
+
 1. List all failures
 2. DO NOT proceed with OG generation
 3. Wait for user fixes
@@ -302,7 +323,7 @@ If validation finds issues:
 
 - **Portfolio Copywriting:** `.claude/skills/portfolio-copywriting/SKILL.md`
 - **Design Tokens:** `.claude/reference/design/design-tokens.json`
-- **FAQ Guidelines:** `docs/blog/FAQ_TEMPLATE.md`
+- **FAQ Guidelines:** `docs/faq/FAQ_TEMPLATE.md`
 - **Article Examples:** `src/content/blog/`
 
 ---

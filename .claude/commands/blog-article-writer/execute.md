@@ -37,7 +37,7 @@ Skill(
   - Follow exact frontmatter from plan
   - Use approved article structure
   - **CRITICAL:** Incorporate ALL user feedback and comments from plan (check for 'User Feedback & Comments' section, HTML comments, and inline edits)
-  - **REQUIRED:** Include FAQ section following docs/blog/FAQ_TEMPLATE.md
+  - **REQUIRED:** Include FAQ section following docs/faq/FAQ_TEMPLATE.md
     - 4-6 questions optimized for LLM discovery
     - Natural Polish questions (10-25 words each)
     - Snippet-style answers (2-4 sentences, key info first)
@@ -71,6 +71,7 @@ After successfully writing the article, IMMEDIATELY invoke validation:
 ```
 
 This will:
+
 - Validate all content quality checks
 - Generate OG image (if GEMINI_API_KEY is available)
 - Convert to WebP

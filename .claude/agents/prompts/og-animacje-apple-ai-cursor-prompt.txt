@@ -1,0 +1,61 @@
+Generated: 2026-01-26
+Article: Jak tworzyć animacje w stylu Apple z pomocą AI
+Slug: animacje-apple-ai-antigravity
+Category: AI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEMINI API PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI/Animations] with this exact visual specification:
+
+**Article Context:**
+- Title: Jak tworzyć animacje w stylu Apple z pomocą AI
+- Topic: AI, Web Design, Animations, No-Code
+- Theme: Professional developer blog focused on AI-powered website animations
+
+**Visual Design Requirements:**
+
+Background:
+- Deep dark gradient from #0a0e1a (bottom) to #151b2b (top)
+- Smooth, professional gradient transition matching portfolio aesthetic
+
+Primary Visual Elements (bright green #00ff9d):
+- Abstract flowing wave patterns suggesting smooth scroll animations
+- Layered translucent panels floating in 3D space (Apple-inspired depth)
+- Bezier curve paths representing animation timelines
+- Geometric shapes morphing/transitioning into each other
+- Subtle glow effects on key elements creating premium feel
+
+Secondary Visual Elements (cyan #00b8ff):
+- Motion blur trails suggesting movement and animation
+- Circular progress indicators or loading rings
+- Dotted frame sequences suggesting video frames
+- Parallax-style layered rectangles
+- Data flow visualization patterns
+
+Style & Effects:
+- Glassmorphism-inspired transparency on floating panels
+- Subtle blur effects creating depth layers (like Apple product pages)
+- Modern tech aesthetic matching portfolio website
+- Professional, high-end, minimalist composition
+- Clean, uncluttered layout with breathing room
+- Premium Apple-inspired visual language
+
+**CRITICAL CONSTRAINTS:**
+- ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS
+- Pure abstract visual art only
+- NO readable symbols, NO typography, NO linguistic characters
+- Focus on shapes, patterns, gradients, and geometric elements
+- Professional enough for LinkedIn/Twitter social previews
+- Must work as a thumbnail (recognizable at small sizes)
+
+**Aspect Ratio:** 1200x630 pixels (Open Graph standard)
+
+**Mood:** Innovative, premium, smooth, fluid, professional, Apple-inspired elegance
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+node scripts/generate-image.js "Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI/Animations] with this exact visual specification: **Article Context:** - Title: Jak tworzyć animacje w stylu Apple z pomocą AI - Topic: AI, Web Design, Animations, No-Code - Theme: Professional developer blog focused on AI-powered website animations **Visual Design Requirements:** Background: - Deep dark gradient from #0a0e1a (bottom) to #151b2b (top) - Smooth, professional gradient transition matching portfolio aesthetic Primary Visual Elements (bright green #00ff9d): - Abstract flowing wave patterns suggesting smooth scroll animations - Layered translucent panels floating in 3D space (Apple-inspired depth) - Bezier curve paths representing animation timelines - Geometric shapes morphing/transitioning into each other - Subtle glow effects on key elements creating premium feel Secondary Visual Elements (cyan #00b8ff): - Motion blur trails suggesting movement and animation - Circular progress indicators or loading rings - Dotted frame sequences suggesting video frames - Parallax-style layered rectangles - Data flow visualization patterns Style & Effects: - Glassmorphism-inspired transparency on floating panels - Subtle blur effects creating depth layers (like Apple product pages) - Modern tech aesthetic matching portfolio website - Professional, high-end, minimalist composition - Clean, uncluttered layout with breathing room - Premium Apple-inspired visual language **CRITICAL CONSTRAINTS:** - ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS - Pure abstract visual art only - NO readable symbols, NO typography, NO linguistic characters - Focus on shapes, patterns, gradients, and geometric elements - Professional enough for LinkedIn/Twitter social previews - Must work as a thumbnail (recognizable at small sizes) **Aspect Ratio:** 1200x630 pixels (Open Graph standard) **Mood:** Innovative, premium, smooth, fluid, professional, Apple-inspired elegance" --filename og-animacje-apple-ai-antigravity --output public/images --model gemini-3-pro-image-preview

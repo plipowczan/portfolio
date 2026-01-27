@@ -96,12 +96,12 @@ Current blog articles lack FAQ sections optimized for LLM/AI consumption. Modern
 
 ### Trade-offs
 
-| Aspect | Trade-off | Decision |
-|--------|-----------|----------|
-| **Content Format** | HTML in markdown vs YAML frontmatter | HTML (easier to write/maintain) |
+| Aspect                | Trade-off                                | Decision                                           |
+| --------------------- | ---------------------------------------- | -------------------------------------------------- |
+| **Content Format**    | HTML in markdown vs YAML frontmatter     | HTML (easier to write/maintain)                    |
 | **Schema Generation** | Static (build-time) vs Dynamic (runtime) | Dynamic (simpler implementation, no build changes) |
-| **FAQ Detection** | Manual flag vs Auto-detection | Auto-detection (parse H2 with "FAQ") |
-| **Styling** | Accordion UI vs Plain HTML | Plain HTML (LLM-friendly, accessible) |
+| **FAQ Detection**     | Manual flag vs Auto-detection            | Auto-detection (parse H2 with "FAQ")               |
+| **Styling**           | Accordion UI vs Plain HTML               | Plain HTML (LLM-friendly, accessible)              |
 
 ### Dependencies
 
@@ -189,7 +189,7 @@ export function generateFAQSchema(faqItems, postUrl);
 
 **Files to Create:**
 
-- `docs/blog/FAQ_TEMPLATE.md` - Reference template
+- `docs/faq/FAQ_TEMPLATE.md` - Reference template
 - `docs/blog/FAQ_GUIDELINES.md` - Comprehensive LLM optimization guidelines
 
 **FAQ_TEMPLATE.md Structure:**
@@ -252,6 +252,7 @@ export function generateFAQSchema(faqItems, postUrl);
 [existing sections...]
 
 ### FAQ Section
+
 - 4-6 natural follow-up questions (10-25 words each)
 - Snippet-style answers (2-4 sentences)
 - Follow FAQ_GUIDELINES.md for LLM optimization
@@ -271,7 +272,7 @@ export function generateFAQSchema(faqItems, postUrl);
 ```
 Key requirements:
 [existing requirements...]
-- Include FAQ section following docs/blog/FAQ_TEMPLATE.md
+- Include FAQ section following docs/faq/FAQ_TEMPLATE.md
 - 4-6 questions optimized for LLM discovery
 - FAQ must follow docs/blog/FAQ_GUIDELINES.md
 ```
@@ -393,47 +394,47 @@ Key requirements:
 
 ### Phase 1: Infrastructure
 
-| File | Purpose |
-|------|---------|
+| File                        | Purpose                                        |
+| --------------------------- | ---------------------------------------------- |
 | `src/utils/faqExtractor.js` | FAQ extraction and schema generation utilities |
 
 ### Phase 2: Guidelines & Documentation
 
-| File | Purpose |
-|------|---------|
-| `docs/blog/FAQ_TEMPLATE.md` | Reference template for FAQ creation |
+| File                          | Purpose                                   |
+| ----------------------------- | ----------------------------------------- |
+| `docs/blog/FAQ_TEMPLATE.md`   | Reference template for FAQ creation       |
 | `docs/blog/FAQ_GUIDELINES.md` | Comprehensive LLM optimization guidelines |
 
 ### Phase 4: Content (OPTIONAL - can be done later)
 
-| File | Purpose |
-|------|---------|
+| File                    | Purpose                                                  |
+| ----------------------- | -------------------------------------------------------- |
 | `src/content/blog/*.md` | Add FAQ sections to existing 14 blog articles (optional) |
 
 ## Files to Modify
 
 ### Phase 1: Infrastructure
 
-| File | Changes |
-|------|---------|
+| File                         | Changes                                                |
+| ---------------------------- | ------------------------------------------------------ |
 | `src/pages/BlogPostPage.jsx` | Integrate FAQ extraction, add FAQPage schema rendering |
-| `src/styles/index.css` | Add FAQ-specific styling (H2, H3, p in FAQ context) |
+| `src/styles/index.css`       | Add FAQ-specific styling (H2, H3, p in FAQ context)    |
 
 ### Phase 2: Guidelines & Documentation
 
-| File | Changes |
-|------|---------|
-| `CLAUDE.md` | Document FAQ workflow |
-| `docs/BLOG_WORKFLOW.md` | Add FAQ creation step to blog article process |
-| `.claude/rules/data-storage/00-overview.md` | Document FAQ structure in markdown files |
+| File                                        | Changes                                       |
+| ------------------------------------------- | --------------------------------------------- |
+| `CLAUDE.md`                                 | Document FAQ workflow                         |
+| `docs/BLOG_WORKFLOW.md`                     | Add FAQ creation step to blog article process |
+| `.claude/rules/data-storage/00-overview.md` | Document FAQ structure in markdown files      |
 
 ### Phase 3: Blog-Article-Writer Integration
 
-| File | Changes |
-|------|---------|
-| `.claude/commands/blog-article-writer/plan.md` | Add FAQ section to article structure template |
-| `.claude/commands/blog-article-writer/execute.md` | Add FAQ generation to execution steps |
-| `.claude/skills/portfolio-copywriting/...` | Update skill to include FAQ generation (if needed) |
+| File                                              | Changes                                            |
+| ------------------------------------------------- | -------------------------------------------------- |
+| `.claude/commands/blog-article-writer/plan.md`    | Add FAQ section to article structure template      |
+| `.claude/commands/blog-article-writer/execute.md` | Add FAQ generation to execution steps              |
+| `.claude/skills/portfolio-copywriting/...`        | Update skill to include FAQ generation (if needed) |
 
 ## Testing Strategy
 
@@ -607,14 +608,14 @@ Key requirements:
 
 ## Risks & Mitigations
 
-| Risk | Impact | Likelihood | Mitigation |
-|------|--------|------------|------------|
-| FAQ extraction fails for some HTML structures | Medium | Low | Comprehensive testing, graceful fallback |
-| Schema validation errors | High | Medium | Use schema validator, test with Google tool |
-| Performance regression from FAQ parsing | Medium | Low | Profile performance, optimize if needed |
-| Content desynchronization (HTML vs schema) | High | Medium | Automated tests, single source of truth |
-| Poor FAQ quality (not LLM-optimized) | High | Medium | Clear guidelines, review process |
-| Accessibility issues | Medium | Low | Accessibility audit, screen reader testing |
+| Risk                                          | Impact | Likelihood | Mitigation                                  |
+| --------------------------------------------- | ------ | ---------- | ------------------------------------------- |
+| FAQ extraction fails for some HTML structures | Medium | Low        | Comprehensive testing, graceful fallback    |
+| Schema validation errors                      | High   | Medium     | Use schema validator, test with Google tool |
+| Performance regression from FAQ parsing       | Medium | Low        | Profile performance, optimize if needed     |
+| Content desynchronization (HTML vs schema)    | High   | Medium     | Automated tests, single source of truth     |
+| Poor FAQ quality (not LLM-optimized)          | High   | Medium     | Clear guidelines, review process            |
+| Accessibility issues                          | Medium | Low        | Accessibility audit, screen reader testing  |
 
 ## Notes
 

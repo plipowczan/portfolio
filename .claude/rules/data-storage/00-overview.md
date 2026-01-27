@@ -28,16 +28,16 @@ Every `.md` file MUST contain a valid frontmatter block:
 
 ```yaml
 ---
-id: 1                                   # Unique integer ID
-slug: my-article-slug                   # URL-friendly identifier
-title: Article Title                    # Display title
-excerpt: Short summary (150-200 chars)  # SEO & preview description
-category: Automation                    # Single category
-author: Pawel Lipowczan                 # Author name
-date: 2025-11-15                        # YYYY-MM-DD
-readTime: 8 min                         # Estimated read time
-image: /images/og-my-article.webp       # Path to OG image (in public/)
-tags:                                   # List of tags
+id: 1 # Unique integer ID
+slug: my-article-slug # URL-friendly identifier
+title: Article Title # Display title
+excerpt: Short summary (150-200 chars) # SEO & preview description
+category: Automation # Single category
+author: Pawel Lipowczan # Author name
+date: 2025-11-15 # YYYY-MM-DD
+readTime: 8 min # Estimated read time
+image: /images/og-my-article.webp # Path to OG image (in public/)
+tags: # List of tags
   - Tag1
   - Tag2
 ---
@@ -60,11 +60,12 @@ Blog articles can include FAQ sections for AEO (Answer Engine Optimization):
 ```
 
 **Technical Details:**
+
 - FAQ sections detected by H2 heading containing "FAQ" or "Najczęściej zadawane pytania"
 - Questions formatted as H3 headings
 - Answers as paragraph elements
 - FAQPage schema auto-generated from content by `src/utils/faqExtractor.js`
-- See `docs/blog/FAQ_TEMPLATE.md` and `docs/blog/FAQ_GUIDELINES.md` for full guidelines
+- See `docs/faq/FAQ_TEMPLATE.md` and `docs/faq/FAQ_GUIDELINES.md` for full guidelines
 
 ### Loading Mechanism
 

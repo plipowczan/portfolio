@@ -48,13 +48,13 @@ Traditional SEO optimizes for search engines (Google, Bing).
 
 **Key Differences**:
 
-| Aspect | Traditional SEO | Answer Engine Optimization (AEO) |
-|--------|----------------|----------------------------------|
-| **Target** | Search engine algorithms | AI/LLM models |
-| **Format** | Keywords, meta tags | Structured data, semantic markup |
-| **Content** | Keyword-optimized text | Natural language Q&A pairs |
-| **Success Metric** | Click-through rate | Direct answer citation |
-| **User Intent** | Navigate to page | Get immediate answer |
+| Aspect             | Traditional SEO          | Answer Engine Optimization (AEO) |
+| ------------------ | ------------------------ | -------------------------------- |
+| **Target**         | Search engine algorithms | AI/LLM models                    |
+| **Format**         | Keywords, meta tags      | Structured data, semantic markup |
+| **Content**        | Keyword-optimized text   | Natural language Q&A pairs       |
+| **Success Metric** | Click-through rate       | Direct answer citation           |
+| **User Intent**    | Navigate to page         | Get immediate answer             |
 
 ### Why LLMs Prefer FAQ Sections
 
@@ -137,14 +137,14 @@ Traditional SEO optimizes for search engines (Google, Bing).
 
 Each question should address **one clear user intent**:
 
-| User Intent | Question Type | Example |
-|-------------|---------------|---------|
-| **Learning** | How-to, What is | "Jak utworzyć FAQPage schema w JSON-LD?" |
-| **Comparison** | Which, Difference | "Czym różni się FAQPage od QAPage schema?" |
-| **Troubleshooting** | Why not working, Fix | "Dlaczego Google Rich Results nie wykrywa mojego FAQ?" |
-| **Validation** | How to check, Test | "Jak sprawdzić czy FAQ schema jest poprawnie zaimplementowane?" |
-| **Best Practices** | Should I, When to | "Kiedy warto użyć FAQ schema zamiast HowTo schema?" |
-| **Context** | Why, Reason | "Dlaczego AI preferuje structured data nad plain text?" |
+| User Intent         | Question Type        | Example                                                         |
+| ------------------- | -------------------- | --------------------------------------------------------------- |
+| **Learning**        | How-to, What is      | "Jak utworzyć FAQPage schema w JSON-LD?"                        |
+| **Comparison**      | Which, Difference    | "Czym różni się FAQPage od QAPage schema?"                      |
+| **Troubleshooting** | Why not working, Fix | "Dlaczego Google Rich Results nie wykrywa mojego FAQ?"          |
+| **Validation**      | How to check, Test   | "Jak sprawdzić czy FAQ schema jest poprawnie zaimplementowane?" |
+| **Best Practices**  | Should I, When to    | "Kiedy warto użyć FAQ schema zamiast HowTo schema?"             |
+| **Context**         | Why, Reason          | "Dlaczego AI preferuje structured data nad plain text?"         |
 
 ---
 
@@ -163,21 +163,23 @@ Each question should address **one clear user intent**:
 
 ### Answer Length: 2-4 Sentences
 
-| Sentences | Purpose | Content |
-|-----------|---------|---------|
-| **1st (Required)** | Core Answer | Direct answer with key fact/definition/instruction |
-| **2nd (Optional)** | Context/Detail | Supporting information, technical detail, example |
-| **3rd (Optional)** | Extension | Additional benefit, edge case, or related info |
-| **4th (Optional)** | Call-to-Action | Link to source, tool, further reading |
+| Sentences          | Purpose        | Content                                            |
+| ------------------ | -------------- | -------------------------------------------------- |
+| **1st (Required)** | Core Answer    | Direct answer with key fact/definition/instruction |
+| **2nd (Optional)** | Context/Detail | Supporting information, technical detail, example  |
+| **3rd (Optional)** | Extension      | Additional benefit, edge case, or related info     |
+| **4th (Optional)** | Call-to-Action | Link to source, tool, further reading              |
 
 ### First Sentence = Key Info
 
 **The first sentence must be self-contained and complete.**
 
 ✅ GOOD:
+
 > "FAQPage schema to structured data format, który pozwala AI botom automatycznie wyodrębnić pytania i odpowiedzi z treści."
 
 ❌ BAD:
+
 > "To jest bardzo ważne dla optymalizacji." (What is "to"? Vague reference)
 
 ### Content Types to Include
@@ -383,12 +385,12 @@ FAQ sections are detected by:
 
 **Recommended**: 4-6 questions
 
-| Count | Assessment |
-|-------|------------|
-| < 4 | Too few, insufficient coverage |
-| 4-6 | **Optimal**, comprehensive without overwhelming |
-| 7-8 | Acceptable, but consider splitting article |
-| > 8 | Too many, dilutes focus, consider separate FAQ page |
+| Count | Assessment                                          |
+| ----- | --------------------------------------------------- |
+| < 4   | Too few, insufficient coverage                      |
+| 4-6   | **Optimal**, comprehensive without overwhelming     |
+| 7-8   | Acceptable, but consider splitting article          |
+| > 8   | Too many, dilutes focus, consider separate FAQ page |
 
 ### Question Selection Strategy
 
@@ -616,12 +618,12 @@ Tak, FAQ z poprawnym FAQPage schema zwiększa szanse na featured snippets w Goog
 
 ### Validation Tools
 
-| Tool | Purpose | URL |
-|------|---------|-----|
+| Tool                         | Purpose                            | URL                                           |
+| ---------------------------- | ---------------------------------- | --------------------------------------------- |
 | **Google Rich Results Test** | Validate FAQPage schema for Google | <https://search.google.com/test/rich-results> |
-| **Schema.org Validator** | General schema.org compliance | <https://validator.schema.org/> |
-| **Google Search Console** | Monitor schema performance | <https://search.google.com/search-console> |
-| **Lighthouse** | SEO & Accessibility audit | Chrome DevTools |
+| **Schema.org Validator**     | General schema.org compliance      | <https://validator.schema.org/>               |
+| **Google Search Console**    | Monitor schema performance         | <https://search.google.com/search-console>    |
+| **Lighthouse**               | SEO & Accessibility audit          | Chrome DevTools                               |
 
 ### How to Validate
 
@@ -670,9 +672,9 @@ Tak, FAQ z poprawnym FAQPage schema zwiększa szanse na featured snippets w Goog
 
 ## Revision History
 
-| Date | Version | Changes |
-|------|---------|---------|
-| 2026-01-18 | 1.0 | Initial version - comprehensive LLM optimization guidelines |
+| Date       | Version | Changes                                                     |
+| ---------- | ------- | ----------------------------------------------------------- |
+| 2026-01-18 | 1.0     | Initial version - comprehensive LLM optimization guidelines |
 
 ---
 
@@ -680,6 +682,6 @@ Tak, FAQ z poprawnym FAQPage schema zwiększa szanse na featured snippets w Goog
 **Last Updated**: 2026-01-18
 **Related Files**:
 
-- `docs/blog/FAQ_TEMPLATE.md` - Quick reference template
+- `docs/faq/FAQ_TEMPLATE.md` - Quick reference template
 - `.claude/agents/plans/llm-optimized-faq-sections.md` - Feature implementation plan
 - `src/utils/faqExtractor.js` - FAQ extraction utility
