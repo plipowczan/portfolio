@@ -1,0 +1,61 @@
+Generated: 2026-01-31 12:00
+Article: Remotion + AI: Jak tworzyć profesjonalne wideo za pomocą kodu i Claude
+Slug: remotion-explainer-videos-ai
+Category: AI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEMINI API PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI] with this exact visual specification:
+
+**Article Context:**
+- Title: Remotion + AI: Jak tworzyć profesjonalne wideo za pomocą kodu i Claude
+- Topic: AI-powered video creation with Remotion and Claude Code
+- Theme: Professional developer blog focused on AI video generation
+
+**Visual Design Requirements:**
+
+Background:
+- Deep dark gradient from #0a0e1a (bottom) to #151b2b (top)
+- Smooth, professional gradient transition matching portfolio aesthetic
+
+Primary Visual Elements (bright green #00ff9d):
+- Abstract video timeline visualization with floating frames
+- Play button silhouette with glow effect
+- Animated video frames stacking/flowing
+- Code bracket patterns suggesting React components
+- Floating rectangular shapes representing video scenes
+
+Secondary Visual Elements (cyan #00b8ff):
+- Video render progress bar abstract visualization
+- Terminal/CLI window outlines (no text inside)
+- Connecting lines between frames suggesting video sequence
+- Lightning bolt accents suggesting speed/automation
+- Subtle particle effects suggesting AI processing
+
+Style & Effects:
+- Glassmorphism-inspired transparency on video frame elements
+- Subtle blur effects creating depth layers
+- Modern tech aesthetic matching portfolio website
+- Professional, high-end, minimalist composition
+- Clean, uncluttered layout with breathing room
+- Video/film industry aesthetic merged with code/tech aesthetic
+
+**CRITICAL CONSTRAINTS:**
+- ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS
+- Pure abstract visual art only
+- NO readable symbols, NO typography, NO linguistic characters
+- Focus on shapes, patterns, gradients, and geometric elements
+- Professional enough for LinkedIn/Twitter social previews
+- Must work as a thumbnail (recognizable at small sizes)
+
+**Aspect Ratio:** 1200x630 pixels (Open Graph standard)
+
+**Mood:** Innovative, professional, cutting-edge, video production meets AI, creative automation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+node scripts/generate-image.js "Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI] with this exact visual specification: **Article Context:** - Title: Remotion + AI: Jak tworzyć profesjonalne wideo za pomocą kodu i Claude - Topic: AI-powered video creation with Remotion and Claude Code - Theme: Professional developer blog focused on AI video generation **Visual Design Requirements:** Background: - Deep dark gradient from #0a0e1a (bottom) to #151b2b (top) - Smooth, professional gradient transition matching portfolio aesthetic Primary Visual Elements (bright green #00ff9d): - Abstract video timeline visualization with floating frames - Play button silhouette with glow effect - Animated video frames stacking/flowing - Code bracket patterns suggesting React components - Floating rectangular shapes representing video scenes Secondary Visual Elements (cyan #00b8ff): - Video render progress bar abstract visualization - Terminal/CLI window outlines (no text inside) - Connecting lines between frames suggesting video sequence - Lightning bolt accents suggesting speed/automation - Subtle particle effects suggesting AI processing Style & Effects: - Glassmorphism-inspired transparency on video frame elements - Subtle blur effects creating depth layers - Modern tech aesthetic matching portfolio website - Professional, high-end, minimalist composition - Clean, uncluttered layout with breathing room - Video/film industry aesthetic merged with code/tech aesthetic **CRITICAL CONSTRAINTS:** - ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS - Pure abstract visual art only - NO readable symbols, NO typography, NO linguistic characters - Focus on shapes, patterns, gradients, and geometric elements - Professional enough for LinkedIn/Twitter social previews - Must work as a thumbnail (recognizable at small sizes) **Aspect Ratio:** 1200x630 pixels (Open Graph standard) **Mood:** Innovative, professional, cutting-edge, video production meets AI, creative automation" --filename og-remotion-explainer-videos-ai --output public/images --model gemini-3-pro-image-preview
