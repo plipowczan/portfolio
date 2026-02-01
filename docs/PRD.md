@@ -15,7 +15,7 @@
 
 A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") showcasing professional work, technical skills, projects, and blog articles. The website features a distinctive green/teal color scheme with geometric network backgrounds and smooth animations.
 
-**Current Status:** All planned features have been implemented and deployed to production at [pawellipowczan.pl](https://pawellipowczan.pl). The project is in maintenance and optimization phase.
+**Current Status:** All planned features have been implemented and deployed to production at [pawel.lipowczan.pl](https://pawel.lipowczan.pl). The project is in maintenance and optimization phase.
 
 ---
 
@@ -291,14 +291,12 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 ### Hosting Options
 
 1. **Vercel** (Recommended)
-
    - Zero config deployment
    - Automatic HTTPS
    - Global CDN
    - Free for personal projects
 
 2. **Netlify**
-
    - Easy deployment
    - Form handling
    - Custom domain support

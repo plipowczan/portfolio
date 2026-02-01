@@ -12,7 +12,7 @@ Nowoczesna, responsywna strona portfolio zbudowana przy użyciu React, Vite, Tai
 ## 🎯 Status Projektu
 
 - **Status:** ✅ WDROŻONE i DZIAŁAJĄCE w produkcji
-- **URL:** [pawellipowczan.pl](https://pawellipowczan.pl)
+- **URL:** [pawel.lipowczan.pl](https://pawel.lipowczan.pl)
 - **Aktualna wersja:** 1.0.0
 - **Ostatnia aktualizacja:** 2026-01-19
 - **Hosting:** Vercel z automatycznymi wdrożeniami
@@ -404,7 +404,7 @@ Pawel Lipowczan - [pawel@lipowczan.pl](mailto:pawel@lipowczan.pl)
 
 Link do projektu: [https://github.com/plipowczan/portfolio](https://github.com/plipowczan/portfolio)
 
-Live website: [https://pawellipowczan.pl](https://pawellipowczan.pl)
+Live website: [https://pawel.lipowczan.pl](https://pawel.lipowczan.pl)
 
 ## 🙏 Podziękowania
 

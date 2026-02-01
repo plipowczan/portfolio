@@ -6,7 +6,7 @@ license: Apache-2.0
 
 # Blog Article Writer
 
-Complete workflow for creating blog articles on pawellipowczan.pl with automatic OG image generation.
+Complete workflow for creating blog articles on pawel.lipowczan.pl with automatic OG image generation.
 
 ## Quick Reference
 

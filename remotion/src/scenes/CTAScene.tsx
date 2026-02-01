@@ -1,10 +1,10 @@
 import {
   AbsoluteFill,
   interpolate,
+  random,
+  spring,
   useCurrentFrame,
   useVideoConfig,
-  spring,
-  random,
 } from "remotion";
 import { COLORS, FONTS } from "../constants";
 
@@ -100,12 +100,10 @@ export const CTAScene = () => {
   const logoOpacity = interpolate(logoEntrance, [0, 1], [0, 1]);
 
   // Gradient underline animation
-  const underlineWidth = interpolate(
-    frame,
-    [0.5 * fps, 1.5 * fps],
-    [0, 100],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
-  );
+  const underlineWidth = interpolate(frame, [0.5 * fps, 1.5 * fps], [0, 100], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   // Subtext entrance
   const subtextEntrance = spring({
@@ -115,11 +113,7 @@ export const CTAScene = () => {
   });
 
   // Subtle glow pulse
-  const glowPulse = interpolate(
-    Math.sin(frame * 0.08),
-    [-1, 1],
-    [15, 35]
-  );
+  const glowPulse = interpolate(Math.sin(frame * 0.08), [-1, 1], [15, 35]);
 
   return (
     <AbsoluteFill
@@ -175,7 +169,7 @@ export const CTAScene = () => {
               letterSpacing: "-2px",
             }}
           >
-            pawellipowczan.pl
+            pawel.lipowczan.pl
           </h1>
 
           {/* Gradient underline */}

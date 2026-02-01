@@ -179,7 +179,7 @@ npm run blog:sitemap
 Zmień URL strony w pliku `scripts/update-sitemap.js`:
 
 ```javascript
-const SITE_URL = "https://pawellipowczan.pl"; // <- Twoja domena
+const SITE_URL = "https://pawel.lipowczan.pl";
 ```
 
 **Format sitemap:**
@@ -298,7 +298,7 @@ Możesz zmienić jakość w `scripts/convert-to-webp.js`.
 URL strony konfigurowany w `scripts/update-sitemap.js`:
 
 ```javascript
-const SITE_URL = "https://pawellipowczan.pl";
+const SITE_URL = "https://pawel.lipowczan.pl";
 ```
 
 ---

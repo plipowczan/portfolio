@@ -1,12 +1,12 @@
 ---
 name: portfolio-copywriting
-description: Copywriting dla bloga portfolio Pawla Lipowczana (pawellipowczan.pl). Uzyj przy tworzeniu nowych artykulow na blog, generowaniu tresci SEO, pisaniu case studies. Zawiera styl pisania autora (bezposredni, praktyczny, osobisty), strukture artykulow (front matter YAML, hierarchia H1-H3), kategorie (Automatyzacja/No-Code/AI), wytyczne SEO, szablony artykulow. Skill generuje artykuly zgodne z tonem i formatem istniejacych publikacji na blogu.
+description: Copywriting dla bloga portfolio Pawla Lipowczana (pawel.lipowczan.pl). Uzyj przy tworzeniu nowych artykulow na blog, generowaniu tresci SEO, pisaniu case studies. Zawiera styl pisania autora (bezposredni, praktyczny, osobisty), strukture artykulow (front matter YAML, hierarchia H1-H3), kategorie (Automatyzacja/No-Code/AI), wytyczne SEO, szablony artykulow. Skill generuje artykuly zgodne z tonem i formatem istniejacych publikacji na blogu.
 license: Apache-2.0
 ---
 
 # Portfolio Copywriting
 
-Skill do tworzenia artykulow na bloga portfolio pawellipowczan.pl w charakterystycznym stylu autora.
+Skill do tworzenia artykulow na bloga portfolio pawel.lipowczan.pl w charakterystycznym stylu autora.
 
 ## Quick Reference
 

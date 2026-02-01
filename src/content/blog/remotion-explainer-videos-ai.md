@@ -94,11 +94,12 @@ Stwórz 45-sekundowe explainer video o tworzeniu wideo z Remotion i AI.
    - Tekst "45 sekund → Gotowe wideo" z pulsującym glow
 
 5. (38-45s) **CTA**
-   - Logo/tekst "pawellipowczan.pl" z gradient underline
+   - Logo/tekst "pawel.lipowczan.pl" z gradient underline
    - Tekst "Więcej na blogu" fade in
    - Subtelna animacja network mesh w tle
 
 **Styl wizualny:**
+
 - Dark mode, tło: #0a0e1a
 - Primary accent: #00ff9d (gradient do #00b8ff)
 - Glassmorphism na kartach (backdrop-blur, border-white/10)
@@ -110,6 +111,7 @@ Stwórz 45-sekundowe explainer video o tworzeniu wideo z Remotion i AI.
 **Muzyka:** Brak (opcjonalnie ambient synth loop)
 
 **Brand colors (hex):**
+
 - Primary: #00ff9d
 - Secondary: #00b8ff
 - Background: #0a0e1a
@@ -130,11 +132,11 @@ Podczas testowania zauważyłem istotny szczegół. Gdy wysłałem prompt bez ja
 
 Po wygenerowaniu kodu masz trzy opcje:
 
-| Komenda | Co robi |
-|---------|---------|
-| `npm run dev` | Uruchamia Remotion Studio - podgląd na żywo z hot reload |
-| `npm run build` | Renderuje wideo do MP4 (domyślnie out/video.mp4) |
-| `npm run build:gif` | Renderuje animowany GIF (mniejszy plik, niższa jakość) |
+| Komenda             | Co robi                                                  |
+| ------------------- | -------------------------------------------------------- |
+| `npm run dev`       | Uruchamia Remotion Studio - podgląd na żywo z hot reload |
+| `npm run build`     | Renderuje wideo do MP4 (domyślnie out/video.mp4)         |
+| `npm run build:gif` | Renderuje animowany GIF (mniejszy plik, niższa jakość)   |
 
 Remotion Studio to najlepszy sposób na iterację - widzisz zmiany natychmiast i możesz scrubować timeline.
 

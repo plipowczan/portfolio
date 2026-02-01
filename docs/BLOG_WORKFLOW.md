@@ -967,7 +967,7 @@ git push origin main
 
 ### 3. Verify Production
 
-- Check article URL: <https://pawellipowczan.pl/blog/{slug}>
+- Check article URL: <https://pawel.lipowczan.pl/blog/{slug}>
 - Verify OG image displays in social media previews
 - Test all links (internal and external)
 - Check mobile responsiveness

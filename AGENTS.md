@@ -4,7 +4,7 @@
 **Version:** 1.1.0
 **Status:** ✅ Completed and Deployed (Production)
 **Last Updated:** 2026-01-01
-**Deployment:** https://pawellipowczan.pl (Vercel)
+**Deployment:** <https://pawel.lipowczan.pl> (Vercel)
 
 ---
 
@@ -68,7 +68,7 @@ This document is the **main entry point for AI agents** working on this portfoli
 ### Deployment & Infrastructure
 
 - **Platform:** Vercel (production)
-- **Domain:** https://pawellipowczan.pl
+- **Domain:** <https://pawel.lipowczan.pl>
 - **Build Command:** `npm run build:prerender`
 - **Node Version:** 20.x
 - **Deploy:** Automatic on push to main branch
@@ -552,13 +552,11 @@ npm run format           # Format code (placeholder)
 ### In Progress ⚠️
 
 1. **Performance Optimization**
-
    - Font loading strategy (blocking render)
    - Bundle size reduction (483KB JS)
    - Code splitting implementation
 
 2. **Content Expansion**
-
    - Adding more blog posts (target: 15+)
    - Completing project live URLs
    - Creating FAQ sections
@@ -669,15 +667,15 @@ When updating user-facing documentation:
 
 **Live URLs:**
 
-- Production: https://pawellipowczan.pl
-- GitHub: https://github.com/plipowczan/portfolio
+- Production: <https://pawel.lipowczan.pl>
+- GitHub: <https://github.com/plipowczan/portfolio>
 
 ---
 
 ## Contact & Support
 
 **Project Owner:** Pawel Lipowczan
-**Email:** pawel@lipowczan.pl
+**Email:** <pawel@lipowczan.pl>
 **GitHub:** plipowczan
 
 For questions about the codebase, refer to:

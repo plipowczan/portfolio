@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Personal portfolio website for Pawel Lipowczan. React 19 + Vite 7 + Tailwind CSS 3 SPA with build-time prerendering for SEO.
 
-**Live:** [https://pawellipowczan.pl](https://pawellipowczan.pl) (Vercel)
+**Live:** [https://pawel.lipowczan.pl](https://pawel.lipowczan.pl) (Vercel)
 
 ## Quick Reference - PIV Commands
 
