@@ -1,0 +1,10 @@
+This directory is used by the `blog-article-writer` skill and commands.
+It serves as a workspace for creating new blog articles, including:
+
+- Research notes (prime step)
+- Article plans
+- Draft content
+- Validation checks
+
+The `blog-article-writer` skill uses this location to store intermediate files during the article creation workflow.
+The `blog-article-writer` skill uses this location to store intermediate files during the article creation workflow.

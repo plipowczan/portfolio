@@ -1,0 +1,26 @@
+Create a professional tech blog Open Graph image (1200x630px) for an article titled "OPSX Workflow - strukturyzowane podejście do pracy z AI coding assistants".
+
+VISUAL CONCEPT:
+A sleek, modern tech visualization showing a workflow diagram transforming from chaotic scattered nodes on the left to an organized directed acyclic graph (DAG) on the right. The DAG should show connected nodes labeled "proposal", "specs", "design", "tasks" with glowing connection lines.
+
+DESIGN REQUIREMENTS:
+- Dark gradient background: linear gradient from #1a1a2e to #16213e
+- Primary accent color: #00ff9d (neon green) for key elements, connection lines, and highlights
+- Secondary color: #00b8ff (cyan blue) for subtle accents
+- Typography: Clean sans-serif (Inter style), bold white text
+- Include subtle code/terminal aesthetic elements
+- No text on image except subtle node labels
+- Professional, minimal, high-contrast
+
+COMPOSITION:
+- Left side: Chaotic, scattered node elements (representing reactive prompting)
+- Center: Transformation arrow or gradient transition
+- Right side: Clean DAG structure with connected nodes
+- Subtle glow effects on connection lines using #00ff9d
+- Dark background with slight gradient mesh or grid pattern
+
+MOOD:
+Technical, professional, futuristic, organized. Conveys transformation from chaos to structure.
+
+OUTPUT:
+1200x630px, suitable for social media sharing. No watermarks, no stock photo elements.
