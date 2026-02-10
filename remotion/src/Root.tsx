@@ -1,6 +1,8 @@
 import { Composition } from "remotion";
 import { ExplainerVideo } from "./ExplainerVideo";
 import { OpenClawVideo } from "./OpenClawVideo";
+import { ComparisonVideo, COMPARISON_DURATION } from "./ComparisonVideo";
+import { SafeStepsCarousel, CAROUSEL_DURATION } from "./SafeStepsCarousel";
 import { OPENCLAW_DURATION } from "./openclaw-constants";
 
 const FPS = 30;
@@ -24,6 +26,22 @@ export const RemotionRoot = () => {
         fps={FPS}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="OpenClawComparison"
+        component={ComparisonVideo}
+        durationInFrames={COMPARISON_DURATION * FPS}
+        fps={FPS}
+        width={1080}
+        height={1080}
+      />
+      <Composition
+        id="SafeStepsCarousel"
+        component={SafeStepsCarousel}
+        durationInFrames={CAROUSEL_DURATION * FPS}
+        fps={FPS}
+        width={1080}
+        height={1350}
       />
     </>
   );
