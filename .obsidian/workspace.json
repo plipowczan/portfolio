@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/blog/Tutorial from skool.com.md",
-                "mode": "source",
+                "file": "docs/posts/5-technik-pracy-z-claude-code-posts.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Tutorial from skool.com"
+              "title": "5-technik-pracy-z-claude-code-posts"
             }
           }
         ]
@@ -185,6 +185,10 @@
   },
   "active": "b351535af301b0d1",
   "lastOpenFiles": [
+    "src/content/blog/5-technik-pracy-z-claude-code.md",
+    "docs/posts/5-technik-pracy-z-claude-code-posts.md",
+    "docs/projekty.md",
+    "docs/posts",
     "test-results/e2e-blog-Blog---Pojedynczy-edf49-ien-zawierać-treść-artykułu-firefox-retry1/error-context.md",
     "test-results/e2e-blog-Blog---Pojedynczy-edf49-ien-zawierać-treść-artykułu-firefox-retry1/test-failed-1.png",
     "test-results/e2e-blog-Blog---Pojedynczy-edf49-ien-zawierać-treść-artykułu-firefox-retry1",
@@ -206,7 +210,6 @@
     "test-results/e2e-blog-Blog---Lista-post-ffadd-tlać-daty-publikacji-postów-firefox/error-context.md",
     "test-results/e2e-blog-Blog---Lista-post-ffadd-tlać-daty-publikacji-postów-firefox/video.webm",
     "test-results/e2e-blog-Blog---Lista-post-ffadd-tlać-daty-publikacji-postów-firefox/test-failed-1.png",
-    "test-results/e2e-blog-Blog---Lista-post-ffadd-tlać-daty-publikacji-postów-firefox",
     "test-results/e2e-blog-Blog---Lista-post-1d8de-tatagi-SEO-dla-strony-bloga-firefox-retry1/test-failed-1.png",
     "test-results/e2e-blog-Blog---Lista-post-1d8de-tatagi-SEO-dla-strony-bloga-firefox-retry1/error-context.md",
     "test-results/e2e-blog-Blog---Lista-post-d5df9-wadzić-do-pełnych-artykułów-firefox-retry1/test-failed-1.png",
@@ -227,9 +230,6 @@
     "src/content/blog/remotion-explainer-videos-ai.md",
     "docs/blog/Informacje ode mnie.md",
     "docs/blog/Tutorial from skool.com.md",
-    "Tutorial from skool.com.md",
-    "docs/design/design-brief.md",
-    "docs/design/component-patterns.md",
-    "src/content/blog/vibe-coding-przewodnik.md"
+    "Tutorial from skool.com.md"
   ]
 }

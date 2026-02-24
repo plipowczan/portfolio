@@ -4,6 +4,16 @@ import { OpenClawVideo } from "./OpenClawVideo";
 import { ComparisonVideo, COMPARISON_DURATION } from "./ComparisonVideo";
 import { SafeStepsCarousel, CAROUSEL_DURATION } from "./SafeStepsCarousel";
 import { OPENCLAW_DURATION } from "./openclaw-constants";
+import { ClaudeCodeProblem, PROBLEM_DURATION } from "./ClaudeCodeProblem";
+import {
+  ClaudeCodeContextReset,
+  CONTEXT_RESET_DURATION,
+} from "./ClaudeCodeContextReset";
+import {
+  ClaudeCodePIVWorkflow,
+  PIV_WORKFLOW_DURATION,
+} from "./ClaudeCodePIVWorkflow";
+import { CC_SIZE } from "./claude-code-constants";
 
 const FPS = 30;
 const EXPLAINER_DURATION = 45;
@@ -42,6 +52,30 @@ export const RemotionRoot = () => {
         fps={FPS}
         width={1080}
         height={1350}
+      />
+      <Composition
+        id="ClaudeCodeProblem"
+        component={ClaudeCodeProblem}
+        durationInFrames={PROBLEM_DURATION * FPS}
+        fps={FPS}
+        width={CC_SIZE.width}
+        height={CC_SIZE.height}
+      />
+      <Composition
+        id="ClaudeCodeContextReset"
+        component={ClaudeCodeContextReset}
+        durationInFrames={CONTEXT_RESET_DURATION * FPS}
+        fps={FPS}
+        width={CC_SIZE.width}
+        height={CC_SIZE.height}
+      />
+      <Composition
+        id="ClaudeCodePIVWorkflow"
+        component={ClaudeCodePIVWorkflow}
+        durationInFrames={PIV_WORKFLOW_DURATION * FPS}
+        fps={FPS}
+        width={CC_SIZE.width}
+        height={CC_SIZE.height}
       />
     </>
   );
