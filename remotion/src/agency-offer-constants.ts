@@ -27,6 +27,9 @@ export const AO_DURATIONS = {
   process: 20,
   time: 15,
   transform: 25,
+  automationEvolution: 30,
+  fourWayDecision: 40,
+  microTool: 30,
 } as const;
 
 // Helper

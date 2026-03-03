@@ -20,6 +20,15 @@ import {
 } from "./AgencyProcessVideo";
 import { OfferTimeVideo, TIME_DURATION } from "./OfferTimeVideo";
 import { AITransformVideo, TRANSFORM_DURATION } from "./AITransformVideo";
+import {
+  AutomationEvolutionVideo,
+  AUTOMATION_EVOLUTION_DURATION,
+} from "./AutomationEvolutionVideo";
+import {
+  FourWayDecisionVideo,
+  FOUR_WAY_DECISION_DURATION,
+} from "./FourWayDecisionVideo";
+import { MicroToolVideo, MICRO_TOOL_DURATION } from "./MicroToolVideo";
 import { AO_SIZES } from "./agency-offer-constants";
 
 const FPS = 30;
@@ -107,6 +116,30 @@ export const RemotionRoot = () => {
         fps={FPS}
         width={AO_SIZES.portrait.width}
         height={AO_SIZES.portrait.height}
+      />
+      <Composition
+        id="AutomationEvolutionVideo"
+        component={AutomationEvolutionVideo}
+        durationInFrames={AUTOMATION_EVOLUTION_DURATION * FPS}
+        fps={FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="FourWayDecisionVideo"
+        component={FourWayDecisionVideo}
+        durationInFrames={FOUR_WAY_DECISION_DURATION * FPS}
+        fps={FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MicroToolVideo"
+        component={MicroToolVideo}
+        durationInFrames={MICRO_TOOL_DURATION * FPS}
+        fps={FPS}
+        width={1080}
+        height={1920}
       />
     </>
   );

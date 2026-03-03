@@ -11,7 +11,11 @@
     "build:carousel": "remotion render SafeStepsCarousel out/safe-steps-carousel.mp4",
     "build:agency-process": "remotion render AgencyProcess out/agency-process.mp4",
     "build:offer-time": "remotion render OfferTime out/offer-time.mp4",
-    "build:ai-transform": "remotion render AITransform out/ai-transform.mp4"
+    "build:ai-transform": "remotion render AITransform out/ai-transform.mp4",
+    "build:automation-evolution": "remotion render AutomationEvolutionVideo out/automation-evolution.mp4",
+    "build:four-way-decision": "remotion render FourWayDecisionVideo out/four-way-decision.mp4",
+    "build:micro-tool": "remotion render MicroToolVideo out/micro-tool.mp4",
+    "build:zapier-series": "npm run build:automation-evolution && npm run build:four-way-decision && npm run build:micro-tool"
   },
   "keywords": [
     "remotion",
