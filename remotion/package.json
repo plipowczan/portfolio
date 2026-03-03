@@ -8,7 +8,10 @@
     "build:gif": "remotion render ExplainerVideo out/explainer.gif --codec=gif",
     "build:openclaw": "remotion render OpenClawVideo out/openclaw.mp4",
     "build:comparison": "remotion render OpenClawComparison out/openclaw-comparison.mp4",
-    "build:carousel": "remotion render SafeStepsCarousel out/safe-steps-carousel.mp4"
+    "build:carousel": "remotion render SafeStepsCarousel out/safe-steps-carousel.mp4",
+    "build:agency-process": "remotion render AgencyProcess out/agency-process.mp4",
+    "build:offer-time": "remotion render OfferTime out/offer-time.mp4",
+    "build:ai-transform": "remotion render AITransform out/ai-transform.mp4"
   },
   "keywords": [
     "remotion",

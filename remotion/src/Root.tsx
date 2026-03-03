@@ -14,6 +14,13 @@ import {
   PIV_WORKFLOW_DURATION,
 } from "./ClaudeCodePIVWorkflow";
 import { CC_SIZE } from "./claude-code-constants";
+import {
+  AgencyProcessVideo,
+  PROCESS_DURATION,
+} from "./AgencyProcessVideo";
+import { OfferTimeVideo, TIME_DURATION } from "./OfferTimeVideo";
+import { AITransformVideo, TRANSFORM_DURATION } from "./AITransformVideo";
+import { AO_SIZES } from "./agency-offer-constants";
 
 const FPS = 30;
 const EXPLAINER_DURATION = 45;
@@ -76,6 +83,30 @@ export const RemotionRoot = () => {
         fps={FPS}
         width={CC_SIZE.width}
         height={CC_SIZE.height}
+      />
+      <Composition
+        id="AgencyProcess"
+        component={AgencyProcessVideo}
+        durationInFrames={PROCESS_DURATION * FPS}
+        fps={FPS}
+        width={AO_SIZES.square.width}
+        height={AO_SIZES.square.height}
+      />
+      <Composition
+        id="OfferTime"
+        component={OfferTimeVideo}
+        durationInFrames={TIME_DURATION * FPS}
+        fps={FPS}
+        width={AO_SIZES.square.width}
+        height={AO_SIZES.square.height}
+      />
+      <Composition
+        id="AITransform"
+        component={AITransformVideo}
+        durationInFrames={TRANSFORM_DURATION * FPS}
+        fps={FPS}
+        width={AO_SIZES.portrait.width}
+        height={AO_SIZES.portrait.height}
       />
     </>
   );
