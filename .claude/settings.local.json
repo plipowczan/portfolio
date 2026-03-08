@@ -19,7 +19,11 @@
       "Bash(npm run dev:*)",
       "Bash(node scripts/update-sitemap.js:*)",
       "WebFetch(domain:www.remotion.dev)",
-      "Bash(ls -la \"C:\\\\Users\\\\pawel\\\\Development\\\\Repositories\\\\github\\\\portfolio\\\\public\\\\videos\"\" 2>/dev/null || echo \"No videos directory found \")"
+      "Bash(ls -la \"C:\\\\Users\\\\pawel\\\\Development\\\\Repositories\\\\github\\\\portfolio\\\\public\\\\videos\"\" 2>/dev/null || echo \"No videos directory found \")",
+      "Bash(openspec new:*)",
+      "Bash(openspec status:*)",
+      "Bash(openspec instructions:*)",
+      "Bash(find:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
