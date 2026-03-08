@@ -8,19 +8,25 @@ Personal portfolio website for Pawel Lipowczan. React 19 + Vite 7 + Tailwind CSS
 
 **Live:** [https://pawel.lipowczan.pl](https://pawel.lipowczan.pl) (Vercel)
 
-## Quick Reference - PIV Commands
+## Quick Reference - OpenSpec Commands
 
-| Command                                     | Purpose                                                            |
-| ------------------------------------------- | ------------------------------------------------------------------ |
-| `/core_piv_loop:prime`                      | Load codebase context and understanding                            |
-| `/core_piv_loop:plan-feature "description"` | Create implementation plan                                         |
-| `/core_piv_loop:execute`                    | Execute implementation plan                                        |
-| `/validation:validate`                      | Run full validation pipeline ✨ _Runs automatically after execute_ |
-| `/validation:code-review`                   | Technical code review on changed files                             |
-| `/validation:execution-report`              | Generate execution report                                          |
-| `/validation:system-review`                 | Analyze implementation vs plan                                     |
-
-See [.claude/PIV-METHODOLOGY.md](.claude/PIV-METHODOLOGY.md) for complete methodology.
+| Command                        | Purpose                                                    |
+| ------------------------------ | ---------------------------------------------------------- |
+| `/opsx:explore`                | Think through ideas, investigate problems                  |
+| `/opsx:new "description"`     | Start a new change with structured artifacts               |
+| `/opsx:continue`              | Create the next artifact for an active change              |
+| `/opsx:ff`                    | Fast-forward: create all artifacts in one go               |
+| `/opsx:apply`                 | Implement tasks from a change                              |
+| `/opsx:verify`                | Verify implementation matches change artifacts             |
+| `/opsx:archive`               | Archive a completed change                                 |
+| `/opsx:sync`                  | Sync delta specs to main specs                             |
+| `/opsx:bulk-archive`          | Archive multiple completed changes                         |
+| `/opsx:onboard`               | Guided onboarding walkthrough                              |
+| `/validation:validate`        | Run full validation pipeline                               |
+| `/validation:code-review`     | Technical code review on changed files                     |
+| `/validation:code-review-fix` | Fix issues found in code review                            |
+| `/validation:execution-report`| Generate execution report                                  |
+| `/validation:system-review`   | Analyze implementation vs plan                             |
 
 ## Commands
 
@@ -94,15 +100,17 @@ Specific rules for project technologies:
 
 ## Agent Artifacts
 
-PIV workflow creates artifacts in [.claude/agents/](.claude/agents/):
+OpenSpec change artifacts are stored in `openspec/changes/<name>/`.
 
-- `context/`
-- `plans/`
-- `reports/`
-- `reviews/`
+Validation reports are written to [.claude/agents/](.claude/agents/):
+
+- `context/` — blog priming contexts
+- `reports/` — validation reports
+- `prompts/` — OG image generation prompts
 
 ## Workflow Preferences
 
-1. **Always Prime** (`/core_piv_loop:prime`) at start of session.
-2. **Plan** complex features.
-3. **Execute** & **Validate** (automatic).
+1. **Explore** (`/opsx:explore`) to think through ideas before starting.
+2. **New change** (`/opsx:new`) for structured feature development.
+3. **Apply** (`/opsx:apply`) to implement, then **Verify** (`/opsx:verify`).
+4. **Validate** (`/validation:validate`) for code quality checks.
