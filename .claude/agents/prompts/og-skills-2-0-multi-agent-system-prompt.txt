@@ -1,0 +1,34 @@
+Generate an OG image (1200x630px) for a blog article about building a multi-agent AI system for business management.
+
+ARTICLE CONTEXT:
+- Title: "Skills 2.0 - jak buduję system wieloagentowy do zarządzania firmą"
+- Topic: Building a multi-agent system using Claude Code Skills 2.0 and Agent Skills standard to manage business operations (CFO, Legal, Marketing agents)
+- Key visual concepts: Multiple AI agents working together, orchestration, Git-based version control for agents, modular architecture with 3 repositories
+
+DESIGN REQUIREMENTS:
+- Dark background using color #0a0e1a (dark-800) to #050810 (dark-900)
+- Primary accent color: #00ff9d (bright green/emerald)
+- Secondary accent: #00b8ff (cyan blue)
+- Font style: Clean, modern sans-serif (Inter-like)
+- Style: Tech/developer aesthetic, minimal, professional
+
+COMPOSITION:
+- Show a visual metaphor of interconnected AI agents (nodes in a network or hexagonal grid)
+- 8 agent nodes with connecting lines showing orchestration
+- Central hub connecting all agents
+- Subtle code/terminal elements in the background
+- Text overlay: "Skills 2.0" prominently displayed
+- Subtitle area: "Multi-Agent System"
+- Green glow effects on connection lines between agents
+- Dark gradient background with subtle grid pattern
+
+MOOD:
+- Professional, technical, cutting-edge
+- Clean and organized (contrasting with the "chaos" the article describes solving)
+- Futuristic but grounded
+
+DO NOT:
+- Use cartoonish illustrations
+- Include faces or human figures
+- Use stock photo style
+- Make it cluttered — keep it clean and minimal
