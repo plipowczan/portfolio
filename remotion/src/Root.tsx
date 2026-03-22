@@ -30,6 +30,19 @@ import {
 } from "./FourWayDecisionVideo";
 import { MicroToolVideo, MICRO_TOOL_DURATION } from "./MicroToolVideo";
 import { AO_SIZES } from "./agency-offer-constants";
+import {
+  SkillsChaosToSystemVideo,
+  CHAOS_TO_SYSTEM_DURATION,
+} from "./SkillsChaosToSystemVideo";
+import {
+  SkillsAgentsArchitectureVideo,
+  AGENTS_ARCHITECTURE_DURATION,
+} from "./SkillsAgentsArchitectureVideo";
+import {
+  SkillsCreatorWorkflowVideo,
+  CREATOR_WORKFLOW_DURATION,
+} from "./SkillsCreatorWorkflowVideo";
+import { SK_SIZES } from "./skills-constants";
 
 const FPS = 30;
 const EXPLAINER_DURATION = 45;
@@ -140,6 +153,30 @@ export const RemotionRoot = () => {
         fps={FPS}
         width={1080}
         height={1920}
+      />
+      <Composition
+        id="SkillsChaosToSystem"
+        component={SkillsChaosToSystemVideo}
+        durationInFrames={CHAOS_TO_SYSTEM_DURATION * FPS}
+        fps={FPS}
+        width={SK_SIZES.square.width}
+        height={SK_SIZES.square.height}
+      />
+      <Composition
+        id="SkillsAgentsArchitecture"
+        component={SkillsAgentsArchitectureVideo}
+        durationInFrames={AGENTS_ARCHITECTURE_DURATION * FPS}
+        fps={FPS}
+        width={SK_SIZES.portrait.width}
+        height={SK_SIZES.portrait.height}
+      />
+      <Composition
+        id="SkillsCreatorWorkflow"
+        component={SkillsCreatorWorkflowVideo}
+        durationInFrames={CREATOR_WORKFLOW_DURATION * FPS}
+        fps={FPS}
+        width={SK_SIZES.square.width}
+        height={SK_SIZES.square.height}
       />
     </>
   );

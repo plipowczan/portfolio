@@ -15,7 +15,11 @@
     "build:automation-evolution": "remotion render AutomationEvolutionVideo out/automation-evolution.mp4",
     "build:four-way-decision": "remotion render FourWayDecisionVideo out/four-way-decision.mp4",
     "build:micro-tool": "remotion render MicroToolVideo out/micro-tool.mp4",
-    "build:zapier-series": "npm run build:automation-evolution && npm run build:four-way-decision && npm run build:micro-tool"
+    "build:zapier-series": "npm run build:automation-evolution && npm run build:four-way-decision && npm run build:micro-tool",
+    "build:skills-chaos": "remotion render SkillsChaosToSystem out/skills-chaos-to-system.mp4",
+    "build:skills-agents": "remotion render SkillsAgentsArchitecture out/skills-agents-architecture.mp4",
+    "build:skills-creator": "remotion render SkillsCreatorWorkflow out/skills-creator-workflow.mp4",
+    "build:skills-series": "npm run build:skills-chaos && npm run build:skills-agents && npm run build:skills-creator"
   },
   "keywords": [
     "remotion",
