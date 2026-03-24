@@ -1,0 +1,64 @@
+Generated: 2026-03-23
+Article: Moje środowisko agentowe — jak buduję AI OS dla dwóch firm
+Slug: srodowisko-agentowe-ai-dwie-firmy
+Category: AI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEMINI API PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI] with this exact visual specification:
+
+**Article Context:**
+- Title: Moje środowisko agentowe — jak buduję AI OS dla dwóch firm
+- Topic: AI agent environment, multi-agent system architecture, agentic AI OS
+- Theme: Professional developer blog focused on AI agent orchestration across multiple companies
+
+**Visual Design Requirements:**
+
+Background:
+- Deep dark gradient from #0a0e1a (bottom) to #151b2b (top)
+- Smooth, professional gradient transition matching portfolio aesthetic
+
+Primary Visual Elements (bright green #00ff9d):
+- Multiple interconnected node clusters representing agent networks — two distinct clusters (representing two companies) connected by shared pathways
+- Layered architecture visualization: horizontal bands suggesting Skills → Context → Tools stack
+- Neural network node patterns with connecting lines radiating from a central orchestration hub
+- Circuit board inspired pathways flowing between the two agent clusters
+- Floating hexagons and rectangular elements suggesting modular skill blocks
+
+Secondary Visual Elements (cyan #00b8ff):
+- Git branch-like flowing lines suggesting version control and trust
+- Terminal window outlines (no text inside) representing IDE interfaces
+- Data flow visualization patterns connecting the two cluster groups
+- Subtle lightning bolt accents at connection points
+
+Style & Effects:
+- Glassmorphism-inspired transparency on some layered elements
+- Subtle blur effects creating depth between the architecture layers
+- Modern tech aesthetic matching portfolio website
+- Professional, high-end, minimalist composition
+- Clean, uncluttered layout with breathing room
+- Two distinct but connected visual zones (left and right) representing the two companies
+
+**CRITICAL CONSTRAINTS:**
+- ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS
+- Pure abstract visual art only
+- NO readable symbols, NO typography, NO linguistic characters
+- Focus on shapes, patterns, gradients, and geometric elements
+- Professional enough for LinkedIn/Twitter social previews
+- Must work as a thumbnail (recognizable at small sizes)
+
+**Aspect Ratio:** 1200x630 pixels (Open Graph standard)
+
+**Mood:** Innovative, professional, cutting-edge, trustworthy, systematic, architecturally elegant
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+node scripts/generate-image.js \
+  "Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about AI agent environment with deep dark gradient from #0a0e1a to #151b2b background. Primary elements in bright green #00ff9d: two interconnected node clusters representing agent networks connected by shared pathways, layered architecture visualization suggesting Skills Context Tools stack, neural network patterns with connecting lines from central hub, circuit board pathways, floating hexagons and rectangular skill blocks. Secondary elements in cyan #00b8ff: git branch-like flowing lines, terminal window outlines without text, data flow patterns connecting clusters, lightning bolt accents. Style: glassmorphism transparency, blur depth effects, modern tech aesthetic, minimalist composition, two distinct connected visual zones left and right. ABSOLUTELY NO TEXT LETTERS NUMBERS OR CHARACTERS. Pure abstract geometric art only. Professional for LinkedIn Twitter previews. Must work as thumbnail. Mood: innovative professional systematic architecturally elegant." \
+  --filename og-srodowisko-agentowe-ai-dwie-firmy \
+  --output public/images \
+  --model gemini-3-pro-image-preview
