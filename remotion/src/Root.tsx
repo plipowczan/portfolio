@@ -43,6 +43,11 @@ import {
   CREATOR_WORKFLOW_DURATION,
 } from "./SkillsCreatorWorkflowVideo";
 import { SK_SIZES } from "./skills-constants";
+import {
+  AgenticEnvironmentVideo,
+  AGENTIC_ENV_DURATION,
+} from "./AgenticEnvironmentVideo";
+import { AE_SIZES } from "./agentic-env-constants";
 
 const FPS = 30;
 const EXPLAINER_DURATION = 45;
@@ -177,6 +182,14 @@ export const RemotionRoot = () => {
         fps={FPS}
         width={SK_SIZES.square.width}
         height={SK_SIZES.square.height}
+      />
+      <Composition
+        id="AgenticEnvironment"
+        component={AgenticEnvironmentVideo}
+        durationInFrames={AGENTIC_ENV_DURATION * FPS}
+        fps={FPS}
+        width={AE_SIZES.square.width}
+        height={AE_SIZES.square.height}
       />
     </>
   );
