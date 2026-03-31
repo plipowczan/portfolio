@@ -10,10 +10,13 @@ const __dirname = path.dirname(__filename);
 const SITE_URL = "https://pawel.lipowczan.pl";
 
 /**
- * Pobiera wszystkie artykuły z folderu blog
+ * Pobiera wszystkie artykuły z folderu blog (PL i EN)
  */
-function getAllBlogPosts() {
-  const blogDir = path.join(__dirname, "..", "src", "content", "blog");
+function getAllBlogPosts(lang, blogDir) {
+  if (!fs.existsSync(blogDir)) {
+    return [];
+  }
+
   const files = fs
     .readdirSync(blogDir)
     .filter(
@@ -29,7 +32,6 @@ function getAllBlogPosts() {
       const content = fs.readFileSync(path.join(blogDir, file), "utf-8");
       const { data } = matter(content);
 
-      // Ensure date is in ISO format (YYYY-MM-DD)
       const dateStr =
         typeof data.date === "string"
           ? data.date
@@ -39,18 +41,24 @@ function getAllBlogPosts() {
         slug: data.slug,
         date: dateStr,
         title: data.title,
+        lang: data.lang || lang,
+        alternateSlug: data.alternateSlug || null,
       };
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 /**
- * Generuje XML sitemap
+ * Generuje XML sitemap z hreflang alternates
  */
 function generateSitemap() {
-  const posts = getAllBlogPosts();
+  const blogDirPl = path.join(__dirname, "..", "src", "content", "blog");
+  const blogDirEn = path.join(__dirname, "..", "src", "content", "blog", "en");
 
-  // Statyczne strony
+  const postsPl = getAllBlogPosts("pl", blogDirPl);
+  const postsEn = getAllBlogPosts("en", blogDirEn);
+
+  // Static pages (both PL and EN)
   const staticPages = [
     { url: "", priority: "1.0", changefreq: "weekly" },
     { url: "blog", priority: "0.9", changefreq: "weekly" },
@@ -62,45 +70,104 @@ function generateSitemap() {
   const today = new Date().toISOString().split("T")[0];
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  xml +=
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
 
-  // Dodaj statyczne strony
+  // Static pages — PL and EN with alternates
   staticPages.forEach((page) => {
+    const plUrl = `${SITE_URL}/${page.url}`;
+    const enUrl = `${SITE_URL}/en/${page.url}`;
+
+    // PL version
     xml += "  <url>\n";
-    xml += `    <loc>${SITE_URL}/${page.url}</loc>\n`;
+    xml += `    <loc>${plUrl}</loc>\n`;
     xml += `    <lastmod>${today}</lastmod>\n`;
     xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
     xml += `    <priority>${page.priority}</priority>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${plUrl}"/>\n`;
+    xml += "  </url>\n";
+
+    // EN version
+    xml += "  <url>\n";
+    xml += `    <loc>${enUrl}</loc>\n`;
+    xml += `    <lastmod>${today}</lastmod>\n`;
+    xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
+    xml += `    <priority>${page.priority}</priority>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${plUrl}"/>\n`;
     xml += "  </url>\n";
   });
 
-  // Dodaj artykuły blogowe
-  posts.forEach((post) => {
-    // Formatuj datę do ISO 8601 (YYYY-MM-DD)
-    const postDate = new Date(post.date);
-    const formattedDate = postDate.toISOString().split("T")[0];
+  // Blog posts — PL with EN alternates
+  postsPl.forEach((post) => {
+    const plUrl = `${SITE_URL}/blog/${post.slug}`;
+    const formattedDate = new Date(post.date).toISOString().split("T")[0];
 
     xml += "  <url>\n";
-    xml += `    <loc>${SITE_URL}/blog/${post.slug}</loc>\n`;
+    xml += `    <loc>${plUrl}</loc>\n`;
     xml += `    <lastmod>${formattedDate}</lastmod>\n`;
     xml += "    <changefreq>monthly</changefreq>\n";
     xml += "    <priority>0.7</priority>\n";
+    xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
+    if (post.alternateSlug) {
+      xml += `    <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}/en/blog/${post.alternateSlug}"/>\n`;
+    }
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${plUrl}"/>\n`;
     xml += "  </url>\n";
   });
 
-  // Dodaj projekty
-  projects.forEach((project) => {
+  // Blog posts — EN with PL alternates
+  postsEn.forEach((post) => {
+    const enUrl = `${SITE_URL}/en/blog/${post.slug}`;
+    const formattedDate = new Date(post.date).toISOString().split("T")[0];
+
     xml += "  <url>\n";
-    xml += `    <loc>${SITE_URL}/projects/${project.slug}</loc>\n`;
+    xml += `    <loc>${enUrl}</loc>\n`;
+    xml += `    <lastmod>${formattedDate}</lastmod>\n`;
+    xml += "    <changefreq>monthly</changefreq>\n";
+    xml += "    <priority>0.7</priority>\n";
+    if (post.alternateSlug) {
+      xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${SITE_URL}/blog/${post.alternateSlug}"/>\n`;
+    }
+    xml += `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}/blog/${post.alternateSlug || post.slug}"/>\n`;
+    xml += "  </url>\n";
+  });
+
+  // Projects — PL and EN
+  projects.forEach((project) => {
+    const plUrl = `${SITE_URL}/projects/${project.slug}`;
+    const enUrl = `${SITE_URL}/en/projects/${project.slug}`;
+
+    // PL
+    xml += "  <url>\n";
+    xml += `    <loc>${plUrl}</loc>\n`;
     xml += `    <lastmod>${today}</lastmod>\n`;
     xml += "    <changefreq>monthly</changefreq>\n";
     xml += "    <priority>0.8</priority>\n";
+    xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${plUrl}"/>\n`;
+    xml += "  </url>\n";
+
+    // EN
+    xml += "  <url>\n";
+    xml += `    <loc>${enUrl}</loc>\n`;
+    xml += `    <lastmod>${today}</lastmod>\n`;
+    xml += "    <changefreq>monthly</changefreq>\n";
+    xml += "    <priority>0.8</priority>\n";
+    xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${plUrl}"/>\n`;
     xml += "  </url>\n";
   });
 
   xml += "</urlset>";
 
-  return xml;
+  return { xml, postsPl, postsEn };
 }
 
 /**
@@ -109,26 +176,21 @@ function generateSitemap() {
 function saveSitemap() {
   console.log("🗺️  Generowanie sitemap.xml...\n");
 
-  const sitemap = generateSitemap();
+  const { xml, postsPl, postsEn } = generateSitemap();
   const outputPath = path.join(__dirname, "..", "public", "sitemap.xml");
 
-  fs.writeFileSync(outputPath, sitemap, "utf-8");
+  fs.writeFileSync(outputPath, xml, "utf-8");
 
-  const posts = getAllBlogPosts();
+  const staticCount = 5 * 2; // PL + EN
+  const blogCount = postsPl.length + postsEn.length;
+  const projectCount = projects.length * 2; // PL + EN
 
   console.log("✅ Sitemap wygenerowany pomyślnie!\n");
   console.log(`📄 Plik: public/sitemap.xml`);
-  console.log(`📊 Strony statyczne: 9`);
-  console.log(`📝 Artykuły blogowe: ${posts.length}`);
-  console.log(`💼 Projekty: ${projects.length}`);
-  console.log(`🔗 Łącznie URLi: ${9 + posts.length + projects.length}\n`);
-
-  console.log("📋 Artykuły w sitemap:");
-  posts.forEach((post) => {
-    console.log(`   - ${post.title}`);
-    console.log(`     Slug: ${post.slug}`);
-    console.log(`     Data: ${post.date}`);
-  });
+  console.log(`📊 Strony statyczne: ${staticCount} (${staticCount / 2} PL + ${staticCount / 2} EN)`);
+  console.log(`📝 Artykuły blogowe: ${blogCount} (${postsPl.length} PL + ${postsEn.length} EN)`);
+  console.log(`💼 Projekty: ${projectCount} (${projects.length} PL + ${projects.length} EN)`);
+  console.log(`🔗 Łącznie URLi: ${staticCount + blogCount + projectCount}\n`);
 
   console.log(`\n🌐 Sitemap dostępny pod: ${SITE_URL}/sitemap.xml`);
 }
@@ -144,9 +206,10 @@ Użycie:
   node scripts/update-sitemap.js
 
 Opis:
-  Automatycznie generuje sitemap.xml na podstawie:
-  - Statycznych stron aplikacji
-  - Wszystkich artykułów z src/content/blog/
+  Automatycznie generuje sitemap.xml z hreflang alternates na podstawie:
+  - Statycznych stron aplikacji (PL + EN)
+  - Wszystkich artykułów z src/content/blog/ i src/content/blog/en/
+  - Wszystkich projektów
 
 Wynik:
   - Plik sitemap.xml w folderze public/

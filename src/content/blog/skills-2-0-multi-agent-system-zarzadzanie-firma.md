@@ -15,6 +15,8 @@ tags:
   - Automatyzacja
   - Multi-Agent System
   - Agent Skills
+lang: pl
+alternateSlug: skills-2-0-multi-agent-system-company-management
 ---
 
 Od kilku dni buduję coś, czego szukałem od dawna — system, w którym agenci AI nie tylko odpowiadają na pytania, ale **zarządzają** konkretnymi obszarami moich firm. Zarówno 200IQ Labs (qamera.ai) jak i PLSoft.

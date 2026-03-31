@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const PrivacyPolicy = () => {
+  const { t, i18n } = useTranslation("legal");
+  const dateLocale = i18n.language === "en" ? "en-US" : "pl-PL";
+
   return (
     <>
-      <SEO 
+      <SEO
         title="Privacy Policy"
         description="Privacy Policy and GDPR compliance information"
         path="/privacy-policy"
@@ -21,155 +25,127 @@ const PrivacyPolicy = () => {
           >
             <div className="text-center space-y-4 mb-12">
               <h1 className="text-4xl md:text-5xl font-bold gradient-text">
-                Polityka Prywatności
+                {t("privacy.title")}
               </h1>
-              <p className="text-gray-400">Privacy Policy</p>
+              <p className="text-gray-400">{t("privacy.subtitle")}</p>
               <p className="text-sm text-gray-500">
-                Ostatnia aktualizacja: {new Date().toLocaleDateString("pl-PL")}
+                {t("privacy.lastUpdate", { date: new Date().toLocaleDateString(dateLocale) })}
               </p>
             </div>
 
             <div className="space-y-8 text-gray-300">
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  1. Wprowadzenie
+                  {t("privacy.section1.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Niniejsza Polityka Prywatności określa zasady przetwarzania i
-                  ochrony danych osobowych użytkowników strony internetowej{" "}
-                  {SITE_CONFIG.url}. Administratorem danych osobowych jest Pawel
-                  Lipowczan, z którym można skontaktować się pod adresem email:{" "}
-                  {SITE_CONFIG.email}.
+                  {t("privacy.section1.content", { url: SITE_CONFIG.url, email: SITE_CONFIG.email })}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  2. Rodzaj zbieranych danych
+                  {t("privacy.section2.title")}
                 </h2>
                 <p className="leading-relaxed mb-4">
-                  Podczas korzystania ze strony możemy zbierać następujące dane:
+                  {t("privacy.section2.intro")}
                 </p>
                 <ul className="list-disc list-inside space-y-2 pl-4">
-                  <li>
-                    Dane kontaktowe (imię, nazwisko, adres email) - podawane
-                    dobrowolnie przez formularz kontaktowy
-                  </li>
-                  <li>
-                    Dane techniczne (adres IP, typ przeglądarki, system
-                    operacyjny) - zbierane automatycznie
-                  </li>
-                  <li>Pliki cookies - szczegóły w Polityce Ciasteczek</li>
+                  <li>{t("privacy.section2.item1")}</li>
+                  <li>{t("privacy.section2.item2")}</li>
+                  <li>{t("privacy.section2.item3")}</li>
                 </ul>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  3. Cel przetwarzania danych
+                  {t("privacy.section3.title")}
                 </h2>
                 <p className="leading-relaxed mb-4">
-                  Dane osobowe są przetwarzane w celu:
+                  {t("privacy.section3.intro")}
                 </p>
                 <ul className="list-disc list-inside space-y-2 pl-4">
-                  <li>
-                    Odpowiedzi na zapytania przesłane przez formularz kontaktowy
-                  </li>
-                  <li>Świadczenia usług dostępnych na stronie</li>
-                  <li>
-                    Analizy ruchu na stronie i optymalizacji jej działania
-                  </li>
-                  <li>
-                    Zapewnienia bezpieczeństwa i przeciwdziałania nadużyciom
-                  </li>
+                  <li>{t("privacy.section3.item1")}</li>
+                  <li>{t("privacy.section3.item2")}</li>
+                  <li>{t("privacy.section3.item3")}</li>
+                  <li>{t("privacy.section3.item4")}</li>
                 </ul>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  4. Podstawa prawna przetwarzania
+                  {t("privacy.section4.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Przetwarzanie danych odbywa się na podstawie:
+                  {t("privacy.section4.intro")}
                 </p>
                 <ul className="list-disc list-inside space-y-2 pl-4 mt-4">
-                  <li>Zgody użytkownika (art. 6 ust. 1 lit. a RODO)</li>
-                  <li>
-                    Prawnie uzasadnionego interesu administratora (art. 6 ust. 1
-                    lit. f RODO)
-                  </li>
-                  <li>Wykonania umowy (art. 6 ust. 1 lit. b RODO)</li>
+                  <li>{t("privacy.section4.item1")}</li>
+                  <li>{t("privacy.section4.item2")}</li>
+                  <li>{t("privacy.section4.item3")}</li>
                 </ul>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  5. Okres przechowywania danych
+                  {t("privacy.section5.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Dane osobowe są przechowywane przez okres niezbędny do
-                  realizacji celów, dla których zostały zebrane, nie dłużej
-                  jednak niż przez okres wymagany przepisami prawa lub do
-                  momentu cofnięcia zgody przez użytkownika.
+                  {t("privacy.section5.content")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  6. Prawa użytkownika (RODO)
+                  {t("privacy.section6.title")}
                 </h2>
                 <p className="leading-relaxed mb-4">
-                  Zgodnie z RODO, użytkownik ma prawo do:
+                  {t("privacy.section6.intro")}
                 </p>
                 <ul className="list-disc list-inside space-y-2 pl-4">
-                  <li>Dostępu do swoich danych osobowych</li>
-                  <li>Sprostowania (poprawiania) danych</li>
-                  <li>Usunięcia danych (prawo do bycia zapomnianym)</li>
-                  <li>Ograniczenia przetwarzania danych</li>
-                  <li>Przenoszenia danych</li>
-                  <li>Wniesienia sprzeciwu wobec przetwarzania</li>
-                  <li>Cofnięcia zgody w dowolnym momencie</li>
-                  <li>Wniesienia skargi do organu nadzorczego (UODO)</li>
+                  <li>{t("privacy.section6.item1")}</li>
+                  <li>{t("privacy.section6.item2")}</li>
+                  <li>{t("privacy.section6.item3")}</li>
+                  <li>{t("privacy.section6.item4")}</li>
+                  <li>{t("privacy.section6.item5")}</li>
+                  <li>{t("privacy.section6.item6")}</li>
+                  <li>{t("privacy.section6.item7")}</li>
+                  <li>{t("privacy.section6.item8")}</li>
                 </ul>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  7. Udostępnianie danych osobowych
+                  {t("privacy.section7.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Dane osobowe mogą być udostępniane następującym podmiotom:
+                  {t("privacy.section7.intro")}
                 </p>
                 <ul className="list-disc list-inside space-y-2 pl-4 mt-4">
-                  <li>Dostawcom usług hostingowych</li>
-                  <li>Dostawcom usług analitycznych (np. Google Analytics)</li>
-                  <li>Dostawcom usług email</li>
+                  <li>{t("privacy.section7.item1")}</li>
+                  <li>{t("privacy.section7.item2")}</li>
+                  <li>{t("privacy.section7.item3")}</li>
                 </ul>
                 <p className="leading-relaxed mt-4">
-                  Dane nie są przekazywane do państw trzecich poza Europejski
-                  Obszar Gospodarczy.
+                  {t("privacy.section7.footer")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  8. Bezpieczeństwo danych
+                  {t("privacy.section8.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Stosujemy odpowiednie środki techniczne i organizacyjne w celu
-                  ochrony danych osobowych przed przypadkowym lub niezgodnym z
-                  prawem zniszczeniem, utratą, modyfikacją, nieuprawnionym
-                  ujawnieniem lub dostępem.
+                  {t("privacy.section8.content")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  9. Kontakt
+                  {t("privacy.section9.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  W sprawach dotyczących przetwarzania danych osobowych oraz
-                  realizacji praw wynikających z RODO, prosimy o kontakt pod
-                  adresem email:{" "}
+                  {t("privacy.section9.content")}
                   <a
                     href={`mailto:${SITE_CONFIG.email}`}
                     className="text-primary-500 hover:text-primary-400"
@@ -181,12 +157,10 @@ const PrivacyPolicy = () => {
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  10. Zmiany w Polityce Prywatności
+                  {t("privacy.section10.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej
-                  Polityce Prywatności. O wszelkich zmianach poinformujemy
-                  poprzez aktualizację daty ostatniej modyfikacji.
+                  {t("privacy.section10.content")}
                 </p>
               </section>
             </div>

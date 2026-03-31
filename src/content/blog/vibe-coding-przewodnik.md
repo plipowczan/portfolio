@@ -17,6 +17,8 @@ tags:
   - Tailwind
   - Tutorial
   - Automatyzacja
+lang: pl
+alternateSlug: vibe-coding-guide
 ---
 
 # Vibe Coding - jak tworzyć UI z AI bez znajomości designu

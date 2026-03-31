@@ -15,6 +15,8 @@ tags:
   - Second Brain
   - Skills
   - Produktywność
+lang: pl
+alternateSlug: second-brain-obsidian-claude-code-skills
 ---
 
 Claude Code to nie tylko narzędzie do kodowania. Brzmi jak clickbait, ale to jedna z najważniejszych rzeczy, które zrozumiałem w ostatnich miesiącach. Odkryłem to dzięki Cole Medin i jego podejściu do używania Claude Code dosłownie do wszystkiego - od zarządzania notatkami po generowanie contentu.

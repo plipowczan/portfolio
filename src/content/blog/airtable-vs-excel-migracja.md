@@ -14,6 +14,8 @@ tags:
   - Excel
   - Produktywność
   - Automatyzacja
+lang: pl
+alternateSlug: airtable-vs-excel-migration
 ---
 
 # Airtable vs Excel - Kiedy warto zmienić arkusz na bazę danych?

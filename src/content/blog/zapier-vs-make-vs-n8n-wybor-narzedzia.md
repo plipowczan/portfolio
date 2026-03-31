@@ -17,6 +17,8 @@ tags:
   - Porównanie
   - AI Agenty
   - Kod
+lang: pl
+alternateSlug: zapier-vs-make-vs-n8n-tool-choice
 ---
 
 # Zapier vs Make vs n8n - jak wybrać narzędzie automatyzacji dla Twojego zespołu?

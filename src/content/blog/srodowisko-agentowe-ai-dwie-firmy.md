@@ -15,6 +15,8 @@ tags:
   - Automatyzacja
   - Multi-Agent System
   - Git
+lang: pl
+alternateSlug: agentic-ai-environment-two-companies
 ---
 
 # Moje środowisko agentowe — jak buduję AI OS dla dwóch firm

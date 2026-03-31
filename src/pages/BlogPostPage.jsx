@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaCalendar, FaClock, FaList, FaTag, FaTimes } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useParams } from "react-router-dom";
@@ -9,12 +10,13 @@ import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { useBooking } from "../context/BookingContext";
-import { blogPosts } from "../data/blogPosts";
+import { getPostsByLang, getAlternatePost } from "../data/blogPosts";
+import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 import { extractFAQ, generateFAQSchema } from "../utils/faqExtractor";
 
 // Desktop TOC Sidebar Component - defined outside to prevent remounting
-const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
+const TableOfContentsSidebar = ({ items, activeId, onScrollToSection, tocLabel = "Spis treści" }) => {
   const navRef = useRef(null);
   const activeItemRef = useRef(null);
 
@@ -63,7 +65,7 @@ const TableOfContentsSidebar = ({ items, activeId, onScrollToSection }) => {
       style={hideScrollbarStyle}
     >
       <div className="bg-dark-800/50 backdrop-blur-sm border border-white/10 rounded-xl p-6">
-        <h2 className="text-base font-bold text-white mb-3">Spis treści</h2>
+        <h2 className="text-base font-bold text-white mb-3">{tocLabel}</h2>
         <ul className="space-y-0.5">
           {items.map((item) => (
             <li key={item.id} className={item.level === "h3" ? "pl-4" : ""}>
@@ -106,6 +108,7 @@ const TableOfContentsDrawer = ({
   isOpen,
   onClose,
   onScrollToSection,
+  tocLabel = "Spis treści",
 }) => {
   // Prevent body scroll when drawer is open
   useEffect(() => {
@@ -154,7 +157,7 @@ const TableOfContentsDrawer = ({
             <div className="p-6">
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-white">Spis treści</h2>
+                <h2 className="text-lg font-bold text-white">{tocLabel}</h2>
                 <button
                   onClick={onClose}
                   aria-label="Close Table of Contents"
@@ -198,7 +201,11 @@ const TableOfContentsDrawer = ({
 
 const BlogPostPage = () => {
   const { slug } = useParams();
-  const post = blogPosts.find((p) => p.slug === slug);
+  const { t, i18n } = useTranslation("common");
+  const localizedPath = useLocalizedPath();
+  const langPosts = getPostsByLang(i18n.language);
+  const post = langPosts.find((p) => p.slug === slug);
+  const alternatePost = post ? getAlternatePost(post.slug) : null;
   const [imageError, setImageError] = useState(false);
   const { openBookingModal } = useBooking();
 
@@ -473,18 +480,18 @@ const BlogPostPage = () => {
     return (
       <>
         <SEO
-          title="Post Not Found"
-          description="The requested blog post could not be found."
-          path="/blog"
+          title={t("blog.postNotFound")}
+          description={t("blog.postNotFoundDesc")}
+          path={localizedPath("/blog")}
         />
 
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-white mb-4">
-              Post Not Found
+              {t("blog.postNotFound")}
             </h1>
-            <Link to="/blog" className="btn-primary">
-              Back to Blog
+            <Link to={localizedPath("/blog")} className="btn-primary">
+              {t("blog.backToBlog")}
             </Link>
           </div>
         </div>
@@ -528,8 +535,8 @@ const BlogPostPage = () => {
     },
     datePublished: post.date,
     image: `${SITE_CONFIG.url}${post.image}`,
-    articleBody: post.excerpt, // Using excerpt as body summary for now
-    url: `${SITE_CONFIG.url}/blog/${post.slug}`,
+    articleBody: post.excerpt,
+    url: `${SITE_CONFIG.url}${localizedPath(`/blog/${post.slug}`)}`,
   };
 
   return (
@@ -537,7 +544,7 @@ const BlogPostPage = () => {
       <SEO
         title={post.title}
         description={post.excerpt}
-        path={`/blog/${post.slug}`}
+        path={localizedPath(`/blog/${post.slug}`)}
         image={post.image}
         article={true}
         publishedTime={post.date}
@@ -585,8 +592,8 @@ const BlogPostPage = () => {
               {/* Breadcrumbs */}
               <Breadcrumbs
                 items={[
-                  { label: "Home", path: "/" },
-                  { label: "Blog", path: "/blog" },
+                  { label: t("blog.home"), path: localizedPath("/") },
+                  { label: "Blog", path: localizedPath("/blog") },
                   { label: post.title, path: null },
                 ]}
               />
@@ -614,7 +621,7 @@ const BlogPostPage = () => {
                   <span>{post.readTime}</span>
                 </div>
                 <div>
-                  By <span className="text-primary-500">{post.author}</span>
+                  {t("blog.by")} <span className="text-primary-500">{post.author}</span>
                 </div>
               </div>
 
@@ -634,7 +641,7 @@ const BlogPostPage = () => {
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-dark-800">
                     <p className="text-gray-400 text-center px-4">
-                      Obrazek nie mógł zostać załadowany
+                      {t("blog.imageError")}
                       <br />
                       <span className="text-sm text-gray-500">
                         {post.image}
@@ -849,7 +856,7 @@ const BlogPostPage = () => {
                 <div className="flex flex-wrap gap-3">
                   <span className="text-gray-400 flex items-center space-x-2">
                     <FaTag className="text-primary-500" />
-                    <span>Tags:</span>
+                    <span>{t("blog.tags")}</span>
                   </span>
                   {post.tags.map((tag, index) => (
                     <span
@@ -864,8 +871,8 @@ const BlogPostPage = () => {
 
               {/* Navigation */}
               <div className="pt-8 border-t border-gray-700 flex justify-center">
-                <Link to="/blog" className="btn-outline">
-                  View All Posts
+                <Link to={localizedPath("/blog")} className="btn-outline">
+                  {t("blog.viewAllPosts")}
                 </Link>
               </div>
             </motion.div>
@@ -877,6 +884,7 @@ const BlogPostPage = () => {
                   items={tocItems}
                   activeId={activeId}
                   onScrollToSection={scrollToSection}
+                  tocLabel={t("blog.toc")}
                 />
               </aside>
             )}
@@ -892,6 +900,7 @@ const BlogPostPage = () => {
                 isOpen={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
                 onScrollToSection={scrollToSection}
+                tocLabel={t("blog.toc")}
               />
             </div>
           )}

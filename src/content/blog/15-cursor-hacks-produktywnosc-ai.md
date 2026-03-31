@@ -14,6 +14,8 @@ tags:
   - Produktywność
   - Developer Tools
   - Claude Code
+lang: pl
+alternateSlug: 15-cursor-hacks-ai-productivity
 ---
 
 Przez pierwsze trzy miesiące używałem Cursor jak zwykły VS Code z autocompletem. Płaciłem **$20 miesięcznie**, żeby agent odpisywał "sure, let me help you with that" i generował kod który i tak musiałem przepisać. Brzmi znajomo?

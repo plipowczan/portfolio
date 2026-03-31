@@ -16,6 +16,8 @@ tags:
   - OpenAI
   - RAG
   - Qdrant
+lang: pl
+alternateSlug: ai-chatbots-from-concept-to-deployment
 ---
 
 # Chatboty oparte na AI - Od koncepcji do wdrożenia

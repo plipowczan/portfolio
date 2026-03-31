@@ -14,6 +14,8 @@ tags:
   - No-Code
   - Airtable
   - Claude
+lang: pl
+alternateSlug: data-as-business-fuel
 ---
 
 Dane to nowa ropa naftowa. To stwierdzenie pojawia się w branży technologicznej od 2006 roku, kiedy matematyk Clive Humby po raz pierwszy spopularyzował to porównanie. I tak jak ropa naftowa, dane same w sobie nie mają wartości - dopiero po odpowiedniej "rafinacji" stają się paliwem napędzającym biznes.

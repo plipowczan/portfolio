@@ -14,6 +14,8 @@ tags:
   - Bezpieczeństwo
   - Agenci AI
   - Open Source
+lang: pl
+alternateSlug: openclaw-ai-agent-security
 ---
 
 # OpenClaw: lekcja bezpieczeństwa, której potrzebował świat agentów AI

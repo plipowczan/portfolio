@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { SITE_CONFIG } from "../../utils/constants";
 
 const SEO = ({
@@ -9,8 +10,12 @@ const SEO = ({
   article = false,
   publishedTime,
   author,
+  alternateUrl,
 }) => {
+  const { i18n } = useTranslation();
   const siteUrl = SITE_CONFIG.url;
+  const currentLang = i18n.language;
+
   // Ensure path starts with /
   const formattedPath = path.startsWith("/") ? path : `/${path}`;
   const canonicalUrl = `${siteUrl}${formattedPath}`;
@@ -21,18 +26,30 @@ const SEO = ({
 
   const metaDescription = description || SITE_CONFIG.description;
 
-  // Handle image URL - if it's absolute, use it; otherwise prepend siteUrl
   const metaImage = image
     ? image.startsWith("http")
       ? image
       : `${siteUrl}${image}`
     : `${siteUrl}${SITE_CONFIG.ogImage}`;
 
+  // Build hreflang URLs
+  const plUrl = currentLang === "en"
+    ? (alternateUrl || canonicalUrl.replace("/en/", "/").replace("/en", "/"))
+    : canonicalUrl;
+  const enUrl = currentLang === "en"
+    ? canonicalUrl
+    : (alternateUrl || `${siteUrl}/en${formattedPath}`);
+
   return (
     <Helmet>
       <title>{metaTitle}</title>
       <meta name="description" content={metaDescription} />
       <link rel="canonical" href={canonicalUrl} />
+
+      {/* Hreflang Alternate Links */}
+      <link rel="alternate" hreflang="pl" href={plUrl} />
+      <link rel="alternate" hreflang="en" href={enUrl} />
+      <link rel="alternate" hreflang="x-default" href={plUrl} />
 
       {/* Open Graph */}
       <meta property="og:url" content={canonicalUrl} />
@@ -42,6 +59,7 @@ const SEO = ({
       <meta property="og:image" content={metaImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
+      <meta property="og:locale" content={currentLang === "en" ? "en_US" : "pl_PL"} />
 
       {/* Article Specific Meta Tags */}
       {article && publishedTime && (

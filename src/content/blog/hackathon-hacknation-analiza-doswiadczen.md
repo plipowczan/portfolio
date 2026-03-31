@@ -14,6 +14,8 @@ tags:
   - GovTech
   - Case Study
   - Digitalizacja
+lang: pl
+alternateSlug: hackathon-hacknation-experience-analysis
 ---
 
 # Hackathon Hacknation – Analiza Doświadczeń i Lekcja z Cyfryzacji

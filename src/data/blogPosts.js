@@ -1,9 +1,14 @@
 import matter from "gray-matter";
 
-// Automatyczny import wszystkich plików markdown z folderu blog
-// Pomija pliki _wsad.md, _template.md i README.md
-// Import as string explicitly to preserve UTF-8 encoding
-const blogFiles = import.meta.glob("../content/blog/*.md", {
+// Import PL posts from root blog folder
+const blogFilesPl = import.meta.glob("../content/blog/*.md", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
+
+// Import EN posts from blog/en/ subfolder
+const blogFilesEn = import.meta.glob("../content/blog/en/*.md", {
   eager: true,
   query: "?raw",
   import: "default",
@@ -11,9 +16,6 @@ const blogFiles = import.meta.glob("../content/blog/*.md", {
 
 /**
  * Waliduje czy wszystkie wymagane pola istnieją w front matter
- * @param {Object} data - Dane z front matter
- * @param {string} filename - Nazwa pliku (dla error message)
- * @throws {Error} - Jeśli brakuje wymaganych pól
  */
 function validateFrontMatter(data, filename) {
   const requiredFields = [
@@ -36,7 +38,6 @@ function validateFrontMatter(data, filename) {
     );
   }
 
-  // Walidacja typów
   if (typeof data.id !== "number") {
     throw new Error(`Invalid 'id' type in ${filename}: expected number`);
   }
@@ -48,15 +49,11 @@ function validateFrontMatter(data, filename) {
 
 /**
  * Parsuje plik markdown z front matter i zwraca obiekt artykułu
- * @param {string} rawMarkdown - Surowa treść pliku markdown
- * @param {string} filename - Nazwa pliku (dla error handling)
- * @returns {Object|null} - Obiekt artykułu z metadanymi i treścią, lub null jeśli parsowanie się nie powiodło
  */
 function parsePost(rawMarkdown, filename = "unknown") {
   try {
     const { data, content } = matter(rawMarkdown);
 
-    // Waliduj front matter
     validateFrontMatter(data, filename);
 
     return {
@@ -74,6 +71,8 @@ function parsePost(rawMarkdown, filename = "unknown") {
       readTime: data.readTime,
       image: data.image,
       tags: Array.isArray(data.tags) ? data.tags : [],
+      lang: data.lang || "pl",
+      alternateSlug: data.alternateSlug || null,
     };
   } catch (error) {
     console.error(`Error parsing blog post ${filename}:`, error.message);
@@ -81,68 +80,80 @@ function parsePost(rawMarkdown, filename = "unknown") {
   }
 }
 
-// Automatycznie parsuj wszystkie artykuły z folderu
-const parsedPosts = Object.entries(blogFiles)
-  .filter(([path]) => {
-    const filename = path.split("/").pop();
-    // Pomijaj pliki wsadowe, template i README
-    return (
-      !filename.endsWith("_wsad.md") &&
-      !filename.startsWith("_") &&
-      filename !== "README.md"
-    );
-  })
-  .map(([path, content]) => {
-    const filename = path.split("/").pop();
-    return parsePost(content, filename);
-  })
-  .filter((post) => post !== null); // Usuń niepoprawne posty
+function filterAndParse(files) {
+  return Object.entries(files)
+    .filter(([path]) => {
+      const filename = path.split("/").pop();
+      return (
+        !filename.endsWith("_wsad.md") &&
+        !filename.startsWith("_") &&
+        filename !== "README.md"
+      );
+    })
+    .map(([path, content]) => {
+      const filename = path.split("/").pop();
+      return parsePost(content, filename);
+    })
+    .filter((post) => post !== null);
+}
 
-// Sortuj od najnowszych
-export const blogPosts = parsedPosts.sort(
+const allPosts = [...filterAndParse(blogFilesPl), ...filterAndParse(blogFilesEn)].sort(
   (a, b) => new Date(b.date) - new Date(a.date)
 );
 
+// Default export: all posts (backward compatible)
+export const blogPosts = allPosts;
+
+/**
+ * Pobiera posty filtrowane po języku
+ */
+export function getPostsByLang(lang) {
+  return allPosts
+    .filter((post) => post.lang === lang)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
+/**
+ * Pobiera alternate post (tłumaczenie) dla danego slugu
+ */
+export function getAlternatePost(slug) {
+  const post = allPosts.find((p) => p.slug === slug);
+  if (!post?.alternateSlug) return null;
+  return allPosts.find((p) => p.slug === post.alternateSlug) || null;
+}
+
 /**
  * Pobiera pojedynczy artykuł po slug
- * @param {string} slug - Slug artykułu
- * @returns {Object|null} - Obiekt artykułu lub null jeśli nie znaleziono
  */
 export function getPostBySlug(slug) {
-  return blogPosts.find((post) => post.slug === slug) || null;
+  return allPosts.find((post) => post.slug === slug) || null;
 }
 
 /**
  * Pobiera artykuły według kategorii
- * @param {string} category - Kategoria artykułów
- * @returns {Array} - Tablica artykułów z danej kategorii
  */
 export function getPostsByCategory(category) {
-  return blogPosts.filter((post) => post.category === category);
+  return allPosts.filter((post) => post.category === category);
 }
 
 /**
  * Pobiera artykuły według tagu
- * @param {string} tag - Tag artykułów
- * @returns {Array} - Tablica artykułów z danym tagiem
  */
 export function getPostsByTag(tag) {
-  return blogPosts.filter((post) => post.tags.includes(tag));
+  return allPosts.filter((post) => post.tags.includes(tag));
 }
 
 /**
  * Pobiera wszystkie unikalne kategorie
- * @returns {Array} - Tablica unikalnych kategorii
  */
 export function getAllCategories() {
-  return [...new Set(blogPosts.map((post) => post.category))];
+  return [...new Set(allPosts.map((post) => post.category))];
 }
 
 /**
  * Pobiera wszystkie unikalne tagi
- * @returns {Array} - Tablica unikalnych tagów
  */
 export function getAllTags() {
-  const allTags = blogPosts.flatMap((post) => post.tags);
+  const allTags = allPosts.flatMap((post) => post.tags);
   return [...new Set(allTags)];
 }

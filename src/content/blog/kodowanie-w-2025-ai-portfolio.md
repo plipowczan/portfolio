@@ -14,6 +14,8 @@ tags:
   - React
   - Vite
   - Case Study
+lang: pl
+alternateSlug: coding-in-2025-ai-portfolio
 ---
 
 Często słyszę, że programowanie się kończy. Że wystarczy „zvibecodować” aplikację w jednym z nowych narzędzi no-code, a AI zrobi resztę. Postanowiłem to sprawdzić na żywym organizmie.

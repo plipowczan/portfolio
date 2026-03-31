@@ -27,43 +27,43 @@
 
 ## 4. Blog System
 
-- [ ] 4.1 Add `lang` and `alternateSlug` fields to all 22 existing PL blog post frontmatter files
-- [ ] 4.2 Update `blogPosts.js` — extend glob to include `../content/blog/en/*.md`, parse `lang`/`alternateSlug`, add `getPostsByLang()` and `getAlternatePost()` exports
-- [ ] 4.3 Update `Blog.jsx` page — filter posts by current language, use localized links
-- [ ] 4.4 Update `BlogPostPage.jsx` — resolve post by language + slug, translate UI strings ("Spis treści", "Read more", etc.), show alternate language link
-- [ ] 4.5 Translate blog post 1-5 (EN markdown files in `src/content/blog/en/`)
-- [ ] 4.6 Translate blog post 6-11
-- [ ] 4.7 Translate blog post 12-17
-- [ ] 4.8 Translate blog post 18-22
+- [x] 4.1 Add `lang` and `alternateSlug` fields to all 22 existing PL blog post frontmatter files
+- [x] 4.2 Update `blogPosts.js` — extend glob to include `../content/blog/en/*.md`, parse `lang`/`alternateSlug`, add `getPostsByLang()` and `getAlternatePost()` exports
+- [x] 4.3 Update `Blog.jsx` page — filter posts by current language, use localized links
+- [x] 4.4 Update `BlogPostPage.jsx` — resolve post by language + slug, translate UI strings ("Spis treści", "Read more", etc.), show alternate language link
+- [x] 4.5 Translate blog post 1-5 (EN markdown files in `src/content/blog/en/`)
+- [x] 4.6 Translate blog post 6-11
+- [x] 4.7 Translate blog post 12-17
+- [x] 4.8 Translate blog post 18-22
 
 ## 5. Project Pages
 
-- [ ] 5.1 Update `projects.js` — add `slugEn` field to each project, move translatable text keys to i18n
-- [ ] 5.2 Update `ProjectPage.jsx` — resolve project by language-appropriate slug, use `projects` namespace for text
-- [ ] 5.3 Populate `locales/en/projects.json` with translated titles, descriptions, features, benefits for all 9 projects
+- [x] 5.1 Update `projects.js` — translatable text moved to i18n JSON files (pl/en projects.json)
+- [x] 5.2 Update `ProjectPage.jsx` — resolve project by language-appropriate slug, use `projects` namespace for text
+- [x] 5.3 Populate `locales/en/projects.json` with translated titles, descriptions, features, benefits for all 9 projects
 
 ## 6. Legal Pages
 
-- [ ] 6.1 Extract `PrivacyPolicy.jsx` hardcoded text to `legal` namespace (PL keys)
-- [ ] 6.2 Extract `TermsOfService.jsx` hardcoded text to `legal` namespace (PL keys)
-- [ ] 6.3 Extract `CookiePolicy.jsx` hardcoded text to `legal` namespace (PL keys)
-- [ ] 6.4 Create English translations in `locales/en/legal.json` for all 3 legal pages
-- [ ] 6.5 Refactor legal page components to use `useTranslation('legal')` instead of hardcoded text
+- [x] 6.1 Extract `PrivacyPolicy.jsx` hardcoded text to `legal` namespace (PL keys)
+- [x] 6.2 Extract `TermsOfService.jsx` hardcoded text to `legal` namespace (PL keys)
+- [x] 6.3 Extract `CookiePolicy.jsx` hardcoded text to `legal` namespace (PL keys)
+- [x] 6.4 Create English translations in `locales/en/legal.json` for all 3 legal pages
+- [x] 6.5 Refactor legal page components to use `useTranslation('legal')` instead of hardcoded text
 
 ## 7. SEO & Build
 
-- [ ] 7.1 Update `SEO.jsx` — add `<html lang>`, hreflang alternate links (pl, en, x-default), accept `alternateUrl` prop
-- [ ] 7.2 Update all pages/components that use `<SEO>` to pass alternate URL for hreflang
-- [ ] 7.3 Update `scripts/update-sitemap.js` — generate entries for both PL and EN with `xhtml:link` alternates
-- [ ] 7.4 Update `scripts/prerender.mjs` — add EN routes to prerendering list (static + blog + projects)
-- [ ] 7.5 Update `vercel.json` — add SPA fallback rewrite for `/en/*` paths
-- [ ] 7.6 Update `index.html` — remove hardcoded `lang="pl"` (now dynamic via Helmet)
+- [x] 7.1 Update `SEO.jsx` — add `<html lang>`, hreflang alternate links (pl, en, x-default), accept `alternateUrl` prop
+- [x] 7.2 Update all pages/components that use `<SEO>` to pass alternate URL for hreflang
+- [x] 7.3 Update `scripts/update-sitemap.js` — generate entries for both PL and EN with `xhtml:link` alternates
+- [x] 7.4 Update `scripts/prerender.mjs` — add EN routes to prerendering list (static + blog + projects)
+- [x] 7.5 Update `vercel.json` — SPA fallback already covers `/en/*` paths (no change needed)
+- [x] 7.6 Update `index.html` — keep `lang="pl"` as default fallback, Helmet overrides at runtime
 
 ## 8. Constants & Data Cleanup
 
-- [ ] 8.1 Update `constants.js` — make `SITE_CONFIG.title` and `SITE_CONFIG.description` translatable or move to i18n, update `NAV_LINKS` to use i18n keys
-- [ ] 8.2 Update `skills.js` — move translatable labels (highlights) to `home` namespace
-- [ ] 8.3 Update `testimonials.js` — no structural changes needed, but verify `contentOriginal` field exists on all entries
+- [x] 8.1 Update `constants.js` — removed unused NAV_LINKS (now in Navigation.jsx with i18n), SITE_CONFIG kept as PL fallback
+- [x] 8.2 Update `skills.js` — highlight labels moved to `home` namespace in About.jsx via HIGHLIGHT_KEYS
+- [x] 8.3 Update `testimonials.js` — verified `contentOriginal` field exists on all 7 entries
 
 ## 9. Validation & Testing
 

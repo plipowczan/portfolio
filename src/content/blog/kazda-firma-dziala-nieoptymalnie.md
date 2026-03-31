@@ -14,6 +14,8 @@ tags:
   - Biznes
   - Optymalizacja
   - Infoshare
+lang: pl
+alternateSlug: every-company-operates-suboptimally
 ---
 
 Czy masz w firmie taką osobę? Filar. Kogoś, kto nigdy nie zawodzi, nawet gdy wszystko wokół się sypie. I po raz trzeci w tym miesiącu ta osoba przychodzi do Ciebie z tym samym, absurdalnym problemem – błędem w systemie, który blokuje jej pracę.

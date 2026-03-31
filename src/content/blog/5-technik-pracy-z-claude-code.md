@@ -14,6 +14,8 @@ tags:
   - Automatyzacja
   - Developer Tools
   - PIV Methodology
+lang: pl
+alternateSlug: 5-techniques-working-with-claude-code
 ---
 
 Istnieje bardzo duże prawdopodobieństwo, że zostawiasz większość potencjału swojego asystenta kodowania AI na stole. Gdy zaczynałem pracę z Claude Code przy budowie tego portfolio, robiłem dokładnie to samo – wpisywałem proste prompty, otrzymywałem kod, czasami działał, czasami nie. Reaktywne promptowanie. Bez systemu.

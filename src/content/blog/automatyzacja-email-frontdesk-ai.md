@@ -14,6 +14,8 @@ tags:
   - Email
   - Make
   - OpenAI
+lang: pl
+alternateSlug: email-automation-frontdesk-ai
 ---
 
 # Automatyzacja poczty email z AI - Jak Frontdesk AI rewolucjonizuje obsługę klienta

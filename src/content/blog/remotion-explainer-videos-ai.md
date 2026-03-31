@@ -14,6 +14,8 @@ tags:
   - Video
   - Automatyzacja
   - Claude Code
+lang: pl
+alternateSlug: remotion-explainer-videos-ai
 ---
 
 # Remotion + AI: Jak tworzyć profesjonalne wideo za pomocą kodu i Claude

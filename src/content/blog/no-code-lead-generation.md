@@ -14,6 +14,8 @@ tags:
   - n8n
   - Airtable
   - Automatyzacja
+lang: pl
+alternateSlug: no-code-lead-generation
 ---
 
 # No-Code Lead Generation - Jak zbudować system generowania leadów bez programowania

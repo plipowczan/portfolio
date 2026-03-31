@@ -22,21 +22,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Funkcja do wczytywania postów bezpośrednio z plików markdown
-function getBlogPosts() {
-  const blogDir = join(__dirname, "..", "src", "content", "blog");
-
-  if (!existsSync(blogDir)) {
-    console.warn("⚠️  Folder blog nie istnieje, pomijam posty blogowe");
+function getBlogPosts(dir) {
+  if (!existsSync(dir)) {
     return [];
   }
 
-  const files = readdirSync(blogDir).filter(
+  const files = readdirSync(dir).filter(
     (file) =>
-      file.endsWith(".md") && !file.startsWith("_") && file !== "README.md"
+      file.endsWith(".md") &&
+      !file.endsWith("_wsad.md") &&
+      !file.startsWith("_") &&
+      file !== "README.md"
   );
 
-  const posts = files.map((file) => {
-    const filePath = join(blogDir, file);
+  return files.map((file) => {
+    const filePath = join(dir, file);
     const content = readFileSync(filePath, "utf-8");
     const { data } = matter(content);
     return {
@@ -44,13 +44,12 @@ function getBlogPosts() {
       id: data.id,
     };
   });
-
-  return posts;
 }
 
 import { projects } from "../src/data/projects.js";
 
-const blogPosts = getBlogPosts();
+const blogPostsPl = getBlogPosts(join(__dirname, "..", "src", "content", "blog"));
+const blogPostsEn = getBlogPosts(join(__dirname, "..", "src", "content", "blog", "en"));
 
 // Konfiguracja
 const BASE_URL = "http://localhost:4173"; // Vite preview port
@@ -59,8 +58,8 @@ const DIST_DIR = join(__dirname, "..", "dist");
 // Wykrywanie środowiska Vercel
 const IS_VERCEL = process.env.VERCEL === "1";
 
-// Wszystkie strony do pre-renderowania
-const staticRoutes = [
+// PL routes (unchanged)
+const staticRoutesPl = [
   "/",
   "/blog",
   "/privacy-policy",
@@ -68,9 +67,22 @@ const staticRoutes = [
   "/cookie-policy",
 ];
 
-const blogRoutes = blogPosts.map((post) => `/blog/${post.slug}`);
-const projectRoutes = projects.map((project) => `/projects/${project.slug}`);
-const allRoutes = [...staticRoutes, ...blogRoutes, ...projectRoutes];
+const blogRoutesPl = blogPostsPl.map((post) => `/blog/${post.slug}`);
+const projectRoutesPl = projects.map((project) => `/projects/${project.slug}`);
+
+// EN routes (under /en/ prefix)
+const staticRoutesEn = staticRoutesPl.map((route) => `/en${route}`);
+const blogRoutesEn = blogPostsEn.map((post) => `/en/blog/${post.slug}`);
+const projectRoutesEn = projects.map((project) => `/en/projects/${project.slug}`);
+
+const allRoutes = [
+  ...staticRoutesPl,
+  ...blogRoutesPl,
+  ...projectRoutesPl,
+  ...staticRoutesEn,
+  ...blogRoutesEn,
+  ...projectRoutesEn,
+];
 
 /**
  * Prerenderuje pojedynczą stronę z retry logic

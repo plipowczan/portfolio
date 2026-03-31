@@ -14,17 +14,6 @@ export const SITE_CONFIG = {
   },
 };
 
-// Navigation links
-export const NAV_LINKS = [
-  { name: "Start", href: "/" },
-  { name: "O mnie", href: "/#about" },
-  { name: "Projekty", href: "/#projects" },
-  { name: "Umiejętności", href: "/#skills" },
-  { name: "Opinie", href: "/#testimonials" },
-  { name: "Blog", href: "/blog" },
-  { name: "Kontakt", href: "/#contact" },
-];
-
 // Animation variants
 export const FADE_IN_UP = {
   hidden: { opacity: 0, y: 60 },

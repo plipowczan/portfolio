@@ -14,6 +14,8 @@ tags:
   - OpenSpec
   - Workflow
   - Development
+lang: pl
+alternateSlug: opsx-workflow-structured-ai-work
 ---
 
 # OPSX Workflow - strukturyzowane podejście do pracy z AI coding assistants

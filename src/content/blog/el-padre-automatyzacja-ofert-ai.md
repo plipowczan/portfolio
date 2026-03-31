@@ -21,6 +21,8 @@ tags:
   - AION
   - Branża Eventowa
   - Ofertowanie
+lang: pl
+alternateSlug: el-padre-ai-offer-automation
 ---
 
 # Jak agencja eventowa El Padre przyspieszyła tworzenie ofert nawet o 50% dzięki AI

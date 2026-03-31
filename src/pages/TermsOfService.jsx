@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const TermsOfService = () => {
+  const { t, i18n } = useTranslation("legal");
+  const dateLocale = i18n.language === "en" ? "en-US" : "pl-PL";
+
   return (
     <>
-      <SEO 
+      <SEO
         title="Terms of Service"
         description="Terms of Service and usage guidelines"
         path="/terms-of-service"
@@ -21,173 +25,135 @@ const TermsOfService = () => {
           >
             <div className="text-center space-y-4 mb-12">
               <h1 className="text-4xl md:text-5xl font-bold gradient-text">
-                Regulamin Serwisu
+                {t("terms.title")}
               </h1>
-              <p className="text-gray-400">Terms of Service</p>
+              <p className="text-gray-400">{t("terms.subtitle")}</p>
               <p className="text-sm text-gray-500">
-                Ostatnia aktualizacja: {new Date().toLocaleDateString("pl-PL")}
+                {t("terms.lastUpdate", { date: new Date().toLocaleDateString(dateLocale) })}
               </p>
             </div>
 
             <div className="space-y-8 text-gray-300">
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  1. Postanowienia ogólne
+                  {t("terms.section1.title")}
                 </h2>
                 <p className="leading-relaxed mb-4">
-                  Niniejszy Regulamin określa zasady korzystania ze strony
-                  internetowej {SITE_CONFIG.url}, zwanej dalej "Serwisem".
-                  Administratorem Serwisu jest Pawel Lipowczan.
+                  {t("terms.section1.content1", { url: SITE_CONFIG.url })}
                 </p>
                 <p className="leading-relaxed">
-                  Korzystanie z Serwisu oznacza akceptację postanowień
-                  niniejszego Regulaminu.
+                  {t("terms.section1.content2")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  2. Definicje
+                  {t("terms.section2.title")}
                 </h2>
                 <ul className="list-disc list-inside space-y-2 pl-4">
                   <li>
-                    <strong>Serwis</strong> - strona internetowa dostępna pod
-                    adresem {SITE_CONFIG.url}
+                    <strong>{t("terms.section2.item1.label")}</strong>
+                    {t("terms.section2.item1.text", { url: SITE_CONFIG.url })}
                   </li>
                   <li>
-                    <strong>Administrator</strong> - Pawel Lipowczan, właściciel
-                    i operator Serwisu
+                    <strong>{t("terms.section2.item2.label")}</strong>
+                    {t("terms.section2.item2.text")}
                   </li>
                   <li>
-                    <strong>Użytkownik</strong> - każda osoba korzystająca z
-                    Serwisu
+                    <strong>{t("terms.section2.item3.label")}</strong>
+                    {t("terms.section2.item3.text")}
                   </li>
                   <li>
-                    <strong>Treść</strong> - wszelkie materiały publikowane w
-                    Serwisie (teksty, grafiki, kod)
+                    <strong>{t("terms.section2.item4.label")}</strong>
+                    {t("terms.section2.item4.text")}
                   </li>
                 </ul>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  3. Warunki korzystania
+                  {t("terms.section3.title")}
                 </h2>
                 <p className="leading-relaxed mb-4">
-                  Użytkownik zobowiązuje się do:
+                  {t("terms.section3.intro")}
                 </p>
                 <ul className="list-disc list-inside space-y-2 pl-4">
-                  <li>
-                    Korzystania z Serwisu zgodnie z obowiązującymi przepisami
-                    prawa
-                  </li>
-                  <li>
-                    Niepodejmowania działań zakłócających działanie Serwisu
-                  </li>
-                  <li>
-                    Nieużywania Serwisu w sposób sprzeczny z jego przeznaczeniem
-                  </li>
-                  <li>
-                    Poszanowania praw autorskich i innych praw własności
-                    intelektualnej
-                  </li>
+                  <li>{t("terms.section3.item1")}</li>
+                  <li>{t("terms.section3.item2")}</li>
+                  <li>{t("terms.section3.item3")}</li>
+                  <li>{t("terms.section3.item4")}</li>
                 </ul>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  4. Prawa autorskie
+                  {t("terms.section4.title")}
                 </h2>
                 <p className="leading-relaxed mb-4">
-                  Wszelkie treści publikowane w Serwisie, w tym teksty, grafiki,
-                  logo, kod źródłowy, są chronione prawem autorskim i stanowią
-                  własność Administratora lub są używane za zgodą ich
-                  właścicieli.
+                  {t("terms.section4.content1")}
                 </p>
                 <p className="leading-relaxed">
-                  Zabronione jest kopiowanie, modyfikowanie, rozpowszechnianie
-                  lub wykorzystywanie treści bez uprzedniej pisemnej zgody
-                  Administratora.
+                  {t("terms.section4.content2")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  5. Wyłączenie odpowiedzialności
+                  {t("terms.section5.title")}
                 </h2>
                 <p className="leading-relaxed mb-4">
-                  Administrator dokłada wszelkich starań, aby informacje
-                  publikowane w Serwisie były aktualne i poprawne, jednak nie
-                  ponosi odpowiedzialności za:
+                  {t("terms.section5.intro")}
                 </p>
                 <ul className="list-disc list-inside space-y-2 pl-4">
-                  <li>Ewentualne błędy lub niedokładności w treściach</li>
-                  <li>
-                    Szkody wynikłe z korzystania lub niemożności korzystania z
-                    Serwisu
-                  </li>
-                  <li>
-                    Przerwy w dostępności Serwisu wynikające z przyczyn
-                    technicznych
-                  </li>
-                  <li>Treści dostępne w linkach zewnętrznych</li>
+                  <li>{t("terms.section5.item1")}</li>
+                  <li>{t("terms.section5.item2")}</li>
+                  <li>{t("terms.section5.item3")}</li>
+                  <li>{t("terms.section5.item4")}</li>
                 </ul>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  6. Linki zewnętrzne
+                  {t("terms.section6.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Serwis może zawierać linki do stron internetowych osób
-                  trzecich. Administrator nie ponosi odpowiedzialności za treść,
-                  politykę prywatności ani praktyki innych stron internetowych.
+                  {t("terms.section6.content")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  7. Formularz kontaktowy
+                  {t("terms.section7.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Użytkownik korzystający z formularza kontaktowego zobowiązuje
-                  się do podania prawdziwych i aktualnych danych kontaktowych.
-                  Administrator zastrzega sobie prawo do nieudzielenia
-                  odpowiedzi na wiadomości zawierające treści obraźliwe, spam
-                  lub niezgodne z prawem.
+                  {t("terms.section7.content")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  8. Zmiany w Regulaminie
+                  {t("terms.section8.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Administrator zastrzega sobie prawo do wprowadzania zmian w
-                  Regulaminie. Zmiany wchodzą w życie z chwilą ich publikacji w
-                  Serwisie. Użytkownicy zostaną poinformowani o zmianach poprzez
-                  aktualizację daty ostatniej modyfikacji.
+                  {t("terms.section8.content")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  9. Prawo właściwe
+                  {t("terms.section9.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  Niniejszy Regulamin podlega prawu polskiemu. W sprawach
-                  nieuregulowanych niniejszym Regulaminem mają zastosowanie
-                  przepisy prawa polskiego.
+                  {t("terms.section9.content")}
                 </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">
-                  10. Kontakt
+                  {t("terms.section10.title")}
                 </h2>
                 <p className="leading-relaxed">
-                  W sprawach dotyczących Regulaminu lub działania Serwisu
-                  prosimy o kontakt pod adresem email:{" "}
+                  {t("terms.section10.content")}
                   <a
                     href={`mailto:${SITE_CONFIG.email}`}
                     className="text-primary-500 hover:text-primary-400"

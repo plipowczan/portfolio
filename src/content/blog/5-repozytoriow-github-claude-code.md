@@ -14,6 +14,8 @@ tags:
   - Skills
   - Developer Tools
   - Produktywność
+lang: pl
+alternateSlug: 5-github-repos-claude-code
 ---
 
 # 5 repozytoriów GitHub, które zmienią Twoją pracę z Claude Code

@@ -14,6 +14,8 @@ tags:
   - Web Design
   - Cursor
   - Vibe Coding
+lang: pl
+alternateSlug: apple-animations-ai-cursor
 ---
 
 # Jak tworzyć animacje w stylu Apple z pomocą AI

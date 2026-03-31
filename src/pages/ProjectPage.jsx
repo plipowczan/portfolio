@@ -1,16 +1,21 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { FaArrowLeft, FaCheckCircle, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import SEO from "../components/seo/SEO";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { projects } from "../data/projects";
+import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, STAGGER_CONTAINER } from "../utils/constants";
 
 const ProjectPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation("projects");
+  const { t: tc } = useTranslation("common");
+  const localizedPath = useLocalizedPath();
   const project = projects.find((p) => p.slug === slug);
 
   useEffect(() => {
@@ -23,7 +28,7 @@ const ProjectPage = () => {
         <SEO
           title="Project Not Found"
           description="The requested project could not be found."
-          path="/projects"
+          path={localizedPath("/")}
         />
         <div className="min-h-screen flex items-center justify-center pt-20">
           <div className="text-center">
@@ -31,10 +36,10 @@ const ProjectPage = () => {
               Project Not Found
             </h1>
             <button
-              onClick={() => navigate("/")}
+              onClick={() => navigate(localizedPath("/"))}
               className="px-6 py-3 bg-primary-500 text-dark-900 font-semibold rounded-lg hover:bg-primary-400 transition-colors"
             >
-              Wróć do strony głównej
+              {i18n.language === "en" ? "Back to Home" : "Wróć do strony głównej"}
             </button>
           </div>
         </div>
@@ -42,11 +47,34 @@ const ProjectPage = () => {
     );
   }
 
+  const projectTitle = t(`${project.slug}.title`, { defaultValue: project.title });
+  const projectDescription = t(`${project.slug}.description`, { defaultValue: project.description });
+  const projectFullDescription = t(`${project.slug}.fullDescription`, { defaultValue: project.fullDescription });
+
+  const getFeatures = () => {
+    const features = [];
+    for (let i = 0; i < (project.features?.length || 0); i++) {
+      features.push(t(`${project.slug}.features.${i}`, { defaultValue: project.features[i] }));
+    }
+    return features;
+  };
+
+  const getBenefits = () => {
+    const benefits = [];
+    for (let i = 0; i < (project.benefits?.length || 0); i++) {
+      benefits.push(t(`${project.slug}.benefits.${i}`, { defaultValue: project.benefits[i] }));
+    }
+    return benefits;
+  };
+
+  const features = getFeatures();
+  const benefits = getBenefits();
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: project.title,
-    description: project.description,
+    name: projectTitle,
+    description: projectDescription,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     offers: {
@@ -59,10 +87,10 @@ const ProjectPage = () => {
   return (
     <>
       <SEO
-        title={`${project.title} | Portfolio`}
-        description={project.description}
+        title={`${projectTitle} | Portfolio`}
+        description={projectDescription}
         image={project.image}
-        path={`/projects/${project.slug}`}
+        path={localizedPath(`/projects/${project.slug}`)}
         type="article"
       />
 
@@ -75,9 +103,9 @@ const ProjectPage = () => {
           <div className="mb-8">
             <Breadcrumbs
               items={[
-                { label: "Home", path: "/" },
-                { label: "Projects", path: "/#projects" },
-                { label: project.title, path: `/projects/${project.slug}` },
+                { label: tc("blog.home"), path: localizedPath("/") },
+                { label: tc("nav.projects"), path: localizedPath("/#projects") },
+                { label: projectTitle, path: localizedPath(`/projects/${project.slug}`) },
               ]}
             />
           </div>
@@ -91,15 +119,15 @@ const ProjectPage = () => {
           >
             <motion.div variants={FADE_IN_UP} className="mb-8">
               <Link
-                to="/#projects"
+                to={localizedPath("/#projects")}
                 className="inline-flex items-center text-gray-400 hover:text-primary-500 transition-colors mb-6"
               >
-                <FaArrowLeft className="mr-2" /> Powrót do projektów
+                <FaArrowLeft className="mr-2" /> {i18n.language === "en" ? "Back to Projects" : "Powrót do projektów"}
               </Link>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                {project.title}
+                {projectTitle}
               </h1>
-              
+
               {/* Technologies */}
               <div className="flex flex-wrap gap-2 mb-8">
                 {project.technologies.map((tech, index) => (
@@ -120,7 +148,7 @@ const ProjectPage = () => {
             >
               <img
                 src={project.image}
-                alt={project.title}
+                alt={projectTitle}
                 className="w-full h-full object-cover"
               />
             </motion.div>
@@ -131,15 +159,17 @@ const ProjectPage = () => {
               <div className="lg:col-span-2 space-y-12">
                 {/* Description */}
                 <motion.div variants={FADE_IN_UP} className="prose prose-invert max-w-none">
-                  <ReactMarkdown>{project.fullDescription}</ReactMarkdown>
+                  <ReactMarkdown>{projectFullDescription}</ReactMarkdown>
                 </motion.div>
 
                 {/* Key Features */}
-                {project.features && (
+                {features.length > 0 && (
                   <motion.div variants={FADE_IN_UP}>
-                    <h2 className="text-2xl font-bold text-white mb-6">Kluczowe funkcje</h2>
+                    <h2 className="text-2xl font-bold text-white mb-6">
+                      {i18n.language === "en" ? "Key Features" : "Kluczowe funkcje"}
+                    </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {project.features.map((feature, index) => (
+                      {features.map((feature, index) => (
                         <div
                           key={index}
                           className="flex items-start p-4 bg-dark-800/50 rounded-lg border border-dark-700"
@@ -157,7 +187,9 @@ const ProjectPage = () => {
               <motion.div variants={FADE_IN_UP} className="space-y-8">
                 {/* Actions Card */}
                 <div className="p-6 bg-dark-800 rounded-xl border border-dark-700 sticky top-24">
-                  <h3 className="text-xl font-bold text-white mb-6">Linki projektu</h3>
+                  <h3 className="text-xl font-bold text-white mb-6">
+                    {i18n.language === "en" ? "Project Links" : "Linki projektu"}
+                  </h3>
                   <div className="space-y-4">
                     {project.liveUrl && (
                       <a
@@ -166,7 +198,7 @@ const ProjectPage = () => {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center w-full px-6 py-3 bg-primary-500 text-dark-900 font-bold rounded-lg hover:bg-primary-400 transition-all hover:shadow-lg hover:shadow-primary-500/20"
                       >
-                        <FaExternalLinkAlt className="mr-2" /> Zobacz online
+                        <FaExternalLinkAlt className="mr-2" /> {i18n.language === "en" ? "View Online" : "Zobacz online"}
                       </a>
                     )}
                     {project.githubUrl && (
@@ -176,25 +208,25 @@ const ProjectPage = () => {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center w-full px-6 py-3 bg-dark-700 text-white font-bold rounded-lg hover:bg-dark-600 transition-colors border border-dark-600"
                       >
-                        <FaGithub className="mr-2" /> Zobacz kod
+                        <FaGithub className="mr-2" /> {i18n.language === "en" ? "View Code" : "Zobacz kod"}
                       </a>
                     )}
                     <Link
-                      to="/#contact"
+                      to={localizedPath("/#contact")}
                       className="flex items-center justify-center w-full px-6 py-3 bg-transparent text-gray-300 font-medium rounded-lg hover:text-white hover:bg-dark-700/50 transition-colors border border-transparent hover:border-dark-600"
                     >
-                      Skontaktuj się
+                      {tc("nav.contact")}
                     </Link>
                   </div>
 
                   {/* Benefits */}
-                  {project.benefits && (
+                  {benefits.length > 0 && (
                     <div className="mt-8 pt-8 border-t border-dark-700">
                       <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">
-                        Korzyści
+                        {i18n.language === "en" ? "Benefits" : "Korzyści"}
                       </h4>
                       <ul className="space-y-3">
-                        {project.benefits.map((benefit, index) => (
+                        {benefits.map((benefit, index) => (
                           <li key={index} className="text-sm text-gray-300 flex items-start">
                             <span className="w-1.5 h-1.5 bg-secondary-500 rounded-full mt-2 mr-2 flex-shrink-0" />
                             {benefit}

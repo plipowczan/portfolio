@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
-import { blogPosts } from "../data/blogPosts";
+import { getPostsByLang } from "../data/blogPosts";
+import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
-const BlogCard = ({ post }) => {
+const BlogCard = ({ post, localizedPath, readMoreLabel }) => {
   return (
     <motion.article variants={FADE_IN_UP} className="card blog-card group">
       {/* Featured Image */}
@@ -28,7 +30,7 @@ const BlogCard = ({ post }) => {
 
       {/* Title */}
       <h2 className="text-2xl font-bold text-white group-hover:text-primary-500 transition-colors mb-3">
-        <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+        <Link to={localizedPath(`/blog/${post.slug}`)}>{post.title}</Link>
       </h2>
 
       {/* Excerpt */}
@@ -61,10 +63,10 @@ const BlogCard = ({ post }) => {
 
       {/* Read More Link */}
       <Link
-        to={`/blog/${post.slug}`}
+        to={localizedPath(`/blog/${post.slug}`)}
         className="text-primary-500 hover:text-primary-400 font-medium inline-flex items-center space-x-2 group/link"
       >
-        <span>Read More</span>
+        <span>{readMoreLabel}</span>
         <span className="group-hover/link:translate-x-1 transition-transform">
           →
         </span>
@@ -74,12 +76,16 @@ const BlogCard = ({ post }) => {
 };
 
 const Blog = () => {
+  const { t, i18n } = useTranslation("common");
+  const localizedPath = useLocalizedPath();
+  const posts = getPostsByLang(i18n.language);
+
   return (
     <>
-      <SEO 
+      <SEO
         title="Blog"
-        description="Technical articles and insights about web development, React, and modern technologies."
-        path="/blog"
+        description={t("blog.seoDescription")}
+        path={localizedPath("/blog")}
         image="/images/og-blog.webp"
       />
       <StructuredData
@@ -90,14 +96,14 @@ const Blog = () => {
             {
               "@type": "ListItem",
               position: 1,
-              name: "Home",
-              item: `${SITE_CONFIG.url}/`,
+              name: t("blog.home"),
+              item: `${SITE_CONFIG.url}${localizedPath("/")}`,
             },
             {
               "@type": "ListItem",
               position: 2,
               name: "Blog",
-              item: `${SITE_CONFIG.url}/blog`,
+              item: `${SITE_CONFIG.url}${localizedPath("/blog")}`,
             },
           ],
         }}
@@ -116,18 +122,17 @@ const Blog = () => {
               <div className="flex justify-center">
                 <Breadcrumbs
                   items={[
-                    { label: "Home", path: "/" },
-                    { label: "Blog", path: "/blog" },
+                    { label: t("blog.home"), path: localizedPath("/") },
+                    { label: "Blog", path: localizedPath("/blog") },
                   ]}
                 />
               </div>
               <h1 className="text-5xl md:text-6xl font-bold gradient-text">
-                Tech Blog
+                {t("blog.title")}
               </h1>
               <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full" />
               <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                Insights, tutorials, and thoughts on web development and
-                technology.
+                {t("blog.description")}
               </p>
             </motion.div>
 
@@ -136,8 +141,13 @@ const Blog = () => {
               variants={STAGGER_CONTAINER}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {blogPosts.map((post) => (
-                <BlogCard key={post.id} post={post} />
+              {posts.map((post) => (
+                <BlogCard
+                  key={post.id}
+                  post={post}
+                  localizedPath={localizedPath}
+                  readMoreLabel={t("blog.readMore")}
+                />
               ))}
             </motion.div>
           </motion.div>
