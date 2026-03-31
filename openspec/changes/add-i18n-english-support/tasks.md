@@ -1,29 +1,29 @@
 ## 1. i18n Infrastructure
 
-- [ ] 1.1 Install dependencies: `react-i18next`, `i18next`, `i18next-browser-languagedetector`
-- [ ] 1.2 Create i18n config file (`src/i18n.js`) with init, detection order (path → localStorage → navigator), fallback `pl`, namespaces
-- [ ] 1.3 Create PL translation files: `src/locales/pl/common.json`, `home.json`, `projects.json`, `legal.json` — extract all hardcoded Polish strings from components
-- [ ] 1.4 Create EN translation files: `src/locales/en/common.json`, `home.json`, `projects.json`, `legal.json` — English translations for all keys
-- [ ] 1.5 Add `I18nextProvider` to `src/main.jsx` and import i18n config
+- [x] 1.1 Install dependencies: `react-i18next`, `i18next`, `i18next-browser-languagedetector`
+- [x] 1.2 Create i18n config file (`src/i18n.js`) with init, detection order (path → localStorage → navigator), fallback `pl`, namespaces
+- [x] 1.3 Create PL translation files: `src/locales/pl/common.json`, `home.json`, `projects.json`, `legal.json` — extract all hardcoded Polish strings from components
+- [x] 1.4 Create EN translation files: `src/locales/en/common.json`, `home.json`, `projects.json`, `legal.json` — English translations for all keys
+- [x] 1.5 Add `I18nextProvider` to `src/main.jsx` and import i18n config
 
 ## 2. Routing & LocaleLayout
 
-- [ ] 2.1 Create `LocaleLayout` component — reads `:lang` param, sets i18next language, sets `<html lang>` via Helmet, renders `<Outlet />`
-- [ ] 2.2 Refactor `src/App.jsx` — wrap all routes in `<Route path="/:lang?" element={<LocaleLayout />}>` with nested routes
-- [ ] 2.3 Create `useLocalizedPath` hook — returns helper to prefix paths with `/en` when current language is EN
-- [ ] 2.4 Update `Navigation.jsx` — use `useTranslation('common')` for nav labels, prefix links with locale
-- [ ] 2.5 Add language switcher (PL|EN toggle) to `Navigation.jsx` — desktop and mobile views
-- [ ] 2.6 Update `Footer.jsx` — use translations for all text, prefix links with locale
-- [ ] 2.7 Update `CookieBanner.jsx` — use translations for text and link
+- [x] 2.1 Create `LocaleLayout` component — reads `:lang` param, sets i18next language, sets `<html lang>` via Helmet, renders `<Outlet />`
+- [x] 2.2 Refactor `src/App.jsx` — wrap all routes in `<Route path="/:lang?" element={<LocaleLayout />}>` with nested routes
+- [x] 2.3 Create `useLocalizedPath` hook — returns helper to prefix paths with `/en` when current language is EN
+- [x] 2.4 Update `Navigation.jsx` — use `useTranslation('common')` for nav labels, prefix links with locale
+- [x] 2.5 Add language switcher (PL|EN toggle) to `Navigation.jsx` — desktop and mobile views
+- [x] 2.6 Update `Footer.jsx` — use translations for all text, prefix links with locale
+- [x] 2.7 Update `CookieBanner.jsx` — use translations for text and link
 
 ## 3. Homepage Sections
 
-- [ ] 3.1 Update `Hero.jsx` — replace hardcoded text with `t()` calls from `home` namespace
-- [ ] 3.2 Update `About.jsx` — replace all Polish text with translations
-- [ ] 3.3 Update `Skills.jsx` — translate category names and highlight labels via `home` namespace
-- [ ] 3.4 Update `Testimonials.jsx` — display `contentOriginal` for EN, `content` for PL based on current language
-- [ ] 3.5 Update `ContactForm.jsx` — translate labels, placeholders, validation errors, success/error messages
-- [ ] 3.6 Update `Projects.jsx` section — translate project cards using `projects` namespace, localized links
+- [x] 3.1 Update `Hero.jsx` — replace hardcoded text with `t()` calls from `home` namespace
+- [x] 3.2 Update `About.jsx` — replace all Polish text with translations
+- [x] 3.3 Update `Skills.jsx` — translate category names and highlight labels via `home` namespace
+- [x] 3.4 Update `Testimonials.jsx` — display `contentOriginal` for EN, `content` for PL based on current language
+- [x] 3.5 Update `ContactForm.jsx` — translate labels, placeholders, validation errors, success/error messages
+- [x] 3.6 Update `Projects.jsx` section — translate project cards using `projects` namespace, localized links
 
 ## 4. Blog System
 

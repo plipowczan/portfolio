@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { projects } from "../../data/projects";
+import useLocalizedPath from "../../hooks/useLocalizedPath";
 import { FADE_IN_UP, STAGGER_CONTAINER } from "../../utils/constants";
 
-import { Link } from "react-router-dom";
-
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, localizedPath }) => {
   return (
-    <Link to={`/projects/${project.slug}`} className="block h-full">
+    <Link to={localizedPath(`/projects/${project.slug}`)} className="block h-full">
       <motion.div
         variants={FADE_IN_UP}
         className="card project-card group cursor-pointer h-full flex flex-col"
@@ -84,6 +85,9 @@ const ProjectCard = ({ project }) => {
 };
 
 const Projects = () => {
+  const { t } = useTranslation("home");
+  const localizedPath = useLocalizedPath();
+
   return (
     <section id="projects" className="py-24 md:py-32 bg-dark-800/50">
       <div className="section-container">
@@ -97,12 +101,11 @@ const Projects = () => {
           {/* Section Title */}
           <motion.div variants={FADE_IN_UP} className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Projekty
+              {t("projects.title")}
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mb-6" />
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Wybrane projekty automatyzacji i systemów no-code wdrożone dla
-              klientów.
+              {t("projects.description")}
             </p>
           </motion.div>
 
@@ -112,7 +115,7 @@ const Projects = () => {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} localizedPath={localizedPath} />
             ))}
           </motion.div>
 
@@ -125,7 +128,7 @@ const Projects = () => {
               className="btn-outline inline-flex items-center space-x-2"
             >
               <FaExternalLinkAlt size={20} />
-              <span>Zobacz więcej projektów</span>
+              <span>{t("projects.viewMore")}</span>
             </a>
           </motion.div>
         </motion.div>

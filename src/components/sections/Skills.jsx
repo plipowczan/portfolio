@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { skillCategories } from "../../data/skills";
 import { FADE_IN_UP, SCALE_IN, STAGGER_CONTAINER } from "../../utils/constants";
 
@@ -30,6 +31,8 @@ const SkillCard = ({ skill }) => {
 };
 
 const Skills = () => {
+  const { t } = useTranslation("home");
+
   return (
     <section id="skills" className="py-24 md:py-32 relative overflow-hidden">
       <div className="section-container relative z-10">
@@ -43,11 +46,11 @@ const Skills = () => {
           {/* Section Title */}
           <motion.div variants={FADE_IN_UP} className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Stack Technologiczny
+              {t("skills.title")}
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mb-6" />
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Technologie i narzędzia których używam do realizacji projektów.
+              {t("skills.description")}
             </p>
           </motion.div>
 

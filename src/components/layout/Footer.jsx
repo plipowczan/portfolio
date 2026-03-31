@@ -1,9 +1,13 @@
+import { useTranslation } from "react-i18next";
 import { FaEnvelope, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useLocalizedPath from "../../hooks/useLocalizedPath";
 import { SITE_CONFIG } from "../../utils/constants";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { t } = useTranslation("common");
+  const localizedPath = useLocalizedPath();
 
   const socialLinks = [
     { icon: FaGithub, href: SITE_CONFIG.social.github, label: "GitHub" },
@@ -13,9 +17,9 @@ const Footer = () => {
   ];
 
   const legalLinks = [
-    { name: "Polityka prywatności", href: "/privacy-policy" },
-    { name: "Regulamin", href: "/terms-of-service" },
-    { name: "Polityka cookies", href: "/cookie-policy" },
+    { key: "footer.privacyPolicy", href: "/privacy-policy" },
+    { key: "footer.termsOfService", href: "/terms-of-service" },
+    { key: "footer.cookiePolicy", href: "/cookie-policy" },
   ];
 
   return (
@@ -35,51 +39,49 @@ const Footer = () => {
                   Pawel Lipowczan
                 </h3>
                 <p className="text-xs text-primary-500 uppercase tracking-wider">
-                  Twój Przewodnik Technologiczny
+                  {t("nav.tagline")}
                 </p>
               </div>
             </div>
             <p className="text-gray-400 text-sm">
-              Architekt oprogramowania i doradca ds. technologii - agnostyczny
-              dobór narzędzi do problemu, optymalizacja procesów przez
-              automatyzację i AI.
+              {t("footer.description")}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Szybkie linki</h4>
+            <h4 className="text-white font-semibold mb-4">{t("footer.quickLinks")}</h4>
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#about"
+                  href={localizedPath("/#about")}
                   className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
-                  O mnie
+                  {t("nav.about")}
                 </a>
               </li>
               <li>
                 <a
-                  href="#projects"
+                  href={localizedPath("/#projects")}
                   className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
-                  Projekty
+                  {t("nav.projects")}
                 </a>
               </li>
               <li>
                 <Link
-                  to="/blog"
+                  to={localizedPath("/blog")}
                   className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
-                  Blog
+                  {t("nav.blog")}
                 </Link>
               </li>
               <li>
                 <a
-                  href="#contact"
+                  href={localizedPath("/#contact")}
                   className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
-                  Kontakt
+                  {t("nav.contact")}
                 </a>
               </li>
             </ul>
@@ -87,7 +89,7 @@ const Footer = () => {
 
           {/* Social & Legal */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Social media</h4>
+            <h4 className="text-white font-semibold mb-4">{t("footer.socialMedia")}</h4>
             <div className="flex space-x-4 mb-6">
               {socialLinks.map((social) => (
                 <a
@@ -105,11 +107,11 @@ const Footer = () => {
             <div className="space-y-2">
               {legalLinks.map((link) => (
                 <Link
-                  key={link.name}
-                  to={link.href}
+                  key={link.key}
+                  to={localizedPath(link.href)}
                   className="block text-gray-400 hover:text-primary-500 transition-colors text-xs"
                 >
-                  {link.name}
+                  {t(link.key)}
                 </Link>
               ))}
             </div>
@@ -119,10 +121,10 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-400 text-sm">
-            © {currentYear} Pawel Lipowczan. Wszelkie prawa zastrzeżone.
+            {t("footer.copyright", { year: currentYear })}
           </p>
           <p className="text-gray-400 text-sm">
-            Zbudowane z <span className="text-primary-500">React</span> +{" "}
+            {t("footer.builtWith")} <span className="text-primary-500">React</span> +{" "}
             <span className="text-primary-500">Vite</span>
           </p>
         </div>

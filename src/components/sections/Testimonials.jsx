@@ -1,12 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { FaQuoteLeft, FaLinkedin, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { testimonials } from "../../data/testimonials";
 import { FADE_IN_UP, STAGGER_CONTAINER } from "../../utils/constants";
 
 const AUTO_SCROLL_INTERVAL = 5000; // 5 seconds
 
-const TestimonialCard = ({ testimonial }) => {
+const TestimonialCard = ({ testimonial, lang }) => {
+  const displayContent = lang === "en" && testimonial.contentOriginal
+    ? testimonial.contentOriginal
+    : testimonial.content;
+
   return (
     <div
       className="
@@ -24,7 +29,7 @@ const TestimonialCard = ({ testimonial }) => {
       {/* Content */}
       <div className="flex-1 mb-4">
         <p className="text-gray-300 leading-relaxed text-sm">
-          "{testimonial.content}"
+          "{displayContent}"
         </p>
       </div>
 
@@ -62,6 +67,7 @@ const TestimonialCard = ({ testimonial }) => {
 };
 
 const Testimonials = () => {
+  const { t, i18n } = useTranslation("home");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -115,11 +121,11 @@ const Testimonials = () => {
           {/* Section Title */}
           <motion.div variants={FADE_IN_UP} className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Co mówią o współpracy
+              {t("testimonials.title")}
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mb-6" />
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Opinie od współpracowników i klientów z LinkedIn
+              {t("testimonials.description")}
             </p>
           </motion.div>
 
@@ -147,7 +153,7 @@ const Testimonials = () => {
                 hover:border-green-500/30
                 transition-all duration-300
               "
-              aria-label="Poprzednia opinia"
+              aria-label={t("testimonials.prev")}
             >
               <FaChevronLeft />
             </button>
@@ -166,7 +172,7 @@ const Testimonials = () => {
                 hover:border-green-500/30
                 transition-all duration-300
               "
-              aria-label="Następna opinia"
+              aria-label={t("testimonials.next")}
             >
               <FaChevronRight />
             </button>
@@ -187,7 +193,7 @@ const Testimonials = () => {
                       key={`${testimonial.id}-${idx}`}
                       className={`${idx > 0 ? "hidden md:block" : ""}`}
                     >
-                      <TestimonialCard testimonial={testimonial} />
+                      <TestimonialCard testimonial={testimonial} lang={i18n.language} />
                     </div>
                   ))}
                 </motion.div>
@@ -208,7 +214,7 @@ const Testimonials = () => {
                         : "bg-gray-600 hover:bg-gray-500"
                     }
                   `}
-                  aria-label={`Przejdź do opinii ${idx + 1}`}
+                  aria-label={t("testimonials.goTo", { index: idx + 1 })}
                 />
               ))}
             </div>
@@ -231,7 +237,7 @@ const Testimonials = () => {
               "
             >
               <FaLinkedin />
-              Zobacz wszystkie rekomendacje na LinkedIn
+              {t("testimonials.linkedinCta")}
             </a>
           </motion.div>
         </motion.div>

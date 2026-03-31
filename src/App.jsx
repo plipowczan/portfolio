@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { BookingProvider } from "./context/BookingContext";
 import Layout from "./components/layout/Layout";
+import LocaleLayout from "./components/layout/LocaleLayout";
 import Blog from "./pages/Blog";
 import BlogPostPage from "./pages/BlogPostPage";
 import CookiePolicy from "./pages/CookiePolicy";
@@ -15,13 +16,15 @@ function App() {
     <BookingProvider>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPostPage />} />
-          <Route path="/projects/:slug" element={<ProjectPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/cookie-policy" element={<CookiePolicy />} />
+          <Route path="/:lang?" element={<LocaleLayout />}>
+            <Route index element={<Home />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="blog/:slug" element={<BlogPostPage />} />
+            <Route path="projects/:slug" element={<ProjectPage />} />
+            <Route path="privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="terms-of-service" element={<TermsOfService />} />
+            <Route path="cookie-policy" element={<CookiePolicy />} />
+          </Route>
         </Routes>
       </Layout>
     </BookingProvider>
@@ -29,4 +32,3 @@ function App() {
 }
 
 export default App;
-

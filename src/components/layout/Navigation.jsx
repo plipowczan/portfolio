@@ -1,14 +1,59 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { HiMenu, HiX } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { NAV_LINKS } from "../../utils/constants";
+import useLocalizedPath from "../../hooks/useLocalizedPath";
+
+const NAV_ITEMS = [
+  { key: "nav.start", href: "/" },
+  { key: "nav.about", href: "/#about" },
+  { key: "nav.projects", href: "/#projects" },
+  { key: "nav.skills", href: "/#skills" },
+  { key: "nav.testimonials", href: "/#testimonials" },
+  { key: "nav.blog", href: "/blog" },
+  { key: "nav.contact", href: "/#contact" },
+];
+
+const LanguageSwitcher = () => {
+  const { i18n } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentLang = i18n.language;
+
+  const switchLanguage = () => {
+    const currentPath = location.pathname;
+
+    if (currentLang === "pl") {
+      // Switch to EN: add /en prefix
+      navigate(`/en${currentPath}`);
+    } else {
+      // Switch to PL: remove /en prefix
+      const pathWithoutLang = currentPath.replace(/^\/en/, "") || "/";
+      navigate(pathWithoutLang);
+    }
+  };
+
+  return (
+    <button
+      onClick={switchLanguage}
+      className="flex items-center space-x-1 px-3 py-1.5 rounded-full border border-primary-500/30 hover:border-primary-500 transition-colors text-sm font-medium"
+      aria-label={currentLang === "pl" ? "Switch to English" : "Przełącz na polski"}
+    >
+      <span className={currentLang === "pl" ? "text-primary-500" : "text-gray-400"}>PL</span>
+      <span className="text-gray-500">|</span>
+      <span className={currentLang === "en" ? "text-primary-500" : "text-gray-400"}>EN</span>
+    </button>
+  );
+};
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation("common");
+  const localizedPath = useLocalizedPath();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,36 +68,38 @@ const Navigation = () => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Get the base path without language prefix for comparison
+  const getBasePath = (pathname) => pathname.replace(/^\/en/, "") || "/";
+
   const handleNavClick = (e, href) => {
-    // Jeśli klikamy "Home" będąc już na stronie głównej - przewiń do góry
-    if (href === "/" && location.pathname === "/") {
+    const localizedHref = localizedPath(href);
+    const basePath = getBasePath(location.pathname);
+
+    // If clicking "Home" while already on homepage - scroll to top
+    if (href === "/" && basePath === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
       setIsMobileMenuOpen(false);
       return;
     }
 
-    // Jeśli link zawiera hash (np. "/#about")
+    // If link contains hash (e.g., "/#about")
     if (href.includes("#")) {
       const [path, hash] = href.split("#");
 
-      // Jeśli target path to "/" i już jesteśmy na "/" - scrolluj i zaktualizuj URL
-      if ((path === "/" || path === "") && location.pathname === "/") {
+      // If target path is "/" and we're already on "/" - scroll to element
+      if ((path === "/" || path === "") && basePath === "/") {
         e.preventDefault();
         const element = document.querySelector(`#${hash}`);
         if (element) {
-          // Zaktualizuj URL z hashem
-          navigate(`#${hash}`, { replace: true });
-          // Scrolluj do elementu
+          navigate(`${localizedPath("/")}#${hash}`, { replace: true });
           element.scrollIntoView({ behavior: "smooth" });
         }
         setIsMobileMenuOpen(false);
         return;
       }
-      // W przeciwnym razie pozwól React Router nawigować (Home.jsx obsłuży scroll)
     }
 
-    // W pozostałych przypadkach React Router obsłuży nawigację
     setIsMobileMenuOpen(false);
   };
 
@@ -66,7 +113,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link
-            to="/"
+            to={localizedPath("/")}
             onClick={(e) => handleNavClick(e, "/")}
             className="flex items-center space-x-3 group"
           >
@@ -78,34 +125,38 @@ const Navigation = () => {
             <div className="hidden sm:block">
               <div className="text-xl font-bold text-white">Pawel Lipowczan</div>
               <p className="text-xs text-primary-500 uppercase tracking-wider">
-                Twój Przewodnik Technologiczny
+                {t("nav.tagline")}
               </p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {NAV_LINKS.map((link) => (
+            {NAV_ITEMS.map((item) => (
               <Link
-                key={link.name}
-                to={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
+                key={item.key}
+                to={localizedPath(item.href)}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="text-gray-300 hover:text-primary-500 transition-colors duration-200 font-medium"
               >
-                {link.name}
+                {t(item.key)}
               </Link>
             ))}
+            <LanguageSwitcher />
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            type="button"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2 hover:text-primary-500 transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
-          </button>
+          <div className="flex items-center space-x-3 md:hidden">
+            <LanguageSwitcher />
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-white p-2 hover:text-primary-500 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -120,14 +171,14 @@ const Navigation = () => {
             className="md:hidden glass border-t border-primary-500/20"
           >
             <div className="section-container py-6 space-y-4">
-              {NAV_LINKS.map((link) => (
+              {NAV_ITEMS.map((item) => (
                 <Link
-                  key={link.name}
-                  to={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
+                  key={item.key}
+                  to={localizedPath(item.href)}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className="block text-gray-300 hover:text-primary-500 transition-colors duration-200 font-medium py-2"
                 >
-                  {link.name}
+                  {t(item.key)}
                 </Link>
               ))}
             </div>

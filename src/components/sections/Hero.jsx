@@ -1,7 +1,12 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import useLocalizedPath from "../../hooks/useLocalizedPath";
 import NetworkBackground from "../animations/NetworkBackground";
 
 const Hero = () => {
+  const { t } = useTranslation("home");
+  const localizedPath = useLocalizedPath();
+
   return (
     <section
       id="hero"
@@ -46,7 +51,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl sm:text-2xl md:text-3xl text-primary-500 uppercase tracking-widest font-light"
           >
-            Twój Przewodnik Technologiczny
+            {t("hero.tagline")}
           </motion.p>
 
           {/* Description */}
@@ -56,9 +61,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto"
           >
-            Architekt oprogramowania i doradca ds. technologii - pomagam firmom
-            optymalizować procesy poprzez dobór optymalnych technologii i
-            narzędzi
+            {t("hero.description")}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -69,16 +72,16 @@ const Hero = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8"
           >
             <a
-              href="#projects"
+              href={localizedPath("/#projects")}
               className="btn-primary w-full sm:w-auto text-center"
             >
-              Zobacz Projekty
+              {t("hero.cta.projects")}
             </a>
             <a
-              href="#contact"
+              href={localizedPath("/#contact")}
               className="btn-outline w-full sm:w-auto text-center"
             >
-              Skontaktuj się
+              {t("hero.cta.contact")}
             </a>
           </motion.div>
         </div>

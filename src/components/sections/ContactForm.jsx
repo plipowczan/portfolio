@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaEnvelope, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import {
   FADE_IN_UP,
@@ -8,6 +9,7 @@ import {
 } from "../../utils/constants";
 
 const ContactForm = () => {
+  const { t } = useTranslation("home");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,7 +24,6 @@ const ContactForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error on change
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -32,19 +33,19 @@ const ContactForm = () => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = "Imię i nazwisko jest wymagane";
+      newErrors.name = t("contact.validation.nameRequired");
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email jest wymagany";
+      newErrors.email = t("contact.validation.emailRequired");
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email jest nieprawidłowy";
+      newErrors.email = t("contact.validation.emailInvalid");
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = "Wiadomość jest wymagana";
+      newErrors.message = t("contact.validation.messageRequired");
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = "Wiadomość musi mieć co najmniej 10 znaków";
+      newErrors.message = t("contact.validation.messageMinLength");
     }
 
     return newErrors;
@@ -71,7 +72,7 @@ const ContactForm = () => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          subject: formData.subject || "Wiadomość z formularza kontaktowego",
+          subject: formData.subject || t("contact.defaultSubject"),
           message: formData.message,
         }),
       });
@@ -108,12 +109,11 @@ const ContactForm = () => {
           {/* Section Title */}
           <motion.div variants={FADE_IN_UP} className="text-center">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-              Napisz do mnie
+              {t("contact.title")}
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full mb-6" />
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Masz projekt do zrealizowania? Potrzebujesz automatyzacji? Napisz
-              wiadomość, a wrócę z odpowiedzią.
+              {t("contact.description")}
             </p>
           </motion.div>
 
@@ -122,16 +122,16 @@ const ContactForm = () => {
             <motion.div variants={FADE_IN_UP} className="space-y-8">
               <div>
                 <h3 className="text-2xl font-bold text-white mb-6">
-                  Formularz kontaktowy
+                  {t("contact.formTitle")}
                 </h3>
                 <p className="text-gray-400 leading-relaxed mb-4">
-                  Opisz krótko, czego potrzebujesz, a zaproponuję kolejne kroki:
+                  {t("contact.formDescription")}
                 </p>
                 <ul className="text-gray-400 leading-relaxed space-y-2 mb-6">
-                  <li>• Wycena lub konsultacja projektu</li>
-                  <li>• Rekomendacje narzędzi i technologii</li>
-                  <li>• Pomoc w trwającym projekcie lub jego audyt</li>
-                  <li>• Pytania o współpracę lub portfolio</li>
+                  <li>• {t("contact.bullet1")}</li>
+                  <li>• {t("contact.bullet2")}</li>
+                  <li>• {t("contact.bullet3")}</li>
+                  <li>• {t("contact.bullet4")}</li>
                 </ul>
               </div>
 
@@ -141,7 +141,7 @@ const ContactForm = () => {
                   <FaEnvelope className="text-primary-500 text-xl" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Email</p>
+                  <p className="text-sm text-gray-500">{t("contact.emailLabel")}</p>
                   <a href={`mailto:${SITE_CONFIG.email}`} className="link">
                     {SITE_CONFIG.email}
                   </a>
@@ -150,7 +150,7 @@ const ContactForm = () => {
 
               {/* Social Links */}
               <div>
-                <p className="text-gray-400 mb-4">Znajdź mnie również:</p>
+                <p className="text-gray-400 mb-4">{t("contact.findMe")}</p>
                 <div className="flex space-x-4">
                   {socialLinks.map((social) => (
                     <a
@@ -176,7 +176,7 @@ const ContactForm = () => {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Imię i nazwisko *
+                    {t("contact.nameLabel")}
                   </label>
                   <input
                     type="text"
@@ -190,7 +190,7 @@ const ContactForm = () => {
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.name ? "border-red-500" : "border-primary-500/20"
                     } rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors`}
-                    placeholder="Jan Kowalski"
+                    placeholder={t("contact.namePlaceholder")}
                   />
                   {errors.name && (
                     <p className="mt-1 text-sm text-red-500">{errors.name}</p>
@@ -202,7 +202,7 @@ const ContactForm = () => {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Email *
+                    {t("contact.emailFieldLabel")}
                   </label>
                   <input
                     type="email"
@@ -216,7 +216,7 @@ const ContactForm = () => {
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.email ? "border-red-500" : "border-primary-500/20"
                     } rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors`}
-                    placeholder="jan.kowalski@firma.pl"
+                    placeholder={t("contact.emailPlaceholder")}
                   />
                   {errors.email && (
                     <p className="mt-1 text-sm text-red-500">{errors.email}</p>
@@ -228,7 +228,7 @@ const ContactForm = () => {
                     htmlFor="subject"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Temat
+                    {t("contact.subjectLabel")}
                   </label>
                   <input
                     type="text"
@@ -237,7 +237,7 @@ const ContactForm = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-dark-700 border border-primary-500/20 rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors"
-                    placeholder="Bezpłatna konsultacja / Projekt / Pytanie"
+                    placeholder={t("contact.subjectPlaceholder")}
                   />
                 </div>
 
@@ -246,7 +246,7 @@ const ContactForm = () => {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Wiadomość *
+                    {t("contact.messageLabel")}
                   </label>
                   <textarea
                     id="message"
@@ -262,7 +262,7 @@ const ContactForm = () => {
                         ? "border-red-500"
                         : "border-primary-500/20"
                     } rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors resize-none`}
-                    placeholder="Opisz swój projekt lub potrzeby..."
+                    placeholder={t("contact.messagePlaceholder")}
                   />
                   {errors.message && (
                     <p className="mt-1 text-sm text-red-500">
@@ -276,21 +276,20 @@ const ContactForm = () => {
                   disabled={isSubmitting}
                   className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Wysyłanie..." : "Wyślij wiadomość"}
+                  {isSubmitting ? t("contact.submitting") : t("contact.submit")}
                 </button>
 
                 {submitStatus === "success" && (
                   <div className="success" role="alert">
                     <p className="text-primary-500 text-center">
-                      Wiadomość wysłana! Odezwę się wkrótce.
+                      {t("contact.success")}
                     </p>
                   </div>
                 )}
                 {submitStatus === "error" && (
                   <div className="error" role="alert">
                     <p className="text-red-500 text-center">
-                      Błąd wysyłania. Spróbuj ponownie lub napisz bezpośrednio
-                      na {SITE_CONFIG.email}
+                      {t("contact.error", { email: SITE_CONFIG.email })}
                     </p>
                   </div>
                 )}

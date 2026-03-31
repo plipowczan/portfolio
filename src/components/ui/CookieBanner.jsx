@@ -1,15 +1,18 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaCookie, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useLocalizedPath from "../../hooks/useLocalizedPath";
 
 const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
+  const { t } = useTranslation("common");
+  const localizedPath = useLocalizedPath();
 
   useEffect(() => {
     const consent = localStorage.getItem("cookieConsent");
     if (!consent) {
-      // Pokazuj banner po krótkiej chwili, aby nie przeszkadzać w animacjach strony
       const timer = setTimeout(() => {
         setShowBanner(true);
       }, 1000);
@@ -46,17 +49,15 @@ const CookieBanner = () => {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-white font-bold text-lg">
-                    Używamy plików cookie
+                    {t("cookie.title")}
                   </h3>
                   <p className="text-gray-400 text-sm leading-relaxed">
-                    Ta strona wykorzystuje pliki cookie, aby zapewnić Ci
-                    najlepsze doświadczenie. Kontynuując przeglądanie, wyrażasz
-                    zgodę na ich użycie.{" "}
+                    {t("cookie.description")}{" "}
                     <Link
-                      to="/cookie-policy"
+                      to={localizedPath("/cookie-policy")}
                       className="text-primary-500 hover:text-primary-400 underline"
                     >
-                      Dowiedz się więcej
+                      {t("cookie.learnMore")}
                     </Link>
                   </p>
                 </div>
@@ -67,16 +68,16 @@ const CookieBanner = () => {
                 <button
                   onClick={rejectCookies}
                   className="px-6 py-3 rounded-lg font-semibold text-gray-400 hover:text-white border border-gray-600 hover:border-gray-500 transition-all text-center"
-                  aria-label="Odrzuć cookies"
+                  aria-label={t("cookie.rejectAria")}
                 >
-                  Odrzuć
+                  {t("cookie.reject")}
                 </button>
                 <button
                   onClick={acceptCookies}
                   className="btn-primary"
-                  aria-label="Zaakceptuj cookies"
+                  aria-label={t("cookie.acceptAria")}
                 >
-                  Akceptuję
+                  {t("cookie.accept")}
                 </button>
               </div>
 
@@ -84,7 +85,7 @@ const CookieBanner = () => {
               <button
                 onClick={rejectCookies}
                 className="absolute top-4 right-4 md:relative md:top-auto md:right-auto text-gray-500 hover:text-white transition-colors p-2"
-                aria-label="Zamknij banner cookies"
+                aria-label={t("cookie.closeAria")}
               >
                 <FaTimes />
               </button>
