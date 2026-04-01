@@ -21,7 +21,7 @@ test.describe("Project Pages", () => {
     
     // Verify breadcrumbs
     await expect(page.locator("nav[aria-label='Breadcrumb']")).toBeVisible();
-    await expect(page.locator("nav[aria-label='Breadcrumb']")).toContainText("Projects");
+    await expect(page.locator("nav[aria-label='Breadcrumb']")).toContainText("Projekty");
     await expect(page.locator("nav[aria-label='Breadcrumb']")).toContainText(projectTitle);
   });
 

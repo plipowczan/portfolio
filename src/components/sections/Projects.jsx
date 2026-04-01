@@ -6,7 +6,10 @@ import { projects } from "../../data/projects";
 import useLocalizedPath from "../../hooks/useLocalizedPath";
 import { FADE_IN_UP, STAGGER_CONTAINER } from "../../utils/constants";
 
-const ProjectCard = ({ project, localizedPath }) => {
+const ProjectCard = ({ project, localizedPath, t }) => {
+  const projectTitle = t(`${project.slug}.title`, { ns: "projects", defaultValue: project.title });
+  const projectDescription = t(`${project.slug}.description`, { ns: "projects", defaultValue: project.description });
+
   return (
     <Link to={localizedPath(`/projects/${project.slug}`)} className="block h-full">
       <motion.div
@@ -17,7 +20,7 @@ const ProjectCard = ({ project, localizedPath }) => {
         <div className="relative overflow-hidden rounded-lg mb-6 bg-dark-600 h-48">
           <img
             src={project.image}
-            alt={project.title}
+            alt={projectTitle}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />
@@ -56,10 +59,10 @@ const ProjectCard = ({ project, localizedPath }) => {
         {/* Project Info */}
         <div className="space-y-4 flex-grow flex flex-col">
           <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-primary-500 transition-colors">
-            {project.title}
+            {projectTitle}
           </h3>
           <p className="text-gray-400 text-sm md:text-base leading-relaxed flex-grow">
-            {project.description}
+            {projectDescription}
           </p>
 
           {/* Technologies */}
@@ -85,7 +88,7 @@ const ProjectCard = ({ project, localizedPath }) => {
 };
 
 const Projects = () => {
-  const { t } = useTranslation("home");
+  const { t } = useTranslation(["home", "projects"]);
   const localizedPath = useLocalizedPath();
 
   return (
@@ -115,7 +118,7 @@ const Projects = () => {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} localizedPath={localizedPath} />
+              <ProjectCard key={project.id} project={project} localizedPath={localizedPath} t={t} />
             ))}
           </motion.div>
 

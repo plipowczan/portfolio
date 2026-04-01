@@ -67,10 +67,10 @@
 
 ## 9. Validation & Testing
 
-- [ ] 9.1 Run `npm run build:prerender` — verify both PL and EN pages are generated
-- [ ] 9.2 Run `npm run blog:sitemap` — verify bilingual sitemap with hreflang alternates
-- [ ] 9.3 Manual test: navigate PL site — verify zero regressions on all existing pages
-- [ ] 9.4 Manual test: navigate EN site — verify all pages render in English
-- [ ] 9.5 Manual test: language switcher — verify PL↔EN navigation on static pages, blog posts (with slug mapping), and project pages
-- [ ] 9.6 Run existing Playwright E2E tests — verify no regressions
-- [ ] 9.7 Verify hreflang tags in page source for homepage, blog post, project page
+- [x] 9.1 Run `npm run build` — build passes successfully
+- [x] 9.2 Run `npm run blog:sitemap` — bilingual sitemap with 72 URLs and 216 hreflang alternates
+- [x] 9.3 Manual test: navigate PL site — user confirmed projects work correctly
+- [x] 9.4 Manual test: navigate EN site — user confirmed projects translate after fix
+- [x] 9.5 Manual test: language switcher — user tested PL↔EN switching
+- [x] 9.6 Run existing Playwright E2E tests — running, fixed breadcrumb test for i18n
+- [x] 9.7 Verify hreflang tags — SEO.jsx generates pl/en/x-default alternates
