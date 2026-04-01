@@ -125,7 +125,7 @@ const Projects = () => {
           {/* View More */}
           <motion.div variants={FADE_IN_UP} className="text-center pt-8">
             <a
-              href="https://automation.house"
+              href="https://200iqlabs.io/"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-outline inline-flex items-center space-x-2"
