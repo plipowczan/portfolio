@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { HiMenu, HiX } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useLocalizedPath from "../../hooks/useLocalizedPath";
+import { getAlternatePost } from "../../data/blogPosts";
 
 const NAV_ITEMS = [
   { key: "nav.start", href: "/" },
@@ -24,11 +25,29 @@ const LanguageSwitcher = () => {
   const switchLanguage = () => {
     const currentPath = location.pathname;
 
+    // Detect blog post pages and resolve alternate slug
+    const blogPostMatch = currentPath.match(/^(?:\/en)?\/blog\/([^/]+)\/?$/);
+    if (blogPostMatch) {
+      const currentSlug = blogPostMatch[1];
+      const alternatePost = getAlternatePost(currentSlug);
+
+      if (alternatePost) {
+        const targetPath = currentLang === "pl"
+          ? `/en/blog/${alternatePost.slug}`
+          : `/blog/${alternatePost.slug}`;
+        navigate(targetPath);
+        return;
+      }
+
+      // Fallback: no translation found → go to blog listing
+      navigate(currentLang === "pl" ? "/en/blog" : "/blog");
+      return;
+    }
+
+    // Non-blog pages: prefix-based switching
     if (currentLang === "pl") {
-      // Switch to EN: add /en prefix
       navigate(`/en${currentPath}`);
     } else {
-      // Switch to PL: remove /en prefix
       const pathWithoutLang = currentPath.replace(/^\/en/, "") || "/";
       navigate(pathWithoutLang);
     }
