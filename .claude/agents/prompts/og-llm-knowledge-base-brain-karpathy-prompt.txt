@@ -1,0 +1,64 @@
+Generated: 2026-04-13
+Article: Jak LLM Wiki Karpathy'ego pomogła mi uporządkować moją bazę wiedzy
+Slug: llm-knowledge-base-brain-karpathy
+Category: AI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEMINI API PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI] with this exact visual specification:
+
+**Article Context:**
+- Title: Jak LLM Wiki Karpathy'ego pomogła mi uporządkować moją bazę wiedzy
+- Topic: AI / Knowledge Management / Personal Knowledge Base with AI Agent
+- Theme: Professional developer blog focused on AI-powered knowledge management, progressive disclosure, and LLM-maintained wikis
+
+**Visual Design Requirements:**
+
+Background:
+- Deep dark gradient from #0a0e1a (bottom) to #151b2b (top)
+- Smooth, professional gradient transition matching portfolio aesthetic
+
+Primary Visual Elements (bright green #00ff9d):
+- Abstract geometric shapes suggesting knowledge graph nodes and connections
+- Neural network node patterns with connecting lines representing wiki cross-references
+- Layered horizontal planes suggesting progressive disclosure (3 distinct layers)
+- Floating hexagons and triangular elements suggesting structured data
+- Subtle glow effects on key connection nodes
+
+Secondary Visual Elements (cyan #00b8ff):
+- Complementary geometric shapes suggesting index layers
+- Data flow visualization patterns showing information hierarchy
+- Terminal window outlines (no text inside) suggesting CLI agent interaction
+- Branching pathways suggesting Git version control and knowledge branching
+
+Style & Effects:
+- Glassmorphism-inspired transparency on some elements
+- Subtle blur effects creating depth between the three disclosure layers
+- Modern tech aesthetic matching portfolio website
+- Professional, high-end, minimalist composition
+- Clean, uncluttered layout with breathing room
+- Three distinct visual layers (foreground, mid, background) echoing the progressive disclosure concept
+
+**CRITICAL CONSTRAINTS:**
+- ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS
+- Pure abstract visual art only
+- NO readable symbols, NO typography, NO linguistic characters
+- Focus on shapes, patterns, gradients, and geometric elements
+- Professional enough for LinkedIn/Twitter social previews
+- Must work as a thumbnail (recognizable at small sizes)
+
+**Aspect Ratio:** 1200x630 pixels (Open Graph standard)
+
+**Mood:** Innovative, professional, cutting-edge, trustworthy, expert, systematic, organized
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+node scripts/generate-image.js \
+  "Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI] with this exact visual specification: **Article Context:** - Title: Jak LLM Wiki Karpathy'ego pomogła mi uporządkować moją bazę wiedzy - Topic: AI / Knowledge Management / Personal Knowledge Base with AI Agent - Theme: Professional developer blog focused on AI-powered knowledge management, progressive disclosure, and LLM-maintained wikis **Visual Design Requirements:** Background: - Deep dark gradient from #0a0e1a (bottom) to #151b2b (top) - Smooth, professional gradient transition matching portfolio aesthetic Primary Visual Elements (bright green #00ff9d): - Abstract geometric shapes suggesting knowledge graph nodes and connections - Neural network node patterns with connecting lines representing wiki cross-references - Layered horizontal planes suggesting progressive disclosure (3 distinct layers) - Floating hexagons and triangular elements suggesting structured data - Subtle glow effects on key connection nodes Secondary Visual Elements (cyan #00b8ff): - Complementary geometric shapes suggesting index layers - Data flow visualization patterns showing information hierarchy - Terminal window outlines (no text inside) suggesting CLI agent interaction - Branching pathways suggesting Git version control and knowledge branching Style & Effects: - Glassmorphism-inspired transparency on some elements - Subtle blur effects creating depth between the three disclosure layers - Modern tech aesthetic matching portfolio website - Professional, high-end, minimalist composition - Clean, uncluttered layout with breathing room - Three distinct visual layers (foreground, mid, background) echoing the progressive disclosure concept **CRITICAL CONSTRAINTS:** - ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS - Pure abstract visual art only - NO readable symbols, NO typography, NO linguistic characters - Focus on shapes, patterns, gradients, and geometric elements - Professional enough for LinkedIn/Twitter social previews - Must work as a thumbnail (recognizable at small sizes) **Aspect Ratio:** 1200x630 pixels (Open Graph standard) **Mood:** Innovative, professional, cutting-edge, trustworthy, expert, systematic, organized" \
+  --filename og-llm-knowledge-base-brain-karpathy \
+  --output public/images \
+  --model gemini-3-pro-image-preview
