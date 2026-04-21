@@ -140,8 +140,19 @@ readTime: {from plan}
 image: /images/og-{slug}.webp
 tags:
   - {from plan}
+lang: pl
+# Optional — set ONLY if a corresponding EN file exists in src/content/blog/en/
+# NEVER point alternateSlug at this post's own slug. If no EN translation
+# exists, omit the field entirely.
+# alternateSlug: {en-slug}
 ---
 ```
+
+### Bilingual rule (important)
+
+- Każdy nowy post domyślnie jest **PL-only**. Pole `alternateSlug` **NIE jest ustawiane** dopóki nie istnieje plik `src/content/blog/en/<en-slug>.md`.
+- Self-reference (`alternateSlug: <ten sam slug co slug:>`) to bug — powoduje że przełącznik języka produkuje URL `/en/blog/<pl-slug>` który nie istnieje → "Post not found".
+- Jeśli autor chce EN wersję: najpierw utwórz `src/content/blog/en/<en-slug>.md` z `lang: en` i `alternateSlug: <pl-slug>`, **potem** dodaj `alternateSlug: <en-slug>` do pliku PL. Symetria wymagana.
 
 ### Code Blocks
 

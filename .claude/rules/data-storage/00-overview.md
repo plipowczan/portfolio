@@ -51,6 +51,9 @@ modified: 2025-12-01 # YYYY-MM-DD (dateModified + sitemap lastmod); fallback = d
 
 - `description` (string) — used as `BlogPosting.description` in JSON-LD. When absent, the schema generator extracts the first paragraph of the post (~300 chars, trimmed at word boundary). `excerpt` is still used as the HTML `<meta description>` / SERP snippet; `description` is the longer semantic summary for schema consumers.
 - `modified` (YYYY-MM-DD) — used as `BlogPosting.dateModified`, `<meta property="article:modified_time">`, and `<lastmod>` in `sitemap.xml`. When absent, all three fall back to `date`. Update this only on real content changes, not cosmetic edits.
+- `alternateSlug` (string) — slug of the translated counterpart. **Set ONLY when a symmetric file exists** in the other locale (`src/content/blog/en/<slug>.md` for PL posts, `src/content/blog/<slug>.md` for EN posts) **and** that file points back at this one via its own `alternateSlug`. Two hard rules:
+  1. Never point `alternateSlug` at the post's own `slug` — the language switcher will build a URL that doesn't exist and render "Post not found".
+  2. Every post is PL-only by default. The `/blog-article-writer:execute` skill creates only the PL file. EN translation is a separate, deliberate step — only after `src/content/blog/en/<en-slug>.md` exists do you add `alternateSlug` to both sides. Prefer omitting the field over guessing.
 
 ### FAQ Section Structure (Optional but Recommended)
 

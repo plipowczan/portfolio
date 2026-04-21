@@ -46,7 +46,37 @@ const required = ['id', 'slug', 'title', 'excerpt', 'category', 'author', 'date'
 // - readTime: X min format
 // - image: /images/og-{slug}.webp
 // - tags: 3-5 tags array
+// - lang: "pl" (required; EN posts live in src/content/blog/en/ with lang: "en")
+
+// Optional fields
+// - description: string (BlogPosting JSON-LD description; fallback = first paragraph)
+// - modified: YYYY-MM-DD (sitemap lastmod + dateModified; fallback = date)
+// - alternateSlug: slug of the translated counterpart — see i18n rule below
 ```
+
+**i18n / alternateSlug validation (critical):**
+
+`alternateSlug` jest **opcjonalne**. Jeśli jest ustawione w pliku PL, oznacza to obietnicę: "istnieje symetryczny plik EN z tym slug-iem w `src/content/blog/en/`, i ten plik EN wskazuje z powrotem na mnie". Naruszenie tej obietnicy produkuje bug "Post not found" przy przełączaniu języka. Skrypt walidujący musi sprawdzić:
+
+```bash
+# 1. self-reference — zawsze bug
+awk -F': ' '$1=="slug"{s=$2} $1=="alternateSlug"{a=$2} END{if(a && a==s) exit 1}' src/content/blog/{slug}.md
+
+# 2. jeśli alternateSlug ustawione, plik EN musi istnieć
+# (zamień kierunek gdy walidujesz plik EN-owy — wtedy szukaj w src/content/blog/)
+alt=$(awk -F': ' '/^alternateSlug:/{print $2}' src/content/blog/{slug}.md | tr -d ' "')
+if [ -n "$alt" ]; then
+  test -f "src/content/blog/en/${alt}.md" || echo "FAIL: alternateSlug=$alt ale src/content/blog/en/${alt}.md nie istnieje"
+fi
+
+# 3. symetria — plik EN musi wskazywać z powrotem
+if [ -n "$alt" ] && [ -f "src/content/blog/en/${alt}.md" ]; then
+  back=$(awk -F': ' '/^alternateSlug:/{print $2}' "src/content/blog/en/${alt}.md" | tr -d ' "')
+  [ "$back" = "{slug}" ] || echo "FAIL: plik EN ma alternateSlug=$back, oczekiwano {slug}"
+fi
+```
+
+**Reguła:** dla PL-only postów (najczęstszy przypadek w tym projekcie) **nie dodawaj** `alternateSlug` w ogóle. Pole dodajemy dopiero gdy plik EN realnie powstał. Subcommand `/blog-article-writer:execute` tworzy wyłącznie wersję PL — EN to świadoma, osobna decyzja autora.
 
 ### Step 2: Validate Content Quality
 
