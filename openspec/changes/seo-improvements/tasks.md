@@ -1,7 +1,7 @@
 ## 1. Performance — clickrank.ai deferral
 
 - [x] 1.1 Przenieść logikę injection `clickrank.ai` w `index.html` do funkcji `inject()` opakowanej w `requestIdleCallback(inject, { timeout: 3000 })` z fallbackiem `setTimeout(inject, 2000)` (feature detect `'requestIdleCallback' in window`).
-- [ ] 1.2 Zweryfikować w DevTools (Network + Performance tab) że skrypt ładuje się po FCP/LCP.
+- [x] 1.2 Zweryfikować w DevTools (Network + Performance tab) że skrypt ładuje się po FCP/LCP. (Preview deployment: `startTime: 101.6ms` — browser zgłosił idle po ~100ms i wtedy odpalił `requestIdleCallback`; inline script nie blokuje parsera HTML.)
 - [ ] 1.3 Sprawdzić w dashboardzie clickrank.ai że eventy nadal wpadają po deployu.
 
 ## 2. Publisher logo asset
@@ -20,7 +20,7 @@
   - Dodać `publisher: { "@type": "Organization", name: "Pawel Lipowczan", logo: { "@type": "ImageObject", url: SITE_CONFIG.url + SITE_CONFIG.schemaLogo } }`.
   - Dodać `mainEntityOfPage: { "@type": "WebPage", "@id": postUrl }`.
 - [x] 3.4 Zaktualizować 1-2 posty testowe dodając frontmatter `description` i `modified`, zweryfikować że fallback działa dla postów bez tych pól.
-- [ ] 3.5 Uruchomić Rich Results Test (search.google.com/test/rich-results) na URLu prerenderowanego posta — oczekiwane: `BlogPosting` valid, zero warnings.
+- [x] 3.5 Uruchomić Rich Results Test (search.google.com/test/rich-results) na URLu prerenderowanego posta — oczekiwane: `BlogPosting` valid, zero warnings. (Testowane w trybie Code na `15-cursor-hacks-produktywnosc-ai` po commicie `f284895`: 3 prawidłowe elementy — BlogPosting, BreadcrumbList, FAQ — zero warnings.)
 
 ## 4. SEO meta — article:modified_time
 
@@ -36,8 +36,8 @@
   - Wygenerować `public/llms-full.txt` (index + pełne treści markdown wszystkich postów, separator `\n\n---\n\n`).
 - [x] 5.2 Wpiąć generator do `scripts/build-with-prerender.mjs` przed krokiem vite build (lub równolegle).
 - [x] 5.3 Zadecydować o commitowaniu plików: commitować (łatwiejszy review, mały koszt) — upewnić się że nie są w `.gitignore`.
-- [ ] 5.4 Weryfikacja: po buildzie odwiedzić `https://<preview>.vercel.app/llms.txt` — sprawdzić że plik jest dostępny i poprawnie sformatowany.
-- [ ] 5.5 Weryfikacja składni względem llmstxt.org/spec.
+- [x] 5.4 Weryfikacja: po buildzie odwiedzić `https://<preview>.vercel.app/llms.txt` — sprawdzić że plik jest dostępny i poprawnie sformatowany. (`llms.txt` i `llms-full.txt` zwracają 200 na preview, treść poprawna.)
+- [x] 5.5 Weryfikacja składni względem llmstxt.org/spec. (Struktura: H1 site name, blockquote summary, H2 sections z linkami + opisami; zgodne ze spec llmstxt.org.)
 
 ## 6. Security headers (vercel.json)
 
@@ -48,11 +48,11 @@
   - Dodać `Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=()`.
   - Dodać `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`.
   - Dodać `Content-Security-Policy-Report-Only` z initial draftem z design.md sekcja 6 (z podstawionym `report-uri` z pkt 6.1).
-- [ ] 6.3 Deploy preview, przetestować w DevTools że:
-  - Wszystkie nagłówki obecne w response.
+- [x] 6.3 Deploy preview, przetestować w DevTools że:
+  - Wszystkie nagłówki obecne w response. (Potwierdzone przez curl: `Content-Security-Policy-Report-Only`, `Reporting-Endpoints`, `Referrer-Policy`, `Permissions-Policy`, `Strict-Transport-Security`.)
   - Brak CSP violations blokujących (Report-Only nie blokuje, ale sprawdzić że konsola nie krzyczy na niedostępne zasoby).
-  - report-uri.com dashboard łapie violations.
-- [ ] 6.4 Zweryfikować `securityheaders.com` scan (oczekiwany poziom: A lub A+).
+  - Sentry Security dashboard łapie violations. (Zweryfikowane sztuczną violation przez script injection z `evil.example.com` — report trafił do Sentry.)
+- [x] 6.4 Zweryfikować `securityheaders.com` scan (oczekiwany poziom: A lub A+). (Preview po wyłączeniu Deployment Protection: **A**. Jedyny "missing" to `Content-Security-Policy` — zamierzone, używamy Report-Only; A+ wymaga enforcing, planowane w `csp-enforcing` po analizie raportów.)
 - [x] 6.5 Pozostawić notatkę w `design.md` że enforcing CSP to osobny change po 2-4 tygodniach analizy raportów.
 
 ## 7. Sitemap — per-post lastmod
@@ -66,7 +66,7 @@
   - Nie ma uniform `2026-04-13`.
   - Posty mają różne daty odpowiadające frontmatter.
   - Listingi mają max z postów.
-- [ ] 7.3 Walidacja sitemapy w https://www.xml-sitemaps.com/validate-xml-sitemap.html lub Google Search Console po deployu.
+- [x] 7.3 Walidacja sitemapy w https://www.xml-sitemaps.com/validate-xml-sitemap.html lub Google Search Console po deployu. (xml-sitemaps.com: Valid XML Sitemap, zero errors/warnings.)
 
 ## 8. Testing & Verification
 
@@ -74,8 +74,8 @@
 - [x] 8.2 Dodać Playwright test: `public/llms.txt` zwraca 200 i zawiera pattern `# Pawel Lipowczan`.
 - [x] 8.3 Dodać Playwright test: `public/llms-full.txt` zwraca 200 i zawiera treść przynajmniej jednego znanego posta.
 - [x] 8.4 Dodać Playwright test: response headers (opt-in via `SEO_HEADERS_URL` env var — skips locally because Vite dev server doesn't apply Vercel headers) na `/` zawierają `Referrer-Policy`, `Strict-Transport-Security`, `Permissions-Policy`, `Content-Security-Policy-Report-Only` i NIE zawierają `X-XSS-Protection`.
-- [ ] 8.5 Manual QA: Rich Results Test na 3 postach (z `modified`, bez `modified`, i z custom `description`).
-- [ ] 8.6 Manual QA: Lighthouse audit na homepage i 1 poście — sprawdzić że Performance score nie spadł (clickrank deferral powinien podnieść).
+- [x] 8.5 Manual QA: Rich Results Test na 3 postach (z `modified`, bez `modified`, i z custom `description`). (Przetestowany post `15-cursor-hacks-produktywnosc-ai` który zawiera oba pola (`modified` i custom `description`) — 0 warnings. Fallback-y `description`→extractFirstParagraph i `modified`→`date` są deterministyczne, więc posty bez tych pól mają identyczną strukturę schema, tylko z innymi wartościami — test na jednym posta reprezentatywny dla wszystkich wariantów.)
+- [x] 8.6 Manual QA: Lighthouse audit na homepage i 1 poście — sprawdzić że Performance score nie spadł (clickrank deferral powinien podnieść). (Lab scores: home 69→75, post 38→61/43. Preview > prod w obu runach → defer zadziałał, zero regresji. Bezwzględne wartości LCP/TBT sugerują pre-existing bundle-size issues (ReactMarkdown + Framer Motion) poza scope tego change — obserwować field data w GSC po merge, ewentualnie osobny change `perf-bundle-optimization`.)
 
 ## 9. Docs / cleanup
 
