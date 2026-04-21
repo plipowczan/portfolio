@@ -99,14 +99,17 @@ script-src 'self' 'unsafe-inline' https://js.clickrank.ai https://vitals.vercel-
 style-src 'self' 'unsafe-inline';
 img-src 'self' data: https:;
 font-src 'self';
-connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com;
+connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://o<ORG>.ingest.<REGION>.sentry.io;
 frame-ancestors 'none';
-report-uri https://<account>.report-uri.com/r/d/csp/reportOnly;
+report-uri https://o<ORG>.ingest.<REGION>.sentry.io/api/<PROJECT_ID>/security/?sentry_key=<PUBLIC_KEY>;
+report-to csp-endpoint;
 ```
+
+Dodatkowo nagłówek `Reporting-Endpoints: csp-endpoint="<ten_sam_URL>"` dla nowego standardu (Chromium). Uwaga: **bez** `sentry_environment=production` — inaczej raporty z preview deploymentów Vercela zanieczyszczają dane prodowe (Vercel nie wspiera interpolacji env vars w `vercel.json`).
 
 **Rationale:** `'unsafe-inline'` dla script-src to zło, ale z Vercel Analytics + Speed Insights + Helmet inline `<script type="application/ld+json">` + framer-motion inline styles trudno od razu się go pozbyć. Report-Only to krok pośredni — po 2-4 tygodniach analizy raportów zobaczymy co realnie używa inline i albo dodamy `nonce`, albo hashujemy JSON-LD, albo zostanie pragmatyczny kompromis. Enforcing = osobny change.
 
-> **Note (post-implementation):** CSP enforcing jest świadomie wyłączony z tego change. Po 2-4 tygodniach od deployu, na podstawie logów z report-uri.com, należy utworzyć osobny change `csp-enforcing`, który zamieni `Content-Security-Policy-Report-Only` na `Content-Security-Policy` po wyeliminowaniu fałszywych pozytywów i ewentualnym dodaniu nonce/hash dla inline scripts.
+> **Note (post-implementation):** CSP enforcing jest świadomie wyłączony z tego change. Po 2-4 tygodniach od deployu, na podstawie logów z Sentry (Security → CSP Reports), należy utworzyć osobny change `csp-enforcing`, który zamieni `Content-Security-Policy-Report-Only` na `Content-Security-Policy` po wyeliminowaniu fałszywych pozytywów i ewentualnym dodaniu nonce/hash dla inline scripts.
 
 **Permissions-Policy draft:**
 ```

@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 /**
- * Generates public/logo-schema.png (600x60) from logo.svg + text.
+ * Generates public/logo-schema.png (600x60) from an inline SVG + text.
  * Used for BlogPosting.publisher.logo in JSON-LD (Google requires raster).
  */
-import fs from "fs";
 import path from "path";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
