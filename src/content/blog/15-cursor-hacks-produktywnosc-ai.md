@@ -3,9 +3,11 @@ id: 11
 slug: 15-cursor-hacks-produktywnosc-ai
 title: "15 hacków do Cursor.sh które zmienią sposób pracy z AI"
 excerpt: "Większość użytkowników wykorzystuje tylko 20% możliwości Cursor. Odkryj ukryte funkcje od podstawowych skrótów po zaawansowane techniki jak worktrees i strukturyzacja promptów."
+description: "Praktyczny przegląd 15 sprawdzonych technik pracy z Cursor.sh — od skrótów klawiszowych po zaawansowane worktrees, strukturyzację promptów i integracje, które realnie przyspieszają codzienne kodowanie z AI."
 category: AI
 author: Pawel Lipowczan
 date: 2026-01-15
+modified: 2026-04-21
 readTime: 17 min
 image: /images/og-15-cursor-hacks-produktywnosc-ai.webp
 tags:

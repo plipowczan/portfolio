@@ -86,9 +86,11 @@ Spec llmstxt.org dopuszcza oba pliki równolegle. `llms.txt` to index (szybki dl
 
 **Rationale:** Jeden skrypt, dwa pliki, zero dodatkowej komplikacji. Backwards-compatible (to nowe pliki, nic nie psuje).
 
-### 6. Security headers: CSP Report-Only + report-uri.com
+### 6. Security headers: CSP Report-Only + Sentry Security Reports
 
-`Content-Security-Policy-Report-Only` zamiast enforcing daje zero ryzyka zepsucia strony. Violations wysyłane do report-uri.com (free tier, dashboard, alerty).
+`Content-Security-Policy-Report-Only` zamiast enforcing daje zero ryzyka zepsucia strony. Violations wysyłane do Sentry Security Reports endpointa (`/api/<project>/security/?sentry_key=...`) — osobny bucket od errors, nie konsumuje quota errorów w free planie. Dodany także nowocześniejszy nagłówek `Reporting-Endpoints` + `report-to` (legacy `report-uri` zostaje dla kompatybilności).
+
+**Uwaga:** `connect-src` musi zawierać host Sentry ingest (region DE: `https://o4511257435308032.ingest.de.sentry.io`), bo inaczej CSP blokuje sam raport.
 
 **Initial CSP draft (do walidacji w testach):**
 ```
@@ -97,12 +99,17 @@ script-src 'self' 'unsafe-inline' https://js.clickrank.ai https://vitals.vercel-
 style-src 'self' 'unsafe-inline';
 img-src 'self' data: https:;
 font-src 'self';
-connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com;
+connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://o<ORG>.ingest.<REGION>.sentry.io;
 frame-ancestors 'none';
-report-uri https://<account>.report-uri.com/r/d/csp/reportOnly;
+report-uri https://o<ORG>.ingest.<REGION>.sentry.io/api/<PROJECT_ID>/security/?sentry_key=<PUBLIC_KEY>;
+report-to csp-endpoint;
 ```
 
+Dodatkowo nagłówek `Reporting-Endpoints: csp-endpoint="<ten_sam_URL>"` dla nowego standardu (Chromium). Uwaga: **bez** `sentry_environment=production` — inaczej raporty z preview deploymentów Vercela zanieczyszczają dane prodowe (Vercel nie wspiera interpolacji env vars w `vercel.json`).
+
 **Rationale:** `'unsafe-inline'` dla script-src to zło, ale z Vercel Analytics + Speed Insights + Helmet inline `<script type="application/ld+json">` + framer-motion inline styles trudno od razu się go pozbyć. Report-Only to krok pośredni — po 2-4 tygodniach analizy raportów zobaczymy co realnie używa inline i albo dodamy `nonce`, albo hashujemy JSON-LD, albo zostanie pragmatyczny kompromis. Enforcing = osobny change.
+
+> **Note (post-implementation):** CSP enforcing jest świadomie wyłączony z tego change. Po 2-4 tygodniach od deployu, na podstawie logów z Sentry (Security → CSP Reports), należy utworzyć osobny change `csp-enforcing`, który zamieni `Content-Security-Policy-Report-Only` na `Content-Security-Policy` po wyeliminowaniu fałszywych pozytywów i ewentualnym dodaniu nonce/hash dla inline scripts.
 
 **Permissions-Policy draft:**
 ```
@@ -129,7 +136,7 @@ Legal pages (`/privacy-policy`, `/cookie-policy`, `/terms-of-service`) → git m
 - **[Generator llms.txt i escape'owanie]** — markdown w postach zawiera backticki, fences, linki, obrazki. `llms-full.txt` ma być czysto markdownowe, więc treść wkleja się 1:1. Zero escape'owania wymaga tylko poprawnej separacji (np. `\n\n---\n\n` między postami).
 - **[requestIdleCallback w iOS Safari]** — wsparcie od Safari 16.4, niepełne. Fallback setTimeout(2000) łapie starsze wersje i pre-16.4. Tracking loss: marginalny.
 - **[HSTS preload]** — po dodaniu nagłówka i czasie (~kilka tygodni bez HTTPS issues) domenę można zgłosić do hstspreload.org. Decyzja na preload robiona ręcznie, nagłówek sam nie dołącza do listy.
-- **[Report-uri.com dependency]** — jeśli serwis kiedyś padnie, przeglądarki dostaną błąd POST'a do endpointa (ale przy Report-Only nic się użytkownikowi nie dzieje). Akceptowalne.
+- **[Sentry dependency]** — jeśli Sentry padnie, przeglądarki dostaną błąd POST'a do endpointa (ale przy Report-Only nic się użytkownikowi nie dzieje). Akceptowalne.
 
 ## Migration Plan
 

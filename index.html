@@ -10,12 +10,21 @@
     />
     <title>Pawel Lipowczan | Your Tech Guide</title>
     <script>
-      var clickRankAi = document.createElement("script");
-      clickRankAi.src =
-        "https://js.clickrank.ai/seo/df01ba8d-6fb3-4b8b-af78-4ea45be7de41/script?" +
-        new Date().getTime();
-      clickRankAi.async = true;
-      document.head.appendChild(clickRankAi);
+      (function () {
+        var inject = function () {
+          var clickRankAi = document.createElement("script");
+          clickRankAi.src =
+            "https://js.clickrank.ai/seo/df01ba8d-6fb3-4b8b-af78-4ea45be7de41/script?" +
+            new Date().getTime();
+          clickRankAi.async = true;
+          document.head.appendChild(clickRankAi);
+        };
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(inject, { timeout: 3000 });
+        } else {
+          setTimeout(inject, 2000);
+        }
+      })();
     </script>
   </head>
   <body>

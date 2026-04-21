@@ -34,7 +34,7 @@ Wszystkie zmiany są additive i backwards-compatible.
 - **Dodać** `Referrer-Policy: strict-origin-when-cross-origin`.
 - **Dodać** `Permissions-Policy` z minimalnym allowlistem (geolocation/camera/microphone/payment: `()`).
 - **Dodać** `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`.
-- **Dodać** `Content-Security-Policy-Report-Only` z `report-uri` wskazującym na report-uri.com (setup konta w taskach).
+- **Dodać** `Content-Security-Policy-Report-Only` z `report-uri`/`report-to` wskazującym na Sentry Security Reports endpoint (osobne konto, osobny bucket od errorów; setup w taskach).
 
 ### Sitemap (`scripts/update-sitemap.js`)
 - Posty: `lastmod` = `modified || date` z frontmatter.
@@ -72,7 +72,7 @@ _None — wszystkie zmiany to nowe wymagania, nie modyfikują istniejących spec
 - **Frontmatter (opcjonalne pola, bez breaking changes)**:
   - `description` (string, opcjonalne) — jeśli brak, fallback do pierwszego akapitu
   - `modified` (YYYY-MM-DD, opcjonalne) — jeśli brak, `dateModified` = `date`
-- **External dependencies**: konto na report-uri.com (free tier) dla CSP violations endpoint.
+- **External dependencies**: dedykowany projekt Sentry (free tier) dla CSP Security Reports endpointa.
 - **Risk**: Średnie. CSP Report-Only nie blokuje (brak ryzyka zepsucia strony). Schema enrichment jest additive — stare klienty widzą tę samą podstawę. Główne ryzyko: generator llms.txt musi poprawnie escapować markdown/specjalne znaki w treściach postów.
 - **Out of scope (osobne change'e później)**:
   - CSP enforcing (po analizie raportów z Report-Only)
