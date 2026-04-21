@@ -45,6 +45,24 @@ function validateFrontMatter(data, filename) {
   if (!Array.isArray(data.tags)) {
     console.warn(`Missing or invalid 'tags' in ${filename}, using empty array`);
   }
+
+  if (data.description !== undefined && typeof data.description !== "string") {
+    console.warn(
+      `Invalid optional 'description' type in ${filename}: expected string, ignoring`
+    );
+  }
+
+  if (data.modified !== undefined) {
+    const m = data.modified;
+    const isDate = m instanceof Date;
+    const isIsoString =
+      typeof m === "string" && /^\d{4}-\d{2}-\d{2}$/.test(m);
+    if (!isDate && !isIsoString) {
+      console.warn(
+        `Invalid optional 'modified' in ${filename}: expected YYYY-MM-DD string or Date, ignoring`
+      );
+    }
+  }
 }
 
 /**
@@ -73,6 +91,15 @@ function parsePost(rawMarkdown, filename = "unknown") {
       tags: Array.isArray(data.tags) ? data.tags : [],
       lang: data.lang || "pl",
       alternateSlug: data.alternateSlug || null,
+      description:
+        typeof data.description === "string" ? data.description : null,
+      modified:
+        data.modified instanceof Date
+          ? data.modified.toISOString().split("T")[0]
+          : typeof data.modified === "string" &&
+              /^\d{4}-\d{2}-\d{2}$/.test(data.modified)
+            ? data.modified
+            : null,
     };
   } catch (error) {
     console.error(`Error parsing blog post ${filename}:`, error.message);

@@ -9,6 +9,7 @@ const SEO = ({
   image,
   article = false,
   publishedTime,
+  modifiedTime,
   author,
   alternateUrl,
 }) => {
@@ -64,6 +65,9 @@ const SEO = ({
       {/* Article Specific Meta Tags */}
       {article && publishedTime && (
         <meta property="article:published_time" content={publishedTime} />
+      )}
+      {article && modifiedTime && (
+        <meta property="article:modified_time" content={modifiedTime} />
       )}
       {article && author && <meta property="article:author" content={author} />}
 

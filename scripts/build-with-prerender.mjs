@@ -94,16 +94,20 @@ async function main() {
 
   try {
     // Krok 0: Generowanie sitemap
-    console.log("📦 Krok 1/4: Generowanie sitemap.xml...\n");
+    console.log("📦 Krok 1/5: Generowanie sitemap.xml...\n");
     await runCommand("node", ["scripts/update-sitemap.js"]);
 
+    // Krok 0.5: Generowanie llms.txt / llms-full.txt
+    console.log("📦 Krok 2/5: Generowanie llms.txt...\n");
+    await runCommand("node", ["scripts/generate-llms-txt.js"]);
+
     // Krok 1: Build aplikacji
-    console.log("📦 Krok 2/4: Budowanie aplikacji...\n");
+    console.log("📦 Krok 3/5: Budowanie aplikacji...\n");
     await runCommand("npm", ["run", "build"]);
     console.log("\n✅ Build zakończony!\n");
 
     // Krok 2: Uruchom preview server
-    console.log("📦 Krok 3/4: Uruchamianie preview server...\n");
+    console.log("📦 Krok 4/5: Uruchamianie preview server...\n");
     previewServer = await startPreviewServer();
 
     // Dodatkowy czas na stabilizację servera (dłuższy na Vercel)
@@ -112,7 +116,7 @@ async function main() {
     await sleep(stabilizationTime);
 
     // Krok 3: Prerendering
-    console.log("📦 Krok 4/4: Prerendering stron...\n");
+    console.log("📦 Krok 5/5: Prerendering stron...\n");
     await runCommand("node", ["scripts/prerender.mjs"]);
 
     console.log("\n🎉 SUKCES! Build z prerenderingiem zakończony.\n");

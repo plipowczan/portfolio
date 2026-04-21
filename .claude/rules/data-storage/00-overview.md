@@ -31,17 +31,26 @@ Every `.md` file MUST contain a valid frontmatter block:
 id: 1 # Unique integer ID
 slug: my-article-slug # URL-friendly identifier
 title: Article Title # Display title
-excerpt: Short summary (150-200 chars) # SEO & preview description
+excerpt: Short summary (150-200 chars) # SEO <meta description> & previews
 category: Automation # Single category
 author: Pawel Lipowczan # Author name
-date: 2025-11-15 # YYYY-MM-DD
+date: 2025-11-15 # YYYY-MM-DD (datePublished)
 readTime: 8 min # Estimated read time
 image: /images/og-my-article.webp # Path to OG image (in public/)
 tags: # List of tags
   - Tag1
   - Tag2
+
+# Optional fields
+description: Longer semantic summary (~200-300 chars) # BlogPosting JSON-LD description; fallback = first paragraph of content
+modified: 2025-12-01 # YYYY-MM-DD (dateModified + sitemap lastmod); fallback = date
 ---
 ```
+
+**Optional fields:**
+
+- `description` (string) — used as `BlogPosting.description` in JSON-LD. When absent, the schema generator extracts the first paragraph of the post (~300 chars, trimmed at word boundary). `excerpt` is still used as the HTML `<meta description>` / SERP snippet; `description` is the longer semantic summary for schema consumers.
+- `modified` (YYYY-MM-DD) — used as `BlogPosting.dateModified`, `<meta property="article:modified_time">`, and `<lastmod>` in `sitemap.xml`. When absent, all three fall back to `date`. Update this only on real content changes, not cosmetic edits.
 
 ### FAQ Section Structure (Optional but Recommended)
 
