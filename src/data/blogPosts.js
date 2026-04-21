@@ -146,7 +146,10 @@ export function getPostsByLang(lang) {
 export function getAlternatePost(slug) {
   const post = allPosts.find((p) => p.slug === slug);
   if (!post?.alternateSlug) return null;
-  return allPosts.find((p) => p.slug === post.alternateSlug) || null;
+  if (post.alternateSlug === post.slug) return null;
+  const alternate = allPosts.find((p) => p.slug === post.alternateSlug);
+  if (!alternate || alternate.lang === post.lang) return null;
+  return alternate;
 }
 
 /**
