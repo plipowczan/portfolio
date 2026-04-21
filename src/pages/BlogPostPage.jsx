@@ -529,7 +529,11 @@ const BlogPostPage = () => {
   const postUrl = `${SITE_CONFIG.url}${localizedPath(`/blog/${post.slug}`)}`;
   const postDescription =
     post.description || extractFirstParagraph(post.content);
-  const dateModified = post.modified || post.date;
+  const dateModifiedRaw = post.modified || post.date;
+  const toIsoDateTime = (d) =>
+    /^\d{4}-\d{2}-\d{2}$/.test(d) ? `${d}T00:00:00Z` : d;
+  const datePublishedIso = toIsoDateTime(post.date);
+  const dateModifiedIso = toIsoDateTime(dateModifiedRaw);
 
   const blogPostingSchema = {
     "@context": "https://schema.org",
@@ -539,9 +543,10 @@ const BlogPostPage = () => {
     author: {
       "@type": "Person",
       name: post.author,
+      url: SITE_CONFIG.url,
     },
-    datePublished: post.date,
-    dateModified,
+    datePublished: datePublishedIso,
+    dateModified: dateModifiedIso,
     image: `${SITE_CONFIG.url}${post.image}`,
     url: postUrl,
     mainEntityOfPage: {
@@ -566,8 +571,8 @@ const BlogPostPage = () => {
         path={localizedPath(`/blog/${post.slug}`)}
         image={post.image}
         article={true}
-        publishedTime={post.date}
-        modifiedTime={dateModified}
+        publishedTime={datePublishedIso}
+        modifiedTime={dateModifiedIso}
         author={post.author}
       />
       <StructuredData schema={blogPostingSchema} />
