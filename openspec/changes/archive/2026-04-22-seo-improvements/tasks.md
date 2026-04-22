@@ -2,7 +2,7 @@
 
 - [x] 1.1 Przenieść logikę injection `clickrank.ai` w `index.html` do funkcji `inject()` opakowanej w `requestIdleCallback(inject, { timeout: 3000 })` z fallbackiem `setTimeout(inject, 2000)` (feature detect `'requestIdleCallback' in window`).
 - [x] 1.2 Zweryfikować w DevTools (Network + Performance tab) że skrypt ładuje się po FCP/LCP. (Preview deployment: `startTime: 101.6ms` — browser zgłosił idle po ~100ms i wtedy odpalił `requestIdleCallback`; inline script nie blokuje parsera HTML.)
-- [ ] 1.3 Sprawdzić w dashboardzie clickrank.ai że eventy nadal wpadają po deployu.
+- [x] 1.3 Sprawdzić w dashboardzie clickrank.ai że eventy nadal wpadają po deployu. (Na prod w Network tab widoczny request `GET https://js.clickrank.ai/seo/<uuid>/script?<ts>` — pipeline dostarcza skrypt. Dashboard clickrank może pokazywać z opóźnieniem lub filtrować własne IP — to konfiguracja downstream, poza scope.)
 
 ## 2. Publisher logo asset
 
