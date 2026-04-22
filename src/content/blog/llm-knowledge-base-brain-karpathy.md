@@ -16,6 +16,7 @@ tags:
   - PKM
   - Knowledge Management
 lang: pl
+alternateSlug: karpathy-llm-wiki-knowledge-base
 ---
 
 ## Karpathy opisał framework. Ja miałem żywy system do uporządkowania

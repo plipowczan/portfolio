@@ -30,6 +30,7 @@
 
 ## Blog (EN)
 
+- [How Karpathy's LLM Wiki Helped Me Organize My Knowledge Base](https://pawel.lipowczan.pl/en/blog/karpathy-llm-wiki-knowledge-base): A walk-through of a PKM system that evolved from manual Obsidian notes into an agent-maintained knowledge base of 185 notes — the three-layer architecture, progressive disclosure indexes, four core…
 - [5 GitHub Repositories That Will Transform Your Work with Claude Code](https://pawel.lipowczan.pl/en/blog/5-github-repos-claude-code): I test dozens of tools - these 5 repositories truly made a difference in my daily work with Claude Code. Here's my battle-tested list.
 - [My agentic environment — how I'm building an AI OS for two companies](https://pawel.lipowczan.pl/en/blog/agentic-ai-environment-two-companies): Two repositories, eight agents, zero vendor lock-in. How I built an agent system managing finances, legal, and marketing for two companies.
 - [Skills 2.0 - how I'm building a multi-agent system to manage my company](https://pawel.lipowczan.pl/en/blog/skills-2-0-multi-agent-system-company-management): How to go from scattered AI prompts to an organized system of agents managing your company's finances, legal, and marketing.
