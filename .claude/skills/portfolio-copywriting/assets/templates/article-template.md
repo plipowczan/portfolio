@@ -72,13 +72,39 @@ tags:
 2. [Konkretna akcja 2]
 3. [Konkretna akcja 3]
 
+<!--
+  CTA SECTION (przed sekcją "Przydatne zasoby" i FAQ)
+  Format: HTML + Tailwind, kontekstowy do tematu artykulu.
+  ZAWSZE ten layout, link ZAWSZE do /#contact, button ZAWSZE "Umów bezpłatną konsultację".
+  Pelne wytyczne i szablony per kategoria: references/article-structure.md (sekcja "Call to Action (CTA)").
+-->
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    [Kontekstowy tytul - pytanie zwiazane z tematem artykulu, 8-12 slow]
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    [Wartosc - co Pawel oferuje w kontekscie tematu, 1-2 zdania, konkretnie]
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
 ## Przydatne zasoby
 
-- [Nazwa zasobu 1](URL) - krotki opis
-- [Nazwa zasobu 2](URL) - krotki opis
+- [Nazwa zasobu 1](URL) — krotki opis
+- [Nazwa zasobu 2](URL) — krotki opis
 
----
+## FAQ
 
-**Potrzebujesz pomocy z [temat artykulu]?**
+<!-- Patrz docs/faq/FAQ_TEMPLATE.md - 4-6 pytan w <details open> accordion -->
 
-Umow sie na [bezplatna konsultacje](https://automation.house/kontakt) i dowiedz sie jak mozemy zautomatyzowac Twoje procesy.
+<details open>
+<summary>
+
+### [Naturalne pytanie po polsku, 10-25 slow]
+
+</summary>
+
+[Snippet-style odpowiedz, 2-4 zdania, kluczowa info na poczatku.]
+
+</details>

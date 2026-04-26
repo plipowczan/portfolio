@@ -54,7 +54,27 @@ Manually invoke after `/blog-article-writer:execute` completes: `/blog-article-w
 - [ ] H2 headers used for main sections (no lone H3s)
 - [ ] Paragraphs are short (2-4 sentences)
 - [ ] Key concepts bolded
-- [ ] CTA section present
+
+**CTA Validation (canonical Tailwind pattern — see `.claude/skills/portfolio-copywriting/references/article-structure.md`):**
+
+Run all checks below; **any failure is a critical issue** (blocks publication).
+
+- [ ] **CTA exists** — exactly one match for `class="btn-primary inline-block"`:
+      `grep -c 'class="btn-primary inline-block"' {file}` → must equal 1
+- [ ] **Wrapper uses canonical Tailwind classes** — must contain `bg-dark-800/50 backdrop-blur-md`:
+      `grep -c 'bg-dark-800/50 backdrop-blur-md' {file}` → must equal 1
+- [ ] **Link target is `/#contact`** (not external like `automation.house/kontakt`):
+      `grep -E 'href="/#contact"' {file}` → must match the CTA `<a>` line
+- [ ] **Button text is canonical** — PL: `Umów bezpłatną konsultację`, EN: `Book a free consultation`:
+      `grep -E '>(Umów bezpłatną konsultację|Book a free consultation)<' {file}` → must match
+      Reject: `Umów konsultację →`, `Skontaktuj się`, `Get in touch`, custom variants
+- [ ] **No deprecated patterns:**
+      - `grep 'class="cta-section"' {file}` → must be empty (klasa nie istnieje w portfolio Tailwind)
+      - `grep 'style="display: inline-block; background: #00ff9d' {file}` → must be empty (inline style fallback)
+      - `grep 'style="background: linear-gradient' {file}` → must be empty (old wrapper style)
+      - `grep -E 'automation\.house/kontakt' {file}` → must be empty in `<a href>` context (mention in body OK, but never as CTA target)
+- [ ] **Section order:** CTA appears **before** `## Przydatne zasoby` (PL) / `## Useful Resources` (EN), which appears **before** `## FAQ`:
+      verify line numbers via `grep -n '<div class="mt-10\|## Przydatne zasoby\|## Useful Resources\|## FAQ' {file}`
 
 ### Level 3: SEO Validation
 
@@ -176,13 +196,25 @@ Create validation report: `.claude/agents/reports/validation-blog-{slug}.md`
 
 ## Overall Status
 
-✅ VALIDATION PASSED - Article ready for publication
+✅ VALIDATION PASSED - PL article validated, EN translation pending
 
-## Next Steps
+## Next Step (MANDATORY)
 
-1. Review article in browser: http://localhost:3000/blog/{slug}
-2. Optional: Request peer review
-3. Create git commit: git commit -m "feat: Add blog article {title}"
+After PL validation passes, **immediately invoke** the translate command:
+
+```
+/blog-article-writer:translate
+```
+
+This is **not optional**. Every PL article must have an EN counterpart in the same workflow run.
+
+After translate completes:
+
+1. Review both PL + EN in browser:
+   - http://localhost:5173/blog/{pl-slug}
+   - http://localhost:5173/en/blog/{en-slug}
+2. Optional: peer review
+3. Create single git commit covering both files: `feat(blog): add post {N} (PL+EN) — {short title}`
 4. Deploy to production
 ```
 

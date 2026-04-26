@@ -100,8 +100,43 @@ grep -i "komendyfik" src/content/blog/{slug}.md
 **Structure validation:**
 - H2 headers for main sections
 - FAQ section present (## FAQ)
-- CTA section present (btn-primary or similar)
 - Paragraphs are short
+
+**CTA validation (canonical Tailwind pattern — critical, blocks publication):**
+
+Run all checks below; any failure must be reported as ❌ FAILURE in report:
+
+```bash
+# 1. Canonical button class exists exactly once
+test "$(grep -c 'class="btn-primary inline-block"' src/content/blog/{slug}.md)" = "1"
+
+# 2. Canonical wrapper Tailwind classes
+grep -q 'bg-dark-800/50 backdrop-blur-md' src/content/blog/{slug}.md
+
+# 3. Link target is /#contact (not external)
+grep -q 'href="/#contact" class="btn-primary' src/content/blog/{slug}.md
+
+# 4. Canonical button text (PL or EN)
+grep -qE '>(Umów bezpłatną konsultację|Book a free consultation)<' src/content/blog/{slug}.md
+
+# 5. No deprecated patterns
+! grep -q 'class="cta-section"' src/content/blog/{slug}.md
+! grep -q 'style="display: inline-block; background: #00ff9d' src/content/blog/{slug}.md
+! grep -q 'style="background: linear-gradient' src/content/blog/{slug}.md
+! grep -qE 'href="https?://automation\.house' src/content/blog/{slug}.md
+
+# 6. Section order: CTA before "Przydatne zasoby"/"Useful Resources" before FAQ
+# Compare line numbers from: grep -n '<div class="mt-10\|## Przydatne zasoby\|## Useful Resources\|## FAQ' {file}
+```
+
+**Reject patterns (any of these = critical failure):**
+- `<div class="cta-section">` — klasa nie istnieje w portfolio Tailwind config
+- `style="display: inline-block; background: #00ff9d` — inline-style fallback link
+- `style="background: linear-gradient` — old inline-styled wrapper
+- Button text other than canonical: "Umów konsultację →", "Skontaktuj się", "Get in touch", custom variants
+- `href="https://automation.house/kontakt"` jako CTA target (wzmianka w treści OK)
+
+**Reference:** `.claude/skills/portfolio-copywriting/references/article-structure.md` (sekcja "Call to Action (CTA)")
 
 ### Step 3: Generate OG Image
 

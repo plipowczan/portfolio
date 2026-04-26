@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://pawel.lipowczan.pl/</loc>
-    <lastmod>2026-04-22</lastmod>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/"/>
@@ -11,7 +11,7 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/en/</loc>
-    <lastmod>2026-04-22</lastmod>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/"/>
@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/blog</loc>
-    <lastmod>2026-04-22</lastmod>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog"/>
@@ -29,7 +29,7 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/en/blog</loc>
-    <lastmod>2026-04-22</lastmod>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog"/>
@@ -89,6 +89,15 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/cookie-policy"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/cookie-policy"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/cookie-policy"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai"/>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/blog/llm-knowledge-base-brain-karpathy</loc>
@@ -296,6 +305,15 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/chatboty-ai-od-koncepcji-do-wdrozenia"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/ai-chatbots-from-concept-to-deployment"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/chatboty-ai-od-koncepcji-do-wdrozenia"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai"/>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/en/blog/karpathy-llm-wiki-knowledge-base</loc>

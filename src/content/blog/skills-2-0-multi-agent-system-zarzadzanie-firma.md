@@ -344,7 +344,7 @@ Pisałem o operacjonalizacji AI w artykule o [trendach AI 2026](/blog/trendy-ai-
   <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
     Pomagam firmom projektować i wdrażać systemy AI agents — od jednego agenta do pełnej orkiestracji. Sprawdź shared-skills na GitHubie lub umów się na konsultację.
   </p>
-  <a href="/#contact" class="btn-primary inline-block">Umów konsultację →</a>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
 
 ## Przydatne zasoby

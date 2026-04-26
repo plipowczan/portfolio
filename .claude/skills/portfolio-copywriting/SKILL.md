@@ -205,16 +205,32 @@ Kazdy artykul musi zawierac sekcje FAQ zoptymalizowana pod AI/LLM (AEO - Answer 
 
 ### CTA
 
-Kazdy artykul konczy sie:
+Kazdy artykul ma **kontekstowy CTA** PRZED sekcja "Przydatne zasoby" i FAQ.
 
-```markdown
----
+**Format: HTML + Tailwind (NIE markdown).** Link ZAWSZE do `/#contact`, button ZAWSZE "Umów bezpłatną konsultację".
 
-**Potrzebujesz pomocy z [temat]?**
-
-Umow sie na [bezplatna konsultacje](https://automation.house/kontakt)
-i dowiedz sie jak mozemy zautomatyzowac Twoje procesy.
+```html
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    [Kontekstowy tytul - pytanie zwiazane z tematem, 8-12 slow]
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    [Wartosc - co Pawel oferuje w kontekscie tematu, 1-2 zdania]
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
 ```
+
+**Zasady:**
+- ❌ NIE uzywaj markdown CTA (stary format z `automation.house`)
+- ✅ ZAWSZE HTML z Tailwind classes
+- ✅ Kontekstualizuj tytul i opis do tematu artykulu
+- ✅ Link ZAWSZE `/#contact` (nie zewnetrzne serwisy)
+- ✅ Button text ZAWSZE "Umów bezpłatną konsultację"
+
+**Kolejnosc na koncu artykulu:** Wnioski → CTA (HTML div) → `## Przydatne zasoby` → `## FAQ`
+
+Pelne szablony per kategoria (Automatyzacja / No-Code / AI / Code) w [references/article-structure.md](references/article-structure.md) (sekcja "Call to Action (CTA)").
 
 ## Charakterystyczne elementy stylu
 

@@ -1,6 +1,6 @@
 ---
 name: blog-article-writer
-description: Complete blog article creation workflow with automatic OG image generation. Use for creating new blog articles - supports prime (research), plan, execute, validate, and generate-og-prompt subcommands. Automatically generates OG images using Gemini API if GEMINI_API_KEY is configured.
+description: Complete blog article creation workflow with automatic OG image generation and mandatory EN translation. Use for creating new blog articles - supports prime (research), plan, execute, validate, translate, and generate-og-prompt subcommands. Automatically generates OG images using Gemini API if GEMINI_API_KEY is configured. Every PL article gets EN counterpart in the same workflow run.
 license: Apache-2.0
 ---
 
@@ -12,13 +12,14 @@ Complete workflow for creating blog articles on pawel.lipowczan.pl with automati
 
 ### Available Subcommands
 
-| Command                                   | Purpose                                               |
-| ----------------------------------------- | ----------------------------------------------------- |
-| `/blog-article-writer:prime`              | Research and analyze source materials                 |
-| `/blog-article-writer:plan`               | Create detailed article plan                          |
-| `/blog-article-writer:execute`            | Write article following approved plan                 |
-| `/blog-article-writer:validate`           | Validate article + generate OG image + update sitemap |
-| `/blog-article-writer:generate-og-prompt` | Generate Gemini API prompt for OG image               |
+| Command                                   | Purpose                                                        |
+| ----------------------------------------- | -------------------------------------------------------------- |
+| `/blog-article-writer:prime`              | Research and analyze source materials                          |
+| `/blog-article-writer:plan`               | Create detailed article plan                                   |
+| `/blog-article-writer:execute`            | Write article following approved plan                          |
+| `/blog-article-writer:validate`           | Validate article + generate OG image + update sitemap          |
+| `/blog-article-writer:translate`          | **Mandatory** EN translation after PL validation passes        |
+| `/blog-article-writer:generate-og-prompt` | Generate Gemini API prompt for OG image                        |
 
 ### Workflow Overview
 
@@ -33,13 +34,19 @@ Complete workflow for creating blog articles on pawel.lipowczan.pl with automati
    ↓
 
 4. /blog-article-writer:execute
-   ↓ (Write article using portfolio-copywriting skill)
+   ↓ (Write PL article using portfolio-copywriting skill)
 
 5. /blog-article-writer:validate (invoke after execute)
-   ↓ (Validate quality, generate OG image, update sitemap)
+   ↓ (Validate PL quality, generate OG image, update sitemap)
 
-6. Done - Article ready for commit
+6. /blog-article-writer:translate (MANDATORY — run after validate ✅ PASSED)
+   ↓ (Generate EN translation, bidirectional alternateSlug,
+      remap internal links, regenerate sitemap, validate EN)
+
+7. Done — both PL and EN articles ready for single commit
 ```
+
+**Note:** translate step is **not optional**. Every PL article must have an EN counterpart in the same workflow run. This guarantees bilingual symmetry across the blog (PL count = EN count in `sitemap.xml`).
 
 ## Prerequisites
 

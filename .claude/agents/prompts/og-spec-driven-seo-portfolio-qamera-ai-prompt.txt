@@ -1,0 +1,65 @@
+Generated: 2026-04-26
+Article: Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI
+Slug: spec-driven-seo-portfolio-qamera-ai
+Category: Code
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEMINI API PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [Code/SEO] with this exact visual specification:
+
+**Article Context:**
+- Title: Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI
+- Topic: Code / SEO / GEO / spec-driven workflow / two-project case study (Vite portfolio + Next.js SaaS)
+- Theme: Professional developer blog focused on SEO optimization through code-based stacks, AI workflow, and spec-driven changes — control vs platform constraint
+
+**Visual Design Requirements:**
+
+Background:
+- Deep dark gradient from #0a0e1a (bottom) to #151b2b (top)
+- Smooth, professional gradient transition matching portfolio aesthetic
+
+Primary Visual Elements (bright green #00ff9d):
+- Two parallel architectural blueprint frames suggesting "two projects, one process"
+- Abstract geometric shapes suggesting code structure and technical specifications
+- Document/spec panels with horizontal lines (no readable text) suggesting proposal → design → specs → tasks workflow
+- Connecting flow arrows between frames showing transferable patterns
+- Subtle node-connector graph suggesting structured data and JSON-LD enrichment
+
+Secondary Visual Elements (cyan #00b8ff):
+- Sitemap-like tree structure on one side
+- HTTP header stack visualization (rectangular layered bars, no text)
+- Browser viewport outline suggesting Core Web Vitals measurement
+- Subtle "shield" geometry suggesting security headers
+- Data flow lines connecting workflow stages
+
+Style & Effects:
+- Glassmorphism-inspired transparency on document panels
+- Subtle blur effects creating depth between foreground spec sheets and background flow
+- Modern tech aesthetic matching portfolio website
+- Professional, high-end, minimalist composition
+- Clean, uncluttered layout with breathing room
+- Asymmetric balance — left side suggests "process/spec", right side suggests "outcome/measurement"
+
+**CRITICAL CONSTRAINTS:**
+- ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS
+- Pure abstract visual art only
+- NO readable symbols, NO typography, NO linguistic characters
+- Focus on shapes, patterns, gradients, and geometric elements
+- Professional enough for LinkedIn/Twitter social previews
+- Must work as a thumbnail (recognizable at small sizes)
+
+**Aspect Ratio:** 1200x630 pixels (Open Graph standard)
+
+**Mood:** Systematic, methodical, precise, expert, in-control, technical, trustworthy
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+node scripts/generate-image.js \
+  "Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [Code/SEO] with this exact visual specification: **Article Context:** - Title: Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI - Topic: Code / SEO / GEO / spec-driven workflow / two-project case study (Vite portfolio + Next.js SaaS) - Theme: Professional developer blog focused on SEO optimization through code-based stacks, AI workflow, and spec-driven changes — control vs platform constraint **Visual Design Requirements:** Background: - Deep dark gradient from #0a0e1a (bottom) to #151b2b (top) - Smooth, professional gradient transition matching portfolio aesthetic Primary Visual Elements (bright green #00ff9d): - Two parallel architectural blueprint frames suggesting two projects, one process - Abstract geometric shapes suggesting code structure and technical specifications - Document/spec panels with horizontal lines (no readable text) suggesting proposal, design, specs, tasks workflow - Connecting flow arrows between frames showing transferable patterns - Subtle node-connector graph suggesting structured data and JSON-LD enrichment Secondary Visual Elements (cyan #00b8ff): - Sitemap-like tree structure on one side - HTTP header stack visualization (rectangular layered bars, no text) - Browser viewport outline suggesting Core Web Vitals measurement - Subtle shield geometry suggesting security headers - Data flow lines connecting workflow stages Style & Effects: - Glassmorphism-inspired transparency on document panels - Subtle blur effects creating depth between foreground spec sheets and background flow - Modern tech aesthetic matching portfolio website - Professional, high-end, minimalist composition - Clean, uncluttered layout with breathing room - Asymmetric balance — left side suggests process/spec, right side suggests outcome/measurement **CRITICAL CONSTRAINTS:** - ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS - Pure abstract visual art only - NO readable symbols, NO typography, NO linguistic characters - Focus on shapes, patterns, gradients, and geometric elements - Professional enough for LinkedIn/Twitter social previews - Must work as a thumbnail (recognizable at small sizes) **Aspect Ratio:** 1200x630 pixels (Open Graph standard) **Mood:** Systematic, methodical, precise, expert, in-control, technical, trustworthy" \
+  --filename og-spec-driven-seo-portfolio-qamera-ai \
+  --output public/images \
+  --model gemini-3-pro-image-preview

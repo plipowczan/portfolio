@@ -253,10 +253,14 @@ openspec status
 4. **Schematy są customizable** — zdefiniuj własny workflow dopasowany do twojego procesu
 5. **Context injection** — AI zna konwencje twojego projektu bez powtarzania w każdym promcie
 
-<div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 12px; padding: 32px; margin: 32px 0; border: 1px solid #00ff9d33;">
-  <h3 style="color: #00ff9d; margin-top: 0;">Chcesz wdrożyć OPSX w swoim zespole?</h3>
-  <p style="color: #e0e0e0; margin-bottom: 20px;">Pomagam zespołom przejść od chaotycznego promptowania do strukturyzowanego workflow z AI. Napisz, a ustalimy czy OPSX pasuje do waszego procesu.</p>
-  <a href="/#contact" style="display: inline-block; background: #00ff9d; color: #0a0a0a; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Umów bezpłatną konsultację</a>
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz wdrożyć OPSX w swoim zespole?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomagam zespołom przejść od chaotycznego promptowania do strukturyzowanego workflow z AI. Napisz, a ustalimy czy OPSX pasuje do waszego procesu.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
 
 ## Przydatne zasoby
