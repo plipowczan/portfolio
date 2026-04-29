@@ -24,7 +24,8 @@
       "Bash(openspec status:*)",
       "Bash(openspec instructions:*)",
       "Bash(find:*)",
-      "Bash(npx remotion:*)"
+      "Bash(npx remotion:*)",
+      "Bash(sort -t: -k2 -n)"
     ]
   },
   "enableAllProjectMcpServers": true,
