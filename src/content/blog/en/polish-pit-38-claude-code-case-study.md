@@ -62,6 +62,8 @@ It sounds banal. It isn't. Without that separation, every question like _"what w
 
 That's the first multiplier of value — and it works **only because** the convention is described in `CLAUDE.md`. Without that file, this project would have taken as long as doing it manually.
 
+![Workflow funnel: 5 independent data sources converge into /ingest, the agent classifies 5,430 raw transactions into 11 taxable events, the return is filed with the Polish tax office with a 174,895 PLN cost-basis buffer rolled forward to 162,948 PLN](/images/diagram-pit-38-funnel-en.webp)
+
 ## `/ingest`: one command, four steps
 
 I dropped 7 files into `inbox/`: two PIT-8C forms (XTB and SFIO), three CSVs from crypto exchanges, the dividend report, and last year's filed return as historical reference. Command: `/ingest PIT_38`.

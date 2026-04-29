@@ -60,6 +60,8 @@ Brzmi banalnie. Nie jest. Bez tej separacji każde pytanie typu _"jakie były tr
 
 To jest pierwszy multiplikator wartości — i działa **tylko dlatego**, że konwencja jest opisana w `CLAUDE.md`. Bez tego pliku ten projekt zająłby tyle samo czasu co praca ręczna.
 
+![Workflow funnel: 5 niezależnych źródeł danych zbiega się w /ingest, agent klasyfikuje 5430 surowych transakcji do 11 zdarzeń podatkowych, deklaracja trafia do MF z buforem 174 895 PLN przeniesionym na 162 948 PLN](/images/diagram-pit-38-funnel-pl.webp)
+
 ## `/ingest`: jedna komenda, cztery kroki
 
 Wrzuciłem 7 plików do `inbox/`: dwa PIT-8C (XTB i SFIO), trzy CSV-ki z giełd krypto, raport dywidend, zeszłoroczną deklarację jako referencję historyczną. Komenda: `/ingest PIT_38`.
