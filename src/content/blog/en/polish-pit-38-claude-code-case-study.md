@@ -3,7 +3,7 @@ id: 26
 slug: polish-pit-38-claude-code-case-study
 title: "3 days to PIT-38, no accountant. 2 hours were enough."
 excerpt: >-
-  5430 transactions, 5 data sources, one weekend with a Claude Code
+  5430 transactions, 5 data sources, two days with a Claude Code
   agent. A case study of the workflow that replaced my accountant on PIT-38.
 category: AI
 author: Pawel Lipowczan
@@ -27,7 +27,7 @@ Today is 29 April 2026. The PIT-38 filing deadline expires tomorrow. The day bef
 
 My accountant usually handles this. This year I missed the timing window — and that turned out to be one of the more instructive experiences I've had with an agentic workflow.
 
-This article is not about how I learned to file a PIT-38. I knew what to do, because I've been doing it for years (through my accountant). It's about how a **2-hour weekend with a properly configured agent** reproduced the work of an expert service — with better documentation than I usually got from my accountant.
+This article is not about how I learned to file a PIT-38. I knew what to do, because I've been doing it for years (through my accountant). It's about how **two hours of active work with a properly configured agent** reproduced the work of an expert service — with better documentation than I usually got from my accountant.
 
 > Quick context for non-Polish readers: **PIT-38** is the Polish annual tax form for capital gains income — stocks, mutual funds, foreign dividends, and crypto. It's notoriously fiddly because of multi-source income, foreign currency conversion via central bank D-1 rates, and a multi-year cost-basis carry-forward mechanism for crypto. Filing deadline is 30 April for the previous tax year.
 
@@ -37,7 +37,7 @@ I file a PIT-38 every year. Stocks, funds, crypto, foreign dividends. Never alon
 
 This year I missed the timing. Deadline 30 April, and I started gathering documents on 27 April in the evening. No accountant will take a project with a 3-day buffer — and rightly so. I was forced to do it myself.
 
-Two paths: (a) panic and a hasty last-minute filing, or (b) test whether the AI workflow I use to build things for clients can replace my accountant in a single weekend. I picked (b). It worked.
+Two paths: (a) panic and a hasty last-minute filing, or (b) test whether the AI workflow I use to build things for clients can replace my accountant in two days. I picked (b). It worked.
 
 That changes the article's stakes. This is **not** a "lifehack for people who don't want to hire an accountant." It's a **case study of when AI automation realistically reaches into expert-level service work** that until now was handled by humans.
 
@@ -81,7 +81,7 @@ The lesson at this stage: `/ingest` is **not batch processing**. The value lives
 
 ## Six things I didn't expect from the agent
 
-This is the heart of the article. Six concrete things the agent did this weekend that, had I worked alone with Excel, I either wouldn't have done at all or would have done with errors.
+This is the heart of the article. Six concrete things the agent did across those two days that, had I worked alone with Excel, I either wouldn't have done at all or would have done with errors.
 
 ### 1. The 174,895.50 PLN buffer — auto-pulled from PIT-38 2024
 
@@ -113,7 +113,7 @@ The LLM's value here is not in **summing**. It's in **classification**. Each of 
 
 > I won't go into specific transaction types or legal interpretations — that's beyond the scope of this case study and requires individual consultation with a tax advisor. I'm only showing the **scale** of the classification work.
 
-Without that classification, trying to file 5,430 raw CSV rows manually would have been either impossible in a weekend or would have led to a dramatic overstatement of the tax base — if I had treated every transaction as a disposal. The scale that the LLM reduces here is non-trivial.
+Without that classification, trying to file 5,430 raw CSV rows manually would have been either impossible in two days or would have led to a dramatic overstatement of the tax base — if I had treated every transaction as a disposal. The scale that the LLM reduces here is non-trivial.
 
 ### 4. Central bank D-1 FX rates — 10 edge cases with a holiday calendar
 
@@ -143,7 +143,7 @@ In this specific case the tax-office portal corrected my error for free. In anot
 
 ### 6. Ingest as progressive discovery — the strongest beat
 
-The most valuable thing the agent did this weekend was not summing 5,000 transactions. It was **asking about things that weren't on my list**.
+The most valuable thing the agent did across those two days was not summing 5,000 transactions. It was **asking about things that weren't on my list**.
 
 I didn't have a list of _"what's needed for PIT-38."_ I uploaded what I had at hand. After each iteration, the agent said: _"OK, this is here, but X is missing"_ or _"watch out, this implies Y, check Z."_
 
@@ -216,7 +216,7 @@ If you haven't filed your PIT-38 yet and you have multi-source income, here's a 
 **After the deadline**, in three profiles:
 
 - **Simple PIT (one PIT-37 from employment)** — Twój e-PIT and that's it. Don't overcomplicate.
-- **2-3 sources (stocks + crypto)** — worth considering a weekend to set up a workflow like this.
+- **2-3 sources (stocks + crypto)** — worth considering an evening or two to set up a workflow like this.
 - **5+ sources and a history of carried losses** — this is **your scenario**. The crypto cost-basis buffer can be worth 5-50k PLN in overlooked tax annually. The setup pays for itself.
 
 The value of an LLM grows not linearly but **in jumps**, when the repo's structures are legible to it. Without `CLAUDE.md` and project conventions, this project would have taken as long as working with an accountant. With them — two hours. That is exactly the ROI range that can't be sold via generic content marketing — because it requires the infrastructure to be there first.

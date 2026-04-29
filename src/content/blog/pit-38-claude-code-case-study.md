@@ -3,7 +3,7 @@ id: 26
 slug: pit-38-claude-code-case-study
 title: "Miałem 3 dni do PIT-38 bez księgowej. Wystarczyły 2 godziny."
 excerpt: >-
-  5430 transakcji, 5 źródeł danych, 1 weekend z agentem Claude Code.
+  5430 transakcji, 5 źródeł danych, 2 dni z agentem Claude Code.
   Case study workflow, który zastąpił księgową przy rozliczeniu PIT-38.
 category: AI
 author: Pawel Lipowczan
@@ -27,7 +27,7 @@ Dziś jest 29 kwietnia 2026. Termin złożenia PIT-38 mija jutro. Przedwczoraj w
 
 Zwykle robi to moja księgowa. W tym roku przegapiłem timing — i to się okazało jednym z bardziej pouczających doświadczeń, jakie miałem z agentic workflow.
 
-Ten artykuł nie jest o tym, jak nauczyłem się rozliczać PIT-38. Wiedziałem co robić, bo robię to od lat (przez księgową). Jest o tym, jak **2-godzinny weekend z dobrze poustawianym agentem** odtworzył pracę usługi eksperckiej — z lepszym poziomem dokumentacji niż dostawałem od księgowej.
+Ten artykuł nie jest o tym, jak nauczyłem się rozliczać PIT-38. Wiedziałem co robić, bo robię to od lat (przez księgową). Jest o tym, jak **dwie godziny aktywnej pracy z dobrze poustawianym agentem** odtworzyły pracę usługi eksperckiej — z lepszym poziomem dokumentacji niż dostawałem od księgowej.
 
 ## Zwykle PIT-38 robi mi księgowa
 
@@ -35,7 +35,7 @@ PIT-38 składam co roku. Papiery wartościowe, fundusze, krypto, dywidendy zagra
 
 W tym roku przegapiłem timing. Termin 30 kwietnia, ja zacząłem ogarniać dokumenty 27 kwietnia wieczorem. Księgowa nie weźmie projektu z 3-dniowym buforem — i słusznie. Byłem zmuszony zrobić to sam.
 
-Dwa wyjścia: (a) panika i prowizoryczna deklaracja na ostatni moment, albo (b) sprawdzenie, czy ten cały AI-workflow, którym buduję rzeczy dla klientów, może zastąpić księgową w jeden weekend. Wybrałem (b). Działało.
+Dwa wyjścia: (a) panika i prowizoryczna deklaracja na ostatni moment, albo (b) sprawdzenie, czy ten cały AI-workflow, którym buduję rzeczy dla klientów, może zastąpić księgową w dwa dni. Wybrałem (b). Działało.
 
 To zmienia stake'a artykułu. To nie jest "lifehack dla osób, które nie chcą iść do księgowej". To **case study o tym, kiedy automatyzacja AI realnie podchodzi pod usługę ekspercką**, którą do tej pory robił człowiek.
 
@@ -79,7 +79,7 @@ Lekcja na tym etapie: `/ingest` to **nie batch processing**. Wartość jest w p�
 
 ## Sześć rzeczy, których nie spodziewałem się od agenta
 
-To jest serce tego artykułu. Sześć konkretnych rzeczy, które agent zrobił w ten weekend, a których — gdybym pracował sam z Excelem — albo bym nie zrobił, albo zrobiłbym z błędem.
+To jest serce tego artykułu. Sześć konkretnych rzeczy, które agent zrobił w te dwa dni, a których — gdybym pracował sam z Excelem — albo bym nie zrobił, albo zrobiłbym z błędem.
 
 ### 1. Bufor 174 895,50 PLN — auto-pull z PIT-38 2024
 
@@ -111,7 +111,7 @@ Wartość LLM nie jest tutaj w **sumowaniu**. Wartość jest w **klasyfikacji**.
 
 > Nie wchodzę w szczegóły konkretnych typów transakcji ani interpretacji prawnej — to wykracza poza ten case study i wymaga indywidualnej konsultacji z doradcą podatkowym. Pokazuję jedynie skalę pracy klasyfikacyjnej.
 
-Bez tej klasyfikacji próba ręcznego rozliczenia 5430 wierszy CSV byłaby albo niemożliwa w weekend, albo prowadziłaby do dramatycznego zawyżenia podstawy — gdybym potraktował każdą transakcję jako zbycie. Skala, którą LLM redukuje, jest nietrywialna.
+Bez tej klasyfikacji próba ręcznego rozliczenia 5430 wierszy CSV byłaby albo niemożliwa w dwa dni, albo prowadziłaby do dramatycznego zawyżenia podstawy — gdybym potraktował każdą transakcję jako zbycie. Skala, którą LLM redukuje, jest nietrywialna.
 
 ### 4. Kursy NBP D-1 — 10 edge cases z kalendarzem świąt
 
@@ -141,7 +141,7 @@ W tym konkretnym przypadku Twój e-PIT poprawił mi błąd za darmo. W innym sce
 
 ### 6. Ingest jako progresywne odkrywanie — najmocniejszy beat
 
-Najbardziej wartościowa rzecz, jaką agent zrobił w ten weekend, to nie sumowanie 5 tysięcy transakcji. To było **pytanie o rzeczy, których nie miałem na liście**.
+Najbardziej wartościowa rzecz, jaką agent zrobił w te dwa dni, to nie sumowanie 5 tysięcy transakcji. To było **pytanie o rzeczy, których nie miałem na liście**.
 
 Nie miałem listy _"co potrzeba do PIT-38"_. Wrzucałem to, co miałem pod ręką. Po każdej iteracji agent mówił: _"OK, to jest, ale brakuje X"_ albo _"uwaga, to oznacza Y, sprawdź Z"_.
 
@@ -214,7 +214,7 @@ Jeśli jeszcze nie złożyłeś PIT-38, a masz multi-source przychody, oto minim
 **Po terminie**, w trzech profilach:
 
 - **Prosty PIT (1 PIT-37 z pracy)** — Twój e-PIT i tyle. Nie kombinuj.
-- **2-3 źródła (akcje + krypto)** — warto rozważyć weekend na setup workflow zbliżony do tego.
+- **2-3 źródła (akcje + krypto)** — warto rozważyć 1-2 wieczory na setup workflow zbliżony do tego.
 - **5+ źródeł i historia strat z lat ubiegłych** — to **TWÓJ scenariusz**. Bufor kosztów krypto może być wart 5-50k PLN przeoczonego podatku rocznie. Setup się zwraca.
 
 Wartość LLM rośnie nie liniowo, ale **skokowo**, gdy struktury repo są dla niego czytelne. Bez `CLAUDE.md` i konwencji projektowych ten projekt zająłby tyle samo czasu co praca z księgowym. Z nimi — dwie godziny. To jest dokładnie ten zakres ROI, którego nie da się sprzedać generic content marketingiem — bo wymaga, żeby najpierw stała tam infrastruktura.
