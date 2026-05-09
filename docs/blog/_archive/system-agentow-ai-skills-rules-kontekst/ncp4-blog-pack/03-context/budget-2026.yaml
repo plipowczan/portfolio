@@ -1,0 +1,360 @@
+# 200IQ LABS — Budget Plan 2026
+# P&L plan na rok kalendarzowy w accrual basis.
+# Koszt = miesiąc powstania obowiązku, NIE miesiąc płatności.
+#
+# Status:
+#   draft  — świeżo z bootstrap, wymaga review zanim source of truth
+#   active — finalizowany, używany do plan vs actuals w _dashboard.md
+#
+# Każda kategoria ma:
+#   description       — co dokładnie wchodzi w skład kategorii
+#   <unit>:           — tag business unit ('qamera' | '200iq' | '' = brak/total)
+#     <mm>: { value, note }  — wartość per miesiąc + opcjonalny komentarz
+
+year: 2026
+status: draft
+seeded_from:
+  source: run-rate + bottom-up correction
+  period: "2026-03..2026-04"
+  generated: 2026-05-04
+  revised: 2026-05-04
+  note: "v2: po feedback Pawła — Meta ads off, revenue ramp aggressive (break-even target Sep), legal corrections, opex/saas description added."
+
+categories:
+
+  # ============================================================
+  # REVENUE
+  # ============================================================
+
+  revenue/subscriptions:
+    description: |
+      MRR Qamery — subskrypcje SaaS:
+        - Starter: 49 PLN/mc
+        - Pro: 399 PLN/mc (zgodnie z finances.md)
+      Plan zakłada wzrost o 2 Starter + 1 Pro miesięcznie od czerwca (sprzedaż bezpośrednia).
+    qamera:
+      "01": { value: 0,    note: "" }
+      "02": { value: 0,    note: "" }
+      "03": { value: 49,   note: "1 sub Starter" }
+      "04": { value: 98,   note: "2 suby Starter (49 × 2)" }
+      "05": { value: 196,  note: "4 suby Starter (49 × 4) — sprzedaż bezpośrednia rusza" }
+      "06": { value: 693,  note: "6 Starter (294) + 1 Pro (399). Wzrost: +2 Starter +1 Pro" }
+      "07": { value: 1190, note: "8 Starter (392) + 2 Pro (798)" }
+      "08": { value: 1687, note: "10 Starter (490) + 3 Pro (1197)" }
+      "09": { value: 2184, note: "12 Starter (588) + 4 Pro (1596)" }
+      "10": { value: 2681, note: "14 Starter (686) + 5 Pro (1995)" }
+      "11": { value: 3178, note: "16 Starter (784) + 6 Pro (2394)" }
+      "12": { value: 3675, note: "18 Starter (882) + 7 Pro (2793)" }
+
+  revenue/credits:
+    description: |
+      Pay-per-use credit packs (jednorazowy zakup pakietu generacji).
+      Q1 driver: ~3756 PLN w marcu z credit packs (ofert startowych).
+      Plan H2: ramp do break-even (wrzesień) + zysk od października.
+      ⚠️ ZAŁOŻENIE: agresywny target — wymaga walidacji z Przemkiem.
+    qamera:
+      "01": { value: 0,    note: "" }
+      "02": { value: 0,    note: "" }
+      "03": { value: 3756, note: "Główny driver Q1 — credit packs z ofertą startową" }
+      "04": { value: 0,    note: "Brak sprzedaży kredytów (skorygowane: poprzednia wartość 1500 była błędna)" }
+      "05": { value: 200,  note: "Start sprzedaży bezpośredniej, mały wolumen" }
+      "06": { value: 800,  note: "Ramp" }
+      "07": { value: 2000, note: "Ramp" }
+      "08": { value: 4000, note: "Push do break-even Q3" }
+      "09": { value: 8000, note: "Target break-even — łącznie z subs i managed pokrywamy burn" }
+      "10": { value: 11000, note: "Powyżej break-even — początek zysku" }
+      "11": { value: 13000, note: "" }
+      "12": { value: 15000, note: "" }
+
+  revenue/managed:
+    description: |
+      Managed service — pojedyncze zlecenia produkcji content-u dla klientów.
+      Cennik: 50 PLN/produkt. Pilot LAVEL od kwietnia.
+      Plan: rozszerzenie LAVEL + akwizycja 1-2 nowych klientów managed w H2.
+    qamera:
+      "01": { value: 0,    note: "" }
+      "02": { value: 0,    note: "" }
+      "03": { value: 0,    note: "" }
+      "04": { value: 500,  note: "LAVEL pilot — 50 PLN/produkt × 10 produktów" }
+      "05": { value: 500,  note: "LAVEL pilot kontynuacja" }
+      "06": { value: 500,  note: "" }
+      "07": { value: 1000, note: "Target: rozszerzenie LAVEL + 1 nowy klient" }
+      "08": { value: 1500, note: "" }
+      "09": { value: 2000, note: "" }
+      "10": { value: 2500, note: "" }
+      "11": { value: 3000, note: "" }
+      "12": { value: 3500, note: "" }
+
+  # ============================================================
+  # COGS — koszty wytworzenia przychodu
+  # ============================================================
+
+  cogs/ai-generation:
+    description: |
+      AI APIs używane w produkcji output-u Qamery — usage-based:
+        - BytePlus (Kling AI dla video)
+        - Pollo.ai
+        - Replicate
+        - GCP (compute usage) — 1000-1600 PLN/mc historycznie
+      Skaluje z aktywnością płacących klientów (subs + credits + managed),
+      ALE część (GCP) to też generowanie własnego content marketingowego
+      i materiałów promocyjnych dla klientów (demo / showcase).
+
+      ✅ KOREKTA po close 2026-04: plan 700 PLN był błędny.
+         Realny run-rate GCP = 1000-1600 PLN. Plan May-Dec podniesiony.
+         GCP nie będzie teraz optymalizowany (świadoma decyzja).
+    qamera:
+      "01": { value: 0,    note: "" }
+      "02": { value: 0,    note: "" }
+      "03": { value: 600,  note: "Run-rate marzec" }
+      "04": { value: 1700, note: "Actual: 1709 (1692 GCP + 18 BytePlus). Plan 700 błędny — skorygowane retro." }
+      "05": { value: 1800, note: "GCP 1500 + ramp BytePlus + content marketingowy generowany na GCP" }
+      "06": { value: 1800, note: "" }
+      "07": { value: 2000, note: "Skaluje z customer activity + content marketingowy" }
+      "08": { value: 2300, note: "" }
+      "09": { value: 2700, note: "Wzrost z ramp credits + sales materials" }
+      "10": { value: 3100, note: "" }
+      "11": { value: 3400, note: "" }
+      "12": { value: 3800, note: "" }
+
+  cogs/hosting:
+    description: |
+      ⚠️  Faktycznie 0 — hosting Qamery via Vercel jest w `opex/saas`
+      (cross-ref: tech-stack/_dashboard.md → Vercel 145 PLN/mc).
+      Cloudflare ~140 USD/rok to koszt **domeny** (nie hostingu) →
+      przeniesione do `opex/admin` (amortyzacja roczna ~50 PLN/mc).
+    qamera:
+      "01": { value: 0, note: "" }
+      "02": { value: 0, note: "" }
+      "03": { value: 0, note: "Vercel = opex/saas; Cloudflare = opex/admin (domena)" }
+      "04": { value: 0, note: "" }
+      "05": { value: 0, note: "" }
+      "06": { value: 0, note: "" }
+      "07": { value: 0, note: "" }
+      "08": { value: 0, note: "" }
+      "09": { value: 0, note: "" }
+      "10": { value: 0, note: "" }
+      "11": { value: 0, note: "" }
+      "12": { value: 0, note: "" }
+
+  cogs/payment-fees:
+    description: |
+      Koszty obsługi płatności:
+        - Stripe: aktualnie zwolnieni z prowizji (waiver)
+        - FX cost: ~20 PLN/przelew Stripe → Revolut (z Santander = 0)
+      Niski wpływ dopóki nie urośnie wolumen przelewów na Revolut.
+    qamera:
+      "01": { value: 0,   note: "" }
+      "02": { value: 0,   note: "" }
+      "03": { value: 0,   note: "Stripe waiver, revenue do Santander = 0 fee" }
+      "04": { value: 0,   note: "" }
+      "05": { value: 50,  note: "Rezerwa na ad-hoc FX przelewy do Revolut" }
+      "06": { value: 50,  note: "" }
+      "07": { value: 60,  note: "" }
+      "08": { value: 80,  note: "" }
+      "09": { value: 100, note: "Wzrost wolumenu = więcej FX przelewów" }
+      "10": { value: 120, note: "" }
+      "11": { value: 150, note: "" }
+      "12": { value: 180, note: "" }
+
+  # ============================================================
+  # OPEX
+  # ============================================================
+
+  opex/people:
+    description: |
+      UoD cofounderów:
+        - Paweł Lipowczan (CTO): 4000 PLN/mc
+        - Przemek Trybała (CEO): 4000 PLN/mc
+      Brak innych kontraktorów. Zaległe luty-kwiecień są w accrued-liabilities.yaml,
+      cash-out w maju (24k jednorazowo).
+    "":
+      "01": { value: 0,    note: "" }
+      "02": { value: 8000, note: "UoD Paweł 4000 + Przemek 4000 (zaległe — accrued)" }
+      "03": { value: 8000, note: "UoD Paweł 4000 + Przemek 4000 (zaległe)" }
+      "04": { value: 8000, note: "UoD Paweł 4000 + Przemek 4000 (zaległe)" }
+      "05": { value: 8000, note: "UoD bieżący; cash-out zaległych w cash-flow-2026.yaml" }
+      "06": { value: 8000, note: "" }
+      "07": { value: 8000, note: "" }
+      "08": { value: 8000, note: "" }
+      "09": { value: 8000, note: "" }
+      "10": { value: 8000, note: "" }
+      "11": { value: 8000, note: "" }
+      "12": { value: 8000, note: "" }
+
+  opex/marketing:
+    description: |
+      ⚠️  KOREKTA po close 2026-04: zmiana strategii marketingowej (Meta off,
+         dotychczasowy kierunek był błędny). Nowy kierunek do dopracowania
+         przez Przemka.
+
+      Tymczasowo: flat 3000 PLN/mc od kwietnia do grudnia (bez progresywnego
+      zwiększania — szczegóły TBD). Po finalizacji nowej strategii: revize.
+    qamera:
+      "01": { value: 0,    note: "" }
+      "02": { value: 0,    note: "" }
+      "03": { value: 1200, note: "Historia: Meta ads marzec (przed wyłączeniem)" }
+      "04": { value: 3000, note: "Actual: 2996 (Meta 2750 + Infoguru bilety 246). Plan zaktualizowany do 3000 jako flat baseline." }
+      "05": { value: 3000, note: "TBD — Przemek dopracowuje nową strategię (Meta off, alternatywne kanały)" }
+      "06": { value: 3000, note: "" }
+      "07": { value: 3000, note: "" }
+      "08": { value: 3000, note: "" }
+      "09": { value: 3000, note: "" }
+      "10": { value: 3000, note: "" }
+      "11": { value: 3000, note: "" }
+      "12": { value: 3000, note: "" }
+
+  opex/saas:
+    description: |
+      Stałe subskrypcje SaaS (recurring monthly). Source of truth: tech-stack/_dashboard.md.
+      Wartość = 1633 PLN/mc = tech-stack total (2677) − inFakt (1044, w opex/admin).
+
+      ⚠️ KOREKTA po close 2026-04: actual 2112 PLN — Cursor billowany 4×/mc (716 PLN
+         vs plan 217). Decyzja: prawdopodobna migracja Cursor → Claude (sztywny
+         cap ~90 EUR/mc = ~390 PLN). Decision w maju.
+         Run-rate przed migracją: ~2100 PLN/mc. Po migracji: ~1750 PLN/mc.
+
+      Co wchodzi (active w tech-stack, fixed monthly):
+        Productivity:    Google Workspace (227), ClickUp (152), 1Password (36),
+                         Hunter (213)
+        Dev-tools:       Cursor (217), GitHub (14)
+        Infrastructure:  Vercel (145), Supabase (127)
+                         + free: Hetzner, Resend, RabbitMQ
+        Media:           TopazLabs (181), CapCut (150), Suno (43)
+        Razem fixed:     ~1505 PLN/mc
+
+      Reszta do 1633 to drobne / approximacja vs aktualne dane.
+
+      ❌ NIE wchodzi w opex/saas (oddzielnie):
+        - inFakt (1044) → opex/admin
+        - BytePlus, Pollo, Replicate, GCP (usage-based AI) → cogs/ai-generation
+        - Meta Ads (variable) → opex/marketing
+        - Cloudflare (domeny) → opex/admin
+
+      🔍 ZALECENIE: regularnie aktualizować tech-stack/_dashboard.md (single source).
+    "":
+      "01": { value: 0,    note: "" }
+      "02": { value: 1633, note: "Tech-stack SaaS bez inFakt (cross-ref)" }
+      "03": { value: 1633, note: "" }
+      "04": { value: 1633, note: "" }
+      "05": { value: 1633, note: "" }
+      "06": { value: 1633, note: "" }
+      "07": { value: 1633, note: "" }
+      "08": { value: 1633, note: "" }
+      "09": { value: 1633, note: "" }
+      "10": { value: 1633, note: "" }
+      "11": { value: 1633, note: "" }
+      "12": { value: 1633, note: "" }
+
+  opex/office:
+    description: |
+      Czynsz biuro przez PLSoft — 615 PLN/mc, stały koszt.
+    "":
+      "01": { value: 0,   note: "" }
+      "02": { value: 615, note: "Rent biuro via PLSoft" }
+      "03": { value: 615, note: "" }
+      "04": { value: 615, note: "" }
+      "05": { value: 615, note: "" }
+      "06": { value: 615, note: "" }
+      "07": { value: 615, note: "" }
+      "08": { value: 615, note: "" }
+      "09": { value: 615, note: "" }
+      "10": { value: 615, note: "" }
+      "11": { value: 615, note: "" }
+      "12": { value: 615, note: "" }
+
+  opex/admin:
+    description: |
+      Administracja spółki:
+        - inFakt (księgowość):       1044 PLN/mc
+        - Revolut Business (bank):    100 PLN/mc (50 plan + 50 expenses app)
+        - Domeny Cloudflare:         ~50 PLN/mc (~140 USD/rok amortyzacja)
+        Razem:                      ~1194 PLN/mc
+    "":
+      "01": { value: 0,    note: "" }
+      "02": { value: 1194, note: "inFakt 1044 + Revolut 100 + domeny 50" }
+      "03": { value: 1194, note: "" }
+      "04": { value: 1194, note: "" }
+      "05": { value: 1194, note: "" }
+      "06": { value: 1194, note: "" }
+      "07": { value: 1194, note: "" }
+      "08": { value: 1194, note: "" }
+      "09": { value: 1194, note: "" }
+      "10": { value: 1194, note: "" }
+      "11": { value: 1194, note: "" }
+      "12": { value: 1194, note: "" }
+
+  opex/legal:
+    description: |
+      Obsługa prawna:
+        - Luty: 7380 PLN brutto (6000 netto) — Creativa Legal, umowa wspólników
+                + obsługa emisji akcji (już opłacone, pokrywa też część czerwcowej operacji)
+        - Kwiecień: 600 PLN netto — utworzenie Rejestru Akcjonariuszy (kancelaria Smolski)
+        - Maj-Czerwiec: rezerwa ~1000 PLN/mc — ewentualne zmiany w rejestrze
+                wynikające z emisji akcji (zgodnie z 7-dniowym obowiązkiem KSH)
+        - Lipiec-Grudzień: 0 (brak zaplanowanych usług)
+        - 2027: 1200 PLN netto — odnowienie rejestru (poza scope tego planu)
+
+      ⚠️ DO POTWIERDZENIA: czy luty 7380 to brutto czy netto w P&L?
+         (Sugeruję brutto = 7380 dla spójności cash basis przy małej skali.)
+    "":
+      "01": { value: 0,    note: "" }
+      "02": { value: 7380, note: "Creativa Legal — umowa wspólników + obsługa emisji akcji (one-off, brutto)" }
+      "03": { value: 0,    note: "" }
+      "04": { value: 600,  note: "Utworzenie Rejestru Akcjonariuszy — kancelaria Smolski (netto)" }
+      "05": { value: 1000, note: "Rezerwa: ewentualne zmiany w rejestrze przy emisji akcji" }
+      "06": { value: 1000, note: "Rezerwa: zmiany w rejestrze po emisji (Art. 300³³ KSH 7-dniowy obowiązek)" }
+      "07": { value: 0,    note: "" }
+      "08": { value: 0,    note: "" }
+      "09": { value: 0,    note: "" }
+      "10": { value: 0,    note: "" }
+      "11": { value: 0,    note: "" }
+      "12": { value: 0,    note: "" }
+
+  # ============================================================
+  # TAX (placeholder — pre-revenue, niski wpływ w 2026)
+  # ============================================================
+
+  tax:
+    description: |
+      Podatki spółki:
+        - CIT: 0 PLN dopóki strata (pre-revenue)
+        - VAT: kompensowany (input ~ output)
+        - ZUS: w UoD, nie tutaj
+      Brak istotnego wpływu w 2026.
+    "":
+      "01": { value: 0, note: "" }
+      "02": { value: 0, note: "" }
+      "03": { value: 0, note: "" }
+      "04": { value: 0, note: "" }
+      "05": { value: 0, note: "" }
+      "06": { value: 0, note: "" }
+      "07": { value: 0, note: "" }
+      "08": { value: 0, note: "" }
+      "09": { value: 0, note: "" }
+      "10": { value: 0, note: "" }
+      "11": { value: 0, note: "" }
+      "12": { value: 0, note: "" }
+
+  # ============================================================
+  # ONE-OFF (rezerwa na nieprzewidziane jednorazowe wydatki)
+  # ============================================================
+
+  one-off:
+    description: |
+      Rezerwa na nieprzewidziane jednorazowe wydatki nie pasujące do innych kategorii.
+      ❌ NIE są tu: Topaz, Suno (recurring SaaS — w opex/saas).
+      Mała kwota (200 PLN/mc) — sygnał gdy systematycznie przekraczane = ukryta nowa kategoria.
+    "":
+      "01": { value: 0,   note: "" }
+      "02": { value: 0,   note: "" }
+      "03": { value: 0,   note: "" }
+      "04": { value: 0,   note: "" }
+      "05": { value: 200, note: "Rezerwa nieprzewidziane" }
+      "06": { value: 200, note: "" }
+      "07": { value: 200, note: "" }
+      "08": { value: 200, note: "" }
+      "09": { value: 200, note: "" }
+      "10": { value: 200, note: "" }
+      "11": { value: 200, note: "" }
+      "12": { value: 200, note: "" }

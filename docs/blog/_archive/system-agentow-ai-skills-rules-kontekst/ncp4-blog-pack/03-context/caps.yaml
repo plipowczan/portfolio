@@ -1,0 +1,41 @@
+# 200IQ LABS — Budget Caps
+# Limity per variable category z tolerance band.
+# Recurring categories (people, office, saas, admin) NIE są objęte caps —
+# to są planowane wartości, nie limity (jak chcesz zmienić → zmieniasz plan).
+#
+# Tolerance band:
+#   - actual <= cap                            → ✅ w normie
+#   - cap < actual <= cap × (1 + tolerance)    → ⚠️  warning (powyżej cap, w toleracji)
+#   - actual > cap × (1 + tolerance)           → 🚨 alert (powyżej cap + toleracji)
+#
+# Ewaluacja w PHASE 6 (REGENERATE) close — wynik w _alerts.md.
+# Brak mid-month polling — caps są post-close.
+
+defaults:
+  tolerance: 0.20   # ±20% domyślnie
+
+caps:
+
+  opex/marketing:
+    monthly_cap: 1500
+    tolerance: 0.30
+    note: "Ads bywają zmienne (testy kreatywów, scaling), daję więcej luzu"
+    applies_from: 2026-05
+
+  cogs/ai-generation:
+    monthly_cap: 1000
+    tolerance: 0.50
+    note: "AI usage zależy od user activity — duża tolerancja, monitoring trendu"
+    applies_from: 2026-05
+
+  one-off:
+    monthly_cap: 500
+    tolerance: 0.20
+    note: "Jednorazowe wydatki — sygnał gdy rośnie systematycznie (= ukryta nowa kategoria)"
+    applies_from: 2026-05
+
+  opex/legal:
+    quarterly_cap: 5000
+    tolerance: 0.30
+    note: "Legal idzie skokowo (kancelarie, notariusz, rejestr akcjonariuszy). Q-wise sensowniejsze. Q2 obejmuje emisję — może wymagać podniesienia."
+    applies_from: 2026-Q2

@@ -1,0 +1,87 @@
+# 200IQ LABS — Cash Flow 2026
+# Tracking timing płatności + financing activities (oddzielnie od P&L).
+#
+# Sekcje:
+#   financing          — equity issuance, shareholder loans, grants
+#                        (NIE są revenue — zmiana struktury kapitału)
+#   accruals_payments  — planowane płatności zaległych zobowiązań
+#                        (cross-ref do accrued-liabilities.yaml)
+#
+# Status financing event:
+#   confirmed — podpisane dokumenty / pewne; wliczane do bazowego forecast
+#   planned   — intencja; opcjonalnie scenariusz "z/bez"
+#   realized  — faktycznie zrealizowane (cash wpłynął/wypłynął)
+
+year: 2026
+
+financing:
+
+  # ---- Pożyczki wspólników (zrealizowane) ----
+  - date: 2026-02-18
+    type: shareholder_loan
+    amount: 10000
+    currency: PLN
+    lender: "Paweł Lipowczan"
+    status: realized
+    reference: "Umowa pożyczki z dnia 2026-02-18"
+    note: ""
+
+  - date: 2026-03-02
+    type: shareholder_loan
+    amount: 10000
+    currency: PLN
+    lender: "Paweł Lipowczan"
+    status: realized
+    reference: "Umowa pożyczki z dnia 2026-03-02"
+    note: ""
+
+  - date: 2026-04-07
+    type: shareholder_loan
+    amount: 300
+    currency: PLN
+    lender: "Paweł Lipowczan"
+    status: realized
+    reference: "Topup Revolut, transfer 'From PAWEL L'"
+    note: "Mała pożyczka topup (cash-flow potwierdzony w transactions/2026-04.yaml)"
+
+  - date: 2026-04-28
+    type: shareholder_loan
+    amount: 20000
+    currency: PLN
+    lender: "Paweł Lipowczan"
+    status: realized
+    reference: "Transfer Revolut 'From PAWEL L'"
+    note: "Przygotowanie cash na rozliczenie zaległych UoD (planowane maj 24000 PLN)"
+
+  - date: 2026-04-29
+    type: shareholder_loan
+    amount: 34000
+    currency: PLN
+    lender: "Paweł Lipowczan"
+    status: realized
+    reference: "Transfer Revolut 'From PAWEL L'"
+    note: "Przygotowanie cash na maj (UoD payouts + bieżące koszty)"
+
+  # ---- Emisja akcji (confirmed, czerwiec 2026) ----
+  - date: 2026-06-30   # Roboczo koniec czerwca; aktualizować po podpisaniu uchwały
+    type: equity_issuance
+    amount: 100000
+    currency: PLN
+    status: confirmed
+    note: "Planowana emisja akcji czerwiec 2026, confirmed. Wpływ na cash position bez wpływu na EBITDA."
+
+accruals_payments:
+
+  # ---- Maj 2026: rozliczenie 6 zaległych UoD (luty-kwiecień) ----
+  - date: 2026-05   # Konkretny dzień zostanie uzupełniony przez ACCRUALS CHECK podczas close
+    amount: 24000
+    currency: PLN
+    status: planned
+    note: "Rozliczenie 6 zaległych UoD: Paweł × 3 mc + Przemek × 3 mc, każdy 4000 PLN"
+    refs:
+      - "accrued-liabilities.yaml::uod-pawel-2026-02"
+      - "accrued-liabilities.yaml::uod-pawel-2026-03"
+      - "accrued-liabilities.yaml::uod-pawel-2026-04"
+      - "accrued-liabilities.yaml::uod-przemek-2026-02"
+      - "accrued-liabilities.yaml::uod-przemek-2026-03"
+      - "accrued-liabilities.yaml::uod-przemek-2026-04"

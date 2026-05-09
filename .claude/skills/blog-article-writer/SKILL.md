@@ -19,6 +19,7 @@ Complete workflow for creating blog articles on pawel.lipowczan.pl with automati
 | `/blog-article-writer:execute`            | Write article following approved plan                          |
 | `/blog-article-writer:validate`           | Validate article + generate OG image + update sitemap          |
 | `/blog-article-writer:translate`          | **Mandatory** EN translation after PL validation passes        |
+| `/blog-article-writer:archive`            | Archive source materials from `docs/blog/` after publishing    |
 | `/blog-article-writer:generate-og-prompt` | Generate Gemini API prompt for OG image                        |
 
 ### Workflow Overview
@@ -43,17 +44,40 @@ Complete workflow for creating blog articles on pawel.lipowczan.pl with automati
    ↓ (Generate EN translation, bidirectional alternateSlug,
       remap internal links, regenerate sitemap, validate EN)
 
-7. Done — both PL and EN articles ready for single commit
+7. /blog-article-writer:archive (MANUAL, SKIPPABLE — run after translate)
+   ↓ (Move docs/blog/* → docs/blog/_archive/{slug}/ via git mv,
+      auto-generate MANIFEST.md. Skip if you plan a follow-up
+      article from the same source pack.)
+
+8. Done — both PL and EN articles ready for single commit
 ```
 
 **Note:** translate step is **not optional**. Every PL article must have an EN counterpart in the same workflow run. This guarantees bilingual symmetry across the blog (PL count = EN count in `sitemap.xml`).
 
 ## Prerequisites
 
-- Source materials in `docs/blog/`
+- Source materials in `docs/blog/` (top-level only — see `_archive/` rule below)
 - GEMINI_API_KEY in `.env` file (for OG image generation)
 - `scripts/generate-image.js` available
 - Dev server available (`npm run dev`)
+
+## Context hygiene: `docs/blog/_archive/` is OFF-LIMITS
+
+`docs/blog/_archive/` holds source materials for **past, already-published** articles and exists only to preserve provenance and history. It is **not** a knowledge base, **not** a reference, and **not** a source of inspiration for the current article.
+
+**The agent MUST NOT read from `docs/blog/_archive/` during any subcommand other than `/blog-article-writer:archive`.** This applies to `prime`, `plan`, `execute`, `validate`, `translate`, and `generate-og-prompt`. Reading from `_archive/` (with `Read`, `Grep`, `Glob`, `cat`, `ls -R`, etc.) pollutes the working context with off-topic material and degrades plan quality.
+
+When listing `docs/blog/`, always filter out `_archive`:
+
+```bash
+ls docs/blog/ | grep -v '^_archive$'      # bash
+```
+
+```powershell
+Get-ChildItem docs/blog -Force | Where-Object { $_.Name -ne '_archive' }   # PowerShell
+```
+
+The only subcommand that touches `_archive/` is `/blog-article-writer:archive`, and it **writes** (creates `_archive/{slug}/` and `MANIFEST.md`) — it does not read from existing archive folders either.
 
 ## File Locations
 
@@ -211,6 +235,40 @@ node scripts/update-sitemap.js
 
 ---
 
+### /blog-article-writer:archive
+
+**Purpose:** Move source materials from `docs/blog/` into a per-article archive folder after publishing.
+
+**Prerequisites:**
+
+- Published PL article exists at `src/content/blog/{slug}.md`
+- (Recommended) Published EN article exists at `src/content/blog/en/{slug}.md` — missing EN warns but does not block
+
+**Inputs:** `{slug}` (required), `--force` (optional, allow re-archive into existing `_archive/{slug}/`)
+
+**Steps:**
+
+1. Verify `src/content/blog/{slug}.md` exists (else abort, working tree unchanged)
+2. Verify `docs/blog/_archive/{slug}/` does not exist unless `--force` (else abort)
+3. Enumerate top-level entries in `docs/blog/`, excluding whitelist (`_archive`, `README.md`, `.gitkeep`)
+4. If list is empty → no-op with `Nothing to archive in docs/blog/`
+5. `mkdir -p docs/blog/_archive/{slug}/`
+6. For each entry: `git mv` (with `mv` fallback for untracked entries) into the archive folder
+7. Resolve EN counterpart by reading `alternateSlug` from PL frontmatter and checking `src/content/blog/en/{alternateSlug}.md`; if either is missing, emit warning
+8. Write `docs/blog/_archive/{slug}/MANIFEST.md` with date, slug, PL/EN article links, and bullet list of moved top-level entries
+9. Print summary; suggest user reviews `git status` before committing
+
+**Output:**
+
+- Source materials moved into `docs/blog/_archive/{slug}/` (history preserved via `git mv`)
+- `docs/blog/_archive/{slug}/MANIFEST.md` auto-generated
+
+**Edge cases:** empty source → no-op; archive folder collision → refuse without `--force`; missing EN translation → warn + record `(no EN translation)` in manifest; unknown slug → refuse before any move.
+
+This step is **manual and skippable.** Skip when planning a follow-up article from the same source pack.
+
+---
+
 ### /blog-article-writer:generate-og-prompt
 
 **Purpose:** Generate Gemini API prompt for OG image.
@@ -335,5 +393,5 @@ If validation finds issues:
 
 ---
 
-**Last Updated:** 2026-01-26
+**Last Updated:** 2026-05-09
 **Status:** Active

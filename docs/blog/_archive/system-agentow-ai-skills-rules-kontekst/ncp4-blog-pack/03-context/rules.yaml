@@ -1,0 +1,382 @@
+# 200IQ LABS — Classification Rules
+# Deterministyczne reguły pattern-matching dla auto-klasyfikacji transakcji.
+# Stosowane w PHASE 2 (CLASSIFY) before LLM fallback.
+#
+# Format reguły:
+#   - id              — unikatowy identyfikator (kebab-case)
+#     pattern:        — co matchować (memo / merchant / amount / source)
+#       memo: "..."           — substring match (case-insensitive) lub regex
+#       merchant: "..."       — exact lub regex
+#       source: "..."         — revolut | stripe | infakt | tech-stack | accrual
+#       amount_range: [a, b]  — opcjonalnie zakres kwoty
+#     classify:
+#       category: "opex/..."
+#       unit: "qamera"        — opcjonalnie ('qamera' | '200iq' | null)
+#     note: "..."             — uzasadnienie reguły (dlaczego)
+#     created_at: YYYY-MM-DD
+#
+# Konflikt reguł (dwie matchują tę samą transakcję) → CLASSIFY raportuje
+# do REVIEW i wymaga ręcznej decyzji. Priorytet: bardziej specyficzne wygrywa.
+
+rules:
+
+  # ============================================================
+  # COGS — AI generation (usage-based)
+  # ============================================================
+
+  - id: byteplus
+    pattern:
+      memo: "byteplus"
+    classify:
+      category: cogs/ai-generation
+      unit: qamera
+    note: "Byteplus = provider Kling AI (video generation)"
+    created_at: 2026-05-04
+
+  - id: gcp-compute
+    pattern:
+      memo: "google cloud"
+      source: revolut
+      amount_range: [200, 999999]
+    classify:
+      category: cogs/ai-generation
+      unit: qamera
+    note: "Google Cloud >200 PLN = compute usage dla pipeline'u Qamery (nie Workspace)"
+    created_at: 2026-05-04
+
+  - id: gcp-infakt
+    pattern:
+      memo: "GCPLD"
+      source: infakt
+      amount_range: [500, 999999]
+    classify:
+      category: cogs/ai-generation
+      unit: qamera
+    note: "Faktury GCP w inFakt z prefiksem GCPLD i kwotą >500 PLN = compute"
+    created_at: 2026-05-04
+
+  - id: pollo-ai
+    pattern:
+      memo: "pollo"
+    classify:
+      category: cogs/ai-generation
+      unit: qamera
+    note: "Pollo.ai = AI image/video provider"
+    created_at: 2026-05-04
+
+  - id: replicate
+    pattern:
+      memo: "replicate"
+    classify:
+      category: cogs/ai-generation
+      unit: qamera
+    created_at: 2026-05-04
+
+  # ============================================================
+  # OPEX SaaS — fixed monthly subscriptions
+  # ============================================================
+
+  - id: google-workspace
+    pattern:
+      memo: "google workspace"
+    classify:
+      category: opex/saas
+      unit: null
+    note: "Google Workspace = productivity dla całej spółki"
+    created_at: 2026-05-04
+
+  - id: gworkspace-via-gcp
+    pattern:
+      memo: "GCPLD"
+      source: infakt
+      amount_range: [200, 500]
+    classify:
+      category: opex/saas
+      unit: null
+    note: "Google Workspace billowane przez Google Cloud Poland Sp. z o.o. (300-330 PLN/mc)"
+    created_at: 2026-05-04
+
+  - id: cursor
+    pattern:
+      memo: "cursor"
+    classify:
+      category: opex/saas
+      unit: null
+    note: "Cursor IDE = dev-tools. Może bilować 2-4 razy w mc (usage-based per request)"
+    created_at: 2026-05-04
+
+  - id: cursor-infakt
+    pattern:
+      memo: "4AF51BEB"
+      source: infakt
+    classify:
+      category: opex/saas
+      unit: null
+    note: "Faktury Cursor w inFakt mają prefix 4AF51BEB"
+    created_at: 2026-05-04
+
+  - id: vercel
+    pattern:
+      memo: "vercel"
+    classify:
+      category: opex/saas
+      unit: qamera
+    note: "Vercel hosting Qamera. Pattern w inFakt: 7788D1EF (potwierdzone close 2026-04)"
+    created_at: 2026-05-04
+
+  - id: vercel-infakt
+    pattern:
+      memo: "7788D1EF"
+      source: infakt
+    classify:
+      category: opex/saas
+      unit: qamera
+    created_at: 2026-05-04
+
+  - id: supabase
+    pattern:
+      memo: "supabase"
+    classify:
+      category: opex/saas
+      unit: qamera
+    created_at: 2026-05-04
+
+  - id: hunter
+    pattern:
+      memo: "hunter"
+    classify:
+      category: opex/saas
+      unit: qamera
+    note: "Hunter.io = email lookup dla outboundu Qamery"
+    created_at: 2026-05-04
+
+  - id: clickup
+    pattern:
+      memo: "clickup"
+    classify:
+      category: opex/saas
+      unit: null
+    created_at: 2026-05-04
+
+  - id: suno
+    pattern:
+      memo: "suno"
+    classify:
+      category: opex/saas
+      unit: qamera
+    created_at: 2026-05-04
+
+  - id: topaz-labs
+    pattern:
+      memo: "topaz"
+    classify:
+      category: opex/saas
+      unit: qamera
+    created_at: 2026-05-04
+
+  - id: 1password
+    pattern:
+      memo: "1password"
+    classify:
+      category: opex/saas
+      unit: null
+    created_at: 2026-05-04
+
+  - id: github
+    pattern:
+      memo: "github"
+    classify:
+      category: opex/saas
+      unit: null
+    created_at: 2026-05-04
+
+  - id: capcut
+    pattern:
+      memo: "capcut"
+    classify:
+      category: opex/saas
+      unit: qamera
+    created_at: 2026-05-04
+
+  - id: excalidraw
+    pattern:
+      memo: "excalidraw"
+    classify:
+      category: opex/saas
+      unit: null
+    created_at: 2026-05-04
+
+  - id: paddle-n8n
+    pattern:
+      memo: "paddle"
+      source: revolut
+      amount_range: [50, 200]
+    classify:
+      category: opex/saas
+      unit: null
+    note: "Paddle 24 EUR ≈ 100 PLN = n8n cloud (potwierdzone close 2026-04). UWAGA: Paddle to reseller — gdy pojawi się inna kwota, REVIEW."
+    created_at: 2026-05-04
+
+  - id: airtable
+    pattern:
+      memo: "airtable"
+    classify:
+      category: opex/saas
+      unit: null
+    created_at: 2026-05-04
+
+  # ============================================================
+  # OPEX Marketing
+  # ============================================================
+
+  - id: meta-ads
+    pattern:
+      memo: "meta pay"
+    classify:
+      category: opex/marketing
+      unit: qamera
+    note: "Meta Pay = Facebook/Instagram Ads dla Qamery. PLAN: wyłączane od maja 2026."
+    created_at: 2026-05-04
+
+  - id: facebook-ads
+    pattern:
+      memo: "facebook"
+    classify:
+      category: opex/marketing
+      unit: qamera
+    created_at: 2026-05-04
+
+  # ============================================================
+  # OPEX Admin
+  # ============================================================
+
+  - id: infakt
+    pattern:
+      memo: "infakt"
+    classify:
+      category: opex/admin
+      unit: null
+    note: "inFakt = księgowość spółki (1044 PLN/mc)"
+    created_at: 2026-05-04
+
+  - id: revolut-fees
+    pattern:
+      memo: "revolut"
+      source: revolut
+    classify:
+      category: opex/admin
+      unit: null
+    note: "Opłaty Revolut Business (plan + expenses app)"
+    created_at: 2026-05-04
+
+  - id: cloudflare
+    pattern:
+      memo: "cloudflare"
+    classify:
+      category: opex/admin
+      unit: null
+    note: "Cloudflare = domeny (~140 USD/rok amortyzowane)"
+    created_at: 2026-05-04
+
+  # ============================================================
+  # OPEX Office
+  # ============================================================
+
+  - id: plsoft-rent
+    pattern:
+      memo: "PLSOFT"
+    classify:
+      category: opex/office
+      unit: null
+    note: "Czynsz biuro przez PLSoft (615 PLN/mc brutto, 500 net)"
+    created_at: 2026-05-04
+
+  # ============================================================
+  # OPEX People
+  # ============================================================
+
+  - id: uod-pawel
+    pattern:
+      memo: "Paweł Lipowczan"
+      source: accrual
+    classify:
+      category: opex/people
+      unit: null
+    created_at: 2026-05-04
+
+  - id: uod-przemek
+    pattern:
+      memo: "Przemek Trybała"
+      source: accrual
+    classify:
+      category: opex/people
+      unit: null
+    created_at: 2026-05-04
+
+  # ============================================================
+  # OPEX Legal
+  # ============================================================
+
+  - id: smolski-kancelaria
+    pattern:
+      memo: "smolski"
+    classify:
+      category: opex/legal
+      unit: null
+    note: "Kancelaria Notarialna Michał Smolski — Rejestr Akcjonariuszy + zmiany"
+    created_at: 2026-05-04
+
+  - id: creativa-legal
+    pattern:
+      memo: "creativa"
+    classify:
+      category: opex/legal
+      unit: null
+    created_at: 2026-05-04
+
+  # ============================================================
+  # REVENUE (inFakt VAT invoices for Qamera)
+  # ============================================================
+
+  - id: qamera-pakiet-credits
+    pattern:
+      memo: "Pakiet 10 500 kredytów"
+      source: infakt
+    classify:
+      category: revenue/credits
+      unit: qamera
+    created_at: 2026-05-04
+
+  - id: qamera-pakiet-starter
+    pattern:
+      memo: "Pakiet Starter"
+      source: infakt
+    classify:
+      category: revenue/credits
+      unit: qamera
+    note: "Pakiet Starter = jednorazowy credit pack (1960 kredytów), NIE subscription. Mimo nazwy 'Starter'."
+    created_at: 2026-05-04
+
+  # ============================================================
+  # CASH-ONLY (nie wpływają na P&L) — flagowane do cash-flow-yaml
+  # ============================================================
+
+  - id: stripe-payout
+    pattern:
+      memo: "stripe technology"
+      source: revolut
+    classify:
+      category: __cash_only__
+      unit: null
+    note: "Stripe payout do Revolut — revenue już ujęty w inFakt (issue_date), tu tylko cash flow"
+    created_at: 2026-05-04
+
+  - id: shareholder-loan-pawel
+    pattern:
+      memo: "From PAWEL L"
+      source: revolut
+    classify:
+      category: __cash_only__
+      unit: null
+    note: "Pożyczka wspólnika Paweł L — flaguj do cash-flow-2026.yaml (financing), NIE P&L"
+    created_at: 2026-05-04

@@ -18,12 +18,21 @@ Target audience: {who}
 
 ### Step 1: Identify Source Materials
 
-Check `docs/blog/` directory:
+Check `docs/blog/` directory — **top-level only, excluding `_archive/`**:
+
 ```bash
-ls -la docs/blog/
+# Bash
+ls -la docs/blog/ | grep -vE '(^total|/?_archive/?$)'
 ```
 
-Look for:
+```powershell
+# PowerShell
+Get-ChildItem docs/blog -Force | Where-Object { $_.Name -ne '_archive' }
+```
+
+> **DO NOT READ FROM `docs/blog/_archive/`.** That folder holds archived source materials for **past, already-published** articles. Reading anything under `_archive/` (files, MANIFESTs, packs) pollutes the prime context with stale, off-topic content and produces a worse plan. Treat `_archive/` as if it does not exist for the duration of `prime`, `plan`, and `execute`. The only subcommand that ever touches `_archive/` is `/blog-article-writer:archive`, and it only writes (never reads).
+
+Look for (only at the top level of `docs/blog/`):
 - Transcripts (.md, .txt files)
 - Research notes
 - Outlines

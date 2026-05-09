@@ -1,0 +1,130 @@
+# 200IQ LABS — Few-Shot Examples for LLM Classification
+# Używane jako few-shot prompt dla LLM w PHASE 2 fallback (gdy żadna reguła nie matchuje).
+#
+# Każdy example:
+#   transaction:    surowa transakcja (jak z PULL)
+#   classification: oczekiwana klasyfikacja
+#   reasoning:      uzasadnienie (LLM ma uczyć się WZORCÓW, nie tylko wartości)
+#
+# Cel: LLM widzi 5-10 reprezentatywnych przykładów per kategoria i przy nowej
+# transakcji proponuje klasyfikację z polem `reasoning` (które user widzi w REVIEW).
+
+examples:
+
+  # ---- Revenue ----
+  - transaction:
+      date: 2026-04-15
+      amount: 49.00
+      memo: "Stripe payment: customer_xyz subscription Starter"
+      source: stripe
+    classification:
+      category: revenue/subscriptions
+      unit: qamera
+    reasoning: "Stripe subscription płatność = recurring revenue Qamery (Starter plan 49 PLN/mc)"
+
+  - transaction:
+      date: 2026-03-22
+      amount: 250.00
+      memo: "Stripe payment: customer_abc credit pack 100 generations"
+      source: stripe
+    classification:
+      category: revenue/credits
+      unit: qamera
+    reasoning: "Jednorazowy credit pack = revenue/credits, nie subscription"
+
+  # ---- COGS ----
+  - transaction:
+      date: 2026-04-10
+      amount: -127.40
+      memo: "BYTEPLUS API USAGE PAY-AS-YOU-GO"
+      source: revolut
+    classification:
+      category: cogs/ai-generation
+      unit: qamera
+    reasoning: "Byteplus to provider Kling AI używany do generacji video w produkcie"
+
+  - transaction:
+      date: 2026-03-31
+      amount: -512.30
+      memo: "CLOUDFLARE INC"
+      source: revolut
+    classification:
+      category: cogs/hosting
+      unit: qamera
+    reasoning: "Cloudflare to hosting/CDN dla produktu Qamera (CDN dla generated assets)"
+
+  # ---- OPEX People (UoD) ----
+  - transaction:
+      date: 2026-05-12
+      amount: -4000.00
+      memo: "Wynagrodzenie UoD - Paweł Lipowczan"
+      source: revolut
+    classification:
+      category: opex/people
+      unit: null
+    reasoning: "UoD cofounderowi = opex/people. Nie taguj qamera bo to shared spółki."
+
+  # ---- OPEX Marketing ----
+  - transaction:
+      date: 2026-04-05
+      amount: -198.00
+      memo: "META PLATFORMS, INC. ADS"
+      source: revolut
+    classification:
+      category: opex/marketing
+      unit: qamera
+    reasoning: "Meta Ads = kampanie marketingowe Qamery (push do user acquisition)"
+
+  # ---- OPEX SaaS ----
+  - transaction:
+      date: 2026-04-01
+      amount: -227.00
+      memo: "GOOGLE WORKSPACE BUSINESS STANDARD"
+      source: revolut
+    classification:
+      category: opex/saas
+      unit: null
+    reasoning: "Google Workspace = SaaS produktywności dla całej spółki. Patrz tech-stack."
+
+  - transaction:
+      date: 2026-04-15
+      amount: -217.00
+      memo: "CURSOR AI PRO SUBSCRIPTION"
+      source: revolut
+    classification:
+      category: opex/saas
+      unit: null
+    reasoning: "Cursor IDE = dev-tools, opex spółki (nie produktowy COGS)"
+
+  # ---- OPEX Office ----
+  - transaction:
+      date: 2026-04-01
+      amount: -615.00
+      memo: "Czynsz biuro PLSoft"
+      source: revolut
+    classification:
+      category: opex/office
+      unit: null
+    reasoning: "Rent biuro przez PLSoft = opex/office, shared spółki"
+
+  # ---- OPEX Admin ----
+  - transaction:
+      date: 2026-04-05
+      amount: -1044.00
+      memo: "INFAKT BIURO RACHUNKOWE"
+      source: revolut
+    classification:
+      category: opex/admin
+      unit: null
+    reasoning: "inFakt = księgowość spółki, opex/admin"
+
+  # ---- OPEX Legal ----
+  - transaction:
+      date: 2026-02-19
+      amount: -7380.00
+      memo: "CREATIVA LEGAL - umowa wspólników"
+      source: infakt
+    classification:
+      category: opex/legal
+      unit: null
+    reasoning: "Kancelaria prawna obsługująca shareholders agreement = opex/legal"

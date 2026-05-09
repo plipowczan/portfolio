@@ -18,7 +18,8 @@ PRIME (Research) - Load context and analyze materials
 
 ### 1. Identify Source Materials
 
-- Check `docs/blog/` directory for related research files
+- Check `docs/blog/` **top-level only** for related research files. **Do NOT descend into `docs/blog/_archive/`** — that folder holds archived sources for past, already-published articles and reading from it pollutes the prime context with stale material. Treat `_archive/` as if it does not exist during `prime`, `plan`, and `execute`.
+- Use a directory listing that filters out `_archive`, e.g. `ls docs/blog/ | grep -v '^_archive$'` (bash) or `Get-ChildItem docs/blog -Force | Where-Object { $_.Name -ne '_archive' }` (PowerShell).
 - Note any transcripts (.md files)
 - Identify reference documents
 - List external links or resources mentioned
