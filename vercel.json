@@ -32,37 +32,42 @@
             "statusCode": 301
         },
         {
-            "source": "/portfolio_categories/:rest*",
+            "source": "/portfolio_categories/(.*)",
             "destination": "/",
             "statusCode": 301
         },
         {
-            "source": "/portfolio-archive/:rest*",
+            "source": "/portfolio-archive/(.*)",
             "destination": "/",
             "statusCode": 301
         },
         {
-            "source": "/category/:rest*",
+            "source": "/category/(.*)",
             "destination": "/",
             "statusCode": 301
         },
         {
-            "source": "/tag/:rest*",
+            "source": "/tag/(.*)",
             "destination": "/",
             "statusCode": 301
         },
         {
-            "source": "/author/:rest*",
+            "source": "/author/(.*)",
             "destination": "/",
             "statusCode": 301
         },
         {
-            "source": "/wp-content/:rest*",
+            "source": "/wp-content/(.*)",
             "destination": "/",
             "statusCode": 301
         },
         {
-            "source": "/wp-admin/:rest*",
+            "source": "/wp-admin/(.*)",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/wp-admin",
             "destination": "/",
             "statusCode": 301
         },
