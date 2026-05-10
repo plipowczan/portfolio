@@ -23,33 +23,33 @@
 
 ## 3. Deploy to preview
 
-- [ ] 3.1 Commit changes with message `feat(seo): add 301 redirects for legacy WordPress URLs`.
-- [ ] 3.2 Push to a feature branch `feature/seo-legacy-redirects` and let Vercel build a preview deployment.
-- [ ] 3.3 Capture the preview URL for the verification matrix.
+- [x] 3.1 Commit changes with message `feat(seo): add 301 redirects for legacy WordPress URLs`.
+- [x] 3.2 Push to a feature branch `feature/seo-legacy-redirects` and let Vercel build a preview deployment.
+- [x] 3.3 Capture the preview URL for the verification matrix.
 
 ## 4. Verification matrix on preview
 
 For each row, run `curl -I <preview-url><path>` and assert the expected response. Mark each task done only after seeing the actual HTTP status and Location header.
 
-- [ ] 4.1 `/en/blog/vibe-coding-przewodnik` → `301`, `Location: /en/blog/vibe-coding-guide`
-- [ ] 4.2 `/projects/` → `301`, `Location: /#projects`
-- [ ] 4.3 `/my-career-path/` → `301`, `Location: /#about`
-- [ ] 4.4 `/portfolio_categories/foo` → `301`, `Location: /`
-- [ ] 4.5 `/portfolio_categories/gallery/` → `301`, `Location: /`
-- [ ] 4.6 `/portfolio-archive/anything/` → `301`, `Location: /`
-- [ ] 4.7 `/category/foo` → `301`, `Location: /`
-- [ ] 4.8 `/tag/foo` → `301`, `Location: /`
-- [ ] 4.9 `/author/foo` → `301`, `Location: /`
-- [ ] 4.10 `/wp-content/uploads/foo.jpg` → `301`, `Location: /`
-- [ ] 4.11 `/wp-admin/` → `301`, `Location: /`
-- [ ] 4.12 `/wp-login.php` → `301`, `Location: /`
-- [ ] 4.13 `/feed/` → `301`, `Location: /`
-- [ ] 4.14 **Regression:** `/` → `200`
-- [ ] 4.15 **Regression:** `/blog` → `200`
-- [ ] 4.16 **Regression:** `/blog/vibe-coding-przewodnik` → `200`
-- [ ] 4.17 **Regression:** `/en/` → `200`
-- [ ] 4.18 **Regression:** `/random-nonexistent-url-xyz` → `404` (must NOT redirect)
-- [ ] 4.19 **Regression:** `/blog/this-post-does-not-exist` → `404` (must NOT redirect)
+- [x] 4.1 `/en/blog/vibe-coding-przewodnik` → `301`, `Location: /en/blog/vibe-coding-guide`
+- [x] 4.2 `/projects/` → `301`, `Location: /#projects`
+- [x] 4.3 `/my-career-path/` → `301`, `Location: /#about`
+- [x] 4.4 `/portfolio_categories/foo` → `301`, `Location: /`
+- [x] 4.5 `/portfolio_categories/gallery/` → `301`, `Location: /`
+- [x] 4.6 `/portfolio-archive/anything/` → `301`, `Location: /`
+- [x] 4.7 `/category/foo` → `301`, `Location: /`
+- [x] 4.8 `/tag/foo` → `301`, `Location: /`
+- [x] 4.9 `/author/foo` → `301`, `Location: /`
+- [x] 4.10 `/wp-content/uploads/foo.jpg` → `301`, `Location: /`
+- [x] 4.11 `/wp-admin/` → `301`, `Location: /`
+- [x] 4.12 `/wp-login.php` → `301`, `Location: /`
+- [x] 4.13 `/feed/` → `301`, `Location: /`
+- [x] 4.14 **Regression:** `/` → `200`
+- [x] 4.15 **Regression:** `/blog` → `200`
+- [x] 4.16 **Regression:** `/blog/vibe-coding-przewodnik` → `200`
+- [x] 4.17 **Regression:** `/en/` → `200`
+- [x] 4.18 **Regression:** `/random-nonexistent-url-xyz` → `404` (must NOT redirect)
+- [x] 4.19 **Regression:** `/blog/this-post-does-not-exist` → `404` (must NOT redirect)
 
 ## 5. Promote to production
 

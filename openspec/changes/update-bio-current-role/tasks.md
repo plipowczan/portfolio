@@ -47,13 +47,13 @@
 - [x] 6.3 Open `dist/en/index.html` (EN home). Confirm About text contains "independent consultant", "Qamera AI", "virtual photo studio".
 - [x] 6.4 Grep `dist/index.html` and `dist/en/index.html` for "Jako Technical Lead w Tigers" / "As a Technical Lead at Tigers" — must return zero matches.
 - [x] 6.5 Grep prerendered HTML for `worksFor` — must contain `"name":"Qamera AI"`.
-- [ ] 6.6 `npm run preview`, navigate to `/` and `/en/`. Visual check: About section renders cleanly, no overflow, paragraphs balanced.
+- [x] 6.6 `npm run preview`, navigate to `/` and `/en/`. Visual check: About section renders cleanly, no overflow, paragraphs balanced.
 
 ## 7. Deploy
 
-- [ ] 7.1 Commit with message `content(home): update bio to current role (consultant + CTO Qamera AI)`.
-- [ ] 7.2 Push, let Vercel build preview.
-- [ ] 7.3 On preview URL, repeat checks 6.2 – 6.6 against live preview.
+- [x] 7.1 Commit with message `content(home): update bio to current role (consultant + CTO Qamera AI)`.
+- [x] 7.2 Push, let Vercel build preview.
+- [x] 7.3 On preview URL, repeat checks 6.2 – 6.6 against live preview.
 - [ ] 7.4 Promote to production.
 
 ## 8. Post-deploy follow-up
