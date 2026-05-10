@@ -39,7 +39,7 @@ Vercel's `redirects` defaults to `308` (permanent redirect, preserves method). F
 - `308` is semantically equivalent for browsers but historically Googlebot treats `301` as the strongest signal.
 - All legacy URLs are `GET` only, so the method-preservation difference between `301` and `308` is moot.
 
-Set explicitly via `"permanent": true` (= 308 by default in Vercel, but we override with `"statusCode": 301` per redirect).
+Set explicitly via `"statusCode": 301` per redirect rule. We do not set `"permanent": true`; setting `statusCode` alone is sufficient on Vercel and yields a clean `HTTP 301` (the `permanent` boolean shorthand would imply `308` and is intentionally not used).
 
 ### Decision 3: Three-tier redirect taxonomy
 

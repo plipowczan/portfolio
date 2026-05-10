@@ -4,15 +4,17 @@
 - [x] 1.2 Add tier A (specific 1:1) redirect: `/en/blog/vibe-coding-przewodnik` → `/en/blog/vibe-coding-guide`, `statusCode: 301`.
 - [x] 1.3 Add tier B (section-anchor) redirects: `/projects/` → `/#projects`, `/my-career-path/` → `/#about`. Both `statusCode: 301`. Include both trailing-slash and no-slash variants for each.
 - [x] 1.4 Add tier C (wildcard) redirects, all `statusCode: 301`, all destination `/`:
-  - `/portfolio_categories/:rest*`
-  - `/portfolio-archive/:rest*`
-  - `/category/:rest*`
-  - `/tag/:rest*`
-  - `/author/:rest*`
-  - `/wp-content/:rest*`
-  - `/wp-admin/:rest*`
+  - `/portfolio_categories/(.*)`
+  - `/portfolio-archive/(.*)`
+  - `/category/(.*)`
+  - `/tag/(.*)`
+  - `/author/(.*)`
+  - `/wp-content/(.*)`
+  - `/wp-admin/(.*)`, plus exact `/wp-admin`
   - `/wp-login.php`
   - `/feed`, `/feed/`, `/comments/feed/`
+
+  Note: anonymous regex `(.*)` is used (not path-to-regexp `:rest*`). On Vercel, `:rest*` does not match URLs with trailing slashes when the captured rest is empty or content-with-trailing-slash; `(.*)` reliably captures empty strings, content, and trailing-slash variants.
 - [x] 1.5 Verify array order: tier A entries first, then tier B, then tier C. Confirm no tier-C wildcard precedes a tier-A or tier-B entry.
 - [x] 1.6 Validate JSON syntax (`node -e "JSON.parse(require('fs').readFileSync('vercel.json','utf8'))"`).
 
