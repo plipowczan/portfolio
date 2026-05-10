@@ -5,6 +5,93 @@
     "installCommand": "npm install",
     "framework": "vite",
     "cleanUrls": true,
+    "redirects": [
+        {
+            "source": "/en/blog/vibe-coding-przewodnik",
+            "destination": "/en/blog/vibe-coding-guide",
+            "statusCode": 301
+        },
+        {
+            "source": "/projects",
+            "destination": "/#projects",
+            "statusCode": 301
+        },
+        {
+            "source": "/projects/",
+            "destination": "/#projects",
+            "statusCode": 301
+        },
+        {
+            "source": "/my-career-path",
+            "destination": "/#about",
+            "statusCode": 301
+        },
+        {
+            "source": "/my-career-path/",
+            "destination": "/#about",
+            "statusCode": 301
+        },
+        {
+            "source": "/portfolio_categories/(.*)",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/portfolio-archive/(.*)",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/category/(.*)",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/tag/(.*)",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/author/(.*)",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/wp-content/(.*)",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/wp-admin/(.*)",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/wp-admin",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/wp-login.php",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/feed",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/feed/",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/comments/feed/",
+            "destination": "/",
+            "statusCode": 301
+        }
+    ],
     "rewrites": [
         {
             "source": "/(.*)",

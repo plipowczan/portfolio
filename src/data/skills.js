@@ -15,6 +15,9 @@ import {
   SiFastapi,
   SiGooglebigquery,
   SiOpenai,
+  SiRabbitmq,
+  SiRedis,
+  SiTypescript,
 } from "react-icons/si";
 
 export const skillCategories = [
@@ -25,7 +28,6 @@ export const skillCategories = [
       { name: "n8n", icon: FaCog, level: 90 },
       { name: "Airtable", icon: SiAirtable, level: 95 },
       { name: "VAPI", icon: FaRobot, level: 85 },
-      { name: "AION", icon: FaBrain, level: 80 },
     ],
   },
   {
@@ -45,6 +47,9 @@ export const skillCategories = [
       { name: ".NET", icon: SiDotnet, level: 85 },
       { name: "SQL Server", icon: FaServer, level: 90 },
       { name: "BigQuery", icon: SiGooglebigquery, level: 80 },
+      { name: "RabbitMQ", icon: SiRabbitmq, level: 80 },
+      { name: "Redis", icon: SiRedis, level: 80 },
+      { name: "TypeScript", icon: SiTypescript, level: 85 },
     ],
   },
   {

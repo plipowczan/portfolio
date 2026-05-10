@@ -40,6 +40,11 @@ const Home = () => {
     ],
     knowsAbout: ["AI", "Automation", "No-Code", "Software Architecture"],
     email: "pawel@lipowczan.pl",
+    worksFor: {
+      "@type": "Organization",
+      name: "Qamera AI",
+      url: "https://qamera.ai",
+    },
   };
 
   return (

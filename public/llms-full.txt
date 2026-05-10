@@ -4,6 +4,9 @@
 
 ## Blog (PL)
 
+- [Pre-revenue startup bez działu finansów. Anatomia systemu agentów AI.](https://pawel.lipowczan.pl/blog/system-agentow-ai-skills-rules-kontekst): 5 ról specjalistów, 2 założycieli. Jak skills, deterministyczne reguły i wspólny kontekst zastąpiły zespół w 200IQ LABS — case study i architektura.
+- [Miałem 3 dni do PIT-38 bez księgowej. Wystarczyły 2 godziny.](https://pawel.lipowczan.pl/blog/pit-38-claude-code-case-study): 5430 transakcji, 5 źródeł danych, 2 dni z agentem Claude Code. Case study workflow, który zastąpił księgową przy rozliczeniu PIT-38.
+- [Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI](https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai): Audyt SEO, spec-driven changes i AI workflow zoptymalizowały dwa projekty w godziny, nie tygodnie. Case study z portfolio i Qamera AI.
 - [Jak LLM Wiki Karpathy'ego pomogła mi uporządkować moją bazę wiedzy](https://pawel.lipowczan.pl/blog/llm-knowledge-base-brain-karpathy): Od ręcznych notatek w Obsidian do systemu, w którym agent pilnuje struktury, indeksów i standardów. Jak koncepcja LLM Wiki pomogła mi sformalizować to, co budowałem od lat.
 - [5 repozytoriów GitHub, które zmienią Twoją pracę z Claude Code](https://pawel.lipowczan.pl/blog/5-repozytoriow-github-claude-code): Testuję dziesiątki narzędzi — te 5 repozytoriów naprawdę zrobiło różnicę w mojej codziennej pracy z Claude Code. Oto moja sprawdzona lista.
 - [Moje środowisko agentowe — jak buduję AI OS dla dwóch firm](https://pawel.lipowczan.pl/blog/srodowisko-agentowe-ai-dwie-firmy): Dwa repozytoria, osiem agentów, zero vendor lock-in. Jak zbudowałem system agentowy zarządzający finansami, prawem i marketingiem dwóch firm.
@@ -30,6 +33,9 @@
 
 ## Blog (EN)
 
+- [Pre-revenue startup without a finance department. AI agent system anatomy.](https://pawel.lipowczan.pl/en/blog/ai-agent-system-skills-rules-shared-context): 5 specialist roles, 2 founders. How skills, deterministic rules, and shared context replaced a team at 200IQ LABS — case study and architecture.
+- [3 days to PIT-38, no accountant. 2 hours were enough.](https://pawel.lipowczan.pl/en/blog/polish-pit-38-claude-code-case-study): 5430 transactions, 5 data sources, two days with a Claude Code agent. A case study of the workflow that replaced my accountant on PIT-38.
+- [Why WordPress can't do this — spec-driven SEO on a portfolio and Qamera AI](https://pawel.lipowczan.pl/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study): An SEO audit, spec-driven changes, and an AI workflow optimized two projects in hours, not weeks. Case study from a portfolio and Qamera AI.
 - [How Karpathy's LLM Wiki Helped Me Organize My Knowledge Base](https://pawel.lipowczan.pl/en/blog/karpathy-llm-wiki-knowledge-base): A walk-through of a PKM system that evolved from manual Obsidian notes into an agent-maintained knowledge base of 185 notes — the three-layer architecture, progressive disclosure indexes, four core…
 - [5 GitHub Repositories That Will Transform Your Work with Claude Code](https://pawel.lipowczan.pl/en/blog/5-github-repos-claude-code): I test dozens of tools - these 5 repositories truly made a difference in my daily work with Claude Code. Here's my battle-tested list.
 - [My agentic environment — how I'm building an AI OS for two companies](https://pawel.lipowczan.pl/en/blog/agentic-ai-environment-two-companies): Two repositories, eight agents, zero vendor lock-in. How I built an agent system managing finances, legal, and marketing for two companies.
@@ -70,6 +76,1100 @@
 
 - email: pawel@lipowczan.pl
 - strona: https://pawel.lipowczan.pl
+
+
+---
+
+# Pre-revenue startup bez działu finansów. Anatomia systemu agentów AI.
+
+Source: https://pawel.lipowczan.pl/blog/system-agentow-ai-skills-rules-kontekst
+Published: 2026-05-09
+
+Dziś jest 9 maja 2026. Dwa dni temu prowadziłem prelekcję na NoCode Poland #4 — *"Jak 2 założycieli robi robotę całego zespołu"*. Tytuł brzmi jak clickbait, ale tydzień wcześniej, 1 maja, część tego, o czym mówiłem, **jeszcze nie istniała**.
+
+Pierwszego maja w 200IQ LABS — pre-revenue spółce, którą prowadzę z Przemkiem — nie było działu finansów. Zero raportu zarządczego za kwiecień. Zero kontroli kosztów na poziomie kategorii. Zero spec-a. **Trzeciego maja był pierwszy close kwietnia**: 30+ reguł klasyfikacji wytrenowanych z zera, raport zarządczy w `monthly/2026-04.md`, real EBITDA −16 804 PLN udokumentowane z trzema decyzjami korekcyjnymi planu na kolejne miesiące.
+
+Dwa dni od zera do działającego systemu zarządczego. Powiem szczerze — robiłem to częściowo na potrzeby prelekcji. **Event Driven Development™** (eventem była ta prelekcja). Ale ten system od dawna miał powstać. Wolę wdrażać PR-y na produkcję niż siedzieć nad numerami — taka prawda founderska. Prelekcja po prostu wymusiła timing.
+
+Ten artykuł nie jest o tym, że *"AI zastąpi księgowych"*. Nie zastąpi — formalna księgowość przez inFakt + księgową robi compliance, i nadal to robi. Ten artykuł jest o tym, **jak architektonicznie zbudować system agentów AI, który realnie zastępuje role specjalistów w warstwie zarządczej** — w tym, gdzie dział nie istnieje, bo firma jest za mała, żeby zatrudnić, i za duża, żeby improwizować.
+
+Trzy filary, do których wracam w całym tekście:
+
+1. **Skills automatyzują procesy.** Workflow staje się rzeczownikiem — `/finances close 2026-04` zamiast 6 manualnych kroków.
+2. **Determinizm przez reguły.** Hybryd rules-first + LLM fallback + learning loop. System konwerguje od probabilistycznego do deterministycznego.
+3. **Wspólny kontekst.** CLAUDE.md, MEMORY.md, struktura `context/`. Bez tego subagenty są izolowanymi czatami. Z tym — system, który pamięta firmę.
+
+## Architektura: jeden diagram, trzy warstwy
+
+![Architektura systemu agentów AI w 200IQ LABS — główny agent (Claude Code orchestrator) → 5 subagentów (CFO, Marketing, Legal, Tax Advisor, Business Consultant) → warstwa narzędzi (Python tools + External MCP) → wspólny kontekst (CLAUDE.md, MEMORY.md, context/)](/images/architecture-system-agentow-ai.webp)
+
+Ten diagram to spine artykułu. Każda z trzech warstw odpowiada jednemu z filarów, do których będę wracał.
+
+**Główny agent** to Claude Code działający jako orchestrator. Z jego perspektywy ja jestem użytkownikiem, on jest punktem wejścia. Routing do subagentów dzieje się przez skille — wpisuję `/finances close 2026-04`, agent ładuje skill `finances`, persona przełącza się na CFO.
+
+**Subagenty wyspecjalizowane** — CFO, Marketing, Legal, Tax Advisor, Business Consultant — to nie osobne procesy ani osobne modele. To **kombinacje skill + persona + scoped context**. CFO czyta `context/finances/`, Marketing czyta `context/qamera/` (bo Qamera jest naszym produktem) i `context/brand/`, Legal czyta `context/legal-entities.md` i `context/company.md`. Każda rola widzi tylko to, co jej potrzebne — higiena kontekstu.
+
+**Warstwa narzędzi** to hybryda Python (default dla zaplanowanego workflow) + External MCP (dla ad-hoc lub gdy API wymusza). Stripe, Revolut, Airtable to Python wrappery w repo — bo wiemy z góry, jak z nich korzystamy. inFakt to MCP, bo endpoint do pobierania kosztów zwraca 403, gdy spółka jest obsługiwana przez biuro księgowe — oficjalny MCP server omija to ograniczenie. Qamera AI ma własne MCP, z którego korzystają zarówno cudzy agenci, jak i my sami — bo do ad-hoc eksploracji własnego produktu MCP jest po prostu szybsze niż pisanie skryptu pod każde nowe zapytanie.
+
+**Wspólny kontekst** to substrate całego systemu. CLAUDE.md ładuje się na każdą rozmowę — instrukcje projektu, konwencje, ścieżki. MEMORY.md jest persistent między sesjami. `context/` to strukturalna baza wiedzy: finanse, klienci, projekty, operacje. Subagenty czytają z tej bazy — i dzięki temu nie są izolowanymi czatami.
+
+Teraz po kolei.
+
+## Pillar 1: Skills automatyzują procesy
+
+**Skill to jednostka, w której zamykasz proces** — trigger, kroki, decyzje, integracje. Przed skillem masz workflow zdefiniowany w głowie i w czyimś notatniku. Z skillem masz workflow jako rzeczownik: `/finances close YYYY-MM`, `/ingest`, `/slides:new`. Komenda zamiast pamięci.
+
+Brzmi banalnie. Nie jest. Bez skilla każdorazowo improwizuję: *"hej, zaciągnij dane Stripe za kwiecień, potem Revolut, sklasyfikuj transakcje, sprawdź accruals, zapisz raport"*. To znaczy 6 razy dziennie wymyślam tę samą sekwencję. Z `/finances close 2026-04` — jedna komenda, deterministyczna sekwencja faz.
+
+### `/finances close` — 6 faz
+
+![Sześć faz miesięcznego close w skill `/finances`: PULL → CLASSIFY → REVIEW → ACCRUALS CHECK → COMMIT → REGENERATE. PHASE 3 i 5 to human-in-the-loop](/images/diagram-close-process.webp)
+
+```text
+PHASE 1: PULL          (~2 min)   Revolut + Stripe (Python) + inFakt (MCP) + tech-stack
+PHASE 2: CLASSIFY      (~30s)     rules.yaml deterministic → LLM fallback
+PHASE 3: REVIEW        (~10-15min interactive)   [a/c/r/s] learning loop
+PHASE 4: ACCRUALS CHECK (~2 min)  accrued-liabilities.yaml matching
+PHASE 5: COMMIT        (~10-20 min)   mandatory narrative blokuje close
+PHASE 6: REGENERATE    (~30s)     3 dashboards, AUTO:START/END markers
+```
+
+Każda faza jest **idempotentna** — restart po awarii nie duplikuje danych. Możesz ten close uruchomić, przerwać po PHASE 3, wrócić za godzinę i kontynuować od miejsca przerwania. To nie jest pipe-and-pray; to operacja transakcyjna w sensie "można powtórzyć i nic złego się nie stanie".
+
+### Wideo: jeden close na żywo
+
+<video controls preload="metadata" poster="/images/poster-budget-process.webp" class="w-full rounded-lg my-6 aspect-video">
+  <source src="/videos/budget-process.webm" type="video/webm" />
+  <source src="/videos/budget-process.mp4" type="video/mp4" />
+  Twoja przeglądarka nie obsługuje wideo HTML5.
+  <a href="/videos/budget-process.mp4">Pobierz wideo</a>.
+</video>
+<p class="text-sm text-gray-400 text-center -mt-4 mb-8">
+  Pełny close kwietnia 2026 uruchomiony jako <code>/finances close 2026-04</code>.
+  ~7 minut, 6 faz, 2 iteracje QA zostały w nagraniu — meta-przekaz: można korygować rozmową z agentem.
+</p>
+
+W nagraniu zostały **dwie iteracje QA** — momenty, w których zatrzymałem agenta, zauważyłem coś, co nie pasowało, i poprosiłem o korektę bez restartowania całej fazy. Świadomie ich nie wyciąłem. To pokazuje rzecz, która ginie w marketingowych demo: workflow z agentem nie jest skryptem jednoprzejściowym. Można korygować rozmową, agent dopasowuje stan, kontynuuje.
+
+### Generalizacja: każdy proces może być skillem
+
+`/finances close` to flagowy skill, ale ta sama mechanika działa wszędzie. `/ingest` klasyfikuje pliki wrzucone do `inbox/` — opisałem to dokładniej w [PIT-38 case study](/blog/pit-38-claude-code-case-study). `/slides:new` generuje szkielet prezentacji. Meta-twist: te slajdy NCP4, o których piszę w intro, powstały tym samym workflow. **Sam skill `/blog-article-writer` używany do tego artykułu** ma własne fazy: prime → plan → execute → validate → translate.
+
+### Mandatory narrative blokuje close
+
+PHASE 5 wymaga, żeby człowiek napisał trzy sekcje narracji w `monthly/<YYYY-MM>.md`:
+
+1. Co się działo niespodziewanego (vs plan).
+2. Decyzje podjęte w trakcie miesiąca.
+3. Plan na następny miesiąc / korekta planu.
+
+**Pusty narrative blokuje close.** System nie zamknie miesiąca dopóki nie wpiszesz czegoś w każdą sekcję.
+
+To wygląda jak zbędny formalizm — i z perspektywy *"chcę szybko zamknąć"* tak jest. Ale z perspektywy *"za pół roku patrzę na variance EBITDA −3160 vs plan i nie wiem dlaczego"* — to jedyny sposób, żeby decyzje miały trwałą pamięć.
+
+**Refleksja jest częścią procesu, nie opcją.**
+
+To pattern szerszy niż finanse: za każdym razem, gdy automatyzujesz coś, w czym wartość leży w **rozumieniu** a nie w **wykonaniu** — dodaj human-in-the-loop checkpoint, który nie da się ominąć. Inaczej zautomatyzujesz wykonanie i zniszczysz rozumienie.
+
+## Pillar 2: Determinizm przez reguły
+
+Klasyfikacja transakcji jest klasycznym problemem cold-start. Pure rules: każdy nowy vendor wymaga manual setup, miesiąc bez nowych vendorów to dobry tydzień, miesiąc z 5 nowymi to wieczór. Pure LLM: niedeterministyczny, niedrogi w skali, ale niedopuszczalny w finansach — audyt, regulator, przyszła kontrola.
+
+Trzecia droga to hybryd: **rules-first + LLM fallback + learning loop**.
+
+### Rules-first
+
+```yaml
+# rules.yaml — fragment
+- id: gworkspace-via-gcp
+  pattern:
+    memo: "GCPLD"
+    source: infakt
+    amount_range: [200, 500]
+  classify:
+    category: opex/saas
+    unit: null
+  note: "Google Workspace billowane przez Google Cloud Poland (300-330 PLN/mc)"
+  created_at: 2026-05-04
+
+- id: gcp-infakt
+  pattern:
+    memo: "GCPLD"
+    source: infakt
+    amount_range: [500, 999999]
+  classify:
+    category: cogs/ai-generation
+    unit: qamera
+  note: "Faktury GCP w inFakt z prefiksem GCPLD i kwotą >500 PLN = compute"
+  created_at: 2026-05-04
+```
+
+Najmocniejszy detal: **dwie reguły dla tego samego vendora** (`GCPLD` w inFakt), różniące się tylko `amount_range`. 200–500 PLN → Google Workspace (kategoria `opex/saas`). >500 PLN → compute GCP dla pipeline'u Qamery (kategoria `cogs/ai-generation`).
+
+To jest typ niuansu, który LLM zgaduje **zawsze inaczej**. Jednego dnia zaklasyfikuje cały `GCPLD` jako Workspace, drugiego jako compute, trzeciego rozdzieli losowo. Tu mamy odpowiedź zaszytą jako kod. Audytowalne, deterministyczne, idempotentne.
+
+Pole `note:` jest równie ważne jak sam pattern. Bez tej notki za pół roku patrząc na regułę nie wiem, dlaczego rozdzielenie po `amount_range` ma sens. **Reguła bez note-a to długofalowy debt.**
+
+### LLM fallback z few-shot examples
+
+Gdy żadna reguła nie matchuje, agent leci do LLM z few-shot promptem. Każdy example w `examples.yaml` ma konkretny `reasoning`:
+
+```yaml
+# examples.yaml — fragment
+- transaction:
+    date: 2026-04-10
+    amount: -127.40
+    memo: "BYTEPLUS API USAGE PAY-AS-YOU-GO"
+    source: revolut
+  classification:
+    category: cogs/ai-generation
+    unit: qamera
+  reasoning: "Byteplus to provider Kling AI używany do generacji video w produkcie"
+```
+
+LLM dostaje 15–25 takich przykładów per kategoria. Zwraca klasyfikację plus własne `reasoning`. **`reasoning` widoczny dla użytkownika** w fazie REVIEW — to nie black box. Widzę nie tylko "kategoria X", ale dlaczego.
+
+### Learning loop: REVIEW [a]ccept / [c]hange / [r]ule / [s]kip
+
+Pętla per LLM-classified transakcja. Cztery decyzje:
+
+| Opcja | Co robi |
+|---|---|
+| `[a]ccept` | LLM zgadł, ale to jednorazowy przypadek |
+| `[c]hange` | LLM się pomylił, ręczna korekta |
+| `[r]ule` | Akceptuje + tworzy regułę dla podobnych |
+| `[s]kip` | Nie wiem, wracamy w następnym close |
+
+**Złota zasada:** jeśli transakcja prawdopodobnie się powtórzy → `[r]ule`. 30 sekund teraz, oszczędzasz minuty przez kolejne miesiące. Każde `[r]ule` zamraża LLM-owe zgadywanie w deterministycznej regule w `rules.yaml`. Następny close — ta sama transakcja wpada w "auto-classified" deterministycznie.
+
+**Real number:** pierwszy close (kwiecień 2026) wytworzył **30+ reguł z zera**. Trzy typy patternów ujawniły się natychmiast:
+
+1. **Po memo** — czyste pattern matching. Byteplus, Cursor, Meta Pay.
+2. **Po prefiksie faktury inFakt + kwocie** — `GCPLD` z `amount_range: [200, 500]` to Workspace, z `[500, ∞]` to compute. Ten sam vendor, dwie kategorie.
+3. **Po reseller pattern** — Paddle 24 EUR ≈ 100 PLN to n8n cloud. Ale Paddle z inną kwotą = REVIEW (może być inny produkt sprzedawany przez Paddle).
+
+System konwerguje od probabilistycznego do deterministycznego. To rzadki design — większość narzędzi do kategoryzacji budżetu jest albo w 100% deterministyczna (sztywne reguły, dużo manuala), albo w 100% probabilistyczna (LLM/ML, brak audytu). Hybryd z `[r]ule` jako pomostem między obiema stronami daje cold-start LLM-a i długoterminowy audit deterministycznych reguł.
+
+### Idempotent regeneration jako ortogonalny mechanizm determinizmu
+
+Drugą warstwą determinizmu są dashboardy. PHASE 6 regeneruje 3 pliki: `_dashboard.md`, `_alerts.md`, `_runway.md`. Pytanie: co z ręcznymi notatkami, które dopisałem w trakcie miesiąca? Jeśli regeneracja nadpisuje cały plik — moje notatki znikają i przestaję pisać notatki.
+
+Rozwiązanie: markery zasięgu.
+
+```markdown
+# 200IQ LABS — Finances Dashboard
+
+<!-- AUTO:START -->
+
+## Cash position & runway
+
+| Metryka | Wartość |
+|---|---|
+| Cumulative shareholder loans | 74 300 PLN |
+| Confirmed financing (czerwiec) | +100 000 PLN |
+| Accrued liabilities (UoD payout maj) | −24 000 PLN |
+| Run-rate burn | ~14-14.5k PLN/mc |
+
+<!-- AUTO:END -->
+
+## Notatki ręczne (poza markerami — przetrwają regenerację)
+
+- 2026-05-04: pierwszy close systemu. Manual regeneracja dashboardów.
+- Plan finalize: nie wykonano — tryb `draft` świadomie do kolejnego close.
+```
+
+Markery `AUTO:START` / `AUTO:END` ograniczają zasięg regeneracji. Wszystko poza markerami **przeżywa każdą regenerację**. Bez tego nikt nie pisze ręcznych notatek w auto-generowanych dokumentach — i te dokumenty stają się martwe. Ten prosty pattern decyduje o tym, czy dashboardy są używane, czy ignorowane.
+
+## Pillar 3: Wspólny kontekst (substrate)
+
+Trzeci filar to warstwa, która sprawia, że wszystkie subagenty są spójne. Bez wspólnego kontekstu CFO i Marketing nie wiedzą o sobie nawzajem — masz 5 izolowanych czatów, każdy ze swoją wersją prawdy. Z wspólnym kontekstem masz **system, który pamięta firmę**.
+
+### Trzy warstwy wspólnego kontekstu
+
+- **CLAUDE.md** (per-projekt) — instrukcje, konwencje, ścieżki, "co agent ma robić, jak nie wie". Ładuje się na każdą rozmowę.
+- **MEMORY.md** (cross-conversation) — auto-memory, persistent między sesjami. Tu siedzi *"użytkownik woli krótkie podsumowania"*, *"projekt X używa OpenSpec"*, *"data dziś to YYYY-MM-DD"*.
+- **`context/`** (knowledge base) — strukturalna baza per dziedzina. `context/finances/`, `context/qamera/`, `context/clients/`, `context/operations/`.
+
+Struktura katalogów (uproszczona):
+
+```text
+agentic-ai-system/
+├── CLAUDE.md             # instrukcje projektu
+├── memory/
+│   └── MEMORY.md         # auto-memory, persistent
+├── context/
+│   ├── finances/         # ← czyta skill CFO
+│   ├── qamera/           # ← czyta skill Marketing (revenue + brand)
+│   ├── clients/          # ← czyta skill Business Consultant
+│   └── operations/
+├── skills/
+│   ├── finances/SKILL.md
+│   ├── ingest/SKILL.md
+│   └── slides/SKILL.md
+└── tools/
+    ├── stripe/           # Python wrappers
+    ├── revolut/          # Python wrappers
+    └── airtable/         # Python wrappers
+```
+
+Każdy subagent ma scope — nie czyta wszystkiego. CFO sięga do `context/finances/` i `context/operations/`, dla revenue ma read-only dostęp do `context/qamera/`. Nie czyta `context/clients/` (to zasięg Business Consultanta), bo nie potrzebuje. **Higiena kontekstu** to drugi multiplikator wartości — bez niej każde pytanie do CFO zaciąga połowę firmy do tokenów.
+
+### Python tools (default) vs External MCP (when forced)
+
+> **Reguła: Python skrypt dla zaplanowanego workflow. MCP dla ad-hoc lub gdy API wymusza.**
+
+| Integracja | Podejście | Dlaczego |
+|---|---|---|
+| Stripe (subskrypcje Qamery) | Python | Wiemy z góry, czego potrzebujemy — wrapper to część specyfikacji |
+| Revolut (transakcje firmowe) | Python | Stała sekwencja w `/finances close`, własny wrapper |
+| Airtable (CRM) | Python | Powtarzalne operacje na CRM, własny wrapper |
+| **inFakt** (księgowość) | **MCP** | Endpoint kosztów zwraca 403, gdy spółkę obsługuje biuro księgowe — MCP **wymuszone** |
+| **Qamera AI** (nasz produkt) | **MCP** | I my, i cudzy agenci. REST API też dostępne, ale do ad-hoc eksploracji MCP jest po prostu szybszy do podpięcia |
+
+**Dlaczego Python > MCP, gdy workflow jest planowany:**
+
+1. **Oszczędność tokenów.** MCP ładuje opisy narzędzi do kontekstu **każdej** rozmowy. Skrypt = zero overhead. Skrypt jest wywołany tylko wtedy, gdy agent zdecyduje, że go potrzebuje.
+2. **Determinizm.** Skrypt robi dokładnie to, co napisano. Bez "model zinterpretował narzędzie inaczej w innej rozmowie".
+3. **Trywialne tworzenie.** *"Agent, potrzebuję skrypt, który wyciągnie z Stripe wszystkie subskrypcje aktywne na dzień X"* → agent generuje, ja code-review, commit. 15 minut.
+4. **Pełna kontrola.** Kod w repo, w wersji, czytelny dla innego dewelopera. Mogę debugować Pythonem, dodać logging, zmienić output format — bez negocjacji z protokołem MCP.
+
+**Dlaczego MCP, gdy używamy ad-hoc:**
+
+Jeśli dopiero **odkrywam**, jak będę z czegoś korzystać — pisanie skryptu jest przedwczesne. Nie wiem jeszcze, jakie pola mnie interesują, jakie filtry, jaki output format. MCP daje agentowi natychmiastowy dostęp do API; po kilku iteracjach widzę pattern, który warto utrwalić — i wtedy piszę skrypt. **Skrypt jest częścią specyfikacji workflow; MCP jest narzędziem do eksploracji.**
+
+Z Qamerą tak właśnie korzystamy: cudzy agenci uderzają w MCP, my też — gdy chcemy szybko sprawdzić coś we własnym produkcie. Gdybyśmy mieli stały workflow w stylu *"co tydzień generuj X dla klienta Y"* — pisalibyśmy skrypt. Na razie nie mamy, więc MCP wystarcza.
+
+Z inFaktem nie mamy wyboru — REST API zwraca 403 na endpoint kosztów, gdy spółkę obsługuje biuro księgowe. MCP tu nie jest wyborem architektonicznym, tylko jedyną dostępną drogą do danych.
+
+### Subagenty czytają tylko swój scope
+
+Wracając do pierwszego diagramu: każdy subagent (skill + persona) ma scope w swojej linii kontekstu. Skill `finances` ma front-matter, który jawnie deklaruje:
+
+```yaml
+context_scope:
+  - context/finances/
+  - context/operations/
+  - context/qamera/  # read-only, dla revenue z subskrypcji
+```
+
+Bez tego ograniczenia agent pyta *"jakie były transakcje w marcu"* i ładuje kontekst całej firmy do tokenów. Z ograniczeniem — ładuje tylko `context/finances/transactions/2026-03.yaml` plus reguły. Mniej tokenów, szybsza odpowiedź, mniejsze ryzyko halucynacji.
+
+Pisałem o tym samym wzorcu w innym kontekście — separacja `inbox/` / `archive/` / `data/` w [PIT-38 case study](/blog/pit-38-claude-code-case-study). Wzorzec się generalizuje: **agent pracuje na czystych, przetworzonych plikach, nie na surowiznie**.
+
+## Case study: real numbers z kwietnia 2026
+
+Dowód, że to nie demo. Pierwszy close, wykonany 2026-05-04, wygenerował:
+
+| Linia | Actual | Plan | Δ |
+|---|---:|---:|---:|
+| Revenue | 347 PLN | 598 PLN | −42% |
+| Costs | 17 151 PLN | 14 242 PLN | +20% |
+| EBITDA | −16 804 PLN | −13 644 PLN | −23% |
+| `cogs/ai-generation` | 1 709 | 700 | +144% 🔴 |
+| `opex/marketing` | 2 996 | 1 500 | +100% 🔴 |
+| `opex/saas` | 2 112 | 1 633 | +29% 🟡 |
+
+**Trzy decyzje wynikające z close-a** (zapisane w `monthly/2026-04.md`):
+
+1. **GCP +144% vs plan** → plan był błędny (700 PLN), realny run-rate 1000–1600 PLN/mc historycznie. Plan May–Dec podniesiony retroaktywnie do 1500–1800 PLN. Świadoma decyzja **NIE optymalizować GCP** — część tego to content marketingowy (own + materiały dla klientów). Klasyfikacja "to faktycznie marketing" nie zmienia kategorii (GCP zostaje w `cogs/ai-generation`), ale uzasadnia wyższy plan.
+2. **Cursor billowany 4×/mc** (716 PLN vs plan 217) → planowana migracja **Cursor → Claude** (sztywny ~90 EUR/mc cap, predictable koszt zamiast usage-based).
+3. **Meta Ads off od maja** — strategia była błędna, kierunek do dopracowania. Plan kontroli: w close maja sprawdzimy, że spend < 300 PLN.
+
+**Pointa:** decyzje wynikają **z systemu, ale nie podejmuje ich system**. System pokazuje variance i wymaga w PHASE 5 narrative. Decyzję podejmuję ja — ale mam ją udokumentowaną na wypadek, gdy za pół roku zapomnę dlaczego.
+
+Plan break-even: wrzesień 2026 (revenue 12 184 vs costs 12 842, EBITDA −658). Plan agresywny — wymaga walidacji w kolejnych close-ach. **Plan = żywy dokument**, korygowany po każdym close gdy run-rate się zmienia. Drift > 30% = wymaga rewizji.
+
+## Czego nie polecam
+
+Mapy ryzyk, mirror sekcji z PIT-38 case study.
+
+- **Nie polecam tego setupu osobie bez programistycznego komfortu.** Markdown, YAML, git, terminal, edycja convention files — wymaga rozumienia narzędzi. Bez tego strata czasu na setup zje wszystkie zyski. Bezpieczniejsza ścieżka: gotowy SaaS do controllingu (Causal, Runway, Pry) + Excel + księgowa.
+- **Manual first, automate after pain.** Pierwsze 2-3 close-y MUSZĄ być manualne. Bez ręcznego wykonania połowa reguł byłaby zaprojektowana źle. Pierwszy close ujawnił 30+ patternów do zakodowania — w tym nieoczywiste (np. że `GCPLD` to dwie kategorie, nie jedna). **Skrypty piszesz po, nie przed.**
+- **System zarządczy ≠ księgowość formalna.** inFakt + księgowa robią compliance. Ten system robi decyzje. Nie podmieniaj jednego za drugie — uzupełniają się, nie zastępują. Ja nadal płacę księgowej comiesięczny ryczałt; ten system nie usuwa tej linii z budżetu.
+- **LLM-y robią błędy arytmetyczne.** Sumowanie do silnika obliczeniowego (Excel, kalkulator, system MF). LLM ma wartość w **strukturze i interpretacji**, nie w arytmetyce. Pisałem o tym w [PIT-38 case study](/blog/pit-38-claude-code-case-study) — zostawiłem 6 groszy na stole, bo LLM pomylił się przy odejmowaniu dwóch sześciocyfrowych liczb.
+- **Nie skaluje się liniowo poza 1 firmę.** System zaprojektowany dla 200IQ LABS. Wzorce się generalizują (skills, rules, kontekst); konkretne YAML-e nie. *"Nie kopiujcie setupu, wyciągajcie zasady"* — to było motto talku NCP4 i jest motto tego artykułu.
+
+## Kluczowe wnioski
+
+1. **Skills sprawiają, że proces staje się rzeczownikiem.** `/finances close YYYY-MM` zamiast 6 manualnych kroków. Każdy powtarzalny workflow zasługuje na własny skill — z fazami, z idempotency, z mandatory checkpoints tam, gdzie wartość leży w rozumieniu.
+2. **Determinizm budujesz iteracyjnie.** Rules-first + LLM fallback + opcja `[r]ule` w REVIEW = system konwerguje z probabilistycznego do deterministycznego. Po pierwszym close mieliśmy 30+ reguł. Po dziesiątym będziemy mieli ~150, LLM wywoływany sporadycznie.
+3. **Wspólny kontekst (CLAUDE.md, MEMORY.md, `context/`) to substrate, nie ozdoba.** Bez niego subagenty są izolowanymi czatami. Z nim — system, który pamięta firmę i dzieli wiedzę między rolami.
+4. **Python skrypt dla zaplanowanego workflow, MCP dla ad-hoc.** Skrypt jest częścią specyfikacji — token-efficient, deterministic, code-reviewable. MCP daje natychmiastowy dostęp gdy nie wiesz jeszcze, jak będziesz korzystać, lub gdy API wymusza.
+5. **Refleksja jest częścią procesu, nie opcją.** Mandatory narrative blokuje close. Bez tego za pół roku nie wiesz dlaczego coś było.
+
+Wolę wdrażać kod niż liczyć — i agenty pomagają mi w obu. Ten system od dawna miał powstać. Eventem napędzającym była prelekcja. Działa.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Prowadzisz pre-revenue startup i myślisz o systemie zarządczym AI?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomagam founderom i konsultantom technologicznym projektować architekturę
+    agentów AI dla operacji firmy — skills, deterministyczne reguły, wspólny
+    kontekst. Pokażę, jak taki setup mógłby wyglądać u Ciebie.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
+## Przydatne zasoby
+
+- [Claude Code — dokumentacja](https://docs.claude.com/en/docs/claude-code/overview) — referencja do skills, settings, MCP, hooks
+- [Model Context Protocol — spec](https://modelcontextprotocol.io/) — czym jest MCP i kiedy ma sens
+- [PIT-38 case study](/blog/pit-38-claude-code-case-study) — ten sam wzorzec architektoniczny w kontekście rozliczeń podatkowych
+- [Skills 2.0 — multi-agent system do zarządzania firmą](/blog/skills-2-0-multi-agent-system-zarzadzanie-firma) — szerszy kontekst Skills 2.0 i rola subagentów
+- [OpenSpec workflow — strukturyzowana praca z AI](/blog/opsx-workflow-strukturyzowana-praca-z-ai) — spec-driven development jako fundament pod skille
+- [Spec-driven SEO na portfolio i Qamera AI](/blog/spec-driven-seo-portfolio-qamera-ai) — inny case study, ten sam typ workflow
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czy ten wzorzec (skills + rules + wspólny kontekst) działa tylko w Claude Code, czy w innych agentach też?
+
+</summary>
+
+Wzorzec jest agent-agnostic. Skills mapują się na komendy/funkcje w innych systemach (Cursor commands, n8n workflows, custom CLI). Rules + few-shot examples to standardowa technika ML. Wspólny kontekst (markdown + struktura katalogów) działa wszędzie, gdzie agent ma dostęp do plików. **Konkretne mechanizmy** (`CLAUDE.md`, MCP, `MEMORY.md`) są specyficzne dla Anthropic, ale **zasady architektoniczne** się generalizują na każdy LLM-driven system.
+
+</details>
+
+<details open>
+<summary>
+
+### Ile czasu zajmuje zbudowanie takiego systemu od zera?
+
+</summary>
+
+Pierwszy działający close — z OpenSpec, schemami YAML i 30+ regułami — zajął nam dwa dni intensywnej pracy w dwie osoby. Pełna stabilizacja (auto-pull skrypty, scheduled close, integracja z formalną księgowością) zakłada się na 4–6 tygodni przy regularnej miesięcznej kadencji. **Każdy dzień, w którym używasz manualnie zaprojektowanego skilla, jest dniem produktywnym** — nie czekasz, aż system będzie kompletny, bo wartość pojawia się natychmiast po pierwszym close-u.
+
+</details>
+
+<details open>
+<summary>
+
+### Dlaczego Python skrypt zamiast MCP, jeśli MCP jest standardem?
+
+</summary>
+
+MCP ładuje opisy narzędzi do kontekstu **każdej** rozmowy — to koszt tokenów i potencjalna niejednoznaczność interpretacji w różnych sesjach. Python skrypt to zero overhead, deterministyczny output, kod w repo do code-review. **Skrypt piszemy dla zaplanowanego workflow** (Stripe, Revolut, Airtable — wiemy z góry, czego potrzebujemy, więc skrypt jest częścią specyfikacji). **MCP używamy dla ad-hoc** (eksploracja własnej Qamery, gdy nie wiemy jeszcze jakie zapytania będą się powtarzać) **lub gdy API wymusza** (inFakt zwraca 403 na endpoint kosztów, gdy spółkę obsługuje biuro księgowe). Pattern: po kilku iteracjach ad-hoc widać, co warto utrwalić w skrypcie.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy LLM nie pomyli się przy klasyfikacji finansowej? Co z audytem dla regulatora?
+
+</summary>
+
+Hybryd (rules-first + LLM fallback) projektujemy specjalnie po to, żeby zminimalizować LLM-classified transakcje. Każda LLM-classified transakcja przechodzi przez REVIEW — człowiek widzi `reasoning` i decyduje `[a]ccept`/`[c]hange`/`[r]ule`/`[s]kip`. Po pierwszym close mieliśmy 30+ reguł, które deterministycznie wyłapują 80%+ kolejnych transakcji. **Audit trail leży w `rules.yaml` plus `monthly/<YYYY-MM>.md`** — każda decyzja udokumentowana, każda reguła ma `note:` z uzasadnieniem. Formalna księgowość (compliance) idzie nadal przez inFakt + księgową; ten system jest zarządczy, nie compliance.
+
+</details>
+
+<details open>
+<summary>
+
+### Co robi mandatory narrative, jeśli mam awaryjny close i nie zdążę napisać 3 sekcji?
+
+</summary>
+
+Trzy sekcje (niespodzianki / decyzje / plan korekta) blokują close-a do momentu wypełnienia — to świadoma decyzja. W skrajnym przypadku możesz wpisać do każdej sekcji jedno zdanie (*"brak niespodzianek vs plan"*, *"brak decyzji"*, *"kontynuujemy bez korekt"*). System nie ocenia jakości narrative, tylko jego obecność. **Punkt jest taki, że za pół roku patrząc na variance EBITDA potrzebujesz dowolnego kontekstu — lepiej krótkiego niż żadnego.** Ten formalizm jest celowy.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy ten system działa dla firmy na revenue, nie tylko pre-revenue?
+
+</summary>
+
+Tak, wzorzec się skaluje — kategorie P&L i caps trzeba dopasować, mandatory narrative staje się jeszcze ważniejszy (więcej transakcji = więcej decyzji do udokumentowania), learning loop daje większy ROI (więcej powtarzalnych vendorów). **Ale w post-revenue spółce z dużym wolumenem prawdopodobnie potrzebujesz pełnoprawnego ERP** — system zarządczy z markdownem i YAML-em ma sufit przy ~setkach transakcji/miesiąc i kilku osobach decyzyjnych. **Nasz scope:** pre-revenue → early-revenue, 1–5 osób w firmie. Powyżej tego skali architektura wymaga twardszych narzędzi.
+
+</details>
+
+
+---
+
+# Miałem 3 dni do PIT-38 bez księgowej. Wystarczyły 2 godziny.
+
+Source: https://pawel.lipowczan.pl/blog/pit-38-claude-code-case-study
+Published: 2026-04-29
+
+Dziś jest 29 kwietnia 2026. Termin złożenia PIT-38 mija jutro. Przedwczoraj wieczorem wystartowałem od jednego zdania — _"utwórz nowy projekt PIT-38"_. Wczoraj po południu deklaracja była w MF, podatek zapłacony, UPO leży w `output/`. Łącznie **~2 godziny** aktywnej pracy.
+
+**5 430 transakcji** z dwóch giełd krypto. **174 895,50 PLN** niewykorzystanych kosztów krypto z 2024 do uwzględnienia. **2 PIT-8C** z brokerów, **1 raport** o dywidendach zagranicznych. Złożone i przyjęte przez MF na **51,5 godziny** przed deadlinem. Końcowa dopłata: **172 PLN**.
+
+Zwykle robi to moja księgowa. W tym roku przegapiłem timing — i to się okazało jednym z bardziej pouczających doświadczeń, jakie miałem z agentic workflow.
+
+Ten artykuł nie jest o tym, jak nauczyłem się rozliczać PIT-38. Wiedziałem co robić, bo robię to od lat (przez księgową). Jest o tym, jak **dwie godziny aktywnej pracy z dobrze poustawianym agentem** odtworzyły pracę usługi eksperckiej — z lepszym poziomem dokumentacji niż dostawałem od księgowej.
+
+## Zwykle PIT-38 robi mi księgowa
+
+PIT-38 składam co roku. Papiery wartościowe, fundusze, krypto, dywidendy zagraniczne. Nigdy sam. Zawsze przez moją księgową — ja podsyłam dane, ona wypełnia, sprawdza, składa. Działa od lat.
+
+W tym roku przegapiłem timing. Termin 30 kwietnia, ja zacząłem ogarniać dokumenty 27 kwietnia wieczorem. Księgowa nie weźmie projektu z 3-dniowym buforem — i słusznie. Byłem zmuszony zrobić to sam.
+
+Dwa wyjścia: (a) panika i prowizoryczna deklaracja na ostatni moment, albo (b) sprawdzenie, czy ten cały AI-workflow, którym buduję rzeczy dla klientów, może zastąpić księgową w dwa dni. Wybrałem (b). Działało.
+
+To zmienia stake'a artykułu. To nie jest "lifehack dla osób, które nie chcą iść do księgowej". To **case study o tym, kiedy automatyzacja AI realnie podchodzi pod usługę ekspercką**, którą do tej pory robił człowiek.
+
+## Architektura projektu: każdy katalog ma jedną odpowiedzialność
+
+Wystartowałem od polecenia _"utwórz nowy projekt PIT-38"_. Bez briefu, bez dokumentu wymagań, bez listy zadań. Agent dopytał o rok podatkowy i termin, sięgnął po wewnętrzną konwencję `_template.md` (którą zna z `CLAUDE.md` repo) i postawił strukturę:
+
+```text
+PIT_38/
+  inbox/          # drop zone, raw files
+  archive/        # po przetworzeniu (agent NIE czyta)
+  data/           # knowledge — agent reads freely
+  deliverables/   # checklist, blog inputs
+  output/         # finalna deklaracja PDF, UPO
+  project.md      # cel, status, decyzje
+  catalog.md      # indeks plików
+```
+
+Każdy katalog ma jedną odpowiedzialność. Agent nie zagląda do `archive/` ani do `output/`, chyba że jawnie poproszę. To **nie bezpieczeństwo** — to **higiena kontekstu**. Agent pracuje na czystych, przetworzonych plikach `data/*.md`, a nie na 4096 wierszach raw CSV przy każdym pytaniu.
+
+Brzmi banalnie. Nie jest. Bez tej separacji każde pytanie typu _"jakie były transakcje w marcu?"_ zaciągnęłoby cały surowy CSV do kontekstu — i albo wybiło mnie z limitu tokenów, albo zmusiło model do "sumowania na palcach". Z separacją: agent dostaje gotowy `data/crypto-summary-2025.md` z 11 pozycjami i pracuje na strukturze, nie na surowiznie.
+
+To jest pierwszy multiplikator wartości — i działa **tylko dlatego**, że konwencja jest opisana w `CLAUDE.md`. Bez tego pliku ten projekt zająłby tyle samo czasu co praca ręczna.
+
+![Workflow funnel: 5 niezależnych źródeł danych zbiega się w /ingest, agent klasyfikuje 5430 surowych transakcji do 11 zdarzeń podatkowych, deklaracja trafia do MF z buforem 174 895 PLN przeniesionym na 162 948 PLN](/images/diagram-pit-38-funnel-pl.webp)
+
+## `/ingest`: jedna komenda, cztery kroki
+
+Wrzuciłem 7 plików do `inbox/`: dwa PIT-8C (XTB i SFIO), trzy CSV-ki z giełd krypto, raport dywidend, zeszłoroczną deklarację jako referencję historyczną. Komenda: `/ingest PIT_38`.
+
+Co dzieje się pod spodem:
+
+1. **Identyfikacja typu pliku** — agent rozpoznaje PIT-8C po strukturze nagłówków, raport krypto po typowych kolumnach (timestamp, asset, type, amount).
+2. **Routing** — PIT-8C trafia do sekcji C deklaracji, raporty krypto do sekcji E, dywidendy do sekcji G. Każdy plik dostaje osobny `data/{źródło}-{rodzaj}-2025.md` z normalizacją.
+3. **Ekstrakcja** — z PDF-ów wyciągane są kluczowe pozycje (przychód, koszt, podatek u źródła), z CSV-ek klasyfikacja typów transakcji.
+4. **Archiwizacja** — surowe pliki idą z `inbox/` do `archive/`, `catalog.md` dostaje update, `project.md` log zmian.
+
+Konkretny przykład: PIT-8C od XTB i SFIO oba zostały zsumowane w `pit38-calculation.md` w sekcji C, z numerami pozycji zgodnymi z **PIT-38 wersja (18)** za 2025. Agent sam zauważył, że to nie ten sam wzór co w 2024 — o czym za chwilę.
+
+Lekcja na tym etapie: `/ingest` to **nie batch processing**. Wartość jest w pętli iteracyjnej, którą zaraz pokażę.
+
+## Sześć rzeczy, których nie spodziewałem się od agenta
+
+To jest serce tego artykułu. Sześć konkretnych rzeczy, które agent zrobił w te dwa dni, a których — gdybym pracował sam z Excelem — albo bym nie zrobił, albo zrobiłbym z błędem.
+
+### 1. Bufor 174 895,50 PLN — auto-pull z PIT-38 2024
+
+W polskim PIT-38 niewykorzystane koszty nabycia krypto przechodzą na kolejne lata bez ograniczenia czasowego (art. 22 ust. 16). Standardowy mechanizm dla aktywnego inwestora w krypto.
+
+Ja wiedziałem, że ten bufor istnieje — rozliczam PIT-38 od lat. Ale wiedziałem to z perspektywy _"powiedzieć o tym księgowej"_, nie z perspektywy _"wpisać dokładnie w pozycję 38 nowego formularza"_.
+
+Agent przy pierwszym ingest poprosił o zeszłoroczną deklarację. Wrzuciłem PDF z PIT-38 za 2024. Agent sam wyciągnął kwotę z konkretnej pozycji i wpisał w odpowiednie pole nowej deklaracji — tam, gdzie staje się "kosztami z lat ubiegłych".
+
+Wartość dla mnie: zazwyczaj ten bufor _"pamięta"_ księgowa, bo ma moją deklarację z poprzedniego roku w swoim CRM. Bez niej musiałbym sam pamiętać o pobraniu PDF, otwarciu go, sprawdzeniu pozycji. **Agent zrobił to za jednym pytaniem.**
+
+To jest niedoceniana klasa wartości — automatyzacja "łatwo dostępnej pamięci kontekstu poprzednich lat". Robi to księgowa. Robi to agent z dostępem do historycznych plików w `archive/`.
+
+### 2. PIT-38 wersja (17) vs (18) — drobiazg, który psuje deklarację
+
+W PIT-38 za 2024 koszty z lat ubiegłych miały jedną pozycję, w 2025 mają już inną. Sekcja C dostała w wersji (18) dodatkowy wiersz na zwolnienia z art. 21 ust. 1 pkt 105a — i wszystko poniżej przesunęło się o dwa wiersze.
+
+Wiele blog-postów i forów internetowych wciąż odnosi się do **starej numeracji**. Gdybym wpisał dane w stare pozycje, deklaracja zostałaby odrzucona albo — gorzej — przyjęta z błędną kalkulacją, która wyszłaby przy kontroli.
+
+Agent wyłapał to po wgraniu pustego wzoru PIT-38(18) jako referencji. Porównał strukturę z zeszłoroczną deklaracją, zaznaczył różnice w `data/sources.md`, użył nowej numeracji w finalnej kalkulacji.
+
+Lekcja: **zaufaj dokumentom referencyjnym, nie pamięci modelu.** Wgrany aktualny wzór formularza > to, czego model nauczył się z internetu rok temu.
+
+### 3. 5 430 transakcji → 11 zdarzeń podatkowych
+
+4096 transakcji z jednej platformy plus 1334 z drugiej. Razem 5430 raw. Po klasyfikacji: **11 zdarzeń podatkowych**, które trafiają do deklaracji. Reszta to operacje wewnętrzne platform — transfery, korekty techniczne, naliczenia, drobne rozksięgowania, które nie podlegają wykazaniu.
+
+Wartość LLM nie jest tutaj w **sumowaniu**. Wartość jest w **klasyfikacji**. Każdy z około 25 typów transakcji w raporcie został przyporządkowany do jednej z trzech kategorii: zdarzenie podatkowe / operacja wewnętrzna / neutralne. Każda kategoryzacja z udokumentowanym uzasadnieniem prawnym w `data/sources.md`.
+
+> Nie wchodzę w szczegóły konkretnych typów transakcji ani interpretacji prawnej — to wykracza poza ten case study i wymaga indywidualnej konsultacji z doradcą podatkowym. Pokazuję jedynie skalę pracy klasyfikacyjnej.
+
+Bez tej klasyfikacji próba ręcznego rozliczenia 5430 wierszy CSV byłaby albo niemożliwa w dwa dni, albo prowadziłaby do dramatycznego zawyżenia podstawy — gdybym potraktował każdą transakcję jako zbycie. Skala, którą LLM redukuje, jest nietrywialna.
+
+### 4. Kursy NBP D-1 — 10 edge cases z kalendarzem świąt
+
+Każdą transakcję w EUR/USD trzeba przeliczyć na PLN po **kursie średnim NBP z dnia roboczego poprzedzającego datę zbycia** (art. 11a ustawy o PIT). Brzmi prosto. W praktyce 10 z 11 transakcji wymagało indywidualnej obsługi, bo wypadły w dni nierobocze:
+
+| Data transakcji | Dzień tygodnia | Kurs NBP z dnia |
+| --- | --- | --- |
+| 2025-02-15 | sobota | piątek 2025-02-14 |
+| 2025-03-16 | niedziela | piątek 2025-03-14 |
+| 2025-05-02 | piątek | środa 2025-04-30 (1 maja = święto) |
+| 2025-05-18 | niedziela | piątek 2025-05-16 |
+| 2025-06-15 | niedziela | piątek 2025-06-13 |
+
+Agent zrobił to ręcznie dla każdej z 10 transakcji: wyliczył dzień tygodnia, sprawdził święta państwowe (1 maja, 3 maja, Boże Ciało, 15 sierpnia, 1 i 11 listopada, 25-26 grudnia), pobrał kurs z NBP, przeliczył.
+
+To jest **dokładnie ten typ pracy, w którym ludzki mózg szybko popełnia błąd** — bo każdy edge case wymaga osobnego sprawdzenia kalendarza. Człowiek robi 1-2 błędy na 10 transakcjach (zapomnienie o 1 maja jest w polskich rozliczeniach częste). Agent zrobił 0.
+
+Klasa zadań _"dużo małych mechanicznych decyzji z subtelnymi regułami"_ to mocna strona LLM-a. Nie sumowanie. Nie kreatywność. Systematyczne stosowanie reguł do każdej z 10 sytuacji bez znudzenia i bez pomijania.
+
+### 5. 6 groszy, których LLM nie umie sumować
+
+Moja kalkulacja sekcji C: strata **966,98 PLN**. Twój e-PIT po wczytaniu danych: **966,92 PLN**. Różnica 6 groszy. Błąd arytmetyczny po stronie LLM przy odejmowaniu dwóch 6-cyfrowych liczb (16 188,05 − 15 221,13).
+
+Lekcja: **LLM-y robią błędy arytmetyczne w 6-cyfrowych dodawaniach.** Zostaw sumowanie kalkulatorowi, Excelowi albo systemowi MF. LLM ma wartość w **strukturze i interpretacji**, nie w arytmetyce. To nie jest porażka — to mapa, gdzie używać tego narzędzia, a gdzie nie.
+
+W tym konkretnym przypadku Twój e-PIT poprawił mi błąd za darmo. W innym scenariuszu — gdybym składał papierowo — różnica 6 groszy poszłaby do MF i prawdopodobnie nikt by się nie obraził, ale chodzi o zasadę: **arytmetyka do silnika obliczeniowego, nie do modelu językowego**.
+
+### 6. Ingest jako progresywne odkrywanie — najmocniejszy beat
+
+Najbardziej wartościowa rzecz, jaką agent zrobił w te dwa dni, to nie sumowanie 5 tysięcy transakcji. To było **pytanie o rzeczy, których nie miałem na liście**.
+
+Nie miałem listy _"co potrzeba do PIT-38"_. Wrzucałem to, co miałem pod ręką. Po każdej iteracji agent mówił: _"OK, to jest, ale brakuje X"_ albo _"uwaga, to oznacza Y, sprawdź Z"_.
+
+Kluczowy moment: **dywidendy zagraniczne**.
+
+- Nie wiedziałem, że mam dywidendy z 2025 (drobne ETF-y w XTB, łącznie ~958 PLN brutto).
+- Nie wiedziałem, że trzeba je rozliczać osobno od reszty (sekcja G PIT-38, art. 30a, 19% PL minus podatek u źródła).
+- Po pierwszej partii ingest agent zapytał: _"a co z dywidendami? PIT-8C ich nie zawiera, XTB wystawia osobny raport"_.
+- Pobrałem **XTB Raport Dodatkowy do PIT-38** — okazało się, że było 182 PLN podatku 19% PL od dywidend zagranicznych do uwzględnienia.
+
+Bez tego pytania złożyłbym deklarację **bez sekcji G**. Skutek: niedopłata 172 PLN, ryzyko kontroli, odsetki.
+
+Drugi moment: **historia 2024**. Agent przy pierwszym ingest zapytał, czy mam zeszłoroczną deklarację. Wrzuciłem PDF — i wtedy wyłonił się bufor 174 895,50 PLN, który opisałem wyżej. Bez tego ruchu zapłaciłbym ~2200 PLN podatku zamiast 0.
+
+To jest **istota wartości**: nie _"agent zsumował transakcje"_, tylko **"agent wiedział, czego nie wiem"**. Iteracyjne dopytywanie + klasyfikacja każdego dokumentu według taksonomii PIT-38 = niemożliwe do osiągnięcia ręcznie bez specjalistycznej wiedzy podatkowej.
+
+Ingest workflow ≠ batch processing. Wartość jest w pętli: wrzucasz → agent klasyfikuje → identyfikuje braki → prosi o dodatkowe dane → wrzucasz znowu. Po 3-4 iteracjach masz komplet, którego sam byś nie zebrał.
+
+## Krótkie wyjaśnienie: jak działa opodatkowanie krypto w PL
+
+Drobne wyjaśnienie dla osób spoza tematu krypto-podatków, żeby _"bufor 174k"_ nie zabrzmiał jak _"Paweł stracił 174k"_.
+
+W polskim prawie (art. 17 ust. 1 pkt 11 ustawy o PIT) zdarzenie podatkowe powstaje dopiero przy **wymianie krypto na walutę tradycyjną lub na towar**. Dopóki trzymasz pozycję w krypto — ile by się nie zmieniała wartość rynkowa — nic nie wykazujesz. Wymiana krypto-krypto też jest neutralna (art. 17 ust. 1f).
+
+Jeśli kupisz krypto za 100 000 zł i nie sprzedasz na fiat przez kilka lat, te 100 000 zł istnieje jako **udokumentowany koszt nabycia** (art. 22 ust. 14) i czeka. W roku, w którym sprzedasz krypto na fiat, ten koszt obniża podstawę opodatkowania. Jeśli koszty > przychody w danym roku — nadwyżka **przechodzi na kolejne lata bez ograniczenia czasowego** (art. 22 ust. 16).
+
+Stąd _"bufor 174 895 PLN z 2024 → 162 948 PLN na 2026"_ w moim case'ie. To **nie strata** — to wydatki na zakupy krypto, których jeszcze nie zamknąłem sprzedażą na fiat. Bufor zmniejsza się dopiero wtedy, gdy realnie sprzedaję krypto na PLN/EUR/USD.
+
+To jest mocno uproszczony opis mechanizmu. Pełne rozumienie wymaga konsultacji z doradcą — to nie jest porada podatkowa.
+
+## Decyzje interpretacyjne: gdzie człowiek wraca do gry
+
+Przy 5400+ transakcjach z różnych platform część kategorii zdarzeń ma **niejednoznaczną kwalifikację podatkową**. Istnieją różne interpretacje KIS, opinie doradców, wyroki sądów administracyjnych dotyczące zbliżonych konstrukcji.
+
+Dla każdej takiej kategorii LLM wyciągnął argumenty obu stron, oszacował ekspozycję ryzyka i pokazał mi **trade-off liczbowy** — ile podatku oznacza interpretacja konserwatywna, ile mniej restrykcyjna, jakie jest ryzyko sporu z US. **Decyzję podejmowałem ja**, nie agent. Agent zostawił uzasadnienie w `data/sources.md` w repo — gdyby kiedyś przyszła kontrola, mam udokumentowaną ścieżkę myślenia.
+
+I jeszcze jeden klucz, który warto powtórzyć każdemu, kto stoi przed pierwszą samodzielną deklaracją: **korekta PIT-38 jest możliwa do 5 lat wstecz** (do 2030 dla deklaracji za 2025). Złożenie z dobrą wiarą plus dokumentacja decyzji = bezpieczna ścieżka. Gdy nie jesteś pewien — interpretacja konserwatywna w pierwszej deklaracji zawsze działa, można potem skorygować na korzyść podatnika.
+
+LLM w tej części nie podejmuje decyzji za mnie. **Mapuje opcje, dokumentuje argumenty, czeka na input.** To dokładnie ten podział pracy, który chcę.
+
+## "Wrzuciłeś dane finansowe do LLM?" — świadomy wybór, nie nieostrożność
+
+Wiem, że dla części czytelników już samo _"wrzuciłem dane finansowe do LLM"_ jest dyskwalifikujące. Trzy rzeczy do rozważenia.
+
+**a) Claude Code (Anthropic API) nie używa danych do treningu modeli domyślnie.** To jest inny model biznesowy niż consumer ChatGPT — i jakościowa różnica. Aktualne zasady przetwarzania zawsze warto sprawdzić w [polityce Anthropic](https://www.anthropic.com/privacy), ale baseline jest taki: API to środowisko produkcyjne dla developerów i firm, nie zbieracz danych treningowych.
+
+**b) Repo jest prywatne, lokalne.** Nie ma `git push` do GitHuba. CSV-ki są w `.gitignore` — nie wchodzą nawet do historii commitów. Bazowe dane finansowe siedzą tylko na moim dysku. Kontekst LLM-a kończy się z konwersacją.
+
+**c) Realny benchmark.** Alternatywą był księgowy z biurka, Excel na pendrive lub Twój e-PIT przeglądany w przeglądarce — w każdym z tych scenariuszy moje dane przechodzą przez czyjeś ręce, czyjąś pamięć albo czyjeś serwery. **Wybór nie jest między "bezpieczne" a "ryzykowne". Jest między różnymi rodzajami zaufania.**
+
+Świadomie wybrałem zaufanie do Anthropic plus lokalnego workflow. Ktoś inny wybierze inaczej i to OK. Dyskusja _"czy LLM jest bezpieczny dla finansów"_ traci sens, jeśli nie porównujemy go z konkretną alternatywą.
+
+## Czego nie polecam
+
+- **Nie automatyzowałem zapłaty 172 PLN.** Przelew na mikrorachunek poszedł ręcznie. Nie ma sensu robić tego przez LLM — to jedna kwota, jeden numer rachunku, 30 sekund w aplikacji bankowej.
+- **Nie polecam tego setupu osobie bez programistycznego komfortu.** `/ingest`, struktura katalogów, git, `.gitignore`, edycja markdown — wymaga rozumienia narzędzi. Bez tego strata czasu na setup zje wszystkie zyski.
+- **LLM nie zastępuje doradcy podatkowego.** W sytuacjach niejednoznacznych — a takich jest sporo przy multi-source krypto + akcje + dywidendy — finalna decyzja musi należeć do człowieka, idealnie po konsultacji z doradcą. LLM dostarcza argumenty i mapuje ryzyko. Doradca daje rekomendację dostosowaną do Twojej sytuacji i bierze za nią odpowiedzialność.
+
+## Jeśli czytasz to dziś — masz jeszcze ~30 godzin
+
+Jeśli jeszcze nie złożyłeś PIT-38, a masz multi-source przychody, oto minimum-viable plan na **2-3 godziny** przed deadlinem 30.04:
+
+1. Pobierz wszystkie PIT-8C ze swoich brokerów (XTB, mBank, etc.) i raporty z giełd krypto.
+2. Wejdź na Twój e-PIT — sekcja C (papiery + fundusze) jest dla większości osób auto-wypełniona.
+3. Sekcję E (krypto) i G (dywidendy zagraniczne) wypełniasz ręcznie. To tutaj Twój e-PIT nie pomoże.
+4. **Sprawdź swoje PIT-38 z 2024.** Czy odpowiednia pozycja zawiera niewykorzystane koszty krypto z lat ubiegłych. To może być wart **kilka-kilkadziesiąt tysięcy PLN bufor**, o którym nie pamiętasz.
+5. Złóż przez profil zaufany. Zapłać mikrorachunek do 30.04.
+6. **Najgorszy scenariusz: korekta PIT-38 możliwa do 2030.** Złożenie z grubsza poprawnej deklaracji w terminie jest zawsze lepsze niż brak deklaracji + czynny żal.
+
+**Po terminie**, w trzech profilach:
+
+- **Prosty PIT (1 PIT-37 z pracy)** — Twój e-PIT i tyle. Nie kombinuj.
+- **2-3 źródła (akcje + krypto)** — warto rozważyć 1-2 wieczory na setup workflow zbliżony do tego.
+- **5+ źródeł i historia strat z lat ubiegłych** — to **TWÓJ scenariusz**. Bufor kosztów krypto może być wart 5-50k PLN przeoczonego podatku rocznie. Setup się zwraca.
+
+Wartość LLM rośnie nie liniowo, ale **skokowo**, gdy struktury repo są dla niego czytelne. Bez `CLAUDE.md` i konwencji projektowych ten projekt zająłby tyle samo czasu co praca z księgowym. Z nimi — dwie godziny. To jest dokładnie ten zakres ROI, którego nie da się sprzedać generic content marketingiem — bo wymaga, żeby najpierw stała tam infrastruktura.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Masz multi-source podatki i myślisz "ja też tak chcę"?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomagam freelancerom i konsultantom technologicznym ustawiać AI workflow do
+    rzeczy, które do tej pory delegowali ekspertom. Pokażę, jak taki setup mógłby
+    wyglądać u Ciebie.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
+## Przydatne zasoby
+
+- [Twój e-PIT](https://www.podatki.gov.pl/pit/twoj-e-pit/) — automatyczne wypełnienie sekcji C dla papierów i funduszy
+- [Ustawa o PIT — ISAP](https://isap.sejm.gov.pl/) — art. 17 ust. 1 pkt 11, art. 22 ust. 14, 16, art. 11a (kursy), art. 30a (dywidendy)
+- [NBP — kursy średnie](https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/) — D-1 dla transakcji walutowych
+- [Anthropic — Privacy & Data Usage](https://www.anthropic.com/privacy) — domyślne zasady przetwarzania w API
+- [Skills 2.0 — multi-agent system do zarządzania firmą](/blog/skills-2-0-multi-agent-system-zarzadzanie-firma) — kontekst, jak zbudowane są konwencje `CLAUDE.md`
+- [Spec-driven SEO na portfolio i Qamera AI](/blog/spec-driven-seo-portfolio-qamera-ai) — inny case study, ten sam typ workflow
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czy mogę zrobić PIT-38 z Claude Code, jeśli nie jestem programistą?
+
+</summary>
+
+Krótka odpowiedź: niekoniecznie warto. Setup wymaga znajomości git, terminala, struktury katalogów, edycji markdown i `.gitignore`. Bez tego strata czasu na konfigurację zje wszystkie zyski. Bezpieczniejsza ścieżka dla osób nietechnicznych to księgowy lub Twój e-PIT z ręcznym uzupełnieniem sekcji E i G.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy Anthropic używa moich danych finansowych do trenowania modeli?
+
+</summary>
+
+Domyślnie nie — Claude Code (Anthropic API) działa na innym modelu biznesowym niż consumer ChatGPT. Dane przesyłane przez API nie są używane do treningu modeli bez wyraźnej zgody klienta. To inna kategoria niż darmowe narzędzia konsumenckie. Aktualne zasady warto sprawdzić w [polityce prywatności Anthropic](https://www.anthropic.com/privacy).
+
+</details>
+
+<details open>
+<summary>
+
+### Co to jest "bufor kosztów krypto" i czemu może być wart kilkadziesiąt tysięcy PLN?
+
+</summary>
+
+Bufor to udokumentowane wydatki na zakup krypto, których jeszcze nie zamknąłeś sprzedażą na walutę tradycyjną. W polskim PIT (art. 22 ust. 14, 16) koszty czekają w buforze do roku, w którym sprzedasz krypto na fiat — wtedy obniżają podstawę opodatkowania. Nadwyżka kosztów nad przychodami w danym roku przechodzi na kolejne lata **bez ograniczenia czasowego**. Dlatego sprawdzenie zeszłorocznej deklaracji potrafi być warte kilka-kilkadziesiąt tysięcy PLN przeoczonego bufora.
+
+</details>
+
+<details open>
+<summary>
+
+### Co zrobić, jeśli czytam to po 30 kwietnia i jeszcze nie złożyłem PIT-38?
+
+</summary>
+
+Złóż jak najszybciej z czynnym żalem (art. 16 KKS) — kara za niezłożenie deklaracji rośnie z czasem, a sam czynny żal w wielu przypadkach pozwala uniknąć grzywny. Korekta PIT-38 jest możliwa do 5 lat wstecz, więc lepiej złożyć z grubsza poprawną deklarację z opóźnieniem niż w ogóle. Po fakcie warto skonsultować się z doradcą podatkowym, jeśli sytuacja jest złożona.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy LLM zastępuje doradcę podatkowego przy multi-source PIT?
+
+</summary>
+
+Nie. LLM dobrze radzi sobie z klasyfikacją typów transakcji, ekstrakcją danych z PDF-ów i mechaniczną konwersją kursów NBP, ale w sytuacjach niejednoznacznej kwalifikacji prawnej finalna decyzja musi należeć do człowieka. Idealnie — po konsultacji z doradcą, który weźmie odpowiedzialność za rekomendację dostosowaną do Twojej sytuacji. LLM mapuje opcje i ryzyka. Doradca podejmuje decyzję, którą podpisuje swoim nazwiskiem.
+
+</details>
+
+
+---
+
+# Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI
+
+Source: https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai
+Published: 2026-04-26
+
+## Dwa projekty, dwa stacki, jedna pętla pracy
+
+W ciągu dwóch tygodni zoptymalizowałem SEO na dwóch radikalnie różnych projektach. **Portfolio** ([pawel.lipowczan.pl](https://pawel.lipowczan.pl)) — Vite 7 + React 19 SPA z prerenderem. Audyt znalazł 10 findings, naprawiłem pięć z nich w jedno popołudnie. Securityheaders.com przeszedł z **C na A**, Rich Results Test z **5 warnings na 0**, sitemap dostał per-URL `lastmod` zamiast jednego build timestampa dla 73 URL-i.
+
+**Qamera AI** ([qamera.ai](https://qamera.ai)) — mój SaaS do AI product photography, Next.js 16 App Router + Turborepo + Vercel + Supabase + i18n EN/PL/UK. Audyt zwrócił health score **56/100**. W pięć dni roboczych zamknąłem **dziewięć spec-driven changes** (siedem planowanych + dwa wykryte po drodze), które rozwiązały wszystkie "Critical" findings. CLS na `/marketplace/styles` spadł z **0.467 do 0.016** — 27× poprawa. Hreflang pokrycie urosło z "tylko docs" do **20 static marketing paths plus docs**. Homepage dostał trzy bloki JSON-LD (Organization + WebSite + SoftwareApplication), pricing kolejne trzy (Product × 2 + FAQPage).
+
+Centralna teza tego artykułu jest prosta i niewygodna dla części czytelników: **pełna kontrola nad SEO i GEO jest możliwa tylko przy stacku opartym na kodzie**. WordPress, Webflow i Wix dają wtyczki — nie dają nagłówka `Content-Security-Policy` z reportingiem do Sentry, nie dają `xhtml:link` na poziomie sitemapy, nie dają `requestIdleCallback` w `<head>`, nie dają `llms.txt` generowanego z własną logiką build-time. Drugi multiplikator: dobry **AI workflow** — brainstorm → spec → execute → review → test. Sam kodowy stack bez procesu = dwa tygodnie ręcznej pracy. Sam AI workflow na zamkniętej platformie = uderzasz w sufit pluginów. Razem = godziny.
+
+Pokażę proces na obu projektach. Zobaczysz, co transferuje się 1:1, a co wymaga innych decyzji per stack.
+
+## Dlaczego "platforma vs kod" to dziś nie debata o cenie hostingu
+
+Pięć lat temu wybór między WordPressem a własnym kodem był pragmatyczny. WordPress dawał motywy, pluginy, ekosystem, panel dla nietechnicznego klienta. Vercel z własnym frameworkiem był overkillem dla 80% projektów.
+
+W 2026 te proporcje się przesunęły. **SEO przesunęło się w stronę GEO** (Generative Engine Optimization) — ChatGPT web search, Perplexity, Claude Search i Gemini Deep Research czytają twoje strony, ale inaczej niż Googlebot. Respektują [llmstxt.org](https://llmstxt.org/) spec, ważą `author.name` i `datePublished` w JSON-LD przy wyborze źródeł, preferują "factual-definition opener" w pierwszych 150 słowach. Security headers stały się sygnałem zaufania. Core Web Vitals weryfikuje field data z CrUX, nie lab score z Lighthouse. Schema enrichment przekłada się na rich results w SERP.
+
+Co WordPress / Webflow daje w 2026: SEO plugin (Yoast, Rank Math), basic schema dla Article i Product, sitemap generowany automatycznie, redirecty, `meta description`. To około **80% potrzeb** dla typowej strony firmowej.
+
+Czego nie daje (lub daje z bardzo dużą walką):
+
+```text
+- Content-Security-Policy Report-Only z reportingiem do Sentry
+- Permissions-Policy per-page (geolocation, camera, microphone, payment)
+- requestIdleCallback dla third-party scriptów zamiast async=true
+- xhtml:link w sitemapie (nie tylko hreflang w head)
+- llms.txt / llms-full.txt z własną logiką generacji
+- BlogPosting z mainEntityOfPage + publisher (raster logo) + ISO 8601 datetime
+- Per-bot reguły w robots.txt (GPTBot, ClaudeBot, PerplexityBot, Google-Extended)
+- Sitemap lastmod per page-type (post: frontmatter.modified, listing: max, legal: git mtime)
+```
+
+To jest top 20% kontroli. I to dokładnie ten zakres, w którym dziś wygrywasz pozycje — w klasycznym SERP i w odpowiedziach LLM-ów. Pluginy domykają top 80%. Top 20% wymaga edycji nagłówków HTTP, struktury HTML w `<head>`, własnego buildera artefaktów. Tego nie robisz w admin panelu — bo admin panel celowo nie odsłania tych warstw.
+
+## Toolchain — pięć narzędzi, jedna pętla
+
+Używam tych samych pięciu narzędzi na każdym projekcie SEO. Każde z osobna jest zwykłe. Razem tworzą pętlę, która kompresuje czas o 80-90%.
+
+| Narzędzie                                                        | Rola                                                                                            |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **`claude-seo`** plugin (20+ sub-skilli)                         | Audyt jako pierwsza komenda — technical, GEO, schema, performance, hreflang, AI discoverability |
+| **OPSX / OpenSpec**                                              | Spec-driven workflow — `proposal.md` → `design.md` → `specs/` → `tasks.md` przed kodem          |
+| **Lighthouse MCP**                                               | Lab CWV i LCP opportunities z poziomu agenta, bez przełączania kontekstu do PageSpeed           |
+| **Rich Results Test + securityheaders.com + Sentry CSP Reports** | Weryfikacja na każdym kroku                                                                     |
+| **Git worktrees**                                                | Równoległa praca nad niezależnymi changes (gdy projekt na to pozwala)                           |
+
+OPSX opisałem szerzej w [osobnym artykule o strukturyzowanym podejściu do AI workflow](/blog/opsx-workflow-strukturyzowana-praca-z-ai). `claude-seo` to przykład **specjalizowanego skilla** w sensie z [posta o Skills 2.0](/blog/skills-2-0-multi-agent-system-zarzadzanie-firma) — domain-specific knowledge plus checklist plus pre-built sub-skille.
+
+Pętla pracy wygląda tak samo na każdym projekcie:
+
+```text
+┌─────────┐    ┌──────────┐    ┌────────┐    ┌───────┐
+│  Audit  │ →  │ Proposal │ →  │ Design │ →  │ Specs │
+└─────────┘    └──────────┘    └────────┘    └───────┘
+                                                  │
+┌─────────┐    ┌────────┐    ┌──────────┐    ┌───▼───┐
+│ Archive │ ←  │ Verify │ ←  │ Implement│ ←  │ Tasks │
+└─────────┘    └────────┘    └──────────┘    └───────┘
+```
+
+Typowa sekwencja komend:
+
+```bash
+# Faza 1: audyt
+/claude-seo:seo
+
+# Faza 2: change proposal
+/opsx:new "seo-improvements"
+/opsx:ff   # fast-forward — wszystkie planning artifacts naraz
+
+# Faza 3: implementacja
+/opsx:apply
+
+# Faza 4: weryfikacja
+/opsx:verify
+# manualnie: securityheaders.com, Rich Results Test, Lighthouse MCP
+
+# Faza 5: archiwizacja
+/opsx:archive
+```
+
+Każde z tych narzędzi działa **dlatego, że substratem jest kod**. Audyt może czytać dowolny plik źródłowy i raw output `<head>`. OPSX może edytować `vite.config.js`, `next.config.ts`, `vercel.json`, `robots.txt` w jednej sesji. Weryfikatory dostają pełny output bez sandboxa. To nie jest przypadek — to konsekwencja architektury.
+
+## Audyt — co znajduje claude-seo na dwóch radikalnie różnych projektach
+
+Pierwsza obserwacja, która mnie zaskoczyła: **claude-seo zwraca ten sam zestaw kategorii znalezisk niezależnie od stacku**. Różny jest tylko sposób ich naprawy.
+
+| Projekt   | Stack                           | Findings                                            | Stan początkowy                            |
+| --------- | ------------------------------- | --------------------------------------------------- | ------------------------------------------ |
+| Portfolio | Vite 7 + React 19 + Vercel      | 10 (4 perf, 2 schema, 2 security, 1 sitemap, 1 GEO) | securityheaders C, Rich Results 5 warnings |
+| Qamera AI | Next.js 16 + Turborepo + Vercel | 7 + 2 wykryte podczas                               | health score 56/100                        |
+
+Wspólne kategorie znalezisk, które transferują się 1:1 między stackami:
+
+- **Brak lub niekompletny `llms.txt`** — biggest miss na GEO readiness w obu projektach
+- **Schema enrichment** — brakujący `publisher`, `dateModified`, `mainEntityOfPage`, ISO 8601 datetime
+- **Hreflang tylko head-level**, brak `xhtml:link` w sitemap dla klasteryzacji wariantów językowych
+- **Security headers** — deprecated `X-XSS-Protection`, brak `Permissions-Policy`, brak HSTS preload, brak CSP
+- **AI bot allowlist** to wildcard — co dla `Google-Extended` i `GPTBot` oznacza "brak sygnału", nie "allow"
+
+Stack-specific findings, które wymagają innych decyzji:
+
+- **Portfolio:** `clickrank.ai` synchroniczny w `<head>` blokuje parser przed First Paint, sitemap z 73 URL-ami i jedną datą `lastmod`, `articleBody: post.excerpt` semantycznie błędne w `BlogPosting`
+- **Qamera:** CLS 0.467 na `/marketplace/styles` przez client-side fetch z Airtable bez zarezerwowanych wymiarów kart, hardcoded EN strings w `root-metadata.ts` (PL/UK użytkownicy dostawali angielski OG na każdej marketingowej), Merchant Listings false-positive na pricing
+
+Wspólny zestaw znalezisk to **pierwszy dowód, że proces jest transferowalny**. Zna mnie kilka pluginów SEO i każdy z nich na obu projektach zwróciłby fundamentalnie różne raporty, bo każdy jest zwiazany z konkretną platformą. Audyt agenta na neutralnym substracie — kodzie — zwraca uniwersalny obraz.
+
+## Od audytu do change proposal — kiedy bundlować, kiedy splitować
+
+Dwa projekty, dwie różne strategie packagingu zmian.
+
+**Portfolio** dostało jeden change `seo-improvements` z pięcioma filarami w jednym PR-ze ([#2](https://github.com/plipowczan/portfolio/pull/2)). Single-maintainer, brak ryzyka konfliktu plików, łatwiejszy review całości — bo zmiany są logicznie związane tematycznie.
+
+**Qamera** dostała dziewięć osobnych changes, osiem PR-ów (#75/76/77/82/92/93/94/96), pracowanych równolegle na worktree'ach git. Multi-developer, monorepo, disjoint file sets. Worktrees pozwoliły każdej zmianie mieć własne `node_modules` i własny port dev servera — zero konfliktu state.
+
+Kryterium decyzyjne, którego używam:
+
+| Czynnik                   | One-PR (portfolio) | Multi-PR (Qamera)              |
+| ------------------------- | ------------------ | ------------------------------ |
+| Liczba maintainerów       | 1                  | 2+                             |
+| Ryzyko konfliktu plików   | niskie             | wysokie                        |
+| Cykl review               | self-review        | code review przez wspólnika    |
+| Rozkład czasowy           | jedno popołudnie   | 5 dni roboczych                |
+| Rollback granularity      | całość lub nic     | per-feature                    |
+| Dev environment isolation | nie potrzebna      | worktree + osobne node_modules |
+
+Wspólne dla obu: każda zmiana = OPSX `proposal.md` + `design.md` + `specs/` + `tasks.md` **przed** kodem. To nie biurokracja. To **feedback loop dla AI**: review specu kosztuje minuty, review 200 linii wygenerowanego kodu w niewłaściwym miejscu kosztuje godziny. Spec-driven daje ci punkt weta, zanim zapłacisz koszt implementacji.
+
+```text
+## Tasks — seo-improvements
+
+- [x] Move clickrank inline to requestIdleCallback (+ setTimeout fallback)
+- [x] Generate dedicated raster logo (600×60 PNG via sharp)
+- [x] Add publisher / dateModified / mainEntityOfPage to BlogPosting
+- [x] Drop articleBody: excerpt (semantically wrong)
+- [x] Build llms.txt / llms-full.txt generator (scripts/generate-llms-txt.js)
+- [x] Replace X-XSS-Protection with Permissions-Policy + HSTS preload
+- [x] Configure CSP Report-Only → Sentry Security Reports bucket
+- [x] Per-page-type lastmod (post: frontmatter.modified, listing: max, legal: git mtime)
+```
+
+Każdy task w `tasks.md` to jedna jednostka pracy o znanym scope i znanym sposobie weryfikacji. Po implementacji checkbox jest dowodem, że task został wykonany — nie deklaracją.
+
+## Co transferuje się 1:1 (i dlaczego to argument za kodem)
+
+Cztery rzeczy, które zaimplementowałem w identycznym wzorcu na portfolio i w Qamerze. Każda byłaby trudna lub niemożliwa na zamkniętej platformie.
+
+### A. `llms.txt` jako własny artefakt build-time
+
+Spec [llmstxt.org](https://llmstxt.org/) istnieje od 2024 roku (Answer.AI / Jeremy Howard). W 2026 ChatGPT web search, Perplexity, Claude Search i Gemini Deep Research go respektują. Plik to skrócony index treści dla LLM, z opcjonalnym `llms-full.txt` zawierającym pełną treść do single-token ingest.
+
+Na portfolio mam `scripts/generate-llms-txt.js` uruchamiany w `build:prerender`. Czyta `src/content/blog/*.md` (PL + EN) przez `gray-matter`, plus `src/data/projects.js`. Generuje `public/llms.txt` (~16 KB index) i `public/llms-full.txt` (~800 KB pełna treść z separatorem `\n\n---\n\n`).
+
+```text
+# Pawel Lipowczan
+
+> Architekt oprogramowania i doradca ds. technologii...
+
+## Blog (PL)
+- [Tytuł](url): jednozdaniowy opis
+...
+
+## Blog (EN)
+- [Title](url): one-line description
+...
+
+## Kontakt
+- email: ...
+```
+
+W Qamerze bliźniaczy skrypt w workspace `apps/web` generuje `llms.txt` z marketingowych stron, blog postów i public docs. Logika jest inna (źródła danych, struktura sekcji), ale wzorzec — build-time generator zgodny ze spec — identyczny.
+
+**Tego nie zrobisz w panelu:** plugin WordPressa może wyplunąć statyczny `llms.txt`, ale nie zaintegrujesz go z własnym CMS-em na własnych warunkach (kolejność sekcji per język, fallback dla brakujących `description`, paginacja przy 100+ artykułach).
+
+### B. Schema enrichment — `articleBody: excerpt` to semantyczny błąd
+
+Mój stary `BlogPosting` miał sześć pól. Rich Results Test pokazywał pięć non-critical warnings. Po enrichmencie — jedenaście pól, zero warnings.
+
+```json
+{
+  "@type": "BlogPosting",
+  "headline": "...",
+  "description": "pierwsze 300 znaków contentu lub frontmatter.description",
+  "author": {
+    "@type": "Person",
+    "name": "Pawel Lipowczan",
+    "url": "https://pawel.lipowczan.pl"
+  },
+  "datePublished": "2026-01-15T00:00:00Z",
+  "dateModified": "2026-04-21T00:00:00Z",
+  "image": "...",
+  "url": "...",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "..." },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Pawel Lipowczan",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pawel.lipowczan.pl/logo-schema.png"
+    }
+  }
+}
+```
+
+Trzy nieoczywiste detale: `articleBody: post.excerpt` jest **semantycznie błędne** (spec wymaga pełnej treści, nie skrótu) — wyciąłem to pole zupełnie. `publisher.logo` musi być **rasterem** (PNG 600×60), nie SVG. ISO 8601 z `Z` lub offsetem, nie `2026-01-15` bez strefy. W Qamerze identyczny zestaw zmian dotknął `Article` na `/blog`, `Service` na `/offer/*` i `Product` na `/pricing`.
+
+**Tego nie zrobisz w panelu:** SEO pluginy ustawiają top sześć pól. `mainEntityOfPage`, `publisher.logo` jako oddzielny raster, ISO datetime, `description` z fallback do pierwszego akapitu — to ręczna robota w generatorze schema.
+
+### C. Hreflang na poziomie sitemapy, nie tylko `<head>`
+
+Next.js `Metadata.alternates.languages` to head-level signal. Google preferuje **sitemap-level `xhtml:link`** dla klasteryzacji wariantów językowych. W Qamerze rozwiązaliśmy to wspólnym helperem `buildLanguageAlternates(pathname)` używanym z dwóch miejsc — `sitemap.ts` i każdego `generateMetadata` per page.
+
+```xml
+<url>
+  <loc>https://qamera.ai/pricing</loc>
+  <xhtml:link rel="alternate" hreflang="en" href="https://qamera.ai/pricing"/>
+  <xhtml:link rel="alternate" hreflang="pl" href="https://qamera.ai/pl/pricing"/>
+  <xhtml:link rel="alternate" hreflang="uk" href="https://qamera.ai/uk/pricing"/>
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://qamera.ai/pricing"/>
+</url>
+```
+
+Drift-guard test w CI failuje, gdy ktoś doda ścieżkę do sitemap, a nie doda `alternates` do `page.tsx`. To zabezpieczenie przed silent regression — bardzo łatwo dodać nowy landing i zapomnieć o jego wariancie językowym.
+
+**Tego nie zrobisz w panelu:** Yoast generuje hreflang w head. Sitemap-level wymaga edycji generatora sitemapy plus drift-guard — czyli kodu w CI.
+
+### D. AI bot allowlist — named rules zamiast wildcard
+
+`robots.txt` z osobnymi blokami dla `GPTBot`, `OAI-SearchBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended` i `CCBot`. Wildcard = "brak sygnału" — bot interpretuje to konserwatywnie. Named allow = "explicit yes" — bot wie, że może crawl-ować i indeksować dla swojego pipeline.
+
+**Tego nie zrobisz w panelu:** WordPress pisze do `robots.txt` przez plugin, ale per-bot reguły wymagają edycji pliku fizycznego — czyli dostępu do filesystem, którego nie masz w typowym shared hostingu.
+
+## Co jest stack-specific (i czego nauczył mnie każdy projekt osobno)
+
+### Portfolio — `async=true` na inline script to mit
+
+Ten finding zaskoczył mnie najbardziej, bo wszyscy się mylą. Skrypt `clickrank.ai` w `<head>` wyglądał tak:
+
+```html
+<script>
+  var s = document.createElement("script");
+  s.src = "https://js.clickrank.ai/...";
+  s.async = true;
+  document.head.appendChild(s);
+</script>
+```
+
+Pułapka: `async=true` dotyczy **ściągania** skryptu, ale sam inline kod, który go tworzy, wykonuje się **synchronicznie podczas parsowania HTML**. Dodaje microtask do event loopa, zanim browser wyrenderuje cokolwiek.
+
+Fix — `requestIdleCallback` plus fallback dla Safari 16.3 i starszych:
+
+```html
+<script>
+  (function () {
+    var inject = function () {
+      /* current logic */
+    };
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(inject, { timeout: 3000 });
+    } else {
+      setTimeout(inject, 2000);
+    }
+  })();
+</script>
+```
+
+Weryfikacja po deploy na prod: `performance.getEntriesByType('resource').filter(r => r.name.match(/clickrank/))` → `startTime: 101.6ms`. Browser zgłosił idle po ~100ms i dopiero wtedy odpalił callback. Lighthouse lab score variance pozostała duża (post: prod 38 → preview 61 → drugi run 43) — **lab score ≠ field data**. Prawdziwa weryfikacja to CrUX z Google Search Console po 2-4 tygodniach.
+
+### Qamera — CLS 0.467 → 0.016 przez SSR initial grid
+
+`/marketplace/styles` pokazywał karty stylów ładowane client-side z Airtable. Bez zarezerwowanych wymiarów grid layout shiftował się 4× ponad próg failing (0.467 vs cel ≤ 0.1). Trzy opcje fixu — SSR initial grid, reserved card dimensions, combined. Wybraliśmy **SSR**: bonus dla GEO (non-JS crawlers widzą content) plus eliminacja CLS u źródła.
+
+Rezultat: **CLS 0.016** (27× poprawa), LCP 2.4s → 1.6s. Twist post-deploy: PageSpeed Insights pokazał LCP 14.4s (cold Vercel function), Lighthouse MCP równolegle 1.6s (warm). **Jedna metryka z PSI to sampling.** Zawsze re-run lub weryfikuj lokalnie.
+
+## Bug, którego audyt nie szukał — i dlaczego to argument za regularnymi audytami
+
+Audyt SEO portfolio wyrzucił finding, którego się nie spodziewałem: hreflang alternatywy dla posta `llm-knowledge-base-brain-karpathy` wskazywały na `/en/blog/<pl-slug>`, który zwraca "Post not found".
+
+Root cause: post był **PL-only** (brak EN wersji), ale jego frontmatter miał `alternateSlug: llm-knowledge-base-brain-karpathy` — wskazujący sam na siebie. Efekt wcześniejszej iteracji blog-article-writer skilla, który **autouzupełnił pole bez walidacji**. Łańcuch zdarzeń:
+
+1. User na PL poście klika przełącznik języka
+2. `getAlternatePost(currentSlug)` zwraca... ten sam PL post
+3. LanguageSwitcher buduje `/en/blog/<pl-slug>` i nawiguje
+4. `BlogPostPage` filtruje `getPostsByLang("en")` → brak match → "Post not found"
+5. Sitemap dziedziczy ten bug jako bad hreflang, propaguje do Google
+
+Trzy-poziomowa naprawa: **data fix** (usunięcie pola), **code defense** (`getAlternatePost` odrzuca self-reference i same-lang candidates), **process fix** (reguła w `.claude/rules/data-storage/` plus update walidatora w blog-article-writer skillu).
+
+Meta-lekcja jest mocna: audyt SEO uruchamia bug-i, **które nie były jego celem**. Nigdy bym nie znalazł tego bez claude-seo. To argument za regularnym audytem nawet na małym projekcie.
+
+Drugi meta-poziom — bug został **wprowadzony przez AI workflow** (blog-article-writer skill), naprawiony przez **inny AI workflow** (audyt + spec-driven fix + reguła w skillu). To pętla samokorygująca pod warunkiem, że jest proces. Bez procesu — bug żyłby tygodniami. Pokrewny wątek o tym, jak agent pilnuje swoich własnych standardów, opisałem szerzej w [poście o LLM Wiki Karpathy'ego](/blog/llm-knowledge-base-brain-karpathy) i [Second Brain z Obsidian i Claude Code](/blog/second-brain-obsidian-claude-code-skills).
+
+## Kompresja czasu jest multiplikatywna, nie addytywna
+
+Liczbowo:
+
+- **Portfolio:** audyt 15 min + 4h implementacji + 30 min weryfikacji = **5h** dla 5 zmian
+- **Qamera:** **5 dni roboczych** dla 9 zmian (siedmiu planowanych + dwóch wykrytych po drodze)
+- **Drugi projekt = ~30% czasu pierwszego** dzięki transferowi wzorców (llms.txt, schema enrichment, hreflang sitemap, AI bot allowlist)
+
+Multiplikator: **kodowy stack × dobry AI workflow = godziny**. Każdy z osobna nie wystarczy. Sam kodowy stack bez procesu = dwa tygodnie ręcznej pracy z forami i Stack Overflow. Sam AI workflow na zamkniętej platformie = uderzasz w sufit pluginów po pół godziny. Razem dają kompresję o 80-90%. To nie jest addytywne — to mnożenie. Argument, dla którego coraz częściej wybieram kodowe rozwiązania, opisałem też w [przewodniku po vibe codingu](/blog/vibe-coding-przewodnik).
+
+Sześć takeaways z obu projektów:
+
+1. **Kodowy stack daje top 20% kontroli, której pluginy nie dają** — i to ten zakres dziś wygrywa pozycje
+2. **Spec-driven jako feedback loop dla AI** — review specu kosztuje minuty, review 200 linii kodu kosztuje godziny
+3. **Transferowalne 1:1 między stackami:** llms.txt, schema enrichment, hreflang sitemap-level, AI bot allowlist
+4. **Stack-specific:** każdy framework ma swoje pułapki performance i własne API metadata — tu zaoszczędzisz najmniej
+5. **Audyt znajduje bug-i poza swoim scopem** — `alternateSlug === slug` nigdy nie był na liście, znalazłem przez claude-seo
+6. **Drugi projekt = 30% czasu pierwszego** — pod warunkiem dokumentacji wzorców
+
+Jeśli zostajesz na WordPressie — ten artykuł nie zmienia twojego życia. Jeśli rozważasz przejście na własny stack, to argument, którego potrzebowałeś.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Potrzebujesz audytu SEO + GEO na własnym stacku?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Robię to samo na projektach klientów — od audytu przez spec-driven changes po post-deploy verification. Omówimy twój stack i realny scope w 30 minut.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
+## Przydatne zasoby
+
+- [llmstxt.org](https://llmstxt.org/) — spec llms.txt
+- [securityheaders.com](https://securityheaders.com/) — skaner nagłówków bezpieczeństwa
+- [Rich Results Test](https://search.google.com/test/rich-results) — walidator structured data Google
+- [PageSpeed Insights](https://pagespeed.web.dev/) — Core Web Vitals lab + field data
+- [MDN — requestIdleCallback](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback)
+- [MDN — Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+- [Sentry Security Reports](https://docs.sentry.io/product/security-policy-reporting/) — CSP reports via Sentry
+- [Google Search Central — Article structured data](https://developers.google.com/search/docs/appearance/structured-data/article)
+- [Qamera AI](https://qamera.ai) — projekt opisany w case study
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czy każda strona oparta na kodzie jest automatycznie lepsza pod SEO niż WordPress?
+
+</summary>
+
+Nie — kodowy stack daje **kontrolę**, nie wynik. Bez procesu (audyt → spec → execute → weryfikacja) skończysz z gorszą stroną niż dobrze skonfigurowany WordPress z Yoastem. Argument tego artykułu jest taki: kodowy stack **pozwala** zoptymalizować top 20% (CSP, llms.txt, sitemap-level hreflang, schema enrichment), których platformy nie odsłaniają. Czy to wykorzystasz, zależy od twojego workflow.
+
+</details>
+
+<details open>
+<summary>
+
+### Co to jest spec-driven development w kontekście SEO?
+
+</summary>
+
+Spec-driven oznacza, że każda zmiana zaczyna się od artefaktów: `proposal.md` (co i dlaczego), `design.md` (jak), `specs/` (kontrakty), `tasks.md` (lista kroków) — **przed** napisaniem kodu. W SEO sprawdza się szczególnie, bo zmiany dotykają wielu warstw (HTTP headers, HTML head, structured data, sitemap), a brak specu = AI generuje 200 linii kodu w niewłaściwym miejscu. Używam OpenSpec / OPSX workflow — szczegóły w [osobnym artykule](/blog/opsx-workflow-strukturyzowana-praca-z-ai).
+
+</details>
+
+<details open>
+<summary>
+
+### Czy llms.txt ma sens w 2026, jeśli moja strona nie jest tutorialem AI?
+
+</summary>
+
+Tak, ale ROI jest niższy. `llms.txt` najmocniej działa dla treści, które LLM-y cytują (tutoriale, dokumentacja, case studies). Dla e-commerce lub portfolio impact jest mniejszy, ale wciąż dodatni — koszt to 100-200 linii skryptu Node, korzyść to obecność w grounding ChatGPT, Perplexity i Claude Search. Plik `llms-full.txt` przy 100+ artykułach robi się ciężki — wtedy paginacja albo `top-articles-only`.
+
+</details>
+
+<details open>
+<summary>
+
+### Jak wybrać między jednym dużym PR-em a wieloma małymi przy zmianach SEO?
+
+</summary>
+
+Single-PR ma sens przy single-maintainerze i tematycznie spójnych zmianach (jak portfolio: 5 filarów SEO w jednym PR-ze, 4h pracy). Multi-PR jest konieczny przy wielu maintainerach, monorepo i równoległej pracy (jak Qamera: 9 zmian, 8 PR-ów, 5 dni). Kryterium: czy zmiany dotykają tych samych plików (konflikt = split) i czy review całości jest realny w jednym przejściu (>500 linii diff = split).
+
+</details>
+
+<details open>
+<summary>
+
+### Czy AI workflow zastępuje code review przy zmianach SEO?
+
+</summary>
+
+Nie — uzupełnia. W Qamerze Copilot review na PR złapał trzy trafne issues (placeholder Sentry DSN, brak preview env var, unused import), których spec-driven workflow nie złapał. AI workflow przyspiesza generację kodu zgodnego ze specem, ale **drugi pair of eyes** (człowiek lub AI reviewer) wciąż łapie różnicę między "kod robi to, co spec mówi" a "kod robi to, co spec mówi, w sposób bezpieczny dla produkcji".
+
+</details>
 
 
 ---
@@ -1329,7 +2429,7 @@ Pisałem o operacjonalizacji AI w artykule o [trendach AI 2026](/blog/trendy-ai-
   <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
     Pomagam firmom projektować i wdrażać systemy AI agents — od jednego agenta do pełnej orkiestracji. Sprawdź shared-skills na GitHubie lub umów się na konsultację.
   </p>
-  <a href="/#contact" class="btn-primary inline-block">Umów konsultację →</a>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
 
 ## Przydatne zasoby
@@ -1891,10 +2991,14 @@ openspec status
 4. **Schematy są customizable** — zdefiniuj własny workflow dopasowany do twojego procesu
 5. **Context injection** — AI zna konwencje twojego projektu bez powtarzania w każdym promcie
 
-<div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 12px; padding: 32px; margin: 32px 0; border: 1px solid #00ff9d33;">
-  <h3 style="color: #00ff9d; margin-top: 0;">Chcesz wdrożyć OPSX w swoim zespole?</h3>
-  <p style="color: #e0e0e0; margin-bottom: 20px;">Pomagam zespołom przejść od chaotycznego promptowania do strukturyzowanego workflow z AI. Napisz, a ustalimy czy OPSX pasuje do waszego procesu.</p>
-  <a href="/#contact" style="display: inline-block; background: #00ff9d; color: #0a0a0a; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Umów bezpłatną konsultację</a>
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz wdrożyć OPSX w swoim zespole?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomagam zespołom przejść od chaotycznego promptowania do strukturyzowanego workflow z AI. Napisz, a ustalimy czy OPSX pasuje do waszego procesu.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
 
 ## Przydatne zasoby
@@ -8527,6 +9631,1100 @@ Gdy nie zna odpowiedzi, użytkownik jest sfrustrowany, sprawa wymaga decyzji wyk
 
 ---
 
+# Pre-revenue startup without a finance department. AI agent system anatomy.
+
+Source: https://pawel.lipowczan.pl/en/blog/ai-agent-system-skills-rules-shared-context
+Published: 2026-05-09
+
+Today is May 9, 2026. Two days ago I gave a talk at NoCode Poland #4 — *"How 2 founders do the work of a whole team"*. The title sounds like clickbait, but a week earlier, on May 1, part of what I was talking about **didn't exist yet**.
+
+On May 1 at 200IQ LABS — the pre-revenue company I run with Przemek — there was no finance department. Zero April management report. Zero category-level cost control. Zero spec. **On May 3 we did the first April close**: 30+ classification rules trained from scratch, a management report in `monthly/2026-04.md`, and a real EBITDA of −16,804 PLN documented with three plan-correction decisions for the coming months.
+
+Two days from zero to a working management system. Honestly — I did this partly for the talk. **Event Driven Development™** (the event was the talk). But this system was overdue. I'd rather ship PRs to production than sit on numbers — that's the founder truth. The talk just forced the timing.
+
+This article isn't about *"AI replacing accountants"*. It won't — formal accounting via inFakt + an accountant handles compliance, and still does. This article is about **how to architecturally build an AI agent system that genuinely replaces specialist roles in the management layer** — where the department doesn't exist because the company is too small to hire and too big to improvise.
+
+Three pillars I keep returning to throughout the text:
+
+1. **Skills automate processes.** Workflow becomes a noun — `/finances close 2026-04` instead of 6 manual steps.
+2. **Determinism through rules.** Hybrid rules-first + LLM fallback + learning loop. The system converges from probabilistic to deterministic.
+3. **Shared context.** CLAUDE.md, MEMORY.md, the `context/` structure. Without it, subagents are isolated chats. With it — a system that remembers the company.
+
+## Architecture: one diagram, three layers
+
+![AI agent system architecture at 200IQ LABS — main agent (Claude Code orchestrator) → 5 subagents (CFO, Marketing, Legal, Tax Advisor, Business Consultant) → tools layer (Python tools + External MCP) → shared context (CLAUDE.md, MEMORY.md, context/)](/images/architecture-system-agentow-ai.webp)
+
+This diagram is the spine of the article. Each of the three layers maps to one of the pillars I'll come back to.
+
+**The main agent** is Claude Code acting as an orchestrator. From its perspective I'm the user; it's the entry point. Routing to subagents happens through skills — I type `/finances close 2026-04`, the agent loads the `finances` skill, persona switches to CFO.
+
+**Specialized subagents** — CFO, Marketing, Legal, Tax Advisor, Business Consultant — aren't separate processes or separate models. They're **combinations of skill + persona + scoped context**. CFO reads `context/finances/`, Marketing reads `context/qamera/` (because Qamera is our product) and `context/brand/`, Legal reads `context/legal-entities.md` and `context/company.md`. Each role only sees what it needs — context hygiene.
+
+**The tools layer** is a hybrid: Python (default for planned workflow) + External MCP (for ad-hoc or when an API forces it). Stripe, Revolut, Airtable are Python wrappers in the repo — because we know up-front how we use them. inFakt is MCP because the costs endpoint returns 403 when an accounting office handles the entity — the official MCP server bypasses that limitation. Qamera AI has its own MCP, used by both external agents and ourselves — because for ad-hoc exploration of our own product, MCP is just faster than writing a script per query.
+
+**Shared context** is the substrate of the entire system. CLAUDE.md loads into every conversation — project instructions, conventions, paths. MEMORY.md is persistent across sessions. `context/` is a structured knowledge base: finances, clients, projects, operations. Subagents read from this base — and that's why they aren't isolated chats.
+
+Now in order.
+
+## Pillar 1: Skills automate processes
+
+**A skill is a unit that encloses a process** — trigger, steps, decisions, integrations. Before skills, your workflow lives in your head and someone's notebook. With skills, the workflow becomes a noun: `/finances close YYYY-MM`, `/ingest`, `/slides:new`. Command instead of memory.
+
+Sounds banal. It isn't. Without a skill I improvise every time: *"hey, pull Stripe data for April, then Revolut, classify transactions, check accruals, write the report"*. That means I reinvent the same sequence 6 times a day. With `/finances close 2026-04` — one command, deterministic phase sequence.
+
+### `/finances close` — 6 phases
+
+![Six phases of monthly close in the `/finances` skill: PULL → CLASSIFY → REVIEW → ACCRUALS CHECK → COMMIT → REGENERATE. PHASE 3 and 5 are human-in-the-loop](/images/diagram-close-process.webp)
+
+```text
+PHASE 1: PULL          (~2 min)   Revolut + Stripe (Python) + inFakt (MCP) + tech-stack
+PHASE 2: CLASSIFY      (~30s)     rules.yaml deterministic → LLM fallback
+PHASE 3: REVIEW        (~10-15min interactive)   [a/c/r/s] learning loop
+PHASE 4: ACCRUALS CHECK (~2 min)  accrued-liabilities.yaml matching
+PHASE 5: COMMIT        (~10-20 min)   mandatory narrative blocks close
+PHASE 6: REGENERATE    (~30s)     3 dashboards, AUTO:START/END markers
+```
+
+Each phase is **idempotent** — restart after a crash doesn't duplicate data. You can run this close, interrupt after PHASE 3, come back an hour later, and continue from where you stopped. This isn't pipe-and-pray; it's a transactional operation in the sense of "you can repeat it and nothing bad happens".
+
+### Video: one close, live
+
+<video controls preload="metadata" poster="/images/poster-budget-process.webp" class="w-full rounded-lg my-6 aspect-video">
+  <source src="/videos/budget-process.webm" type="video/webm" />
+  <source src="/videos/budget-process.mp4" type="video/mp4" />
+  Your browser does not support HTML5 video.
+  <a href="/videos/budget-process.mp4">Download the video</a>.
+</video>
+<p class="text-sm text-gray-400 text-center -mt-4 mb-8">
+  Full April 2026 close run as <code>/finances close 2026-04</code>.
+  ~7 minutes, 6 phases, 2 QA iterations stayed in the recording — meta-message: you can correct things by talking to the agent.
+</p>
+
+The recording keeps **two QA iterations** — moments where I stopped the agent, noticed something was off, and asked for a correction without restarting the whole phase. I deliberately didn't cut them out. That shows something that gets lost in marketing demos: a workflow with an agent isn't a single-pass script. You can correct via conversation, the agent adjusts state, continues.
+
+### Generalization: any process can be a skill
+
+`/finances close` is the flagship skill, but the same mechanic works everywhere. `/ingest` classifies files dropped into `inbox/` — I described it in detail in the [PIT-38 case study](/en/blog/polish-pit-38-claude-code-case-study). `/slides:new` generates a presentation skeleton. Meta-twist: the NCP4 slides I mention in the intro were created with the same workflow. **The very `/blog-article-writer` skill used for this article** has its own phases: prime → plan → execute → validate → translate.
+
+### Mandatory narrative blocks close
+
+PHASE 5 requires that a human writes three narrative sections in `monthly/<YYYY-MM>.md`:
+
+1. What happened unexpectedly (vs plan).
+2. Decisions taken during the month.
+3. Plan for next month / plan correction.
+
+**Empty narrative blocks the close.** The system won't close the month until you write something in each section.
+
+This looks like pointless formalism — and from the *"I just want to close fast"* perspective, it is. But from the *"six months later I'm staring at EBITDA variance −3,160 vs plan and don't know why"* perspective, it's the only way decisions retain durable memory.
+
+**Reflection is part of the process, not optional.**
+
+This pattern is broader than finances: every time you automate something where value lies in **understanding** rather than **execution** — add a human-in-the-loop checkpoint that can't be skipped. Otherwise you'll automate execution and destroy understanding.
+
+## Pillar 2: Determinism through rules
+
+Transaction classification is a classic cold-start problem. Pure rules: every new vendor needs manual setup, a month with no new vendors is a good week, a month with 5 new ones is an evening. Pure LLM: non-deterministic, cheap at scale, but unacceptable in finance — audit, regulator, future inspection.
+
+The third path is hybrid: **rules-first + LLM fallback + learning loop**.
+
+### Rules-first
+
+```yaml
+# rules.yaml — fragment
+- id: gworkspace-via-gcp
+  pattern:
+    memo: "GCPLD"
+    source: infakt
+    amount_range: [200, 500]
+  classify:
+    category: opex/saas
+    unit: null
+  note: "Google Workspace billowane przez Google Cloud Poland (300-330 PLN/mc)"
+  created_at: 2026-05-04
+
+- id: gcp-infakt
+  pattern:
+    memo: "GCPLD"
+    source: infakt
+    amount_range: [500, 999999]
+  classify:
+    category: cogs/ai-generation
+    unit: qamera
+  note: "Faktury GCP w inFakt z prefiksem GCPLD i kwotą >500 PLN = compute"
+  created_at: 2026-05-04
+```
+
+The strongest detail: **two rules for the same vendor** (`GCPLD` in inFakt), differing only in `amount_range`. 200–500 PLN → Google Workspace (category `opex/saas`). >500 PLN → compute GCP for the Qamera pipeline (category `cogs/ai-generation`).
+
+This is the type of nuance an LLM gets **differently every time**. One day it classifies all `GCPLD` as Workspace, the next as compute, the third randomly. Here we have the answer encoded as code. Auditable, deterministic, idempotent.
+
+The `note:` field matters as much as the pattern. Without that note, six months later I look at the rule and don't know why splitting by `amount_range` makes sense. **A rule without a note is long-term debt.**
+
+### LLM fallback with few-shot examples
+
+When no rule matches, the agent falls back to LLM with a few-shot prompt. Each example in `examples.yaml` has explicit `reasoning`:
+
+```yaml
+# examples.yaml — fragment
+- transaction:
+    date: 2026-04-10
+    amount: -127.40
+    memo: "BYTEPLUS API USAGE PAY-AS-YOU-GO"
+    source: revolut
+  classification:
+    category: cogs/ai-generation
+    unit: qamera
+  reasoning: "Byteplus to provider Kling AI używany do generacji video w produkcie"
+```
+
+The LLM gets 15–25 such examples per category. It returns a classification plus its own `reasoning`. **The `reasoning` is visible to the user** in the REVIEW phase — it's not a black box. I see not just "category X" but why.
+
+### Learning loop: REVIEW [a]ccept / [c]hange / [r]ule / [s]kip
+
+A loop per LLM-classified transaction. Four decisions:
+
+| Option | What it does |
+|---|---|
+| `[a]ccept` | LLM was right, but it's a one-off case |
+| `[c]hange` | LLM got it wrong, manual correction |
+| `[r]ule` | Accept + create a rule for similar cases |
+| `[s]kip` | Don't know, we'll come back next close |
+
+**Golden rule:** if the transaction is likely to repeat → `[r]ule`. 30 seconds now, you save minutes over the coming months. Every `[r]ule` freezes the LLM's guess into a deterministic rule in `rules.yaml`. Next close — the same transaction lands in "auto-classified" deterministically.
+
+**Real number:** the first close (April 2026) generated **30+ rules from zero**. Three pattern types surfaced immediately:
+
+1. **By memo** — pure pattern matching. Byteplus, Cursor, Meta Pay.
+2. **By inFakt invoice prefix + amount** — `GCPLD` with `amount_range: [200, 500]` is Workspace, with `[500, ∞]` is compute. Same vendor, two categories.
+3. **By reseller pattern** — Paddle 24 EUR ≈ 100 PLN is n8n cloud. But Paddle with a different amount = REVIEW (could be a different product sold via Paddle).
+
+The system converges from probabilistic to deterministic. This is a rare design — most budget classification tools are either 100% deterministic (rigid rules, lots of manual work) or 100% probabilistic (LLM/ML, no audit). The hybrid with `[r]ule` as a bridge between the two gives you LLM cold-start and long-term audit of deterministic rules.
+
+### Idempotent regeneration as an orthogonal determinism mechanism
+
+The second layer of determinism is the dashboards. PHASE 6 regenerates 3 files: `_dashboard.md`, `_alerts.md`, `_runway.md`. Question: what about manual notes I added during the month? If regeneration overwrites the whole file — my notes vanish and I stop writing notes.
+
+Solution: scope markers.
+
+```markdown
+# 200IQ LABS — Finances Dashboard
+
+<!-- AUTO:START -->
+
+## Cash position & runway
+
+| Metric | Value |
+|---|---|
+| Cumulative shareholder loans | 74,300 PLN |
+| Confirmed financing (June) | +100,000 PLN |
+| Accrued liabilities (UoD payout May) | −24,000 PLN |
+| Run-rate burn | ~14-14.5k PLN/mo |
+
+<!-- AUTO:END -->
+
+## Manual notes (outside markers — survive regeneration)
+
+- 2026-05-04: first system close. Manual dashboard regeneration.
+- Plan finalize: not done — `draft` mode kept deliberately until next close.
+```
+
+The `AUTO:START` / `AUTO:END` markers limit the scope of regeneration. Everything outside the markers **survives every regeneration**. Without it, nobody writes manual notes in auto-generated documents — and those documents become dead. This simple pattern decides whether dashboards get used or ignored.
+
+## Pillar 3: Shared context (the substrate)
+
+The third pillar is the layer that makes all subagents coherent. Without shared context, CFO and Marketing don't know about each other — you have 5 isolated chats, each with its own version of truth. With shared context, you have **a system that remembers the company**.
+
+### Three layers of shared context
+
+- **CLAUDE.md** (per-project) — instructions, conventions, paths, "what should the agent do when in doubt". Loads into every conversation.
+- **MEMORY.md** (cross-conversation) — auto-memory, persistent across sessions. This is where *"the user prefers short summaries"*, *"project X uses OpenSpec"*, *"today's date is YYYY-MM-DD"* live.
+- **`context/`** (knowledge base) — a structured base per domain. `context/finances/`, `context/qamera/`, `context/clients/`, `context/operations/`.
+
+Directory layout (simplified):
+
+```text
+agentic-ai-system/
+├── CLAUDE.md             # project instructions
+├── memory/
+│   └── MEMORY.md         # auto-memory, persistent
+├── context/
+│   ├── finances/         # ← read by skill CFO
+│   ├── qamera/           # ← read by skill Marketing (revenue + brand)
+│   ├── clients/          # ← read by skill Business Consultant
+│   └── operations/
+├── skills/
+│   ├── finances/SKILL.md
+│   ├── ingest/SKILL.md
+│   └── slides/SKILL.md
+└── tools/
+    ├── stripe/           # Python wrappers
+    ├── revolut/          # Python wrappers
+    └── airtable/         # Python wrappers
+```
+
+Each subagent has a scope — it doesn't read everything. CFO reaches into `context/finances/` and `context/operations/`, with read-only access to `context/qamera/` for revenue. It doesn't read `context/clients/` (that's the Business Consultant's scope) because it doesn't need to. **Context hygiene** is the second multiplier of value — without it, every CFO question pulls half the company into tokens.
+
+### Python tools (default) vs External MCP (when forced)
+
+> **Rule: Python script for planned workflow. MCP for ad-hoc or when the API forces it.**
+
+| Integration | Approach | Why |
+|---|---|---|
+| Stripe (Qamera subscriptions) | Python | We know up-front what we need — wrapper is part of the spec |
+| Revolut (company transactions) | Python | Fixed sequence in `/finances close`, own wrapper |
+| Airtable (CRM) | Python | Repeatable CRM operations, own wrapper |
+| **inFakt** (accounting) | **MCP** | Costs endpoint returns 403 when an accounting office handles the entity — MCP **forced** |
+| **Qamera AI** (our product) | **MCP** | Both us and external agents. REST API is also available, but for ad-hoc exploration MCP is just faster to wire up |
+
+**Why Python > MCP, when the workflow is planned:**
+
+1. **Token economy.** MCP loads tool descriptions into the context of **every** conversation. Script = zero overhead. The script is invoked only when the agent decides it's needed.
+2. **Determinism.** A script does exactly what it says. No "the model interpreted the tool differently in another conversation".
+3. **Trivial to create.** *"Agent, I need a script that pulls all active Stripe subscriptions on day X"* → agent generates, I code-review, commit. 15 minutes.
+4. **Full control.** Code in the repo, versioned, readable for another developer. I can debug in Python, add logging, change output format — without negotiating with the MCP protocol.
+
+**Why MCP, when we use it ad-hoc:**
+
+If I'm still **discovering** how I'll use something — writing a script is premature. I don't know yet which fields I care about, which filters, what output format. MCP gives the agent immediate access to the API; after several iterations I see the pattern worth freezing — and then I write the script. **The script is part of the workflow specification; MCP is a tool for exploration.**
+
+That's exactly how we use Qamera: external agents hit the MCP, we do too — when we want to quickly check something in our own product. If we had a steady workflow like *"generate X for client Y every week"* — we'd write a script. Right now we don't, so MCP suffices.
+
+With inFakt we have no choice — the REST API returns 403 on the costs endpoint when an accounting office handles the entity. Here MCP isn't an architectural choice, just the only available path to data.
+
+### Subagents read only their scope
+
+Back to the first diagram: each subagent (skill + persona) has a scope on its context line. The `finances` skill has front-matter that explicitly declares:
+
+```yaml
+context_scope:
+  - context/finances/
+  - context/operations/
+  - context/qamera/  # read-only, for subscription revenue
+```
+
+Without this restriction, the agent asks *"what were the transactions in March"* and pulls the whole company's context into tokens. With the restriction — it only loads `context/finances/transactions/2026-03.yaml` plus rules. Fewer tokens, faster response, lower hallucination risk.
+
+I wrote about the same pattern in a different context — the `inbox/` / `archive/` / `data/` separation in the [PIT-38 case study](/en/blog/polish-pit-38-claude-code-case-study). The pattern generalizes: **the agent works on clean, processed files, not raw data**.
+
+## Case study: real numbers from April 2026
+
+Proof that this isn't a demo. The first close, executed on 2026-05-04, generated:
+
+| Line | Actual | Plan | Δ |
+|---|---:|---:|---:|
+| Revenue | 347 PLN | 598 PLN | −42% |
+| Costs | 17,151 PLN | 14,242 PLN | +20% |
+| EBITDA | −16,804 PLN | −13,644 PLN | −23% |
+| `cogs/ai-generation` | 1,709 | 700 | +144% 🔴 |
+| `opex/marketing` | 2,996 | 1,500 | +100% 🔴 |
+| `opex/saas` | 2,112 | 1,633 | +29% 🟡 |
+
+**Three decisions arising from the close** (recorded in `monthly/2026-04.md`):
+
+1. **GCP +144% vs plan** → the plan was wrong (700 PLN), the real run-rate is historically 1,000–1,600 PLN/mo. Plan May–Dec raised retroactively to 1,500–1,800 PLN. Conscious decision **NOT to optimize GCP** — part of this is content marketing (own + materials for clients). The "this is actually marketing" classification doesn't change the category (GCP stays in `cogs/ai-generation`), but it justifies a higher plan.
+2. **Cursor billed 4×/mo** (716 PLN vs plan 217) → planned **Cursor → Claude** migration (rigid ~90 EUR/mo cap, predictable cost instead of usage-based).
+3. **Meta Ads off from May** — strategy was wrong, direction TBD. Control plan: in the May close we'll verify spend < 300 PLN.
+
+**The point:** the decisions follow **from the system, but the system doesn't make them**. The system shows variance and requires a narrative in PHASE 5. The decision is mine — but I have it documented for the moment six months later when I forget why.
+
+Break-even target: September 2026 (revenue 12,184 vs costs 12,842, EBITDA −658). Aggressive plan — needs validation in upcoming closes. **Plan = a living document**, corrected after every close as run-rate shifts. Drift > 30% = revision required.
+
+## What I don't recommend
+
+A risk map, mirroring the section from the PIT-38 case study.
+
+- **I don't recommend this setup for someone without programming comfort.** Markdown, YAML, git, terminal, editing convention files — requires fluency with tools. Without it, the time lost on setup eats all the gains. Safer path: a ready-made controlling SaaS (Causal, Runway, Pry) + Excel + an accountant.
+- **Manual first, automate after pain.** The first 2–3 closes MUST be manual. Without a manual run, half the rules would be designed wrong. The first close revealed 30+ patterns to encode — including non-obvious ones (e.g. that `GCPLD` is two categories, not one). **Scripts come after, not before.**
+- **A management system ≠ formal accounting.** inFakt + an accountant do compliance. This system makes decisions. Don't substitute one for the other — they complement, not replace. I still pay my accountant a monthly retainer; this system doesn't remove that line from the budget.
+- **LLMs make arithmetic errors.** Send sums to a compute engine (Excel, calculator, MF system). LLMs add value in **structure and interpretation**, not arithmetic. I wrote about this in the [PIT-38 case study](/en/blog/polish-pit-38-claude-code-case-study) — I left 6 cents on the table because the LLM tripped subtracting two six-digit numbers.
+- **It doesn't scale linearly beyond one company.** The system is designed for 200IQ LABS. The patterns generalize (skills, rules, context); the specific YAMLs don't. *"Don't copy the setup, extract the principles"* — that was the motto of the NCP4 talk and it's the motto of this article.
+
+## Key takeaways
+
+1. **Skills make a process a noun.** `/finances close YYYY-MM` instead of 6 manual steps. Every repeatable workflow deserves its own skill — with phases, idempotency, and mandatory checkpoints where value lies in understanding.
+2. **Determinism is built iteratively.** Rules-first + LLM fallback + the `[r]ule` option in REVIEW = the system converges from probabilistic to deterministic. After the first close we had 30+ rules. After the tenth we'll have ~150, with the LLM invoked rarely.
+3. **Shared context (CLAUDE.md, MEMORY.md, `context/`) is substrate, not decoration.** Without it, subagents are isolated chats. With it — a system that remembers the company and shares knowledge across roles.
+4. **Python script for planned workflow, MCP for ad-hoc.** A script is part of the spec — token-efficient, deterministic, code-reviewable. MCP gives immediate access when you don't yet know how you'll use something, or when the API forces it.
+5. **Reflection is part of the process, not optional.** Mandatory narrative blocks close. Without it, six months later you don't know why something was.
+
+I'd rather ship code than count beans — and the agents help me with both. This system was overdue. The driving event was the talk. It works.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Running a pre-revenue startup and thinking about an AI management system?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    I help founders and technical consultants design AI agent architectures
+    for company operations — skills, deterministic rules, shared context.
+    I'll show you what such a setup could look like for you.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
+</div>
+
+## Useful Resources
+
+- [Claude Code — documentation](https://docs.claude.com/en/docs/claude-code/overview) — reference for skills, settings, MCP, hooks
+- [Model Context Protocol — spec](https://modelcontextprotocol.io/) — what MCP is and when it makes sense
+- [PIT-38 case study](/en/blog/polish-pit-38-claude-code-case-study) — the same architectural pattern in a tax-filing context
+- [Skills 2.0 — multi-agent system for company management](/en/blog/skills-2-0-multi-agent-system-company-management) — broader Skills 2.0 context and the role of subagents
+- [OpenSpec workflow — structured AI work](/en/blog/opsx-workflow-structured-ai-work) — spec-driven development as the foundation for skills
+- [Spec-driven SEO on the portfolio and Qamera AI](/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study) — another case study, the same type of workflow
+
+## FAQ
+
+<details open>
+<summary>
+
+### Does this pattern (skills + rules + shared context) work only in Claude Code, or in other agents too?
+
+</summary>
+
+The pattern is agent-agnostic. Skills map to commands/functions in other systems (Cursor commands, n8n workflows, custom CLIs). Rules + few-shot examples are a standard ML technique. Shared context (markdown + directory structure) works anywhere the agent has file access. **The specific mechanisms** (`CLAUDE.md`, MCP, `MEMORY.md`) are Anthropic-specific, but **the architectural principles** generalize to any LLM-driven system.
+
+</details>
+
+<details open>
+<summary>
+
+### How long does it take to build a system like this from scratch?
+
+</summary>
+
+The first working close — with OpenSpec, YAML schemas, and 30+ rules — took us two days of intensive two-person work. Full stabilization (auto-pull scripts, scheduled close, integration with formal accounting) is planned over 4–6 weeks at a regular monthly cadence. **Every day you use a manually designed skill is a productive day** — you're not waiting for the system to be complete, because value shows up immediately after the first close.
+
+</details>
+
+<details open>
+<summary>
+
+### Why a Python script instead of MCP, if MCP is the standard?
+
+</summary>
+
+MCP loads tool descriptions into the context of **every** conversation — that's a token cost and a potential interpretation ambiguity across sessions. A Python script is zero overhead, deterministic output, code in the repo for code-review. **We write scripts for planned workflow** (Stripe, Revolut, Airtable — we know up-front what we need, so the script is part of the spec). **We use MCP for ad-hoc** (exploring our own Qamera, when we don't yet know which queries will repeat) **or when the API forces it** (inFakt returns 403 on the costs endpoint when an accounting office handles the entity). Pattern: after several ad-hoc iterations, you can see what's worth freezing into a script.
+
+</details>
+
+<details open>
+<summary>
+
+### Won't the LLM make mistakes in financial classification? What about audit for the regulator?
+
+</summary>
+
+We design the hybrid (rules-first + LLM fallback) specifically to minimize LLM-classified transactions. Every LLM-classified transaction goes through REVIEW — a human sees the `reasoning` and decides `[a]ccept`/`[c]hange`/`[r]ule`/`[s]kip`. After the first close we had 30+ rules that deterministically catch 80%+ of subsequent transactions. **The audit trail lives in `rules.yaml` plus `monthly/<YYYY-MM>.md`** — every decision documented, every rule has a `note:` with justification. Formal accounting (compliance) still goes through inFakt + an accountant; this system is managerial, not compliance.
+
+</details>
+
+<details open>
+<summary>
+
+### What does mandatory narrative do if I have an emergency close and don't have time to write 3 sections?
+
+</summary>
+
+The three sections (surprises / decisions / plan correction) block the close until filled — that's a deliberate decision. In an extreme case you can write a single sentence in each section (*"no surprises vs plan"*, *"no decisions"*, *"continuing without corrections"*). The system doesn't grade narrative quality, only its presence. **The point is that six months later, looking at EBITDA variance, you need any context — short is better than none.** This formalism is intentional.
+
+</details>
+
+<details open>
+<summary>
+
+### Does this system work for a revenue-stage company, not just pre-revenue?
+
+</summary>
+
+Yes, the pattern scales — P&L categories and caps need adjusting, mandatory narrative becomes even more important (more transactions = more decisions to document), the learning loop yields better ROI (more repeating vendors). **But in a post-revenue company with high volume you probably need a full ERP** — a management system in markdown and YAML hits a ceiling at ~hundreds of transactions/month and a few decision-makers. **Our scope:** pre-revenue → early-revenue, 1–5 people in the company. Above that scale the architecture needs harder tools.
+
+</details>
+
+
+---
+
+# 3 days to PIT-38, no accountant. 2 hours were enough.
+
+Source: https://pawel.lipowczan.pl/en/blog/polish-pit-38-claude-code-case-study
+Published: 2026-04-29
+
+Today is 29 April 2026. The PIT-38 filing deadline expires tomorrow. The day before yesterday in the evening I started with a single sentence — _"create a new PIT-38 project"_. Yesterday afternoon the return was filed with the Polish tax office, the tax was paid, and the official receipt (UPO) was sitting in `output/`. Total **~2 hours** of active work.
+
+**5,430 transactions** across two crypto exchanges. **174,895.50 PLN** of unused crypto cost basis carried forward from 2024. **2 PIT-8C forms** from brokers, **1 supplementary report** on foreign dividends. Filed and accepted by the tax office **51.5 hours** before the deadline. Final tax due: **172 PLN**.
+
+My accountant usually handles this. This year I missed the timing window — and that turned out to be one of the more instructive experiences I've had with an agentic workflow.
+
+This article is not about how I learned to file a PIT-38. I knew what to do, because I've been doing it for years (through my accountant). It's about how **two hours of active work with a properly configured agent** reproduced the work of an expert service — with better documentation than I usually got from my accountant.
+
+> Quick context for non-Polish readers: **PIT-38** is the Polish annual tax form for capital gains income — stocks, mutual funds, foreign dividends, and crypto. It's notoriously fiddly because of multi-source income, foreign currency conversion via central bank D-1 rates, and a multi-year cost-basis carry-forward mechanism for crypto. Filing deadline is 30 April for the previous tax year.
+
+## My accountant usually files my PIT-38
+
+I file a PIT-38 every year. Stocks, funds, crypto, foreign dividends. Never alone. Always through my accountant — I send her the documents, she fills out the form, double-checks, files. It works.
+
+This year I missed the timing. Deadline 30 April, and I started gathering documents on 27 April in the evening. No accountant will take a project with a 3-day buffer — and rightly so. I was forced to do it myself.
+
+Two paths: (a) panic and a hasty last-minute filing, or (b) test whether the AI workflow I use to build things for clients can replace my accountant in two days. I picked (b). It worked.
+
+That changes the article's stakes. This is **not** a "lifehack for people who don't want to hire an accountant." It's a **case study of when AI automation realistically reaches into expert-level service work** that until now was handled by humans.
+
+## Project architecture: every directory has one responsibility
+
+I started with the prompt _"create a new PIT-38 project"_. No brief, no requirements doc, no task list. The agent asked about the tax year and deadline, reached for the internal `_template.md` convention (which it knows from the repo's `CLAUDE.md`), and laid out:
+
+```text
+PIT_38/
+  inbox/          # drop zone, raw files
+  archive/        # post-processing (agent does NOT read)
+  data/           # knowledge — agent reads freely
+  deliverables/   # checklist, blog inputs
+  output/         # final return PDF, UPO
+  project.md      # goal, status, decisions
+  catalog.md      # file index
+```
+
+Every directory has one responsibility. The agent does not look inside `archive/` or `output/` unless I explicitly ask it to. This is **not security** — it's **context hygiene**. The agent works on clean, processed `data/*.md` files, not on 4,096 rows of raw CSV with every question.
+
+It sounds banal. It isn't. Without that separation, every question like _"what were the March transactions?"_ would pull the entire raw CSV into context — either blowing the token budget or forcing the model to "sum on its fingers." With separation: the agent gets a finished `data/crypto-summary-2025.md` with 11 line items and works on structure, not on raw input.
+
+That's the first multiplier of value — and it works **only because** the convention is described in `CLAUDE.md`. Without that file, this project would have taken as long as doing it manually.
+
+![Workflow funnel: 5 independent data sources converge into /ingest, the agent classifies 5,430 raw transactions into 11 taxable events, the return is filed with the Polish tax office with a 174,895 PLN cost-basis buffer rolled forward to 162,948 PLN](/images/diagram-pit-38-funnel-en.webp)
+
+## `/ingest`: one command, four steps
+
+I dropped 7 files into `inbox/`: two PIT-8C forms (XTB and SFIO), three CSVs from crypto exchanges, the dividend report, and last year's filed return as historical reference. Command: `/ingest PIT_38`.
+
+What happens under the hood:
+
+1. **File type identification** — the agent recognises a PIT-8C from its header structure, a crypto report from typical column patterns (timestamp, asset, type, amount).
+2. **Routing** — PIT-8C goes to section C of the return, crypto reports to section E, dividends to section G. Each file gets its own `data/{source}-{kind}-2025.md` with normalisation.
+3. **Extraction** — key items (revenue, cost, withholding tax) are pulled from PDFs, transaction types are classified from CSVs.
+4. **Archiving** — raw files move from `inbox/` to `archive/`, `catalog.md` is updated, `project.md` gets a changelog entry.
+
+A concrete example: PIT-8C from both XTB and SFIO ended up summed in `pit38-calculation.md` in section C, using line numbers consistent with the **PIT-38 form version (18)** for tax year 2025. The agent itself noticed that this was not the same form layout as 2024 — more on that shortly.
+
+The lesson at this stage: `/ingest` is **not batch processing**. The value lives in the iterative loop, which I'll show next.
+
+## Six things I didn't expect from the agent
+
+This is the heart of the article. Six concrete things the agent did across those two days that, had I worked alone with Excel, I either wouldn't have done at all or would have done with errors.
+
+### 1. The 174,895.50 PLN buffer — auto-pulled from PIT-38 2024
+
+Under Polish PIT law, unused crypto cost basis rolls forward indefinitely (Art. 22 §16 of the PIT Act). It's a standard mechanism for active crypto investors.
+
+I knew this buffer existed — I've been filing PIT-38 for years. But I knew it from the perspective of _"tell my accountant about it,"_ not from the perspective of _"enter it in field 38 of the new form precisely."_
+
+On the first ingest pass, the agent asked for last year's return. I uploaded the 2024 PIT-38 PDF. The agent itself extracted the amount from the relevant line and entered it in the matching slot of the new return — where it becomes "costs from prior years."
+
+Value to me: that buffer is usually _"remembered"_ by the accountant, who has my prior year's return in her CRM. Without her, I would have had to remember on my own to download the PDF, open it, find line 38. **The agent did that with a single question.**
+
+This is an underappreciated class of value — automating "easily accessible memory of prior years' context." Accountants do it. Agents with access to historical files in `archive/` do it.
+
+### 2. PIT-38 form version (17) vs (18) — the small detail that breaks a return
+
+In PIT-38 for 2024, prior-year crypto costs lived in one line. In 2025, that line moved. Section C in version (18) gained an extra row for exemptions under Art. 21 §1.105a — and everything below it shifted by two lines.
+
+Many blog posts and online forums still reference the **old line numbering**. If I had entered the data into the old positions, the return would either be rejected outright or, worse, accepted with a calculation error that would surface during an audit.
+
+The agent caught this after I uploaded the blank PIT-38(18) form template as reference. It compared the structure with last year's filed return, flagged the differences in `data/sources.md`, and used the new numbering in the final calculation.
+
+Lesson: **trust reference documents, not the model's memory.** A current form template uploaded > whatever the model picked up from training data a year ago.
+
+### 3. 5,430 transactions → 11 taxable events
+
+4,096 transactions from one platform plus 1,334 from another. 5,430 raw rows in total. After classification: **11 taxable events** that go on the return. The rest are platform-internal operations — transfers, technical adjustments, accruals, small reconciliations — that don't need to be reported.
+
+The LLM's value here is not in **summing**. It's in **classification**. Each of the ~25 transaction types in the report was assigned to one of three categories: taxable event / internal operation / neutral. Each classification was backed by a documented legal rationale in `data/sources.md`.
+
+> I won't go into specific transaction types or legal interpretations — that's beyond the scope of this case study and requires individual consultation with a tax advisor. I'm only showing the **scale** of the classification work.
+
+Without that classification, trying to file 5,430 raw CSV rows manually would have been either impossible in two days or would have led to a dramatic overstatement of the tax base — if I had treated every transaction as a disposal. The scale that the LLM reduces here is non-trivial.
+
+### 4. Central bank D-1 FX rates — 10 edge cases with a holiday calendar
+
+Every transaction in EUR/USD has to be converted to PLN using the **mid-market rate from the National Bank of Poland (NBP) on the business day before the disposal date** (Art. 11a of the PIT Act). Sounds simple. In practice 10 of the 11 transactions needed individual handling, because they fell on non-business days:
+
+| Transaction date | Day of week | NBP rate from |
+| --- | --- | --- |
+| 2025-02-15 | Saturday | Friday 2025-02-14 |
+| 2025-03-16 | Sunday | Friday 2025-03-14 |
+| 2025-05-02 | Friday | Wednesday 2025-04-30 (1 May = public holiday) |
+| 2025-05-18 | Sunday | Friday 2025-05-16 |
+| 2025-06-15 | Sunday | Friday 2025-06-13 |
+
+The agent did this manually for each of the 10 transactions: computed the day of week, checked national holidays (1 May, 3 May, Corpus Christi, 15 August, 1 and 11 November, 25-26 December), pulled the rate from NBP, applied the conversion.
+
+This is **exactly the kind of work where a human brain trips up quickly** — every edge case requires checking a calendar separately. A human would make 1-2 mistakes per 10 transactions (forgetting 1 May is a common Polish-tax bug). The agent made 0.
+
+The class of task _"many small mechanical decisions with subtle rules"_ is an LLM's strength. Not summing. Not creativity. Systematic application of rules to each of 10 situations without boredom and without omission.
+
+### 5. The 6 groszy the LLM couldn't add up
+
+My calculation for section C: a loss of **966.98 PLN**. The official tax-office portal after data ingest: **966.92 PLN**. A 6-grosz (0.06 PLN) discrepancy. Arithmetic error from the LLM when subtracting two 6-digit numbers (16,188.05 − 15,221.13).
+
+Lesson: **LLMs make arithmetic errors on 6-digit additions.** Leave summing to a calculator, Excel, or the tax-office system. The LLM has value in **structure and interpretation**, not arithmetic. This isn't a failure — it's a map of where to use the tool and where not to.
+
+In this specific case the tax-office portal corrected my error for free. In another scenario — say, a paper filing — a 6-grosz delta would have gone to the tax office and probably no one would have cared, but the principle stands: **arithmetic to a compute engine, not to a language model**.
+
+### 6. Ingest as progressive discovery — the strongest beat
+
+The most valuable thing the agent did across those two days was not summing 5,000 transactions. It was **asking about things that weren't on my list**.
+
+I didn't have a list of _"what's needed for PIT-38."_ I uploaded what I had at hand. After each iteration, the agent said: _"OK, this is here, but X is missing"_ or _"watch out, this implies Y, check Z."_
+
+The key moment: **foreign dividends**.
+
+- I didn't know I had dividends from 2025 (small ETFs in XTB, around 958 PLN gross).
+- I didn't know they have to be reported separately from everything else (section G of PIT-38, Art. 30a, 19% PL minus withholding).
+- After the first ingest, the agent asked: _"and what about dividends? PIT-8C doesn't include them, XTB issues a separate report."_
+- I downloaded the **XTB Supplementary Report for PIT-38** — and there were 182 PLN of 19% PL tax on foreign dividends to declare.
+
+Without that question, I would have filed the return **without section G**. Result: a 172 PLN underpayment, audit risk, late-payment interest.
+
+The second moment: **2024 history**. On the first ingest the agent asked whether I had last year's return. I uploaded the PDF — and that's when the 174,895.50 PLN buffer described above surfaced. Without that move I would have paid ~2,200 PLN in tax instead of 0.
+
+This is **the essence of the value**: not _"the agent summed transactions,"_ but **"the agent knew what I didn't know."** Iterative questioning + classifying every document against the PIT-38 taxonomy = impossible to achieve manually without specialised tax knowledge.
+
+Ingest workflow ≠ batch processing. The value is in the loop: you upload → the agent classifies → it identifies gaps → it asks for more → you upload again. After 3-4 iterations you have a complete picture you couldn't have assembled on your own.
+
+## A short primer: how crypto taxation works in Poland
+
+A small explainer for readers outside Polish crypto-tax topics, so that "buffer of 174k" doesn't read as "Pawel lost 174k."
+
+Under Polish law (Art. 17 §1.11 of the PIT Act), a taxable event arises only when **crypto is exchanged for traditional currency or for goods**. As long as you hold a crypto position — regardless of how the market value moves — you don't report anything. Crypto-to-crypto swaps are also neutral (Art. 17 §1f).
+
+If you buy crypto for 100,000 PLN and don't sell for fiat for several years, that 100,000 PLN exists as a **documented cost of acquisition** (Art. 22 §14) and waits. In the year you sell crypto for fiat, that cost reduces the taxable base. If costs > revenue in a given year, the surplus **rolls forward indefinitely** (Art. 22 §16).
+
+That's where the _"buffer 174,895 PLN from 2024 → 162,948 PLN for 2026"_ comes from in my case. It's **not a loss** — it's expenditures on crypto purchases I haven't yet closed via sales to fiat. The buffer shrinks only when I actually sell crypto for PLN/EUR/USD.
+
+This is a heavily simplified description of the mechanism. Full understanding requires consultation with a tax advisor — this is not tax advice.
+
+## Interpretive decisions: where the human comes back into play
+
+With 5,400+ transactions across multiple platforms, some categories of events have **ambiguous tax classification**. There are differing opinions from the Polish National Tax Information service (KIS), differing tax-advisor positions, and administrative-court rulings touching adjacent constructions.
+
+For each such category, the LLM laid out arguments for both sides, estimated risk exposure, and showed me the **numerical trade-off** — how much tax a conservative interpretation implies, how much a less restrictive one, and what the dispute risk looks like with the tax authority. **I made the decision**, not the agent. The agent left the rationale in `data/sources.md` in the repo — if an audit ever comes, I have a documented chain of reasoning.
+
+And one more key point worth repeating to anyone facing a first solo filing: **a PIT-38 amendment is possible up to 5 years back** (until 2030 for the 2025 return). Filing in good faith with documented decisions = a safe path. When you're not sure, a conservative interpretation in the first filing always works — you can later amend in your favour.
+
+In this section the LLM does not decide for me. It **maps options, documents arguments, waits for input**. That's exactly the division of labour I want.
+
+## "You uploaded financial data to an LLM?" — a deliberate choice, not carelessness
+
+I know that for some readers, _"I uploaded financial data to an LLM"_ is already disqualifying. Three things to consider.
+
+**a) Claude Code (Anthropic API) does not use data for training models by default.** It's a different business model from consumer ChatGPT — and a qualitative difference. Current data-handling rules are always worth checking in the [Anthropic privacy policy](https://www.anthropic.com/privacy), but the baseline is this: the API is a production environment for developers and businesses, not a training-data harvester.
+
+**b) The repo is private and local.** There is no `git push` to GitHub. CSV files are in `.gitignore` — they don't even enter commit history. Raw financial data sits only on my disk. The LLM's context ends with the conversation.
+
+**c) A real benchmark.** The alternative was an accountant at a desk, an Excel file on a USB stick, or the tax-office portal in a browser — in every one of those scenarios my data passes through someone's hands, someone's memory, or someone's servers. **The choice is not between "safe" and "risky." It's between different kinds of trust.**
+
+I deliberately chose to trust Anthropic + a local workflow. Someone else will choose differently and that's fine. The discussion _"is an LLM safe for finances"_ loses meaning if we don't compare it to a concrete alternative.
+
+## What I don't recommend
+
+- **I didn't automate the 172 PLN payment.** The transfer to the dedicated tax microaccount went manually. There's no point doing that through an LLM — one amount, one account number, 30 seconds in the banking app.
+- **I don't recommend this setup to anyone without programming comfort.** `/ingest`, directory structure, git, `.gitignore`, markdown editing — it requires familiarity with the tools. Without that, the time spent on setup eats all the gains.
+- **An LLM does not replace a tax advisor.** In ambiguous situations — and there are plenty when you have multi-source crypto + stocks + dividends — the final call has to belong to a human, ideally after a consultation with an advisor. The LLM provides arguments and maps risk. The advisor gives a recommendation tailored to your situation and takes responsibility for it.
+
+## If you're reading this today — you still have ~30 hours
+
+If you haven't filed your PIT-38 yet and you have multi-source income, here's a minimum-viable plan for **2-3 hours** before the 30 April deadline:
+
+1. Download every PIT-8C from your brokers (XTB, mBank, etc.) and reports from your crypto exchanges.
+2. Open the official tax portal (Twój e-PIT) — section C (stocks + funds) is auto-filled for most people.
+3. Sections E (crypto) and G (foreign dividends) have to be filled manually. This is where the portal won't help you.
+4. **Check your PIT-38 from 2024.** See whether the relevant line carries unused crypto costs from prior years. That can be a buffer worth **a few to a few tens of thousands of PLN** that you might have forgotten about.
+5. File via Trusted Profile (Profil Zaufany). Pay the microaccount by 30 April.
+6. **Worst case: a PIT-38 amendment is possible until 2030.** Filing a roughly correct return on time is always better than no return + late-filing waiver paperwork.
+
+**After the deadline**, in three profiles:
+
+- **Simple PIT (one PIT-37 from employment)** — Twój e-PIT and that's it. Don't overcomplicate.
+- **2-3 sources (stocks + crypto)** — worth considering an evening or two to set up a workflow like this.
+- **5+ sources and a history of carried losses** — this is **your scenario**. The crypto cost-basis buffer can be worth 5-50k PLN in overlooked tax annually. The setup pays for itself.
+
+The value of an LLM grows not linearly but **in jumps**, when the repo's structures are legible to it. Without `CLAUDE.md` and project conventions, this project would have taken as long as working with an accountant. With them — two hours. That is exactly the ROI range that can't be sold via generic content marketing — because it requires the infrastructure to be there first.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Got multi-source taxes and thinking "I want this too"?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    I help freelancers and technology consultants set up AI workflows for the
+    kinds of work they used to delegate to experts. I'll show you what such a
+    setup could look like for you.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
+</div>
+
+## Useful Resources
+
+- [Twój e-PIT (Polish tax portal)](https://www.podatki.gov.pl/pit/twoj-e-pit/) — auto-fills section C for stocks and funds
+- [Polish PIT Act — ISAP](https://isap.sejm.gov.pl/) — Art. 17 §1.11, Art. 22 §§14, 16, Art. 11a (FX rates), Art. 30a (dividends)
+- [NBP — average exchange rates](https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/) — D-1 rates for FX transactions
+- [Anthropic — Privacy & Data Usage](https://www.anthropic.com/privacy) — default API data handling
+- [Skills 2.0 — multi-agent system for company management](/en/blog/skills-2-0-multi-agent-system-company-management) — context for how `CLAUDE.md` conventions are built
+- [Spec-driven SEO on portfolio and Qamera AI](/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study) — another case study, same workflow class
+
+## FAQ
+
+<details open>
+<summary>
+
+### Can I do PIT-38 with Claude Code if I'm not a programmer?
+
+</summary>
+
+Short answer: probably not worth it. The setup requires familiarity with git, the terminal, directory structures, markdown editing, and `.gitignore`. Without that, the time spent configuring eats all the gains. A safer path for non-technical users is an accountant or the official tax portal with manual entry of sections E and G.
+
+</details>
+
+<details open>
+<summary>
+
+### Does Anthropic use my financial data to train models?
+
+</summary>
+
+By default, no — Claude Code (Anthropic API) operates under a different business model than consumer ChatGPT. Data sent through the API is not used to train models without explicit customer consent. It's a different category from free consumer tools. Always worth checking the current rules in the [Anthropic privacy policy](https://www.anthropic.com/privacy).
+
+</details>
+
+<details open>
+<summary>
+
+### What is the "crypto cost-basis buffer" and why can it be worth tens of thousands of PLN?
+
+</summary>
+
+The buffer is your documented spending on crypto purchases that you haven't yet closed via sales to fiat currency. Under Polish PIT (Art. 22 §§14, 16) those costs wait in a buffer until the year you sell crypto for fiat — then they reduce the taxable base. Any surplus of costs over revenue in a given year rolls forward to subsequent years **with no time limit**. That's why checking last year's return can be worth several to several tens of thousands of PLN in overlooked buffer.
+
+</details>
+
+<details open>
+<summary>
+
+### What if I'm reading this after 30 April and haven't filed PIT-38?
+
+</summary>
+
+File as soon as possible with a "czynny żal" (active regret, Art. 16 of the Polish Fiscal Penal Code) — the penalty for non-filing grows with time, and czynny żal in many cases lets you avoid the fine. A PIT-38 amendment is possible up to 5 years back, so it's better to file a roughly correct return late than not at all. Afterwards, consult a tax advisor if your situation is complex.
+
+</details>
+
+<details open>
+<summary>
+
+### Does an LLM replace a tax advisor for multi-source PIT?
+
+</summary>
+
+No. An LLM is good at classifying transaction types, extracting data from PDFs, and mechanically applying NBP exchange-rate rules — but in cases of ambiguous legal classification the final call must belong to a human. Ideally — after a consultation with an advisor who takes responsibility for a recommendation tailored to your situation. The LLM maps options and risks. The advisor makes the decision and signs their name to it.
+
+</details>
+
+
+---
+
+# Why WordPress can't do this — spec-driven SEO on a portfolio and Qamera AI
+
+Source: https://pawel.lipowczan.pl/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study
+Published: 2026-04-26
+
+## Two projects, two stacks, one workflow loop
+
+In two weeks I optimized SEO on two radically different projects. **The portfolio** ([pawel.lipowczan.pl](https://pawel.lipowczan.pl)) — a Vite 7 + React 19 SPA with prerendering. The audit found 10 findings; I fixed five of them in a single afternoon. Securityheaders.com went from **C to A**, Rich Results Test from **5 warnings to 0**, the sitemap got per-URL `lastmod` instead of one build timestamp for all 73 URLs.
+
+**Qamera AI** ([qamera.ai](https://qamera.ai)) — my AI product photography SaaS, Next.js 16 App Router + Turborepo + Vercel + Supabase + i18n EN/PL/UK. The audit returned a health score of **56/100**. In five working days I closed **nine spec-driven changes** (seven planned plus two discovered along the way), which resolved every "Critical" finding. CLS on `/marketplace/styles` dropped from **0.467 to 0.016** — a 27× improvement. Hreflang coverage grew from "docs only" to **20 static marketing paths plus docs**. The homepage got three JSON-LD blocks (Organization + WebSite + SoftwareApplication); pricing got three more (Product × 2 + FAQPage).
+
+The central thesis of this article is simple and inconvenient for some readers: **full control over SEO and GEO is only possible with a code-based stack**. WordPress, Webflow, and Wix give you plugins — they don't give you a `Content-Security-Policy` header reporting to Sentry, sitemap-level `xhtml:link`, `requestIdleCallback` in `<head>`, or `llms.txt` generated with your own build-time logic. The second multiplier is a good **AI workflow** — brainstorm → spec → execute → review → test. A code-based stack without a process = two weeks of manual work. An AI workflow on a closed platform = you hit the plugin ceiling. Both together = hours.
+
+I'll show you the process across both projects. You'll see what transfers 1:1 and what requires different decisions per stack.
+
+## Why "platform vs code" is no longer a debate about hosting cost
+
+Five years ago, choosing WordPress over your own code was pragmatic. WordPress gave you themes, plugins, an ecosystem, and an admin panel for non-technical clients. Vercel with your own framework was overkill for 80% of projects.
+
+In 2026 those proportions shifted. **SEO has shifted toward GEO** (Generative Engine Optimization) — ChatGPT web search, Perplexity, Claude Search, and Gemini Deep Research read your pages, but differently from Googlebot. They respect the [llmstxt.org](https://llmstxt.org/) spec, weight `author.name` and `datePublished` in JSON-LD when picking sources, and prefer a "factual-definition opener" in the first 150 words. Security headers have become a trust signal. Core Web Vitals are validated with field data from CrUX, not lab scores from Lighthouse. Schema enrichment translates into rich results in SERP.
+
+What WordPress / Webflow give you in 2026: an SEO plugin (Yoast, Rank Math), basic schema for Article and Product, an automatically generated sitemap, redirects, `meta description`. That's about **80% of needs** for a typical company site.
+
+What they don't give you (or only with a serious fight):
+
+```text
+- Content-Security-Policy Report-Only with reporting to Sentry
+- Permissions-Policy per-page (geolocation, camera, microphone, payment)
+- requestIdleCallback for third-party scripts instead of async=true
+- xhtml:link in the sitemap (not just hreflang in head)
+- llms.txt / llms-full.txt with your own generation logic
+- BlogPosting with mainEntityOfPage + publisher (raster logo) + ISO 8601 datetime
+- Per-bot rules in robots.txt (GPTBot, ClaudeBot, PerplexityBot, Google-Extended)
+- Sitemap lastmod per page-type (post: frontmatter.modified, listing: max, legal: git mtime)
+```
+
+This is the top 20% of control. And it's exactly the range where today you win positions — in classic SERP and in LLM answers. Plugins close the top 80%. The top 20% requires editing HTTP headers, the HTML structure in `<head>`, your own artifact builder. You don't do this in an admin panel — because the admin panel deliberately doesn't expose those layers.
+
+## Toolchain — five tools, one loop
+
+I use the same five tools on every SEO project. Each on its own is ordinary. Together they form a loop that compresses time by 80-90%.
+
+| Tool | Role |
+|---|---|
+| **`claude-seo`** plugin (20+ sub-skills) | Audit as the first command — technical, GEO, schema, performance, hreflang, AI discoverability |
+| **OPSX / OpenSpec** | Spec-driven workflow — `proposal.md` → `design.md` → `specs/` → `tasks.md` before code |
+| **Lighthouse MCP** | Lab CWV and LCP opportunities from inside the agent, no context-switching to PageSpeed |
+| **Rich Results Test + securityheaders.com + Sentry CSP Reports** | Verification at every step |
+| **Git worktrees** | Parallel work on independent changes (when the project allows it) |
+
+I described OPSX in more detail in a [separate article on a structured approach to AI workflows](/en/blog/opsx-workflow-structured-ai-work). `claude-seo` is an example of a **specialized skill** in the sense from the [Skills 2.0 post](/en/blog/skills-2-0-multi-agent-system-company-management) — domain-specific knowledge plus checklist plus pre-built sub-skills.
+
+The work loop looks the same on every project:
+
+```text
+┌─────────┐    ┌──────────┐    ┌────────┐    ┌───────┐
+│  Audit  │ →  │ Proposal │ →  │ Design │ →  │ Specs │
+└─────────┘    └──────────┘    └────────┘    └───────┘
+                                                  │
+┌─────────┐    ┌────────┐    ┌──────────┐    ┌───▼───┐
+│ Archive │ ←  │ Verify │ ←  │ Implement│ ←  │ Tasks │
+└─────────┘    └────────┘    └──────────┘    └───────┘
+```
+
+A typical command sequence:
+
+```bash
+# Phase 1: audit
+/claude-seo:seo
+
+# Phase 2: change proposal
+/opsx:new "seo-improvements"
+/opsx:ff   # fast-forward — all planning artifacts at once
+
+# Phase 3: implementation
+/opsx:apply
+
+# Phase 4: verification
+/opsx:verify
+# manually: securityheaders.com, Rich Results Test, Lighthouse MCP
+
+# Phase 5: archival
+/opsx:archive
+```
+
+Each of these tools works **because the substrate is code**. The audit can read any source file and the raw `<head>` output. OPSX can edit `vite.config.js`, `next.config.ts`, `vercel.json`, `robots.txt` in one session. Verifiers get full output without a sandbox. This is not a coincidence — it's a consequence of architecture.
+
+## The audit — what claude-seo finds on two radically different projects
+
+The first observation that surprised me: **claude-seo returns the same set of finding categories regardless of stack**. Only the way to fix them differs.
+
+| Project | Stack | Findings | Initial state |
+|---|---|---|---|
+| Portfolio | Vite 7 + React 19 + Vercel | 10 (4 perf, 2 schema, 2 security, 1 sitemap, 1 GEO) | securityheaders C, Rich Results 5 warnings |
+| Qamera AI | Next.js 16 + Turborepo + Vercel | 7 + 2 discovered along the way | health score 56/100 |
+
+Shared finding categories that transfer 1:1 between stacks:
+
+- **Missing or incomplete `llms.txt`** — biggest miss on GEO readiness in both projects
+- **Schema enrichment** — missing `publisher`, `dateModified`, `mainEntityOfPage`, ISO 8601 datetime
+- **Hreflang only at head-level**, no `xhtml:link` in the sitemap for clustering language variants
+- **Security headers** — deprecated `X-XSS-Protection`, no `Permissions-Policy`, no HSTS preload, no CSP
+- **AI bot allowlist is wildcard** — which for `Google-Extended` and `GPTBot` means "no signal", not "allow"
+
+Stack-specific findings that require different decisions:
+
+- **Portfolio:** `clickrank.ai` synchronous in `<head>` blocks the parser before First Paint, sitemap with 73 URLs and a single `lastmod`, `articleBody: post.excerpt` semantically wrong in `BlogPosting`
+- **Qamera:** CLS 0.467 on `/marketplace/styles` from a client-side fetch from Airtable without reserved card dimensions, hardcoded EN strings in `root-metadata.ts` (PL/UK users got English OG on every marketing page), Merchant Listings false-positive on pricing
+
+The shared finding set is the **first proof that the process is transferable**. I know plugin-based SEO scanners exist, and each of them on the two projects would have returned fundamentally different reports because each is bound to a specific platform. An agent audit on a neutral substrate — code — returns a universal picture.
+
+## From audit to change proposal — when to bundle, when to split
+
+Two projects, two different change-packaging strategies.
+
+**The portfolio** got one change `seo-improvements` with five pillars in a single PR ([#2](https://github.com/plipowczan/portfolio/pull/2)). Single-maintainer, no risk of file conflicts, easier review of the whole — because the changes are logically related thematically.
+
+**Qamera** got nine separate changes, eight PRs (#75/76/77/82/92/93/94/96), worked in parallel on git worktrees. Multi-developer, monorepo, disjoint file sets. Worktrees let each change have its own `node_modules` and its own dev server port — zero state conflict.
+
+The decision criterion I use:
+
+| Factor | One-PR (portfolio) | Multi-PR (Qamera) |
+|---|---|---|
+| Number of maintainers | 1 | 2+ |
+| File conflict risk | low | high |
+| Review cycle | self-review | peer review |
+| Time spread | one afternoon | 5 working days |
+| Rollback granularity | all or nothing | per-feature |
+| Dev environment isolation | not needed | worktree + separate node_modules |
+
+Common to both: every change = OPSX `proposal.md` + `design.md` + `specs/` + `tasks.md` **before** code. This isn't bureaucracy. It's a **feedback loop for AI**: reviewing a spec costs minutes, reviewing 200 lines of generated code in the wrong place costs hours. Spec-driven gives you a veto point before you pay the cost of implementation.
+
+```text
+## Tasks — seo-improvements
+
+- [x] Move clickrank inline to requestIdleCallback (+ setTimeout fallback)
+- [x] Generate dedicated raster logo (600×60 PNG via sharp)
+- [x] Add publisher / dateModified / mainEntityOfPage to BlogPosting
+- [x] Drop articleBody: excerpt (semantically wrong)
+- [x] Build llms.txt / llms-full.txt generator (scripts/generate-llms-txt.js)
+- [x] Replace X-XSS-Protection with Permissions-Policy + HSTS preload
+- [x] Configure CSP Report-Only → Sentry Security Reports bucket
+- [x] Per-page-type lastmod (post: frontmatter.modified, listing: max, legal: git mtime)
+```
+
+Each task in `tasks.md` is one unit of work with known scope and known verification. After implementation, the checkbox is proof the task was done — not a declaration.
+
+## What transfers 1:1 (and why this is an argument for code)
+
+Four things I implemented in identical patterns on portfolio and Qamera. Each would be hard or impossible on a closed platform.
+
+### A. `llms.txt` as your own build-time artifact
+
+The [llmstxt.org](https://llmstxt.org/) spec has existed since 2024 (Answer.AI / Jeremy Howard). In 2026 ChatGPT web search, Perplexity, Claude Search, and Gemini Deep Research respect it. The file is a shortened content index for LLMs, with an optional `llms-full.txt` containing the full content for single-token ingest.
+
+On the portfolio I have `scripts/generate-llms-txt.js` running in `build:prerender`. It reads `src/content/blog/*.md` (PL + EN) via `gray-matter`, plus `src/data/projects.js`. It generates `public/llms.txt` (~16 KB index) and `public/llms-full.txt` (~800 KB full content with `\n\n---\n\n` separator).
+
+```text
+# Pawel Lipowczan
+
+> Software architect and technology advisor...
+
+## Blog (PL)
+- [Title](url): one-line description
+...
+
+## Blog (EN)
+- [Title](url): one-line description
+...
+
+## Contact
+- email: ...
+```
+
+In Qamera a sibling script in the `apps/web` workspace generates `llms.txt` from marketing pages, blog posts, and public docs. The logic differs (data sources, section structure), but the pattern — a build-time generator following the spec — is identical.
+
+**You won't do this in a panel:** a WordPress plugin can spit out a static `llms.txt`, but you won't integrate it with your CMS on your own terms (section order per language, fallbacks for missing `description`, pagination at 100+ articles).
+
+### B. Schema enrichment — `articleBody: excerpt` is a semantic error
+
+My old `BlogPosting` had six fields. Rich Results Test showed five non-critical warnings. After enrichment — eleven fields, zero warnings.
+
+```json
+{
+  "@type": "BlogPosting",
+  "headline": "...",
+  "description": "first 300 characters of content or frontmatter.description",
+  "author": {
+    "@type": "Person",
+    "name": "Pawel Lipowczan",
+    "url": "https://pawel.lipowczan.pl"
+  },
+  "datePublished": "2026-01-15T00:00:00Z",
+  "dateModified": "2026-04-21T00:00:00Z",
+  "image": "...",
+  "url": "...",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "..." },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Pawel Lipowczan",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pawel.lipowczan.pl/logo-schema.png"
+    }
+  }
+}
+```
+
+Three non-obvious details: `articleBody: post.excerpt` is **semantically wrong** (the spec requires the full body, not a summary) — I removed the field entirely. `publisher.logo` must be a **raster** (PNG 600×60), not SVG. ISO 8601 with `Z` or offset, not `2026-01-15` without a timezone. In Qamera the same set of changes hit `Article` on `/blog`, `Service` on `/offer/*`, and `Product` on `/pricing`.
+
+**You won't do this in a panel:** SEO plugins set the top six fields. `mainEntityOfPage`, `publisher.logo` as a separate raster, ISO datetime, `description` with a fallback to the first paragraph — that's manual work in a schema generator.
+
+### C. Hreflang at the sitemap level, not just `<head>`
+
+Next.js `Metadata.alternates.languages` is a head-level signal. Google prefers **sitemap-level `xhtml:link`** for clustering language variants. In Qamera we solved it with a shared helper `buildLanguageAlternates(pathname)` used from two places — `sitemap.ts` and every page's `generateMetadata`.
+
+```xml
+<url>
+  <loc>https://qamera.ai/pricing</loc>
+  <xhtml:link rel="alternate" hreflang="en" href="https://qamera.ai/pricing"/>
+  <xhtml:link rel="alternate" hreflang="pl" href="https://qamera.ai/pl/pricing"/>
+  <xhtml:link rel="alternate" hreflang="uk" href="https://qamera.ai/uk/pricing"/>
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://qamera.ai/pricing"/>
+</url>
+```
+
+A drift-guard test in CI fails when someone adds a path to the sitemap but forgets to add `alternates` to `page.tsx`. It's a safeguard against silent regression — it's very easy to add a new landing and forget about its language variant.
+
+**You won't do this in a panel:** Yoast generates hreflang in head. Sitemap-level requires editing the sitemap generator plus a drift-guard — i.e., CI code.
+
+### D. AI bot allowlist — named rules instead of wildcard
+
+`robots.txt` with separate blocks for `GPTBot`, `OAI-SearchBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, and `CCBot`. Wildcard = "no signal" — the bot interprets it conservatively. Named allow = "explicit yes" — the bot knows it can crawl and index for its pipeline.
+
+**You won't do this in a panel:** WordPress writes to `robots.txt` via a plugin, but per-bot rules require editing the physical file — i.e., filesystem access you don't have on typical shared hosting.
+
+## What's stack-specific (and what each project taught me separately)
+
+### Portfolio — `async=true` on an inline script is a myth
+
+This finding surprised me the most, because everyone gets it wrong. The `clickrank.ai` script in `<head>` looked like this:
+
+```html
+<script>
+  var s = document.createElement('script');
+  s.src = 'https://js.clickrank.ai/...';
+  s.async = true;
+  document.head.appendChild(s);
+</script>
+```
+
+The trap: `async=true` applies to **fetching** the script, but the inline code that creates it executes **synchronously during HTML parsing**. It adds a microtask to the event loop before the browser renders anything.
+
+Fix — `requestIdleCallback` plus a fallback for Safari 16.3 and older:
+
+```html
+<script>
+  (function () {
+    var inject = function () { /* current logic */ };
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(inject, { timeout: 3000 });
+    } else {
+      setTimeout(inject, 2000);
+    }
+  })();
+</script>
+```
+
+Verification after deploy to prod: `performance.getEntriesByType('resource').filter(r => r.name.match(/clickrank/))` → `startTime: 101.6ms`. The browser reported idle after ~100ms and only then fired the callback. Lighthouse lab variance stayed large (post: prod 38 → preview 61 → second run 43) — **lab score ≠ field data**. Real verification is CrUX from Google Search Console after 2-4 weeks.
+
+### Qamera — CLS 0.467 → 0.016 via SSR initial grid
+
+`/marketplace/styles` rendered style cards loaded client-side from Airtable. Without reserved dimensions, the grid layout shifted 4× over the failing threshold (0.467 vs target ≤ 0.1). Three options for the fix — SSR initial grid, reserved card dimensions, combined. We chose **SSR**: bonus for GEO (non-JS crawlers see the content) plus eliminating CLS at the source.
+
+Result: **CLS 0.016** (27× improvement), LCP 2.4s → 1.6s. Post-deploy twist: PageSpeed Insights showed LCP 14.4s (cold Vercel function), Lighthouse MCP in parallel: 1.6s (warm). **A single PSI metric is sampling.** Always re-run or verify locally.
+
+## A bug the audit wasn't looking for — and why this argues for regular audits
+
+The portfolio's SEO audit surfaced a finding I didn't expect: hreflang alternates for the post `llm-knowledge-base-brain-karpathy` pointed to `/en/blog/<pl-slug>`, which returns "Post not found".
+
+Root cause: the post was **PL-only** (no EN version), but its frontmatter had `alternateSlug: llm-knowledge-base-brain-karpathy` — pointing at itself. The result of an earlier iteration of the blog-article-writer skill that **auto-filled the field without validation**. The chain of events:
+
+1. User on the PL post clicks the language switcher
+2. `getAlternatePost(currentSlug)` returns... the same PL post
+3. LanguageSwitcher builds `/en/blog/<pl-slug>` and navigates
+4. `BlogPostPage` filters `getPostsByLang("en")` → no match → "Post not found"
+5. The sitemap inherits this bug as bad hreflang and propagates to Google
+
+A three-level fix: **data fix** (remove the field), **code defense** (`getAlternatePost` rejects self-reference and same-lang candidates), **process fix** (rule in `.claude/rules/data-storage/` plus updating the validator in the blog-article-writer skill).
+
+The meta-lesson is strong: an SEO audit triggers bugs **that weren't its target**. I would never have found this without claude-seo. That's an argument for regular audits even on a small project.
+
+The second meta-level — the bug was **introduced by an AI workflow** (the blog-article-writer skill), fixed by **another AI workflow** (audit + spec-driven fix + a rule in the skill). That's a self-correcting loop, provided there's a process. Without a process — the bug would have lived for weeks. A related thread on how an agent enforces its own standards I described in the [Karpathy LLM Wiki post](/en/blog/karpathy-llm-wiki-knowledge-base) and [Second Brain with Obsidian and Claude Code](/en/blog/second-brain-obsidian-claude-code-skills).
+
+## Time compression is multiplicative, not additive
+
+By the numbers:
+
+- **Portfolio:** audit 15 min + 4h implementation + 30 min verification = **5h** for 5 changes
+- **Qamera:** **5 working days** for 9 changes (seven planned plus two discovered along the way)
+- **Second project = ~30% the time of the first** thanks to pattern transfer (llms.txt, schema enrichment, hreflang sitemap, AI bot allowlist)
+
+Multiplier: **code-based stack × good AI workflow = hours**. Each on its own isn't enough. A code-based stack without a process = two weeks of manual work with forums and Stack Overflow. An AI workflow on a closed platform = you hit the plugin ceiling in half an hour. Together they yield 80-90% compression. That's not additive — it's multiplication. The argument for why I increasingly choose code-based solutions I also described in the [vibe coding guide](/en/blog/vibe-coding-guide).
+
+Six takeaways from both projects:
+
+1. **A code-based stack gives you the top 20% of control plugins don't** — and that's the range that wins positions today
+2. **Spec-driven as a feedback loop for AI** — reviewing a spec costs minutes, reviewing 200 lines of code costs hours
+3. **Transferable 1:1 between stacks:** llms.txt, schema enrichment, hreflang sitemap-level, AI bot allowlist
+4. **Stack-specific:** every framework has its own performance traps and its own metadata API — that's where you save least
+5. **The audit finds bugs outside its scope** — `alternateSlug === slug` was never on the list, I found it via claude-seo
+6. **Second project = 30% the time of the first** — provided you document patterns
+
+If you stay on WordPress, this article doesn't change your life. If you're considering moving to your own stack, it's the argument you needed.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Need an SEO + GEO audit on your own stack?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    I do the same on client projects — from audit through spec-driven changes to post-deploy verification. We'll discuss your stack and a realistic scope in 30 minutes.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
+</div>
+
+## Useful Resources
+
+- [llmstxt.org](https://llmstxt.org/) — llms.txt spec
+- [securityheaders.com](https://securityheaders.com/) — security headers scanner
+- [Rich Results Test](https://search.google.com/test/rich-results) — Google's structured data validator
+- [PageSpeed Insights](https://pagespeed.web.dev/) — Core Web Vitals lab + field data
+- [MDN — requestIdleCallback](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback)
+- [MDN — Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+- [Sentry Security Reports](https://docs.sentry.io/product/security-policy-reporting/) — CSP reports via Sentry
+- [Google Search Central — Article structured data](https://developers.google.com/search/docs/appearance/structured-data/article)
+- [Qamera AI](https://qamera.ai) — the project described in the case study
+
+## FAQ
+
+<details open>
+<summary>
+
+### Is every code-based site automatically better at SEO than WordPress?
+
+</summary>
+
+No — a code-based stack gives you **control**, not results. Without a process (audit → spec → execute → verify), you'll end up with a worse site than a well-configured WordPress with Yoast. The argument of this article is this: a code-based stack **lets you** optimize the top 20% (CSP, llms.txt, sitemap-level hreflang, schema enrichment) that platforms don't expose. Whether you use it depends on your workflow.
+
+</details>
+
+<details open>
+<summary>
+
+### What does spec-driven development mean in the context of SEO?
+
+</summary>
+
+Spec-driven means every change starts with artifacts: `proposal.md` (what and why), `design.md` (how), `specs/` (contracts), `tasks.md` (a list of steps) — **before** writing code. It works especially well in SEO because changes touch many layers (HTTP headers, HTML head, structured data, sitemap), and skipping the spec means AI generates 200 lines of code in the wrong place. I use the OpenSpec / OPSX workflow — details in a [separate article](/en/blog/opsx-workflow-structured-ai-work).
+
+</details>
+
+<details open>
+<summary>
+
+### Does llms.txt make sense in 2026 if my site isn't an AI tutorial?
+
+</summary>
+
+Yes, but the ROI is lower. `llms.txt` works strongest for content that LLMs cite (tutorials, documentation, case studies). For e-commerce or portfolio the impact is smaller but still positive — the cost is 100-200 lines of a Node script, the benefit is presence in ChatGPT, Perplexity, and Claude Search grounding. The `llms-full.txt` file gets heavy at 100+ articles — at that scale, paginate or use `top-articles-only`.
+
+</details>
+
+<details open>
+<summary>
+
+### How do I choose between one big PR and many small ones for SEO changes?
+
+</summary>
+
+Single-PR makes sense with a single maintainer and thematically coherent changes (like the portfolio: 5 SEO pillars in one PR, 4h of work). Multi-PR is necessary with multiple maintainers, monorepo, and parallel work (like Qamera: 9 changes, 8 PRs, 5 days). The criterion: do the changes touch the same files (conflict = split) and is reviewing the whole realistic in one pass (>500 lines diff = split).
+
+</details>
+
+<details open>
+<summary>
+
+### Does an AI workflow replace code review on SEO changes?
+
+</summary>
+
+No — it complements it. On Qamera, Copilot review on a PR caught three valid issues (placeholder Sentry DSN, missing preview env var, unused import) that the spec-driven workflow didn't catch. An AI workflow speeds up generating code that conforms to the spec, but a **second pair of eyes** (human or AI reviewer) still catches the difference between "the code does what the spec says" and "the code does what the spec says, in a way that's safe for production".
+
+</details>
+
+
+---
+
 # How Karpathy's LLM Wiki Helped Me Organize My Knowledge Base
 
 Source: https://pawel.lipowczan.pl/en/blog/karpathy-llm-wiki-knowledge-base
@@ -10344,10 +12542,14 @@ openspec status
 4. **Schemas are customizable** - define your own workflow tailored to your process
 5. **Context injection** - the AI knows your project's conventions without repeating them in every prompt
 
-<div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 12px; padding: 32px; margin: 32px 0; border: 1px solid #00ff9d33;">
-  <h3 style="color: #00ff9d; margin-top: 0;">Want to implement OPSX in your team?</h3>
-  <p style="color: #e0e0e0; margin-bottom: 20px;">I help teams transition from chaotic prompting to structured AI workflows. Get in touch, and we'll figure out if OPSX fits your process.</p>
-  <a href="/#contact" style="display: inline-block; background: #00ff9d; color: #0a0a0a; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Book a free consultation</a>
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Want to implement OPSX in your team?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    I help teams transition from chaotic prompting to structured AI workflows. Get in touch, and we'll figure out if OPSX fits your process.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
 </div>
 
 ## Useful Resources

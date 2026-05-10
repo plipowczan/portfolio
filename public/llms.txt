@@ -4,6 +4,9 @@
 
 ## Blog (PL)
 
+- [Pre-revenue startup bez działu finansów. Anatomia systemu agentów AI.](https://pawel.lipowczan.pl/blog/system-agentow-ai-skills-rules-kontekst): 5 ról specjalistów, 2 założycieli. Jak skills, deterministyczne reguły i wspólny kontekst zastąpiły zespół w 200IQ LABS — case study i architektura.
+- [Miałem 3 dni do PIT-38 bez księgowej. Wystarczyły 2 godziny.](https://pawel.lipowczan.pl/blog/pit-38-claude-code-case-study): 5430 transakcji, 5 źródeł danych, 2 dni z agentem Claude Code. Case study workflow, który zastąpił księgową przy rozliczeniu PIT-38.
+- [Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI](https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai): Audyt SEO, spec-driven changes i AI workflow zoptymalizowały dwa projekty w godziny, nie tygodnie. Case study z portfolio i Qamera AI.
 - [Jak LLM Wiki Karpathy'ego pomogła mi uporządkować moją bazę wiedzy](https://pawel.lipowczan.pl/blog/llm-knowledge-base-brain-karpathy): Od ręcznych notatek w Obsidian do systemu, w którym agent pilnuje struktury, indeksów i standardów. Jak koncepcja LLM Wiki pomogła mi sformalizować to, co budowałem od lat.
 - [5 repozytoriów GitHub, które zmienią Twoją pracę z Claude Code](https://pawel.lipowczan.pl/blog/5-repozytoriow-github-claude-code): Testuję dziesiątki narzędzi — te 5 repozytoriów naprawdę zrobiło różnicę w mojej codziennej pracy z Claude Code. Oto moja sprawdzona lista.
 - [Moje środowisko agentowe — jak buduję AI OS dla dwóch firm](https://pawel.lipowczan.pl/blog/srodowisko-agentowe-ai-dwie-firmy): Dwa repozytoria, osiem agentów, zero vendor lock-in. Jak zbudowałem system agentowy zarządzający finansami, prawem i marketingiem dwóch firm.
@@ -30,6 +33,9 @@
 
 ## Blog (EN)
 
+- [Pre-revenue startup without a finance department. AI agent system anatomy.](https://pawel.lipowczan.pl/en/blog/ai-agent-system-skills-rules-shared-context): 5 specialist roles, 2 founders. How skills, deterministic rules, and shared context replaced a team at 200IQ LABS — case study and architecture.
+- [3 days to PIT-38, no accountant. 2 hours were enough.](https://pawel.lipowczan.pl/en/blog/polish-pit-38-claude-code-case-study): 5430 transactions, 5 data sources, two days with a Claude Code agent. A case study of the workflow that replaced my accountant on PIT-38.
+- [Why WordPress can't do this — spec-driven SEO on a portfolio and Qamera AI](https://pawel.lipowczan.pl/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study): An SEO audit, spec-driven changes, and an AI workflow optimized two projects in hours, not weeks. Case study from a portfolio and Qamera AI.
 - [How Karpathy's LLM Wiki Helped Me Organize My Knowledge Base](https://pawel.lipowczan.pl/en/blog/karpathy-llm-wiki-knowledge-base): A walk-through of a PKM system that evolved from manual Obsidian notes into an agent-maintained knowledge base of 185 notes — the three-layer architecture, progressive disclosure indexes, four core…
 - [5 GitHub Repositories That Will Transform Your Work with Claude Code](https://pawel.lipowczan.pl/en/blog/5-github-repos-claude-code): I test dozens of tools - these 5 repositories truly made a difference in my daily work with Claude Code. Here's my battle-tested list.
 - [My agentic environment — how I'm building an AI OS for two companies](https://pawel.lipowczan.pl/en/blog/agentic-ai-environment-two-companies): Two repositories, eight agents, zero vendor lock-in. How I built an agent system managing finances, legal, and marketing for two companies.
