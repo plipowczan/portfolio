@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { FaEnvelope, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaEnvelope, FaGithub, FaLinkedin, FaMastodon, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useLocalizedPath from "../../hooks/useLocalizedPath";
 import { SITE_CONFIG } from "../../utils/constants";
@@ -12,6 +12,7 @@ const Footer = () => {
   const socialLinks = [
     { icon: FaGithub, href: SITE_CONFIG.social.github, label: "GitHub" },
     { icon: FaLinkedin, href: SITE_CONFIG.social.linkedin, label: "LinkedIn" },
+    { icon: FaMastodon, href: SITE_CONFIG.social.mastodon, label: "Mastodon", relMe: true },
     { icon: FaTwitter, href: SITE_CONFIG.social.twitter, label: "Twitter" },
     { icon: FaEnvelope, href: `mailto:${SITE_CONFIG.email}`, label: "Email" },
   ];
@@ -96,7 +97,7 @@ const Footer = () => {
                   key={social.label}
                   href={social.href}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel={social.relMe ? "me noopener noreferrer" : "noopener noreferrer"}
                   className="text-gray-400 hover:text-primary-500 transition-colors"
                   aria-label={social.label}
                 >
@@ -104,6 +105,17 @@ const Footer = () => {
                 </a>
               ))}
             </div>
+            {/* Hidden rel="me" verification links — Mastodon profile metadata
+                verification. Not part of UI; required only for the green checkmark. */}
+            <a
+              rel="me"
+              href={SITE_CONFIG.social.mastodonAlt}
+              style={{ display: "none" }}
+              aria-hidden="true"
+              tabIndex={-1}
+            >
+              Mastodon (alt)
+            </a>
             <div className="space-y-2">
               {legalLinks.map((link) => (
                 <Link

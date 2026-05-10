@@ -12,6 +12,8 @@ export const SITE_CONFIG = {
     github: "https://github.com/plipowczan",
     linkedin: "https://linkedin.com/in/pawellipowczan",
     twitter: "https://twitter.com/pawellipowczan",
+    mastodon: "https://hachyderm.io/@pawellipowczan",
+    mastodonAlt: "https://mastodon.social/@pawellipowczan",
   },
 };
 
