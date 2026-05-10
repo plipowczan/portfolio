@@ -136,11 +136,15 @@ To daje "weak" linki z każdego repo do Twojej domeny. Dziesięć repo = dziesi�
 2. Napisz krótki post na LinkedInie (2–4 akapity), kończący linkiem do pełnego artykułu na blogu.
 3. Linki na LinkedIn są `nofollow`, ale dają **crawl signal** (Googlebot widzi link i często go followuje pomimo nofollow w celu odkrywania) i przede wszystkim **organic traffic** — który sam w sobie jest sygnałem rankingowym.
 
-#### 4.5 Mastodon / X / Bluesky (5 min)
+#### 4.5 Mastodon / X / Bluesky
 
-Jeśli masz aktywne konto na którejkolwiek platformie:
-- Jeden post z linkiem do bloga (`https://pawel.lipowczan.pl/blog`).
-- Bio profilu — link do strony głównej.
+Pełen content per platforma (bio, hashtagi, pinned post, strategia) w osobnych plikach:
+
+- **[`docs/seo/social-profile-mastodon.md`](./social-profile-mastodon.md)** — bio 500zn + 4 metadata pola + verification trick (rel="me")
+- **[`docs/seo/social-profile-x.md`](./social-profile-x.md)** — bio 160zn + pinned tweet + workaround na link-downranking
+- **[`docs/seo/social-profile-bluesky.md`](./social-profile-bluesky.md)** — bio 256zn + starter packs + opcjonalny custom domain handle (`@pawel.lipowczan.pl`)
+
+Każdy plik ma gotowe teksty PL i EN, hashtagi dopasowane do branży i instrukcje krok-po-kroku.
 
 #### 4.6 (Opcjonalnie) Komentarz pod artykułem branżowym
 
