@@ -170,11 +170,17 @@ Co 7 dni o tej samej porze (np. niedziela rano) wejdź w GSC → **Pages** i zap
 
 | Tydzień | Data | Indexed | Crawled – not indexed | Discovered – not indexed | Not found (404) |
 |---------|------|---------|-----------------------|--------------------------|-----------------|
-| T+0 | 2026-05-09 | 0 | (zapisz) | (zapisz) | 6 |
-| T+1 | 2026-05-16 | | | | |
-| T+2 | 2026-05-23 | | | | |
-| T+3 | 2026-05-30 | | | | |
-| T+4 | 2026-06-06 | | | | |
+| T+0 | 2026-05-10 | 0 | 25 | 0 | 6 |
+| T+1 | 2026-05-17 | | | | |
+| T+2 | 2026-05-24 | | | | |
+| T+3 | 2026-05-31 | | | | |
+| T+4 | 2026-06-07 | | | | |
+
+> **T+0 baseline notes (2026-05-10):**
+> - Niezindeksowane łącznie: 31 (= 25 Crawled + 6 Not found, brak kategorii Discovered).
+> - Sitemap zawiera 73 URL-e → ~42 URL-i wciąż poza GSC processing queue.
+> - Stan zaraz po deployu: 301 redirects (active), bio update z worksFor Qamera AI (active), Mastodon rel="me" verification (active), 8 URL-i zgłoszonych do Request Indexing w sesji 1.
+> - **Hipoteza na T+1:** 6 (404) → 0-2 (po przeprocesowaniu redirectów Google przeklasyfikuje URL-e jako "Page with redirect"); 25 (Crawled-not-indexed) → 18-23 (kilka URL-i z requested indexing przejdzie do Indexed); 0 (Indexed) → 3-8.
 
 ### Co powinno się dziać (zdrowy trend)
 
