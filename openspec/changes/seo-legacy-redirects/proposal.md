@@ -8,7 +8,7 @@ Google Search Console reports 0 indexed pages for `pawel.lipowczan.pl` and lists
 - Cover three classes of redirects:
   - **1:1 specific** — known legacy URLs with a direct counterpart (e.g. `/en/blog/vibe-coding-przewodnik` → `/en/blog/vibe-coding-guide`).
   - **Section anchors** — legacy listing/CV pages mapped to the corresponding home-page section (e.g. `/projects/` → `/#projects`, `/my-career-path/` → `/#about`).
-  - **Wildcard catch-alls** — legacy WordPress patterns with no equivalent content, redirected to `/` (e.g. `/portfolio_categories/*`, `/portfolio-archive/*`, plus preventive coverage for `/category/*`, `/tag/*`, `/author/*`, `/wp-content/*`, `/wp-admin/*`, `/?p=*`).
+  - **Wildcard catch-alls** — legacy WordPress patterns with no equivalent content, redirected to `/` (e.g. `/portfolio_categories/*`, `/portfolio-archive/*`, plus preventive coverage for `/category/*`, `/tag/*`, `/author/*`, `/wp-content/*`, `/wp-admin/*`, `/wp-login.php`, `/feed`, `/comments/feed/`).
 - Verify each redirect resolves with `301` (not `302` / not `200`) and a correct `Location` header.
 
 ## Capabilities

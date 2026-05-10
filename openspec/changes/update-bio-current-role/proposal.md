@@ -33,7 +33,6 @@ The site's About paragraph and several derived assets state "Technical Lead w Ti
   - `src/locales/en/home.json` — same.
 - **Documentation:**
   - `docs/seo/github-profile-readme-template.md` — update both PL and EN variants.
-- **No code changes:** React components (`About.jsx`, etc.) read from translation keys; structure stays identical.
-- **No SEO regression:** structure of HTML/schema unchanged; only text content changes. Prerender output keeps same DOM tree.
-- **Schema JSON-LD on home (`src/utils/schemaGenerators.js` or wherever Person is built) — open question for design:** add `worksFor: { "@type": "Organization", "name": "Qamera AI" }` to Person schema? Strengthens entity disambiguation but is technical detail, not user-visible. Decision deferred to design.md.
+- **Code changes (minor, schema-only):** `src/pages/Home.jsx` — extend the existing inline JSON-LD `Person` object with `worksFor: { "@type": "Organization", "name": "Qamera AI" }` to strengthen entity disambiguation for the new role. React components (`About.jsx`, etc.) continue to read from translation keys; their JSX structure is unchanged.
+- **SEO impact:** prerendered HTML body and DOM tree are unchanged (text-only swap inside translated paragraphs). The `Person` JSON-LD gains a `worksFor` property — additive, no removals — which sharpens the entity graph signal sent to Google/AI search without affecting Core Web Vitals or rendering.
 - **`<meta description>` in `index.html`:** currently "Architekt oprogramowania i doradca ds. technologii…". Reads OK with the new role too (it's role-agnostic). Decision deferred to design.md whether to retune.
