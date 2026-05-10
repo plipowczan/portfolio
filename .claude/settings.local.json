@@ -27,7 +27,8 @@
       "Bash(npx remotion:*)",
       "Bash(sort -t: -k2 -n)",
       "Bash([ -f \"src/content/blog/en/$slug.md\" ])",
-      "Bash(openspec validate *)"
+      "Bash(openspec validate *)",
+      "Read(//tmp/**)"
     ]
   },
   "enableAllProjectMcpServers": true,
