@@ -70,6 +70,25 @@ Numerowane listy dla sekwencji krokow:
 5. Wdroz i monitoruj
 ```
 
+### Znaki interpunkcyjne - unikaj AI-tells
+
+Nie uzywaj znakow zdradzajacych tekst generowany przez AI. Pisz tak, jak czlowiek pisze na klawiaturze - zwyklym myslnikiem i trzema kropkami.
+
+```markdown
+❌ Agentic engineering — to dyscyplina, ktora trzyma sufit…
+✅ Agentic engineering - to dyscyplina, ktora trzyma sufit...
+```
+
+| Zabroniony znak     | Poprawnie                                              |
+| ------------------- | ----------------------------------------------------- |
+| `—` em dash (U+2014) | `-` zwykly myslnik ze spacjami: ` - `                 |
+| `–` en dash (U+2013) | `-` myslnik; w zakresach bez spacji: `2020-2025`      |
+| `…` wielokropek (U+2026) | `...` trzy kropki                                  |
+
+**Wyjatek:** polskie cudzyslowy `„ "` zostaw - to poprawna typografia (nie AI-tell), spojna z istniejacymi artykulami.
+
+Walidacja przed publikacja: `grep -nP '[\x{2014}\x{2013}\x{2026}]' <plik>` musi zwrocic pusty wynik.
+
 ### Wrazenia z emoji
 
 Uzywaj oszczednie, glownie w naglowkach lub dla wyroznienia:

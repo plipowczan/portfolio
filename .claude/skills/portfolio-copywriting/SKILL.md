@@ -142,6 +142,20 @@ tags:
 - **Pogrubienia:** kluczowe pojecia i liczby
 - **Code blocks:** przyklady kodu/konfiguracji
 
+### Znaki interpunkcyjne - unikaj AI-tells (WYMAGANE)
+
+Nie uzywaj znakow, ktore zdradzaja tekst pisany przez AI. Pisz tak, jak czlowiek pisze na klawiaturze.
+
+| Zabroniony znak | Zamiast tego |
+| --------------- | ------------ |
+| `—` (em dash, U+2014) | `-` (zwykly myslnik) ze spacjami: ` - ` |
+| `–` (en dash, U+2013) | `-` (zwykly myslnik); w zakresach `2020-2025` bez spacji |
+| `…` (wielokropek, U+2026) | `...` (trzy kropki) |
+
+**Zostaw** polskie cudzyslowy `„ "` - to poprawna typografia, uzywana w istniejacych artykulach (nie AI-tell).
+
+Przed zapisem artykulu sprawdz: `grep -nP '[\x{2014}\x{2013}\x{2026}]' src/content/blog/{slug}.md` - wynik musi byc pusty.
+
 ### Dlugosc
 
 | Typ         | Slowa     |
