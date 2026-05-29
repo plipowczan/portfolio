@@ -18,6 +18,7 @@ tags:
   - Karpathy
   - Vibe Coding
 lang: pl
+alternateSlug: software-3-0-agentic-engineering-guide
 ---
 
 Człowiek, który ukuł termin **vibe coding**, powiedział, że „nigdy nie czuł się bardziej w tyle jako programista". To Andrej Karpathy - współzałożyciel OpenAI, były szef AI w Tesli. W grudniu agentowe modele przekroczyły dla niego pewien próg: kawałki kodu „po prostu wychodziły dobrze", więc przestał je poprawiać i zaufał systemowi.
