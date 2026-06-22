@@ -7,7 +7,7 @@ description: "A walk-through of a PKM system that evolved from manual Obsidian n
 category: AI
 author: Pawel Lipowczan
 date: 2026-04-12
-modified: 2026-04-22
+modified: 2026-06-22
 readTime: 15 min
 image: /images/og-llm-knowledge-base-brain-karpathy.webp
 tags:
@@ -265,6 +265,7 @@ You don't have to build all of this at once. Start with a CLAUDE.md of 50 lines,
 - [Quartz 4](https://quartz.jzhao.xyz/) — Static Site Generator for Obsidian vaults
 - [Obsidian](https://obsidian.md/) — Markdown note editor
 - Related article: [Second Brain with Obsidian and Claude Code Skills](/en/blog/second-brain-obsidian-claude-code-skills) — how to start from zero
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - a ready template to start your own second brain
 
 ## FAQ
 

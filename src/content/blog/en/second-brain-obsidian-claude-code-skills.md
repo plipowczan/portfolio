@@ -6,6 +6,7 @@ excerpt: "Discover how combining Obsidian, Claude Code, and Skills creates a pow
 category: AI
 author: Pawel Lipowczan
 date: 2026-01-26
+modified: 2026-06-22
 readTime: 14 min
 image: /images/og-second-brain-obsidian-claude-code-skills.webp
 tags:
@@ -409,6 +410,7 @@ description: Summarize long notes into key points. Use when user asks to summari
 - [Cole Medin / Dynamist](https://www.youtube.com/@ColeMedin) - inspiration for this article
 - [5 techniques for working with Claude Code](/blog/5-technik-pracy-z-claude-code) - related article
 - [PARA Method](https://fortelabs.com/blog/para/) - knowledge organization system
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - a ready template to start building your own second brain in minutes
 
 ## FAQ
 

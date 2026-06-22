@@ -6,6 +6,7 @@ excerpt: "Od ręcznych notatek w Obsidian do systemu, w którym agent pilnuje st
 category: AI
 author: Pawel Lipowczan
 date: 2026-04-12
+modified: 2026-06-22
 readTime: 15 min
 image: /images/og-llm-knowledge-base-brain-karpathy.webp
 tags:
@@ -263,6 +264,7 @@ Nie musisz budować tego wszystkiego od razu. Zacznij od CLAUDE.md z 50 liniami,
 - [Quartz 4](https://quartz.jzhao.xyz/) — Static Site Generator do Obsidian vault
 - [Obsidian](https://obsidian.md/) — edytor notatek Markdown
 - Powiązany artykuł: [Second Brain z Obsidian i Claude Code Skills](/blog/second-brain-obsidian-claude-code-skills) — jak zacząć od zera
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - gotowy szablon do startu własnego second brain
 
 ## FAQ
 

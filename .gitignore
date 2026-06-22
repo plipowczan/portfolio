@@ -46,6 +46,7 @@ playwright/.cache/
 # Misc
 .cache
 .parcel-cache
+.firecrawl/
 .next
 .nuxt
 .vercel

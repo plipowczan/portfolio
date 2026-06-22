@@ -1,0 +1,53 @@
+Generated: 2026-06-21
+Article: Zbudowałem drugi mózg. Trafiłem w standard Google (OKF)
+Slug: okf-standard-przenosnosc-bazy-wiedzy-ai
+Category: AI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEMINI API PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI] with this exact visual specification:
+
+**Article Context:**
+- Title: Zbudowałem drugi mózg. Trafiłem w standard Google (OKF)
+- Topic: AI / knowledge management / portable knowledge format
+- Theme: Professional developer blog focused on AI
+
+**Visual Design Requirements:**
+
+Background:
+- Deep dark gradient from #0a0e1a (bottom) to #151b2b (top)
+- Smooth, professional gradient transition matching portfolio aesthetic
+
+Primary Visual Elements (bright green #00ff9d):
+- Abstract geometric shapes suggesting interconnected knowledge nodes
+- Neural network node patterns with connecting lines forming a knowledge graph
+- Stacked document/file-card silhouettes flowing into a unified network (no text inside)
+- Floating hexagons and triangular elements
+- Subtle glow effects on key elements
+
+Secondary Visual Elements (cyan #00b8ff):
+- Complementary geometric shapes
+- Data flow visualization patterns suggesting portability and exchange
+- Bracket-like container outlines hinting at a portable bundle (no text inside)
+- Branching pathways suggesting scale from one node to many
+
+Style & Effects:
+- Glassmorphism-inspired transparency on some elements
+- Subtle blur effects creating depth
+- Modern tech aesthetic matching portfolio website
+- Professional, high-end, minimalist composition
+- Clean, uncluttered layout with breathing room
+
+**CRITICAL CONSTRAINTS:**
+- ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS
+- Pure abstract visual art only
+- NO readable symbols, NO typography, NO linguistic characters
+- Focus on shapes, patterns, gradients, and geometric elements
+- Professional enough for LinkedIn/Twitter social previews
+- Must work as a thumbnail (recognizable at small sizes)
+
+**Aspect Ratio:** 1200x630 pixels (Open Graph standard)
+
+**Mood:** Innovative, professional, cutting-edge, trustworthy, expert
