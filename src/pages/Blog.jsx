@@ -37,7 +37,7 @@ const BlogCard = ({ post, localizedPath, readMoreLabel }) => {
       <p className="text-gray-400 mb-4 leading-relaxed">{post.excerpt}</p>
 
       {/* Meta Info */}
-      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
+      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-4">
         <div className="flex items-center space-x-2">
           <FaCalendar />
           <span>{post.date}</span>
@@ -53,7 +53,7 @@ const BlogCard = ({ post, localizedPath, readMoreLabel }) => {
         {post.tags.map((tag, index) => (
           <span
             key={index}
-            className="text-xs text-gray-500 flex items-center space-x-1"
+            className="text-xs text-gray-400 flex items-center space-x-1"
           >
             <FaTag className="text-primary-500" />
             <span>{tag}</span>

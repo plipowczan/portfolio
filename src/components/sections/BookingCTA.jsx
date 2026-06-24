@@ -67,7 +67,7 @@ const BookingCTA = () => {
             >
               Zarezerwuj Bezpłatną Konsultację
             </button>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-400 text-sm">
               30 minut online · Bez zobowiązań · Całkowicie za darmo
             </p>
           </motion.div>

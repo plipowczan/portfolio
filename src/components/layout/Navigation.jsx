@@ -172,6 +172,8 @@ const Navigation = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-white p-2 hover:text-primary-500 transition-colors"
               aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {isMobileMenuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
             </button>
@@ -183,6 +185,7 @@ const Navigation = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}

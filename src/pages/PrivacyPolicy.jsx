@@ -28,7 +28,7 @@ const PrivacyPolicy = () => {
                 {t("privacy.title")}
               </h1>
               <p className="text-gray-400">{t("privacy.subtitle")}</p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 {t("privacy.lastUpdate", { date: new Date().toLocaleDateString(dateLocale) })}
               </p>
             </div>

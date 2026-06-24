@@ -25,7 +25,7 @@ const SkillCard = ({ skill }) => {
           className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full"
         />
       </div>
-      <span className="text-xs text-gray-500">{skill.level}%</span>
+      <span className="text-xs text-gray-400">{skill.level}%</span>
     </motion.div>
   );
 };

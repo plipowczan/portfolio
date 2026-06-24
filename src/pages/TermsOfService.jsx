@@ -28,7 +28,7 @@ const TermsOfService = () => {
                 {t("terms.title")}
               </h1>
               <p className="text-gray-400">{t("terms.subtitle")}</p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 {t("terms.lastUpdate", { date: new Date().toLocaleDateString(dateLocale) })}
               </p>
             </div>
