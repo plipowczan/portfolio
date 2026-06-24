@@ -56,6 +56,10 @@ test.describe("SEO — security headers on deployed site", () => {
   test("CSP allowlist pokrywa realne zasoby strony", async ({ request }) => {
     const res = await request.get(DEPLOYED_URL, { maxRedirects: 5 });
     const csp = res.headers()["content-security-policy-report-only"];
+    expect(
+      csp,
+      "Content-Security-Policy-Report-Only header must be present",
+    ).toBeDefined();
 
     const directive = (name) => {
       const match = csp.match(new RegExp(`(?:^|;)\\s*${name}\\s+([^;]+)`));

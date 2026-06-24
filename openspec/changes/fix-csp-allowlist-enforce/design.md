@@ -60,6 +60,7 @@ Content-Security-Policy-Report-Only:
   connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://o4511257435308032.ingest.de.sentry.io https://js.clickrank.ai https://formspree.io https://app.zencal.io;
   frame-src 'self' https://app.zencal.io https://vercel.live;
   frame-ancestors 'none';
+  base-uri 'self';
   report-uri https://o4511257435308032.ingest.de.sentry.io/api/4511257447432272/security/?sentry_key=35e235d76a965a67ed15c12671c3a01d;
   report-to csp-endpoint
 ```
