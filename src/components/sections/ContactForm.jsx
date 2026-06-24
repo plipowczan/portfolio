@@ -29,25 +29,40 @@ const ContactForm = () => {
     }
   };
 
+  // Validate a single field; returns an error string ("" when valid)
+  const validateField = (name, value) => {
+    const trimmed = value.trim();
+    switch (name) {
+      case "name":
+        return trimmed ? "" : t("contact.validation.nameRequired");
+      case "email":
+        if (!trimmed) return t("contact.validation.emailRequired");
+        return /\S+@\S+\.\S+/.test(trimmed)
+          ? ""
+          : t("contact.validation.emailInvalid");
+      case "message":
+        if (!trimmed) return t("contact.validation.messageRequired");
+        return trimmed.length < 10
+          ? t("contact.validation.messageMinLength")
+          : "";
+      default:
+        return "";
+    }
+  };
+
+  // Validate on blur (not on keystroke) so users aren't nagged mid-typing
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    const error = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
   const validateForm = () => {
     const newErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = t("contact.validation.nameRequired");
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = t("contact.validation.emailRequired");
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = t("contact.validation.emailInvalid");
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = t("contact.validation.messageRequired");
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = t("contact.validation.messageMinLength");
-    }
-
+    ["name", "email", "message"].forEach((field) => {
+      const error = validateField(field, formData[field]);
+      if (error) newErrors[field] = error;
+    });
     return newErrors;
   };
 
@@ -57,6 +72,8 @@ const ContactForm = () => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      // Move focus to the first invalid field for keyboard/screen-reader users
+      document.getElementById(Object.keys(validationErrors)[0])?.focus();
       return;
     }
 
@@ -141,7 +158,7 @@ const ContactForm = () => {
                   <FaEnvelope className="text-primary-500 text-xl" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">{t("contact.emailLabel")}</p>
+                  <p className="text-sm text-gray-400">{t("contact.emailLabel")}</p>
                   <a href={`mailto:${SITE_CONFIG.email}`} className="link">
                     {SITE_CONFIG.email}
                   </a>
@@ -184,16 +201,18 @@ const ContactForm = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     required
                     aria-required="true"
                     aria-invalid={errors.name ? "true" : "false"}
+                    aria-describedby={errors.name ? "name-error" : undefined}
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.name ? "border-red-500" : "border-primary-500/20"
-                    } rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors`}
+                    } rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors`}
                     placeholder={t("contact.namePlaceholder")}
                   />
                   {errors.name && (
-                    <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                    <p id="name-error" role="alert" className="mt-1 text-sm text-red-500">{errors.name}</p>
                   )}
                 </div>
 
@@ -210,16 +229,18 @@ const ContactForm = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     required
                     aria-required="true"
                     aria-invalid={errors.email ? "true" : "false"}
+                    aria-describedby={errors.email ? "email-error" : undefined}
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.email ? "border-red-500" : "border-primary-500/20"
-                    } rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors`}
+                    } rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors`}
                     placeholder={t("contact.emailPlaceholder")}
                   />
                   {errors.email && (
-                    <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                    <p id="email-error" role="alert" className="mt-1 text-sm text-red-500">{errors.email}</p>
                   )}
                 </div>
 
@@ -236,7 +257,7 @@ const ContactForm = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-dark-700 border border-primary-500/20 rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors"
+                    className="w-full px-4 py-3 bg-dark-700 border border-primary-500/20 rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors"
                     placeholder={t("contact.subjectPlaceholder")}
                   />
                 </div>
@@ -253,19 +274,21 @@ const ContactForm = () => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     rows="5"
                     required
                     aria-required="true"
                     aria-invalid={errors.message ? "true" : "false"}
+                    aria-describedby={errors.message ? "message-error" : undefined}
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.message
                         ? "border-red-500"
                         : "border-primary-500/20"
-                    } rounded-lg text-white focus:outline-none focus:border-primary-500 transition-colors resize-none`}
+                    } rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors resize-none`}
                     placeholder={t("contact.messagePlaceholder")}
                   />
                   {errors.message && (
-                    <p className="mt-1 text-sm text-red-500">
+                    <p id="message-error" role="alert" className="mt-1 text-sm text-red-500">
                       {errors.message}
                     </p>
                   )}

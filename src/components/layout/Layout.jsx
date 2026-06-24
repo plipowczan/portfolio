@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useBooking } from "../../context/BookingContext";
 import Modal from "../ui/Modal";
@@ -9,6 +10,7 @@ import Navigation from "./Navigation";
 
 const Layout = ({ children }) => {
   const location = useLocation();
+  const { t } = useTranslation("common");
   const { isBookingModalOpen, closeBookingModal } = useBooking();
 
   useEffect(() => {
@@ -21,8 +23,14 @@ const Layout = ({ children }) => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary-500 focus:text-dark-900 focus:font-semibold"
+      >
+        {t("a11y.skipToContent")}
+      </a>
       <Navigation />
-      <main className="flex-grow pt-20">{children}</main>
+      <main id="main" tabIndex={-1} className="flex-grow pt-20 focus:outline-none">{children}</main>
       <Footer />
       <CookieBanner />
 

@@ -19,12 +19,12 @@ const TestimonialCard = ({ testimonial, lang }) => {
         border border-white/10 rounded-xl
         p-6 h-full flex flex-col
         transition-all duration-300
-        hover:border-green-500/30
+        hover:border-primary-500/30
         hover:shadow-[0_0_30px_rgba(0,255,157,0.1)]
       "
     >
       {/* Quote Icon */}
-      <FaQuoteLeft className="text-green-500/30 text-2xl mb-4" />
+      <FaQuoteLeft className="text-primary-500/30 text-2xl mb-4" />
 
       {/* Content */}
       <div className="flex-1 mb-4">
@@ -38,7 +38,9 @@ const TestimonialCard = ({ testimonial, lang }) => {
         <img
           src={testimonial.image}
           alt={testimonial.author}
-          className="w-12 h-12 rounded-full object-cover border-2 border-green-500/30"
+          width={48}
+          height={48}
+          className="w-12 h-12 rounded-full object-cover border-2 border-primary-500/30"
           loading="lazy"
         />
         <div className="flex-1 min-w-0">
@@ -48,7 +50,7 @@ const TestimonialCard = ({ testimonial, lang }) => {
           <p className="text-gray-400 text-xs truncate">
             {testimonial.role}
           </p>
-          <p className="text-green-500/70 text-xs truncate">
+          <p className="text-primary-500/70 text-xs truncate">
             {testimonial.company}
           </p>
         </div>
@@ -56,7 +58,7 @@ const TestimonialCard = ({ testimonial, lang }) => {
           href={testimonial.linkedIn}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-green-500 transition-colors p-2"
+          className="text-gray-400 hover:text-primary-500 transition-colors p-2"
           aria-label={`Profil LinkedIn - ${testimonial.author}`}
         >
           <FaLinkedin className="text-lg" />
@@ -149,8 +151,8 @@ const Testimonials = () => {
                 border border-white/10
                 rounded-full
                 flex items-center justify-center
-                text-gray-400 hover:text-green-500
-                hover:border-green-500/30
+                text-gray-400 hover:text-primary-500
+                hover:border-primary-500/30
                 transition-all duration-300
               "
               aria-label={t("testimonials.prev")}
@@ -168,8 +170,8 @@ const Testimonials = () => {
                 border border-white/10
                 rounded-full
                 flex items-center justify-center
-                text-gray-400 hover:text-green-500
-                hover:border-green-500/30
+                text-gray-400 hover:text-primary-500
+                hover:border-primary-500/30
                 transition-all duration-300
               "
               aria-label={t("testimonials.next")}
@@ -210,7 +212,7 @@ const Testimonials = () => {
                     w-2 h-2 rounded-full transition-all duration-300
                     ${
                       idx === currentIndex
-                        ? "bg-green-500 w-6"
+                        ? "bg-primary-500 w-6"
                         : "bg-gray-600 hover:bg-gray-500"
                     }
                   `}
@@ -229,8 +231,8 @@ const Testimonials = () => {
               className="
                 inline-flex items-center gap-2
                 px-6 py-3
-                border border-green-500 text-green-500
-                hover:bg-green-500/10
+                border border-primary-500 text-primary-500
+                hover:bg-primary-500/10
                 rounded-lg
                 transition-all duration-300
                 text-sm font-medium

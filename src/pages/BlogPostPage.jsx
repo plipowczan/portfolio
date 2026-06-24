@@ -668,7 +668,7 @@ const BlogPostPage = () => {
                     <p className="text-gray-400 text-center px-4">
                       {t("blog.imageError")}
                       <br />
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-400">
                         {post.image}
                       </span>
                     </p>
