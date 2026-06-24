@@ -37,7 +37,7 @@ const ContactForm = () => {
         return trimmed ? "" : t("contact.validation.nameRequired");
       case "email":
         if (!trimmed) return t("contact.validation.emailRequired");
-        return /\S+@\S+\.\S+/.test(value)
+        return /\S+@\S+\.\S+/.test(trimmed)
           ? ""
           : t("contact.validation.emailInvalid");
       case "message":
