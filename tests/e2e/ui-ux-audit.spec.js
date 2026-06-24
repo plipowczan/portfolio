@@ -44,7 +44,14 @@ test.describe("C2 — project card links (stretched-link, no nested anchors)", (
     );
     const count = await externalLinks.count();
 
-    // Only assert on projects that actually expose github/live links.
+    // The current projects dataset exposes no github/live links, so the
+    // overlay never renders. Skip explicitly instead of passing vacuously —
+    // when links are added this test starts guarding them automatically.
+    test.skip(
+      count === 0,
+      "no external project links in current data (overlay not rendered)"
+    );
+
     for (let i = 0; i < count; i++) {
       const link = externalLinks.nth(i);
       await expect(link).toHaveAttribute("rel", /noopener/);

@@ -26,7 +26,7 @@ const ProjectCard = ({ project, localizedPath, t }) => {
 
         {/* Overlay with external links (above the stretched card link) */}
         {(project.githubUrl || project.liveUrl) && (
-          <div className="absolute inset-0 z-20 bg-dark-900/0 group-hover:bg-dark-900/90 group-focus-within:bg-dark-900/90 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100">
+          <div className="absolute inset-0 z-20 bg-dark-900/0 group-hover:bg-dark-900/90 group-focus-within:bg-dark-900/90 transition-all duration-300 flex items-center justify-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto">
             <div className="flex space-x-4">
               {project.githubUrl && (
                 <a
