@@ -83,7 +83,13 @@ Content-Security-Policy-Report-Only:
 
 **Rollback:** revert the single `vercel.json` commit → previous policy returns. Low blast radius.
 
+## Plan limitation (Sentry free plan)
+
+The Sentry-side guard from Decision 4 (inbound filter + spike protection + DSN rate-limit) is **not available on the free plan** — custom inbound filters, delete-and-discard, spike protection, and per-key rate limits are all paid features. Tasks 3.2/3.3 are therefore **deferred (blocked-by-plan)**, not implemented.
+
+Accepted risk: the allowlist correction alone removes ~99.7% of report volume (the self-inflicted fonts/clickrank noise). Post-fix residual is ~2 events/month from uncontrollable client-injected hosts (`frontend-cdn.perplexity.ai`, isolated as issue CSP-H) — far below the 5,000-event quota. The unbounded-viral-spike scenario remains unmitigated until either the plan is upgraded (enables the native guard) or report-uri is proxied through a rate-limiting Vercel function (separate change). Decision: accept and document; revisit if inflow rises.
+
 ## Open Questions
 
-- Add defensive `base-uri 'self'` as cheap hardening? (Lean: yes — zero risk, still Report-Only.)
-- Which exact hosts to seed the Sentry inbound filter with beyond `frontend-cdn.perplexity.ai`? (Resolve from the issue list at cleanup time.)
+- Add defensive `base-uri 'self'` as cheap hardening? (Resolved: yes — added.)
+- Which exact hosts to seed the Sentry inbound filter with beyond `frontend-cdn.perplexity.ai`? (Moot — inbound filters unavailable on free plan; see Plan limitation above.)

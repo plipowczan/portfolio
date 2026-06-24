@@ -14,9 +14,9 @@
 
 ## 3. Sentry-side quota guard
 
-- [ ] 3.1 Resolve the open issues in the `portfolio-csp` project
-- [ ] 3.2 Add an inbound filter for known uncontrollable client-injected hosts (seed with `frontend-cdn.perplexity.ai`; expand from the issue list)
-- [ ] 3.3 Enable spike protection / rate-limiting on the `portfolio-csp` project so residual noise cannot re-exhaust the quota
+- [x] 3.1 Resolve the open issues in the `portfolio-csp` project (9/10 allowlist-covered resolved via Sentry MCP; CSP-H `frontend-cdn.perplexity.ai` left for inbound filter 3.2)
+- [~] 3.2 Add an inbound filter for known uncontrollable client-injected hosts — DEFERRED (blocked by Sentry free plan; custom inbound filters / delete-and-discard require a paid plan). `frontend-cdn.perplexity.ai` isolated as issue CSP-H. See design.md "Plan limitation".
+- [~] 3.3 Enable spike protection / rate-limiting on the `portfolio-csp` project — DEFERRED (blocked by Sentry free plan; spike protection + DSN rate limits require a paid plan). Residual noise bounded instead by the allowlist fix (~2 events/mo). See design.md "Plan limitation".
 
 ## 4. Deploy and verify
 
