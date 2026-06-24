@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
         Przejdź do treści
       </a>
       <Navigation />
-      <main id="main" className="flex-grow pt-20">{children}</main>
+      <main id="main" tabIndex={-1} className="flex-grow pt-20 focus:outline-none">{children}</main>
       <Footer />
       <CookieBanner />
 
