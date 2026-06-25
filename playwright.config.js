@@ -20,7 +20,10 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 1 : undefined,
+  // CI was serial (1 worker) → the full suite brushed the 60-min job timeout.
+  // Use all available cores on the runner to cut wall-time ~4x; retries (below)
+  // still absorb the occasional flake.
+  workers: process.env.CI ? "100%" : undefined,
 
   // Reporter - HTML dla lokalnego użycia
   reporter: [["html", { outputFolder: "playwright-report" }], ["list"]],
