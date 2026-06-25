@@ -70,6 +70,9 @@ const staticRoutesPl = [
 const blogRoutesPl = blogPostsPl.map((post) => `/blog/${post.slug}`);
 const projectRoutesPl = projects.map((project) => `/projects/${project.slug}`);
 
+// PL-only waitlist landing — intentionally NOT mirrored to /en (PL-only page)
+const landingRoutes = ["/llm-wiki"];
+
 // EN routes (under /en/ prefix)
 const staticRoutesEn = staticRoutesPl.map((route) => `/en${route}`);
 const blogRoutesEn = blogPostsEn.map((post) => `/en/blog/${post.slug}`);
@@ -77,6 +80,7 @@ const projectRoutesEn = projects.map((project) => `/en/projects/${project.slug}`
 
 const allRoutes = [
   ...staticRoutesPl,
+  ...landingRoutes,
   ...blogRoutesPl,
   ...projectRoutesPl,
   ...staticRoutesEn,
@@ -232,8 +236,12 @@ async function main() {
     } else {
       console.log("💻 Wykryto środowisko Lokalne - używam Playwright");
       const { chromium } = await import("@playwright/test");
+      // Opt-in: ustaw PRERENDER_CHANNEL=msedge|chrome, by użyć systemowej
+      // przeglądarki zamiast pobranej binarki Playwright (np. gdy brak chromium).
+      // Bez env zachowanie bez zmian (pobrany chromium).
       browser = await chromium.launch({
         headless: true,
+        channel: process.env.PRERENDER_CHANNEL || undefined,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
       });
     }
