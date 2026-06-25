@@ -1,5 +1,5 @@
 import { MotionConfig } from "framer-motion";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { BookingProvider } from "./context/BookingContext";
 import Layout from "./components/layout/Layout";
 import LocaleLayout from "./components/layout/LocaleLayout";
@@ -19,6 +19,11 @@ function App() {
       <MotionConfig reducedMotion="user">
         <Layout>
           <Routes>
+            {/* PL-only landing: redirect the /en mirror to the canonical PL URL */}
+            <Route
+              path="/en/llm-wiki"
+              element={<Navigate to="/llm-wiki" replace />}
+            />
             <Route path="/:lang?" element={<LocaleLayout />}>
               <Route index element={<Home />} />
               <Route path="llm-wiki" element={<LlmWikiLanding />} />

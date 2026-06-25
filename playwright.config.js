@@ -48,7 +48,9 @@ export default defineConfig({
     },
     {
       name: "edge",
-      use: { ...devices["Desktop Edge"], channel: "msedge" },
+      // Reuse Desktop Chrome settings (a guaranteed device descriptor) and run
+      // the system Edge via the msedge channel.
+      use: { ...devices["Desktop Chrome"], channel: "msedge" },
     },
     {
       name: "firefox",

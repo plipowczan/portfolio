@@ -33,12 +33,11 @@ const GrowingNetworkBackground = () => {
     let spawnTimer;
     const nodes = [];
 
-    const resizeCanvas = () => {
+    const setSize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    setSize(); // size before seeding so node positions use real dimensions
 
     class Node {
       constructor(x, y, instant) {
@@ -104,11 +103,24 @@ const GrowingNetworkBackground = () => {
       }
     };
 
-    if (prefersReduced) {
-      // Static single frame — no motion, no growth
+    const renderStatic = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       nodes.forEach((node) => node.draw());
       drawConnections();
+    };
+
+    // Resizing the canvas clears it, so for reduced-motion users (who get a
+    // single static frame) we must redraw after every resize, otherwise the
+    // background goes blank on viewport/orientation change. The animated branch
+    // repaints every frame, so it only needs the dimensions updated.
+    const onResize = () => {
+      setSize();
+      if (prefersReduced) renderStatic();
+    };
+    window.addEventListener("resize", onResize);
+
+    if (prefersReduced) {
+      renderStatic();
     } else {
       const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -125,7 +137,7 @@ const GrowingNetworkBackground = () => {
     }
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", onResize);
       cancelAnimationFrame(animationFrameId);
       clearInterval(spawnTimer);
     };

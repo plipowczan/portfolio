@@ -77,6 +77,9 @@ const LlmWikiLanding = () => {
         title="LLM Wiki — baza wiedzy, która rośnie sama"
         description="Darmowy szablon second brain w modelu LLM Wiki (Karpathy), zgodny ze standardem OKF. Zapisz się na listę — dam znać, gdy ruszy kurs i kolejne materiały."
         path="/llm-wiki"
+        // PL-only page: point the en-alternate at the PL URL instead of a
+        // non-existent /en/llm-wiki mirror, so no EN URL leaks to crawlers.
+        alternateUrl={`${SITE_CONFIG.url}/llm-wiki`}
       />
 
       <section className="relative flex min-h-screen items-center overflow-hidden py-24 md:py-32">
