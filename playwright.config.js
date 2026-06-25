@@ -20,11 +20,11 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  // CI was serial (1 worker) → the full suite brushed the 60-min job timeout.
-  // Run 2 workers (50% of the runner's cores): ~2x faster while a single
-  // shared Vite dev server still keeps up — full parallelism (100%) overloaded
-  // it and timed out navigation-heavy blog tests. retries (below) absorb flakes.
-  workers: process.env.CI ? "50%" : undefined,
+  // 1 worker per CI job: some navigation-heavy blog tests are timing-fragile
+  // and only pass serially (in-job parallelism overloads the shared Vite dev
+  // server and times them out). CI speed comes from sharding across runners
+  // instead — see .github/workflows/playwright.yml (matrix shard 1..4).
+  workers: process.env.CI ? 1 : undefined,
 
   // Reporter - HTML dla lokalnego użycia
   reporter: [["html", { outputFolder: "playwright-report" }], ["list"]],
