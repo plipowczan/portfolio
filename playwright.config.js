@@ -46,12 +46,18 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
-    {
-      name: "edge",
-      // Reuse Desktop Chrome settings (a guaranteed device descriptor) and run
-      // the system Edge via the msedge channel.
-      use: { ...devices["Desktop Chrome"], channel: "msedge" },
-    },
+    // Local-only convenience: run the system Edge (msedge channel) when a
+    // Playwright chromium binary isn't installed. Excluded in CI, where
+    // `playwright install --with-deps` provides chromium but not the msedge
+    // channel (which would otherwise fail at launch).
+    ...(process.env.CI
+      ? []
+      : [
+          {
+            name: "edge",
+            use: { ...devices["Desktop Chrome"], channel: "msedge" },
+          },
+        ]),
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
