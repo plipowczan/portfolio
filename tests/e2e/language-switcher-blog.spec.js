@@ -14,8 +14,9 @@ test.describe("Language Switcher - Blog Posts", () => {
     const article = page.locator("article");
     await expect(article).toBeVisible({ timeout: 15000 });
 
-    // Click language switcher
-    const langButton = page.locator('button[aria-label="Switch to English"]').first();
+    // Click language switcher — pick the VISIBLE one (desktop + mobile nav each
+    // render a switcher; `.first()` would grab the hidden desktop copy on mobile)
+    const langButton = page.locator('button[aria-label="Switch to English"]:visible').first();
     await expect(langButton).toBeVisible({ timeout: 10000 });
     await langButton.click();
 
@@ -35,8 +36,8 @@ test.describe("Language Switcher - Blog Posts", () => {
     const article = page.locator("article");
     await expect(article).toBeVisible({ timeout: 15000 });
 
-    // Click language switcher
-    const langButton = page.locator('button[aria-label="Przełącz na polski"]').first();
+    // Click language switcher — pick the VISIBLE one (see note above)
+    const langButton = page.locator('button[aria-label="Przełącz na polski"]:visible').first();
     await expect(langButton).toBeVisible({ timeout: 10000 });
     await langButton.click();
 
@@ -53,8 +54,8 @@ test.describe("Language Switcher - Blog Posts", () => {
     await page.waitForLoadState("networkidle");
     await waitForAnimations(page, 1000);
 
-    // Switch to EN
-    const langButton = page.locator('button[aria-label="Switch to English"]').first();
+    // Switch to EN — pick the VISIBLE switcher (desktop/mobile both render one)
+    const langButton = page.locator('button[aria-label="Switch to English"]:visible').first();
     await expect(langButton).toBeVisible({ timeout: 10000 });
     await langButton.click();
 
@@ -62,7 +63,7 @@ test.describe("Language Switcher - Blog Posts", () => {
     expect(page.url()).toContain("/en/blog");
 
     // Switch back to PL
-    const langButtonBack = page.locator('button[aria-label="Przełącz na polski"]').first();
+    const langButtonBack = page.locator('button[aria-label="Przełącz na polski"]:visible').first();
     await expect(langButtonBack).toBeVisible({ timeout: 10000 });
     await langButtonBack.click();
 
