@@ -20,6 +20,10 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
+  // 1 worker per CI job: some navigation-heavy blog tests are timing-fragile
+  // and only pass serially (in-job parallelism overloads the shared Vite dev
+  // server and times them out). CI speed comes from sharding across runners
+  // instead — see .github/workflows/playwright.yml (matrix shard 1..4).
   workers: process.env.CI ? 1 : undefined,
 
   // Reporter - HTML dla lokalnego użycia

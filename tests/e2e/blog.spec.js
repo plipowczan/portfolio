@@ -291,8 +291,9 @@ test.describe("Blog - Pojedynczy post", () => {
     await page.waitForLoadState("networkidle");
     await waitForAnimations(page, 1500);
 
-    // Szukaj przycisku powrotu
-    const backButton = page.locator('a[href="/blog"]:has-text("View All Posts")').first();
+    // Szukaj przycisku powrotu — język-agnostycznie (PL: /blog, EN: /en/blog;
+    // tekst zależy od locale, więc celujemy w klasę przycisku + href, nie tekst)
+    const backButton = page.locator('a.btn-outline[href$="/blog"]').first();
 
     // Scroll do elementu aby upewnić się że jest w viewport
     await backButton.scrollIntoViewIfNeeded();
