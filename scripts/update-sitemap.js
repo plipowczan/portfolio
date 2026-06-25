@@ -116,6 +116,16 @@ function generateSitemap() {
     { url: "cookie-policy", priority: "0.3", changefreq: "monthly", lastmod: legalLastmods["cookie-policy"] },
   ];
 
+  // PL-only pages — emitted WITHOUT an /en mirror or en-hreflang (single locale)
+  const plOnlyPages = [
+    {
+      url: "llm-wiki",
+      priority: "0.8",
+      changefreq: "monthly",
+      lastmod: getGitLastModDate("src/pages/LlmWikiLanding.jsx"),
+    },
+  ];
+
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml +=
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
@@ -144,6 +154,20 @@ function generateSitemap() {
     xml += `    <priority>${page.priority}</priority>\n`;
     xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
     xml += `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${plUrl}"/>\n`;
+    xml += "  </url>\n";
+  });
+
+  // PL-only pages — single PL URL, no en alternate (avoids leaking a
+  // non-existent /en mirror to crawlers)
+  plOnlyPages.forEach((page) => {
+    const plUrl = `${SITE_URL}/${page.url}`;
+    xml += "  <url>\n";
+    xml += `    <loc>${plUrl}</loc>\n`;
+    xml += `    <lastmod>${page.lastmod}</lastmod>\n`;
+    xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
+    xml += `    <priority>${page.priority}</priority>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
     xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${plUrl}"/>\n`;
     xml += "  </url>\n";
   });
@@ -213,7 +237,7 @@ function generateSitemap() {
 
   xml += "</urlset>";
 
-  return { xml, postsPl, postsEn };
+  return { xml, postsPl, postsEn, plOnlyCount: plOnlyPages.length };
 }
 
 /**
@@ -222,7 +246,7 @@ function generateSitemap() {
 function saveSitemap() {
   console.log("🗺️  Generowanie sitemap.xml...\n");
 
-  const { xml, postsPl, postsEn } = generateSitemap();
+  const { xml, postsPl, postsEn, plOnlyCount } = generateSitemap();
   const outputPath = path.join(__dirname, "..", "public", "sitemap.xml");
 
   fs.writeFileSync(outputPath, xml, "utf-8");
@@ -234,9 +258,10 @@ function saveSitemap() {
   console.log("✅ Sitemap wygenerowany pomyślnie!\n");
   console.log(`📄 Plik: public/sitemap.xml`);
   console.log(`📊 Strony statyczne: ${staticCount} (${staticCount / 2} PL + ${staticCount / 2} EN)`);
+  console.log(`📄 Strony PL-only: ${plOnlyCount}`);
   console.log(`📝 Artykuły blogowe: ${blogCount} (${postsPl.length} PL + ${postsEn.length} EN)`);
   console.log(`💼 Projekty: ${projectCount} (${projects.length} PL + ${projects.length} EN)`);
-  console.log(`🔗 Łącznie URLi: ${staticCount + blogCount + projectCount}\n`);
+  console.log(`🔗 Łącznie URLi: ${staticCount + plOnlyCount + blogCount + projectCount}\n`);
 
   console.log(`\n🌐 Sitemap dostępny pod: ${SITE_URL}/sitemap.xml`);
 }
