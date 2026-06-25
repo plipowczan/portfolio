@@ -21,9 +21,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
   // CI was serial (1 worker) → the full suite brushed the 60-min job timeout.
-  // Use all available cores on the runner to cut wall-time ~4x; retries (below)
-  // still absorb the occasional flake.
-  workers: process.env.CI ? "100%" : undefined,
+  // Run 2 workers (50% of the runner's cores): ~2x faster while a single
+  // shared Vite dev server still keeps up — full parallelism (100%) overloaded
+  // it and timed out navigation-heavy blog tests. retries (below) absorb flakes.
+  workers: process.env.CI ? "50%" : undefined,
 
   // Reporter - HTML dla lokalnego użycia
   reporter: [["html", { outputFolder: "playwright-report" }], ["list"]],
