@@ -67,8 +67,8 @@
 ## Kurs LLM Wiki (PL)
 
 - [LLM Wiki — darmowy kurs](https://pawel.lipowczan.pl/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. 5 lekcji, krok po kroku.
-- [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy — architektura 3 warstw, 3 indeksy, zero RAG.
-- [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę — schema, foldery tematów i indeksy generują się same. To Twój dzień zerowy, jedyny moment konfiguracji.
+- [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy — architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
+- [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę — schema, foldery tematów i indeksy generują się same. Krok po kroku, na konkretnym przykładzie. To Twój dzień zerowy.
 - [Pierwszy ingest](https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest): Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z cross-linkami i frontmatterem OKF.
 - [Pytania i zarządzanie](https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie): Pytaj bazę, nie czat — /qa z cytowaniami, /lint i /reindex do utrzymania jakości. Pełna ściąga komend, zasady jakości i anty-wzorce.
 - [Rozwój i publikacja](https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja): Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju — multi-brain, MCP, publikacja i wymiana bundli wiedzy.
@@ -19939,11 +19939,11 @@ When it doesn't know the answer, the user is frustrated, the matter requires dec
 
 Source: https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog
 
-Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i znasz architekturę trzech warstw plus trzy indeksy.
+Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings i RAG — architektura trzech warstw, trzy indeksy i zasada progressive disclosure.
 
 ## Po co to
 
-LLM Wiki (koncept Karpathy'ego) odwraca RAG: zamiast za każdym razem przeszukiwać surowe dokumenty, agent **inkrementalnie buduje i utrzymuje** żywą bazę markdown — z cross-linkami, indeksami, syntezami. Wiedza **kumuluje się** (compounding) i jest czytelna **i dla agenta, i dla człowieka** (otwierasz plik, czytasz). Standard **OKF** (Google) formalizuje ten wzorzec → bazy są przenośne.
+LLM Wiki (koncept Karpathy'ego) odwraca RAG: zamiast za każdym razem przeszukiwać surowe dokumenty, agent **inkrementalnie buduje i utrzymuje** żywą bazę markdown — z cross-linkami, indeksami, syntezami. Wiedza **kumuluje się** (compounding) i jest czytelna **i dla agenta, i dla człowieka** (otwierasz plik, czytasz). Standard **OKF** (Open Knowledge Format, Google) formalizuje ten wzorzec → bazy są przenośne.
 
 ## Weź szablon
 
@@ -19974,21 +19974,89 @@ To „**pusty, ale uzbrojony**" brain — cała mechanika gotowa, brak tylko Two
 | Wiki | `content/<TOPIC>/` | Agent tworzy/utrzymuje noty |
 | Schema | `CLAUDE.md` (z onboardingu) | Ty + agent współ-ewoluujecie |
 
-## 3 indeksy — dlaczego działa bez embeddings i RAG do ~500 źródeł
+## Dlaczego to działa bez RAG: progressive disclosure
 
-- `vault-map.md` (L0, z lotu ptaka)
-- `catalog.md` (L1, 1 linia/nota)
-- `graph.md` (L2, graf linków)
+**Progressive disclosure** to jedna zasada: **najpierw pokaż, co istnieje i ile kosztuje pobranie — niech agent sam zdecyduje, co wczytać.** Tak jak człowiek skanuje spis treści przed rozdziałem albo nazwy plików, zanim któryś otworzy.
 
-Agent czyta indeks → wchodzi tylko w trafne noty (**progressive disclosure**), zamiast ładować wszystko.
+Porównaj dwa podejścia do tego samego pytania:
+
+- **Klasyczny RAG — „wrzuć wszystko".** Do kontekstu ląduje np. 35 000 tokenów notatek i historii, z czego realnie trafne jest może 2 000. Efektywność ~6%. Reszta zabiera uwagę modelu i miejsce na właściwe zadanie.
+- **Index-first — progressive disclosure.** Agent czyta najpierw **indeks** (~kilkaset tokenów): co istnieje, jakiego typu, z jakimi tagami. Na tej podstawie pobiera **tylko** 2–3 trafne noty (~kilkaset tokenów). Trafność bliska 100%, a okno kontekstu zostaje wolne na myślenie.
+
+To dlatego baza działa **bez embeddings i bez RAG do ~500 źródeł**: nie trzeba liczyć wektorów, gdy dobry indeks pozwala agentowi zawęzić wyszukiwanie samą lekturą.
+
+## 3 indeksy — trzy poziomy powiększenia
+
+Trzy indeksy w `content/_indexes/` to ten sam vault widziany z trzech odległości. Agent zaczyna z lotu ptaka i **przybliża** dopiero tam, gdzie trzeba.
+
+### vault-map.md — mapa z lotu ptaka (L0)
+
+Co gdzie leży: tabela folderów (ile not, jakie typy, dominujące tagi), chmura tagów i lista ostatnich zmian. Jedna „strona", z której agent wybiera **folder**, nie notę.
+
+```text
+---
+updated: 2026-06-30T12:00:00Z
+total_notes: 330
+---
+# Vault Map
+
+## Folders
+| folder             | notes | types              | top-tags                            |
+|--------------------|------:|--------------------|-------------------------------------|
+| AI/KNOWLEDGE/INFO  |    28 | knowledge-note(27) | ai, agents, context-engineering     |
+| AI/TOOLS           |    69 | tool(69)           | tool, claude-code, agents           |
+| CODE/TOOLS         |    40 | tool(40)           | frontend, framework, infrastructure |
+
+## Tag Cloud
+agents:29  ai:119  claude-code:38  context-engineering:11  rag:10  skills:16 …
+
+## Recent Changes
+- 2026-06-30 AI/TOOLS/Ponytail (ingest — vibe-coding skill: YAGNI-first, −54% LOC)
+- 2026-06-25 CODE/TOOLS/Git (enhance — uzupełniony stub + linki)
+```
+
+Czytając to, agent od razu wie: „temat o agentach i tokenach? → folder `AI/KNOWLEDGE/INFO`". Zawęża, zanim cokolwiek otworzy.
+
+### catalog.md — jedna linia na notę (L1)
+
+Katalog wszystkich not, pogrupowany folderami. Każda nota to **jedna linia**: tytuł, typ, data, tagi, jednozdaniowe streszczenie i lista wychodzących linków.
+
+```text
+## AI/KNOWLEDGE/INFO
+- **Context Engineering** | knowledge-note | 2026-04-09 | [ai, context-engineering] | Zarządzanie tym, co trafia do okna kontekstu agenta — indeksy, kompresja, progressive disclosure. | → Progressive Disclosure, Agent Skills, Claude Code
+- **Progressive Disclosure** | knowledge-note | 2026-04-30 | [ai, memory] | Pokaż najpierw co istnieje i ile kosztuje pobranie; agent sam decyduje, co wczytać. | → Context Engineering, Harness Engineering
+```
+
+Format linii: `**Tytuł** | typ | data | [tagi] | streszczenie | → linki`. Po streszczeniach agent wybiera **konkretne noty** do otwarcia — wciąż nie czytając ich treści.
+
+### graph.md — graf połączeń (L2)
+
+Kto z kim linkuje. Dzięki temu agent po otwarciu jednej noty wie, które sąsiednie **dociągnąć**, żeby spiąć temat.
+
+```text
+## Outgoing
+AI/KNOWLEDGE/INFO/Context Engineering -> AI/KNOWLEDGE/INFO/Progressive Disclosure, AI/TOOLS/Agent Skills, AI/TOOLS/Claude Code
+AI/KNOWLEDGE/INFO/Progressive Disclosure -> AI/KNOWLEDGE/INFO/Context Engineering, AI/KNOWLEDGE/INFO/Harness Engineering
+```
+
+## Jak agent tego używa — przykład `/qa`
+
+Zapytanie: `/qa "jak ograniczyć zużycie tokenów w agencie?"`
+
+1. **vault-map (L0):** agent czyta mapę (~jedna strona). Widzi, że temat pasuje do `AI/KNOWLEDGE/INFO` (tagi `context-engineering`, `token-optimization`). Zawęża do tego folderu.
+2. **catalog (L1):** czyta tylko linie tego folderu. Po streszczeniach wybiera 2 noty: „Token Optimization for Claude Code" i „Progressive Disclosure".
+3. **Pełne noty (Layer 2):** otwiera **tylko te 2** — nie 330.
+4. **graph (L2):** widzi, że obie linkują do „Context Engineering", więc dociąga ją, bo spina temat.
+
+Efekt: agent przeczytał ~3 noty zamiast całej bazy. Kilkaset tokenów indeksu + kilka trafnych not — zamiast wrzucania wszystkiego. To jest progressive disclosure w akcji.
 
 ## Wzorzec — jak wygląda dobra nota
 
-Zajrzyj do `REFERENCE/Example Note.md` i `Wikilinks Explained.md` — jak wygląda dobra nota i jak działają linki.
+Zajrzyj do `REFERENCE/Example Note.md` i `Wikilinks Explained.md` — jak wygląda dobra nota i jak działają linki. Dobra nota ma frontmatter z `type`, jednozdaniowe `summary` (to trafia do katalogu) i kilka celnych `[[wikilinków]]` (to zasila graf).
 
 ## Pułapka
 
-Nie pisz wiki ręcznie — to robota agenta; Ty dostarczasz źródła i dobre pytania.
+Nie pisz wiki ręcznie — to robota agenta; Ty dostarczasz źródła i dobre pytania. Nie edytuj też indeksów z palca — buduje je `/ingest` i `/reindex` (o tym w lekcjach 3 i 4).
 
 
 ---
@@ -19997,29 +20065,129 @@ Nie pisz wiki ręcznie — to robota agenta; Ty dostarczasz źródła i dobre py
 
 Source: https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding
 
-Cel tej lekcji: skonfigurować całą bazę jednym wywiadem. Po lekcji masz wygenerowaną schema, foldery tematów i indeksy.
+Cel tej lekcji: przejść **cały onboarding krok po kroku** na konkretnym przykładzie. Po lekcji masz wygenerowaną schema (`CLAUDE.md`), foldery tematów i puste, ale gotowe indeksy — i wiesz dokładnie, co dzieje się pod spodem.
 
-## Odpal `/onboard`
+Prowadzę Cię przez przykład: **Anna** stawia bazę „Baza Anny" po polsku, na tematach `AI`, `BUSINESS`, `LIFE`. Twoje odpowiedzi będą inne — proces jest ten sam.
 
-Kreator wykrywa świeży klon (po obecności `CLAUDE.template.md`) i prowadzi **wywiad — jedno pytanie na raz**: nazwa bazy i właściciel, język, tematy/domeny (Twoje top-level foldery, np. `AI`, `BUSINESS`, `HEALTH`), typy not, „głos" (osoba/formalność/emoji w nagłówkach), gałąź główna.
+## Warunek startu
 
-## Co generuje się samo
+Onboarding odpalasz **raz**, na świeżym klonie. Kreator rozpoznaje świeży klon po obecności pliku `CLAUDE.template.md` w repo. Otwórz folder w Claude Code i wpisz:
 
-Na końcu kreator **generuje z szablonów**:
+```text
+/onboard
+```
 
-- `CLAUDE.md` + `AGENTS.md` + `WRITING_STYLE.md` (warstwa schema),
-- tworzy foldery tematów,
-- przycina szablony not do wybranych typów,
-- proponuje usunięcie `REFERENCE/` i `sample-source.md` (albo zostawia jako tutorial),
-- przebudowuje indeksy.
+Jeśli `CLAUDE.template.md` już nie istnieje (baza była konfigurowana), kreator nie nadpisze niczego — zaproponuje **reconfigure** (patrz „Idempotencja" niżej).
+
+## Faza 1 — Wywiad (jedno pytanie na raz)
+
+Kreator zadaje **sześć pytań, pojedynczo**. Odpowiadasz normalnym tekstem. Poniżej pytania i przykładowe odpowiedzi Anny.
+
+**1. Nazwa bazy i właściciel.**
+> Baza Anny · Anna Kowalska
+
+> 📸 *[screenshot: pytanie 1 — nazwa bazy i właściciel]*
+
+**2. Główny język.** Język, w którym agent pisze noty i streszczenia.
+> Polski
+
+> 📸 *[screenshot: pytanie 2 — język]*
+
+**3. Tematy / domeny.** Twoje foldery najwyższego poziomu — szerokie działy, nie szczegóły.
+> AI, BUSINESS, LIFE
+
+> 📸 *[screenshot: pytanie 3 — tematy]*
+
+**4. Typy not.** Domyślnie: `basic-note`, `knowledge-note`, `tool`, `book-note`, `answer-note`. Możesz coś dodać lub usunąć.
+> Zostawiam domyślne
+
+**5. Głos.** Osoba (pierwsza osoba czy neutralnie), formalność i czy zostawić **emoji w nagłówkach**.
+> Pierwsza osoba, bezpośredni i praktyczny, emoji: tak
+
+> 📸 *[screenshot: pytanie 5 — głos]*
+
+**6. Główna gałąź.** Domyślnie `main`.
+> main
+
+## Faza 2 — Sprawdzenie zależności (nieblokujące)
+
+Kreator sprawdza narzędzia i drukuje tabelkę ✅/⚠️ — **nie przerywa**, tylko ostrzega:
+
+| Narzędzie | Do czego | Wymagane? |
+|---|---|---|
+| `python --version` | reindex / lint / render | tak |
+| `yt-dlp --version` | ingest z YouTube | opcjonalnie |
+| `ffmpeg -version` | fallback transkrypcji (Whisper) | opcjonalnie |
+
+Brak `yt-dlp`/`ffmpeg` to nie problem — dołożysz je, gdy będą potrzebne.
+
+## Faza 3 — Generowanie (deterministyczne)
+
+Tu kreator działa sam, na podstawie Twoich odpowiedzi:
+
+**1. Zapisuje odpowiedzi** do `.kb-onboard.json` w korzeniu repo:
+
+```json
+{
+  "KB_NAME": "Baza Anny",
+  "KB_OWNER": "Anna Kowalska",
+  "PRIMARY_LANGUAGE": "Polish",
+  "MAIN_BRANCH": "main",
+  "VOICE_PERSON": "first-person",
+  "VOICE_FORMALITY": "bezpośredni i praktyczny",
+  "NOTE_TYPES": "basic-note | knowledge-note | tool | book-note | answer-note",
+  "emoji_headings": true,
+  "TOPIC_TABLE": "| `/content/AI/` | Narzędzia i wiedza o AI i agentach | Yes |\n| `/content/BUSINESS/` | Sprzedaż, marketing, procesy | Yes |\n| `/content/LIFE/` | Zdrowie, książki, nawyki | Yes |"
+}
+```
+
+**2. Renderuje trzy pliki schematu** z szablonów (skryptem `render.py`):
+- `CLAUDE.md` — schema bazy (dla Claude Code),
+- `AGENTS.md` — ten sam kontrakt dla innych agentów,
+- `content/WRITING_STYLE.md` — Twój głos (osoba, formalność, emoji).
+
+**3. Kasuje szablony** (`CLAUDE.template.md`, `AGENTS.template.md`, `content/WRITING_STYLE.template.md`) — dopiero gdy wszystkie trzy renderowania się powiodą.
+
+**4. Tworzy foldery tematów** pod `content/` (każdy z `.gitkeep`, żeby był śledzony w gicie).
+
+**5. Proponuje usunięcie** przykładów: `content/REFERENCE/` i `content/_raw/inbox/sample-source.md` — zostawić jako tutorial czy skasować (Twój wybór).
+
+**6. Przycina szablony not** w `content/templates/` do wybranych typów (np. usuwa `book.md`, jeśli odrzuciłeś `book-note`).
+
+**7. Przebudowuje indeksy**, żeby pasowały do nowej struktury (`build_indexes.py`).
+
+Po tej fazie repo Anny wygląda tak:
+
+```text
+content/
+  AI/         .gitkeep
+  BUSINESS/   .gitkeep
+  LIFE/       .gitkeep
+  _indexes/   vault-map.md · catalog.md · graph.md   (puste, przebudowane)
+  templates/  (przycięte do wybranych typów)
+CLAUDE.md                 ← wygenerowany (schema Twojej bazy)
+AGENTS.md                 ← wygenerowany
+content/WRITING_STYLE.md  ← wygenerowany (Twój głos)
+```
+
+Szablony `*.template.md` zniknęły — to znak, że baza jest zainicjalizowana.
+
+> 📸 *[screenshot: podsumowanie Fazy 3 — utworzone foldery i pliki]*
+
+## Faza 4 — Handoff
+
+Na koniec kreator drukuje krótkie „co teraz":
+- wrzuć plik do `content/_raw/inbox/` i odpal `/ingest` (lekcja 3),
+- zadaj pytanie przez `/qa` (lekcja 4),
+- odpal `/lint` na health-check (lekcja 4).
 
 ## Idempotencja
 
-Stan odpowiedzi zapisuje w `.kb-onboard.json` → **idempotentne**, można później `reconfigure`.
+Odpowiedzi siedzą w `.kb-onboard.json`. Gdy odpalisz `/onboard` ponownie na już skonfigurowanej bazie (brak `CLAUDE.template.md`), kreator **nie nadpisze niczego po cichu** — zaproponuje **reconfigure**: wczyta `.kb-onboard.json`, pozwoli poprawić odpowiedzi i przegeneruje pliki, ostrzegając przed nadpisaniem istniejących.
 
 ## Dzień zerowy
 
-To Twój „**dzień zerowy**" — jedyny moment konfiguracji. Potem już tylko używasz.
+To Twój „**dzień zerowy**" — jedyny moment konfiguracji. Potem już tylko używasz: `/ingest`, `/qa`, `/lint`. Przechodzimy do karmienia bazy w lekcji 3.
 
 
 ---
