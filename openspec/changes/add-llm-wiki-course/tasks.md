@@ -39,6 +39,7 @@
 
 - [x] 7.1 Hub `SEO`: unique title + description; `alternateUrl` = `${SITE_CONFIG.url}/llm-wiki/kurs`; `image="/images/og-llm-wiki-kurs.webp"`. **(Impl note:** `image` omitted for now — see 7.3 — so pages fall back to the site default; SEO title/description/self-referential `alternateUrl` are wired.)
 - [x] 7.2 Each lesson `SEO`: title from lesson `title`, description from `excerpt`; `alternateUrl` = the lesson's own PL URL; same shared `image="/images/og-llm-wiki-kurs.webp"`. **(Impl note:** `image` omitted for now — see 7.3.)
+- [x] 7.4 Register the course in the generated SEO surface: `scripts/update-sitemap.js` now emits `/llm-wiki/kurs` + the five lessons as PL-only `sitemap.xml` entries (pl + x-default hreflang, no `/en`); `scripts/generate-llms-txt.js` adds a "Kurs LLM Wiki (PL)" section to `llms.txt` and the full lesson bodies to `llms-full.txt`. Regenerated `public/{sitemap.xml,llms.txt,llms-full.txt}`.
 - [x] 7.3 Produced the shared course OG asset `public/images/og-llm-wiki-kurs.webp` (1200×630, dark #0a0e14 + emerald #22c55e node-graph of linked markdown cards, no text) via the blog OG pipeline (`node scripts/generate-image.js … --filename og-llm-wiki-kurs` → sharp resize to 1200×630 → WebP; prompt saved at `.claude/agents/prompts/og-llm-wiki-kurs-prompt.md`). Wired `image="/images/og-llm-wiki-kurs.webp"` into both `CourseHub` and `CourseLesson` `SEO`.
 
 ## 8. Tests (Playwright e2e)

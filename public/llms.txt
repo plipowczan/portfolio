@@ -4,6 +4,8 @@
 
 ## Blog (PL)
 
+- [Zbudowałem drugi mózg. Trafiłem w standard Google (OKF)](https://pawel.lipowczan.pl/blog/okf-standard-przenosnosc-bazy-wiedzy-ai): Mój second brain jest zgodny z Open Knowledge Format Google w ~100% - choć nigdy go pod niego nie projektowałem. O przenośności bazy wiedzy decyduje format, nie narzędzie.
+- [Software 3.0: dlaczego twoja aplikacja nie powinna istnieć](https://pawel.lipowczan.pl/blog/software-3-0-agentic-engineering): Trzy paradygmaty oprogramowania i nowa dyscyplina: agentic engineering. Mapa decyzyjna od Karpathy'ego - co budować, czego nie i czego nie da się outsourcować.
 - [Pre-revenue startup bez działu finansów. Anatomia systemu agentów AI.](https://pawel.lipowczan.pl/blog/system-agentow-ai-skills-rules-kontekst): 5 ról specjalistów, 2 założycieli. Jak skills, deterministyczne reguły i wspólny kontekst zastąpiły zespół w 200IQ LABS — case study i architektura.
 - [Miałem 3 dni do PIT-38 bez księgowej. Wystarczyły 2 godziny.](https://pawel.lipowczan.pl/blog/pit-38-claude-code-case-study): 5430 transakcji, 5 źródeł danych, 2 dni z agentem Claude Code. Case study workflow, który zastąpił księgową przy rozliczeniu PIT-38.
 - [Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI](https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai): Audyt SEO, spec-driven changes i AI workflow zoptymalizowały dwa projekty w godziny, nie tygodnie. Case study z portfolio i Qamera AI.
@@ -33,6 +35,8 @@
 
 ## Blog (EN)
 
+- [I Built a Second Brain. It Already Matched Google's Standard (OKF)](https://pawel.lipowczan.pl/en/blog/okf-standard-portable-knowledge-base): My second brain hit ~100% compliance with Google's Open Knowledge Format - though I never designed it for OKF. Format, not tooling, decides whether your knowledge base is portable.
+- [Software 3.0: why your app shouldn't exist](https://pawel.lipowczan.pl/en/blog/software-3-0-agentic-engineering-guide): Three software paradigms and a new discipline: agentic engineering. A decision map from Karpathy - what to build, what not to, and what you can't outsource.
 - [Pre-revenue startup without a finance department. AI agent system anatomy.](https://pawel.lipowczan.pl/en/blog/ai-agent-system-skills-rules-shared-context): 5 specialist roles, 2 founders. How skills, deterministic rules, and shared context replaced a team at 200IQ LABS — case study and architecture.
 - [3 days to PIT-38, no accountant. 2 hours were enough.](https://pawel.lipowczan.pl/en/blog/polish-pit-38-claude-code-case-study): 5430 transactions, 5 data sources, two days with a Claude Code agent. A case study of the workflow that replaced my accountant on PIT-38.
 - [Why WordPress can't do this — spec-driven SEO on a portfolio and Qamera AI](https://pawel.lipowczan.pl/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study): An SEO audit, spec-driven changes, and an AI workflow optimized two projects in hours, not weeks. Case study from a portfolio and Qamera AI.
@@ -59,6 +63,15 @@
 - [Email Automation with AI - How Frontdesk AI Revolutionizes Customer Service](https://pawel.lipowczan.pl/en/blog/email-automation-frontdesk-ai): Learn how the Frontdesk AI system automatically processes, categorizes, and responds to emails, saving dozens of work hours per month.
 - [No-Code Lead Generation - How to Build a Lead Generation System Without Programming](https://pawel.lipowczan.pl/en/blog/no-code-lead-generation): A comprehensive guide to building a Lead Generator system using n8n, Airtable, and various business data sources. A real-world implementation case study.
 - [AI-Powered Chatbots - From Concept to Deployment](https://pawel.lipowczan.pl/en/blog/ai-chatbots-from-concept-to-deployment): A complete guide to building intelligent chatbots and voicebots using VAPI, n8n, OpenAI, and RAG (Retrieval Augmented Generation).
+
+## Kurs LLM Wiki (PL)
+
+- [LLM Wiki — darmowy kurs](https://pawel.lipowczan.pl/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. 5 lekcji, krok po kroku.
+- [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy — architektura 3 warstw, 3 indeksy, zero RAG.
+- [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę — schema, foldery tematów i indeksy generują się same. To Twój dzień zerowy, jedyny moment konfiguracji.
+- [Pierwszy ingest](https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest): Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z cross-linkami i frontmatterem OKF.
+- [Pytania i zarządzanie](https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie): Pytaj bazę, nie czat — /qa z cytowaniami, /lint i /reindex do utrzymania jakości. Pełna ściąga komend, zasady jakości i anty-wzorce.
+- [Rozwój i publikacja](https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja): Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju — multi-brain, MCP, publikacja i wymiana bundli wiedzy.
 
 ## Projekty
 

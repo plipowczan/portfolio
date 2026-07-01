@@ -4,6 +4,8 @@
 
 ## Blog (PL)
 
+- [Zbudowałem drugi mózg. Trafiłem w standard Google (OKF)](https://pawel.lipowczan.pl/blog/okf-standard-przenosnosc-bazy-wiedzy-ai): Mój second brain jest zgodny z Open Knowledge Format Google w ~100% - choć nigdy go pod niego nie projektowałem. O przenośności bazy wiedzy decyduje format, nie narzędzie.
+- [Software 3.0: dlaczego twoja aplikacja nie powinna istnieć](https://pawel.lipowczan.pl/blog/software-3-0-agentic-engineering): Trzy paradygmaty oprogramowania i nowa dyscyplina: agentic engineering. Mapa decyzyjna od Karpathy'ego - co budować, czego nie i czego nie da się outsourcować.
 - [Pre-revenue startup bez działu finansów. Anatomia systemu agentów AI.](https://pawel.lipowczan.pl/blog/system-agentow-ai-skills-rules-kontekst): 5 ról specjalistów, 2 założycieli. Jak skills, deterministyczne reguły i wspólny kontekst zastąpiły zespół w 200IQ LABS — case study i architektura.
 - [Miałem 3 dni do PIT-38 bez księgowej. Wystarczyły 2 godziny.](https://pawel.lipowczan.pl/blog/pit-38-claude-code-case-study): 5430 transakcji, 5 źródeł danych, 2 dni z agentem Claude Code. Case study workflow, który zastąpił księgową przy rozliczeniu PIT-38.
 - [Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI](https://pawel.lipowczan.pl/blog/spec-driven-seo-portfolio-qamera-ai): Audyt SEO, spec-driven changes i AI workflow zoptymalizowały dwa projekty w godziny, nie tygodnie. Case study z portfolio i Qamera AI.
@@ -33,6 +35,8 @@
 
 ## Blog (EN)
 
+- [I Built a Second Brain. It Already Matched Google's Standard (OKF)](https://pawel.lipowczan.pl/en/blog/okf-standard-portable-knowledge-base): My second brain hit ~100% compliance with Google's Open Knowledge Format - though I never designed it for OKF. Format, not tooling, decides whether your knowledge base is portable.
+- [Software 3.0: why your app shouldn't exist](https://pawel.lipowczan.pl/en/blog/software-3-0-agentic-engineering-guide): Three software paradigms and a new discipline: agentic engineering. A decision map from Karpathy - what to build, what not to, and what you can't outsource.
 - [Pre-revenue startup without a finance department. AI agent system anatomy.](https://pawel.lipowczan.pl/en/blog/ai-agent-system-skills-rules-shared-context): 5 specialist roles, 2 founders. How skills, deterministic rules, and shared context replaced a team at 200IQ LABS — case study and architecture.
 - [3 days to PIT-38, no accountant. 2 hours were enough.](https://pawel.lipowczan.pl/en/blog/polish-pit-38-claude-code-case-study): 5430 transactions, 5 data sources, two days with a Claude Code agent. A case study of the workflow that replaced my accountant on PIT-38.
 - [Why WordPress can't do this — spec-driven SEO on a portfolio and Qamera AI](https://pawel.lipowczan.pl/en/blog/spec-driven-seo-portfolio-qamera-ai-case-study): An SEO audit, spec-driven changes, and an AI workflow optimized two projects in hours, not weeks. Case study from a portfolio and Qamera AI.
@@ -60,6 +64,15 @@
 - [No-Code Lead Generation - How to Build a Lead Generation System Without Programming](https://pawel.lipowczan.pl/en/blog/no-code-lead-generation): A comprehensive guide to building a Lead Generator system using n8n, Airtable, and various business data sources. A real-world implementation case study.
 - [AI-Powered Chatbots - From Concept to Deployment](https://pawel.lipowczan.pl/en/blog/ai-chatbots-from-concept-to-deployment): A complete guide to building intelligent chatbots and voicebots using VAPI, n8n, OpenAI, and RAG (Retrieval Augmented Generation).
 
+## Kurs LLM Wiki (PL)
+
+- [LLM Wiki — darmowy kurs](https://pawel.lipowczan.pl/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. 5 lekcji, krok po kroku.
+- [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy — architektura 3 warstw, 3 indeksy, zero RAG.
+- [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę — schema, foldery tematów i indeksy generują się same. To Twój dzień zerowy, jedyny moment konfiguracji.
+- [Pierwszy ingest](https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest): Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z cross-linkami i frontmatterem OKF.
+- [Pytania i zarządzanie](https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie): Pytaj bazę, nie czat — /qa z cytowaniami, /lint i /reindex do utrzymania jakości. Pełna ściąga komend, zasady jakości i anty-wzorce.
+- [Rozwój i publikacja](https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja): Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju — multi-brain, MCP, publikacja i wymiana bundli wiedzy.
+
 ## Projekty
 
 - [Note Taker + Add-ons](https://pawel.lipowczan.pl/projects/note-taker-addons): System do automatycznego przetwarzania notatek ze spotkań (Fireflies) poprzez Airtable. Umożliwia kompleksowe zarządzanie informacjami z rozmów biznesowych, analizę spotkań, wykorzystanie w innych…
@@ -76,6 +89,383 @@
 
 - email: pawel@lipowczan.pl
 - strona: https://pawel.lipowczan.pl
+
+
+---
+
+# Zbudowałem drugi mózg. Trafiłem w standard Google (OKF)
+
+Source: https://pawel.lipowczan.pl/blog/okf-standard-przenosnosc-bazy-wiedzy-ai
+Published: 2026-06-21
+
+## Zbudowałem drugi mózg. Okazało się, że w 100% trafiłem w standard Google (OKF)
+
+Jakiś czas temu opisałem, [jak LLM Wiki Karpathy'ego pomogła mi uporządkować moją bazę wiedzy](/blog/llm-knowledge-base-brain-karpathy) - ponad 300 notatek, którymi zarządza agent, trzy indeksy nawigacyjne, workflow do ingestu i kompilacji. System działa. Codziennie. To mój drugi mózg.
+
+Ale ostatnio złapałem się na niewygodnym pytaniu. Cała ta wiedza żyje w **moich** narzędziach - w Obsidian, w Quartz, w moim `CLAUDE.md`. A co, jeśli zechcę ją komuś przekazać? Zmienić tool? Albo potraktować jako aktyw firmowy, który ma przeżyć dowolny program i dowolny model? Notatki zamknięte w czyimś prywatnym formacie to vendor-lock-in - tyle że zrobiony własnoręcznie.
+
+Wniosek, do którego doszedłem, jest prosty: **trwałość wiedzy to nie narzędzie - to format.** I wtedy trafiłem na **OKF (Open Knowledge Format)** od Google. Zrobiłem audyt swojego brain pod kątem tego standardu, spodziewając się sporego rozjazdu. Wynik mnie zaskoczył: zgodność w okolicach 100% - mimo że nigdy nie projektowałem brain pod OKF. W tym artykule pokażę, dlaczego tak się stało, co dokładnie sprawdziłem i co wtedy, gdy czysty markdown to za mało. Bez teorii - konkretny audyt i konkretne liczby.
+
+## Czym jest OKF (Open Knowledge Format)
+
+`OKF` to otwarty format zapisu wiedzy, zaprojektowany pod erę agentów. Technicznie nie ma w nim magii: to **markdown + frontmatter YAML**. Cała filozofia mieści się w jednym haśle wzorca - _„authored by people, generated by agents"_ (tworzą ludzie, generują i utrzymują agenci). Dokładnie ten podział, który u siebie wypracowałem organicznie.
+
+Podstawową jednostką jest `Knowledge Bundle` - katalog plików `.md`. Może być repozytorium git, tarballem albo podkatalogiem. I to jest sedno przenośności: `git clone` i masz całość. Wewnątrz `Concept` to jedna myśl - **jeden plik `.md` = jeden koncept** (frontmatter plus treść markdown). Format rezerwuje dwie nazwy plików: `index.md` (listing katalogu pod [progressive disclosure](/blog/llm-knowledge-base-brain-karpathy)) oraz `log.md` (chronologia zmian, najnowsze u góry).
+
+Najciekawsza jest minimalna bariera wejścia. **Jedyne twardo wymagane pole frontmattera to `type`.** Cała reszta - `title`, `description`, `resource`, `tags`, `timestamp` - jest zalecana, ale opcjonalna. Producent może dodawać własne klucze, a konsument **musi** tolerować nieznane pola i broken links. Najprostszy zgodny koncept wygląda tak:
+
+```yaml
+---
+type: note
+---
+Treść notatki w czystym markdownie.
+```
+
+Warto rozumieć różnicę między OKF a `LLM Wiki`. **OKF to specyfikacja interoperacyjności** - mówi „jak zapisać wiedzę, żeby była wymienialna". **LLM Wiki to metodologia pracy** - mówi „jak agent ma tę wiedzę budować i utrzymywać". To dwie komplementarne warstwy, a nie konkurencja.
+
+Jedna uczciwa uwaga. Repozytorium OKF ma wprost notkę: _„This repository and its contents are not an official Google product"_. OKF to otwarta specyfikacja interoperacyjności, a nie produktowe zobowiązanie Google.
+
+## Mój brain trafił w standard - choć go pod niego nie projektowałem
+
+To jest serce tej historii. Zrobiłem realny audyt zgodności brain z OKF v0.1. Werdykt jednym zdaniem: **brain przechodzi 100% twardych warunków conformance OKF v0.1; rozbieżności są wyłącznie w warstwie rekomendowanej, czyli kosmetyce.**
+
+Spec definiuje trzy twarde warunki zgodności. Brain spełnia wszystkie trzy:
+
+| #   | Wymóg OKF                                                    | Status | Dowód w brain                                                                                                   |
+| --- | ------------------------------------------------------------ | :----: | --------------------------------------------------------------------------------------------------------------- |
+| 1   | Każdy nie-zarezerwowany `.md` ma parsowalny YAML frontmatter |   ✅   | Każda nota otwiera się `--- ... ---`                                                                            |
+| 2   | Każdy frontmatter ma niepuste `type`                         |   ✅   | `type: basic-note \| book-note \| knowledge-note \| tool \| compiled-note \| answer-note`                       |
+| 3   | Pliki zarezerwowane mają właściwą strukturę _gdy istnieją_   |   ✅   | Brain nie używa literalnych `index.md`/`log.md` → funkcję pełnią `_indexes/*`; warunek „gdy istnieją" spełniony |
+
+Liczby na głos: **twarda zgodność = 100% (3/3)**. Warstwa rekomendowana (te wszystkie opcjonalne pola i konwencje) to **~85-90%**. I tu robi się ciekawie, bo wszystkie cztery rozbieżności są nazewniczo-składniowe - dotyczą tego, _jak coś nazwałem_, a nie tego, _jak modeluję wiedzę_:
+
+| Obszar              | OKF                                      | brain                                               | Charakter                                                    |
+| ------------------- | ---------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ |
+| Linki               | `[label](/path)`                         | `[[wikilinks]]` (Obsidian)                          | składnia; **Quartz kompiluje do `[label](path)` w buildzie** |
+| Indeks              | literalny `index.md`                     | `_indexes/vault-map.md` + `catalog.md` + `graph.md` | nazwa, nie funkcja                                           |
+| Log                 | `log.md`                                 | sekcja `## Recent Changes` w `_indexes/vault-map.md` + historia git | rola w sekcji, nie w osobnym pliku                |
+| Klucze frontmattera | `description` / `resource` / `timestamp` | `summary` / `source` / `date`                       | mapowalne 1:1 przy eksporcie                                 |
+
+Spójrz na kolumnę „Charakter". Nigdzie nie ma „brakuje mi tej koncepcji" - wszędzie jest „nazwałem to inaczej" albo „narzędzie kompiluje to za mnie". Wikilinks Obsidian są pełnoprawnymi linkami OKF po buildzie Quartz. `_indexes/` pełni dokładnie rolę `index.md`. Pola mapują się jeden do jednego.
+
+> „Zgodność nie jest przypadkiem - brain i OKF wyrastają z tej samej koncepcji LLM Wiki Karpathy'ego. OKF to spec interoperacyjności, brain to działająca implementacja. Różnice to wybory narzędzia, nie różnice modelu wiedzy."
+
+To jest **konwergentna ewolucja**. Dwa systemy budowane niezależnie - specyfikacja w Google i mój vault w Obsidian - zbiegły się do tego samego kształtu, bo wyrosły z tej samej idei. I właśnie dlatego standard jest wiarygodny: nie wymyślono go zza biurka, tylko spisano to, do czego praktyka i tak dąży.
+
+## Dlaczego format ma znaczenie
+
+Można zapytać: skoro mój system działa, po co mi w ogóle standard? Odpowiedź to pięć konkretnych rzeczy, które daje format - a których nie da żadne pojedyncze narzędzie:
+
+- **Przenośność.** _„If you can `git clone` it, you can ship it."_ Bundle to repozytorium - kopiujesz całość i działa u kogokolwiek, bez instalacji, bez konfiguracji, bez zależności od mojego setupu.
+- **Interoperacyjność.** Bundle wiedzy można wymieniać niezależnie od narzędzia. Eksport z mojego brainu, import do cudzego. To realny przyszły kierunek produktowy - ekstrakt bazy jako gotowy bundle OKF.
+- **Trwałość i future-proofing.** Narzędzia umierają, format zostaje. Markdown plus frontmatter przeżyje Obsidian, przeżyje Quartz, przeżyje konkretny model LLM. Za pięć lat wciąż otworzysz te pliki.
+- **Czytelność podwójna.** Ten sam plik czyta agent i człowiek. Bez żadnego toola wystarczy go otworzyć w edytorze - to nie baza w zamkniętym formacie binarnym.
+- **Aktyw, nie silos.** Wiedza zapisana w standardzie staje się zasobem, który da się audytować, przekazać i wycenić. I to jest most do kolejnego pytania - co, gdy ten aktyw rośnie do skali firmy.
+
+## Gdy czysty markdown to za mało - Google Knowledge Catalog
+
+Tu zmieniam ton na ostrożny. Tego fragmentu **nie testowałem** - sygnalizuję kierunek, nie wystawiam rekomendacji.
+
+Karpathy sam zakreśla skalę, na której to podejście działa: _„moderate scale (~100 sources, ~hundreds of pages)"_ - zanim potrzebny staje się embedding-based search. Mój brain to dziś rzędu 300 notatek, czyli wciąż ten przedział: czysty markdown z indeksami ogarnia go bez embeddings i bez infrastruktury RAG. W [poprzednim artykule](/blog/llm-knowledge-base-brain-karpathy) pokazywałem ten mechanizm w liczbach: progressive disclosure daje tam około **30× mniej kontekstu** na zapytanie niż wrzucanie całego vaulta. To nie twardy limit - raczej rząd wielkości, do którego index-first pozostaje wygodny. Na osobisty drugi mózg w zupełności wystarcza. Ale powyżej - przy milionach dokumentów, danych ustrukturyzowanych i nieustrukturyzowanych jednocześnie, wielu agentach pracujących równolegle - to inna liga.
+
+Tu wchodzi **Google Knowledge Catalog** (managed, wg strony produktu „formerly Dataplex"). Google opisuje go jako _„universal context engine for your enterprise"_ - „always-on context and governance for your agents". Zamiast Twoich notatek kataloguje cały data estate: automatycznie zbiera metadane z BigQuery, AlloyDB, Spannera czy Lookera, a źródła nieustrukturyzowane - PDF-y, kontrakty, wiki - zamienia w _„structured knowledge graph"_, który agent może odpytać. To samo repozytorium (`GoogleCloudPlatform/knowledge-catalog`), które zawiera katalog `okf/`, trzyma też `samples/` i `toolbox/`.
+
+Widać tu ciągłość, nie przeskok. Ta sama idea - wiedza ustandaryzowana, semantyczna, czytelna dla agentów - tyle że na poziomie przedsiębiorstwa. OKF i LLM Wiki to skala osobista; Knowledge Catalog to skala firmowa. Jeden łańcuch, dwa końce.
+
+**Gdzie dokładnie jest granica?** To nie jest „local vs cloud" - mój brain też stoi w chmurze. Różnica jest jakościowa, na czterech osiach:
+
+- **Co katalogujesz.** Brain = Twoje autorskie notatki. Catalog = warstwa semantyczna nad całym, żywym data estate firmy: tabele, hurtownie, pliki, modele BI.
+- **Silnik retrieval.** Brain = index-first plus progressive disclosure, bez embeddings. Catalog = semantic search z sub-sekundową latencją nad knowledge graphem milionów encji.
+- **Governance.** Brain = git i konwencje. Catalog = polityki dostępu (IAM), data quality, lineage, audyt - retrieval respektuje uprawnienia, więc agent widzi tylko to, do czego ma prawo.
+- **Świeżość i współbieżność.** Brain = snapshot, który sam utrzymujesz. Catalog = always-on, aktualizuje się wraz z danymi i obsługuje wielu agentów naraz przez Context API i MCP tools.
+
+Liczba plików to tylko objaw. Prawdziwa granica to **typ danych plus silnik retrieval plus governance plus dynamika**. Dla osobistej wiedzy w prozie czysty markdown wygrywa prostotą; dla firmowego, heterogenicznego data estate potrzebujesz warstwy pokroju Knowledge Catalog.
+
+I jeszcze raz, bo to ważne: repozytorium OKF nosi notkę _„not an official Google product"_, a Knowledge Catalog opisuję tu wyłącznie jako kierunek, którego sam nie wdrażałem. Bez obietnic co do funkcji produktu.
+
+## Co z tego wynika
+
+1. **Format wygrywa z narzędziem.** Jeśli budujesz bazę wiedzy, projektuj ją pod standard od pierwszego dnia. Migracja później kosztuje - zgodność od startu jest darmowa.
+2. **Zgodność bywa konwergentna.** Jeśli twój system wyrasta z dobrej idei (LLM Wiki), masz szansę trafić w standard bez celowania w niego. To dobra wiadomość: nie musisz przepisywać brainu, prawdopodobnie wystarczy go wyeksportować.
+3. **Wiedza w standardzie to aktyw.** Przenośny, audytowalny, wymienialny - i skalujący się od osobistego brain po Knowledge Catalog.
+
+Jeśli chcesz zacząć z gotowym fundamentem, udostępniam **[szablon `second-brain-template`](https://github.com/plipowczan/second-brain-template)** - „Use this template", `/onboard`, pierwszy ingest i masz własny system zgodny ze standardem w kilka minut. Pracuję też nad szerszymi materiałami o budowaniu drugiego mózgu - jeśli temat cię interesuje, warto trzymać rękę na pulsie.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz bazę wiedzy, która jest Twoja na zawsze - przenośna i gotowa dla agentów?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci zaprojektować architekturę bazy wiedzy zgodną ze standardem (OKF) - od struktury notatek i indeksów po skalę firmową. Możesz też wziąć darmowy szablon i odpalić własny system w kilka minut.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
+## Przydatne zasoby
+
+- [Jak LLM Wiki Karpathy'ego pomogła mi uporządkować bazę wiedzy](/blog/llm-knowledge-base-brain-karpathy) - bazowy artykuł o LLM Wiki, progressive disclosure i architekturze brainu
+- [Second brain w Obsidian i Claude Code](/blog/second-brain-obsidian-claude-code-skills) - jak zacząć od zera
+- [brain.lipowczan.pl](https://brain.lipowczan.pl) - żywa instancja mojego drugiego mózgu
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - gotowy szablon do startu
+- [OKF / knowledge-catalog (repo)](https://github.com/GoogleCloudPlatform/knowledge-catalog) - specyfikacja OKF w katalogu `okf/` (uwaga: „not an official Google product")
+- [Google Knowledge Catalog](https://cloud.google.com/products/knowledge-catalog) - managed platforma katalogu danych (skala enterprise)
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czym jest Open Knowledge Format (OKF) i kto za nim stoi?
+
+</summary>
+
+OKF (Open Knowledge Format) to otwarta specyfikacja zapisu wiedzy oparta na markdown plus frontmatter YAML, zaprojektowana pod pracę z agentami AI. Specyfikacja żyje w repozytorium `GoogleCloudPlatform/knowledge-catalog` w katalogu `okf/`. Ważna uwaga: repozytorium nosi notkę „This repository and its contents are not an official Google product" - to otwarty standard interoperacyjności, nie produktowe zobowiązanie Google.
+
+</details>
+
+<details open>
+<summary>
+
+### Czym OKF różni się od LLM Wiki Karpathy'ego?
+
+</summary>
+
+OKF to specyfikacja interoperacyjności - definiuje, jak zapisać wiedzę, żeby była przenośna i wymienialna między narzędziami. LLM Wiki to metodologia pracy - opisuje, jak agent ma budować i utrzymywać bazę wiedzy. Są komplementarne: OKF mówi o formacie, LLM Wiki o procesie. Działająca baza wiedzy korzysta z obu warstw naraz.
+
+</details>
+
+<details open>
+<summary>
+
+### Jedyne wymagane pole w OKF to `type` - co to oznacza w praktyce?
+
+</summary>
+
+Oznacza minimalną barierę wejścia: zgodny plik OKF musi mieć tylko niepuste pole `type` we frontmatterze, a cała reszta (`title`, `description`, `tags`, `timestamp`) jest opcjonalna. Producent może dodawać dowolne własne klucze, bo konsument formatu musi tolerować nieznane pola i broken links. Dzięki temu standard jest liberalny przy zapisie, a rygorystyczny tylko tam, gdzie to konieczne.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy moja istniejąca baza w Obsidian jest zgodna z OKF?
+
+</summary>
+
+Najprawdopodobniej w dużej części tak, zwłaszcza jeśli używasz plików `.md` z frontmatterem. W moim audycie brain przeszedł 100% twardych warunków conformance OKF v0.1 (3/3), a rozbieżności były wyłącznie kosmetyczne. Wikilinks `[[...]]` Obsidian kompilują się przez Quartz do linków `[label](path)`, a pola jak `summary` czy `date` mapują się jeden do jednego na `description` i `timestamp` przy eksporcie.
+
+</details>
+
+<details open>
+<summary>
+
+### Kiedy czysty markdown przestaje wystarczać i wchodzi Google Knowledge Catalog?
+
+</summary>
+
+Podejście index-first na czystym markdownie działa świetnie w skali osobistej - rzędu setek notatek (mój brain to dziś nieco ponad 300), bez embeddings i bez infrastruktury RAG. To nie twardy limit, tylko rząd wielkości. Powyżej - przy milionach dokumentów, danych ustrukturyzowanych i nieustrukturyzowanych oraz wielu agentach naraz - wchodzi skala enterprise, którą adresuje Google Knowledge Catalog (managed, „formerly Dataplex"). Zaznaczam jednak, że tego progu osobiście nie testowałem - sygnalizuję kierunek, nie rekomendację produktową.
+
+</details>
+
+
+---
+
+# Software 3.0: dlaczego twoja aplikacja nie powinna istnieć
+
+Source: https://pawel.lipowczan.pl/blog/software-3-0-agentic-engineering
+Published: 2026-05-29
+
+Człowiek, który ukuł termin **vibe coding**, powiedział, że „nigdy nie czuł się bardziej w tyle jako programista". To Andrej Karpathy - współzałożyciel OpenAI, były szef AI w Tesli. W grudniu agentowe modele przekroczyły dla niego pewien próg: kawałki kodu „po prostu wychodziły dobrze", więc przestał je poprawiać i zaufał systemowi.
+
+To nie jest historia o tym, że kod pisze się szybciej. To historia o tym, że **programowanie zmieniło się w prompcie** - a jeśli czytasz „software" jako wszystkie cyfrowe biznesy, to znaczy, że twój produkt właśnie jest przebudowywany na AI-first, czy tego chcesz, czy nie.
+
+Przez ostatnie miesiące buduję z agentami codziennie - całe portfolio, na którym czytasz ten tekst, i systemy w dwóch firmach. Im więcej z nimi pracuję, tym mocniej widzę, że to nie jest „kolejny hype o AI". To zmiana mapy: rośnie abstrakcja, a wraz z nią przesuwa się to, co faktycznie robi człowiek. Ten artykuł to próba narysowania tej mapy - żebyś wiedział, w którym paradygmacie działasz, gdzie jest twoja fosa i czego nie da się oddelegować.
+
+![Diagram The Karpathy Paradigm - pięć pasów: ① trzy paradygmaty Software 1.0→2.0→3.0 (rosnąca abstrakcja), ② vibe coding podnosi podłogę vs agentic engineering trzyma sufit, ③ weryfikowalność i jagged intelligence (refactor 100k-line vs car wash), ④ co zostaje po stronie człowieka - taste, judgment, understanding, ⑤ buduj dla agentów: sensory, aktuatory, dane legible dla LLM](/images/karpathy-paradigm-software-3-0.webp)
+
+Ten diagram to oś całego tekstu - wracam do każdego z pięciu pasów w kolejnych sekcjach.
+
+## Trzy paradygmaty: jak „programujesz" maszynę
+
+Karpathy układa ewolucję oprogramowania w trzy paradygmaty - i kluczem jest to, *jak* przekazujesz maszynie swoją intencję.
+
+- **Software 1.0** - piszesz jawny kod, regułę po regule. Krok pierwszy, krok drugi, krok trzeci. Kruche, nie samonaprawialne: gdy coś wypadnie poza scenariusz, skrypt się wywraca.
+- **Software 2.0** - „programujesz" przez **dane**. Nie piszesz reguł, tylko kurujesz zbiory i trenujesz wagi sieci neuronowej. Logika siedzi w wagach, nie w `if`-ach.
+- **Software 3.0** - **prompting**. Okno kontekstu (context window) to twoja dźwignia nad interpreterem, którym jest LLM.
+
+> „Software 3.0 is kind of about your programming now turns to prompting. And what's in the context window is your lever over the interpreter that is the LLM." - Andrej Karpathy
+
+*(Programowanie zmienia się w pisanie promptów, a to, co masz w oknie kontekstu, jest twoją dźwignią nad LLM-em jako interpreterem.)*
+
+I tu pada reframe, który zmienia ten tekst z „ciekawostki dla programistów" w coś, co dotyczy każdego, kto buduje produkt. Czytaj „software" jako **wszystkie cyfrowe biznesy**. LLM to silnik - a ty projektujesz samochód wokół niego.
+
+> „All businesses are literally being restructured to be AI first... AI in the middle being the engine and driving them forward. But that is all the engine is. You get to design your own car."
+
+*(Wszystkie biznesy są przebudowywane na AI-first - z AI jako silnikiem w środku. Ale to tylko silnik. To ty projektujesz swój samochód.)*
+
+To nie jest abstrakcja. To samo widać w tym, jak firmy zaczynają działać jako systemy agentowe - z kontekstem jako trwałym aktywem i software'em jako warstwą, którą się regeneruje, gdy pojawia się lepszy model.
+
+## Cztery przykłady, które to unaoczniają
+
+Paradygmat brzmi abstrakcyjnie, dopóki nie zobaczysz, co robi z konkretnymi modelami biznesowymi. Karpathy daje cztery przykłady i każdy z nich to inny typ produktu, który właśnie się przesuwa.
+
+1. **Instalator.** Zamiast pęczniejącego skryptu („krok pierwszy: zaakceptuj warunki, krok drogi: znajdź folder..."), wywołujesz agenta jedną komendą. On *posiada cel* („zainstaluj to") i sam debuguje w pętli problemy, których nigdy wcześniej nie widział. To mały, samonaprawialny „skill" - blob tekstu, który wklejasz swojemu agentowi.
+2. **Aplikacja (MenuGen).** Karpathy zbudował apkę 2.0: robisz zdjęcie menu, a ona renderuje obrazy dań. Stała się „natychmiast bezużyteczna" - bo wystarczy podać zdjęcie do Gemini i powiedzieć „nałóż obrazy pozycji przez Nano Banana". Nie ma czego instalować. *„Ta aplikacja nie powinna istnieć."* I to samo nadchodzi po niemal każdą pojedynczą apkę.
+3. **Kurs / wiedza ekspercka.** Od sekwencyjnych lekcji na Udemy, przez kurs przemodelowany danymi o zaangażowaniu, do agenta-coacha, który *robi to z tobą*, kiedy działasz. Nie „zadaj mi pytanie", tylko „zbuduj to ze mną".
+4. **Usługa (montaż wideo).** Od ręcznego Premiere Pro, przez Descript wycinający ciszę, do pola tekstowego: „zmontuj to w wiralowym stylu MrBeast, poniżej 8 minut" - i gotowy render w kilka minut.
+
+Wspólny mianownik jest brutalnie prosty: **Software 3.0 sprzedaje wynik (outcome), nie narzędzie.** Jeśli twój produkt jest narzędziem, które wykonuje krok, a nie dostarcza efektu - to jest na celowniku.
+
+## Vibe coding podnosi podłogę. Agentic engineering trzyma sufit.
+
+To jest moim zdaniem najważniejsze nowe rozróżnienie z całego wywiadu - i miejsce, gdzie najwięcej osób się myli. **Vibe coding** i **agentic engineering** to dwie różne rzeczy.
+
+**Vibe coding podnosi PODŁOGĘ.** Każdy może teraz zbudować software. To demokratyzujące i naprawdę świetne - opisałem zresztą całe podejście w [przewodniku po vibe codingu](/blog/vibe-coding-przewodnik). Podłoga rośnie dla wszystkich.
+
+**Agentic engineering trzyma SUFIT.** To realna dyscyplina inżynierska: utrzymać profesjonalną poprzeczkę jakości - żadnych nowych podatności, *to wciąż twój* software, ty za niego odpowiadasz - **jednocześnie** przyspieszając. Agenci to „spiky entities": zawodni, trochę stochastyczni, ale ekstremalnie potężni. Sztuką jest ich koordynować, nie obniżając przy tym poprzeczki.
+
+> „Vibe coding is about raising the floor for everyone... agentic engineering is about preserving the quality bar of what existed before in professional software."
+
+*(Vibe coding podnosi podłogę dla każdego; agentic engineering chroni poprzeczkę jakości, która istniała w profesjonalnym software'rze.)*
+
+I tu jest druga strona medalu. Sufit jest bardzo wysoko. Stary „10× engineer" jest teraz wzmocniony *daleko* poza 10× - dla tych, którzy są w tym dobrzy. To nie jest gra o zerowej sumie między „AI" a „człowiekiem". To dźwignia, która rozjeżdża różnicę między kimś, kto umie kierować agentami, a kimś, kto tylko klika „akceptuj".
+
+## Weryfikowalność - nowe ograniczenie
+
+Skąd biorą się mocne i słabe strony tych modeli? Karpathy daje na to jedno z najlepszych wyjaśnień, jakie słyszałem, i sprowadza się ono do jednego słowa: **weryfikowalność**.
+
+> „The previous generation of computers automated what you could specify. This generation automates what you can verify."
+
+*(Poprzednia generacja komputerów automatyzowała to, co umiałeś zaprogramować. Ta generacja automatyzuje to, co umiesz zweryfikować.)*
+
+Modele frontierowe trenuje się w gigantycznych środowiskach RL (reinforcement learning, uczenie ze wzmocnieniem) z nagrodami za weryfikację. Dlatego ich możliwości są **jagged** - postrzępione: szczyty tam, gdzie wynik da się zweryfikować (kod, matematyka), doliny gdzie indziej. Jaggedness = to, co *weryfikowalne*, **plus** to, na czym laby akurat zdecydowały się trenować.
+
+> „How is it possible that a state-of-the-art model will refactor a 100,000-line codebase or find zero-day vulnerabilities, and yet tell me to walk to a car wash 50 metres away?"
+
+*(Jak to możliwe, że topowy model zrefaktoruje kod na 100 tysięcy linii albo znajdzie podatność zero-day, a jednocześnie każe mi iść do myjni oddalonej o 50 metrów?)*
+
+Dla foundera płynie z tego konkretny wniosek. Problem **weryfikowalny** jest dziś wykonalny - możesz rzucić w niego RL, zbudować własne środowiska RL albo zrobić fine-tune. To jest twoja fosa, niezależna od tego, co akurat priorytetyzują wielkie laby. Jeśli umiesz tanio i automatycznie sprawdzić, czy wynik jest dobry, masz dźwignię, której konkurencja bez tej weryfikacji nie ma.
+
+## Czego nie da się outsourcować
+
+To jest emocjonalny rdzeń całej tezy. Skoro agent zrefaktoruje 100 tysięcy linii, to co właściwie zostaje po stronie człowieka?
+
+Zostaje **smak, osąd i nadzór**. Ty trzymasz spec, plan i top-level design - agent „wypełnia luki". Zostają też **fundamenty ponad trivia API**. Karpathy nie pamięta już, czy to `keepdim` czy `axis`, `reshape` czy `permute` - „stażysta" ma do tego idealną pamięć. Ale ty wciąż musisz rozumieć, co dzieje się pod spodem (np. jak działają widoki tensora i pamięć), żeby nie kopiować po cichu danych w niewłaściwym miejscu.
+
+A na samym dnie jest jedna rzecz, której nie oddasz nigdy:
+
+> „You can outsource your thinking, but you can't outsource your understanding."
+
+*(Myślenie możesz oddelegować. Zrozumienia - nie.)*
+
+Karpathy mówi wprost, że czuje się teraz **wąskim gardłem** - to on wie, co zbudować i dlaczego, i to on kieruje agentami. I dobrze ilustruje to anegdota o zawodności: agent w MenuGenie próbował dopasowywać użytkowników, korelując **adresy e-mail** ze Stripe i Google, zamiast użyć trwałego ID użytkownika. To błąd typu „dlaczego miałbyś to w ogóle zrobić" - taki, który musi wyłapać człowiek, bo agent nie ma osądu, żeby zauważyć, że to bez sensu.
+
+To samo widzę u siebie: agent przyspiesza wszystko, ale to ja jestem reviewerem, który decyduje, co jest poprawne. Zbudowanie własnej bazy wiedzy, którą agent utrzymuje, to dokładnie inwestycja w **zrozumienie** - opisałem ten proces w tekście o [bazie wiedzy w stylu Karpathy'ego](/blog/llm-knowledge-base-brain-karpathy).
+
+## Buduj dla agentów, nie dla ludzi
+
+Jeśli agenci stają się głównym „użytkownikiem" twoich systemów, to logiczna konsekwencja jest taka, że trzeba zacząć projektować *dla nich*. Karpathy ma z tym swój prywatny problem (pet peeve - rzecz, która szczególnie go drażni): dokumentacja wciąż jest pisana dla ludzi. „Dlaczego ludzie wciąż mówią mi, co mam zrobić? Co jest tą rzeczą, którą mam wkleić mojemu agentowi?"
+
+Kierunek jest taki:
+
+- Opisuj systemy **najpierw agentom**.
+- Rozkładaj pracę na **sensory** (czytają świat) i **aktuatory** (działają na świecie).
+- Trzymaj struktury danych **legible** - czytelne dla LLM-a.
+
+Docelowo zmierzamy do świata, w którym „mój agent rozmawia z twoim agentem" - żeby np. umówić spotkanie. A skoro tak, to nawet **rekrutacja** wymaga przebudowy. Zamiast łamigłówek algorytmicznych dajesz kandydatowi duży projekt - np. „zbuduj bezpiecznego Twitter-clone'a dla agentów, a potem niech 10 agentów próbuje go złamać" - i obserwujesz, *jak* włada narzędziami. Bo to władanie narzędziami, a nie recytowanie z pamięci, jest teraz prawdziwą kompetencją.
+
+## Nie zwierzęta, lecz duchy
+
+Na koniec metafora, która porządkuje całe nastawienie. Karpathy mówi, że nie budujemy zwierząt - *przywołujemy duchy*.
+
+> „We're not building animals. We are summoning ghosts."
+
+*(Nie budujemy zwierząt. Przywołujemy duchy.)*
+
+To statystyczne obwody symulacji - substrat z pre-treningu z doklejonym RL - a nie inteligencje ukształtowane przez ciekawość i ewolucję. Krzyczenie na nie nic nie da. Wartość tej metafory jest praktyczna: to *nastawienie*. Bądź odpowiednio podejrzliwy i sprawdzaj empirycznie, co działa, zamiast zakładać, że model „rozumie" tak jak człowiek.
+
+I tu wracam do ciebie. **W którym paradygmacie jest twój produkt** - 1.0, 2.0 czy 3.0? A kiedy wielkie LLM-y będą umiały zrobić twoje zadanie wprost, **co zostanie twoją fosą?** Karpathy zostawia cztery odpowiedzi:
+
+1. **Dane** - zastrzeżone zbiory, własne środowiska RL, model wytrenowany na *twojej* wiedzy i stylu.
+2. **Prompty i kontekst** - wypracowane systemy kontekstu i baza wiedzy, którymi sterujesz silnikiem.
+3. **System design** - sensory, aktuatory, UX i pętle weryfikacji wokół modelu. Silnik to tylko silnik; ty projektujesz samochód.
+4. **Zaufanie** - marka i odpowiedzialność za wynik. „Wytrenowałem LLM na całej wiedzy Elona" brzmi inaczej od przypadkowej osoby, a inaczej od samego Elona. Tego model nie kupi.
+
+Jeśli twoja przewaga nie siedzi w żadnej z tych czterech fos, to warto zadać sobie to niewygodne pytanie wcześniej niż później.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz przebudować swój produkt na agentic engineering?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci ocenić, w którym paradygmacie działasz, gdzie jest Twoja fosa i jak wdrożyć agentów bez obniżania poprzeczki jakości - od architektury kontekstu po pętle weryfikacji.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
+## Przydatne zasoby
+
+- [Andrej Karpathy: From Vibe Coding to Agentic Engineering](https://www.youtube.com/watch?v=96jN2OCOfLs) - Sequoia Capital, 29:49. Źródło pierwotne całej tezy: vibe→agentic, weryfikowalność, jagged intelligence.
+- [Kaparthy revealed the most profitable business to build (Software 3.0)](https://www.youtube.com/watch?v=hJNp9RwK-Uw) - Dream Labs AI, 14 min. Ujęcie biznesowe paradygmatów i czterech fos.
+- [Vibe coding: przewodnik](/blog/vibe-coding-przewodnik) - jak podnieść podłogę, czyli druga strona tego rozróżnienia.
+- [Baza wiedzy w stylu Karpathy'ego](/blog/llm-knowledge-base-brain-karpathy) - jak budować fosę danych i kontekstu.
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czym różni się Software 3.0 od Software 1.0 i 2.0 według Karpathy'ego?
+
+</summary>
+
+Software 1.0 to pisanie jawnego kodu reguła po regule, Software 2.0 to programowanie przez kurowanie danych i trenowanie wag sieci neuronowej, a Software 3.0 to **prompting** - sterowanie LLM-em przez okno kontekstu. W 3.0 to, co wpisujesz w context window, staje się twoją dźwignią nad modelem traktowanym jak interpreter. Praktyczna konsekwencja: zamiast budować narzędzie, projektujesz system wokół silnika-LLM, który dostarcza gotowy wynik.
+
+</details>
+
+<details open>
+<summary>
+
+### Czym różni się vibe coding od agentic engineering?
+
+</summary>
+
+Vibe coding „podnosi podłogę" - sprawia, że każdy może zbudować software, co jest demokratyzujące. Agentic engineering „trzyma sufit" - to dyscyplina inżynierska polegająca na utrzymaniu profesjonalnej poprzeczki jakości (brak nowych podatności, odpowiedzialność za kod) przy jednoczesnym przyspieszeniu z pomocą agentów. Krótko: vibe coding to dostępność, agentic engineering to jakość pod presją tempa.
+
+</details>
+
+<details open>
+<summary>
+
+### Co to jest jagged intelligence w modelach AI?
+
+</summary>
+
+Jagged intelligence (postrzępiona inteligencja) to zjawisko, w którym model ma szczyty możliwości w domenach weryfikowalnych, jak kod czy matematyka, i doliny w innych zadaniach. Wynika to z treningu w środowiskach RL z nagrodami za weryfikację - model jest świetny tam, gdzie wynik da się automatycznie sprawdzić. Stąd paradoks: ten sam model zrefaktoruje 100 tysięcy linii kodu, a pomyli się przy prostym zadaniu z życia codziennego.
+
+</details>
+
+<details open>
+<summary>
+
+### Czego nie da się outsourcować agentom AI przy budowie produktu?
+
+</summary>
+
+Nie da się oddelegować zrozumienia, osądu i nadzoru - jak ujmuje to Karpathy, „myślenie możesz oddelegować, zrozumienia nie". Człowiek zostaje właścicielem specyfikacji, planu i top-level designu, a agent wypełnia luki. Liczą się też fundamenty (rozumienie, co dzieje się pod spodem), bo agent potrafi popełnić bezsensowny błąd, którego sam nie wychwyci.
+
+</details>
+
+<details open>
+<summary>
+
+### Jak budować produkt „agent-native", czyli dla agentów, a nie tylko dla ludzi?
+
+</summary>
+
+Opisuj systemy najpierw agentom (np. blok instrukcji do wklejenia, a nie dokumentacja dla człowieka), rozkładaj pracę na sensory czytające świat i aktuatory działające na świecie oraz trzymaj dane w formie legible dla LLM. Celem jest świat, w którym „mój agent rozmawia z twoim agentem". Warto też przebudować rekrutację: zamiast łamigłówek dawaj realny projekt i obserwuj, jak kandydat włada narzędziami.
+
+</details>
 
 
 ---
@@ -1423,6 +1813,7 @@ Nie musisz budować tego wszystkiego od razu. Zacznij od CLAUDE.md z 50 liniami,
 - [Quartz 4](https://quartz.jzhao.xyz/) — Static Site Generator do Obsidian vault
 - [Obsidian](https://obsidian.md/) — edytor notatek Markdown
 - Powiązany artykuł: [Second Brain z Obsidian i Claude Code Skills](/blog/second-brain-obsidian-claude-code-skills) — jak zacząć od zera
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - gotowy szablon do startu własnego second brain
 
 ## FAQ
 
@@ -4170,6 +4561,7 @@ description: Summarize long notes into key points. Use when user asks to summari
 - [Cole Medin / Dynamist](https://www.youtube.com/@ColeMedin) - inspiracja dla tego artykułu
 - [5 technik pracy z Claude Code](/blog/5-technik-pracy-z-claude-code) - powiązany artykuł
 - [PARA Method](https://fortelabs.com/blog/para/) - system organizacji wiedzy
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - gotowy szablon, żeby zacząć budować własny second brain w kilka minut
 
 ## FAQ
 
@@ -9631,6 +10023,369 @@ Gdy nie zna odpowiedzi, użytkownik jest sfrustrowany, sprawa wymaga decyzji wyk
 
 ---
 
+# I Built a Second Brain. It Already Matched Google's Standard (OKF)
+
+Source: https://pawel.lipowczan.pl/en/blog/okf-standard-portable-knowledge-base
+Published: 2026-06-21
+
+## I built a second brain. It turned out to be 100% on Google's standard (OKF)
+
+A while ago I wrote about [how Karpathy's LLM Wiki helped me organize my knowledge base](/en/blog/karpathy-llm-wiki-knowledge-base) - over 300 notes managed by an agent, three navigation indexes, workflows for ingest and compilation. The system works. Every day. It's my second brain.
+
+But recently I caught myself on an uncomfortable question. All that knowledge lives in **my** tools - in Obsidian, in Quartz, in my `CLAUDE.md`. So what if I want to hand it to someone else? Switch tools? Or treat it as a company asset meant to outlive any program and any model? Notes locked in someone's private format are vendor lock-in - except self-inflicted.
+
+The conclusion I reached is simple: **durability of knowledge isn't the tool - it's the format.** That's when I came across **OKF (Open Knowledge Format)** by Google. I audited my brain against this standard, expecting a sizable gap. The result surprised me: compliance around 100% - even though I never designed the brain for OKF. In this article I'll show why that happened, what exactly I checked, and what happens when plain markdown isn't enough. No theory - a concrete audit and concrete numbers.
+
+## What OKF (Open Knowledge Format) is
+
+`OKF` is an open format for recording knowledge, designed for the agent era. Technically there's no magic in it: it's **markdown + YAML frontmatter**. The whole philosophy fits in one tagline of the pattern - *„authored by people, generated by agents"*. Exactly the split I'd arrived at organically.
+
+The base unit is a `Knowledge Bundle` - a directory of `.md` files. It can be a git repository, a tarball, or a subdirectory. And that's the heart of portability: `git clone` and you have the whole thing. Inside, a `Concept` is a single thought - **one `.md` file = one concept** (frontmatter plus markdown content). The format reserves two filenames: `index.md` (a directory listing for [progressive disclosure](/en/blog/karpathy-llm-wiki-knowledge-base)) and `log.md` (a chronology of changes, newest on top).
+
+The most interesting part is the minimal barrier to entry. **The only hard-required frontmatter field is `type`.** Everything else - `title`, `description`, `resource`, `tags`, `timestamp` - is recommended but optional. A producer may add its own keys, and a consumer **must** tolerate unknown fields and broken links. The simplest compliant concept looks like this:
+
+```yaml
+---
+type: note
+---
+Note content in plain markdown.
+```
+
+It's worth understanding the difference between OKF and `LLM Wiki`. **OKF is an interoperability specification** - it says „how to record knowledge so it's exchangeable". **LLM Wiki is a working methodology** - it says „how an agent should build and maintain that knowledge". Two complementary layers, not competitors.
+
+One honest note. The OKF repository carries an explicit disclaimer: *„This repository and its contents are not an official Google product"*. OKF is an open interoperability spec, not a product commitment from Google. I'm writing this deliberately - credibility comes from precision, not from overstating.
+
+## My brain matched the standard - even though I never designed it for it
+
+This is the heart of the story. I ran a real compliance audit of the brain against OKF v0.1. The verdict in one sentence: **the brain passes 100% of the hard conformance conditions of OKF v0.1; the discrepancies are purely in the recommended layer - cosmetics.**
+
+The spec defines three hard conformance conditions. The brain meets all three:
+
+| # | OKF requirement | Status | Evidence in brain |
+|---|-----------------|:------:|-------------------|
+| 1 | Every non-reserved `.md` has parsable YAML frontmatter | ✅ | Every note opens with `--- ... ---` |
+| 2 | Every frontmatter has a non-empty `type` | ✅ | `type: basic-note \| book-note \| knowledge-note \| tool \| compiled-note \| answer-note` |
+| 3 | Reserved files have the proper structure *when they exist* | ✅ | Brain doesn't use literal `index.md`/`log.md` → that role is filled by `_indexes/*`; the „when they exist" condition is met |
+
+The numbers out loud: **hard compliance = 100% (3/3)**. The recommended layer (all those optional fields and conventions) is **~85-90%**. And here it gets interesting, because all four discrepancies are naming-and-syntax issues - they're about *what I named something*, not *how I model knowledge*:
+
+| Area | OKF | brain | Nature |
+|------|-----|-------|--------|
+| Links | `[label](/path)` | `[[wikilinks]]` (Obsidian) | syntax; **Quartz compiles to `[label](path)` at build** |
+| Index | literal `index.md` | `_indexes/vault-map.md` + `catalog.md` + `graph.md` | name, not function |
+| Log | `log.md` | a `## Recent Changes` section in `_indexes/vault-map.md` + git history | role in a section, not a separate file |
+| Frontmatter keys | `description` / `resource` / `timestamp` | `summary` / `source` / `date` | 1:1 mappable on export |
+
+Look at the „Nature" column. Nowhere does it say „I'm missing this concept" - everywhere it's „I named it differently" or „the tool compiles this for me". Obsidian wikilinks are full-fledged OKF links after the Quartz build. `_indexes/` plays exactly the role of `index.md`. The fields map one to one.
+
+> „Compliance isn't a coincidence - the brain and OKF grow from the same LLM Wiki concept by Karpathy. OKF is an interoperability spec, the brain is a working implementation. The differences are tool choices, not differences in the knowledge model."
+
+This is **convergent evolution**. Two systems built independently - a spec inside Google and my Obsidian vault - converged on the same shape because they grew from the same idea. And that's precisely why the standard is credible: it wasn't invented from behind a desk, it was written down from where practice already heads.
+
+## Why the format matters
+
+You might ask: if my system works, why do I need a standard at all? The answer is five concrete things the format gives you - and that no single tool can:
+
+- **Portability.** *„If you can `git clone` it, you can ship it."* A bundle is a repository - you copy the whole thing and it works for anyone, no install, no config, no dependence on my setup.
+- **Interoperability.** A knowledge bundle can be exchanged regardless of tool. Export from my brain, import into someone else's. This is a real future product direction - an extract of a knowledge base as a ready OKF bundle.
+- **Durability and future-proofing.** Tools die, the format stays. Markdown plus frontmatter will outlive Obsidian, outlive Quartz, outlive a specific LLM. In five years you'll still open these files.
+- **Dual readability.** The same file is read by an agent and a human. Without any tool you just open it in an editor - it's not a base in a closed binary format.
+- **An asset, not a silo.** Knowledge recorded in a standard becomes a resource you can audit, hand off, and value. And that's the bridge to the next question - what happens when this asset grows to company scale.
+
+## When plain markdown isn't enough - Google Knowledge Catalog
+
+Here I switch to a cautious tone. I have **not tested** this part - I'm signaling a direction, not issuing a recommendation.
+
+Karpathy himself sketches the scale where this approach works: _„moderate scale (~100 sources, ~hundreds of pages)"_ - before embedding-based search becomes necessary. My brain is on the order of 300 notes today, still in that range: plain markdown with indexes handles it without embeddings and without RAG infrastructure. In the [previous article](/en/blog/karpathy-llm-wiki-knowledge-base) I showed this mechanism in numbers: progressive disclosure gives about **30x less context** per query than dumping the whole vault. This isn't a hard limit - more an order of magnitude up to which the index-first approach stays comfortable. For a personal second brain it's plenty. But above that - millions of documents, structured and unstructured data at once, many agents working in parallel - it's a different league.
+
+This is where **Google Knowledge Catalog** comes in (managed, per the product page „formerly Dataplex"). Google describes it as a _„universal context engine for your enterprise"_ - „always-on context and governance for your agents". Instead of your notes, it catalogs the whole data estate: it automatically harvests metadata from BigQuery, AlloyDB, Spanner, or Looker, and turns unstructured sources - PDFs, contracts, wikis - into a _„structured knowledge graph"_ that an agent can query. The same repository (`GoogleCloudPlatform/knowledge-catalog`) that contains the `okf/` directory also holds `samples/` and `toolbox/`.
+
+There's continuity here, not a leap. The same idea - knowledge standardized, semantic, legible to agents - just at enterprise level. OKF and LLM Wiki are personal scale; Knowledge Catalog is company scale. One chain, two ends.
+
+**Where exactly is the boundary?** It's not „local vs cloud" - my brain runs in the cloud too. The difference is qualitative, along four axes:
+
+- **What you catalog.** Brain = your authored notes. Catalog = a semantic layer over the company's entire, living data estate: tables, warehouses, files, BI models.
+- **Retrieval engine.** Brain = index-first plus progressive disclosure, no embeddings. Catalog = semantic search with sub-second latency over a knowledge graph of millions of entities.
+- **Governance.** Brain = git and conventions. Catalog = access policies (IAM), data quality, lineage, audit - retrieval respects permissions, so an agent only sees what it's authorized to.
+- **Freshness and concurrency.** Brain = a snapshot you maintain yourself. Catalog = always-on, updates with the data, and serves many agents at once through Context APIs and MCP tools.
+
+The file count is just a symptom. The real boundary is **data type plus retrieval engine plus governance plus dynamics**. For personal knowledge in prose, plain markdown wins on simplicity; for a company's heterogeneous data estate you need a layer like Knowledge Catalog.
+
+And once more, because it matters: the OKF repository bears the note *„not an official Google product"*, and I describe Knowledge Catalog here strictly as a direction I haven't deployed myself. No promises about product features.
+
+## What follows from this
+
+1. **Format beats tool.** If you're building a knowledge base, design it for a standard from day one. Migrating later costs - compliance from the start is free.
+2. **Compliance can be convergent.** If your system grows from a good idea (LLM Wiki), you have a shot at hitting the standard without aiming for it. That's good news: you probably don't need to rewrite your brain, just export it.
+3. **Knowledge in a standard is an asset.** Portable, auditable, exchangeable - and scaling from a personal brain up to Knowledge Catalog.
+
+If you want to start on a ready foundation, I share a **[`second-brain-template`](https://github.com/plipowczan/second-brain-template)** - „Use this template", `/onboard`, first ingest, and you have your own standard-compliant system in minutes. I'm also working on broader materials about building a second brain - if the topic interests you, it's worth keeping an eye out.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Want a knowledge base that's yours forever - portable and ready for agents?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    I'll help you design a knowledge base architecture aligned with the standard (OKF) - from note structure and indexes to company scale. You can also grab the free template and spin up your own system in minutes.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
+</div>
+
+## Useful Resources
+
+- [How Karpathy's LLM Wiki helped me organize my knowledge base](/en/blog/karpathy-llm-wiki-knowledge-base) - the base article on LLM Wiki, progressive disclosure, and the brain's architecture
+- [Second brain in Obsidian and Claude Code](/en/blog/second-brain-obsidian-claude-code-skills) - how to start from scratch
+- [brain.lipowczan.pl](https://brain.lipowczan.pl) - the live instance of my second brain
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - a ready template to start with
+- [OKF / knowledge-catalog (repo)](https://github.com/GoogleCloudPlatform/knowledge-catalog) - the OKF spec in the `okf/` directory (note: „not an official Google product")
+- [Google Knowledge Catalog](https://cloud.google.com/products/knowledge-catalog) - a managed data catalog platform (enterprise scale)
+
+## FAQ
+
+<details open>
+<summary>
+
+### What is the Open Knowledge Format (OKF) and who is behind it?
+
+</summary>
+
+OKF (Open Knowledge Format) is an open specification for recording knowledge based on markdown plus YAML frontmatter, designed for working with AI agents. The spec lives in the `GoogleCloudPlatform/knowledge-catalog` repository, in the `okf/` directory. Important note: the repository carries a „This repository and its contents are not an official Google product" disclaimer - it's an open interoperability standard, not a product commitment from Google.
+
+</details>
+
+<details open>
+<summary>
+
+### How does OKF differ from Karpathy's LLM Wiki?
+
+</summary>
+
+OKF is an interoperability specification - it defines how to record knowledge so it's portable and exchangeable between tools. LLM Wiki is a working methodology - it describes how an agent should build and maintain a knowledge base. They're complementary: OKF is about the format, LLM Wiki about the process. A working knowledge base uses both layers at once.
+
+</details>
+
+<details open>
+<summary>
+
+### The only required field in OKF is `type` - what does that mean in practice?
+
+</summary>
+
+It means a minimal barrier to entry: a compliant OKF file only needs a non-empty `type` field in its frontmatter, while everything else (`title`, `description`, `tags`, `timestamp`) is optional. A producer can add any custom keys, because a format consumer must tolerate unknown fields and broken links. This makes the standard liberal on write and strict only where it has to be.
+
+</details>
+
+<details open>
+<summary>
+
+### Is my existing Obsidian knowledge base compliant with OKF?
+
+</summary>
+
+Most likely in large part yes, especially if you use `.md` files with frontmatter. In my audit the brain passed 100% of the hard conformance conditions of OKF v0.1 (3/3), and the discrepancies were purely cosmetic. Obsidian `[[...]]` wikilinks compile through Quartz to `[label](path)` links, and fields like `summary` or `date` map one to one onto `description` and `timestamp` on export.
+
+</details>
+
+<details open>
+<summary>
+
+### When does plain markdown stop being enough and Google Knowledge Catalog steps in?
+
+</summary>
+
+The index-first approach on plain markdown works great at personal scale - on the order of hundreds of notes (my brain is a bit over 300 today), without embeddings and without RAG infrastructure. It's not a hard limit, just an order of magnitude. Above that - with millions of documents, structured and unstructured data, and many agents at once - you reach enterprise scale, which is what Google Knowledge Catalog (managed, „formerly Dataplex") addresses. I should stress, though, that I haven't tested this threshold personally - I'm signaling a direction, not a product recommendation.
+
+</details>
+
+
+---
+
+# Software 3.0: why your app shouldn't exist
+
+Source: https://pawel.lipowczan.pl/en/blog/software-3-0-agentic-engineering-guide
+Published: 2026-05-29
+
+The man who coined the term **vibe coding** said he'd "never felt more behind as a programmer." That's Andrej Karpathy - OpenAI co-founder, former head of AI at Tesla. In December, agentic models crossed a threshold for him: chunks of code "just came out fine," so he stopped correcting them and started trusting the system.
+
+This isn't a story about writing code faster. It's a story about programming turning into prompting - and if you read "software" as every digital business, it means your product is being rebuilt to be AI-first, whether you like it or not.
+
+For the last few months I've been building with agents every day - the entire portfolio you're reading this on, plus systems in two companies. The more I work with them, the more clearly I see this isn't "just another AI hype cycle." It's a change in the map: abstraction rises, and with it shifts what the human actually does. This article is an attempt to draw that map - so you know which paradigm you operate in, where your moat is, and what can't be delegated.
+
+![The Karpathy Paradigm diagram - five bands: ① three paradigms Software 1.0→2.0→3.0 (rising abstraction), ② vibe coding raises the floor vs agentic engineering preserves the ceiling, ③ verifiability and jagged intelligence (refactor 100k-line vs car wash), ④ what humans still own - taste, judgment, understanding, ⑤ build for agents: sensors, actuators, data legible to LLMs](/images/karpathy-paradigm-software-3-0.webp)
+
+This diagram is the spine of the whole text - I return to each of the five bands in the sections that follow.
+
+## Three paradigms: how you "program" the machine
+
+Karpathy arranges the evolution of software into three paradigms - and the key is *how* you pass your intent to the machine.
+
+- **Software 1.0** - you write explicit code, rule by rule. Step one, step two, step three. Brittle, not self-healing: the moment something falls outside the script, it breaks.
+- **Software 2.0** - you "program" through **data**. You don't write rules; you curate datasets and train neural-network weights. The logic lives in the weights, not in `if` statements.
+- **Software 3.0** - **prompting**. The context window is your lever over the interpreter that is the LLM.
+
+> "Software 3.0 is kind of about your programming now turns to prompting. And what's in the context window is your lever over the interpreter that is the LLM." - Andrej Karpathy
+
+And here comes the reframe that turns this from "a curiosity for programmers" into something that concerns everyone who builds a product. Read "software" as **every digital business**. The LLM is the engine - and you design the car around it.
+
+> "All businesses are literally being restructured to be AI first... AI in the middle being the engine and driving them forward. But that is all the engine is. You get to design your own car."
+
+This isn't abstract. You see the same thing in how companies are starting to operate as agentic systems - with context as the durable asset and software as a layer you regenerate whenever a better model lands.
+
+## Four examples that make it concrete
+
+The paradigm sounds abstract until you see what it does to specific business models. Karpathy gives four examples, and each is a different type of product that's shifting right now.
+
+1. **The installer.** Instead of a ballooning script ("step one: accept the terms, step two: find the folder..."), you summon an agent with one command. It *owns the goal* ("get this installed") and loops through problems it has never seen before. It's a small, self-healing "skill" - a blob of text you paste to your agent.
+2. **The app (MenuGen).** Karpathy built a 2.0 app: you photograph a menu, it renders images of the dishes. It became "instantly useless" - because you can just hand the photo to Gemini and say "overlay the items using Nano Banana." Nothing to install. *"That app shouldn't exist."* And the same is coming for almost every single app.
+3. **The course / specialized knowledge.** From sequential Udemy lectures, through a course reshaped by engagement data, to a coach-agent that *does it with you* while you take action. Not "ask me a question," but "build it with me."
+4. **The service (video editing).** From manual Premiere Pro, through Descript trimming the silences, to a text box: "edit this in a viral MrBeast style, under 8 minutes" - and a finished render in minutes.
+
+The common denominator is brutally simple: **Software 3.0 sells the outcome, not the tool.** If your product is a tool that performs a step rather than delivering a result - it's in the crosshairs.
+
+## Vibe coding raises the floor. Agentic engineering preserves the ceiling.
+
+This is, in my view, the most important new distinction in the whole interview - and the place most people get it wrong. **Vibe coding** and **agentic engineering** are two different things.
+
+**Vibe coding raises the FLOOR.** Anyone can now build software. It's democratizing and genuinely great - I described the whole approach in my [vibe coding guide](/en/blog/vibe-coding-guide). The floor rises for everyone.
+
+**Agentic engineering preserves the CEILING.** It's a real engineering discipline: keep the professional quality bar - no new vulnerabilities, it's *still your* software, you're responsible for it - **while** going faster. Agents are "spiky entities": fallible, a little stochastic, but extremely powerful. The craft is coordinating them without dropping the bar.
+
+> "Vibe coding is about raising the floor for everyone... agentic engineering is about preserving the quality bar of what existed before in professional software."
+
+And here's the other side of the coin. The ceiling is very high. The old "10× engineer" is now magnified *far* beyond 10× - for people who are good at this. It's not a zero-sum game between "AI" and "the human." It's a lever that widens the gap between someone who can direct agents and someone who just clicks "accept."
+
+## Verifiability - the new constraint
+
+Where do these models' strengths and weaknesses come from? Karpathy gives one of the best explanations I've heard, and it comes down to a single word: **verifiability**.
+
+> "The previous generation of computers automated what you could specify. This generation automates what you can verify."
+
+Frontier models are trained in giant RL (reinforcement learning) environments with verification rewards. That's why their capabilities are **jagged**: peaks where the result can be verified (code, math), valleys elsewhere. Jaggedness = what's *verifiable*, **plus** what the labs happen to choose to train on.
+
+> "How is it possible that a state-of-the-art model will refactor a 100,000-line codebase or find zero-day vulnerabilities, and yet tell me to walk to a car wash 50 metres away?"
+
+For a founder, there's a concrete takeaway. A **verifiable** problem is tractable today - you can throw RL at it, build your own RL environments, or fine-tune. That's your moat, independent of what the big labs happen to prioritize. If you can cheaply and automatically check whether the output is good, you have leverage that competitors without that verification don't.
+
+## What you can't outsource
+
+This is the emotional core of the whole thesis. If an agent can refactor 100,000 lines, what actually remains on the human side?
+
+What remains is **taste, judgment, and oversight**. You hold the spec, the plan, and the top-level design - the agent "fills in the blanks." What also remains is **fundamentals over API trivia**. Karpathy no longer remembers whether it's `keepdim` or `axis`, `reshape` or `permute` - the "intern" has perfect recall for that. But you still have to understand what's happening underneath (e.g. how tensor views and storage work) so you're not silently copying memory in the wrong place.
+
+And at the very bottom there's one thing you'll never hand off:
+
+> "You can outsource your thinking, but you can't outsource your understanding."
+
+Karpathy says outright that he now feels like the **bottleneck** - he's the one who knows what to build and why, and he's the one directing the agents. An anecdote about unreliability illustrates it well: the MenuGen agent tried to match users by cross-correlating **email addresses** from Stripe and Google instead of using a persistent user ID. It's a "why would you ever do that" mistake - the kind a human has to catch, because the agent lacks the judgment to notice it makes no sense.
+
+I see the same thing in my own work: the agent speeds everything up, but I'm the reviewer who decides what's correct. Building your own knowledge base that an agent maintains is exactly an investment in **understanding** - I described that process in my piece on a [Karpathy-style knowledge base](/en/blog/karpathy-llm-wiki-knowledge-base).
+
+## Build for agents, not for humans
+
+If agents are becoming the primary "user" of your systems, the logical consequence is that you have to start designing *for them*. Karpathy has a pet peeve about this: documentation is still written for humans. "Why are people still telling me what to do? What is the thing I should copy-paste to my agent?"
+
+The direction is this:
+
+- Describe systems to **agents first**.
+- Decompose work into **sensors** (read the world) and **actuators** (act on the world).
+- Keep data structures **legible** - readable for the LLM.
+
+Ultimately we're heading toward a world where "my agent talks to your agent" - to arrange a meeting, say. And if so, even **hiring** needs to be refactored. Instead of algorithmic puzzles, you give a candidate a big project - e.g. "build a secure Twitter-clone for agents, then have 10 agents try to break it" - and watch *how* they wield the tooling. Because wielding tools, not reciting from memory, is the real competency now.
+
+## Not animals, but ghosts
+
+Finally, a metaphor that organizes the whole mindset. Karpathy says we're not building animals - we're *summoning ghosts*.
+
+> "We're not building animals. We are summoning ghosts."
+
+These are statistical simulation circuits - a pre-training substrate with RL bolted on - not intelligences shaped by curiosity and evolution. Yelling at them does nothing. The value of the metaphor is practical: it's a *mindset*. Be appropriately suspicious and check empirically what works, instead of assuming the model "understands" the way a human does.
+
+And here I come back to you. **Which paradigm is your product in** - 1.0, 2.0, or 3.0? And when the big LLMs can do your task directly, **what will remain your moat?** Karpathy leaves four answers:
+
+1. **Data** - proprietary datasets, your own RL environments, a model trained on *your* knowledge and style.
+2. **Prompts and context** - the context systems and knowledge base you've built to steer the engine.
+3. **System design** - sensors, actuators, UX, and verification loops around the model. The engine is just the engine; you design the car.
+4. **Trust** - brand and accountability for the outcome. "I trained an LLM on all of Elon's knowledge" sounds one way from a random person, another way from Elon himself. The model can't buy that.
+
+If your edge doesn't sit in one of those four moats, it's worth asking yourself that uncomfortable question sooner rather than later.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Want to rebuild your product around agentic engineering?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    I'll help you assess which paradigm you're in, where your moat is, and how to deploy agents without dropping the quality bar - from context architecture to verification loops.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
+</div>
+
+## Useful Resources
+
+- [Andrej Karpathy: From Vibe Coding to Agentic Engineering](https://www.youtube.com/watch?v=96jN2OCOfLs) - Sequoia Capital, 29:49. The primary source for the whole thesis: vibe→agentic, verifiability, jagged intelligence.
+- [Kaparthy revealed the most profitable business to build (Software 3.0)](https://www.youtube.com/watch?v=hJNp9RwK-Uw) - Dream Labs AI, 14 min. The business angle on the paradigms and the four moats.
+- [Vibe coding: a guide](/en/blog/vibe-coding-guide) - how to raise the floor, the other side of this distinction.
+- [A Karpathy-style knowledge base](/en/blog/karpathy-llm-wiki-knowledge-base) - how to build the data and context moat.
+
+## FAQ
+
+<details open>
+<summary>
+
+### How does Software 3.0 differ from Software 1.0 and 2.0 according to Karpathy?
+
+</summary>
+
+Software 1.0 is writing explicit code rule by rule, Software 2.0 is programming by curating data and training neural-network weights, and Software 3.0 is **prompting** - steering the LLM through the context window. In 3.0, what you put into the context window becomes your lever over the model treated as an interpreter. The practical consequence: instead of building a tool, you design a system around an LLM engine that delivers a finished outcome.
+
+</details>
+
+<details open>
+<summary>
+
+### What's the difference between vibe coding and agentic engineering?
+
+</summary>
+
+Vibe coding "raises the floor" - it lets anyone build software, which is democratizing. Agentic engineering "preserves the ceiling" - it's an engineering discipline focused on keeping the professional quality bar (no new vulnerabilities, accountability for the code) while accelerating with the help of agents. In short: vibe coding is accessibility, agentic engineering is quality under the pressure of speed.
+
+</details>
+
+<details open>
+<summary>
+
+### What is jagged intelligence in AI models?
+
+</summary>
+
+Jagged intelligence is the phenomenon where a model has peaks of capability in verifiable domains, like code or math, and valleys in other tasks. It stems from training in RL environments with verification rewards - the model is excellent where the result can be checked automatically. Hence the paradox: the same model will refactor 100,000 lines of code yet stumble on a simple everyday task.
+
+</details>
+
+<details open>
+<summary>
+
+### What can't you outsource to AI agents when building a product?
+
+</summary>
+
+You can't outsource understanding, judgment, and oversight - as Karpathy puts it, "you can outsource your thinking, but you can't outsource your understanding." The human stays the owner of the specification, the plan, and the top-level design, while the agent fills in the blanks. Fundamentals matter too (understanding what happens underneath), because an agent can make a nonsensical mistake it won't catch on its own.
+
+</details>
+
+<details open>
+<summary>
+
+### How do you build an "agent-native" product, for agents and not just humans?
+
+</summary>
+
+Describe systems to agents first (e.g. a block of instructions to paste, not human-oriented documentation), decompose work into sensors that read the world and actuators that act on it, and keep data legible to the LLM. The goal is a world where "my agent talks to your agent." It's also worth refactoring hiring: instead of puzzles, give a real project and watch how the candidate wields the tooling.
+
+</details>
+
+
+---
+
 # Pre-revenue startup without a finance department. AI agent system anatomy.
 
 Source: https://pawel.lipowczan.pl/en/blog/ai-agent-system-skills-rules-shared-context
@@ -10974,6 +11729,7 @@ You don't have to build all of this at once. Start with a CLAUDE.md of 50 lines,
 - [Quartz 4](https://quartz.jzhao.xyz/) — Static Site Generator for Obsidian vaults
 - [Obsidian](https://obsidian.md/) — Markdown note editor
 - Related article: [Second Brain with Obsidian and Claude Code Skills](/en/blog/second-brain-obsidian-claude-code-skills) — how to start from zero
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - a ready template to start your own second brain
 
 ## FAQ
 
@@ -13721,6 +14477,7 @@ description: Summarize long notes into key points. Use when user asks to summari
 - [Cole Medin / Dynamist](https://www.youtube.com/@ColeMedin) - inspiration for this article
 - [5 techniques for working with Claude Code](/blog/5-technik-pracy-z-claude-code) - related article
 - [PARA Method](https://fortelabs.com/blog/para/) - knowledge organization system
+- [second-brain-template](https://github.com/plipowczan/second-brain-template) - a ready template to start building your own second brain in minutes
 
 ## FAQ
 
@@ -19174,3 +19931,201 @@ Gather documents (FAQ, product documentation, articles, company policies), split
 When it doesn't know the answer, the user is frustrated, the matter requires decisions beyond the bot's authority, or it involves sensitive topics (complaints, legal issues). Graceful degradation is a key best practice -- the bot informs the user it's transferring them to a consultant, rather than generating uncertain responses.
 
 </details>
+
+
+---
+
+# Załóż katalog z szablonu
+
+Source: https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog
+
+Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i znasz architekturę trzech warstw plus trzy indeksy.
+
+## Po co to
+
+LLM Wiki (koncept Karpathy'ego) odwraca RAG: zamiast za każdym razem przeszukiwać surowe dokumenty, agent **inkrementalnie buduje i utrzymuje** żywą bazę markdown — z cross-linkami, indeksami, syntezami. Wiedza **kumuluje się** (compounding) i jest czytelna **i dla agenta, i dla człowieka** (otwierasz plik, czytasz). Standard **OKF** (Google) formalizuje ten wzorzec → bazy są przenośne.
+
+## Weź szablon
+
+Na GitHubie „Use this template" (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Quartz, publikacja) i `pip install -r requirements.txt` (skille pythonowe) — **do pierwszego pytania niepotrzebne**.
+
+Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).
+
+## Co dostajesz (drzewo szablonu)
+
+```text
+kb-template/
+  .claude/  commands (/onboard /ingest /qa /compile /enhance /lint /reindex /gaps /refactor /output)
+            skills (research, research-deep, research-report, ...)
+            hooks/load_vault_map.py  (auto-ładuje mapę vaultu na starcie)
+  content/  _raw/inbox (drop zone, jest sample-source.md) · _raw/processed (archiwum)
+            _indexes (vault-map.md + catalog.md + graph.md)
+            _outputs (answers/ + reports/) · templates/ · REFERENCE/ (wzorce)
+  package.json (Quartz) · requirements.txt
+```
+
+To „**pusty, ale uzbrojony**" brain — cała mechanika gotowa, brak tylko Twojej wiedzy.
+
+## Architektura — 3 warstwy
+
+| Warstwa | Gdzie | Kto włada |
+|---|---|---|
+| Raw sources | `_raw/inbox` → `_raw/processed` | Ty wrzucasz, agent czyta (immutable) |
+| Wiki | `content/<TOPIC>/` | Agent tworzy/utrzymuje noty |
+| Schema | `CLAUDE.md` (z onboardingu) | Ty + agent współ-ewoluujecie |
+
+## 3 indeksy — dlaczego działa bez embeddings i RAG do ~500 źródeł
+
+- `vault-map.md` (L0, z lotu ptaka)
+- `catalog.md` (L1, 1 linia/nota)
+- `graph.md` (L2, graf linków)
+
+Agent czyta indeks → wchodzi tylko w trafne noty (**progressive disclosure**), zamiast ładować wszystko.
+
+## Wzorzec — jak wygląda dobra nota
+
+Zajrzyj do `REFERENCE/Example Note.md` i `Wikilinks Explained.md` — jak wygląda dobra nota i jak działają linki.
+
+## Pułapka
+
+Nie pisz wiki ręcznie — to robota agenta; Ty dostarczasz źródła i dobre pytania.
+
+
+---
+
+# Onboarding
+
+Source: https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding
+
+Cel tej lekcji: skonfigurować całą bazę jednym wywiadem. Po lekcji masz wygenerowaną schema, foldery tematów i indeksy.
+
+## Odpal `/onboard`
+
+Kreator wykrywa świeży klon (po obecności `CLAUDE.template.md`) i prowadzi **wywiad — jedno pytanie na raz**: nazwa bazy i właściciel, język, tematy/domeny (Twoje top-level foldery, np. `AI`, `BUSINESS`, `HEALTH`), typy not, „głos" (osoba/formalność/emoji w nagłówkach), gałąź główna.
+
+## Co generuje się samo
+
+Na końcu kreator **generuje z szablonów**:
+
+- `CLAUDE.md` + `AGENTS.md` + `WRITING_STYLE.md` (warstwa schema),
+- tworzy foldery tematów,
+- przycina szablony not do wybranych typów,
+- proponuje usunięcie `REFERENCE/` i `sample-source.md` (albo zostawia jako tutorial),
+- przebudowuje indeksy.
+
+## Idempotencja
+
+Stan odpowiedzi zapisuje w `.kb-onboard.json` → **idempotentne**, można później `reconfigure`.
+
+## Dzień zerowy
+
+To Twój „**dzień zerowy**" — jedyny moment konfiguracji. Potem już tylko używasz.
+
+
+---
+
+# Pierwszy ingest
+
+Source: https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest
+
+Cel tej lekcji: zamienić surowe źródło w noty i indeksy. Po lekcji umiesz dokarmiać bazę nowymi elementami.
+
+## Wrzuć źródło i odpal `/ingest`
+
+Wrzuć dowolne źródło do `content/_raw/inbox/` (jest gotowy `sample-source.md` na rozgrzewkę) i odpal **`/ingest`**.
+
+## Co robi agent
+
+Agent: czyta źródło → tworzy notę z **frontmatterem** (pole `type` — minimum wymagane przez OKF) → aktualizuje **wszystkie 3 indeksy** → przenosi źródło do `processed/`. Jedno źródło potrafi dotknąć kilkunastu not.
+
+## Surowe pliki vs wiki
+
+To różnica „**surowe pliki vs wiki**": bez `/ingest` nie ma cross-linków ani indeksów — masz tylko stertę plików.
+
+## Pułapki
+
+- Nie wrzucaj wszystkiego bez ingestu (surowe pliki ≠ wiki).
+- Indeksy aktualizuj po każdym zapisie (ingest robi to sam — ale gdy edytujesz ręcznie, pamiętaj).
+
+
+---
+
+# Pytania i zarządzanie
+
+Source: https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie
+
+Cel tej lekcji: pytać bazę (nie czat) i utrzymywać jakość. Po lekcji umiesz `/qa`, `/lint`, `/reindex` i rozróżniasz `qa` vs `research`.
+
+## `/qa` — pytanie do bazy
+
+**`/qa "twoje pytanie"`** — agent czyta indeks → wchodzi **tylko w trafne noty** → syntetyzuje odpowiedź **z cytowaniami** (zapis do `_outputs/answers/`). Różnica „pytanie do **bazy**" vs „do czatu": czat zgaduje, baza cytuje to, co masz.
+
+## `/lint` — health-check
+
+**`/lint`** — health-check: sprzeczności, stale claims, sieroty, brakujące cross-linki, luki → raport do `_outputs/reports/`. Odpalaj co jakiś czas, inaczej baza po cichu gnije.
+
+## `/reindex` — przebuduj indeksy
+
+**`/reindex`** — przebuduj indeksy, gdy się rozjadą.
+
+## `qa` vs `research` — czemu osobno
+
+`/qa` odpowiada **z tego, co już masz**. Skille research **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy (compounding): `/research` (ukierunkowany), `/research-deep` (wieloźródłowy + weryfikacja), `/research-report` (research + raport), `/research-add-fields|items` (rozszerzanie list). Pointa: `qa` = czytasz bazę; `research` = baza rośnie.
+
+## Pełna ściąga komend
+
+| Komenda | Do czego |
+|---|---|
+| `/onboard` | Konfiguracja bazy |
+| `/ingest` | Źródło → nota + indeksy |
+| `/qa` | Pytanie → synteza z cytowaniami |
+| `/compile` | Artykuł/nota zbiorcza z wielu źródeł |
+| `/enhance` | Popraw/rozbuduj notę |
+| `/lint` | Health-check jakości |
+| `/reindex` | Przebuduj indeksy |
+| `/gaps` | Znajdź luki / brakujące tematy |
+| `/refactor` | Przebuduj strukturę/noty |
+| `/output` | Wygeneruj raport/eksport |
+| `/research*` | Autonomiczny research |
+
+## Zasady jakości
+
+- index-first / progressive disclosure (start od `vault-map`, nie skanuj całości),
+- frontmatter z `type` (OKF, przenośność),
+- aktualizuj indeksy po każdym zapisie,
+- zgodność z OKF (`git clone` → masz),
+- scrub przed dzieleniem (usuń wrażliwe + atrybucje).
+
+## Anty-wzorce
+
+Ręczne pisanie wiki · wrzucanie wszystkiego bez ingestu · olewanie `/lint` · skanowanie całego `content/` zamiast indeksów (pali tokeny).
+
+
+---
+
+# Rozwój i publikacja
+
+Source: https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja
+
+Cel tej lekcji: opublikować bazę i poznać ścieżkę rozwoju. Po lekcji umiesz publikować przez Quartz, znasz drogę dalej i rozumiesz przenośność OKF.
+
+## Publikacja (opcja)
+
+`npx quartz build` → strona WWW (jak `brain.lipowczan.pl`). Markdown zostaje markdownem; Quartz to tylko warstwa publikacji.
+
+## OKF / przenośność
+
+Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. „If you can `git clone` it, you can ship it."
+
+## Ścieżka rozwoju
+
+- Podłącz brain do **systemu agentowego** (multi-brain): jeden agent odpytuje wiele baz (wzorzec `brain-query`).
+- **MCP** (`brain-mcp`): udostępnij bazę dowolnemu klientowi (Claude Desktop / IDE).
+- **Publikacja Quartz** → personal brand / portfolio wiedzy.
+- **Wymiana bundli OKF** — eksport „zżytej" bazy (ekstrakt) jako produkt.
+
+## Most do paid
+
+To był pusty szablon. Pełniejsze akceleratory — gotowe, dopieszczone skille i **ekstrakt realnej, zżytej bazy** (gotowe bundle wiedzy do załadowania do swojego braina) — szykuję jako płatne bundle. Pomijasz tygodnie iteracji i tysiące spalonych tokenów.
+
+Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).
