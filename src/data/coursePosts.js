@@ -11,7 +11,7 @@ const courseFiles = import.meta.glob("../content/kurs/*.md", {
  * Waliduje wymagane pola front matter lekcji kursu.
  */
 function validateFrontMatter(data, filename) {
-  const requiredFields = ["slug", "order", "title"];
+  const requiredFields = ["slug", "order", "title", "excerpt"];
   const missingFields = requiredFields.filter(
     (field) => data[field] === undefined || data[field] === null || data[field] === ""
   );
@@ -24,6 +24,12 @@ function validateFrontMatter(data, filename) {
 
   if (typeof data.order !== "number") {
     throw new Error(`Invalid 'order' type in ${filename}: expected number`);
+  }
+
+  // excerpt feeds the hub card fallback and the lesson SEO description —
+  // fail fast on a non-string so a page can't ship an empty meta description.
+  if (typeof data.excerpt !== "string") {
+    throw new Error(`Invalid 'excerpt' type in ${filename}: expected string`);
   }
 }
 

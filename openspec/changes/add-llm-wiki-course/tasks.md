@@ -37,8 +37,8 @@
 
 ## 7. SEO per page
 
-- [x] 7.1 Hub `SEO`: unique title + description; `alternateUrl` = `${SITE_CONFIG.url}/llm-wiki/kurs`; `image="/images/og-llm-wiki-kurs.webp"`. **(Impl note:** `image` omitted for now — see 7.3 — so pages fall back to the site default; SEO title/description/self-referential `alternateUrl` are wired.)
-- [x] 7.2 Each lesson `SEO`: title from lesson `title`, description from `excerpt`; `alternateUrl` = the lesson's own PL URL; same shared `image="/images/og-llm-wiki-kurs.webp"`. **(Impl note:** `image` omitted for now — see 7.3.)
+- [x] 7.1 Hub `SEO`: unique title + description; `alternateUrl` = `${SITE_CONFIG.url}/llm-wiki/kurs`; `image="/images/og-llm-wiki-kurs.webp"` (asset produced in 7.3 and wired).
+- [x] 7.2 Each lesson `SEO`: title from lesson `title`, description from `excerpt`; `alternateUrl` = the lesson's own PL URL; same shared `image="/images/og-llm-wiki-kurs.webp"` (wired, see 7.3).
 - [x] 7.4 Register the course in the generated SEO surface: `scripts/update-sitemap.js` now emits `/llm-wiki/kurs` + the five lessons as PL-only `sitemap.xml` entries (pl + x-default hreflang, no `/en`); `scripts/generate-llms-txt.js` adds a "Kurs LLM Wiki (PL)" section to `llms.txt` and the full lesson bodies to `llms-full.txt`. Regenerated `public/{sitemap.xml,llms.txt,llms-full.txt}`.
 - [x] 7.3 Produced the shared course OG asset `public/images/og-llm-wiki-kurs.webp` (1200×630, dark #0a0e14 + emerald #22c55e node-graph of linked markdown cards, no text) via the blog OG pipeline (`node scripts/generate-image.js … --filename og-llm-wiki-kurs` → sharp resize to 1200×630 → WebP; prompt saved at `.claude/agents/prompts/og-llm-wiki-kurs-prompt.md`). Wired `image="/images/og-llm-wiki-kurs.webp"` into both `CourseHub` and `CourseLesson` `SEO`.
 
@@ -51,7 +51,7 @@
 
 ## 9. Build + verify
 
-- [x] 9.1 `npm run build:prerender` — 91 pages, 0 errors. All 6 course pages emitted (`dist/llm-wiki/kurs/index.html` + 5 lessons), each with a `name="description"` meta and PL-self hreflang; no `dist/en/llm-wiki/**` course pages. OG falls back to `og-home.webp` (image omitted, see 7.3).
+- [x] 9.1 `npm run build:prerender` — 91 pages, 0 errors. All 6 course pages emitted (`dist/llm-wiki/kurs/index.html` + 5 lessons), each with a `name="description"` meta and PL-self hreflang; no `dist/en/llm-wiki/**` course pages. `og:image` = `/images/og-llm-wiki-kurs.webp` (asset present, verified in the prerendered meta; see 7.3).
 - [x] 9.2 Redirect + route rendering verified via e2e (dev server has SPA fallback like preview): `/en/llm-wiki/kurs/2-onboarding` → PL path, `/en/llm-wiki/kurs` → PL path; all 6 routes render. Prerendered `dist/**/index.html` spot-checked for title/description/content. **(Note:** `npm run preview` not manually opened — equivalent coverage via prerender-HTML inspection + e2e.)
 - [x] 9.3 `npx playwright test --project=chromium` — **127 passed, 5 skipped (pre-existing conditionals), 0 failed**, incl. new course specs, `/en` redirects, prerender assertions, and unregressed blog. (Full cross-browser matrix runs in CI — chromium/firefox/webkit/mobile × 4 shards.)
 - [x] 9.4 Verified against artifacts (every spec scenario mapped to a passing e2e + the build:prerender/dist checks above). Branch `feat/llm-wiki-kurs` created, committed, pushed; **PR #9** opened with scope description (https://github.com/plipowczan/portfolio/pull/9). **(Note:** verification done inline via the build + full chromium suite rather than the interactive `/opsx:verify` skill — run `/opsx:verify` separately if a formal artifact pass is wanted before archive.)

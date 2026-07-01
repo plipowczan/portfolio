@@ -87,11 +87,11 @@ const CourseLesson = () => {
               </h1>
 
               {/* Screencast slot (placeholder for a future recording) */}
-              <div
-                className="flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-primary-500/20 bg-dark-800/50"
-                aria-hidden="true"
-              >
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-500/10">
+              <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-primary-500/20 bg-dark-800/50">
+                <div
+                  className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-500/10"
+                  aria-hidden="true"
+                >
                   <FaPlay className="text-primary-500" />
                 </div>
                 <p className="font-mono text-sm text-gray-500">
