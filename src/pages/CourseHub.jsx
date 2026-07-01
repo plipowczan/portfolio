@@ -28,8 +28,8 @@ const CourseHub = () => {
         // PL-only section: point the en-alternate at the PL URL so no
         // /en/llm-wiki/kurs mirror leaks to crawlers.
         alternateUrl={`${SITE_CONFIG.url}/llm-wiki/kurs`}
-        // NOTE: shared course OG (`/images/og-llm-wiki-kurs.webp`) omitted until
-        // the asset is produced; pages fall back to the site default (non-blocking).
+        // Shared course OG (hub + all lessons use the same card).
+        image="/images/og-llm-wiki-kurs.webp"
       />
 
       <section className="relative flex min-h-screen items-center overflow-hidden py-24 md:py-32">

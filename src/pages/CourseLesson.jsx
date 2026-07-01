@@ -52,6 +52,8 @@ const CourseLesson = () => {
         // PL-only lesson: point the en-alternate at this lesson's own PL URL so
         // no /en mirror leaks to crawlers.
         alternateUrl={lessonUrl}
+        // Shared course OG (same card across hub + all lessons).
+        image="/images/og-llm-wiki-kurs.webp"
         article={true}
       />
 
