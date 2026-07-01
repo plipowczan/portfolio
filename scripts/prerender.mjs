@@ -46,10 +46,32 @@ function getBlogPosts(dir) {
   });
 }
 
+// Funkcja do wczytywania lekcji kursu (PL-only) bezpośrednio z plików markdown
+function getCourseLessons(dir) {
+  if (!existsSync(dir)) {
+    return [];
+  }
+
+  const files = readdirSync(dir).filter(
+    (file) =>
+      file.endsWith(".md") && !file.startsWith("_") && file !== "README.md"
+  );
+
+  return files
+    .map((file) => {
+      const { data } = matter(readFileSync(join(dir, file), "utf-8"));
+      return { slug: data.slug, order: data.order };
+    })
+    .sort((a, b) => a.order - b.order);
+}
+
 import { projects } from "../src/data/projects.js";
 
 const blogPostsPl = getBlogPosts(join(__dirname, "..", "src", "content", "blog"));
 const blogPostsEn = getBlogPosts(join(__dirname, "..", "src", "content", "blog", "en"));
+const courseLessons = getCourseLessons(
+  join(__dirname, "..", "src", "content", "kurs")
+);
 
 // Konfiguracja
 const BASE_URL = "http://localhost:4173"; // Vite preview port
@@ -73,6 +95,13 @@ const projectRoutesPl = projects.map((project) => `/projects/${project.slug}`);
 // PL-only waitlist landing — intentionally NOT mirrored to /en (PL-only page)
 const landingRoutes = ["/llm-wiki"];
 
+// PL-only free course — hub + one route per lesson (derived from files),
+// intentionally NOT mirrored to /en (see StripEnRedirect).
+const courseRoutes = [
+  "/llm-wiki/kurs",
+  ...courseLessons.map((lesson) => `/llm-wiki/kurs/${lesson.slug}`),
+];
+
 // EN routes (under /en/ prefix)
 const staticRoutesEn = staticRoutesPl.map((route) => `/en${route}`);
 const blogRoutesEn = blogPostsEn.map((post) => `/en/blog/${post.slug}`);
@@ -81,6 +110,7 @@ const projectRoutesEn = projects.map((project) => `/en/projects/${project.slug}`
 const allRoutes = [
   ...staticRoutesPl,
   ...landingRoutes,
+  ...courseRoutes,
   ...blogRoutesPl,
   ...projectRoutesPl,
   ...staticRoutesEn,

@@ -1,0 +1,161 @@
+import { motion } from "framer-motion";
+import { useRef } from "react";
+import { FaArrowLeft, FaArrowRight, FaPlay } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import SEO from "../components/seo/SEO";
+import ArticleTOC from "../components/ui/ArticleTOC";
+import Breadcrumbs from "../components/ui/Breadcrumbs";
+import MarkdownContent from "../components/ui/MarkdownContent";
+import { coursePosts, getLessonBySlug, getPrevNext } from "../data/coursePosts";
+import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
+
+const CourseLesson = () => {
+  const { slug } = useParams();
+  const lesson = getLessonBySlug(slug);
+  const contentRef = useRef(null);
+
+  // Unknown slug → graceful "not found" state (mirror blog post-not-found).
+  if (!lesson) {
+    return (
+      <>
+        <SEO
+          title="Lekcja nie znaleziona"
+          description="Nie znaleźliśmy tej lekcji kursu LLM Wiki."
+          path="/llm-wiki/kurs"
+          alternateUrl={`${SITE_CONFIG.url}/llm-wiki/kurs`}
+        />
+
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="text-center">
+            <h1 className="mb-4 text-4xl font-bold text-white">
+              Lekcja nie znaleziona
+            </h1>
+            <Link to="/llm-wiki/kurs" className="btn-primary">
+              ← Wróć do kursu
+            </Link>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  const total = coursePosts.length;
+  const { prev, next } = getPrevNext(slug);
+  const lessonUrl = `${SITE_CONFIG.url}/llm-wiki/kurs/${lesson.slug}`;
+
+  return (
+    <>
+      <SEO
+        title={lesson.title}
+        description={lesson.excerpt}
+        path={`/llm-wiki/kurs/${lesson.slug}`}
+        // PL-only lesson: point the en-alternate at this lesson's own PL URL so
+        // no /en mirror leaks to crawlers.
+        alternateUrl={lessonUrl}
+        article={true}
+      />
+
+      <article className="min-h-screen py-24 md:py-32">
+        <div className="section-container">
+          <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-8">
+            {/* Main lesson content */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={FADE_IN_UP}
+              className="w-full min-w-0 space-y-8"
+            >
+              {/* Breadcrumbs */}
+              <Breadcrumbs
+                items={[
+                  { label: "Home", path: "/" },
+                  { label: "Kurs", path: "/llm-wiki/kurs" },
+                  { label: lesson.title, path: null },
+                ]}
+              />
+
+              {/* Progress */}
+              <div className="font-mono text-sm text-primary-500">
+                Lekcja {lesson.order} / {total}
+              </div>
+
+              {/* Title */}
+              <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+                {lesson.title}
+              </h1>
+
+              {/* Screencast slot (placeholder for a future recording) */}
+              <div
+                className="flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-primary-500/20 bg-dark-800/50"
+                aria-hidden="true"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-500/10">
+                  <FaPlay className="text-primary-500" />
+                </div>
+                <p className="font-mono text-sm text-gray-500">
+                  Screencast wkrótce
+                </p>
+              </div>
+
+              {/* Lesson body */}
+              <MarkdownContent content={lesson.content} contentRef={contentRef} />
+
+              {/* Prev / next navigation */}
+              <nav
+                aria-label="Nawigacja po lekcjach"
+                className="grid gap-4 border-t border-gray-700 pt-8 sm:grid-cols-2"
+              >
+                {prev ? (
+                  <Link
+                    to={`/llm-wiki/kurs/${prev.slug}`}
+                    className="group flex flex-col rounded-lg border border-white/10 bg-dark-800/50 p-4 transition-colors hover:border-primary-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                  >
+                    <span className="flex items-center gap-2 font-mono text-xs text-gray-500">
+                      <FaArrowLeft size={12} /> Poprzednia
+                    </span>
+                    <span className="mt-1 text-white group-hover:text-primary-400">
+                      {prev.title}
+                    </span>
+                  </Link>
+                ) : (
+                  <span />
+                )}
+
+                {next ? (
+                  <Link
+                    to={`/llm-wiki/kurs/${next.slug}`}
+                    className="group flex flex-col rounded-lg border border-white/10 bg-dark-800/50 p-4 text-right transition-colors hover:border-primary-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 sm:col-start-2"
+                  >
+                    <span className="flex items-center justify-end gap-2 font-mono text-xs text-gray-500">
+                      Następna <FaArrowRight size={12} />
+                    </span>
+                    <span className="mt-1 text-white group-hover:text-primary-400">
+                      {next.title}
+                    </span>
+                  </Link>
+                ) : (
+                  <span className="sm:col-start-2" />
+                )}
+              </nav>
+
+              {/* Bottom CTA → waitlist */}
+              <div className="space-y-3 rounded-lg border border-primary-500/20 bg-dark-700 p-5">
+                <p className="text-gray-300">
+                  Zostaw maila — dam znać, gdy ruszą gotowe bundle wiedzy.
+                </p>
+                <Link to="/llm-wiki" className="btn-primary inline-block">
+                  Zapisz się na listę →
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* TOC — desktop sidebar + mobile drawer */}
+            <ArticleTOC contentRef={contentRef} contentKey={lesson.slug} />
+          </div>
+        </div>
+      </article>
+    </>
+  );
+};
+
+export default CourseLesson;

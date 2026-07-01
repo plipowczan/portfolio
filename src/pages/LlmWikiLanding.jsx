@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import GrowingNetworkBackground from "../components/animations/GrowingNetworkBackground";
 import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
@@ -167,15 +168,24 @@ const LlmWikiLanding = () => {
                   </p>
                 </div>
 
-                <a
-                  href={REPO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary inline-flex items-center gap-2"
-                >
-                  <FaGithub size={18} />
-                  Weź szablon na GitHubie →
-                </a>
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href={REPO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary inline-flex items-center gap-2"
+                  >
+                    <FaGithub size={18} />
+                    Weź szablon na GitHubie →
+                  </a>
+
+                  <Link
+                    to="/llm-wiki/kurs"
+                    className="inline-flex items-center gap-2 font-mono text-sm text-primary-500 hover:text-primary-400"
+                  >
+                    → Wejdź w darmowy kurs
+                  </Link>
+                </div>
 
                 <div className="space-y-3 rounded-lg border border-primary-500/20 bg-dark-700 p-5">
                   <p className="font-bold text-white">
