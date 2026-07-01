@@ -60,7 +60,19 @@ function getCourseLessons(dir) {
   return files
     .map((file) => {
       const { data } = matter(readFileSync(join(dir, file), "utf-8"));
-      return { slug: data.slug, order: data.order };
+      return { file, slug: data.slug, order: data.order };
+    })
+    .filter((lesson) => {
+      const valid =
+        typeof lesson.slug === "string" &&
+        lesson.slug.length > 0 &&
+        typeof lesson.order === "number";
+      if (!valid) {
+        console.warn(
+          `  ⚠️  Pomijam lekcję kursu bez poprawnego slug/order: ${lesson.file}`
+        );
+      }
+      return valid;
     })
     .sort((a, b) => a.order - b.order);
 }

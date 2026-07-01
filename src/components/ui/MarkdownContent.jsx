@@ -1,4 +1,3 @@
-import { useMemo, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -16,90 +15,60 @@ import remarkGfm from "remark-gfm";
  *                               the consumer can query rendered headings for TOC.
  */
 const MarkdownContent = ({ content, contentRef }) => {
-  // Track ID counters per rendered content to generate consistent IDs across
-  // re-renders. Key: heading text -> Value: assigned counter.
-  const headingCountersRef = useRef(new Map());
+  // Heading-id generator. A fresh counter map is created on every render, so
+  // IDs come out deterministically from heading order; repeated headings (same
+  // base slug) get -1, -2, … suffixes to keep IDs unique — valid HTML and a
+  // working anchor + scroll-spy TOC.
+  const slugCounts = new Map();
 
-  // Generate a unique slug for a heading's text (memoized per content string).
-  const generateSlug = useMemo(() => {
-    // Reset counters when the content changes.
-    headingCountersRef.current.clear();
+  // Normalize a heading's text to an ASCII kebab-case slug (Polish-aware).
+  const normalizeToSlug = (text) => {
+    if (!text) return "";
 
-    // Shared normalization for consistent slug generation.
-    const normalizeToSlug = (text) => {
-      if (!text) return "";
-
-      const polishCharsMap = {
-        ą: "a",
-        ć: "c",
-        ę: "e",
-        ł: "l",
-        ń: "n",
-        ó: "o",
-        ś: "s",
-        ź: "z",
-        ż: "z",
-        Ą: "a",
-        Ć: "c",
-        Ę: "e",
-        Ł: "l",
-        Ń: "n",
-        Ó: "o",
-        Ś: "s",
-        Ź: "z",
-        Ż: "z",
-      };
-
-      return (
-        text
-          .toString()
-          .trim()
-          // Replace Polish characters with ASCII equivalents (both cases).
-          .replace(
-            /[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g,
-            (char) => polishCharsMap[char] || char,
-          )
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, "") // Remove remaining special chars
-          .replace(/\s+/g, "-") // Replace spaces with hyphens
-          .replace(/-+/g, "-") // Remove consecutive hyphens
-          .replace(/^-+|-+$/g, "")
-      ); // Trim hyphens from start/end
+    const polishCharsMap = {
+      ą: "a",
+      ć: "c",
+      ę: "e",
+      ł: "l",
+      ń: "n",
+      ó: "o",
+      ś: "s",
+      ź: "z",
+      ż: "z",
+      Ą: "a",
+      Ć: "c",
+      Ę: "e",
+      Ł: "l",
+      Ń: "n",
+      Ó: "o",
+      Ś: "s",
+      Ź: "z",
+      Ż: "z",
     };
 
-    return (text) => {
-      if (!text) return "";
+    return (
+      text
+        .toString()
+        .trim()
+        // Replace Polish characters with ASCII equivalents (both cases).
+        .replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, (char) => polishCharsMap[char] || char)
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "") // Remove remaining special chars
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-") // Remove consecutive hyphens
+        .replace(/^-+|-+$/g, "")
+    ); // Trim hyphens from start/end
+  };
 
-      let baseSlug = normalizeToSlug(text);
-
-      // Handle empty slugs from special-char-only headings.
-      if (!baseSlug || baseSlug === "-") {
-        baseSlug = "untitled";
-      }
-
-      // Reuse the ID already assigned for this exact text (cache for re-renders).
-      if (headingCountersRef.current.has(text)) {
-        const existingCounter = headingCountersRef.current.get(text);
-        return existingCounter === 0 ? baseSlug : `${baseSlug}-${existingCounter}`;
-      }
-
-      // Find the next available counter for this base slug (for duplicates).
-      let counter = 0;
-      for (const [
-        existingText,
-        existingCounter,
-      ] of headingCountersRef.current.entries()) {
-        const existingBase = normalizeToSlug(existingText);
-        if (existingBase === baseSlug && existingCounter >= counter) {
-          counter = existingCounter + 1;
-        }
-      }
-
-      const finalSlug = counter === 0 ? baseSlug : `${baseSlug}-${counter}`;
-      headingCountersRef.current.set(text, counter);
-      return finalSlug;
-    };
-  }, [content]);
+  // Assign a unique id per heading. The first use of a base slug keeps it as-is;
+  // each later heading with the same base slug is suffixed -1, -2, …
+  const generateSlug = (text) => {
+    let base = normalizeToSlug(text);
+    if (!base || base === "-") base = "untitled";
+    const seen = slugCounts.get(base) ?? 0;
+    slugCounts.set(base, seen + 1);
+    return seen === 0 ? base : `${base}-${seen}`;
+  };
 
   // Recursively extract plain text from children (arrays, nested elements).
   const extractText = (children) => {

@@ -8,7 +8,8 @@ const DIST = join(__dirname, "..", "..", "dist");
 
 const REPO_URL = "https://github.com/plipowczan/second-brain-template";
 
-// Ordered lessons (source of truth is src/content/kurs/*.md `order`).
+// Ordered lessons — a hardcoded mirror of src/content/kurs/*.md. Keep this in
+// sync when lessons are added/reordered (or derive it from the files later).
 const LESSONS = [
   { slug: "1-zaloz-katalog", title: "Załóż katalog z szablonu" },
   { slug: "2-onboarding", title: "Onboarding" },
