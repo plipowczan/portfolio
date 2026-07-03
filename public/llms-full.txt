@@ -20396,36 +20396,60 @@ Source: https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie
 
 Cel tej lekcji: pytać bazę (nie czat) i utrzymywać jakość. Po lekcji umiesz `/qa`, `/lint`, `/reindex` i rozróżniasz `qa` vs `research`.
 
-## `/qa` — pytanie do bazy
+Onboarding (L2) i ingest (L3) masz za sobą — baza żyje. Teraz ją **używasz**: pytasz i pilnujesz jakości. Wszystkie komendy siedzą w `.claude/commands/`.
 
-**`/qa "twoje pytanie"`** — agent czyta indeks → wchodzi **tylko w trafne noty** → syntetyzuje odpowiedź **z cytowaniami** (zapis do `_outputs/answers/`). Różnica „pytanie do **bazy**" vs „do czatu": czat zgaduje, baza cytuje to, co masz.
+![Komendy zarządzania bazą w .claude/commands/ i start /lint w terminalu](/images/kurs/4-pytania-i-zarzadzanie-01.webp)
+
+## `/qa` — pytaj bazę, nie czat
+
+`/qa "twoje pytanie"` to sedno. Agent nie zgaduje — **czyta bazę** przez progressive disclosure: `vault-map` → `catalog` → `graph` → otwiera **tylko trafne noty** → syntetyzuje odpowiedź **z `[[cytowaniami]]`** i **oznacza luki**, gdzie baza milczy.
+
+Różnicę wobec czatu najlepiej widać, gdy pytasz o coś, **czego w bazie nie ma**. Zapytaj `/qa OKF` na bazie o samych notatkach o notowaniu:
+
+![/qa o OKF — brak pokrycia: baza mówi „nie mam tego", nie zmyśla](/images/kurs/4-pytania-i-zarzadzanie-05.webp)
+
+Baza sprawdza wszystkie noty, widzi **zero pokrycia** i mówi wprost: *„nie zmyślam odpowiedzi"*. Zamiast halucynacji dostajesz uczciwe „nie mam" + co dalej (`/ingest`, web research, `/gaps`). **Czat zgaduje; baza cytuje albo przyznaje, że nie wie.**
+
+Teraz to samo dla tematu, który **jest** w bazie — `/qa` o Zettelkasten:
+
+![/qa o Zettelkasten — synteza z cytowaniami źródeł, oznaczone luki i follow-upy](/images/kurs/4-pytania-i-zarzadzanie-06.webp)
+
+Dostajesz syntezę z **cytowaniami** (`[[Zettelkasten]]`, `[[Wikilinks Explained]]`, `[[Example Note]]`), listę **luk** (czego bazie brakuje) i trzy follow-upy: zapis do `_outputs/answers/`, `/compile`, `/enhance`. Odpowiedź jest osadzona w **Twojej** wiedzy, nie w treningu modelu.
+
+## `/compile` i `/enhance` — z odpowiedzi w trwałą notę
+
+`/qa` daje odpowiedź; te dwie komendy zamieniają ją w **trwały** kawałek bazy:
+
+- **`/compile <temat>`** — składa **nową notę zbiorczą / artykuł** z wielu istniejących not (synteza wyższego rzędu). Dobre, gdy materiał jest rozsypany po notach i chcesz go spiąć w jedno.
+- **`/enhance <nota>`** — **poprawia/rozbudowuje jedną notę**: dokłada sekcje, wikilinki, łata luki wskazane przez `/qa` lub `/lint`.
+
+W skrócie: `/compile` **tworzy** syntezę z wielu źródeł, `/enhance` **ulepsza** pojedynczą notę.
 
 ## `/lint` — health-check
 
-**`/lint`** — health-check: sprzeczności, stale claims, sieroty, brakujące cross-linki, luki → raport do `_outputs/reports/`. Odpalaj co jakiś czas, inaczej baza po cichu gnije.
+Baza po cichu gnije: martwe linki, sieroty, niespójne tagi, przeterminowane noty. `/lint` to audyt — sprawdza **10 klas problemów** i zapisuje raport do `_outputs/reports/`.
+
+Zaczyna, jak każda operacja, od indeksów (progressive disclosure — nie skanuje całości na ślepo):
+
+![/lint startuje: czyta indeksy zgodnie z Navigation Protocol](/images/kurs/4-pytania-i-zarzadzanie-02.webp)
+
+Potem raportuje znaleziska po klasach — tu baza zdrowa, 3 drobne znaleziska:
+
+![/lint — raport: 2 martwe linki, 1 brakujące połączenie, reszta czysta](/images/kurs/4-pytania-i-zarzadzanie-03.webp)
+
+Raport ląduje jako nota w `_outputs/reports/`, z tabelą wszystkich 10 klas i licznikiem:
+
+![Raport zdrowia bazy: tabela 10 klas problemów z liczbami](/images/kurs/4-pytania-i-zarzadzanie-04.webp)
+
+Co sprawdza (10 klas): brakujący/niepełny frontmatter · zepsute wikilinki · sieroty · stuby · niespójne tagi · `#todo` · brak `summary` · brakujące połączenia semantyczne · treść stale (>1 rok bez review) · zgodność `type` z `CLAUDE.md`. Na koniec proponuje naprawę (tu: martwe linki → `/reindex`, brakujący link → `/enhance`). **Odpalaj co jakiś czas** — inaczej problemy się kumulują.
 
 ## `/reindex` — przebuduj indeksy
 
-**`/reindex`** — przebuduj indeksy, gdy się rozjadą.
+Gdy indeksy się rozjadą (ręczna edycja, przerwany ingest), `/reindex` **buduje je od zera** z not: `vault-map.md`, `catalog.md`, `graph.md`.
 
-## 🤖 Gotowe prompty
+![/reindex — deterministyczny rebuild indeksów ze spot-checkiem liczb](/images/kurs/4-pytania-i-zarzadzanie-07.webp)
 
-Wklej w Claude Code na **swoim repo bazy** — każdy blok osobno:
-
-```text
-/qa "jak ograniczyć zużycie tokenów w agencie?"
-```
-
-```text
-Odpal skill lint: zaudytuj bazę (sprzeczności, stale claims, sieroty, brakujące
-cross-linki, luki) i zapisz raport do content/_outputs/reports/. Wypisz TOP 5
-problemów do naprawy najpierw.
-```
-
-```text
-Przebuduj indeksy skillem reindex (vault-map.md, catalog.md, graph.md) i pokaż,
-co się zmieniło względem poprzedniej wersji.
-```
+To **deterministyczny** rebuild: odtwarza indeksy z aktualnego stanu not i sprawdza liczby (`total_notes`, węzły, krawędzie). Ważne: jeśli problem siedzi w **skrypcie** (np. parser policzył `[[...]]` ze środka bloku kodu jako realny link), reindex go **nie naprawi** — wiernie odtworzy ten sam wynik. Wtedy fix idzie do skryptu, nie do danych. Reindex leczy rozjazd indeks↔noty, nie bugi parsera.
 
 ## `qa` vs `research` — czemu osobno
 
