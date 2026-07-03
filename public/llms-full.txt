@@ -20158,7 +20158,7 @@ Source: https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding
 
 Cel tej lekcji: przejść **cały onboarding krok po kroku** na konkretnym przykładzie. Po lekcji masz wygenerowaną schema (`CLAUDE.md`), foldery tematów i puste, ale gotowe indeksy — i wiesz dokładnie, co dzieje się pod spodem.
 
-Prowadzę Cię przez przykład: **Anna** stawia bazę „Baza Anny" po polsku, na tematach `AI`, `BUSINESS`, `LIFE`. Twoje odpowiedzi będą inne — proces jest ten sam.
+Prowadzę Cię przez **realny przebieg** (screeny z prawdziwej sesji): **Anna** stawia bazę „Baza Anny" po polsku, na tematach `AI`, `BUSINESS`, `HEALTH`. Twoje odpowiedzi będą inne — proces jest ten sam.
 
 ## Warunek startu
 
@@ -20168,55 +20168,49 @@ Onboarding odpalasz **raz**, na świeżym klonie. Kreator rozpoznaje świeży kl
 /onboard
 ```
 
+![Sesja Claude Code otwarta na repo bazy (brain-test) z wpisanym /onboard](/images/kurs/2-onboarding-01.webp)
+
 Jeśli `CLAUDE.template.md` już nie istnieje (baza była konfigurowana), kreator nie nadpisze niczego — zaproponuje **reconfigure** (patrz „Idempotencja" niżej).
 
 ## Faza 1 — Wywiad (jedno pytanie na raz)
 
-Kreator zadaje **sześć pytań, pojedynczo**. Odpowiadasz normalnym tekstem. Poniżej pytania i przykładowe odpowiedzi Anny.
+Kreator prowadzi **sześć pytań, pojedynczo** — wybierasz z gotowych opcji albo wpisujesz swoje. Po każdej odpowiedzi echo'uje wybór i zapowiada następne pytanie, więc widzisz cały ślad decyzji. Poniżej realny przebieg „Bazy Anny".
 
-**1. Nazwa bazy i właściciel.**
-> Baza Anny · Anna Kowalska
+**Q1 — Nazwa bazy i właściciel.** Wolny tekst; kreator podpowiada warianty (np. z Twojej tożsamości git). Anna wpisuje `Baza Anny · Anna Kowalska`.
 
-> 📸 *[screenshot: pytanie 1 — nazwa bazy i właściciel]*
+![Pytanie 1 — KB identity: nazwa bazy i właściciel, z podpowiedziami](/images/kurs/2-onboarding-02.webp)
 
-**2. Główny język.** Język, w którym agent pisze noty i streszczenia.
-> Polski
+**Q2 — Główny język.** Język, w którym agent pisze noty i streszczenia. Anna: **Polish**.
 
-> 📸 *[screenshot: pytanie 2 — język]*
+![Pytanie 2 — główny język: Polish / English / Mixed](/images/kurs/2-onboarding-03.webp)
 
-**3. Tematy / domeny.** Twoje foldery najwyższego poziomu — szerokie działy, nie szczegóły.
-> AI, BUSINESS, LIFE
+**Q3 — Tematy / domeny.** Foldery najwyższego poziomu pod `content/` — szerokie działy, nie szczegóły. Kreator proponuje gotowe zestawy; Anna wybiera **AI, BUSINESS, HEALTH**.
 
-> 📸 *[screenshot: pytanie 3 — tematy]*
+![Pytanie 3 — tematy: gotowe zestawy startowe albo własna lista](/images/kurs/2-onboarding-04.webp)
 
-**4. Typy not.** Domyślnie: `basic-note`, `knowledge-note`, `tool`, `book-note`, `answer-note`. Możesz coś dodać lub usunąć.
-> Zostawiam domyślne
+**Q4 — Typy not.** Domyślnie 5: `basic-note`, `knowledge-note`, `tool`, `book-note`, `answer-note`. Anna zostawia **wszystkie 5**.
 
-**5. Głos.** Osoba (pierwsza osoba czy neutralnie), formalność i czy zostawić **emoji w nagłówkach**.
-> Pierwsza osoba, bezpośredni i praktyczny, emoji: tak
+![Pytanie 4 — typy not: wszystkie 5 domyślnych albo własny zestaw](/images/kurs/2-onboarding-05.webp)
 
-> 📸 *[screenshot: pytanie 5 — głos]*
+**Q5 — Głos.** Osoba + formalność. Anna: **first-person, direct & practical** („Notuję", ton casual-professional).
 
-**6. Główna gałąź.** Domyślnie `main`.
-> main
+![Pytanie 5 — głos: osoba i formalność](/images/kurs/2-onboarding-06.webp)
 
-## Faza 2 — Sprawdzenie zależności (nieblokujące)
+To samo pytanie ma drugą zakładkę — **emoji w nagłówkach** (`## 💡 Insight`). Anna zostawia **Yes**.
 
-Kreator sprawdza narzędzia i drukuje tabelkę ✅/⚠️ — **nie przerywa**, tylko ostrzega:
+![Pytanie 5, druga zakładka — emoji w nagłówkach: tak/nie](/images/kurs/2-onboarding-07.webp)
 
-| Narzędzie | Do czego | Wymagane? |
-|---|---|---|
-| `python --version` | reindex / lint / render | tak |
-| `yt-dlp --version` | ingest z YouTube | opcjonalnie |
-| `ffmpeg -version` | fallback transkrypcji (Whisper) | opcjonalnie |
+Głos + emoji zatwierdzasz razem — kreator pokazuje **przegląd** przed wysłaniem:
 
-Brak `yt-dlp`/`ffmpeg` to nie problem — dołożysz je, gdy będą potrzebne.
+![Przegląd odpowiedzi o głosie i emoji przed zatwierdzeniem](/images/kurs/2-onboarding-08.webp)
 
-## Faza 3 — Generowanie (deterministyczne)
+**Q6 — Główna gałąź.** Domyślnie `main` (pasuje do repo). Anna: **main**.
 
-Tu kreator działa sam, na podstawie Twoich odpowiedzi:
+![Pytanie 6 — główna gałąź git: main / master](/images/kurs/2-onboarding-09.webp)
 
-**1. Zapisuje odpowiedzi** do `.kb-onboard.json` w korzeniu repo:
+## Faza 2 — Generowanie (deterministyczne)
+
+Po ostatnim pytaniu kreator działa sam. Najpierw zapisuje odpowiedzi do `.kb-onboard.json` w korzeniu repo (to stąd bierze się idempotencja):
 
 ```json
 {
@@ -20225,52 +20219,66 @@ Tu kreator działa sam, na podstawie Twoich odpowiedzi:
   "PRIMARY_LANGUAGE": "Polish",
   "MAIN_BRANCH": "main",
   "VOICE_PERSON": "first-person",
-  "VOICE_FORMALITY": "bezpośredni i praktyczny",
+  "VOICE_FORMALITY": "direct and practical",
   "NOTE_TYPES": "basic-note | knowledge-note | tool | book-note | answer-note",
   "emoji_headings": true,
-  "TOPIC_TABLE": "| `/content/AI/` | Narzędzia i wiedza o AI i agentach | Yes |\n| `/content/BUSINESS/` | Sprzedaż, marketing, procesy | Yes |\n| `/content/LIFE/` | Zdrowie, książki, nawyki | Yes |"
+  "TOPIC_TABLE": "| `/content/AI/` | AI, agents, and tooling notes | Yes |\n| `/content/BUSINESS/` | Sales, marketing, operations notes | Yes |\n| `/content/HEALTH/` | Health, fitness, and wellbeing notes | Yes |"
 }
 ```
 
-**2. Renderuje trzy pliki schematu** z szablonów (skryptem `render.py`):
-- `CLAUDE.md` — schema bazy (dla Claude Code),
-- `AGENTS.md` — ten sam kontrakt dla innych agentów,
-- `content/WRITING_STYLE.md` — Twój głos (osoba, formalność, emoji).
+Potem, krok po kroku (widać to na screenie):
 
-**3. Kasuje szablony** (`CLAUDE.template.md`, `AGENTS.template.md`, `content/WRITING_STYLE.template.md`) — dopiero gdy wszystkie trzy renderowania się powiodą.
+1. **Renderuje trzy pliki schematu** z szablonów (`render.py`): `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md`.
+2. **Kasuje szablony** (`*.template.md`) — dopiero gdy wszystkie trzy rendery się powiodą.
+3. **Tworzy foldery tematów** pod `content/`: `AI/`, `BUSINESS/`, `HEALTH/`.
+4. **Pyta o przykłady**: `content/REFERENCE/` (2 noty) + `content/_raw/inbox/sample-source.md` — usunąć czy zostawić jako tutorial. Anna wybiera **„Keep as tutorial"**.
+5. **Przycina szablony not** do wybranych typów (tu wszystkie 5 zostają — nic nie ubywa).
+6. **Przebudowuje indeksy** (`build_indexes.py`).
 
-**4. Tworzy foldery tematów** pod `content/` (każdy z `.gitkeep`, żeby był śledzony w gicie).
+![Faza generowania: render plików schemy, kasowanie szablonów, tworzenie folderów i pytanie o przykładowe treści](/images/kurs/2-onboarding-10.webp)
 
-**5. Proponuje usunięcie** przykładów: `content/REFERENCE/` i `content/_raw/inbox/sample-source.md` — zostawić jako tutorial czy skasować (Twój wybór).
+## Faza 3 — Gotowe (podsumowanie + handoff)
 
-**6. Przycina szablony not** w `content/templates/` do wybranych typów (np. usuwa `book.md`, jeśli odrzuciłeś `book-note`).
+Kreator drukuje podsumowanie: co powstało i co dalej.
 
-**7. Przebudowuje indeksy**, żeby pasowały do nowej struktury (`build_indexes.py`).
+![Podsumowanie onboardingu: wygenerowane pliki, foldery tematów, indeksy, check zależności i „co teraz"](/images/kurs/2-onboarding-11.webp)
 
-Po tej fazie repo Anny wygląda tak:
+Dla „Bazy Anny" wyszło:
+
+- `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md` **wyrenderowane**, szablony **skasowane**,
+- foldery tematów: `content/AI/`, `content/BUSINESS/`, `content/HEALTH/`,
+- typy not: wszystkie 5; głos first-person direct/practical; emoji w nagłówkach: on,
+- `REFERENCE/` + `sample-source` **zostawione jako tutorial**,
+- **indeksy przebudowane** — 2 noty, 4 krawędzie (to te 2 przykładowe noty),
+- **zależności**: Python 3.13 ✅, yt-dlp ✅, ffmpeg ✅ (Python wymagany do `reindex`/`lint`/`render`; yt-dlp+ffmpeg opcjonalne, pod ingest z YouTube).
+
+Repo po fazie:
 
 ```text
 content/
   AI/         .gitkeep
   BUSINESS/   .gitkeep
-  LIFE/       .gitkeep
-  _indexes/   vault-map.md · catalog.md · graph.md   (puste, przebudowane)
-  templates/  (przycięte do wybranych typów)
+  HEALTH/     .gitkeep
+  REFERENCE/  Example Note.md · Wikilinks Explained.md   (zostawione jako tutorial)
+  _indexes/   vault-map.md · catalog.md · graph.md   (przebudowane: 2 noty, 4 krawędzie)
+  templates/  (5 typów not)
 CLAUDE.md                 ← wygenerowany (schema Twojej bazy)
 AGENTS.md                 ← wygenerowany
 content/WRITING_STYLE.md  ← wygenerowany (Twój głos)
 ```
 
-Szablony `*.template.md` zniknęły — to znak, że baza jest zainicjalizowana.
+Szablony `*.template.md` zniknęły — to znak, że baza jest zainicjalizowana. Kreator **nic nie commituje** („Not committed — your call").
 
-> 📸 *[screenshot: podsumowanie Fazy 3 — utworzone foldery i pliki]*
-
-## Faza 4 — Handoff
-
-Na koniec kreator drukuje krótkie „co teraz":
+**Co teraz** (kreator podpowiada):
 - wrzuć plik do `content/_raw/inbox/` i odpal `/ingest` (lekcja 3),
 - zadaj pytanie przez `/qa` (lekcja 4),
 - odpal `/lint` na health-check (lekcja 4).
+
+## Zapisz stan (git)
+
+Baza to zwykłe repo git — pierwszy commit robisz jak zawsze. Możesz to nawet zlecić agentowi („commit this"): sam zestage'uje pliki i zacommituje, **pomijając `.kb-onboard.json`** (jest gitignorowany — trzyma Twoje odpowiedzi lokalnie).
+
+![Agent commituje świeżo skonfigurowaną bazę — czysty working tree](/images/kurs/2-onboarding-12.webp)
 
 ## Idempotencja
 
@@ -20284,7 +20292,7 @@ Odpowiedzi siedzą w `.kb-onboard.json`. Gdy odpalisz `/onboard` ponownie na ju�
 Przeprowadź onboarding tej bazy (skill onboard). Moje odpowiedzi:
 - nazwa bazy / właściciel: <Baza Anny> / <Anna Kowalska>
 - język: polski
-- tematy: <AI>, <BUSINESS>, <LIFE>
+- tematy: <AI>, <BUSINESS>, <HEALTH>
 - typy not: domyślne
 - głos: pierwsza osoba, praktyczny, emoji w nagłówkach: tak
 - gałąź główna: main
