@@ -125,6 +125,25 @@ Na koniec kreator drukuje krótkie „co teraz":
 
 Odpowiedzi siedzą w `.kb-onboard.json`. Gdy odpalisz `/onboard` ponownie na już skonfigurowanej bazie (brak `CLAUDE.template.md`), kreator **nie nadpisze niczego po cichu** — zaproponuje **reconfigure**: wczyta `.kb-onboard.json`, pozwoli poprawić odpowiedzi i przegeneruje pliki, ostrzegając przed nadpisaniem istniejących.
 
+## 🤖 Szybka ścieżka — onboarding promptem
+
+`/onboard` prowadzi wywiad pytanie-po-pytaniu (jak wyżej). Jeśli wolisz, żeby Claude Code wykonał wszystko za jednym zamachem, wklej prompt z gotowymi odpowiedziami (podmień `<...>` na swoje):
+
+```text
+Przeprowadź onboarding tej bazy (skill onboard). Moje odpowiedzi:
+- nazwa bazy / właściciel: <Baza Anny> / <Anna Kowalska>
+- język: polski
+- tematy: <AI>, <BUSINESS>, <LIFE>
+- typy not: domyślne
+- głos: pierwsza osoba, praktyczny, emoji w nagłówkach: tak
+- gałąź główna: main
+Wykonaj wszystkie fazy: wygeneruj CLAUDE.md / AGENTS.md / WRITING_STYLE.md,
+utwórz foldery tematów, skasuj szablony *.template.md, przytnij szablony not do
+wybranych typów i przebuduj indeksy. Na koniec pokaż drzewo repo i podsumowanie.
+```
+
+Efekt ten sam co wywiad — bez klikania. Odpowiedzi lądują w `.kb-onboard.json`, więc `reconfigure` dalej działa.
+
 ## Dzień zerowy
 
 To Twój „**dzień zerowy**" — jedyny moment konfiguracji. Potem już tylko używasz: `/ingest`, `/qa`, `/lint`. Przechodzimy do karmienia bazy w lekcji 3.

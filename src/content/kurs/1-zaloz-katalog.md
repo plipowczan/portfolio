@@ -3,6 +3,9 @@ slug: 1-zaloz-katalog
 order: 1
 title: Załóż katalog z szablonu
 excerpt: Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy — architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
+video: /videos/kurs/1-zaloz-katalog.webm
+videoMp4: /videos/kurs/1-zaloz-katalog.mp4
+poster: /images/kurs/1-zaloz-katalog-poster.webp
 ---
 
 Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings i RAG — architektura trzech warstw, trzy indeksy i zasada progressive disclosure.
@@ -17,18 +20,109 @@ Na GitHubie „Use this template" (albo `git clone`) → własne repo. Otwórz f
 
 Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).
 
-## Co dostajesz (drzewo szablonu)
+## Krok po kroku: z szablonu do VS Code
+
+Cały proces masz na wideo u góry. Poniżej to samo w krokach — ścieżka przez przeglądarkę + GitHub Desktop (najprościej dla każdego).
+
+**1. Wejdź na repo szablonu.** `github.com/plipowczan/second-brain-template`. Zielony przycisk **„Use this template"** w prawym górnym rogu.
+
+![Strona szablonu second-brain-template na GitHub z przyciskiem Use this template](/images/kurs/1-zaloz-katalog-01.webp)
+
+**2. „Use this template" → „Create a new repository".** Właściciel = Ty, **Repository name** = np. `brain-test`, widoczność Public lub Private (Twój wybór). Kliknij „Create repository".
+
+![Formularz tworzenia nowego repozytorium z szablonu — pole Repository name](/images/kurs/1-zaloz-katalog-02.webp)
+
+Po chwili masz **własne repo** z całą zawartością szablonu (tu: `brain-test`):
+
+![Nowe repozytorium brain-test utworzone z szablonu](/images/kurs/1-zaloz-katalog-03.webp)
+
+**3. Sklonuj repo lokalnie.** Zielony **„Code" → „Open with GitHub Desktop"** (albo skopiuj URL HTTPS i użyj `git clone`).
+
+![Menu Code z opcją Open with GitHub Desktop](/images/kurs/1-zaloz-katalog-04.webp)
+
+**4. W GitHub Desktop** potwierdź URL repo i **Local path** (np. `C:\Projects\brain-test`), potem **Clone**.
+
+![Okno Clone a repository w GitHub Desktop — URL i ścieżka lokalna](/images/kurs/1-zaloz-katalog-05.webp)
+
+**5. Otwórz w edytorze.** Po sklonowaniu GitHub Desktop proponuje **„Open in Visual Studio Code"** (Ctrl+Shift+A).
+
+![GitHub Desktop po klonie — przycisk Open in Visual Studio Code](/images/kurs/1-zaloz-katalog-06.webp)
+
+**6. Gotowe — VS Code otwarty na `brain-test`.** W Explorerze widzisz całą strukturę szablonu. Co jest czym — niżej.
+
+![VS Code otwarty na repozytorium brain-test ze strukturą plików](/images/kurs/1-zaloz-katalog-07.webp)
+
+## 🤖 Gotowy prompt — niech agent założy repo
+
+Ścieżka przez przeglądarkę („Use this template" wyżej) jest najprostsza. Jeśli wolisz, żeby **Claude Code sam** utworzył Twoje repo i sklonował je lokalnie — otwórz Claude Code w folderze na projekty i wklej (podmień `<nazwa-repo>`):
 
 ```text
-kb-template/
-  .claude/  commands (/onboard /ingest /qa /compile /enhance /lint /reindex /gaps /refactor /output)
-            skills (research, research-deep, research-report, ...)
-            hooks/load_vault_map.py  (auto-ładuje mapę vaultu na starcie)
-  content/  _raw/inbox (drop zone, jest sample-source.md) · _raw/processed (archiwum)
-            _indexes (vault-map.md + catalog.md + graph.md)
-            _outputs (answers/ + reports/) · templates/ · REFERENCE/ (wzorce)
-  package.json (Quartz) · requirements.txt
+Utwórz moje własne repo z szablonu second-brain i sklonuj je tutaj.
+Szablon: github.com/plipowczan/second-brain-template.
+Jeśli mam zalogowane gh CLI, użyj:
+  gh repo create <nazwa-repo> --template plipowczan/second-brain-template --private --clone
+W przeciwnym razie zrób git clone szablonu do folderu <nazwa-repo> i wyjaśnij,
+jak później podmienić origin na moje własne repo.
+Po sklonowaniu wejdź do folderu, potwierdź strukturę (CLAUDE.template.md,
+content/_raw/inbox/, content/_indexes/, .claude/commands/) i powiedz, czy mogę
+odpalić /onboard. Poza klonowaniem niczego nie zmieniaj.
 ```
+
+Agent założy repo, sklonuje, zweryfikuje strukturę i da zielone światło na lekcję 2.
+
+Tak to wygląda w praktyce — prompt odpalony w terminalu Claude Code (wklejenie, podmiana `<nazwa-repo>`, uruchomienie, efekt w VS Code):
+
+<video controls playsinline preload="metadata" poster="/images/kurs/1-zaloz-katalog-prompt-poster.webp" class="aspect-video w-full rounded-xl border border-white/10 bg-black">
+  <source src="/videos/kurs/1-zaloz-katalog-prompt.webm" type="video/webm" />
+  <source src="/videos/kurs/1-zaloz-katalog-prompt.mp4" type="video/mp4" />
+  Twoja przeglądarka nie odtworzy tego wideo.
+</video>
+
+## Co jest w repo (po utworzeniu z szablonu)
+
+Świeży klon wygląda tak (to samo drzewo widać w Explorerze VS Code wyżej):
+
+```text
+brain-test/
+  .claude/       commands + skills + hooks — mózg agenta
+  .githooks/     pre-commit — higiena przed commitem
+  content/       Twój vault (rozwinięcie niżej)
+  tests/         run_tests.py — testy skryptów skilli
+  CLAUDE.template.md · AGENTS.template.md      schema agenta ({{placeholdery}})
+  content/WRITING_STYLE.template.md            szablon Twojego głosu
+  schema.yml     kontrakt frontmatteru per typ noty
+  README.md · package.json · requirements.txt
+  .editorconfig · .gitattributes · .gitignore · .npmrc · .prettierrc
+```
+
+**Foldery:**
+
+- **`.claude/`** — mózg agenta. `commands/` to slash-komendy (`/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, `/gaps`, `/curate`, `/compile`, `/enhance`, `/output`, `/refactor`), `skills/` to ich implementacje (m.in. pythonowe: reindex, lint, ingest, gaps + skille research i `excalidraw-diagram`). `hooks/load_vault_map.py` auto-ładuje mapę vaultu na starcie każdej sesji, a `settings.json` to konfiguracja Claude Code.
+- **`.githooks/`** — hook `pre-commit`: kontrola jakości (format/lint), zanim cokolwiek trafi do commita.
+- **`content/`** — Twój vault: cała wiedza, indeksy, szablony i wzorce (rozbicie niżej).
+- **`tests/`** — `run_tests.py`, testy skryptów pythonowych skilli. Nie ruszasz na co dzień — są, żeby mechanika była pewna.
+
+**Pliki schemy (znikają po `/onboard`):**
+
+- **`CLAUDE.template.md` / `AGENTS.template.md`** — kontrakt agenta z placeholderami (`{{KB_NAME}}`, `{{KB_OWNER}}`, `{{TOPIC_TABLE}}`, …). `/onboard` renderuje je do `CLAUDE.md` / `AGENTS.md`. Ich obecność to znak, że baza jest jeszcze nieskonfigurowana.
+- **`content/WRITING_STYLE.template.md`** — szablon Twojego „głosu" (osoba, formalność, emoji w nagłówkach). `/onboard` renderuje go do `content/WRITING_STYLE.md`.
+
+**Pozostałe pliki:**
+
+- **`schema.yml`** — kontrakt frontmatteru per typ noty: jakie pola są wymagane (np. `knowledge-note` musi mieć `title, date, type, tags, summary`). `/lint` to egzekwuje. Skasujesz plik → luźniejszy tryb, bez wymuszania pól.
+- **`README.md`** — opis szablonu i quickstart.
+- **`package.json`** — jedyny skrypt to `npm run format` (Prettier). Pipeline publikacji (Quartz) świadomie **nie** wchodzi w zestaw — doklejasz go później (lekcja 5).
+- **`requirements.txt`** — zależności Pythona skryptów (`PyYAML`; `yt-dlp` opcjonalnie, pod ingest z YouTube).
+- **`.editorconfig` · `.gitattributes` · `.gitignore` · `.npmrc` · `.prettierrc`** — standardowa higiena repo (styl kodu, końcówki linii, ignorowane pliki, format).
+
+**W środku `content/`:**
+
+- **`_raw/inbox/`** — drop zone na surowe źródła (jest gotowy `sample-source.md` na rozgrzewkę). Po ingeście źródła lądują w `_raw/processed/`.
+- **`_indexes/`** — trzy auto-utrzymywane indeksy nawigacyjne: `vault-map.md`, `catalog.md`, `graph.md` (serce progressive disclosure — patrz niżej).
+- **`_outputs/`** — `answers/` (zapisane odpowiedzi `/qa`) i `reports/` (raporty `/lint`).
+- **`_graveyard/`** — wycofane noty: odwracalne, wykluczone z indeksów (`/curate` je tam odkłada).
+- **`templates/`** — szablony not per typ: `basic_notes.md`, `book.md`, `knowledge_note_info.md`, `knowledge_note_how_to.md`, `tool.md`.
+- **`REFERENCE/`** — wzorce na start: `Example Note.md` i `Wikilinks Explained.md` (jak wygląda dobra nota i jak działają `[[linki]]`).
 
 To „**pusty, ale uzbrojony**" brain — cała mechanika gotowa, brak tylko Twojej wiedzy.
 

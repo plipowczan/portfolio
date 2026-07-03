@@ -19,6 +19,25 @@ Cel tej lekcji: pytać bazę (nie czat) i utrzymywać jakość. Po lekcji umiesz
 
 **`/reindex`** — przebuduj indeksy, gdy się rozjadą.
 
+## 🤖 Gotowe prompty
+
+Wklej w Claude Code na **swoim repo bazy** — każdy blok osobno:
+
+```text
+/qa "jak ograniczyć zużycie tokenów w agencie?"
+```
+
+```text
+Odpal skill lint: zaudytuj bazę (sprzeczności, stale claims, sieroty, brakujące
+cross-linki, luki) i zapisz raport do content/_outputs/reports/. Wypisz TOP 5
+problemów do naprawy najpierw.
+```
+
+```text
+Przebuduj indeksy skillem reindex (vault-map.md, catalog.md, graph.md) i pokaż,
+co się zmieniło względem poprzedniej wersji.
+```
+
 ## `qa` vs `research` — czemu osobno
 
 `/qa` odpowiada **z tego, co już masz**. Skille research **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy (compounding): `/research` (ukierunkowany), `/research-deep` (wieloźródłowy + weryfikacja), `/research-report` (research + raport), `/research-add-fields|items` (rozszerzanie list). Pointa: `qa` = czytasz bazę; `research` = baza rośnie.

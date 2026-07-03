@@ -22,6 +22,20 @@ Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. 
 - **Publikacja Quartz** → personal brand / portfolio wiedzy.
 - **Wymiana bundli OKF** — eksport „zżytej" bazy (ekstrakt) jako produkt.
 
+## 🤖 Gotowe prompty — co dalej
+
+Znajdź, czego bazie brakuje, i przygotuj publikację. Wklej na **swoim repo bazy**:
+
+```text
+Odpal skill gaps: znajdź luki wiedzy — słabo połączone noty, brakujące tematy,
+cienkie obszary. Zaproponuj 5 konkretnych źródeł lub pytań, którymi domknę luki.
+```
+
+```text
+Zbuduj publiczną wersję bazy przez Quartz (npx quartz build) i wypisz krok po
+kroku, jak wypchnąć ją na GitHub Pages. Nie publikuj niczego bez mojej zgody.
+```
+
 ## Most do paid
 
 To był pusty szablon. Pełniejsze akceleratory — gotowe, dopieszczone skille i **ekstrakt realnej, zżytej bazy** (gotowe bundle wiedzy do załadowania do swojego braina) — szykuję jako płatne bundle. Pomijasz tygodnie iteracji i tysiące spalonych tokenów.

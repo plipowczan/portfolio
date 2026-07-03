@@ -11,6 +11,18 @@ Cel tej lekcji: zamienić surowe źródło w noty i indeksy. Po lekcji umiesz do
 
 Wrzuć dowolne źródło do `content/_raw/inbox/` (jest gotowy `sample-source.md` na rozgrzewkę) i odpal **`/ingest`**.
 
+## 🤖 Gotowy prompt — ingest
+
+Sam `/ingest` wystarczy (bierze wszystko z inboxu). Jeśli chcesz, żeby Claude Code od razu pokazał, co zrobił, wklej w sesji otwartej na **swoim repo bazy**:
+
+```text
+Przetwórz pliki z content/_raw/inbox/ skillem ingest: dla każdego źródła utwórz
+notę z frontmatterem (pole type wg OKF), rozstaw [[wikilinki]], zaktualizuj
+wszystkie 3 indeksy (vault-map.md, catalog.md, graph.md) i przenieś źródło do
+content/_raw/processed/. Na koniec wypisz: powstałe noty, dotknięte indeksy oraz
+liczbę nowych linków.
+```
+
 ## Co robi agent
 
 Agent: czyta źródło → tworzy notę z **frontmatterem** (pole `type` — minimum wymagane przez OKF) → aktualizuje **wszystkie 3 indeksy** → przenosi źródło do `processed/`. Jedno źródło potrafi dotknąć kilkunastu not.
