@@ -1,18 +1,43 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaPlay } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import SEO from "../components/seo/SEO";
+import StructuredData from "../components/seo/StructuredData";
 import ArticleTOC from "../components/ui/ArticleTOC";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import MarkdownContent from "../components/ui/MarkdownContent";
 import { coursePosts, getLessonBySlug, getPrevNext } from "../data/coursePosts";
+import { extractFAQ, generateFAQSchema } from "../utils/faqExtractor";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const CourseLesson = () => {
   const { slug } = useParams();
   const lesson = getLessonBySlug(slug);
   const contentRef = useRef(null);
+  const [faqSchema, setFaqSchema] = useState(null);
+
+  // After the markdown renders, extract any FAQ section (H2 "FAQ" → H3 Q / P A)
+  // and emit FAQPage JSON-LD — same DOM-based extraction the blog uses, so the
+  // prerender captures the schema. Hook runs before the early return below to
+  // keep hook order stable when a slug is unknown.
+  useEffect(() => {
+    if (!lesson) {
+      setFaqSchema(null);
+      return;
+    }
+    const timer = setTimeout(() => {
+      if (!contentRef.current) return;
+      const faqData = extractFAQ(contentRef.current);
+      if (faqData.hasFAQ) {
+        const url = `${SITE_CONFIG.url}/llm-wiki/kurs/${lesson.slug}`;
+        setFaqSchema(generateFAQSchema(faqData.questions, url));
+      } else {
+        setFaqSchema(null);
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [lesson]);
 
   // Unknown slug → graceful "not found" state (mirror blog post-not-found).
   if (!lesson) {
@@ -67,6 +92,9 @@ const CourseLesson = () => {
         image="/images/og-llm-wiki-kurs.webp"
         article={true}
       />
+
+      {/* FAQPage JSON-LD — null until an FAQ section is found in the content */}
+      <StructuredData schema={faqSchema} />
 
       <article className="min-h-screen py-24 md:py-32">
         <div className="section-container">

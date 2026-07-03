@@ -5,8 +5,9 @@ import { FaList, FaTimes } from "react-icons/fa";
 /**
  * Self-contained scroll-spy Table of Contents (desktop sticky sidebar + mobile
  * FAB/drawer). Extracts h2/h3 headings from `contentRef` and highlights the
- * active section on scroll. Mirrors the blog TOC behaviour, minus the blog's
- * FAQ-specific filtering — course lessons have no FAQ sections.
+ * active section on scroll. Mirrors the blog TOC behaviour, including the
+ * blog's FAQ filtering: the FAQ H2 stays, but its H3 questions are dropped so
+ * a long FAQ list doesn't flood the sidebar.
  *
  * Render this as the second child of a `lg:grid lg:grid-cols-[1fr_280px]`
  * container: it emits a sticky `<aside>` (desktop) plus fixed FAB + drawer
@@ -16,6 +17,18 @@ import { FaList, FaTimes } from "react-icons/fa";
  * @param {string} [contentKey]  Changes when the article changes → re-extract.
  * @param {string} [tocLabel]  Heading for the TOC panel.
  */
+
+// Detect an FAQ H2 by its text (matches faqExtractor.js so the TOC and the
+// FAQPage schema agree on what counts as the FAQ section).
+const isFAQSection = (heading) => {
+  const text = heading.textContent.trim().toLowerCase();
+  return (
+    text.includes("faq") ||
+    text.includes("najczęściej zadawane pytania") ||
+    text.includes("pytania i odpowiedzi") ||
+    text.includes("najczesciej zadawane pytania")
+  );
+};
 
 // Custom hook: track the active section based on scroll position.
 const useScrollSpy = (tocItems, manualScrollingRef) => {
@@ -260,11 +273,17 @@ const ArticleTOC = ({ contentRef, contentKey, tocLabel = "Spis treści" }) => {
     const timer = setTimeout(() => {
       if (!contentRef?.current) return;
       const headings = contentRef.current.querySelectorAll("h2, h3");
-      const items = Array.from(headings).map((heading) => ({
-        id: heading.id,
-        text: heading.textContent,
-        level: heading.tagName.toLowerCase(),
-      }));
+      let currentlyInFAQ = false;
+      const items = Array.from(headings)
+        .map((heading) => {
+          const level = heading.tagName.toLowerCase();
+          // Track FAQ boundaries: entered at the FAQ H2, left at the next H2.
+          if (level === "h2") currentlyInFAQ = isFAQSection(heading);
+          // Keep the FAQ H2 header, drop its H3 questions from the TOC.
+          if (level === "h3" && currentlyInFAQ) return null;
+          return { id: heading.id, text: heading.textContent, level };
+        })
+        .filter(Boolean);
       setTocItems(items);
     }, 150);
 
