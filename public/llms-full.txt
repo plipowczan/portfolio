@@ -19947,7 +19947,7 @@ LLM Wiki (koncept Karpathy'ego) odwraca RAG: zamiast za każdym razem przeszukiw
 
 ## Weź szablon
 
-Na GitHubie „Use this template" (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Quartz, publikacja) i `pip install -r requirements.txt` (skille pythonowe) — **do pierwszego pytania niepotrzebne**.
+Na GitHubie „Use this template" (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Prettier — formatowanie) i `pip install -r requirements.txt` (skille pythonowe) — **do pierwszego pytania niepotrzebne**. Publikację przez Quartz doklejasz później (lekcja 5).
 
 Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).
 
@@ -20149,6 +20149,32 @@ Zajrzyj do `REFERENCE/Example Note.md` i `Wikilinks Explained.md` — jak wyglą
 
 Nie pisz wiki ręcznie — to robota agenta; Ty dostarczasz źródła i dobre pytania. Nie edytuj też indeksów z palca — buduje je `/ingest` i `/reindex` (o tym w lekcjach 3 i 4).
 
+## FAQ
+
+### Czym LLM Wiki różni się od RAG i baz wektorowych?
+
+RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2–3 trafne noty. Nie liczy wektorów ani embeddingów — do ~500 źródeł dobry indeks wystarcza, żeby zawęzić wyszukiwanie samą lekturą.
+
+### Czy do startu muszę odpalać `npm install` i `pip install`?
+
+Nie, do pierwszego pytania nie są potrzebne. `npm install` instaluje tylko narzędzia dev (Prettier — formatowanie), a `pip install -r requirements.txt` — zależności skryptów pythonowych (`/reindex`, `/lint`, `/ingest`, `render.py`). Publikację przez Quartz doklejasz osobno w lekcji 5. Sama struktura i noty to zwykły markdown — możesz zacząć od razu.
+
+### Repo z szablonu — publiczne czy prywatne?
+
+Twój wybór; baza to zwykłe repo git i działa tak samo w obu trybach. Prywatne, jeśli to Twoja osobista wiedza (domyślnie bezpieczniej). Publiczne — jeśli od razu chcesz ją publikować lub dzielić się nią jako bundlem OKF. Widoczność zmienisz w każdej chwili w ustawieniach repo.
+
+### Czy potrzebuję płatnych narzędzi albo zewnętrznej bazy danych?
+
+Szablon jest darmowy, a cała baza to pliki markdown w Twoim repo — żadnej zewnętrznej bazy danych, wektorowej usługi ani API do przechowywania wiedzy. Potrzebujesz Claude Code do pracy z agentem oraz (opcjonalnie) Pythona do skryptowych skilli. Nic nie wychodzi na zewnątrz, dopóki sam nie opublikujesz.
+
+### Co znaczy, że baza jest „pusta, ale uzbrojona"?
+
+Cała mechanika jest gotowa od pierwszej minuty: slash-komendy, skille, trzy indeksy nawigacyjne, hook ładujący mapę vaultu, kontrakt frontmatteru (`schema.yml`) i szablony not. Brakuje wyłącznie Twojej wiedzy. Nie budujesz narzędzi — od razu ich używasz, a baza rośnie z każdym źródłem.
+
+### Co, gdy baza urośnie powyżej ~500 źródeł?
+
+Progressive disclosure skaluje się dalej — indeks i graf rosną wolniej niż treść, więc agent nadal zawęża zanim otworzy notę. Przy bardzo dużych bazach można podzielić wiedzę na tematyczne podbazy (multi-brain, lekcja 5) albo dołożyć warstwę wyszukiwania. Granica ~500 to moment, w którym warto o tym pomyśleć, a nie twardy limit.
+
 
 ---
 
@@ -20307,6 +20333,32 @@ Efekt ten sam co wywiad — bez klikania. Odpowiedzi lądują w `.kb-onboard.jso
 
 To Twój „**dzień zerowy**" — jedyny moment konfiguracji. Potem już tylko używasz: `/ingest`, `/qa`, `/lint`. Przechodzimy do karmienia bazy w lekcji 3.
 
+## FAQ
+
+### Ile razy odpalam `/onboard`?
+
+Raz, na świeżym klonie. Kreator rozpoznaje świeży klon po obecności pliku `CLAUDE.template.md`. Jeśli odpalisz go ponownie na skonfigurowanej bazie (szablonu już nie ma), nie nadpisze niczego po cichu — zaproponuje **reconfigure**.
+
+### Co, jeśli wybiorę zły język albo tematy?
+
+Poprawiasz przez ponowny `/onboard` w trybie reconfigure: kreator wczyta Twoje odpowiedzi z `.kb-onboard.json`, pozwoli je zmienić i przegeneruje pliki, ostrzegając przed nadpisaniem. Foldery tematów to zwykłe katalogi pod `content/` — nowe możesz dodać ręcznie w dowolnym momencie, a `/reindex` odświeży indeksy.
+
+### Gdzie zapisują się moje odpowiedzi z wywiadu?
+
+W pliku `.kb-onboard.json` w korzeniu repo. Jest **gitignorowany** — trzyma Twoje wybory lokalnie i nie trafia do commita. To z niego bierze się idempotencja: reconfigure czyta właśnie ten plik.
+
+### Dlaczego szablony `*.template.md` znikają po onboardingu?
+
+Bo kreator renderuje je do finalnych plików z Twoimi wartościami: `CLAUDE.template.md` → `CLAUDE.md`, `AGENTS.template.md` → `AGENTS.md`, `content/WRITING_STYLE.template.md` → `content/WRITING_STYLE.md`. Szablony kasuje **dopiero gdy wszystkie trzy rendery się powiodą**. Ich brak to znak, że baza jest zainicjalizowana.
+
+### Czy `/onboard` commituje coś do gita?
+
+Nie — kończy komunikatem „Not committed — your call". Pierwszy commit robisz sam (albo zlecasz agentowi: „commit this"). Agent zestage'uje pliki i zacommituje, **pomijając `.kb-onboard.json`** (jest gitignorowany).
+
+### Czy do onboardingu potrzebuję Pythona?
+
+Tak — kreator używa skryptów pythonowych (`render.py` do renderu schemy, `build_indexes.py` do indeksów), a Python jest też wymagany później przez `/reindex` i `/lint`. `yt-dlp` i `ffmpeg` są opcjonalne — przydają się dopiero przy ingeście z YouTube (lekcja 3).
+
 
 ---
 
@@ -20387,6 +20439,32 @@ To różnica „**surowe pliki vs wiki**": bez `/ingest` nie ma cross-linków an
 - **Sprawdź `#todo/classification`** — jeśli agent nie był pewny folderu, oznaczy tak notę; dojrzyj ją.
 - **Inbox po ingeście ma być pusty** — jak coś zostało, raport powie dlaczego (np. nieudany URL).
 
+## FAQ
+
+### Czym `/ingest` różni się od zwykłego wrzucenia pliku do folderu?
+
+Wrzucony plik to luźny plik — bez frontmatteru, linków i wpisu w indeksie. `/ingest` klasyfikuje źródło, dobiera typ noty, wypełnia frontmatter OKF, rozstawia `[[wikilinki]]` i backlinki, archiwizuje źródło i aktualizuje trzy indeksy. To różnica między stertą plików a żywą wiki.
+
+### Co bierze `/ingest` — tylko wskazany plik?
+
+Bierze **wszystko, co leży w `content/_raw/inbox/`** — nie podajesz nazwy pliku. Możesz też podać link YouTube jako argument (`/ingest https://youtu.be/…`); agent ściągnie transkrypt (`yt-dlp`, w razie braku napisów fallback przez Whisper/`ffmpeg`) i potraktuje go jak zwykłe źródło.
+
+### Czy ingest nadpisze albo skasuje moje istniejące noty?
+
+Nie. Gdy w `catalog.md` znajdzie podobną notę, robi **merge** — dokłada treść, nie nadpisuje Twojej. Gdy podobnej nie ma, tworzy nową notę z szablonu. Źródło nie znika — wędruje z `inbox/` do `_raw/processed/` (z datą), więc wszystko jest odwracalne.
+
+### W jakim języku powstaną noty, jeśli źródło jest po angielsku, a baza po polsku?
+
+Baza trzyma **jeden kanoniczny język** ustalony przy onboardingu, a przy konflikcie `CLAUDE.md` / Twoje ustawienia wygrywają nad domyślnym językiem skilla. Źródło w innym języku agent tłumaczy przy wsadzie. Nazwy własne, kod, URL-e, daty i wikilinki zostają nietknięte.
+
+### Skąd wiem, że ingest zrobił wszystko poprawnie?
+
+Faza 3 to checklist samokontroli: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Na koniec dostajesz raport (ile źródeł, ile not powstało, ile scalono, stan indeksów). Dodatkowo zajrzyj w Source Control — zobaczysz na oczy pełny diff.
+
+### Jedno źródło zmieniło kilkanaście plików — czy to normalne?
+
+Tak. Nowa nota dokłada `[[wikilinki]]` do pokrewnych not, a do każdej z nich dopisuje **backlink** — graf jest dwukierunkowy. Do tego dochodzą trzy indeksy i przeniesienie źródła. Dlatego jeden mały plik potrafi dotknąć kilkunastu not: właśnie wpina się w graf i aktualizuje sąsiadów.
+
 
 ---
 
@@ -20466,6 +20544,7 @@ To **deterministyczny** rebuild: odtwarza indeksy z aktualnego stanu not i spraw
 | `/enhance` | Popraw/rozbuduj notę |
 | `/lint` | Health-check jakości |
 | `/reindex` | Przebuduj indeksy |
+| `/curate` | Wycofaj słabe/stare noty do graveyard |
 | `/gaps` | Znajdź luki / brakujące tematy |
 | `/refactor` | Przebuduj strukturę/noty |
 | `/output` | Wygeneruj raport/eksport |
@@ -20483,6 +20562,32 @@ To **deterministyczny** rebuild: odtwarza indeksy z aktualnego stanu not i spraw
 
 Ręczne pisanie wiki · wrzucanie wszystkiego bez ingestu · olewanie `/lint` · skanowanie całego `content/` zamiast indeksów (pali tokeny).
 
+## FAQ
+
+### Czym `/qa` różni się od zwykłego zapytania czatu?
+
+Czat odpowiada z treningu modelu i zgaduje. `/qa` **czyta Twoją bazę** (index-first: `vault-map` → `catalog` → `graph` → trafne noty), syntetyzuje odpowiedź z `[[cytowaniami]]` i oznacza luki, gdzie baza milczy. Dostajesz odpowiedź osadzoną w Twojej wiedzy, z możliwością sprawdzenia źródeł.
+
+### Co, gdy zapytam `/qa` o coś, czego nie ma w bazie?
+
+Zamiast halucynować, baza raportuje **zero pokrycia** i mówi wprost: „nie zmyślam odpowiedzi". Dostajesz uczciwe „nie mam tego" plus co dalej: `/ingest` nowego źródła, research z sieci albo `/gaps`. To kluczowa różnica: czat zgaduje, baza cytuje albo przyznaje, że nie wie.
+
+### `/compile` vs `/enhance` — kiedy którego użyć?
+
+`/compile <temat>` składa **nową notę zbiorczą / artykuł** z wielu istniejących not — synteza wyższego rzędu, gdy materiał jest rozsypany. `/enhance <nota>` **poprawia jedną notę**: dokłada sekcje, wikilinki, łata luki wskazane przez `/qa` lub `/lint`. Skrótowo: compile tworzy z wielu źródeł, enhance ulepsza pojedynczą notę.
+
+### Jak często odpalać `/lint`?
+
+Co jakiś czas — baza po cichu gnije (martwe linki, sieroty, niespójne tagi, przeterminowane noty), a problemy się kumulują. `/lint` sprawdza 10 klas problemów i zapisuje raport do `_outputs/reports/` wraz z propozycją naprawy. Traktuj to jak okresowy health-check.
+
+### `/reindex` naprawi każdy problem z indeksami?
+
+Nie. To **deterministyczny** rebuild — odtwarza `vault-map.md`, `catalog.md`, `graph.md` z aktualnego stanu not. Leczy rozjazd indeks↔noty (ręczna edycja, przerwany ingest), ale jeśli błąd siedzi w **skrypcie** (np. parser liczy `[[...]]` ze środka bloku kodu), reindex go nie naprawi — wiernie odtworzy ten sam wynik. Wtedy fix idzie do skryptu, nie do danych.
+
+### Czym `/qa` różni się od skilli `research`?
+
+`/qa` odpowiada **z tego, co już masz** w bazie. Skille `research` **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy (compounding). Pointa: `qa` = czytasz bazę, `research` = baza rośnie. Więcej o research w kolejnej lekcji.
+
 
 ---
 
@@ -20490,7 +20595,35 @@ Ręczne pisanie wiki · wrzucanie wszystkiego bez ingestu · olewanie `/lint` ·
 
 Source: https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja
 
-Cel tej lekcji: opublikować bazę i poznać ścieżkę rozwoju. Po lekcji umiesz publikować przez Quartz, znasz drogę dalej i rozumiesz przenośność OKF.
+Cel tej lekcji: domknąć arsenał komend, opublikować bazę i poznać ścieżkę rozwoju. Po lekcji znasz **pozostałe komendy** (porządki, generowanie, analiza), umiesz publikować przez Quartz, rozumiesz przenośność OKF i wiesz, dokąd baza rośnie dalej.
+
+## Pełny arsenał — pozostałe komendy
+
+Rdzeń masz z lekcji 1–4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plus `/compile` i `/enhance`. Zostały komendy, po które sięgasz rzadziej — do porządków, generowania i analizy. Wszystkie trzymają się tej samej zasady: **czytaj indeksy, aktualizuj indeksy, nie kasuj bez potwierdzenia.**
+
+### `/gaps` — co zbudować dalej
+
+Analiza **luk wiedzy** — nie mechanicznych problemów (tym zajmuje się `/lint`), tylko braków merytorycznych: noty słabo połączone (stopień linków ≤ 1), tematy implikowane, lecz nieopisane, cienkie foldery i tagi, przeterminowane klastry. Zwraca priorytetyzowaną listę „do zbudowania / do połączenia" i proponuje zapis do `content/_outputs/reports/`. Nie mutuje bazy — to kompas, nie koparka. Odpalaj, gdy nie wiesz, co notować następne.
+
+### `/curate` — sprzątanie (staleness)
+
+Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport triage do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: *„`/lint` diagnozuje; `/curate` leczy"*. Domyślnie to dry-run — sam raport. Akcje na notę: `archive` (→ graveyard), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; graveyard jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
+
+### `/refactor` — przebuduj bez psucia linków
+
+Rename / move / merge / split not z automatyczną naprawą **wszystkich** `[[wikilinków]]` i przebudową indeksów. Linki rozwiązują się po nazwie pliku, więc ręczne przenoszenie je psuje — `/refactor` robi to bezpiecznie (zachowuje aliasy `[[A|B]]` i kotwice `[[A#nagłówek]]`). Po każdej operacji odpala reindex i proponuje `/lint`. Używaj do zmian strukturalnych, których nie chcesz robić ręcznie.
+
+### `/output` — artefakty pochodne
+
+Generuje **pochodny** artefakt z bazy: podsumowanie, listę lektur, mapę tematu albo oś czasu. Domyślnie zapisuje do `content/_outputs/<format>/`. Różnica wobec `/compile`: `/compile` tworzy pełny **artykuł** (notę `compiled-note` w folderze tematu — wchodzi do wiki i indeksów), a `/output` daje raport/zestawienie **obok** wiki. Krótko: compile publikuje wiedzę, output ją eksportuje.
+
+### Rodzina `research` — przedsmak (osobna lekcja)
+
+`/research`, `/research-add-items`, `/research-add-fields`, `/research-deep`, `/research-report` to pipeline, który **dokłada nową wiedzę z zewnątrz**. Buduje szkielet badania (`outline.yaml` + `fields.yaml`) w `content/_raw/research-workspaces/`, odpala po jednym agencie na element (ustrukturyzowany JSON per element), a na końcu składa raport i wrzuca go do `content/_raw/inbox/` — gotowy pod `/ingest`. To najmocniejsza dźwignia „baza rośnie sama". Rozbijemy ją w **osobnej lekcji** — tu tylko sygnalizuję, że istnieje.
+
+### `excalidraw-diagram` (skill) — diagramy
+
+Skill generujący diagramy `.excalidraw` (workflow, architektura, koncept) z pętlą samo-walidacji przez Playwright. Wymaga jednorazowego setupu (`uv` + Playwright/Chromium). Opcjonalny dodatek, gdy chcesz do noty wrzucić schemat, a nie tylko tekst.
 
 ## Publikacja (opcja)
 
@@ -20520,6 +20653,32 @@ cienkie obszary. Zaproponuj 5 konkretnych źródeł lub pytań, którymi domknę
 Zbuduj publiczną wersję bazy przez Quartz (npx quartz build) i wypisz krok po
 kroku, jak wypchnąć ją na GitHub Pages. Nie publikuj niczego bez mojej zgody.
 ```
+
+## FAQ
+
+### Czym jest OKF i dlaczego baza jest przenośna?
+
+OKF (Open Knowledge Format) to standard opisany przez Google, który formalizuje wzorzec „wiedza jako plain markdown z frontmatterem". Twoja baza to zwykłe pliki `.md` z polem `type` — czytelne i dla agenta, i dla człowieka, bez lock-inu do konkretnej aplikacji. Stąd „jeśli możesz to `git clone`, możesz to wysłać": przenosisz repo i cała wiedza działa dalej.
+
+### Czy muszę publikować bazę?
+
+Nie. Publikacja przez Quartz jest w pełni opcjonalna — baza świetnie działa jako **prywatne** repo markdown, którego używasz tylko przez Claude Code. Quartz to warstwa na wierzchu; dokładasz ją tylko, jeśli chcesz mieć publiczną stronę wiedzy.
+
+### Czy publikacja Quartz ujawni moje prywatne noty?
+
+Publikujesz tylko to, co sam zbudujesz i wypchniesz — Ty kontrolujesz zakres. Foldery robocze (`_raw/`) i wycofane noty (`_graveyard/`) są wykluczone, a przed dzieleniem robisz scrub wrażliwych treści i atrybucji. Nic nie trafia na zewnątrz bez Twojej wyraźnej zgody.
+
+### Czym różni się `/gaps` od `/lint`?
+
+`/lint` szuka **mechanicznych** problemów: martwe linki, brakujący frontmatter, sieroty, niespójne tagi — 10 klas higieny. `/gaps` szuka **luk wiedzy**: słabo połączonych not, brakujących tematów, cienkich obszarów. Skrótowo: `/lint` to higiena, `/gaps` to strategia — co napisać następne.
+
+### Czy `/curate` skasuje moje noty?
+
+Nie kasuje. Domyślnie robi dry-run — sam raport triage. Przeterminowane noty wycofuje do `content/_graveyard/` **dopiero po Twoim potwierdzeniu**, i to odwracalnie (przeniesienie, nigdy `git rm`). Cofnięcie = przeniesienie noty z graveyard z powrotem.
+
+### Kiedy użyć `/output`, a kiedy `/compile`?
+
+`/compile` tworzy pełny **artykuł** — nową notę `compiled-note` w folderze tematu, która wchodzi do wiki i indeksów. `/output` generuje **pochodny** artefakt obok wiki (podsumowanie, lista lektur, oś czasu) do `content/_outputs/`. Chcesz trwały wpis w bazie → compile; chcesz zestawienie na wynos → output.
 
 ## Most do paid
 

@@ -80,6 +80,7 @@ To **deterministyczny** rebuild: odtwarza indeksy z aktualnego stanu not i spraw
 | `/enhance` | Popraw/rozbuduj notę |
 | `/lint` | Health-check jakości |
 | `/reindex` | Przebuduj indeksy |
+| `/curate` | Wycofaj słabe/stare noty do graveyard |
 | `/gaps` | Znajdź luki / brakujące tematy |
 | `/refactor` | Przebuduj strukturę/noty |
 | `/output` | Wygeneruj raport/eksport |
@@ -96,3 +97,29 @@ To **deterministyczny** rebuild: odtwarza indeksy z aktualnego stanu not i spraw
 ## Anty-wzorce
 
 Ręczne pisanie wiki · wrzucanie wszystkiego bez ingestu · olewanie `/lint` · skanowanie całego `content/` zamiast indeksów (pali tokeny).
+
+## FAQ
+
+### Czym `/qa` różni się od zwykłego zapytania czatu?
+
+Czat odpowiada z treningu modelu i zgaduje. `/qa` **czyta Twoją bazę** (index-first: `vault-map` → `catalog` → `graph` → trafne noty), syntetyzuje odpowiedź z `[[cytowaniami]]` i oznacza luki, gdzie baza milczy. Dostajesz odpowiedź osadzoną w Twojej wiedzy, z możliwością sprawdzenia źródeł.
+
+### Co, gdy zapytam `/qa` o coś, czego nie ma w bazie?
+
+Zamiast halucynować, baza raportuje **zero pokrycia** i mówi wprost: „nie zmyślam odpowiedzi". Dostajesz uczciwe „nie mam tego" plus co dalej: `/ingest` nowego źródła, research z sieci albo `/gaps`. To kluczowa różnica: czat zgaduje, baza cytuje albo przyznaje, że nie wie.
+
+### `/compile` vs `/enhance` — kiedy którego użyć?
+
+`/compile <temat>` składa **nową notę zbiorczą / artykuł** z wielu istniejących not — synteza wyższego rzędu, gdy materiał jest rozsypany. `/enhance <nota>` **poprawia jedną notę**: dokłada sekcje, wikilinki, łata luki wskazane przez `/qa` lub `/lint`. Skrótowo: compile tworzy z wielu źródeł, enhance ulepsza pojedynczą notę.
+
+### Jak często odpalać `/lint`?
+
+Co jakiś czas — baza po cichu gnije (martwe linki, sieroty, niespójne tagi, przeterminowane noty), a problemy się kumulują. `/lint` sprawdza 10 klas problemów i zapisuje raport do `_outputs/reports/` wraz z propozycją naprawy. Traktuj to jak okresowy health-check.
+
+### `/reindex` naprawi każdy problem z indeksami?
+
+Nie. To **deterministyczny** rebuild — odtwarza `vault-map.md`, `catalog.md`, `graph.md` z aktualnego stanu not. Leczy rozjazd indeks↔noty (ręczna edycja, przerwany ingest), ale jeśli błąd siedzi w **skrypcie** (np. parser liczy `[[...]]` ze środka bloku kodu), reindex go nie naprawi — wiernie odtworzy ten sam wynik. Wtedy fix idzie do skryptu, nie do danych.
+
+### Czym `/qa` różni się od skilli `research`?
+
+`/qa` odpowiada **z tego, co już masz** w bazie. Skille `research` **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy (compounding). Pointa: `qa` = czytasz bazę, `research` = baza rośnie. Więcej o research w kolejnej lekcji.

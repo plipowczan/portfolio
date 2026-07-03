@@ -158,3 +158,29 @@ Efekt ten sam co wywiad — bez klikania. Odpowiedzi lądują w `.kb-onboard.jso
 ## Dzień zerowy
 
 To Twój „**dzień zerowy**" — jedyny moment konfiguracji. Potem już tylko używasz: `/ingest`, `/qa`, `/lint`. Przechodzimy do karmienia bazy w lekcji 3.
+
+## FAQ
+
+### Ile razy odpalam `/onboard`?
+
+Raz, na świeżym klonie. Kreator rozpoznaje świeży klon po obecności pliku `CLAUDE.template.md`. Jeśli odpalisz go ponownie na skonfigurowanej bazie (szablonu już nie ma), nie nadpisze niczego po cichu — zaproponuje **reconfigure**.
+
+### Co, jeśli wybiorę zły język albo tematy?
+
+Poprawiasz przez ponowny `/onboard` w trybie reconfigure: kreator wczyta Twoje odpowiedzi z `.kb-onboard.json`, pozwoli je zmienić i przegeneruje pliki, ostrzegając przed nadpisaniem. Foldery tematów to zwykłe katalogi pod `content/` — nowe możesz dodać ręcznie w dowolnym momencie, a `/reindex` odświeży indeksy.
+
+### Gdzie zapisują się moje odpowiedzi z wywiadu?
+
+W pliku `.kb-onboard.json` w korzeniu repo. Jest **gitignorowany** — trzyma Twoje wybory lokalnie i nie trafia do commita. To z niego bierze się idempotencja: reconfigure czyta właśnie ten plik.
+
+### Dlaczego szablony `*.template.md` znikają po onboardingu?
+
+Bo kreator renderuje je do finalnych plików z Twoimi wartościami: `CLAUDE.template.md` → `CLAUDE.md`, `AGENTS.template.md` → `AGENTS.md`, `content/WRITING_STYLE.template.md` → `content/WRITING_STYLE.md`. Szablony kasuje **dopiero gdy wszystkie trzy rendery się powiodą**. Ich brak to znak, że baza jest zainicjalizowana.
+
+### Czy `/onboard` commituje coś do gita?
+
+Nie — kończy komunikatem „Not committed — your call". Pierwszy commit robisz sam (albo zlecasz agentowi: „commit this"). Agent zestage'uje pliki i zacommituje, **pomijając `.kb-onboard.json`** (jest gitignorowany).
+
+### Czy do onboardingu potrzebuję Pythona?
+
+Tak — kreator używa skryptów pythonowych (`render.py` do renderu schemy, `build_indexes.py` do indeksów), a Python jest też wymagany później przez `/reindex` i `/lint`. `yt-dlp` i `ffmpeg` są opcjonalne — przydają się dopiero przy ingeście z YouTube (lekcja 3).

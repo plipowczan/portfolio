@@ -80,3 +80,29 @@ To różnica „**surowe pliki vs wiki**": bez `/ingest` nie ma cross-linków an
 - **Nie edytuj indeksów ręcznie** — buduje je ingest (i `/reindex`, lekcja 4). Ręczna edycja się rozjedzie.
 - **Sprawdź `#todo/classification`** — jeśli agent nie był pewny folderu, oznaczy tak notę; dojrzyj ją.
 - **Inbox po ingeście ma być pusty** — jak coś zostało, raport powie dlaczego (np. nieudany URL).
+
+## FAQ
+
+### Czym `/ingest` różni się od zwykłego wrzucenia pliku do folderu?
+
+Wrzucony plik to luźny plik — bez frontmatteru, linków i wpisu w indeksie. `/ingest` klasyfikuje źródło, dobiera typ noty, wypełnia frontmatter OKF, rozstawia `[[wikilinki]]` i backlinki, archiwizuje źródło i aktualizuje trzy indeksy. To różnica między stertą plików a żywą wiki.
+
+### Co bierze `/ingest` — tylko wskazany plik?
+
+Bierze **wszystko, co leży w `content/_raw/inbox/`** — nie podajesz nazwy pliku. Możesz też podać link YouTube jako argument (`/ingest https://youtu.be/…`); agent ściągnie transkrypt (`yt-dlp`, w razie braku napisów fallback przez Whisper/`ffmpeg`) i potraktuje go jak zwykłe źródło.
+
+### Czy ingest nadpisze albo skasuje moje istniejące noty?
+
+Nie. Gdy w `catalog.md` znajdzie podobną notę, robi **merge** — dokłada treść, nie nadpisuje Twojej. Gdy podobnej nie ma, tworzy nową notę z szablonu. Źródło nie znika — wędruje z `inbox/` do `_raw/processed/` (z datą), więc wszystko jest odwracalne.
+
+### W jakim języku powstaną noty, jeśli źródło jest po angielsku, a baza po polsku?
+
+Baza trzyma **jeden kanoniczny język** ustalony przy onboardingu, a przy konflikcie `CLAUDE.md` / Twoje ustawienia wygrywają nad domyślnym językiem skilla. Źródło w innym języku agent tłumaczy przy wsadzie. Nazwy własne, kod, URL-e, daty i wikilinki zostają nietknięte.
+
+### Skąd wiem, że ingest zrobił wszystko poprawnie?
+
+Faza 3 to checklist samokontroli: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Na koniec dostajesz raport (ile źródeł, ile not powstało, ile scalono, stan indeksów). Dodatkowo zajrzyj w Source Control — zobaczysz na oczy pełny diff.
+
+### Jedno źródło zmieniło kilkanaście plików — czy to normalne?
+
+Tak. Nowa nota dokłada `[[wikilinki]]` do pokrewnych not, a do każdej z nich dopisuje **backlink** — graf jest dwukierunkowy. Do tego dochodzą trzy indeksy i przeniesienie źródła. Dlatego jeden mały plik potrafi dotknąć kilkunastu not: właśnie wpina się w graf i aktualizuje sąsiadów.

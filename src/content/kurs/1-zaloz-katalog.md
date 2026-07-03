@@ -16,7 +16,7 @@ LLM Wiki (koncept Karpathy'ego) odwraca RAG: zamiast za każdym razem przeszukiw
 
 ## Weź szablon
 
-Na GitHubie „Use this template" (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Quartz, publikacja) i `pip install -r requirements.txt` (skille pythonowe) — **do pierwszego pytania niepotrzebne**.
+Na GitHubie „Use this template" (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Prettier — formatowanie) i `pip install -r requirements.txt` (skille pythonowe) — **do pierwszego pytania niepotrzebne**. Publikację przez Quartz doklejasz później (lekcja 5).
 
 Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).
 
@@ -217,3 +217,29 @@ Zajrzyj do `REFERENCE/Example Note.md` i `Wikilinks Explained.md` — jak wyglą
 ## Pułapka
 
 Nie pisz wiki ręcznie — to robota agenta; Ty dostarczasz źródła i dobre pytania. Nie edytuj też indeksów z palca — buduje je `/ingest` i `/reindex` (o tym w lekcjach 3 i 4).
+
+## FAQ
+
+### Czym LLM Wiki różni się od RAG i baz wektorowych?
+
+RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2–3 trafne noty. Nie liczy wektorów ani embeddingów — do ~500 źródeł dobry indeks wystarcza, żeby zawęzić wyszukiwanie samą lekturą.
+
+### Czy do startu muszę odpalać `npm install` i `pip install`?
+
+Nie, do pierwszego pytania nie są potrzebne. `npm install` instaluje tylko narzędzia dev (Prettier — formatowanie), a `pip install -r requirements.txt` — zależności skryptów pythonowych (`/reindex`, `/lint`, `/ingest`, `render.py`). Publikację przez Quartz doklejasz osobno w lekcji 5. Sama struktura i noty to zwykły markdown — możesz zacząć od razu.
+
+### Repo z szablonu — publiczne czy prywatne?
+
+Twój wybór; baza to zwykłe repo git i działa tak samo w obu trybach. Prywatne, jeśli to Twoja osobista wiedza (domyślnie bezpieczniej). Publiczne — jeśli od razu chcesz ją publikować lub dzielić się nią jako bundlem OKF. Widoczność zmienisz w każdej chwili w ustawieniach repo.
+
+### Czy potrzebuję płatnych narzędzi albo zewnętrznej bazy danych?
+
+Szablon jest darmowy, a cała baza to pliki markdown w Twoim repo — żadnej zewnętrznej bazy danych, wektorowej usługi ani API do przechowywania wiedzy. Potrzebujesz Claude Code do pracy z agentem oraz (opcjonalnie) Pythona do skryptowych skilli. Nic nie wychodzi na zewnątrz, dopóki sam nie opublikujesz.
+
+### Co znaczy, że baza jest „pusta, ale uzbrojona"?
+
+Cała mechanika jest gotowa od pierwszej minuty: slash-komendy, skille, trzy indeksy nawigacyjne, hook ładujący mapę vaultu, kontrakt frontmatteru (`schema.yml`) i szablony not. Brakuje wyłącznie Twojej wiedzy. Nie budujesz narzędzi — od razu ich używasz, a baza rośnie z każdym źródłem.
+
+### Co, gdy baza urośnie powyżej ~500 źródeł?
+
+Progressive disclosure skaluje się dalej — indeks i graf rosną wolniej niż treść, więc agent nadal zawęża zanim otworzy notę. Przy bardzo dużych bazach można podzielić wiedzę na tematyczne podbazy (multi-brain, lekcja 5) albo dołożyć warstwę wyszukiwania. Granica ~500 to moment, w którym warto o tym pomyśleć, a nie twardy limit.
