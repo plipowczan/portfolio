@@ -10,8 +10,35 @@
  * 4. Zamyka preview server
  */
 
-import { spawn } from "child_process";
+import { spawn, spawnSync } from "child_process";
 import { setTimeout as sleep } from "timers/promises";
+
+/**
+ * Ubija cały proces potomny wraz z drzewem dzieci.
+ *
+ * `npm run preview` spawnuje się przez shell (cmd.exe na Windows), więc
+ * `child.pid` to PID shella — jego wnukiem jest właściwy `vite preview`.
+ * `process.kill(pid)` ubiłby tylko shell, zostawiając zombie na porcie 4173,
+ * który blokuje `dist/` (ENOTEMPTY) i wisi przy kolejnych buildach.
+ */
+function killProcessTree(pid) {
+  if (!pid) return;
+  if (process.platform === "win32") {
+    // /T = drzewo, /F = force. Ignoruj kod wyjścia (proces mógł już zniknąć).
+    spawnSync("taskkill", ["/pid", String(pid), "/T", "/F"], { stdio: "ignore" });
+  } else {
+    // Grupa procesów (wymaga detached: true przy spawnie) → potem sam proces.
+    try {
+      process.kill(-pid, "SIGTERM");
+    } catch {
+      try {
+        process.kill(pid, "SIGTERM");
+      } catch {
+        /* już nie istnieje */
+      }
+    }
+  }
+}
 
 console.log("🏗️  Rozpoczynam build z prerenderingiem...\n");
 
@@ -52,6 +79,9 @@ function startPreviewServer() {
     const server = spawn("npm", ["run", "preview"], {
       stdio: "pipe",
       shell: true,
+      // POSIX: własna grupa procesów, żeby killProcessTree mógł ubić grupę
+      // przez `-pid`. Na Windows drzewo ubija `taskkill /T`.
+      detached: process.platform !== "win32",
     });
 
     let output = "";
@@ -91,6 +121,7 @@ function startPreviewServer() {
  */
 async function main() {
   let previewServer = null;
+  let exitCode = 0;
 
   try {
     // Krok 0: Generowanie sitemap
@@ -123,18 +154,18 @@ async function main() {
     console.log("📂 Pliki gotowe do deployu w folderze: dist/\n");
   } catch (error) {
     console.error("\n❌ BŁĄD:", error.message);
-    process.exit(1);
+    exitCode = 1;
   } finally {
-    // Zawsze zamknij preview server
+    // Zawsze zamknij preview server — całe drzewo, nie tylko shell.
     if (previewServer) {
       console.log("🛑 Zamykam preview server...\n");
-      try {
-        process.kill(previewServer.pid);
-      } catch (e) {
-        // Ignoruj błędy jeśli proces już nie istnieje
-      }
+      killProcessTree(previewServer.pid);
     }
   }
+
+  // Wymuś wyjście: piped stdio wnuka (vite preview) potrafi trzymać event loop
+  // przy życiu nawet po ubiciu drzewa, przez co proces wisiał bez tego exita.
+  process.exit(exitCode);
 }
 
 // Uruchom

@@ -47,6 +47,14 @@ function parseLesson(rawMarkdown, filename = "unknown") {
       order: data.order,
       title: data.title,
       excerpt: typeof data.excerpt === "string" ? data.excerpt : "",
+      // Optional screencast wired into the lesson's top slot when present.
+      // `video` = primary source (WebM/VP9), `videoMp4` = optional H.264
+      // fallback for Safari/iOS, `poster` = still shown before play
+      // (defaults to the shared course OG in the view). All optional — a
+      // lesson without a recording keeps the "Screencast wkrótce" placeholder.
+      video: typeof data.video === "string" ? data.video : null,
+      videoMp4: typeof data.videoMp4 === "string" ? data.videoMp4 : null,
+      poster: typeof data.poster === "string" ? data.poster : null,
       content: content.trim(),
     };
   } catch (error) {

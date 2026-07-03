@@ -43,6 +43,17 @@ const CourseLesson = () => {
   const { prev, next } = getPrevNext(slug);
   const lessonUrl = `${SITE_CONFIG.url}/llm-wiki/kurs/${lesson.slug}`;
 
+  // Build <source> list from optional frontmatter. Type is derived from the
+  // extension so an author can put either webm or mp4 in `video`; `videoMp4`
+  // is always the H.264 fallback. Empty when the lesson has no recording yet.
+  const screencastSources = [
+    lesson.video && {
+      src: lesson.video,
+      type: lesson.video.endsWith(".mp4") ? "video/mp4" : "video/webm",
+    },
+    lesson.videoMp4 && { src: lesson.videoMp4, type: "video/mp4" },
+  ].filter(Boolean);
+
   return (
     <>
       <SEO
@@ -86,18 +97,33 @@ const CourseLesson = () => {
                 {lesson.title}
               </h1>
 
-              {/* Screencast slot (placeholder for a future recording) */}
-              <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-primary-500/20 bg-dark-800/50">
-                <div
-                  className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-500/10"
-                  aria-hidden="true"
+              {/* Screencast slot — lesson recording when present, else placeholder */}
+              {screencastSources.length > 0 ? (
+                <video
+                  className="aspect-video w-full rounded-xl border border-white/10 bg-black"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  poster={lesson.poster || "/images/og-llm-wiki-kurs.webp"}
                 >
-                  <FaPlay className="text-primary-500" />
+                  {screencastSources.map((s) => (
+                    <source key={s.src} src={s.src} type={s.type} />
+                  ))}
+                  Twoja przeglądarka nie odtworzy tego wideo.
+                </video>
+              ) : (
+                <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-primary-500/20 bg-dark-800/50">
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-500/10"
+                    aria-hidden="true"
+                  >
+                    <FaPlay className="text-primary-500" />
+                  </div>
+                  <p className="font-mono text-sm text-gray-500">
+                    Screencast wkrótce
+                  </p>
                 </div>
-                <p className="font-mono text-sm text-gray-500">
-                  Screencast wkrótce
-                </p>
-              </div>
+              )}
 
               {/* Lesson body */}
               <MarkdownContent content={lesson.content} contentRef={contentRef} />
