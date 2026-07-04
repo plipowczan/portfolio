@@ -7,7 +7,7 @@ import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
 const REPO_URL = "https://github.com/plipowczan/second-brain-template";
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xblqpqab";
+const SUBSCRIBE_ENDPOINT = "/api/subscribe";
 
 const VALUE_INDEX = [
   {
@@ -49,13 +49,17 @@ const LlmWikiLanding = () => {
     setStatus(null);
 
     try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
+      // Honeypot value — real users leave it empty; bots that fill it are
+      // dropped server-side. Read from the DOM so it also catches autofill.
+      const company = document.getElementById("waitlist-company")?.value ?? "";
+
+      const response = await fetch(SUBSCRIBE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email.trim(),
           source: "waitlist",
-          _subject: "LLM Wiki — waitlist",
+          company,
         }),
       });
 
@@ -243,6 +247,23 @@ const LlmWikiLanding = () => {
                   className="flex flex-col gap-3 sm:flex-row"
                   noValidate
                 >
+                  {/* Honeypot — off-screen, hidden from users & AT. Bots that
+                      fill it are silently dropped by /api/subscribe. */}
+                  <div
+                    className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
+                    aria-hidden="true"
+                  >
+                    <label htmlFor="waitlist-company">
+                      Nie wypełniaj tego pola
+                    </label>
+                    <input
+                      type="text"
+                      id="waitlist-company"
+                      name="company"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
                   <div className="flex-1">
                     <label htmlFor="waitlist-email" className="sr-only">
                       Adres email

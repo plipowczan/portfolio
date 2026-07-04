@@ -108,7 +108,7 @@ test.describe("Kurs LLM Wiki — link z ekranu sukcesu landingu", () => {
   test("link do /llm-wiki/kurs pojawia się dopiero po zapisie", async ({
     page,
   }) => {
-    await page.route("https://formspree.io/f/xblqpqab", async (route) => {
+    await page.route("**/api/subscribe", async (route) => {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
