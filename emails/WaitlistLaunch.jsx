@@ -1,20 +1,20 @@
 import {
-  Html,
-  Head,
-  Font,
-  Preview,
   Body,
-  Container,
-  Section,
-  Heading,
-  Text,
   Button,
-  Link,
+  Container,
+  Font,
+  Head,
+  Heading,
   Hr,
+  Html,
+  Link,
+  Preview,
+  Section,
+  Text,
 } from "@react-email/components";
 
 /**
- * Mail do waitlisty „LLM Wiki" — ogłoszenie startu darmowego kursu.
+ * Mail do waitlisty „LLM Wiki" - ogłoszenie startu darmowego kursu.
  *
  * Brand: context/brand/brand-design.md (motyw ciemny).
  *   tło #050810 · karta #0a0e1a · tekst #f3f4f6 · akcent #00ff9d · border #1f2937
@@ -30,10 +30,13 @@ import {
 const COURSE_URL = "https://pawel.lipowczan.pl/llm-wiki/kurs";
 
 const lessons = [
-  ["Załóż katalog z szablonu", "czym jest LLM Wiki i jak postawić gotową, pustą bazę"],
+  [
+    "Załóż katalog z szablonu",
+    "czym jest LLM Wiki i jak postawić gotową, pustą bazę",
+  ],
   ["Onboarding", "jeden wywiad konfiguruje całość"],
   ["Pierwszy ingest", "surowe źródło → gotowe noty i indeksy"],
-  ["Pytania i zarządzanie", "pytasz bazę zamiast czatu — z cytowaniami"],
+  ["Pytania i zarządzanie", "pytasz bazę zamiast czatu - z cytowaniami"],
   ["Rozwój i publikacja", "co dalej"],
 ];
 
@@ -53,7 +56,9 @@ export default function WaitlistLaunch() {
         />
       </Head>
 
-      <Preview>5 lekcji: postaw własny second brain dla AI. Darmowo, po polsku.</Preview>
+      <Preview>
+        5 lekcji: postaw własny second brain dla AI. Darmowo, po polsku.
+      </Preview>
 
       <Body style={body}>
         <Container style={container}>
@@ -69,14 +74,15 @@ export default function WaitlistLaunch() {
           <Heading style={h1}>Darmowy kurs LLM Wiki jest online</Heading>
 
           <Text style={p}>
-            Cześć, zapisałeś się na listę wokół LLM Wiki — dzięki. Obiecałem odezwać się, gdy
-            będzie co pokazać.
+            Cześć, zapisałeś się na listę wokół LLM Wiki - dzięki. Obiecałem
+            odezwać się, gdy będzie co pokazać.
           </Text>
 
           <Text style={p}>
-            Właśnie ruszył <strong style={strong}>darmowy kurs</strong>: 5 lekcji krok po kroku,
-            jak z gotowego szablonu postawić własny „drugi mózg" dla AI — bazę wiedzy, która sama
-            się porządkuje i zasila Twojego agenta (bez RAG, bez embeddingów).
+            Właśnie ruszył <strong style={strong}>darmowy kurs</strong>: 5
+            lekcji krok po kroku, jak z gotowego szablonu postawić własny „drugi
+            mózg" dla AI - bazę wiedzy, która sama się porządkuje i zasila
+            Twojego agenta (bez RAG, bez embeddingów).
           </Text>
 
           {/* Lista lekcji */}
@@ -85,7 +91,7 @@ export default function WaitlistLaunch() {
               <Text key={i} style={lesson}>
                 <span style={num}>{i + 1}</span>
                 <strong style={lessonTitle}>{title}</strong>
-                <span style={lessonDesc}> — {desc}</span>
+                <span style={lessonDesc}> - {desc}</span>
               </Text>
             ))}
           </Section>
@@ -98,13 +104,14 @@ export default function WaitlistLaunch() {
           </Section>
 
           <Text style={p}>
-            Wszystko darmowe, po polsku, na darmowym szablonie (repo masz w kursie). Płatne bundle
-            gotowej wiedzy — do załadowania wprost do braina — szykuję osobno. Dam znać, gdy będą.
+            Wszystko darmowe, po polsku, na darmowym szablonie (repo masz w
+            kursie). Płatne bundle gotowej wiedzy - do załadowania wprost do
+            braina - szykuję osobno. Dam znać, gdy będą.
           </Text>
 
           <Text style={p}>
-            Jak przejdziesz choćby pierwszą lekcję — napisz, co działa, a co zgrzyta. Zbieram
-            feedback, zanim pójdę dalej.
+            Jak przejdziesz choćby pierwszą lekcję - napisz, co działa, a co
+            zgrzyta. Zbieram feedback, zanim pójdę dalej.
           </Text>
 
           <Text style={{ ...p, marginBottom: "4px" }}>Paweł</Text>
@@ -113,7 +120,7 @@ export default function WaitlistLaunch() {
 
           {/* Stopka */}
           <Text style={footer}>
-            Paweł Lipowczan · PLSoft — Twój Przewodnik Technologiczny
+            Paweł Lipowczan · PLSoft - Twój Przewodnik Technologiczny
             <br />
             <Link href="https://pawel.lipowczan.pl" style={footerLink}>
               pawel.lipowczan.pl
@@ -135,7 +142,8 @@ const body = {
   backgroundColor: "#050810",
   margin: 0,
   padding: "24px 0",
-  fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif",
+  fontFamily:
+    "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif",
 };
 
 const container = {
