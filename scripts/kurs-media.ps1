@@ -168,6 +168,6 @@ if ($Video) {
 if ($Screens.Count -gt 0) {
   Write-Host "`nScreeny w treści (Markdown, rehypeRaw OK):" -ForegroundColor Green
   for ($j = 1; $j -le $Screens.Count; $j++) {
-    Write-Host ("  ![opis]( /images/kurs/{0}-{1:D2}.webp )" -f $Slug, $j)
+    Write-Host ("  ![opis](/images/kurs/{0}-{1:D2}.webp)" -f $Slug, $j)
   }
 }
