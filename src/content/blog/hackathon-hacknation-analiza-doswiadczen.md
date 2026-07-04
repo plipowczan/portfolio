@@ -1,7 +1,7 @@
 ---
 id: 7
 slug: hackathon-hacknation-analiza-doswiadczen
-title: Hackathon Hacknation – Analiza Doświadczeń i Lekcja z Cyfryzacji
+title: Hackathon Hacknation - Analiza Doświadczeń i Lekcja z Cyfryzacji
 excerpt: Zobacz jak w 24h zespół nieprogramistów z pomocą AI stworzył działający system budżetowy i dlaczego technologia to nie wszystko. Szczera analiza sukcesów i porażek z Hacknation.
 category: AI
 author: Pawel Lipowczan
@@ -18,13 +18,13 @@ lang: pl
 alternateSlug: hackathon-hacknation-experience-analysis
 ---
 
-# Hackathon Hacknation – Analiza Doświadczeń i Lekcja z Cyfryzacji
+# Hackathon Hacknation - Analiza Doświadczeń i Lekcja z Cyfryzacji
 
 Hackathon Hacknation, organizowany przez GovTech Polska, to wydarzenie o ogromnym rozmachu. Ponad 1500 uczestników, 480 tysięcy złotych w puli nagród i jeden cel: stworzyć w 24 godziny działające rozwiązanie dla wyzwań administracji publicznej.
 
-Dla naszego zespołu – który określiłbym mianem programistów juniorów – był to nie tylko rywalizacja, ale przede wszystkim poligon doświadczalny.
+Dla naszego zespołu - który określiłbym mianem programistów juniorów - był to nie tylko rywalizacja, ale przede wszystkim poligon doświadczalny.
 
-Jestem "emerytowanym" programistą. Porzuciłem aktywne programowanie około 4 lata temu, co w świecie technologii to niemal lata świetlne – narzędzia i frameworki zmieniły się na tyle, że trzeba w pewnym sensie zaczynać od zera. Choć doświadczenie w inżynierii oprogramowania jest bardzo pomocne, to bez znajomości współczesnych języków i środowisk czasami działa się po omacku.
+Jestem "emerytowanym" programistą. Porzuciłem aktywne programowanie około 4 lata temu, co w świecie technologii to niemal lata świetlne - narzędzia i frameworki zmieniły się na tyle, że trzeba w pewnym sensie zaczynać od zera. Choć doświadczenie w inżynierii oprogramowania jest bardzo pomocne, to bez znajomości współczesnych języków i środowisk czasami działa się po omacku.
 
 Pozostali członkowie zespołu nigdy nie mieli zbyt wiele wspólnego z tradycyjnym programowaniem. Na co dzień wykorzystują technologie nocode wspierane przez modele językowe.
 
@@ -34,11 +34,11 @@ Wspólnie zderzyliśmy nasze wyobrażenia o „inteligentnych" agentach sztuczne
 
 Oto historia o tym, jak technologia spotkała się z biurokracją, dlaczego brak walidacji może zabić najlepszy projekt i czego nauczyliśmy się o współpracy z AI pod presją czasu.
 
-## 1. Pani Zosia i Tysiące Exceli – Analiza Problemu
+## 1. Pani Zosia i Tysiące Exceli - Analiza Problemu
 
 Nasze zadanie dotyczyło procesu budżetowania w administracji publicznej. Brzmi nudno? Może, ale skala problemu jest ogromna.
 
-Core problemem okazał się proces oparty na ręcznej wymianie setek tysięcy plików Excel. Błędy, chaos informacyjny, brak transparentności – to codzienność urzędników. Stworzyliśmy metaforę tego procesu, którą nazwaliśmy **„Pani Zosia i Tysiące Exceli”**:
+Core problemem okazał się proces oparty na ręcznej wymianie setek tysięcy plików Excel. Błędy, chaos informacyjny, brak transparentności - to codzienność urzędników. Stworzyliśmy metaforę tego procesu, którą nazwaliśmy **„Pani Zosia i Tysiące Exceli”**:
 
 1. **Start (Dół):** „Pani Zosia” w urzędzie gminy „wróży z fusów”, ręcznie wpisując dane budżetowe do Excela (np. zapotrzebowanie na nowy komputer).
 2. **Eskalacja (Góra):** Plik wędruje w górę hierarchii: Urząd Miasta → Województwo → Ministerstwo Finansów.
@@ -61,7 +61,7 @@ Co ciekawe, do wyboru samego zadania również zatrudniliśmy AI. Przeanalizowal
 
 ![Zakończenie Hackathonu](/images/hacknation-end.webp)
 
-Atmosfera na Hacknation była niesamowita. Wielka hala, open space, scena, ciągłe prelekcje – energia tysiąca ludzi "zajaranych technologią" udzielała się każdemu. To właśnie ten klimat pozwalał nam działać, mimo że zmęczenie narastało z każdą godziną.
+Atmosfera na Hacknation była niesamowita. Wielka hala, open space, scena, ciągłe prelekcje - energia tysiąca ludzi "zajaranych technologią" udzielała się każdemu. To właśnie ten klimat pozwalał nam działać, mimo że zmęczenie narastało z każdą godziną.
 
 <video controls width="100%" style="max-width: 100%; height: auto;" playsinline>
   <source src="/videos/hacknation-start.mp4" type="video/mp4" />
@@ -72,7 +72,7 @@ Praca trwała non-stop przez 24 godziny. Spaliśmy po 2-3 godziny na korytarzu l
 
 Początkowo każdy z nas rzucił się do pracy "na żywioł", tworząc własne kawałki kodu. Szybko jednak zrozumieliśmy, że to droga donikąd. Zwrot akcji nastąpił, gdy zdecydowaliśmy się skonsolidować siły wokół prototypu Justyny, który był najbardziej zaawansowany. Stał się on fundamentem naszego finalnego rozwiązania.
 
-## 4. AI jako "Equalizer" – Technologia w Praktyce
+## 4. AI jako "Equalizer" - Technologia w Praktyce
 
 Główna teza, którą chcieliśmy sprawdzić, brzmiała: **AI to equalizer**. Narzędzie, które pozwala zespołowi z mniejszym doświadczeniem koderskim (nieprogramistom) konkurować z profesjonalnymi dev teamami.
 
@@ -94,17 +94,17 @@ Czy AI napisało aplikację za nas? Nie do końca. Mimo entuzjazmu, czuliśmy le
 * **Kod często nie działał:** AI generowało rozwiązania, które wyglądały poprawnie, ale sypały się przy uruchomieniu.
 * **Halucynacje:** Proponowane biblioteki nie istniały, a fragmenty logiki były "od czapy".
 * **Potrzeba prowadzenia za rękę:** Osiągnięcie poprawnego wyniku wymagało precyzyjnego promptowania i ciągłego korygowania kursu.
-* **Blokady:** Justyna napotkała błąd w filtrach _current user_, którego model nie potrafił zdiagnozować. Musieliśmy wrócić do korzeni – czytać kod i debugować ręcznie.
+* **Blokady:** Justyna napotkała błąd w filtrach _current user_, którego model nie potrafił zdiagnozować. Musieliśmy wrócić do korzeni - czytać kod i debugować ręcznie.
 
 AI to potężny mnożnik siły, ale nie magiczna różdżka. Bez umiejętności technicznych i krytycznego myślenia utknęlibyśmy w połowie drogi.
 
-## 5. Największa Słabość – Brak Walidacji
+## 5. Największa Słabość - Brak Walidacji
 
 Nasz wynik końcowy to **2.15 / 5 punktów**. Nie weszliśmy do finału. Dlaczego?
 
 Technologia działała. Prezentacja była świetna. Zabrakło jednego, kluczowego elementu: **WALIDACJI**.
 
-Zespół nie miał dostępu do praktyka – urzędnika, który na co dzień pracuje z budżetem. Mentor przypisany do zadania nie był ekspertem dziedzinowym. W efekcie stworzyliśmy system, który nam wydawał się logiczny, ale mógł być kompletnie oderwany od realiów administracji („przestrzelony”).
+Zespół nie miał dostępu do praktyka - urzędnika, który na co dzień pracuje z budżetem. Mentor przypisany do zadania nie był ekspertem dziedzinowym. W efekcie stworzyliśmy system, który nam wydawał się logiczny, ale mógł być kompletnie oderwany od realiów administracji („przestrzelony”).
 
 To najważniejsza lekcja: **Walidacja > Technologia**. Nawet najlepszy kod nie obroni rozwiązania, które nie odpowiada na realne potrzeby użytkownika.
 
@@ -141,9 +141,9 @@ Nauczeni doświadczeniem, przygotowaliśmy ulepszony proces na przyszłość:
 
 ## Podsumowanie i Wnioski
 
-Hacknation był dla nas bezcenną lekcją. Potwierdził, że AI pozwala robić rzeczy niemożliwe jeszcze rok temu – mały zespół w 24h stworzył działającą aplikację webową. Jednocześnie obnażył brutalną prawdę: w świecie produktu **technologia jest wtórna wobec zrozumienia problemu**.
+Hacknation był dla nas bezcenną lekcją. Potwierdził, że AI pozwala robić rzeczy niemożliwe jeszcze rok temu - mały zespół w 24h stworzył działającą aplikację webową. Jednocześnie obnażył brutalną prawdę: w świecie produktu **technologia jest wtórna wobec zrozumienia problemu**.
 
-Inne zespoły, które przyszły z gotowymi komponentami i lepiej odrobiły pracę domową z analizy biznesowej, wygrały. Podejście "na żywioł" jest romantyczne, ale w starciu z przygotowaniem – przegrywa.
+Inne zespoły, które przyszły z gotowymi komponentami i lepiej odrobiły pracę domową z analizy biznesowej, wygrały. Podejście "na żywioł" jest romantyczne, ale w starciu z przygotowaniem - przegrywa.
 
 AI to przyszłość programowania, ale to człowiek wciąż musi być pilotem, który wie, dokąd leci.
 

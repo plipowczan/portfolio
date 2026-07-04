@@ -1,7 +1,7 @@
 ---
 id: 8
 slug: kazda-firma-dziala-nieoptymalnie
-title: Każda firma działa nieoptymalnie – jak przestać kłamać pracownikom i zacząć naprawiać procesy?
+title: Każda firma działa nieoptymalnie - jak przestać kłamać pracownikom i zacząć naprawiać procesy?
 excerpt: Czy wiesz, że Twoja firma traci czas i pieniądze na nieefektywne procesy? Dowiedz się, jak mapowanie procesów i automatyzacja mogą to zmienić. Wnioski z Infoshare Katowice 2025.
 category: Automatyzacja
 author: Paweł Lipowczan
@@ -18,7 +18,7 @@ lang: pl
 alternateSlug: every-company-operates-suboptimally
 ---
 
-Czy masz w firmie taką osobę? Filar. Kogoś, kto nigdy nie zawodzi, nawet gdy wszystko wokół się sypie. I po raz trzeci w tym miesiącu ta osoba przychodzi do Ciebie z tym samym, absurdalnym problemem – błędem w systemie, który blokuje jej pracę.
+Czy masz w firmie taką osobę? Filar. Kogoś, kto nigdy nie zawodzi, nawet gdy wszystko wokół się sypie. I po raz trzeci w tym miesiącu ta osoba przychodzi do Ciebie z tym samym, absurdalnym problemem - błędem w systemie, który blokuje jej pracę.
 
 Patrzysz na ekran, potem na nią, i czujesz to palące ukłucie wstydu. Mówisz: _„Spokojnie, załatwię to”_, ale w głębi duszy wiesz, że kłamiesz. Nie ze złej woli. Kłamiesz, bo technologia, która miała pomagać, robi z Ciebie kłamcę w oczach Twoich najlepszych ludzi. Jesteście skazani na skostniałe systemy, gdzie każda zmiana to projekt na miarę wyprawy na Księżyc.
 
@@ -26,7 +26,7 @@ Jeśli ten scenariusz brzmi znajomo, nie jesteś sam. W Automation House zmapowa
 
 ## Bez mapy nie ma nawigacji
 
-Wyobraź sobie, że chcesz dotrzeć do celu w nieznanym terenie. Bez mapy błądzisz. W biznesie jest tak samo. Mapa procesu to nie tylko dokumentacja – to narzędzie nawigacyjne dla trzech grup:
+Wyobraź sobie, że chcesz dotrzeć do celu w nieznanym terenie. Bez mapy błądzisz. W biznesie jest tak samo. Mapa procesu to nie tylko dokumentacja - to narzędzie nawigacyjne dla trzech grup:
 
 1. **Biznes:** Zyskuje zrozumienie, jak _naprawdę_ działa firma (wyobrażenia zarządu często mijają się z rzeczywistością).
 2. **Użytkownicy:** Otrzymują jasną instrukcję działania i szybszy onboarding.
@@ -69,9 +69,9 @@ Zanim zaczniesz cokolwiek automatyzować, zadaj sobie pytanie: _Czy ten krok w o
 
 Najpierw usuwaj, potem upraszczaj, a dopiero na końcu automatyzuj.
 
-## Case Study: El Padre – Jak przyspieszyć ofertowanie o 50%?
+## Case Study: El Padre - Jak przyspieszyć ofertowanie o 50%?
 
-Teoria teorią, ale spójrzmy na praktykę. Agencja eventowa **El Padre** zgłosiła się do nas z problemem: tworzenie ofert (szczególnie mniejszych) było zbyt czasochłonne i mało rentowne. Wiedza o poprzednich realizacjach była rozproszona w głowach pracowników – brakowało centralnej bazy wiedzy.
+Teoria teorią, ale spójrzmy na praktykę. Agencja eventowa **El Padre** zgłosiła się do nas z problemem: tworzenie ofert (szczególnie mniejszych) było zbyt czasochłonne i mało rentowne. Wiedza o poprzednich realizacjach była rozproszona w głowach pracowników - brakowało centralnej bazy wiedzy.
 
 **Co zrobiliśmy?**
 

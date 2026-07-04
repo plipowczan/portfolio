@@ -296,20 +296,20 @@ Ale kod jest Twój. Nie masz limitu na uruchomienia. Nie płacisz $50/miesiąc n
 
 ### Zalety
 
-✅ **Zero vendor lock-in** – kod działa wszędzie, migrujesz gdzie chcesz
-✅ **Każde API bez oczekiwania** – daj dokumentację agentowi, ma integrację w godziny
-✅ **Brak limitów** – zero artificial limits na kroki, uruchomienia, dane
-✅ **Najtańszy przy skali** – hosting $5-20/miesiąc vs setki dolarów subskrypcji
-✅ **Pełna debugowalność** – żadnych czarnych skrzynek, każdy krok w logach
-✅ **Composable** – jak klocki Lego: każdy micro-tool robi jedno i robi to dobrze
-✅ **Najlepsza elastyczność** – zmiana logiki to zmiana kodu, nie walka z UI platformy
+✅ **Zero vendor lock-in** - kod działa wszędzie, migrujesz gdzie chcesz
+✅ **Każde API bez oczekiwania** - daj dokumentację agentowi, ma integrację w godziny
+✅ **Brak limitów** - zero artificial limits na kroki, uruchomienia, dane
+✅ **Najtańszy przy skali** - hosting $5-20/miesiąc vs setki dolarów subskrypcji
+✅ **Pełna debugowalność** - żadnych czarnych skrzynek, każdy krok w logach
+✅ **Composable** - jak klocki Lego: każdy micro-tool robi jedno i robi to dobrze
+✅ **Najlepsza elastyczność** - zmiana logiki to zmiana kodu, nie walka z UI platformy
 
 ### Wady
 
-❌ **Wymaga developera** – junior + AI agent to minimum, ale to musi być człowiek z tech background
-❌ **Maintenance** – kod trzeba utrzymywać (choć AI pomaga też z tym)
-❌ **Czas setupu** – pierwsze wdrożenie wolniejsze niż "klik-klik w Zapierze"
-❌ **Infrastructure** – hosting, deployment, monitoring (ale narzędzia jak Railway/Fly.io minimalizują overhead)
+❌ **Wymaga developera** - junior + AI agent to minimum, ale to musi być człowiek z tech background
+❌ **Maintenance** - kod trzeba utrzymywać (choć AI pomaga też z tym)
+❌ **Czas setupu** - pierwsze wdrożenie wolniejsze niż "klik-klik w Zapierze"
+❌ **Infrastructure** - hosting, deployment, monitoring (ale narzędzia jak Railway/Fly.io minimalizują overhead)
 
 ### Przykład: micro-tool zamiast platformy
 
@@ -467,10 +467,10 @@ Zamiast zgadywać, użyj tego prostego frameworka:
 
 | Narzędzie          | Miesięczny koszt | Jednorazowy koszt |
 |--------------------|------------------|-------------------|
-| Zapier             | $50–300          | minimal           |
-| Make               | $16–50           | low               |
-| n8n self-hosted    | $520–550         | high              |
-| Kod + AI agent     | $10–20           | medium (1x)       |
+| Zapier             | $50-300          | minimal           |
+| Make               | $16-50           | low               |
+| n8n self-hosted    | $520-550         | high              |
+| Kod + AI agent     | $10-20           | medium (1x)       |
 
 **Wniosek:** n8n self-hosted ma sens tylko przy **high-volume** (>50K zadań) lub **compliance requirements**. Kod + AI agent wygrywa gdy masz developera i chcesz pełnej kontroli bez rosnących subskrypcji.
 
@@ -658,7 +658,7 @@ Webhook (5 źródeł) →
 
 - Start simple: **Zapier**
 - Scale smart: **Make** gdy przekroczysz 5K zadań
-- Masz developera + AI: **Kod** od razu — zero vendor lock-in
+- Masz developera + AI: **Kod** od razu - zero vendor lock-in
 - Go technical: **n8n** jeśli compliance lub high-volume
 
 **Dla agencji:**

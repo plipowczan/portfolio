@@ -18,11 +18,11 @@ lang: pl
 alternateSlug: 5-techniques-working-with-claude-code
 ---
 
-Istnieje bardzo duże prawdopodobieństwo, że zostawiasz większość potencjału swojego asystenta kodowania AI na stole. Gdy zaczynałem pracę z Claude Code przy budowie tego portfolio, robiłem dokładnie to samo – wpisywałem proste prompty, otrzymywałem kod, czasami działał, czasami nie. Reaktywne promptowanie. Bez systemu.
+Istnieje bardzo duże prawdopodobieństwo, że zostawiasz większość potencjału swojego asystenta kodowania AI na stole. Gdy zaczynałem pracę z Claude Code przy budowie tego portfolio, robiłem dokładnie to samo - wpisywałem proste prompty, otrzymywałem kod, czasami działał, czasami nie. Reaktywne promptowanie. Bez systemu.
 
 Potem odkryłem, że najlepsi inżynierowie AI pracują zupełnie inaczej. Mają **system**. Wykorzystują metodologie, które sprawiają, że ich agenci kodowania stają się coraz potężniejsi z każdą iteracją.
 
-W tym artykule pokażę Ci 5 konkretnych technik, które całkowicie zmieniają sposób pracy z Claude Code. To nie są teoretyczne koncepcje – to praktyczne metody używane przez zespoły, które budują produkcyjne aplikacje z pomocą AI. A najlepsze jest to, że wszystkie te techniki są już spakowane w gotowy do użycia framework, który możesz wdrożyć w swoim projekcie jeszcze dziś.
+W tym artykule pokażę Ci 5 konkretnych technik, które całkowicie zmieniają sposób pracy z Claude Code. To nie są teoretyczne koncepcje - to praktyczne metody używane przez zespoły, które budują produkcyjne aplikacje z pomocą AI. A najlepsze jest to, że wszystkie te techniki są już spakowane w gotowy do użycia framework, który możesz wdrożyć w swoim projekcie jeszcze dziś.
 
 ## PRD-first development: Gwiazda polarna Twojego projektu
 
@@ -101,7 +101,7 @@ Claude Code czyta PRD, rozumie gdzie jesteś, co już zbudowałeś, i sugeruje k
 - **Context dla agenta** - Claude Code zawsze wie, nad czym pracujesz
 - **Spojrzenie z lotu ptaka** - każda feature łączy się z większą wizją
 
-PRD to fundament. Bez niego budujesz dom na piasku. Z nim - masz solidny fundament – każda linia kodu ma sens i kierunek.
+PRD to fundament. Bez niego budujesz dom na piasku. Z nim - masz solidny fundament - każda linia kodu ma sens i kierunek.
 
 ## Modularność reguł: Lżejszy kontekst, mądrzejszy agent
 
@@ -238,7 +238,7 @@ Zamiast każdorazowo wypisywać: "Przeczytaj PRD, potem architecture, potem spra
 
 ### Kluczowa obserwacja
 
-Ponieważ asystent to praktycznie tylko prompt, można ten prompt wykorzystać jako command. To piękna właściwość markdown'owych komend – są przenośne, czytelne dla człowieka, i możesz je iteracyjnie ulepszać.
+Ponieważ asystent to praktycznie tylko prompt, można ten prompt wykorzystać jako command. To piękna właściwość markdown'owych komend - są przenośne, czytelne dla człowieka, i możesz je iteracyjnie ulepszać.
 
 ### Typowy workflow z komendami
 
@@ -273,7 +273,7 @@ Oszczędzasz dosłownie **tysiące naciśnięć klawiszy** rocznie. A co ważnie
 
 To brzmi wbrew intuicji: **Zawsze resetuj konwersację między planowaniem a wykonaniem.**
 
-Większość programistów robi to źle. Planują feature'kę w długiej rozmowie z Claude Code – czytają pliki, dyskutują o architekturze, eksplorują różne podejścia. A potem, w tej samej rozmowie, od razu zaczynają implementację.
+Większość programistów robi to źle. Planują feature'kę w długiej rozmowie z Claude Code - czytają pliki, dyskutują o architekturze, eksplorują różne podejścia. A potem, w tej samej rozmowie, od razu zaczynają implementację.
 
 Problem? **Okno kontekstu jest zaśmiecone** całym procesem eksploracji.
 
@@ -384,7 +384,7 @@ As a user, I want to securely log in to access personalized content.
 
 ### Zalety planu self-contained
 
-LLM ma **maksymalną liczbę tokenów** dla reasoning podczas krytycznej fazy kodowania. Nie ma kontaminacji kontekstem eksploracyjnym. A co najważniejsze – **zmusza Cię to do tworzenia kompletnych, self-contained planów**.
+LLM ma **maksymalną liczbę tokenów** dla reasoning podczas krytycznej fazy kodowania. Nie ma kontaminacji kontekstem eksploracyjnym. A co najważniejsze - **zmusza Cię to do tworzenia kompletnych, self-contained planów**.
 
 To dyscyplina. Ale dyscyplina, która czyni Twoje sesje kodowania z AI nieporównywalnie bardziej efektywnymi.
 
@@ -500,7 +500,7 @@ Nazywa się **Claude PIV Skeleton** i jest dostępny na GitHub: [https://github.
 
 Wcześniej korzystałem z asystenta, który generował PRD oraz rules dla agenta AI, ale to wymagało korzystania z dwóch różnych narzędzi. Musiałem kopiować output między aplikacjami, synchronizować manualne, tracić kontekst.
 
-Posiadanie tego wszystkiego w jednym miejscu jest **ogromną zaletą**. A ponieważ asystent to praktycznie tylko prompt, można ten prompt wykorzystać jako command – i dokładnie to robi PIV Skeleton.
+Posiadanie tego wszystkiego w jednym miejscu jest **ogromną zaletą**. A ponieważ asystent to praktycznie tylko prompt, można ten prompt wykorzystać jako command - i dokładnie to robi PIV Skeleton.
 
 ### Czym jest PIV Methodology
 
@@ -657,7 +657,7 @@ Jeśli masz istniejący projekt i nie chcesz wszystkiego przenosić naraz, wdra�
 
 ### Twój pierwszy feature z PIV
 
-Konkretny przykład – załóżmy, że budujesz habit tracker i chcesz dodać streak tracking:
+Konkretny przykład - załóżmy, że budujesz habit tracker i chcesz dodać streak tracking:
 
 ```text
 Session 1 - Planning:
@@ -684,18 +684,18 @@ Po godzinie masz feature'kę w produkcji. Z testami. Z poprawnym commit message.
 ## Kluczowe wnioski
 
 1. **PRD-first development** zapewnia spójność i kierunek dla wszystkich iteracji z agentem AI. To gwiazda polarna, która sprawia, że każda feature ma sens w kontekście całości.
-2. **Modularyzacja reguł** chroni okno kontekstu i ładuje tylko potrzebną wiedzę. Przestań marnować tokeny na nieistotny kontekst – ładuj to, co ważne, wtedy gdy ważne.
+2. **Modularyzacja reguł** chroni okno kontekstu i ładuje tylko potrzebną wiedzę. Przestań marnować tokeny na nieistotny kontekst - ładuj to, co ważne, wtedy gdy ważne.
 3. **Komendyfikacja workflow** oszczędza tysiące naciśnięć klawiszy i zapewnia konsystencję. Jeśli robisz coś więcej niż dwa razy, to powinno być komendą.
 4. **Reset kontekstu** między planowaniem a wykonaniem daje agentowi maksymalną przestrzeń do rozumowania. Counterintuitive, ale to jedna z najbardziej impactowych technik.
-5. **Ewolucja systemu** przekształca każdy bug w lekcję, która sprawia że agent staje się mądrzejszy. Nie naprawiaj buga – napraw system, który na niego pozwolił.
-6. **PIV Skeleton** oferuje gotową implementację wszystkich technik w jednym miejscu. Nie musisz budować od zera – możesz zacząć już dziś.
+5. **Ewolucja systemu** przekształca każdy bug w lekcję, która sprawia że agent staje się mądrzejszy. Nie naprawiaj buga - napraw system, który na niego pozwolił.
+6. **PIV Skeleton** oferuje gotową implementację wszystkich technik w jednym miejscu. Nie musisz budować od zera - możesz zacząć już dziś.
 7. Najważniejsze: **systematyczne podejście** vs. reaktywne promptowanie to różnica między wykorzystaniem 20% a 80% potencjału Claude Code.
 
 ### Moje doświadczenie
 
 Gdy zaczynałem budować to portfolio z pomocą AI, nie miałem systemu. Proste prompty, ad-hoc fixes, zero procesów. Potem odkryłem te techniki. I wszystko się zmieniło.
 
-Teraz mój workflow z Claude Code jest przewidywalny. Efektywny. I co najważniejsze – **agent staje się lepszy z każdą sesją**, zamiast popełniać te same błędy w kółko.
+Teraz mój workflow z Claude Code jest przewidywalny. Efektywny. I co najważniejsze - **agent staje się lepszy z każdą sesją**, zamiast popełniać te same błędy w kółko.
 
 To transformacja, którą możesz mieć w swoim zespole. Wymaga to zmiany mindset z "AI to szybszy Google" na "AI to evolving development partner". Ale jeśli to zrobisz? Różnica będzie gigantyczna.
 
@@ -708,7 +708,7 @@ To transformacja, którą możesz mieć w swoim zespole. Wymaga to zmiany mindse
 
 </summary>
 
-Zacznij od minimalnego PRD z czterema sekcjami: Target Users (dla kogo), Mission (co robi), In Scope (MVP features) i Out of Scope (co na później). Nie potrzebujesz 50-stronicowego dokumentu – wystarczy prosty markdown z kluczowymi decyzjami. PRD dla małego projektu może mieć dosłownie 20-30 linijek i już daje ogromną wartość jako single source of truth dla AI.
+Zacznij od minimalnego PRD z czterema sekcjami: Target Users (dla kogo), Mission (co robi), In Scope (MVP features) i Out of Scope (co na później). Nie potrzebujesz 50-stronicowego dokumentu - wystarczy prosty markdown z kluczowymi decyzjami. PRD dla małego projektu może mieć dosłownie 20-30 linijek i już daje ogromną wartość jako single source of truth dla AI.
 
 </details>
 
@@ -719,7 +719,7 @@ Zacznij od minimalnego PRD z czterema sekcjami: Target Users (dla kogo), Mission
 
 </summary>
 
-Maksymalnie 200 linijek w głównym CLAUDE.md – tech stack, struktura projektu, podstawowe komendy i linki do reference docs. Wszystkie szczegółowe wzorce (API design, component patterns, testing) przenoś do osobnych plików w folderze reference. Claude Code automatycznie załaduje je tylko wtedy gdy pracujesz nad danym obszarem, oszczędzając cenne miejsce w oknie kontekstu.
+Maksymalnie 200 linijek w głównym CLAUDE.md - tech stack, struktura projektu, podstawowe komendy i linki do reference docs. Wszystkie szczegółowe wzorce (API design, component patterns, testing) przenoś do osobnych plików w folderze reference. Claude Code automatycznie załaduje je tylko wtedy gdy pracujesz nad danym obszarem, oszczędzając cenne miejsce w oknie kontekstu.
 
 </details>
 
@@ -730,7 +730,7 @@ Maksymalnie 200 linijek w głównym CLAUDE.md – tech stack, struktura projektu
 
 </summary>
 
-Komendy to zwykłe pliki markdown z instrukcjami workflow, więc działają z dowolnym LLM (ChatGPT, Claude, Cursor, Windsurf). Jedyna różnica to sposób ładowania – w Claude Code to slash commands, w ChatGPT kopiujesz zawartość jako prompt. Sama metodologia i struktura komend jest uniwersalna i przenośna między narzędziami.
+Komendy to zwykłe pliki markdown z instrukcjami workflow, więc działają z dowolnym LLM (ChatGPT, Claude, Cursor, Windsurf). Jedyna różnica to sposób ładowania - w Claude Code to slash commands, w ChatGPT kopiujesz zawartość jako prompt. Sama metodologia i struktura komend jest uniwersalna i przenośna między narzędziami.
 
 </details>
 
@@ -741,7 +741,7 @@ Komendy to zwykłe pliki markdown z instrukcjami workflow, więc działają z do
 
 </summary>
 
-Podczas planowania ładujesz TONY eksploracyjnego kontekstu (czytasz wiele plików, dyskutujesz o różnych podejściach), który zaśmieca okno kontekstu LLM. Reset daje agentowi czysty slate z maksymalną przestrzenią do rozumowania i self-validation podczas implementacji. To counterintuitive, ale empirycznie daje znacznie lepsze rezultaty – agent ma miejsce na quality checks zamiast walczyć z przeładowanym kontekstem.
+Podczas planowania ładujesz TONY eksploracyjnego kontekstu (czytasz wiele plików, dyskutujesz o różnych podejściach), który zaśmieca okno kontekstu LLM. Reset daje agentowi czysty slate z maksymalną przestrzenią do rozumowania i self-validation podczas implementacji. To counterintuitive, ale empirycznie daje znacznie lepsze rezultaty - agent ma miejsce na quality checks zamiast walczyć z przeładowanym kontekstem.
 
 </details>
 
@@ -752,7 +752,7 @@ Podczas planowania ładujesz TONY eksploracyjnego kontekstu (czytasz wiele plik�
 
 </summary>
 
-PIV Skeleton to gotowy framework z predefiniowanymi komendami (/prime, /plan-feature, /execute, /validate), strukturą folderów (.claude/commands, .claude/agents), szablonami dokumentów (PRD, rules) i procesem ewolucji systemu. Zamiast wymyślać workflow od zera, dostajesz sprawdzony system używany przez teams w produkcji – po prostu fork'ujesz repo i masz gotowe best practices. To jak różnica między pisaniem własnego framework'a a użyciem Next.js.
+PIV Skeleton to gotowy framework z predefiniowanymi komendami (/prime, /plan-feature, /execute, /validate), strukturą folderów (.claude/commands, .claude/agents), szablonami dokumentów (PRD, rules) i procesem ewolucji systemu. Zamiast wymyślać workflow od zera, dostajesz sprawdzony system używany przez teams w produkcji - po prostu fork'ujesz repo i masz gotowe best practices. To jak różnica między pisaniem własnego framework'a a użyciem Next.js.
 
 </details>
 
@@ -763,7 +763,7 @@ PIV Skeleton to gotowy framework z predefiniowanymi komendami (/prime, /plan-fea
 
 </summary>
 
-Start small – dzień 1: stwórz minimalny PRD (1-2h), dzień 2: lekki CLAUDE.md + jedna komenda /prime (1-2h), tydzień 1: dodaj /plan-feature i /execute (2-3h łącznie). Nie implementuj wszystkiego naraz. Po 2 tygodniach pracy z systemem zobaczysz naturalne miejsca do dodania kolejnych komend i reguł. Brownfield projects wymagają około 5-8 godzin total setup, ale ROI widzisz już po pierwszej sesji z nowym workflow.
+Start small - dzień 1: stwórz minimalny PRD (1-2h), dzień 2: lekki CLAUDE.md + jedna komenda /prime (1-2h), tydzień 1: dodaj /plan-feature i /execute (2-3h łącznie). Nie implementuj wszystkiego naraz. Po 2 tygodniach pracy z systemem zobaczysz naturalne miejsca do dodania kolejnych komend i reguł. Brownfield projects wymagają około 5-8 godzin total setup, ale ROI widzisz już po pierwszej sesji z nowym workflow.
 
 </details>
 

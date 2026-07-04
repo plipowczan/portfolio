@@ -1,7 +1,7 @@
 ---
 id: 25
 slug: spec-driven-seo-portfolio-qamera-ai
-title: "Dlaczego nie da się tego zrobić na WordPressie — spec-driven SEO na portfolio i Qamera AI"
+title: "Dlaczego nie da się tego zrobić na WordPressie - spec-driven SEO na portfolio i Qamera AI"
 excerpt: "Audyt SEO, spec-driven changes i AI workflow zoptymalizowały dwa projekty w godziny, nie tygodnie. Case study z portfolio i Qamera AI."
 category: Code
 author: Pawel Lipowczan
@@ -21,11 +21,11 @@ alternateSlug: spec-driven-seo-portfolio-qamera-ai-case-study
 
 ## Dwa projekty, dwa stacki, jedna pętla pracy
 
-W ciągu dwóch tygodni zoptymalizowałem SEO na dwóch radikalnie różnych projektach. **Portfolio** ([pawel.lipowczan.pl](https://pawel.lipowczan.pl)) — Vite 7 + React 19 SPA z prerenderem. Audyt znalazł 10 findings, naprawiłem pięć z nich w jedno popołudnie. Securityheaders.com przeszedł z **C na A**, Rich Results Test z **5 warnings na 0**, sitemap dostał per-URL `lastmod` zamiast jednego build timestampa dla 73 URL-i.
+W ciągu dwóch tygodni zoptymalizowałem SEO na dwóch radikalnie różnych projektach. **Portfolio** ([pawel.lipowczan.pl](https://pawel.lipowczan.pl)) - Vite 7 + React 19 SPA z prerenderem. Audyt znalazł 10 findings, naprawiłem pięć z nich w jedno popołudnie. Securityheaders.com przeszedł z **C na A**, Rich Results Test z **5 warnings na 0**, sitemap dostał per-URL `lastmod` zamiast jednego build timestampa dla 73 URL-i.
 
-**Qamera AI** ([qamera.ai](https://qamera.ai)) — mój SaaS do AI product photography, Next.js 16 App Router + Turborepo + Vercel + Supabase + i18n EN/PL/UK. Audyt zwrócił health score **56/100**. W pięć dni roboczych zamknąłem **dziewięć spec-driven changes** (siedem planowanych + dwa wykryte po drodze), które rozwiązały wszystkie "Critical" findings. CLS na `/marketplace/styles` spadł z **0.467 do 0.016** — 27× poprawa. Hreflang pokrycie urosło z "tylko docs" do **20 static marketing paths plus docs**. Homepage dostał trzy bloki JSON-LD (Organization + WebSite + SoftwareApplication), pricing kolejne trzy (Product × 2 + FAQPage).
+**Qamera AI** ([qamera.ai](https://qamera.ai)) - mój SaaS do AI product photography, Next.js 16 App Router + Turborepo + Vercel + Supabase + i18n EN/PL/UK. Audyt zwrócił health score **56/100**. W pięć dni roboczych zamknąłem **dziewięć spec-driven changes** (siedem planowanych + dwa wykryte po drodze), które rozwiązały wszystkie "Critical" findings. CLS na `/marketplace/styles` spadł z **0.467 do 0.016** - 27× poprawa. Hreflang pokrycie urosło z "tylko docs" do **20 static marketing paths plus docs**. Homepage dostał trzy bloki JSON-LD (Organization + WebSite + SoftwareApplication), pricing kolejne trzy (Product × 2 + FAQPage).
 
-Centralna teza tego artykułu jest prosta i niewygodna dla części czytelników: **pełna kontrola nad SEO i GEO jest możliwa tylko przy stacku opartym na kodzie**. WordPress, Webflow i Wix dają wtyczki — nie dają nagłówka `Content-Security-Policy` z reportingiem do Sentry, nie dają `xhtml:link` na poziomie sitemapy, nie dają `requestIdleCallback` w `<head>`, nie dają `llms.txt` generowanego z własną logiką build-time. Drugi multiplikator: dobry **AI workflow** — brainstorm → spec → execute → review → test. Sam kodowy stack bez procesu = dwa tygodnie ręcznej pracy. Sam AI workflow na zamkniętej platformie = uderzasz w sufit pluginów. Razem = godziny.
+Centralna teza tego artykułu jest prosta i niewygodna dla części czytelników: **pełna kontrola nad SEO i GEO jest możliwa tylko przy stacku opartym na kodzie**. WordPress, Webflow i Wix dają wtyczki - nie dają nagłówka `Content-Security-Policy` z reportingiem do Sentry, nie dają `xhtml:link` na poziomie sitemapy, nie dają `requestIdleCallback` w `<head>`, nie dają `llms.txt` generowanego z własną logiką build-time. Drugi multiplikator: dobry **AI workflow** - brainstorm → spec → execute → review → test. Sam kodowy stack bez procesu = dwa tygodnie ręcznej pracy. Sam AI workflow na zamkniętej platformie = uderzasz w sufit pluginów. Razem = godziny.
 
 Pokażę proces na obu projektach. Zobaczysz, co transferuje się 1:1, a co wymaga innych decyzji per stack.
 
@@ -33,7 +33,7 @@ Pokażę proces na obu projektach. Zobaczysz, co transferuje się 1:1, a co wyma
 
 Pięć lat temu wybór między WordPressem a własnym kodem był pragmatyczny. WordPress dawał motywy, pluginy, ekosystem, panel dla nietechnicznego klienta. Vercel z własnym frameworkiem był overkillem dla 80% projektów.
 
-W 2026 te proporcje się przesunęły. **SEO przesunęło się w stronę GEO** (Generative Engine Optimization) — ChatGPT web search, Perplexity, Claude Search i Gemini Deep Research czytają twoje strony, ale inaczej niż Googlebot. Respektują [llmstxt.org](https://llmstxt.org/) spec, ważą `author.name` i `datePublished` w JSON-LD przy wyborze źródeł, preferują "factual-definition opener" w pierwszych 150 słowach. Security headers stały się sygnałem zaufania. Core Web Vitals weryfikuje field data z CrUX, nie lab score z Lighthouse. Schema enrichment przekłada się na rich results w SERP.
+W 2026 te proporcje się przesunęły. **SEO przesunęło się w stronę GEO** (Generative Engine Optimization) - ChatGPT web search, Perplexity, Claude Search i Gemini Deep Research czytają twoje strony, ale inaczej niż Googlebot. Respektują [llmstxt.org](https://llmstxt.org/) spec, ważą `author.name` i `datePublished` w JSON-LD przy wyborze źródeł, preferują "factual-definition opener" w pierwszych 150 słowach. Security headers stały się sygnałem zaufania. Core Web Vitals weryfikuje field data z CrUX, nie lab score z Lighthouse. Schema enrichment przekłada się na rich results w SERP.
 
 Co WordPress / Webflow daje w 2026: SEO plugin (Yoast, Rank Math), basic schema dla Article i Product, sitemap generowany automatycznie, redirecty, `meta description`. To około **80% potrzeb** dla typowej strony firmowej.
 
@@ -50,21 +50,21 @@ Czego nie daje (lub daje z bardzo dużą walką):
 - Sitemap lastmod per page-type (post: frontmatter.modified, listing: max, legal: git mtime)
 ```
 
-To jest top 20% kontroli. I to dokładnie ten zakres, w którym dziś wygrywasz pozycje — w klasycznym SERP i w odpowiedziach LLM-ów. Pluginy domykają top 80%. Top 20% wymaga edycji nagłówków HTTP, struktury HTML w `<head>`, własnego buildera artefaktów. Tego nie robisz w admin panelu — bo admin panel celowo nie odsłania tych warstw.
+To jest top 20% kontroli. I to dokładnie ten zakres, w którym dziś wygrywasz pozycje - w klasycznym SERP i w odpowiedziach LLM-ów. Pluginy domykają top 80%. Top 20% wymaga edycji nagłówków HTTP, struktury HTML w `<head>`, własnego buildera artefaktów. Tego nie robisz w admin panelu - bo admin panel celowo nie odsłania tych warstw.
 
-## Toolchain — pięć narzędzi, jedna pętla
+## Toolchain - pięć narzędzi, jedna pętla
 
 Używam tych samych pięciu narzędzi na każdym projekcie SEO. Każde z osobna jest zwykłe. Razem tworzą pętlę, która kompresuje czas o 80-90%.
 
 | Narzędzie                                                        | Rola                                                                                            |
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| **`claude-seo`** plugin (20+ sub-skilli)                         | Audyt jako pierwsza komenda — technical, GEO, schema, performance, hreflang, AI discoverability |
-| **OPSX / OpenSpec**                                              | Spec-driven workflow — `proposal.md` → `design.md` → `specs/` → `tasks.md` przed kodem          |
+| **`claude-seo`** plugin (20+ sub-skilli)                         | Audyt jako pierwsza komenda - technical, GEO, schema, performance, hreflang, AI discoverability |
+| **OPSX / OpenSpec**                                              | Spec-driven workflow - `proposal.md` → `design.md` → `specs/` → `tasks.md` przed kodem          |
 | **Lighthouse MCP**                                               | Lab CWV i LCP opportunities z poziomu agenta, bez przełączania kontekstu do PageSpeed           |
 | **Rich Results Test + securityheaders.com + Sentry CSP Reports** | Weryfikacja na każdym kroku                                                                     |
 | **Git worktrees**                                                | Równoległa praca nad niezależnymi changes (gdy projekt na to pozwala)                           |
 
-OPSX opisałem szerzej w [osobnym artykule o strukturyzowanym podejściu do AI workflow](/blog/opsx-workflow-strukturyzowana-praca-z-ai). `claude-seo` to przykład **specjalizowanego skilla** w sensie z [posta o Skills 2.0](/blog/skills-2-0-multi-agent-system-zarzadzanie-firma) — domain-specific knowledge plus checklist plus pre-built sub-skille.
+OPSX opisałem szerzej w [osobnym artykule o strukturyzowanym podejściu do AI workflow](/blog/opsx-workflow-strukturyzowana-praca-z-ai). `claude-seo` to przykład **specjalizowanego skilla** w sensie z [posta o Skills 2.0](/blog/skills-2-0-multi-agent-system-zarzadzanie-firma) - domain-specific knowledge plus checklist plus pre-built sub-skille.
 
 Pętla pracy wygląda tak samo na każdym projekcie:
 
@@ -86,7 +86,7 @@ Typowa sekwencja komend:
 
 # Faza 2: change proposal
 /opsx:new "seo-improvements"
-/opsx:ff   # fast-forward — wszystkie planning artifacts naraz
+/opsx:ff   # fast-forward - wszystkie planning artifacts naraz
 
 # Faza 3: implementacja
 /opsx:apply
@@ -99,9 +99,9 @@ Typowa sekwencja komend:
 /opsx:archive
 ```
 
-Każde z tych narzędzi działa **dlatego, że substratem jest kod**. Audyt może czytać dowolny plik źródłowy i raw output `<head>`. OPSX może edytować `vite.config.js`, `next.config.ts`, `vercel.json`, `robots.txt` w jednej sesji. Weryfikatory dostają pełny output bez sandboxa. To nie jest przypadek — to konsekwencja architektury.
+Każde z tych narzędzi działa **dlatego, że substratem jest kod**. Audyt może czytać dowolny plik źródłowy i raw output `<head>`. OPSX może edytować `vite.config.js`, `next.config.ts`, `vercel.json`, `robots.txt` w jednej sesji. Weryfikatory dostają pełny output bez sandboxa. To nie jest przypadek - to konsekwencja architektury.
 
-## Audyt — co znajduje claude-seo na dwóch radikalnie różnych projektach
+## Audyt - co znajduje claude-seo na dwóch radikalnie różnych projektach
 
 Pierwsza obserwacja, która mnie zaskoczyła: **claude-seo zwraca ten sam zestaw kategorii znalezisk niezależnie od stacku**. Różny jest tylko sposób ich naprawy.
 
@@ -112,26 +112,26 @@ Pierwsza obserwacja, która mnie zaskoczyła: **claude-seo zwraca ten sam zestaw
 
 Wspólne kategorie znalezisk, które transferują się 1:1 między stackami:
 
-- **Brak lub niekompletny `llms.txt`** — biggest miss na GEO readiness w obu projektach
-- **Schema enrichment** — brakujący `publisher`, `dateModified`, `mainEntityOfPage`, ISO 8601 datetime
+- **Brak lub niekompletny `llms.txt`** - biggest miss na GEO readiness w obu projektach
+- **Schema enrichment** - brakujący `publisher`, `dateModified`, `mainEntityOfPage`, ISO 8601 datetime
 - **Hreflang tylko head-level**, brak `xhtml:link` w sitemap dla klasteryzacji wariantów językowych
-- **Security headers** — deprecated `X-XSS-Protection`, brak `Permissions-Policy`, brak HSTS preload, brak CSP
-- **AI bot allowlist** to wildcard — co dla `Google-Extended` i `GPTBot` oznacza "brak sygnału", nie "allow"
+- **Security headers** - deprecated `X-XSS-Protection`, brak `Permissions-Policy`, brak HSTS preload, brak CSP
+- **AI bot allowlist** to wildcard - co dla `Google-Extended` i `GPTBot` oznacza "brak sygnału", nie "allow"
 
 Stack-specific findings, które wymagają innych decyzji:
 
 - **Portfolio:** `clickrank.ai` synchroniczny w `<head>` blokuje parser przed First Paint, sitemap z 73 URL-ami i jedną datą `lastmod`, `articleBody: post.excerpt` semantycznie błędne w `BlogPosting`
 - **Qamera:** CLS 0.467 na `/marketplace/styles` przez client-side fetch z Airtable bez zarezerwowanych wymiarów kart, hardcoded EN strings w `root-metadata.ts` (PL/UK użytkownicy dostawali angielski OG na każdej marketingowej), Merchant Listings false-positive na pricing
 
-Wspólny zestaw znalezisk to **pierwszy dowód, że proces jest transferowalny**. Zna mnie kilka pluginów SEO i każdy z nich na obu projektach zwróciłby fundamentalnie różne raporty, bo każdy jest zwiazany z konkretną platformą. Audyt agenta na neutralnym substracie — kodzie — zwraca uniwersalny obraz.
+Wspólny zestaw znalezisk to **pierwszy dowód, że proces jest transferowalny**. Zna mnie kilka pluginów SEO i każdy z nich na obu projektach zwróciłby fundamentalnie różne raporty, bo każdy jest zwiazany z konkretną platformą. Audyt agenta na neutralnym substracie - kodzie - zwraca uniwersalny obraz.
 
-## Od audytu do change proposal — kiedy bundlować, kiedy splitować
+## Od audytu do change proposal - kiedy bundlować, kiedy splitować
 
 Dwa projekty, dwie różne strategie packagingu zmian.
 
-**Portfolio** dostało jeden change `seo-improvements` z pięcioma filarami w jednym PR-ze ([#2](https://github.com/plipowczan/portfolio/pull/2)). Single-maintainer, brak ryzyka konfliktu plików, łatwiejszy review całości — bo zmiany są logicznie związane tematycznie.
+**Portfolio** dostało jeden change `seo-improvements` z pięcioma filarami w jednym PR-ze ([#2](https://github.com/plipowczan/portfolio/pull/2)). Single-maintainer, brak ryzyka konfliktu plików, łatwiejszy review całości - bo zmiany są logicznie związane tematycznie.
 
-**Qamera** dostała dziewięć osobnych changes, osiem PR-ów (#75/76/77/82/92/93/94/96), pracowanych równolegle na worktree'ach git. Multi-developer, monorepo, disjoint file sets. Worktrees pozwoliły każdej zmianie mieć własne `node_modules` i własny port dev servera — zero konfliktu state.
+**Qamera** dostała dziewięć osobnych changes, osiem PR-ów (#75/76/77/82/92/93/94/96), pracowanych równolegle na worktree'ach git. Multi-developer, monorepo, disjoint file sets. Worktrees pozwoliły każdej zmianie mieć własne `node_modules` i własny port dev servera - zero konfliktu state.
 
 Kryterium decyzyjne, którego używam:
 
@@ -147,7 +147,7 @@ Kryterium decyzyjne, którego używam:
 Wspólne dla obu: każda zmiana = OPSX `proposal.md` + `design.md` + `specs/` + `tasks.md` **przed** kodem. To nie biurokracja. To **feedback loop dla AI**: review specu kosztuje minuty, review 200 linii wygenerowanego kodu w niewłaściwym miejscu kosztuje godziny. Spec-driven daje ci punkt weta, zanim zapłacisz koszt implementacji.
 
 ```text
-## Tasks — seo-improvements
+## Tasks - seo-improvements
 
 - [x] Move clickrank inline to requestIdleCallback (+ setTimeout fallback)
 - [x] Generate dedicated raster logo (600×60 PNG via sharp)
@@ -159,7 +159,7 @@ Wspólne dla obu: każda zmiana = OPSX `proposal.md` + `design.md` + `specs/` + 
 - [x] Per-page-type lastmod (post: frontmatter.modified, listing: max, legal: git mtime)
 ```
 
-Każdy task w `tasks.md` to jedna jednostka pracy o znanym scope i znanym sposobie weryfikacji. Po implementacji checkbox jest dowodem, że task został wykonany — nie deklaracją.
+Każdy task w `tasks.md` to jedna jednostka pracy o znanym scope i znanym sposobie weryfikacji. Po implementacji checkbox jest dowodem, że task został wykonany - nie deklaracją.
 
 ## Co transferuje się 1:1 (i dlaczego to argument za kodem)
 
@@ -188,13 +188,13 @@ Na portfolio mam `scripts/generate-llms-txt.js` uruchamiany w `build:prerender`.
 - email: ...
 ```
 
-W Qamerze bliźniaczy skrypt w workspace `apps/web` generuje `llms.txt` z marketingowych stron, blog postów i public docs. Logika jest inna (źródła danych, struktura sekcji), ale wzorzec — build-time generator zgodny ze spec — identyczny.
+W Qamerze bliźniaczy skrypt w workspace `apps/web` generuje `llms.txt` z marketingowych stron, blog postów i public docs. Logika jest inna (źródła danych, struktura sekcji), ale wzorzec - build-time generator zgodny ze spec - identyczny.
 
 **Tego nie zrobisz w panelu:** plugin WordPressa może wyplunąć statyczny `llms.txt`, ale nie zaintegrujesz go z własnym CMS-em na własnych warunkach (kolejność sekcji per język, fallback dla brakujących `description`, paginacja przy 100+ artykułach).
 
-### B. Schema enrichment — `articleBody: excerpt` to semantyczny błąd
+### B. Schema enrichment - `articleBody: excerpt` to semantyczny błąd
 
-Mój stary `BlogPosting` miał sześć pól. Rich Results Test pokazywał pięć non-critical warnings. Po enrichmencie — jedenaście pól, zero warnings.
+Mój stary `BlogPosting` miał sześć pól. Rich Results Test pokazywał pięć non-critical warnings. Po enrichmencie - jedenaście pól, zero warnings.
 
 ```json
 {
@@ -222,13 +222,13 @@ Mój stary `BlogPosting` miał sześć pól. Rich Results Test pokazywał pięć
 }
 ```
 
-Trzy nieoczywiste detale: `articleBody: post.excerpt` jest **semantycznie błędne** (spec wymaga pełnej treści, nie skrótu) — wyciąłem to pole zupełnie. `publisher.logo` musi być **rasterem** (PNG 600×60), nie SVG. ISO 8601 z `Z` lub offsetem, nie `2026-01-15` bez strefy. W Qamerze identyczny zestaw zmian dotknął `Article` na `/blog`, `Service` na `/offer/*` i `Product` na `/pricing`.
+Trzy nieoczywiste detale: `articleBody: post.excerpt` jest **semantycznie błędne** (spec wymaga pełnej treści, nie skrótu) - wyciąłem to pole zupełnie. `publisher.logo` musi być **rasterem** (PNG 600×60), nie SVG. ISO 8601 z `Z` lub offsetem, nie `2026-01-15` bez strefy. W Qamerze identyczny zestaw zmian dotknął `Article` na `/blog`, `Service` na `/offer/*` i `Product` na `/pricing`.
 
-**Tego nie zrobisz w panelu:** SEO pluginy ustawiają top sześć pól. `mainEntityOfPage`, `publisher.logo` jako oddzielny raster, ISO datetime, `description` z fallback do pierwszego akapitu — to ręczna robota w generatorze schema.
+**Tego nie zrobisz w panelu:** SEO pluginy ustawiają top sześć pól. `mainEntityOfPage`, `publisher.logo` jako oddzielny raster, ISO datetime, `description` z fallback do pierwszego akapitu - to ręczna robota w generatorze schema.
 
 ### C. Hreflang na poziomie sitemapy, nie tylko `<head>`
 
-Next.js `Metadata.alternates.languages` to head-level signal. Google preferuje **sitemap-level `xhtml:link`** dla klasteryzacji wariantów językowych. W Qamerze rozwiązaliśmy to wspólnym helperem `buildLanguageAlternates(pathname)` używanym z dwóch miejsc — `sitemap.ts` i każdego `generateMetadata` per page.
+Next.js `Metadata.alternates.languages` to head-level signal. Google preferuje **sitemap-level `xhtml:link`** dla klasteryzacji wariantów językowych. W Qamerze rozwiązaliśmy to wspólnym helperem `buildLanguageAlternates(pathname)` używanym z dwóch miejsc - `sitemap.ts` i każdego `generateMetadata` per page.
 
 ```xml
 <url>
@@ -240,19 +240,19 @@ Next.js `Metadata.alternates.languages` to head-level signal. Google preferuje *
 </url>
 ```
 
-Drift-guard test w CI failuje, gdy ktoś doda ścieżkę do sitemap, a nie doda `alternates` do `page.tsx`. To zabezpieczenie przed silent regression — bardzo łatwo dodać nowy landing i zapomnieć o jego wariancie językowym.
+Drift-guard test w CI failuje, gdy ktoś doda ścieżkę do sitemap, a nie doda `alternates` do `page.tsx`. To zabezpieczenie przed silent regression - bardzo łatwo dodać nowy landing i zapomnieć o jego wariancie językowym.
 
-**Tego nie zrobisz w panelu:** Yoast generuje hreflang w head. Sitemap-level wymaga edycji generatora sitemapy plus drift-guard — czyli kodu w CI.
+**Tego nie zrobisz w panelu:** Yoast generuje hreflang w head. Sitemap-level wymaga edycji generatora sitemapy plus drift-guard - czyli kodu w CI.
 
-### D. AI bot allowlist — named rules zamiast wildcard
+### D. AI bot allowlist - named rules zamiast wildcard
 
-`robots.txt` z osobnymi blokami dla `GPTBot`, `OAI-SearchBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended` i `CCBot`. Wildcard = "brak sygnału" — bot interpretuje to konserwatywnie. Named allow = "explicit yes" — bot wie, że może crawl-ować i indeksować dla swojego pipeline.
+`robots.txt` z osobnymi blokami dla `GPTBot`, `OAI-SearchBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended` i `CCBot`. Wildcard = "brak sygnału" - bot interpretuje to konserwatywnie. Named allow = "explicit yes" - bot wie, że może crawl-ować i indeksować dla swojego pipeline.
 
-**Tego nie zrobisz w panelu:** WordPress pisze do `robots.txt` przez plugin, ale per-bot reguły wymagają edycji pliku fizycznego — czyli dostępu do filesystem, którego nie masz w typowym shared hostingu.
+**Tego nie zrobisz w panelu:** WordPress pisze do `robots.txt` przez plugin, ale per-bot reguły wymagają edycji pliku fizycznego - czyli dostępu do filesystem, którego nie masz w typowym shared hostingu.
 
 ## Co jest stack-specific (i czego nauczył mnie każdy projekt osobno)
 
-### Portfolio — `async=true` na inline script to mit
+### Portfolio - `async=true` na inline script to mit
 
 Ten finding zaskoczył mnie najbardziej, bo wszyscy się mylą. Skrypt `clickrank.ai` w `<head>` wyglądał tak:
 
@@ -267,7 +267,7 @@ Ten finding zaskoczył mnie najbardziej, bo wszyscy się mylą. Skrypt `clickran
 
 Pułapka: `async=true` dotyczy **ściągania** skryptu, ale sam inline kod, który go tworzy, wykonuje się **synchronicznie podczas parsowania HTML**. Dodaje microtask do event loopa, zanim browser wyrenderuje cokolwiek.
 
-Fix — `requestIdleCallback` plus fallback dla Safari 16.3 i starszych:
+Fix - `requestIdleCallback` plus fallback dla Safari 16.3 i starszych:
 
 ```html
 <script>
@@ -284,19 +284,19 @@ Fix — `requestIdleCallback` plus fallback dla Safari 16.3 i starszych:
 </script>
 ```
 
-Weryfikacja po deploy na prod: `performance.getEntriesByType('resource').filter(r => r.name.match(/clickrank/))` → `startTime: 101.6ms`. Browser zgłosił idle po ~100ms i dopiero wtedy odpalił callback. Lighthouse lab score variance pozostała duża (post: prod 38 → preview 61 → drugi run 43) — **lab score ≠ field data**. Prawdziwa weryfikacja to CrUX z Google Search Console po 2-4 tygodniach.
+Weryfikacja po deploy na prod: `performance.getEntriesByType('resource').filter(r => r.name.match(/clickrank/))` → `startTime: 101.6ms`. Browser zgłosił idle po ~100ms i dopiero wtedy odpalił callback. Lighthouse lab score variance pozostała duża (post: prod 38 → preview 61 → drugi run 43) - **lab score ≠ field data**. Prawdziwa weryfikacja to CrUX z Google Search Console po 2-4 tygodniach.
 
-### Qamera — CLS 0.467 → 0.016 przez SSR initial grid
+### Qamera - CLS 0.467 → 0.016 przez SSR initial grid
 
-`/marketplace/styles` pokazywał karty stylów ładowane client-side z Airtable. Bez zarezerwowanych wymiarów grid layout shiftował się 4× ponad próg failing (0.467 vs cel ≤ 0.1). Trzy opcje fixu — SSR initial grid, reserved card dimensions, combined. Wybraliśmy **SSR**: bonus dla GEO (non-JS crawlers widzą content) plus eliminacja CLS u źródła.
+`/marketplace/styles` pokazywał karty stylów ładowane client-side z Airtable. Bez zarezerwowanych wymiarów grid layout shiftował się 4× ponad próg failing (0.467 vs cel ≤ 0.1). Trzy opcje fixu - SSR initial grid, reserved card dimensions, combined. Wybraliśmy **SSR**: bonus dla GEO (non-JS crawlers widzą content) plus eliminacja CLS u źródła.
 
 Rezultat: **CLS 0.016** (27× poprawa), LCP 2.4s → 1.6s. Twist post-deploy: PageSpeed Insights pokazał LCP 14.4s (cold Vercel function), Lighthouse MCP równolegle 1.6s (warm). **Jedna metryka z PSI to sampling.** Zawsze re-run lub weryfikuj lokalnie.
 
-## Bug, którego audyt nie szukał — i dlaczego to argument za regularnymi audytami
+## Bug, którego audyt nie szukał - i dlaczego to argument za regularnymi audytami
 
 Audyt SEO portfolio wyrzucił finding, którego się nie spodziewałem: hreflang alternatywy dla posta `llm-knowledge-base-brain-karpathy` wskazywały na `/en/blog/<pl-slug>`, który zwraca "Post not found".
 
-Root cause: post był **PL-only** (brak EN wersji), ale jego frontmatter miał `alternateSlug: llm-knowledge-base-brain-karpathy` — wskazujący sam na siebie. Efekt wcześniejszej iteracji blog-article-writer skilla, który **autouzupełnił pole bez walidacji**. Łańcuch zdarzeń:
+Root cause: post był **PL-only** (brak EN wersji), ale jego frontmatter miał `alternateSlug: llm-knowledge-base-brain-karpathy` - wskazujący sam na siebie. Efekt wcześniejszej iteracji blog-article-writer skilla, który **autouzupełnił pole bez walidacji**. Łańcuch zdarzeń:
 
 1. User na PL poście klika przełącznik języka
 2. `getAlternatePost(currentSlug)` zwraca... ten sam PL post
@@ -308,7 +308,7 @@ Trzy-poziomowa naprawa: **data fix** (usunięcie pola), **code defense** (`getAl
 
 Meta-lekcja jest mocna: audyt SEO uruchamia bug-i, **które nie były jego celem**. Nigdy bym nie znalazł tego bez claude-seo. To argument za regularnym audytem nawet na małym projekcie.
 
-Drugi meta-poziom — bug został **wprowadzony przez AI workflow** (blog-article-writer skill), naprawiony przez **inny AI workflow** (audyt + spec-driven fix + reguła w skillu). To pętla samokorygująca pod warunkiem, że jest proces. Bez procesu — bug żyłby tygodniami. Pokrewny wątek o tym, jak agent pilnuje swoich własnych standardów, opisałem szerzej w [poście o LLM Wiki Karpathy'ego](/blog/llm-knowledge-base-brain-karpathy) i [Second Brain z Obsidian i Claude Code](/blog/second-brain-obsidian-claude-code-skills).
+Drugi meta-poziom - bug został **wprowadzony przez AI workflow** (blog-article-writer skill), naprawiony przez **inny AI workflow** (audyt + spec-driven fix + reguła w skillu). To pętla samokorygująca pod warunkiem, że jest proces. Bez procesu - bug żyłby tygodniami. Pokrewny wątek o tym, jak agent pilnuje swoich własnych standardów, opisałem szerzej w [poście o LLM Wiki Karpathy'ego](/blog/llm-knowledge-base-brain-karpathy) i [Second Brain z Obsidian i Claude Code](/blog/second-brain-obsidian-claude-code-skills).
 
 ## Kompresja czasu jest multiplikatywna, nie addytywna
 
@@ -318,40 +318,40 @@ Liczbowo:
 - **Qamera:** **5 dni roboczych** dla 9 zmian (siedmiu planowanych + dwóch wykrytych po drodze)
 - **Drugi projekt = ~30% czasu pierwszego** dzięki transferowi wzorców (llms.txt, schema enrichment, hreflang sitemap, AI bot allowlist)
 
-Multiplikator: **kodowy stack × dobry AI workflow = godziny**. Każdy z osobna nie wystarczy. Sam kodowy stack bez procesu = dwa tygodnie ręcznej pracy z forami i Stack Overflow. Sam AI workflow na zamkniętej platformie = uderzasz w sufit pluginów po pół godziny. Razem dają kompresję o 80-90%. To nie jest addytywne — to mnożenie. Argument, dla którego coraz częściej wybieram kodowe rozwiązania, opisałem też w [przewodniku po vibe codingu](/blog/vibe-coding-przewodnik).
+Multiplikator: **kodowy stack × dobry AI workflow = godziny**. Każdy z osobna nie wystarczy. Sam kodowy stack bez procesu = dwa tygodnie ręcznej pracy z forami i Stack Overflow. Sam AI workflow na zamkniętej platformie = uderzasz w sufit pluginów po pół godziny. Razem dają kompresję o 80-90%. To nie jest addytywne - to mnożenie. Argument, dla którego coraz częściej wybieram kodowe rozwiązania, opisałem też w [przewodniku po vibe codingu](/blog/vibe-coding-przewodnik).
 
 Sześć takeaways z obu projektów:
 
-1. **Kodowy stack daje top 20% kontroli, której pluginy nie dają** — i to ten zakres dziś wygrywa pozycje
-2. **Spec-driven jako feedback loop dla AI** — review specu kosztuje minuty, review 200 linii kodu kosztuje godziny
+1. **Kodowy stack daje top 20% kontroli, której pluginy nie dają** - i to ten zakres dziś wygrywa pozycje
+2. **Spec-driven jako feedback loop dla AI** - review specu kosztuje minuty, review 200 linii kodu kosztuje godziny
 3. **Transferowalne 1:1 między stackami:** llms.txt, schema enrichment, hreflang sitemap-level, AI bot allowlist
-4. **Stack-specific:** każdy framework ma swoje pułapki performance i własne API metadata — tu zaoszczędzisz najmniej
-5. **Audyt znajduje bug-i poza swoim scopem** — `alternateSlug === slug` nigdy nie był na liście, znalazłem przez claude-seo
-6. **Drugi projekt = 30% czasu pierwszego** — pod warunkiem dokumentacji wzorców
+4. **Stack-specific:** każdy framework ma swoje pułapki performance i własne API metadata - tu zaoszczędzisz najmniej
+5. **Audyt znajduje bug-i poza swoim scopem** - `alternateSlug === slug` nigdy nie był na liście, znalazłem przez claude-seo
+6. **Drugi projekt = 30% czasu pierwszego** - pod warunkiem dokumentacji wzorców
 
-Jeśli zostajesz na WordPressie — ten artykuł nie zmienia twojego życia. Jeśli rozważasz przejście na własny stack, to argument, którego potrzebowałeś.
+Jeśli zostajesz na WordPressie - ten artykuł nie zmienia twojego życia. Jeśli rozważasz przejście na własny stack, to argument, którego potrzebowałeś.
 
 <div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
   <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
     Potrzebujesz audytu SEO + GEO na własnym stacku?
   </h3>
   <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
-    Robię to samo na projektach klientów — od audytu przez spec-driven changes po post-deploy verification. Omówimy twój stack i realny scope w 30 minut.
+    Robię to samo na projektach klientów - od audytu przez spec-driven changes po post-deploy verification. Omówimy twój stack i realny scope w 30 minut.
   </p>
   <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
 </div>
 
 ## Przydatne zasoby
 
-- [llmstxt.org](https://llmstxt.org/) — spec llms.txt
-- [securityheaders.com](https://securityheaders.com/) — skaner nagłówków bezpieczeństwa
-- [Rich Results Test](https://search.google.com/test/rich-results) — walidator structured data Google
-- [PageSpeed Insights](https://pagespeed.web.dev/) — Core Web Vitals lab + field data
-- [MDN — requestIdleCallback](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback)
-- [MDN — Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
-- [Sentry Security Reports](https://docs.sentry.io/product/security-policy-reporting/) — CSP reports via Sentry
-- [Google Search Central — Article structured data](https://developers.google.com/search/docs/appearance/structured-data/article)
-- [Qamera AI](https://qamera.ai) — projekt opisany w case study
+- [llmstxt.org](https://llmstxt.org/) - spec llms.txt
+- [securityheaders.com](https://securityheaders.com/) - skaner nagłówków bezpieczeństwa
+- [Rich Results Test](https://search.google.com/test/rich-results) - walidator structured data Google
+- [PageSpeed Insights](https://pagespeed.web.dev/) - Core Web Vitals lab + field data
+- [MDN - requestIdleCallback](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback)
+- [MDN - Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+- [Sentry Security Reports](https://docs.sentry.io/product/security-policy-reporting/) - CSP reports via Sentry
+- [Google Search Central - Article structured data](https://developers.google.com/search/docs/appearance/structured-data/article)
+- [Qamera AI](https://qamera.ai) - projekt opisany w case study
 
 ## FAQ
 
@@ -362,7 +362,7 @@ Jeśli zostajesz na WordPressie — ten artykuł nie zmienia twojego życia. Je�
 
 </summary>
 
-Nie — kodowy stack daje **kontrolę**, nie wynik. Bez procesu (audyt → spec → execute → weryfikacja) skończysz z gorszą stroną niż dobrze skonfigurowany WordPress z Yoastem. Argument tego artykułu jest taki: kodowy stack **pozwala** zoptymalizować top 20% (CSP, llms.txt, sitemap-level hreflang, schema enrichment), których platformy nie odsłaniają. Czy to wykorzystasz, zależy od twojego workflow.
+Nie - kodowy stack daje **kontrolę**, nie wynik. Bez procesu (audyt → spec → execute → weryfikacja) skończysz z gorszą stroną niż dobrze skonfigurowany WordPress z Yoastem. Argument tego artykułu jest taki: kodowy stack **pozwala** zoptymalizować top 20% (CSP, llms.txt, sitemap-level hreflang, schema enrichment), których platformy nie odsłaniają. Czy to wykorzystasz, zależy od twojego workflow.
 
 </details>
 
@@ -373,7 +373,7 @@ Nie — kodowy stack daje **kontrolę**, nie wynik. Bez procesu (audyt → spec 
 
 </summary>
 
-Spec-driven oznacza, że każda zmiana zaczyna się od artefaktów: `proposal.md` (co i dlaczego), `design.md` (jak), `specs/` (kontrakty), `tasks.md` (lista kroków) — **przed** napisaniem kodu. W SEO sprawdza się szczególnie, bo zmiany dotykają wielu warstw (HTTP headers, HTML head, structured data, sitemap), a brak specu = AI generuje 200 linii kodu w niewłaściwym miejscu. Używam OpenSpec / OPSX workflow — szczegóły w [osobnym artykule](/blog/opsx-workflow-strukturyzowana-praca-z-ai).
+Spec-driven oznacza, że każda zmiana zaczyna się od artefaktów: `proposal.md` (co i dlaczego), `design.md` (jak), `specs/` (kontrakty), `tasks.md` (lista kroków) - **przed** napisaniem kodu. W SEO sprawdza się szczególnie, bo zmiany dotykają wielu warstw (HTTP headers, HTML head, structured data, sitemap), a brak specu = AI generuje 200 linii kodu w niewłaściwym miejscu. Używam OpenSpec / OPSX workflow - szczegóły w [osobnym artykule](/blog/opsx-workflow-strukturyzowana-praca-z-ai).
 
 </details>
 
@@ -384,7 +384,7 @@ Spec-driven oznacza, że każda zmiana zaczyna się od artefaktów: `proposal.md
 
 </summary>
 
-Tak, ale ROI jest niższy. `llms.txt` najmocniej działa dla treści, które LLM-y cytują (tutoriale, dokumentacja, case studies). Dla e-commerce lub portfolio impact jest mniejszy, ale wciąż dodatni — koszt to 100-200 linii skryptu Node, korzyść to obecność w grounding ChatGPT, Perplexity i Claude Search. Plik `llms-full.txt` przy 100+ artykułach robi się ciężki — wtedy paginacja albo `top-articles-only`.
+Tak, ale ROI jest niższy. `llms.txt` najmocniej działa dla treści, które LLM-y cytują (tutoriale, dokumentacja, case studies). Dla e-commerce lub portfolio impact jest mniejszy, ale wciąż dodatni - koszt to 100-200 linii skryptu Node, korzyść to obecność w grounding ChatGPT, Perplexity i Claude Search. Plik `llms-full.txt` przy 100+ artykułach robi się ciężki - wtedy paginacja albo `top-articles-only`.
 
 </details>
 
@@ -406,6 +406,6 @@ Single-PR ma sens przy single-maintainerze i tematycznie spójnych zmianach (jak
 
 </summary>
 
-Nie — uzupełnia. W Qamerze Copilot review na PR złapał trzy trafne issues (placeholder Sentry DSN, brak preview env var, unused import), których spec-driven workflow nie złapał. AI workflow przyspiesza generację kodu zgodnego ze specem, ale **drugi pair of eyes** (człowiek lub AI reviewer) wciąż łapie różnicę między "kod robi to, co spec mówi" a "kod robi to, co spec mówi, w sposób bezpieczny dla produkcji".
+Nie - uzupełnia. W Qamerze Copilot review na PR złapał trzy trafne issues (placeholder Sentry DSN, brak preview env var, unused import), których spec-driven workflow nie złapał. AI workflow przyspiesza generację kodu zgodnego ze specem, ale **drugi pair of eyes** (człowiek lub AI reviewer) wciąż łapie różnicę między "kod robi to, co spec mówi" a "kod robi to, co spec mówi, w sposób bezpieczny dla produkcji".
 
 </details>
