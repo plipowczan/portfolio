@@ -16,7 +16,10 @@
  * Uses only global `fetch` (Node 18+) — no `resend` npm dependency.
  */
 
-const EMAIL_RE = /\S+@\S+\.\S+/;
+// Anchored: no whitespace or `@` in the local/domain parts, and a dotted
+// domain. Rejects e.g. `x@@y.com`, `a b@c.com`, `x@y` — unlike an unanchored
+// `\S+@\S+\.\S+`, which is too permissive for a server-side gate.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const RESEND_CONTACTS_URL = (audienceId) =>
   `https://api.resend.com/audiences/${audienceId}/contacts`;
 
@@ -73,6 +76,11 @@ export default async function handler(req, res) {
     }
 
     // Duplicate contact must resolve to success (idempotent — no signal leak).
+    // Primary signal is the HTTP status (409 Conflict); the message body is only
+    // a fallback in case Resend signals a duplicate a different way.
+    if (resendRes.status === 409) {
+      return res.status(200).json({ ok: true });
+    }
     const detail = await resendRes.text().catch(() => "");
     if (/already exist|duplicate|conflict/i.test(detail)) {
       return res.status(200).json({ ok: true });

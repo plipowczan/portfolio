@@ -71,21 +71,25 @@ test("valid new email → Resend called, 2xx", async () => {
   assert.ok(res.statusCode >= 200 && res.statusCode < 300, `2xx, got ${res.statusCode}`);
 });
 
-test("duplicate email → 2xx, no error", async () => {
-  stubFetch(() => ({
-    ok: false,
-    status: 409,
-    text: async () => JSON.stringify({ message: "Contact already exists" }),
-  }));
+test("duplicate via 409 status (generic body) → 2xx", async () => {
+  stubFetch(() => ({ ok: false, status: 409, text: async () => "{}" }));
   const res = mockRes();
   await handler(post({ email: "dupe@example.com", company: "" }), res);
 
   assert.equal(fetchCalls.length, 1);
-  assert.ok(res.statusCode >= 200 && res.statusCode < 300, `dup → 2xx, got ${res.statusCode}`);
+  assert.ok(res.statusCode >= 200 && res.statusCode < 300, `409 → 2xx, got ${res.statusCode}`);
+});
+
+test("duplicate via message fallback (non-409 status) → 2xx", async () => {
+  stubFetch(() => ({ ok: false, status: 422, text: async () => "Contact already exists" }));
+  const res = mockRes();
+  await handler(post({ email: "dupe2@example.com", company: "" }), res);
+
+  assert.ok(res.statusCode >= 200 && res.statusCode < 300, `message fallback → 2xx, got ${res.statusCode}`);
 });
 
 test("missing / invalid email → 4xx, Resend NOT called", async () => {
-  for (const bad of [undefined, "", "nieprawidlowy", "no-at-sign", 42]) {
+  for (const bad of [undefined, "", "nieprawidlowy", "no-at-sign", "x@@y.com", "a b@c.com", "x@y", 42]) {
     fetchCalls = [];
     const res = mockRes();
     await handler(post({ email: bad, company: "" }), res);
