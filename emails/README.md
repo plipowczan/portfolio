@@ -12,11 +12,15 @@ truth) — motyw ciemny, akcent `#00ff9d`, font Inter.
 |---|---|
 | `WaitlistLaunch.jsx` | Ogłoszenie startu darmowego kursu → CTA `pawel.lipowczan.pl/llm-wiki/kurs` |
 
-## Instalacja (raz)
+## Instalacja
+
+Biblioteki są już zadeklarowane w `devDependencies` (`@react-email/components`,
+`@react-email/render`), więc wystarczy standardowy `npm install`. CLI `react-email`
+(podgląd/eksport) uruchamiasz przez `npx` — nie trzyma się go lokalnie (ciężki, Next-based).
 
 ```bash
-npm i @react-email/components
-npm i -D react-email
+npm install                 # pociąga @react-email/components + @react-email/render
+npx react-email export      # patrz „Wysyłka" niżej
 ```
 
 ## Podgląd (na żywo, przeglądarka)
