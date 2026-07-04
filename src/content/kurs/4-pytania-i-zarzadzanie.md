@@ -39,7 +39,7 @@ Dostajesz syntezę z **cytowaniami** (`[[Zettelkasten]]`, `[[Wikilinks Explained
 
 W skrócie: `/compile` **tworzy** syntezę z wielu źródeł, `/enhance` **ulepsza** pojedynczą notę.
 
-## `/lint` — health-check
+## `/lint` — przegląd stanu
 
 Baza po cichu gnije: martwe linki, sieroty, niespójne tagi, przeterminowane noty. `/lint` to audyt — sprawdza **10 klas problemów** i zapisuje raport do `_outputs/reports/`.
 
@@ -61,13 +61,13 @@ Co sprawdza (10 klas): brakujący/niepełny frontmatter · zepsute wikilinki · 
 
 Gdy indeksy się rozjadą (ręczna edycja, przerwany ingest), `/reindex` **buduje je od zera** z not: `vault-map.md`, `catalog.md`, `graph.md`.
 
-![/reindex — deterministyczny rebuild indeksów ze spot-checkiem liczb](/images/kurs/4-pytania-i-zarzadzanie-07.webp)
+![/reindex — deterministyczna przebudowa indeksów z wyrywkowym sprawdzeniem liczb](/images/kurs/4-pytania-i-zarzadzanie-07.webp)
 
-To **deterministyczny** rebuild: odtwarza indeksy z aktualnego stanu not i sprawdza liczby (`total_notes`, węzły, krawędzie). Ważne: jeśli problem siedzi w **skrypcie** (np. parser policzył `[[...]]` ze środka bloku kodu jako realny link), reindex go **nie naprawi** — wiernie odtworzy ten sam wynik. Wtedy fix idzie do skryptu, nie do danych. Reindex leczy rozjazd indeks↔noty, nie bugi parsera.
+To **deterministyczna** przebudowa: odtwarza indeksy z aktualnego stanu not i sprawdza liczby (`total_notes`, węzły, krawędzie). Ważne: jeśli problem siedzi w **skrypcie** (np. parser policzył `[[...]]` ze środka bloku kodu jako realny link), reindex go **nie naprawi** — wiernie odtworzy ten sam wynik. Wtedy poprawka idzie do skryptu, nie do danych. Reindex leczy rozjazd indeks↔noty, nie błędy parsera.
 
 ## `qa` vs `research` — czemu osobno
 
-`/qa` odpowiada **z tego, co już masz**. Skille research **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy (compounding): `/research` (ukierunkowany), `/research-deep` (wieloźródłowy + weryfikacja), `/research-report` (research + raport), `/research-add-fields|items` (rozszerzanie list). Pointa: `qa` = czytasz bazę; `research` = baza rośnie.
+`/qa` odpowiada **z tego, co już masz**. Skille research **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy: `/research` (ukierunkowany), `/research-deep` (wieloźródłowy + weryfikacja), `/research-report` (research + raport), `/research-add-fields|items` (rozszerzanie list). Sedno: `qa` = czytasz bazę; `research` = baza rośnie.
 
 ## Pełna ściąga komend
 
@@ -78,7 +78,7 @@ To **deterministyczny** rebuild: odtwarza indeksy z aktualnego stanu not i spraw
 | `/qa` | Pytanie → synteza z cytowaniami |
 | `/compile` | Artykuł/nota zbiorcza z wielu źródeł |
 | `/enhance` | Popraw/rozbuduj notę |
-| `/lint` | Health-check jakości |
+| `/lint` | Przegląd stanu / jakości |
 | `/reindex` | Przebuduj indeksy |
 | `/curate` | Wycofaj słabe/stare noty do graveyard |
 | `/gaps` | Znajdź luki / brakujące tematy |
@@ -92,7 +92,7 @@ To **deterministyczny** rebuild: odtwarza indeksy z aktualnego stanu not i spraw
 - frontmatter z `type` (OKF, przenośność),
 - aktualizuj indeksy po każdym zapisie,
 - zgodność z OKF (`git clone` → masz),
-- scrub przed dzieleniem (usuń wrażliwe + atrybucje).
+- oczyść przed dzieleniem (usuń wrażliwe dane + atrybucje).
 
 ## Anty-wzorce
 
@@ -114,12 +114,12 @@ Zamiast halucynować, baza raportuje **zero pokrycia** i mówi wprost: „nie zm
 
 ### Jak często odpalać `/lint`?
 
-Co jakiś czas — baza po cichu gnije (martwe linki, sieroty, niespójne tagi, przeterminowane noty), a problemy się kumulują. `/lint` sprawdza 10 klas problemów i zapisuje raport do `_outputs/reports/` wraz z propozycją naprawy. Traktuj to jak okresowy health-check.
+Co jakiś czas — baza po cichu gnije (martwe linki, sieroty, niespójne tagi, przeterminowane noty), a problemy się kumulują. `/lint` sprawdza 10 klas problemów i zapisuje raport do `_outputs/reports/` wraz z propozycją naprawy. Traktuj to jak okresowy przegląd stanu.
 
 ### `/reindex` naprawi każdy problem z indeksami?
 
-Nie. To **deterministyczny** rebuild — odtwarza `vault-map.md`, `catalog.md`, `graph.md` z aktualnego stanu not. Leczy rozjazd indeks↔noty (ręczna edycja, przerwany ingest), ale jeśli błąd siedzi w **skrypcie** (np. parser liczy `[[...]]` ze środka bloku kodu), reindex go nie naprawi — wiernie odtworzy ten sam wynik. Wtedy fix idzie do skryptu, nie do danych.
+Nie. To **deterministyczna** przebudowa — odtwarza `vault-map.md`, `catalog.md`, `graph.md` z aktualnego stanu not. Leczy rozjazd indeks↔noty (ręczna edycja, przerwany ingest), ale jeśli błąd siedzi w **skrypcie** (np. parser liczy `[[...]]` ze środka bloku kodu), reindex go nie naprawi — wiernie odtworzy ten sam wynik. Wtedy poprawka idzie do skryptu, nie do danych.
 
 ### Czym `/qa` różni się od skilli `research`?
 
-`/qa` odpowiada **z tego, co już masz** w bazie. Skille `research` **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy (compounding). Pointa: `qa` = czytasz bazę, `research` = baza rośnie. Więcej o research w kolejnej lekcji.
+`/qa` odpowiada **z tego, co już masz** w bazie. Skille `research` **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy. Sedno: `qa` = czytasz bazę, `research` = baza rośnie. Więcej o research w kolejnej lekcji.
