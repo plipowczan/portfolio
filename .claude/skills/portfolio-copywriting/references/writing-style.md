@@ -89,6 +89,25 @@ Nie uzywaj znakow zdradzajacych tekst generowany przez AI. Pisz tak, jak czlowie
 
 Walidacja przed publikacja: `grep -nP '[\x{2014}\x{2013}\x{2026}]' <plik>` musi zwrocic pusty wynik.
 
+### Zwroty i konstrukcje - unikaj AI-tells
+
+Znaki to nie wszystko. Sa zwroty i konstrukcje zdaniowe, ktore czytelnik podswiadomie rozpoznaje jako "tak pisze AI". Pisz jak czlowiek, ktory ma cos do powiedzenia - nie jak model, ktory wypelnia szablon. Dotyczy to obu jezykow (artykuly PL i te w `en/`).
+
+Zabronione konstrukcje (z przykladami PL + EN):
+
+| Wzorzec                | ❌ Tak pisze AI                                                        | ✅ Napisz raczej                                             |
+| ---------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Antyteza-pauza         | "To nie jest zwykly skrypt - to system." / "It's not just X, it's Y." | Powiedz wprost czym to jest, bez kontrastu-na-sile.         |
+| Puste otwarcia         | "W dzisiejszym cyfrowym swiecie..." / "In today's fast-paced world..." | Zacznij od konkretu: problemu, liczby, wlasnej sytuacji.    |
+| Puste domkniecia       | "Podsumowujac..." / "In conclusion..." / "Warto pamietac, ze..."      | Zakoncz praktycznym krokiem albo osobista refleksja.        |
+| Regula trojki na sile  | "szybko, tanio i skalowalnie" (wszystko w trojkach)                    | Uzyj tylu elementow, ile naprawde masz - czesto dwa.        |
+| Meta-asekuracja        | "Warto zauwazyc, ze..." / "It's worth noting that..."                  | Jesli warto - po prostu to napisz, bez zapowiedzi.          |
+| Zaproszenia            | "Zanurzmy sie w temat" / "Let's dive in" / "delve into"               | Przejdz do rzeczy.                                          |
+| Puste wzmacniacze      | "kluczowy", "przelomowy", "istotny" bez konkretu                       | Zastap liczba lub przykladem ("oszczedza 15h/tydzien").     |
+| Falszywa symetria      | "Z jednej strony... z drugiej strony..." jako wypelniacz              | Zajmij stanowisko; kontrast tylko gdy realny.               |
+
+Zasada nadrzedna: jesli zdanie da sie skreslic bez straty informacji - skresl je. AI dodaje gladkie przejscia i asekuracje; czlowiek pisze rzeczowo.
+
 ### Wrazenia z emoji
 
 Uzywaj oszczednie, glownie w naglowkach lub dla wyroznienia:
