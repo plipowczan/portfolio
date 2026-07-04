@@ -20,9 +20,9 @@ alternateSlug: coding-in-2025-ai-portfolio
 
 Często słyszę, że programowanie się kończy. Że wystarczy „zvibecodować” aplikację w jednym z nowych narzędzi no-code, a AI zrobi resztę. Postanowiłem to sprawdzić na żywym organizmie.
 
-Zbudowałem [pawel.lipowczan.pl](https://pawel.lipowczan.pl) – projekt, który miał być wizytówką, a stał się poligonem doświadczalnym dla współpracy na linii Doświadczony Inżynier – Agent AI.
+Zbudowałem [pawel.lipowczan.pl](https://pawel.lipowczan.pl) - projekt, który miał być wizytówką, a stał się poligonem doświadczalnym dla współpracy na linii Doświadczony Inżynier - Agent AI.
 
-Wnioski? Jeśli myślisz, że zbudujesz profesjonalny, bezpieczny i skalowalny serwis bez wiedzy technicznej, tylko „rozmawiając” z chatbotem – jesteś w błędzie. Ale jeśli masz fundamenty inżynierskie i potraktujesz AI jako junior developera na sterydach, efekty (i koszty) mogą Cię zaskoczyć.
+Wnioski? Jeśli myślisz, że zbudujesz profesjonalny, bezpieczny i skalowalny serwis bez wiedzy technicznej, tylko „rozmawiając” z chatbotem - jesteś w błędzie. Ale jeśli masz fundamenty inżynierskie i potraktujesz AI jako junior developera na sterydach, efekty (i koszty) mogą Cię zaskoczyć.
 
 Oto kulisy powstawania mojego portfolio w stacku React + Vite + Tailwind.
 
@@ -92,13 +92,13 @@ W projekcie hobbystycznym łatwo o chaos. Aby temu zapobiec, wdrożyłem dwa poz
 To ciekawe zestawienie. Przez cały projekt przepuściłem około **60 milionów tokenów**.
 Rozkład wejście/wyjście to mniej więcej 80/20.
 
-Gdybym płacił cennikowo za API (np. Claude Sonnet 4.5 – $3 input / $15 output), koszt wyniósłby około **325 USD**.
+Gdybym płacił cennikowo za API (np. Claude Sonnet 4.5 - $3 input / $15 output), koszt wyniósłby około **325 USD**.
 
 Realny koszt?
 *   Plan PRO+ w Cursor.sh: **60 USD**.
 *   Antigravity (w ramach Google Workspace): **0 USD** (wliczone w pakiet firmowy).
 
-Oszczędność jest kolosalna. Oczywiście są limity – przy intensywnej sesji zdarzało mi się zobaczyć komunikat o ich przekroczeniu. Wtedy po prostu zmieniałem model (skaczę między Gemini 3 Pro High a Claude Sonnet 4.5). Limity odnawiają się co kilka godzin, więc przy regularnej pracy nie stanowi to blokady.
+Oszczędność jest kolosalna. Oczywiście są limity - przy intensywnej sesji zdarzało mi się zobaczyć komunikat o ich przekroczeniu. Wtedy po prostu zmieniałem model (skaczę między Gemini 3 Pro High a Claude Sonnet 4.5). Limity odnawiają się co kilka godzin, więc przy regularnej pracy nie stanowi to blokady.
 
 ![cursor_usage](/images/cursor_usage.webp)
 
@@ -106,7 +106,7 @@ Oszczędność jest kolosalna. Oczywiście są limity – przy intensywnej sesji
 
 Projekt [pawel.lipowczan.pl](https://pawel.lipowczan.pl) to dowód na to, że w 2025 roku rola programisty ewoluuje. Przestajemy być rzemieślnikami od składni, a stajemy się architektami zarządzającymi zespołem cyfrowych agentów.
 
-Możesz nie być designerem. Możesz nie znać na wylot najnowszego frameworka. Ale jeśli masz inżynierski umysł, dbałość o jakość (i testy!) oraz umiejętność orkiestracji AI – zbudujesz rzeczy, które wcześniej wymagałyby całego zespołu.
+Możesz nie być designerem. Możesz nie znać na wylot najnowszego frameworka. Ale jeśli masz inżynierski umysł, dbałość o jakość (i testy!) oraz umiejętność orkiestracji AI - zbudujesz rzeczy, które wcześniej wymagałyby całego zespołu.
 
 Zapraszam do sprawdzenia efektów i code review! Feedback mile widziany.
 

@@ -56,6 +56,34 @@ function readPosts(blogDir) {
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
+function readCourseLessons(kursDir) {
+  if (!fs.existsSync(kursDir)) return [];
+  return fs
+    .readdirSync(kursDir)
+    .filter(
+      (f) => f.endsWith(".md") && !f.startsWith("_") && f !== "README.md",
+    )
+    .map((file) => {
+      const { data, content } = matter(
+        fs.readFileSync(path.join(kursDir, file), "utf-8"),
+      );
+      return {
+        slug: data.slug,
+        order: data.order,
+        title: data.title,
+        excerpt: data.excerpt || "",
+        content: content.trim(),
+      };
+    })
+    .filter(
+      (l) =>
+        typeof l.slug === "string" &&
+        l.slug.length > 0 &&
+        typeof l.order === "number",
+    )
+    .sort((a, b) => a.order - b.order);
+}
+
 function oneLine(text, maxChars = 200) {
   const t = (text || "").replace(/\s+/g, " ").trim();
   if (t.length <= maxChars) return t;
@@ -64,7 +92,7 @@ function oneLine(text, maxChars = 200) {
   return (lastSpace > 0 ? slice.slice(0, lastSpace) : slice) + "…";
 }
 
-function buildIndex(postsPl, postsEn) {
+function buildIndex(postsPl, postsEn, lessons) {
   let out = "";
   out += `# ${SITE_NAME}\n\n`;
   out += `> ${SITE_SUMMARY}\n\n`;
@@ -85,6 +113,16 @@ function buildIndex(postsPl, postsEn) {
     out += "\n";
   }
 
+  if (lessons.length > 0) {
+    out += `## Kurs LLM Wiki (PL)\n\n`;
+    out += `- [LLM Wiki — darmowy kurs](${SITE_URL}/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. Krok po kroku; kurs rośnie o kolejne lekcje.\n`;
+    for (const l of lessons) {
+      const desc = oneLine(l.excerpt);
+      out += `- [${l.title}](${SITE_URL}/llm-wiki/kurs/${l.slug}): ${desc}\n`;
+    }
+    out += "\n";
+  }
+
   out += `## Projekty\n\n`;
   for (const proj of projects) {
     const desc = oneLine(proj.description);
@@ -98,7 +136,7 @@ function buildIndex(postsPl, postsEn) {
   return out;
 }
 
-function buildFull(index, postsPl, postsEn) {
+function buildFull(index, postsPl, postsEn, lessons) {
   let out = index;
   const allPosts = [...postsPl, ...postsEn];
   for (const p of allPosts) {
@@ -113,6 +151,13 @@ function buildFull(index, postsPl, postsEn) {
     out += p.content;
     out += "\n";
   }
+  for (const l of lessons) {
+    out += `\n\n---\n\n`;
+    out += `# ${l.title}\n\n`;
+    out += `Source: ${SITE_URL}/llm-wiki/kurs/${l.slug}\n\n`;
+    out += l.content;
+    out += "\n";
+  }
   return out;
 }
 
@@ -121,9 +166,10 @@ function main() {
 
   const postsPl = readPosts(path.join(root, "src", "content", "blog"));
   const postsEn = readPosts(path.join(root, "src", "content", "blog", "en"));
+  const lessons = readCourseLessons(path.join(root, "src", "content", "kurs"));
 
-  const index = buildIndex(postsPl, postsEn);
-  const full = buildFull(index, postsPl, postsEn);
+  const index = buildIndex(postsPl, postsEn, lessons);
+  const full = buildFull(index, postsPl, postsEn, lessons);
 
   const outDir = path.join(root, "public");
   fs.writeFileSync(path.join(outDir, "llms.txt"), index, "utf-8");
@@ -133,7 +179,7 @@ function main() {
     `✅ llms.txt (${index.length} chars) + llms-full.txt (${full.length} chars) written to public/`,
   );
   console.log(
-    `   Posts: ${postsPl.length} PL + ${postsEn.length} EN, Projects: ${projects.length}`,
+    `   Posts: ${postsPl.length} PL + ${postsEn.length} EN, Course: ${lessons.length}, Projects: ${projects.length}`,
   );
 }
 

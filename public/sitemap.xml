@@ -92,11 +92,59 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/llm-wiki</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja"/>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/blog/okf-standard-przenosnosc-bazy-wiedzy-ai</loc>

@@ -3,9 +3,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { BookingProvider } from "./context/BookingContext";
 import Layout from "./components/layout/Layout";
 import LocaleLayout from "./components/layout/LocaleLayout";
+import StripEnRedirect from "./components/routing/StripEnRedirect";
 import Blog from "./pages/Blog";
 import BlogPostPage from "./pages/BlogPostPage";
 import CookiePolicy from "./pages/CookiePolicy";
+import CourseHub from "./pages/CourseHub";
+import CourseLesson from "./pages/CourseLesson";
 import Home from "./pages/Home";
 import LlmWikiLanding from "./pages/LlmWikiLanding";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -19,14 +22,25 @@ function App() {
       <MotionConfig reducedMotion="user">
         <Layout>
           <Routes>
-            {/* PL-only landing: redirect the /en mirror to the canonical PL URL */}
+            {/* PL-only /llm-wiki section: redirect the /en mirror(s) to the
+                canonical PL URL. The exact landing redirect is kept; the course
+                paths get explicit redirects (so they win the ranking tie against
+                the nested /:lang? course routes, exactly like the landing does)
+                plus a splat catch-all for any future deep /en/llm-wiki path. */}
             <Route
               path="/en/llm-wiki"
               element={<Navigate to="/llm-wiki" replace />}
             />
+            <Route path="/en/llm-wiki/kurs" element={<StripEnRedirect />} />
+            <Route path="/en/llm-wiki/kurs/:slug" element={<StripEnRedirect />} />
+            <Route path="/en/llm-wiki/*" element={<StripEnRedirect />} />
             <Route path="/:lang?" element={<LocaleLayout />}>
               <Route index element={<Home />} />
-              <Route path="llm-wiki" element={<LlmWikiLanding />} />
+              <Route path="llm-wiki">
+                <Route index element={<LlmWikiLanding />} />
+                <Route path="kurs" element={<CourseHub />} />
+                <Route path="kurs/:slug" element={<CourseLesson />} />
+              </Route>
               <Route path="blog" element={<Blog />} />
               <Route path="blog/:slug" element={<BlogPostPage />} />
               <Route path="projects/:slug" element={<ProjectPage />} />

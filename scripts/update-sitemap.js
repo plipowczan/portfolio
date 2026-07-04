@@ -82,6 +82,34 @@ function getAllBlogPosts(lang, blogDir) {
 }
 
 /**
+ * Pobiera lekcje kursu (PL-only) z src/content/kurs, posortowane po `order`.
+ */
+function getCourseLessons(kursDir) {
+  if (!fs.existsSync(kursDir)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(kursDir)
+    .filter(
+      (f) => f.endsWith(".md") && !f.startsWith("_") && f !== "README.md"
+    )
+    .map((file) => {
+      const { data } = matter(
+        fs.readFileSync(path.join(kursDir, file), "utf-8")
+      );
+      return { file, slug: data.slug, order: data.order };
+    })
+    .filter(
+      (l) =>
+        typeof l.slug === "string" &&
+        l.slug.length > 0 &&
+        typeof l.order === "number"
+    )
+    .sort((a, b) => a.order - b.order);
+}
+
+/**
  * Generuje XML sitemap z hreflang alternates
  */
 function generateSitemap() {
@@ -125,6 +153,27 @@ function generateSitemap() {
       lastmod: getGitLastModDate("src/pages/LlmWikiLanding.jsx"),
     },
   ];
+
+  // PL-only free course — hub + one entry per lesson (derived from files)
+  const courseLessons = getCourseLessons(
+    path.join(__dirname, "..", "src", "content", "kurs")
+  );
+  if (courseLessons.length > 0) {
+    plOnlyPages.push({
+      url: "llm-wiki/kurs",
+      priority: "0.7",
+      changefreq: "monthly",
+      lastmod: getGitLastModDate("src/pages/CourseHub.jsx"),
+    });
+    for (const lesson of courseLessons) {
+      plOnlyPages.push({
+        url: `llm-wiki/kurs/${lesson.slug}`,
+        priority: "0.6",
+        changefreq: "monthly",
+        lastmod: getGitLastModDate(`src/content/kurs/${lesson.file}`),
+      });
+    }
+  }
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml +=
