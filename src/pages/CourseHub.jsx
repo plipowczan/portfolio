@@ -23,7 +23,7 @@ const CourseHub = () => {
     <>
       <SEO
         title="LLM Wiki — darmowy kurs: zbuduj własny second brain"
-        description="Od «Use this template» do bazy wiedzy, która kumuluje się sama i zasila Twojego agenta. 5 lekcji, krok po kroku, na darmowym szablonie."
+        description="Od «Use this template» do bazy wiedzy, która kumuluje się sama i zasila Twojego agenta. Krok po kroku, na darmowym szablonie — kurs rośnie o kolejne lekcje."
         path="/llm-wiki/kurs"
         // PL-only section: point the en-alternate at the PL URL so no
         // /en/llm-wiki/kurs mirror leaks to crawlers.
@@ -66,8 +66,8 @@ const CourseHub = () => {
               </h1>
               <p className="text-base text-gray-400 md:text-lg">
                 Od «Use this template» do bazy wiedzy, która kumuluje się sama i
-                zasila Twojego agenta. 5 lekcji, krok po kroku, na darmowym
-                szablonie.
+                zasila Twojego agenta. Krok po kroku, na darmowym szablonie —
+                kurs rośnie o kolejne lekcje.
               </p>
             </motion.div>
 

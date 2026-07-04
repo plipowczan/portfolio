@@ -115,7 +115,7 @@ function buildIndex(postsPl, postsEn, lessons) {
 
   if (lessons.length > 0) {
     out += `## Kurs LLM Wiki (PL)\n\n`;
-    out += `- [LLM Wiki — darmowy kurs](${SITE_URL}/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. 5 lekcji, krok po kroku.\n`;
+    out += `- [LLM Wiki — darmowy kurs](${SITE_URL}/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. Krok po kroku; kurs rośnie o kolejne lekcje.\n`;
     for (const l of lessons) {
       const desc = oneLine(l.excerpt);
       out += `- [${l.title}](${SITE_URL}/llm-wiki/kurs/${l.slug}): ${desc}\n`;

@@ -66,7 +66,7 @@
 
 ## Kurs LLM Wiki (PL)
 
-- [LLM Wiki — darmowy kurs](https://pawel.lipowczan.pl/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. 5 lekcji, krok po kroku.
+- [LLM Wiki — darmowy kurs](https://pawel.lipowczan.pl/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. Krok po kroku; kurs rośnie o kolejne lekcje.
 - [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy — architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
 - [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę — schema, foldery tematów i indeksy generują się same. Krok po kroku, na konkretnym przykładzie. To Twój dzień zerowy.
 - [Pierwszy ingest](https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest): Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z cross-linkami i frontmatterem OKF.

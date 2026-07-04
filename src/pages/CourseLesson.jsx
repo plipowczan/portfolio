@@ -7,7 +7,7 @@ import StructuredData from "../components/seo/StructuredData";
 import ArticleTOC from "../components/ui/ArticleTOC";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import MarkdownContent from "../components/ui/MarkdownContent";
-import { coursePosts, getLessonBySlug, getPrevNext } from "../data/coursePosts";
+import { getLessonBySlug, getPrevNext } from "../data/coursePosts";
 import { extractFAQ, generateFAQSchema } from "../utils/faqExtractor";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
@@ -64,7 +64,6 @@ const CourseLesson = () => {
     );
   }
 
-  const total = coursePosts.length;
   const { prev, next } = getPrevNext(slug);
   const lessonUrl = `${SITE_CONFIG.url}/llm-wiki/kurs/${lesson.slug}`;
 
@@ -117,7 +116,7 @@ const CourseLesson = () => {
 
               {/* Progress */}
               <div className="font-mono text-sm text-primary-500">
-                Lekcja {lesson.order} / {total}
+                Lekcja {String(lesson.order).padStart(2, "0")}
               </div>
 
               {/* Title */}
