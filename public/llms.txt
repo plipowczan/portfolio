@@ -70,8 +70,8 @@
 - [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy - architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
 - [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę - schema, foldery tematów i indeksy generują się same. Krok po kroku, na konkretnym przykładzie. To Twój dzień zerowy.
 - [Pierwszy ingest](https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest): Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z linkami i frontmatterem OKF.
-- [Pytania i zarządzanie](https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie): Pytaj bazę, nie czat — /qa z cytowaniami, /lint i /reindex do utrzymania jakości. Pełna ściąga komend, zasady jakości i anty-wzorce.
-- [Rozwój i publikacja](https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja): Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju — multi-brain, MCP, publikacja i wymiana paczek wiedzy.
+- [Pytania i zarządzanie](https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie): Pytaj bazę, nie czat - /qa z cytowaniami, /lint i /reindex do utrzymania jakości. Pełna ściąga komend, zasady jakości i anty-wzorce.
+- [Rozwój i publikacja](https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja): Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju - multi-brain, MCP, publikacja i wymiana paczek wiedzy.
 
 ## Projekty
 

@@ -70,8 +70,8 @@
 - [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy - architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
 - [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę - schema, foldery tematów i indeksy generują się same. Krok po kroku, na konkretnym przykładzie. To Twój dzień zerowy.
 - [Pierwszy ingest](https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest): Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z linkami i frontmatterem OKF.
-- [Pytania i zarządzanie](https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie): Pytaj bazę, nie czat — /qa z cytowaniami, /lint i /reindex do utrzymania jakości. Pełna ściąga komend, zasady jakości i anty-wzorce.
-- [Rozwój i publikacja](https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja): Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju — multi-brain, MCP, publikacja i wymiana paczek wiedzy.
+- [Pytania i zarządzanie](https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie): Pytaj bazę, nie czat - /qa z cytowaniami, /lint i /reindex do utrzymania jakości. Pełna ściąga komend, zasady jakości i anty-wzorce.
+- [Rozwój i publikacja](https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja): Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju - multi-brain, MCP, publikacja i wymiana paczek wiedzy.
 
 ## Projekty
 
@@ -20371,88 +20371,88 @@ Cel tej lekcji: zamienić surowe źródło w noty i indeksy. Po lekcji umiesz do
 
 ## Wrzuć źródło i odpal `/ingest`
 
-Wrzuć dowolne źródło do `content/_raw/inbox/` (jest gotowy `sample-source.md` na rozgrzewkę) i odpal **`/ingest`**. Tyle — komenda bierze wszystko, co leży w inboxie.
+Wrzuć dowolne źródło do `content/_raw/inbox/` (jest gotowy `sample-source.md` na rozgrzewkę) i odpal **`/ingest`**. Tyle - komenda bierze wszystko, co leży w inboxie.
 
-`/ingest` przyjmuje też linki YouTube jako argument (`/ingest https://youtu.be/…`) — pobiera transkrypt i traktuje go jak zwykłe źródło.
+`/ingest` przyjmuje też linki YouTube jako argument (`/ingest https://youtu.be/…`) - pobiera transkrypt i traktuje go jak zwykłe źródło.
 
-W przykładzie: surowe źródło to `sample-source.md` — luźny tekst o metodzie **Zettelkasten**. Ingest rusza, czyta plik, widzi pojedyncze źródło (brak klastra) i ustala temat oraz typ noty.
+W przykładzie: surowe źródło to `sample-source.md` - luźny tekst o metodzie **Zettelkasten**. Ingest rusza, czyta plik, widzi pojedyncze źródło (brak klastra) i ustala temat oraz typ noty.
 
 ![Surowe źródło (sample-source.md o Zettelkasten) i ingest w akcji: czyta plik, brak klastra, ustala temat i typ](/images/kurs/3-pierwszy-ingest-02.webp)
 
 ## Co się dzieje pod spodem (4 fazy)
 
-`/ingest` nie „wkleja pliku do wiki". Prowadzi źródło przez cztery fazy — trzy autonomiczne, jedna z jednym pytaniem do Ciebie.
+`/ingest` nie „wkleja pliku do wiki". Prowadzi źródło przez cztery fazy - trzy autonomiczne, jedna z jednym pytaniem do Ciebie.
 
-### Faza 0 — Pobranie z YouTube (tylko dla URL)
+### Faza 0 - Pobranie z YouTube (tylko dla URL)
 
-Gdy podasz link YouTube, agent najpierw ściąga transkrypt (`yt-dlp`; przy braku napisów — fallback Whisper przez `ffmpeg`) i archiwizuje go w `content/_raw/processed/`. Dla zwykłych plików ta faza jest pomijana. Jeśli to samo wideo już ingestowałeś (ten sam `video_id`), agent nie pobiera drugi raz — dołoży do istniejącej noty.
+Gdy podasz link YouTube, agent najpierw ściąga transkrypt (`yt-dlp`; przy braku napisów - fallback Whisper przez `ffmpeg`) i archiwizuje go w `content/_raw/processed/`. Dla zwykłych plików ta faza jest pomijana. Jeśli to samo wideo już ingestowałeś (ten sam `video_id`), agent nie pobiera drugi raz - dołoży do istniejącej noty.
 
-### Faza 1 — Wstępne rozpoznanie
+### Faza 1 - Wstępne rozpoznanie
 
 Zanim cokolwiek utworzy, agent:
 
-1. czyta `vault-map.md` — żeby wiedzieć, co w bazie już jest (nie duplikować),
+1. czyta `vault-map.md` - żeby wiedzieć, co w bazie już jest (nie duplikować),
 2. listuje inbox (+ ewentualne źródła z Fazy 0),
-3. **wykrywa klastry** — pliki o wspólnym temacie (≥2 wspólne, wyróżniające słowa w tytułach/treści). Jeśli coś się klastruje, dostajesz **jedno pytanie**: potraktować je jako osobne noty, czy jako notę nadrzędną + noty-dzieci z linkami.
+3. **wykrywa klastry** - pliki o wspólnym temacie (≥2 wspólne, wyróżniające słowa w tytułach/treści). Jeśli coś się klastruje, dostajesz **jedno pytanie**: potraktować je jako osobne noty, czy jako notę nadrzędną + noty-dzieci z linkami.
 
-To jedyny moment, w którym ingest Cię pyta — reszta idzie sama. Po co: żeby powiązane źródła (np. 5 plików o jednym produkcie) nie rozsypały się na oderwane noty bez wspólnego punktu.
+To jedyny moment, w którym ingest Cię pyta - reszta idzie sama. Po co: żeby powiązane źródła (np. 5 plików o jednym produkcie) nie rozsypały się na oderwane noty bez wspólnego punktu.
 
-### Faza 2 — Wykonanie (autonomiczne)
+### Faza 2 - Wykonanie (autonomiczne)
 
 Dla każdego źródła agent po kolei:
 
-1. **Klasyfikuje** — dobiera folder tematyczny i typ noty (`knowledge-note`, `tool`, `book-note`…) wg reguł z `CLAUDE.md`. Gdy nie jest pewny — daje najlepszy strzał + tag `#todo/classification`, żebyś dojrzał.
+1. **Klasyfikuje** - dobiera folder tematyczny i typ noty (`knowledge-note`, `tool`, `book-note`…) wg reguł z `CLAUDE.md`. Gdy nie jest pewny - daje najlepszy strzał + tag `#todo/classification`, żebyś dojrzał.
 2. **Sprawdza pokrywanie** z `catalog.md`: jest podobna nota → **scalenie** (dokłada, nie nadpisuje Twojej treści); brak → **nowa nota** z szablonu z `content/templates/`.
-3. **Wypełnia frontmatter**: `title`, `date`, `tags`, **`type`** (minimum OKF → przenośność + `/lint`), `source`, `summary` (jedna linia — to trafia do katalogu).
+3. **Wypełnia frontmatter**: `title`, `date`, `tags`, **`type`** (minimum OKF → przenośność + `/lint`), `source`, `summary` (jedna linia - to trafia do katalogu).
 4. **Ujednolica język.** Baza trzyma jeden kanoniczny język (ten z onboardingu; przy konflikcie `CLAUDE.md`/Twoje ustawienia wygrywają nad domyślnym językiem skilla). Źródło w innym języku agent tłumaczy przy wsadzie; nazwy własne, kod, URL-e, daty i wikilinki zostają nietknięte.
-5. **Rozstawia `[[wikilinki]]`** do pokrewnych not i **dopisuje linki zwrotne** w tamtych notach — to zasila graf.
+5. **Rozstawia `[[wikilinki]]`** do pokrewnych not i **dopisuje linki zwrotne** w tamtych notach - to zasila graf.
 6. **Przenosi załączniki** (obrazki/PDF) do `content/ATTACHMENTS/` i poprawia odnośniki.
 7. **Przenosi źródło** z `inbox/` do `_raw/processed/` (z datą). Pusty inbox = „zrobione".
 8. **Aktualizuje 3 indeksy**: `catalog.md` (linia noty), `vault-map.md` (licznik + tagi + „recent changes"), `graph.md` (linki wychodzące + linki zwrotne na celach).
 
-Jedno źródło potrafi dotknąć kilkunastu not — bo dokłada linki i linki zwrotne po całym grafie.
+Jedno źródło potrafi dotknąć kilkunastu not - bo dokłada linki i linki zwrotne po całym grafie.
 
-### Faza 3 — Kontrola (lista kontrolna)
+### Faza 3 - Kontrola (lista kontrolna)
 
-Na koniec agent sprawdza sam siebie: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Potem drukuje raport: ile źródeł, ile not powstało, ile scalono, stan indeksów (✅). Jak coś się nie zgadza — pokazuje rozbieżność, zanim powie „gotowe".
+Na koniec agent sprawdza sam siebie: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Potem drukuje raport: ile źródeł, ile not powstało, ile scalono, stan indeksów (✅). Jak coś się nie zgadza - pokazuje rozbieżność, zanim powie „gotowe".
 
 ## Co dokładnie się zmienia (diff)
 
-Po ingeście zajrzyj w Source Control — widzisz **na oczy, co się zmieniło**. Jedno źródło o Zettelkasten dotknęło **7 plików**:
+Po ingeście zajrzyj w Source Control - widzisz **na oczy, co się zmieniło**. Jedno źródło o Zettelkasten dotknęło **7 plików**:
 
 ![Diff po ingeście: nowa nota Zettelkasten.md, zaktualizowane indeksy i link zwrotny w innej nocie](/images/kurs/3-pierwszy-ingest-01.webp)
 
-- **Nowa nota** — `content/REFERENCE/Zettelkasten.md`: z frontmatterem, streszczeniem i wikilinkami.
-- **Zaktualizowana inna nota** — `Wikilinks Explained.md` dostał **link zwrotny**, bo nowa nota do niego linkuje (`[[Wikilinks Explained]]`), a graf jest dwukierunkowy.
-- **Trzy indeksy** — `catalog.md`, `graph.md`, `vault-map.md` odświeżone.
-- **Źródło** — `sample-source.md` zniknął z inboxu i wylądował w `_raw/processed/` (z datą). Nic nie kasujesz; jest odwracalne.
+- **Nowa nota** - `content/REFERENCE/Zettelkasten.md`: z frontmatterem, streszczeniem i wikilinkami.
+- **Zaktualizowana inna nota** - `Wikilinks Explained.md` dostał **link zwrotny**, bo nowa nota do niego linkuje (`[[Wikilinks Explained]]`), a graf jest dwukierunkowy.
+- **Trzy indeksy** - `catalog.md`, `graph.md`, `vault-map.md` odświeżone.
+- **Źródło** - `sample-source.md` zniknął z inboxu i wylądował w `_raw/processed/` (z datą). Nic nie kasujesz; jest odwracalne.
 
-Raport na końcu: *1 źródło → 1 nowa nota, 0 scalonych, indeksy ✅, inbox pusty.* Jedno wiadomość: **pojedynczy plik wpiął się w graf i zaktualizował sąsiadów** — bez ingestu miałbyś tylko luźny plik w folderze.
+Raport na końcu: _1 źródło → 1 nowa nota, 0 scalonych, indeksy ✅, inbox pusty._ Jedno wiadomość: **pojedynczy plik wpiął się w graf i zaktualizował sąsiadów** - bez ingestu miałbyś tylko luźny plik w folderze.
 
 ## Surowe pliki vs wiki
 
-To różnica „**surowe pliki vs wiki**": bez `/ingest` nie ma linków ani indeksów — masz tylko stertę plików.
+To różnica „**surowe pliki vs wiki**": bez `/ingest` nie ma linków ani indeksów - masz tylko stertę plików.
 
 ## Pułapki
 
-- **Nie wrzucaj wszystkiego bez ingestu** — surowe pliki ≠ wiki (brak linków i indeksów).
-- **Nie edytuj indeksów ręcznie** — buduje je ingest (i `/reindex`, lekcja 4). Ręczna edycja się rozjedzie.
-- **Sprawdź `#todo/classification`** — jeśli agent nie był pewny folderu, oznaczy tak notę; dojrzyj ją.
-- **Inbox po ingeście ma być pusty** — jak coś zostało, raport powie dlaczego (np. nieudany URL).
+- **Nie wrzucaj wszystkiego bez ingestu** - surowe pliki ≠ wiki (brak linków i indeksów).
+- **Nie edytuj indeksów ręcznie** - buduje je ingest (i `/reindex`, lekcja 4). Ręczna edycja się rozjedzie.
+- **Sprawdź `#todo/classification`** - jeśli agent nie był pewny folderu, oznaczy tak notę; dojrzyj ją.
+- **Inbox po ingeście ma być pusty** - jak coś zostało, raport powie dlaczego (np. nieudany URL).
 
 ## FAQ
 
 ### Czym `/ingest` różni się od zwykłego wrzucenia pliku do folderu?
 
-Wrzucony plik to luźny plik — bez frontmatteru, linków i wpisu w indeksie. `/ingest` klasyfikuje źródło, dobiera typ noty, wypełnia frontmatter OKF, rozstawia `[[wikilinki]]` i linki zwrotne, archiwizuje źródło i aktualizuje trzy indeksy. To różnica między stertą plików a żywą wiki.
+Wrzucony plik to luźny plik - bez frontmatteru, linków i wpisu w indeksie. `/ingest` klasyfikuje źródło, dobiera typ noty, wypełnia frontmatter OKF, rozstawia `[[wikilinki]]` i linki zwrotne, archiwizuje źródło i aktualizuje trzy indeksy. To różnica między stertą plików a żywą wiki.
 
-### Co bierze `/ingest` — tylko wskazany plik?
+### Co bierze `/ingest` - tylko wskazany plik?
 
-Bierze **wszystko, co leży w `content/_raw/inbox/`** — nie podajesz nazwy pliku. Możesz też podać link YouTube jako argument (`/ingest https://youtu.be/…`); agent ściągnie transkrypt (`yt-dlp`, w razie braku napisów fallback przez Whisper/`ffmpeg`) i potraktuje go jak zwykłe źródło.
+Bierze **wszystko, co leży w `content/_raw/inbox/`** - nie podajesz nazwy pliku. Możesz też podać link YouTube jako argument (`/ingest https://youtu.be/…`); agent ściągnie transkrypt (`yt-dlp`, w razie braku napisów fallback przez Whisper/`ffmpeg`) i potraktuje go jak zwykłe źródło.
 
 ### Czy ingest nadpisze albo skasuje moje istniejące noty?
 
-Nie. Gdy w `catalog.md` znajdzie podobną notę, robi **merge** — dokłada treść, nie nadpisuje Twojej. Gdy podobnej nie ma, tworzy nową notę z szablonu. Źródło nie znika — wędruje z `inbox/` do `_raw/processed/` (z datą), więc wszystko jest odwracalne.
+Nie. Gdy w `catalog.md` znajdzie podobną notę, robi **merge** - dokłada treść, nie nadpisuje Twojej. Gdy podobnej nie ma, tworzy nową notę z szablonu. Źródło nie znika - wędruje z `inbox/` do `_raw/processed/` (z datą), więc wszystko jest odwracalne.
 
 ### W jakim języku powstaną noty, jeśli źródło jest po angielsku, a baza po polsku?
 
@@ -20460,11 +20460,11 @@ Baza trzyma **jeden kanoniczny język** ustalony przy onboardingu, a przy konfli
 
 ### Skąd wiem, że ingest zrobił wszystko poprawnie?
 
-Faza 3 to lista kontrolna: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Na koniec dostajesz raport (ile źródeł, ile not powstało, ile scalono, stan indeksów). Dodatkowo zajrzyj w Source Control — zobaczysz na oczy pełny diff.
+Faza 3 to lista kontrolna: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Na koniec dostajesz raport (ile źródeł, ile not powstało, ile scalono, stan indeksów). Dodatkowo zajrzyj w Source Control - zobaczysz na oczy pełny diff.
 
-### Jedno źródło zmieniło kilkanaście plików — czy to normalne?
+### Jedno źródło zmieniło kilkanaście plików - czy to normalne?
 
-Tak. Nowa nota dokłada `[[wikilinki]]` do pokrewnych not, a do każdej z nich dopisuje **link zwrotny** — graf jest dwukierunkowy. Do tego dochodzą trzy indeksy i przeniesienie źródła. Dlatego jeden mały plik potrafi dotknąć kilkunastu not: właśnie wpina się w graf i aktualizuje sąsiadów.
+Tak. Nowa nota dokłada `[[wikilinki]]` do pokrewnych not, a do każdej z nich dopisuje **link zwrotny** - graf jest dwukierunkowy. Do tego dochodzą trzy indeksy i przeniesienie źródła. Dlatego jeden mały plik potrafi dotknąć kilkunastu not: właśnie wpina się w graf i aktualizuje sąsiadów.
 
 
 ---
@@ -20475,81 +20475,81 @@ Source: https://pawel.lipowczan.pl/llm-wiki/kurs/4-pytania-i-zarzadzanie
 
 Cel tej lekcji: pytać bazę (nie czat) i utrzymywać jakość. Po lekcji umiesz `/qa`, `/lint`, `/reindex` i rozróżniasz `qa` vs `research`.
 
-Onboarding (L2) i ingest (L3) masz za sobą — baza żyje. Teraz ją **używasz**: pytasz i pilnujesz jakości. Wszystkie komendy siedzą w `.claude/commands/`.
+Onboarding (L2) i ingest (L3) masz za sobą - baza żyje. Teraz ją **używasz**: pytasz i pilnujesz jakości. Wszystkie komendy siedzą w `.claude/commands/`.
 
 ![Komendy zarządzania bazą w .claude/commands/ i start /lint w terminalu](/images/kurs/4-pytania-i-zarzadzanie-01.webp)
 
-## `/qa` — pytaj bazę, nie czat
+## `/qa` - pytaj bazę, nie czat
 
-`/qa "twoje pytanie"` to sedno. Agent nie zgaduje — **czyta bazę** przez progressive disclosure: `vault-map` → `catalog` → `graph` → otwiera **tylko trafne noty** → syntetyzuje odpowiedź **z `[[cytowaniami]]`** i **oznacza luki**, gdzie baza milczy.
+`/qa "twoje pytanie"` to sedno. Agent nie zgaduje - **czyta bazę** przez progressive disclosure: `vault-map` → `catalog` → `graph` → otwiera **tylko trafne noty** → syntetyzuje odpowiedź **z `[[cytowaniami]]`** i **oznacza luki**, gdzie baza milczy.
 
 Różnicę wobec czatu najlepiej widać, gdy pytasz o coś, **czego w bazie nie ma**. Zapytaj `/qa OKF` na bazie o samych notatkach o notowaniu:
 
-![/qa o OKF — brak pokrycia: baza mówi „nie mam tego", nie zmyśla](/images/kurs/4-pytania-i-zarzadzanie-05.webp)
+![/qa o OKF - brak pokrycia: baza mówi „nie mam tego", nie zmyśla](/images/kurs/4-pytania-i-zarzadzanie-05.webp)
 
-Baza sprawdza wszystkie noty, widzi **zero pokrycia** i mówi wprost: *„nie zmyślam odpowiedzi"*. Zamiast halucynacji dostajesz uczciwe „nie mam" + co dalej (`/ingest`, web research, `/gaps`). **Czat zgaduje; baza cytuje albo przyznaje, że nie wie.**
+Baza sprawdza wszystkie noty, widzi **zero pokrycia** i mówi wprost: _„nie zmyślam odpowiedzi"_. Zamiast halucynacji dostajesz uczciwe „nie mam" + co dalej (`/ingest`, web research, `/gaps`). **Czat zgaduje; baza cytuje albo przyznaje, że nie wie.**
 
-Teraz to samo dla tematu, który **jest** w bazie — `/qa` o Zettelkasten:
+Teraz to samo dla tematu, który **jest** w bazie - `/qa` o Zettelkasten:
 
-![/qa o Zettelkasten — synteza z cytowaniami źródeł, oznaczone luki i follow-upy](/images/kurs/4-pytania-i-zarzadzanie-06.webp)
+![/qa o Zettelkasten - synteza z cytowaniami źródeł, oznaczone luki i follow-upy](/images/kurs/4-pytania-i-zarzadzanie-06.webp)
 
 Dostajesz syntezę z **cytowaniami** (`[[Zettelkasten]]`, `[[Wikilinks Explained]]`, `[[Example Note]]`), listę **luk** (czego bazie brakuje) i trzy follow-upy: zapis do `_outputs/answers/`, `/compile`, `/enhance`. Odpowiedź jest osadzona w **Twojej** wiedzy, nie w treningu modelu.
 
-## `/compile` i `/enhance` — z odpowiedzi w trwałą notę
+## `/compile` i `/enhance` - z odpowiedzi w trwałą notę
 
 `/qa` daje odpowiedź; te dwie komendy zamieniają ją w **trwały** kawałek bazy:
 
-- **`/compile <temat>`** — składa **nową notę zbiorczą / artykuł** z wielu istniejących not (synteza wyższego rzędu). Dobre, gdy materiał jest rozsypany po notach i chcesz go spiąć w jedno.
-- **`/enhance <nota>`** — **poprawia/rozbudowuje jedną notę**: dokłada sekcje, wikilinki, łata luki wskazane przez `/qa` lub `/lint`.
+- **`/compile <temat>`** - składa **nową notę zbiorczą / artykuł** z wielu istniejących not (synteza wyższego rzędu). Dobre, gdy materiał jest rozsypany po notach i chcesz go spiąć w jedno.
+- **`/enhance <nota>`** - **poprawia/rozbudowuje jedną notę**: dokłada sekcje, wikilinki, łata luki wskazane przez `/qa` lub `/lint`.
 
 W skrócie: `/compile` **tworzy** syntezę z wielu źródeł, `/enhance` **ulepsza** pojedynczą notę.
 
-## `/lint` — przegląd stanu
+## `/lint` - przegląd stanu
 
-Baza po cichu gnije: martwe linki, sieroty, niespójne tagi, przeterminowane noty. `/lint` to audyt — sprawdza **10 klas problemów** i zapisuje raport do `_outputs/reports/`.
+Baza po cichu gnije: martwe linki, sieroty, niespójne tagi, przeterminowane noty. `/lint` to audyt - sprawdza **10 klas problemów** i zapisuje raport do `_outputs/reports/`.
 
-Zaczyna, jak każda operacja, od indeksów (progressive disclosure — nie skanuje całości na ślepo):
+Zaczyna, jak każda operacja, od indeksów (progressive disclosure - nie skanuje całości na ślepo):
 
 ![/lint startuje: czyta indeksy zgodnie z Navigation Protocol](/images/kurs/4-pytania-i-zarzadzanie-02.webp)
 
-Potem raportuje znaleziska po klasach — tu baza zdrowa, 3 drobne znaleziska:
+Potem raportuje znaleziska po klasach - tu baza zdrowa, 3 drobne znaleziska:
 
-![/lint — raport: 2 martwe linki, 1 brakujące połączenie, reszta czysta](/images/kurs/4-pytania-i-zarzadzanie-03.webp)
+![/lint - raport: 2 martwe linki, 1 brakujące połączenie, reszta czysta](/images/kurs/4-pytania-i-zarzadzanie-03.webp)
 
 Raport ląduje jako nota w `_outputs/reports/`, z tabelą wszystkich 10 klas i licznikiem:
 
 ![Raport zdrowia bazy: tabela 10 klas problemów z liczbami](/images/kurs/4-pytania-i-zarzadzanie-04.webp)
 
-Co sprawdza (10 klas): brakujący/niepełny frontmatter · zepsute wikilinki · sieroty · stuby · niespójne tagi · `#todo` · brak `summary` · brakujące połączenia semantyczne · treść stale (>1 rok bez review) · zgodność `type` z `CLAUDE.md`. Na koniec proponuje naprawę (tu: martwe linki → `/reindex`, brakujący link → `/enhance`). **Odpalaj co jakiś czas** — inaczej problemy się kumulują.
+Co sprawdza (10 klas): brakujący/niepełny frontmatter · zepsute wikilinki · sieroty · stuby · niespójne tagi · `#todo` · brak `summary` · brakujące połączenia semantyczne · treść stale (>1 rok bez review) · zgodność `type` z `CLAUDE.md`. Na koniec proponuje naprawę (tu: martwe linki → `/reindex`, brakujący link → `/enhance`). **Odpalaj co jakiś czas** - inaczej problemy się kumulują.
 
-## `/reindex` — przebuduj indeksy
+## `/reindex` - przebuduj indeksy
 
 Gdy indeksy się rozjadą (ręczna edycja, przerwany ingest), `/reindex` **buduje je od zera** z not: `vault-map.md`, `catalog.md`, `graph.md`.
 
-![/reindex — deterministyczna przebudowa indeksów z wyrywkowym sprawdzeniem liczb](/images/kurs/4-pytania-i-zarzadzanie-07.webp)
+![/reindex - deterministyczna przebudowa indeksów z wyrywkowym sprawdzeniem liczb](/images/kurs/4-pytania-i-zarzadzanie-07.webp)
 
-To **deterministyczna** przebudowa: odtwarza indeksy z aktualnego stanu not i sprawdza liczby (`total_notes`, węzły, krawędzie). Ważne: jeśli problem siedzi w **skrypcie** (np. parser policzył `[[...]]` ze środka bloku kodu jako realny link), reindex go **nie naprawi** — wiernie odtworzy ten sam wynik. Wtedy poprawka idzie do skryptu, nie do danych. Reindex leczy rozjazd indeks↔noty, nie błędy parsera.
+To **deterministyczna** przebudowa: odtwarza indeksy z aktualnego stanu not i sprawdza liczby (`total_notes`, węzły, krawędzie). Ważne: jeśli problem siedzi w **skrypcie** (np. parser policzył `[[...]]` ze środka bloku kodu jako realny link), reindex go **nie naprawi** - wiernie odtworzy ten sam wynik. Wtedy poprawka idzie do skryptu, nie do danych. Reindex leczy rozjazd indeks↔noty, nie błędy parsera.
 
-## `qa` vs `research` — czemu osobno
+## `qa` vs `research` - czemu osobno
 
 `/qa` odpowiada **z tego, co już masz**. Skille research **dokładają nową wiedzę z zewnątrz** i odkładają ją do bazy: `/research` (ukierunkowany), `/research-deep` (wieloźródłowy + weryfikacja), `/research-report` (research + raport), `/research-add-fields|items` (rozszerzanie list). Sedno: `qa` = czytasz bazę; `research` = baza rośnie.
 
 ## Pełna ściąga komend
 
-| Komenda | Do czego |
-|---|---|
-| `/onboard` | Konfiguracja bazy |
-| `/ingest` | Źródło → nota + indeksy |
-| `/qa` | Pytanie → synteza z cytowaniami |
-| `/compile` | Artykuł/nota zbiorcza z wielu źródeł |
-| `/enhance` | Popraw/rozbuduj notę |
-| `/lint` | Przegląd stanu / jakości |
-| `/reindex` | Przebuduj indeksy |
-| `/curate` | Wycofaj słabe/stare noty do graveyard |
-| `/gaps` | Znajdź luki / brakujące tematy |
-| `/refactor` | Przebuduj strukturę/noty |
-| `/output` | Wygeneruj raport/eksport |
-| `/research*` | Autonomiczny research |
+| Komenda      | Do czego                              |
+| ------------ | ------------------------------------- |
+| `/onboard`   | Konfiguracja bazy                     |
+| `/ingest`    | Źródło → nota + indeksy               |
+| `/qa`        | Pytanie → synteza z cytowaniami       |
+| `/compile`   | Artykuł/nota zbiorcza z wielu źródeł  |
+| `/enhance`   | Popraw/rozbuduj notę                  |
+| `/lint`      | Przegląd stanu / jakości              |
+| `/reindex`   | Przebuduj indeksy                     |
+| `/curate`    | Wycofaj słabe/stare noty do graveyard |
+| `/gaps`      | Znajdź luki / brakujące tematy        |
+| `/refactor`  | Przebuduj strukturę/noty              |
+| `/output`    | Wygeneruj raport/eksport              |
+| `/research*` | Autonomiczny research                 |
 
 ## Zasady jakości
 
@@ -20573,17 +20573,17 @@ Czat odpowiada z treningu modelu i zgaduje. `/qa` **czyta Twoją bazę** (index-
 
 Zamiast halucynować, baza raportuje **zero pokrycia** i mówi wprost: „nie zmyślam odpowiedzi". Dostajesz uczciwe „nie mam tego" plus co dalej: `/ingest` nowego źródła, research z sieci albo `/gaps`. To kluczowa różnica: czat zgaduje, baza cytuje albo przyznaje, że nie wie.
 
-### `/compile` vs `/enhance` — kiedy którego użyć?
+### `/compile` vs `/enhance` - kiedy którego użyć?
 
-`/compile <temat>` składa **nową notę zbiorczą / artykuł** z wielu istniejących not — synteza wyższego rzędu, gdy materiał jest rozsypany. `/enhance <nota>` **poprawia jedną notę**: dokłada sekcje, wikilinki, łata luki wskazane przez `/qa` lub `/lint`. Skrótowo: compile tworzy z wielu źródeł, enhance ulepsza pojedynczą notę.
+`/compile <temat>` składa **nową notę zbiorczą / artykuł** z wielu istniejących not - synteza wyższego rzędu, gdy materiał jest rozsypany. `/enhance <nota>` **poprawia jedną notę**: dokłada sekcje, wikilinki, łata luki wskazane przez `/qa` lub `/lint`. Skrótowo: compile tworzy z wielu źródeł, enhance ulepsza pojedynczą notę.
 
 ### Jak często odpalać `/lint`?
 
-Co jakiś czas — baza po cichu gnije (martwe linki, sieroty, niespójne tagi, przeterminowane noty), a problemy się kumulują. `/lint` sprawdza 10 klas problemów i zapisuje raport do `_outputs/reports/` wraz z propozycją naprawy. Traktuj to jak okresowy przegląd stanu.
+Co jakiś czas - baza po cichu gnije (martwe linki, sieroty, niespójne tagi, przeterminowane noty), a problemy się kumulują. `/lint` sprawdza 10 klas problemów i zapisuje raport do `_outputs/reports/` wraz z propozycją naprawy. Traktuj to jak okresowy przegląd stanu.
 
 ### `/reindex` naprawi każdy problem z indeksami?
 
-Nie. To **deterministyczna** przebudowa — odtwarza `vault-map.md`, `catalog.md`, `graph.md` z aktualnego stanu not. Leczy rozjazd indeks↔noty (ręczna edycja, przerwany ingest), ale jeśli błąd siedzi w **skrypcie** (np. parser liczy `[[...]]` ze środka bloku kodu), reindex go nie naprawi — wiernie odtworzy ten sam wynik. Wtedy poprawka idzie do skryptu, nie do danych.
+Nie. To **deterministyczna** przebudowa - odtwarza `vault-map.md`, `catalog.md`, `graph.md` z aktualnego stanu not. Leczy rozjazd indeks↔noty (ręczna edycja, przerwany ingest), ale jeśli błąd siedzi w **skrypcie** (np. parser liczy `[[...]]` ze środka bloku kodu), reindex go nie naprawi - wiernie odtworzy ten sam wynik. Wtedy poprawka idzie do skryptu, nie do danych.
 
 ### Czym `/qa` różni się od skilli `research`?
 
@@ -20598,31 +20598,31 @@ Source: https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja
 
 Cel tej lekcji: domknąć arsenał komend, opublikować bazę i poznać ścieżkę rozwoju. Po lekcji znasz **pozostałe komendy** (porządki, generowanie, analiza), umiesz publikować przez Quartz, rozumiesz przenośność OKF i wiesz, dokąd baza rośnie dalej.
 
-## Pełny arsenał — pozostałe komendy
+## Pełny arsenał - pozostałe komendy
 
-Rdzeń masz z lekcji 1–4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plus `/compile` i `/enhance`. Zostały komendy, po które sięgasz rzadziej — do porządków, generowania i analizy. Wszystkie trzymają się tej samej zasady: **czytaj indeksy, aktualizuj indeksy, nie kasuj bez potwierdzenia.**
+Rdzeń masz z lekcji 1–4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plus `/compile` i `/enhance`. Zostały komendy, po które sięgasz rzadziej - do porządków, generowania i analizy. Wszystkie trzymają się tej samej zasady: **czytaj indeksy, aktualizuj indeksy, nie kasuj bez potwierdzenia.**
 
-### `/gaps` — co zbudować dalej
+### `/gaps` - co zbudować dalej
 
-Analiza **luk wiedzy** — nie mechanicznych problemów (tym zajmuje się `/lint`), tylko braków merytorycznych: noty słabo połączone (stopień linków ≤ 1), tematy implikowane, lecz nieopisane, cienkie foldery i tagi, przeterminowane klastry. Zwraca uszeregowaną listę „do zbudowania / do połączenia" i proponuje zapis do `content/_outputs/reports/`. Nie zmienia bazy — to kompas, nie koparka. Odpalaj, gdy nie wiesz, co notować następne.
+Analiza **luk wiedzy** - nie mechanicznych problemów (tym zajmuje się `/lint`), tylko braków merytorycznych: noty słabo połączone (stopień linków ≤ 1), tematy implikowane, lecz nieopisane, cienkie foldery i tagi, przeterminowane klastry. Zwraca uszeregowaną listę „do zbudowania / do połączenia" i proponuje zapis do `content/_outputs/reports/`. Nie zmienia bazy - to kompas, nie koparka. Odpalaj, gdy nie wiesz, co notować następne.
 
-### `/curate` — sprzątanie (przeterminowane noty)
+### `/curate` - sprzątanie (przeterminowane noty)
 
-Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: *„`/lint` diagnozuje; `/curate` leczy"*. Domyślnie to próbny przebieg — sam raport. Akcje na notę: `archive` (→ graveyard), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; graveyard jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
+Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy"_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ graveyard), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; graveyard jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
 
-### `/refactor` — przebuduj bez psucia linków
+### `/refactor` - przebuduj bez psucia linków
 
-Rename / move / merge / split not z automatyczną naprawą **wszystkich** `[[wikilinków]]` i przebudową indeksów. Linki rozwiązują się po nazwie pliku, więc ręczne przenoszenie je psuje — `/refactor` robi to bezpiecznie (zachowuje aliasy `[[A|B]]` i kotwice `[[A#nagłówek]]`). Po każdej operacji odpala reindex i proponuje `/lint`. Używaj do zmian strukturalnych, których nie chcesz robić ręcznie.
+Rename / move / merge / split not z automatyczną naprawą **wszystkich** `[[wikilinków]]` i przebudową indeksów. Linki rozwiązują się po nazwie pliku, więc ręczne przenoszenie je psuje - `/refactor` robi to bezpiecznie (zachowuje aliasy `[[A|B]]` i kotwice `[[A#nagłówek]]`). Po każdej operacji odpala reindex i proponuje `/lint`. Używaj do zmian strukturalnych, których nie chcesz robić ręcznie.
 
-### `/output` — artefakty pochodne
+### `/output` - artefakty pochodne
 
-Generuje **pochodny** artefakt z bazy: podsumowanie, listę lektur, mapę tematu albo oś czasu. Domyślnie zapisuje do `content/_outputs/<format>/`. Różnica wobec `/compile`: `/compile` tworzy pełny **artykuł** (notę `compiled-note` w folderze tematu — wchodzi do wiki i indeksów), a `/output` daje raport/zestawienie **obok** wiki. Krótko: compile publikuje wiedzę, output ją eksportuje.
+Generuje **pochodny** artefakt z bazy: podsumowanie, listę lektur, mapę tematu albo oś czasu. Domyślnie zapisuje do `content/_outputs/<format>/`. Różnica wobec `/compile`: `/compile` tworzy pełny **artykuł** (notę `compiled-note` w folderze tematu - wchodzi do wiki i indeksów), a `/output` daje raport/zestawienie **obok** wiki. Krótko: compile publikuje wiedzę, output ją eksportuje.
 
-### Rodzina `research` — przedsmak (osobna lekcja)
+### Rodzina `research` - przedsmak (osobna lekcja)
 
-`/research`, `/research-add-items`, `/research-add-fields`, `/research-deep`, `/research-report` to potok, który **dokłada nową wiedzę z zewnątrz**. Buduje szkielet badania (`outline.yaml` + `fields.yaml`) w `content/_raw/research-workspaces/`, odpala po jednym agencie na element (ustrukturyzowany JSON per element), a na końcu składa raport i wrzuca go do `content/_raw/inbox/` — gotowy pod `/ingest`. To najmocniejsza dźwignia „baza rośnie sama". Rozbijemy ją w **osobnej lekcji** — tu tylko sygnalizuję, że istnieje.
+`/research`, `/research-add-items`, `/research-add-fields`, `/research-deep`, `/research-report` to potok, który **dokłada nową wiedzę z zewnątrz**. Buduje szkielet badania (`outline.yaml` + `fields.yaml`) w `content/_raw/research-workspaces/`, odpala po jednym agencie na element (ustrukturyzowany JSON per element), a na końcu składa raport i wrzuca go do `content/_raw/inbox/` - gotowy pod `/ingest`. To najmocniejsza dźwignia „baza rośnie sama". Rozbijemy ją w **osobnej lekcji** - tu tylko sygnalizuję, że istnieje.
 
-### `excalidraw-diagram` (skill) — diagramy
+### `excalidraw-diagram` (skill) - diagramy
 
 Skill generujący diagramy `.excalidraw` (proces, architektura, koncept) z pętlą samo-walidacji przez Playwright. Wymaga jednorazowej konfiguracji (`uv` + Playwright/Chromium). Opcjonalny dodatek, gdy chcesz do noty wrzucić schemat, a nie tylko tekst.
 
@@ -20639,14 +20639,14 @@ Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. 
 - Podłącz brain do **systemu agentowego** (multi-brain): jeden agent odpytuje wiele baz (wzorzec `brain-query`).
 - **MCP** (`brain-mcp`): udostępnij bazę dowolnemu klientowi (Claude Desktop / IDE).
 - **Publikacja Quartz** → marka osobista / portfolio wiedzy.
-- **Wymiana paczek OKF** — eksport „zżytej" bazy (ekstrakt) jako produkt.
+- **Wymiana paczek OKF** - eksport „zżytej" bazy (ekstrakt) jako produkt.
 
-## 🤖 Gotowe prompty — co dalej
+## 🤖 Gotowe prompty - co dalej
 
 Znajdź, czego bazie brakuje, i przygotuj publikację. Wklej na **swoim repo bazy**:
 
 ```text
-Odpal skill gaps: znajdź luki wiedzy — słabo połączone noty, brakujące tematy,
+Odpal skill gaps: znajdź luki wiedzy - słabo połączone noty, brakujące tematy,
 cienkie obszary. Zaproponuj 5 konkretnych źródeł lub pytań, którymi domknę luki.
 ```
 
@@ -20659,30 +20659,30 @@ kroku, jak wypchnąć ją na GitHub Pages. Nie publikuj niczego bez mojej zgody.
 
 ### Czym jest OKF i dlaczego baza jest przenośna?
 
-OKF (Open Knowledge Format) to standard opisany przez Google, który formalizuje wzorzec „wiedza jako zwykły markdown z frontmatterem". Twoja baza to zwykłe pliki `.md` z polem `type` — czytelne i dla agenta, i dla człowieka, bez uzależnienia od konkretnej aplikacji. Stąd „jeśli możesz to `git clone`, możesz to wysłać": przenosisz repo i cała wiedza działa dalej.
+OKF (Open Knowledge Format) to standard opisany przez Google, który formalizuje wzorzec „wiedza jako zwykły markdown z frontmatterem". Twoja baza to zwykłe pliki `.md` z polem `type` - czytelne i dla agenta, i dla człowieka, bez uzależnienia od konkretnej aplikacji. Stąd „jeśli możesz to `git clone`, możesz to wysłać": przenosisz repo i cała wiedza działa dalej.
 
 ### Czy muszę publikować bazę?
 
-Nie. Publikacja przez Quartz jest w pełni opcjonalna — baza świetnie działa jako **prywatne** repo markdown, którego używasz tylko przez Claude Code. Quartz to warstwa na wierzchu; dokładasz ją tylko, jeśli chcesz mieć publiczną stronę wiedzy.
+Nie. Publikacja przez Quartz jest w pełni opcjonalna - baza świetnie działa jako **prywatne** repo markdown, którego używasz tylko przez Claude Code. Quartz to warstwa na wierzchu; dokładasz ją tylko, jeśli chcesz mieć publiczną stronę wiedzy.
 
 ### Czy publikacja Quartz ujawni moje prywatne noty?
 
-Publikujesz tylko to, co sam zbudujesz i wypchniesz — Ty kontrolujesz zakres. Foldery robocze (`_raw/`) i wycofane noty (`_graveyard/`) są wykluczone, a przed dzieleniem usuwasz wrażliwe treści i atrybucje. Nic nie trafia na zewnątrz bez Twojej wyraźnej zgody.
+Publikujesz tylko to, co sam zbudujesz i wypchniesz - Ty kontrolujesz zakres. Foldery robocze (`_raw/`) i wycofane noty (`_graveyard/`) są wykluczone, a przed dzieleniem usuwasz wrażliwe treści i atrybucje. Nic nie trafia na zewnątrz bez Twojej wyraźnej zgody.
 
 ### Czym różni się `/gaps` od `/lint`?
 
-`/lint` szuka **mechanicznych** problemów: martwe linki, brakujący frontmatter, sieroty, niespójne tagi — 10 klas higieny. `/gaps` szuka **luk wiedzy**: słabo połączonych not, brakujących tematów, cienkich obszarów. Skrótowo: `/lint` to higiena, `/gaps` to strategia — co napisać następne.
+`/lint` szuka **mechanicznych** problemów: martwe linki, brakujący frontmatter, sieroty, niespójne tagi - 10 klas higieny. `/gaps` szuka **luk wiedzy**: słabo połączonych not, brakujących tematów, cienkich obszarów. Skrótowo: `/lint` to higiena, `/gaps` to strategia - co napisać następne.
 
 ### Czy `/curate` skasuje moje noty?
 
-Nie kasuje. Domyślnie robi próbny przebieg — sam raport segregacji. Przeterminowane noty wycofuje do `content/_graveyard/` **dopiero po Twoim potwierdzeniu**, i to odwracalnie (przeniesienie, nigdy `git rm`). Cofnięcie = przeniesienie noty z graveyard z powrotem.
+Nie kasuje. Domyślnie robi próbny przebieg - sam raport segregacji. Przeterminowane noty wycofuje do `content/_graveyard/` **dopiero po Twoim potwierdzeniu**, i to odwracalnie (przeniesienie, nigdy `git rm`). Cofnięcie = przeniesienie noty z graveyard z powrotem.
 
 ### Kiedy użyć `/output`, a kiedy `/compile`?
 
-`/compile` tworzy pełny **artykuł** — nową notę `compiled-note` w folderze tematu, która wchodzi do wiki i indeksów. `/output` generuje **pochodny** artefakt obok wiki (podsumowanie, lista lektur, oś czasu) do `content/_outputs/`. Chcesz trwały wpis w bazie → compile; chcesz zestawienie na wynos → output.
+`/compile` tworzy pełny **artykuł** - nową notę `compiled-note` w folderze tematu, która wchodzi do wiki i indeksów. `/output` generuje **pochodny** artefakt obok wiki (podsumowanie, lista lektur, oś czasu) do `content/_outputs/`. Chcesz trwały wpis w bazie → compile; chcesz zestawienie na wynos → output.
 
 ## Most do wersji płatnej
 
-To był pusty szablon. Pełniejsze akceleratory — gotowe, dopieszczone skille i **ekstrakt realnej, zżytej bazy** (gotowe paczki wiedzy do załadowania do swojej bazy) — szykuję jako płatne paczki. Pomijasz tygodnie iteracji i tysiące spalonych tokenów.
+To był pusty szablon. Pełniejsze akceleratory - gotowe, dopieszczone skille i **ekstrakt realnej, zżytej bazy** (gotowe paczki wiedzy do załadowania do swojej bazy) - szykuję jako płatne paczki. Pomijasz tygodnie iteracji i tysiące spalonych tokenów.
 
 Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).
