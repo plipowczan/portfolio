@@ -33,9 +33,9 @@ W tym case study pokażę Ci krok po kroku, jak przeprowadziliśmy wdrożenie i 
 
 ## Problem biznesowy: Kiedy jakość spotyka się z presją czasu
 
-El Padre to renomowana agencja eventowa, która przygotowuje kompleksowe oferty dla swoich klientów – od koncepcji kreatywnej, przez wizualizacje, aż po szczegółowe kosztorysy i harmonogramy. Każda oferta to autorski projekt, który wymaga zaangażowania dwóch kluczowych działów:
+El Padre to renomowana agencja eventowa, która przygotowuje kompleksowe oferty dla swoich klientów - od koncepcji kreatywnej, przez wizualizacje, aż po szczegółowe kosztorysy i harmonogramy. Każda oferta to autorski projekt, który wymaga zaangażowania dwóch kluczowych działów:
 
-### Czas to pieniądz – dosłownie
+### Czas to pieniądz - dosłownie
 
 Przed wdrożeniem AION, przygotowanie jednej oferty zajmowało:
 
@@ -43,28 +43,28 @@ Przed wdrożeniem AION, przygotowanie jednej oferty zajmowało:
 - **Działowi produkcji:** 4-6 godzin (wycena, kosztorysowanie, logistyka)
 - **Łącznie:** nawet **16 godzin na jedną ofertę**
 
-Przy mniejszych projektach (50-100 tys. zł) taki nakład pracy był **nierentowny** – ale bez profesjonalnej oferty trudno było wygrać przetarg.
+Przy mniejszych projektach (50-100 tys. zł) taki nakład pracy był **nierentowny** - ale bez profesjonalnej oferty trudno było wygrać przetarg.
 
 ### Kluczowe wyzwania
 
-1. **Przeciążenie zespołu kreatywnego** – zbyt wiele projektów, zbyt mało czasu na każdy z nich
-2. **Czasochłonne prace działów kreacji i produkcji** – manualne kosztorysowanie, szukanie poprzednich ofert, tworzenie wizualizacji
-3. **Brak centralizacji wiedzy** – transkrypcje spotkań, kosztorysy i archiwalne oferty były rozproszone w różnych folderach OneDrive
-4. **Niewspółmierny koszt przygotowania ofert** – szczególnie przy mniejszych projektach, gdzie marża nie uzasadniała nakładu pracy
+1. **Przeciążenie zespołu kreatywnego** - zbyt wiele projektów, zbyt mało czasu na każdy z nich
+2. **Czasochłonne prace działów kreacji i produkcji** - manualne kosztorysowanie, szukanie poprzednich ofert, tworzenie wizualizacji
+3. **Brak centralizacji wiedzy** - transkrypcje spotkań, kosztorysy i archiwalne oferty były rozproszone w różnych folderach OneDrive
+4. **Niewspółmierny koszt przygotowania ofert** - szczególnie przy mniejszych projektach, gdzie marża nie uzasadniała nakładu pracy
 
 Agencja stanęła przed dylematem: albo zwiększyć zespół (co generuje koszty), albo znaleźć sposób na przyspieszenie procesów bez utraty jakości.
 
 ## Rozwiązanie: AION jako centralny hub procesów ofertowania
 
-Zdecydowaliśmy się na wdrożenie platformy **AION** – systemu zarządzania procesami wspieranymi przez AI. Kluczem do sukcesu było nie tylko wprowadzenie narzędzi AI, ale przede wszystkim **integracja i centralizacja danych** oraz **dostosowanie workflow do realnych potrzeb zespołu**.
+Zdecydowaliśmy się na wdrożenie platformy **AION** - systemu zarządzania procesami wspieranymi przez AI. Kluczem do sukcesu było nie tylko wprowadzenie narzędzi AI, ale przede wszystkim **integracja i centralizacja danych** oraz **dostosowanie workflow do realnych potrzeb zespołu**.
 
 ### Stack technologiczny
 
-- **AION** – platforma do zarządzania procesami wspieranymi AI
-- **OneDrive** – integracja z istniejącym systemem plików (automatyczna synchronizacja)
-- **Narzędzia AI do transkrypcji** – automatyczne nagrywanie i przetwarzanie spotkań
-- **Asystenci AI** – punktowe wsparcie dla konkretnych etapów ofertowania
-- **System przeszukiwania bazy wiedzy** – szybkie odnajdywanie informacji z poprzednich projektów
+- **AION** - platforma do zarządzania procesami wspieranymi AI
+- **OneDrive** - integracja z istniejącym systemem plików (automatyczna synchronizacja)
+- **Narzędzia AI do transkrypcji** - automatyczne nagrywanie i przetwarzanie spotkań
+- **Asystenci AI** - punktowe wsparcie dla konkretnych etapów ofertowania
+- **System przeszukiwania bazy wiedzy** - szybkie odnajdywanie informacji z poprzednich projektów
 
 ## Implementacja: Jak to zrobiliśmy w 6 tygodni
 
@@ -74,30 +74,30 @@ Proces wdrożenia podzieliliśmy na trzy główne etapy, które zrealizowaliśmy
 
 Pierwszym krokiem było uporządkowanie chaosu informacyjnego. Zautomatyzowaliśmy synchronizację plików z OneDrive do platformy AION, tworząc jedno, centralne miejsce na:
 
-- **Transkrypcje spotkań z klientami** – każda rozmowa automatycznie nagrywana i przetwarzana
-- **Wiedzę o wszystkich projektach** – historia współpracy, preferencje, uwagi
-- **Kosztorysy i wyceny** – baza cenowa i szablony kalkulacji
-- **Archiwalne oferty** – jako baza wzorców i punkty odniesienia dla nowych projektów
+- **Transkrypcje spotkań z klientami** - każda rozmowa automatycznie nagrywana i przetwarzana
+- **Wiedzę o wszystkich projektach** - historia współpracy, preferencje, uwagi
+- **Kosztorysy i wyceny** - baza cenowa i szablony kalkulacji
+- **Archiwalne oferty** - jako baza wzorców i punkty odniesienia dla nowych projektów
 
-Dzięki temu zespół zyskał **natychmiastowy dostęp** do całej wiedzy organizacyjnej – bez przeszukiwania dziesiątek folderów.
+Dzięki temu zespół zyskał **natychmiastowy dostęp** do całej wiedzy organizacyjnej - bez przeszukiwania dziesiątek folderów.
 
 ### Krok 2: Wdrożenie inteligentnych narzędzi (Tydzień 3-4)
 
 W drugim etapie uruchomiliśmy narzędzia AI, które miały wspierać konkretne zadania:
 
-- **Automatyczne nagrywanie i transkrypcja spotkań** – każde spotkanie z klientem było nagrywane (za zgodą), a następnie przetwarzane na transkrypcję i strukturalne dane
-- **Przetwarzanie transkrypcji na dane strukturalne** – AI wyciągało kluczowe informacje: budżet, preferencje, wymagania, terminy
-- **Generator wizualizacji** – AI pomagało w szybkim tworzeniu wstępnych koncepcji wizualnych dla ofert eventowych
-- **System przeszukiwania bazy wiedzy** – możliwość filtrowania po spotkaniach, projektach, klientach i szybkiego odnajdywania podobnych przypadków
+- **Automatyczne nagrywanie i transkrypcja spotkań** - każde spotkanie z klientem było nagrywane (za zgodą), a następnie przetwarzane na transkrypcję i strukturalne dane
+- **Przetwarzanie transkrypcji na dane strukturalne** - AI wyciągało kluczowe informacje: budżet, preferencje, wymagania, terminy
+- **Generator wizualizacji** - AI pomagało w szybkim tworzeniu wstępnych koncepcji wizualnych dla ofert eventowych
+- **System przeszukiwania bazy wiedzy** - możliwość filtrowania po spotkaniach, projektach, klientach i szybkiego odnajdywania podobnych przypadków
 
 ### Krok 3: Implementacja workflow i wsparcie (Tydzień 5-6)
 
 Ostatni etap to dostosowanie systemu do codziennej pracy i przeszkolenie zespołu:
 
-- **Przygotowanie punktowych asystentów AI** – każdy etap procesu ofertowania (research, koncepcja, wycena, finalizacja) otrzymał dedykowanego asystenta AI
-- **Wsparcie techniczne na etapie wdrożenia** – daily standups, rozwiązywanie problemów na bieżąco
-- **Przeszkolenie zespołu** – **25-30 osób** przeszło przez warsztaty i onboarding z AION
-- **Testy pilotażowe i optymalizacja** – dostrajanie workflow na podstawie feedbacku zespołu
+- **Przygotowanie punktowych asystentów AI** - każdy etap procesu ofertowania (research, koncepcja, wycena, finalizacja) otrzymał dedykowanego asystenta AI
+- **Wsparcie techniczne na etapie wdrożenia** - daily standups, rozwiązywanie problemów na bieżąco
+- **Przeszkolenie zespołu** - **25-30 osób** przeszło przez warsztaty i onboarding z AION
+- **Testy pilotażowe i optymalizacja** - dostrajanie workflow na podstawie feedbacku zespołu
 
 ## Rezultaty: Liczby mówią same za siebie
 
@@ -105,10 +105,10 @@ Po 6 tygodniach wdrożenia El Padre zaczęła widzieć pierwsze efekty, które z
 
 ### Kluczowe metryki
 
-- ✅ **10-50% szybsze przygotowywanie ofert** – w zależności od złożoności projektu (proste oferty nawet 50% szybciej, złożone ~10-20%)
-- ✅ **10-15% większa produktywność działu produkcji** – dzięki automatyzacji wycen i kosztorysów
-- ✅ **25-30 osób wspieranych przez AI** – praktycznie cały zespół korzysta z AION w codziennej pracy
-- ✅ **Drastyczny wzrost liczby składanych ofert miesięcznie** – bez zwiększania zespołu
+- ✅ **10-50% szybsze przygotowywanie ofert** - w zależności od złożoności projektu (proste oferty nawet 50% szybciej, złożone ~10-20%)
+- ✅ **10-15% większa produktywność działu produkcji** - dzięki automatyzacji wycen i kosztorysów
+- ✅ **25-30 osób wspieranych przez AI** - praktycznie cały zespół korzysta z AION w codziennej pracy
+- ✅ **Drastyczny wzrost liczby składanych ofert miesięcznie** - bez zwiększania zespołu
 
 ### ROI: Oszczędności czasowe
 
@@ -140,9 +140,9 @@ Liczby są imponujące:
 
 **Dodatkowe korzyści:**
 
-- Centralizacja wiedzy – łatwiejsze wdrażanie nowych pracowników
-- Lepsza dokumentacja projektów – wszystko w jednym miejscu
-- Skalowalność – rozwiązanie rośnie wraz z firmą
+- Centralizacja wiedzy - łatwiejsze wdrażanie nowych pracowników
+- Lepsza dokumentacja projektów - wszystko w jednym miejscu
+- Skalowalność - rozwiązanie rośnie wraz z firmą
 
 ## Głos klienta: Co mówi El Padre?
 
@@ -151,17 +151,17 @@ Liczby są imponujące:
 > **Jakub Ćwikliński**  
 > Wiceprezes zarządu w El Padre
 
-Ten ostatni punkt jest szczególnie interesujący – zespół El Padre wykorzystuje "zaledwie część potencjału" AION, co oznacza, że **korzyści będą rosły w czasie**, w miarę jak odkrywają nowe zastosowania platformy.
+Ten ostatni punkt jest szczególnie interesujący - zespół El Padre wykorzystuje "zaledwie część potencjału" AION, co oznacza, że **korzyści będą rosły w czasie**, w miarę jak odkrywają nowe zastosowania platformy.
 
 ## Kluczowe wnioski: Co można wynieść z tego case study?
 
 ### 1. AI w branży eventowej to teraźniejszość, nie przyszłość
 
-El Padre pokazuje, że można zyskać **nawet 50% przyspieszenia procesów** – i to w branży, która wydawałaby się wysoce kreatywna i trudna do automatyzacji.
+El Padre pokazuje, że można zyskać **nawet 50% przyspieszenia procesów** - i to w branży, która wydawałaby się wysoce kreatywna i trudna do automatyzacji.
 
 ### 2. Integracja i centralizacja danych to klucz
 
-Bez zunifikowanej bazy wiedzy AI nie ma z czego czerpać. Pierwszy krok – uporządkowanie danych – był fundamentem sukcesu.
+Bez zunifikowanej bazy wiedzy AI nie ma z czego czerpać. Pierwszy krok - uporządkowanie danych - był fundamentem sukcesu.
 
 ### 3. Wdrożenie nie musi być długie
 
@@ -173,7 +173,7 @@ Oszczędności czasowe (75-120h miesięcznie) przekładają się bezpośrednio n
 
 ### 5. AI wspiera, nie zastępuje
 
-Zespół kreatywny nadal tworzy unikalne koncepcje – AI po prostu odciąża ich od żmudnych, powtarzalnych zadań.
+Zespół kreatywny nadal tworzy unikalne koncepcje - AI po prostu odciąża ich od żmudnych, powtarzalnych zadań.
 
 ## Dla kogo to rozwiązanie?
 
@@ -184,7 +184,7 @@ Wdrożenie AI w procesach ofertowania sprawdzi się szczególnie w:
 - **Organizacjach chcących skalować biznes** bez proporcjonalnego wzrostu zespołu
 - **Przedsiębiorstwach szukających przewagi konkurencyjnej** przez szybkość i innowacyjność
 
-Jeśli Twoja firma boryka się z podobnymi wyzwaniami – **przeciążonymi zespołami**, **czasochłonnymi procesami**, **brakiem centralizacji wiedzy** – warto rozważyć wdrożenie AI.
+Jeśli Twoja firma boryka się z podobnymi wyzwaniami - **przeciążonymi zespołami**, **czasochłonnymi procesami**, **brakiem centralizacji wiedzy** - warto rozważyć wdrożenie AI.
 
 <div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
   <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">

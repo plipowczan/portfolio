@@ -23,9 +23,9 @@ alternateSlug: vibe-coding-przewodnik
 
 # Vibe Coding - how to create UI with AI without design skills
 
-A few weeks ago I came across a piece by the PageAI team about vibe coding and I have to say — they did an excellent job. What's more, their approach perfectly matches how I personally work with AI when creating interfaces.
+A few weeks ago I came across a piece by the PageAI team about vibe coding and I have to say - they did an excellent job. What's more, their approach perfectly matches how I personally work with AI when creating interfaces.
 
-If you don't have a UX/UI background (like me) but want to create modern, attractive interfaces — this guide is for you.
+If you don't have a UX/UI background (like me) but want to create modern, attractive interfaces - this guide is for you.
 
 ## What is Vibe Coding?
 
@@ -61,7 +61,7 @@ AI needs to understand:
 - What libraries you use (Tailwind, shadcn/ui, etc.)
 - What style you're designing (minimalist, bold, glassmorphic)
 
-Without context you get a generic, "AI-looking" design. With context — something unique.
+Without context you get a generic, "AI-looking" design. With context - something unique.
 
 ## Step 1: Define the Design Brief
 
@@ -287,7 +287,7 @@ Cursor is an IDE based on VS Code with built-in AI. It supports:
 
 ### Shadcn/ui
 
-A component library you can install via CLI. The components are **yours** — you copy them into your project and modify them.
+A component library you can install via CLI. The components are **yours** - you copy them into your project and modify them.
 
 AI knows shadcn/ui really well, so when you say "use shadcn Button component," you'll get exactly that.
 
@@ -405,7 +405,7 @@ If you want to get started with vibe coding:
 
 </summary>
 
-Vibe coding is an approach to UI creation where instead of pixel-perfect mockups you describe the feeling and style you want to achieve. AI translates that into working code. It's designed for people without a UX/UI background who want to create professional interfaces — developers, entrepreneurs, product creators.
+Vibe coding is an approach to UI creation where instead of pixel-perfect mockups you describe the feeling and style you want to achieve. AI translates that into working code. It's designed for people without a UX/UI background who want to create professional interfaces - developers, entrepreneurs, product creators.
 
 </details>
 
@@ -427,7 +427,7 @@ A good base (starter kit with Vite, React, Tailwind, and basic components), good
 
 </summary>
 
-Design tokens are a single source of truth about your project's colors, spacing, and typography. When AI includes this file in context, it maintains a consistent design system. Without tokens, every component has different shades and border radii — the interface looks like Frankenstein assembled from random parts.
+Design tokens are a single source of truth about your project's colors, spacing, and typography. When AI includes this file in context, it maintains a consistent design system. Without tokens, every component has different shades and border radii - the interface looks like Frankenstein assembled from random parts.
 
 </details>
 
@@ -438,7 +438,7 @@ Design tokens are a single source of truth about your project's colors, spacing,
 
 </summary>
 
-Cursor (IDE with built-in AI that sees the whole project), shadcn/ui (components copied into your project, well known by AI), and optionally v0.dev (Vercel for quick prototypes). Cursor is the number one choice — AI generates consistent code because it knows the folder structure and existing components.
+Cursor (IDE with built-in AI that sees the whole project), shadcn/ui (components copied into your project, well known by AI), and optionally v0.dev (Vercel for quick prototypes). Cursor is the number one choice - AI generates consistent code because it knows the folder structure and existing components.
 
 </details>
 
@@ -449,6 +449,6 @@ Cursor (IDE with built-in AI that sees the whole project), shadcn/ui (components
 
 </summary>
 
-Always specify a concrete style (minimalist, brutalist, glassmorphic), point to inspirations ("like Stripe's homepage"), and define colors and typography in a design reference. Break tasks into small components instead of asking for an entire page at once. Iterate — vibe coding is a process of generating, previewing, and refining, not a one-shot generation of finished UI.
+Always specify a concrete style (minimalist, brutalist, glassmorphic), point to inspirations ("like Stripe's homepage"), and define colors and typography in a design reference. Break tasks into small components instead of asking for an entire page at once. Iterate - vibe coding is a process of generating, previewing, and refining, not a one-shot generation of finished UI.
 
 </details>
