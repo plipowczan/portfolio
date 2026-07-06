@@ -167,8 +167,9 @@ const LlmWikiLanding = () => {
                     ✅ Jesteś na liście!
                   </p>
                   <p className="text-gray-400">
-                    Dam znać, gdy ruszy kurs i kolejne materiały. A skoro już tu
-                    jesteś — zacznij od razu. Szablon jest darmowy i publiczny.
+                    Kurs już ruszył — a o kolejnych materiałach dam znać. Skoro
+                    już tu jesteś — zacznij od razu. Szablon jest darmowy i
+                    publiczny.
                   </p>
                 </div>
 
