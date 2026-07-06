@@ -35,6 +35,10 @@ dist-ssr
 build
 dist
 
+# React Email export output (npx react-email export)
+out/
+.react-email/
+
 # Testing
 coverage
 .nyc_output
