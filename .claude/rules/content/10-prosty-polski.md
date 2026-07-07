@@ -65,6 +65,7 @@ Mianownik będący nazwą komendy lub operacji ("pierwszy ingest", "ingest rusza
 | checklist                | lista kontrolna                         |
 | triage                   | segregacja                              |
 | idempotencja             | powtarzalność                           |
+| komendyfikacja           | przekształcanie w komendy (albo zostaw "commandification") |
 
 Uwaga na fałszywego przyjaciela: polskie "stale" znaczy "ciągle". Angielskie *stale* (przeterminowany) nigdy nie zostaje w polskim zdaniu.
 
@@ -79,8 +80,10 @@ Uwaga na fałszywego przyjaciela: polskie "stale" znaczy "ciągle". Angielskie *
 Brama słownikowa. Grep to detektor - sam nie odróżnia prozy od kodu, więc każde trafienie oceń ręcznie: trafienie **w prozie** = błąd (blokuje publikację); trafienie **w bloku kodu lub ścieżce w backtickach** jest dopuszczalne - odnotuj je jako sprawdzony wyjątek. Brak trafień = brama przechodzi bez ręcznego kroku.
 
 ```bash
-grep -rniP '(ingestow|ingestuj|inge\x{15b}ci|ingestu\b|ingestem|mergow|merguj|robi\w* merge|renderow|renderuj|\brendery\b|\brenderu\b|deployow|deployuj|commitow|commituj|klastrow|klastruj|fallback|bundl|arsena\x{142}|z\x{17c}yt[aey]|dopieszczon|tre\x{15b}\x{107} stale|(?<!_)graveyard)' src/content/kurs/*.md
+grep -rniP '(komendyfik|ingestow|ingestuj|inge\x{15b}ci|ingestu\b|ingestem|mergow|merguj|robi\w* merge|renderow|renderuj|\brendery\b|\brenderu\b|deployow|deployuj|commitow|commituj|klastrow|klastruj|fallback|bundl|arsena\x{142}|z\x{17c}yt[aey]|dopieszczon|tre\x{15b}\x{107} stale|(?<!_)graveyard)' src/content/kurs/*.md
 ```
+
+To wyrażenie jest wzorcem dla wszystkich bram słownikowych (m.in. `blog-article-writer:validate` uruchamia je 1:1 na walidowanym artykule). Zmieniasz listę - zmień ją **tutaj**, a kopie wyrównaj do tego pliku.
 
 Dla artykułu bloga uruchamiaj to samo wyrażenie na walidowanym pliku (krok w `blog-article-writer:validate`). Brama znaków (em dash / en dash / wielokropek) działa niezależnie - patrz `portfolio-copywriting`.
 
