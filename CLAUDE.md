@@ -57,6 +57,7 @@ All project rules are centralized in **[.claude/rules/](.claude/rules/)**.
 - **[10-setup.md](.claude/rules/10-setup.md)**: Environment setup and configuration.
 - **[11-git.md](.claude/rules/11-git.md)**: Git workflow and conventions.
 - **[data-storage/00-overview.md](.claude/rules/data-storage/00-overview.md)**: Data handling (Markdown, static files).
+- **[content/10-prosty-polski.md](.claude/rules/content/10-prosty-polski.md)**: Plain-Polish vocabulary and style rules for all PL content (blog, course lessons, landings).
 
 ### Technology Rules
 

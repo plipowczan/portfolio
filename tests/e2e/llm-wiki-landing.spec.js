@@ -8,8 +8,11 @@ test.describe("Landing LLM Wiki — treść", () => {
 
     await expect(page.locator("h1")).toContainText("rośnie sama");
 
-    // 3 propsy wartości = jedyne h2 na stronie (wpisy index.md)
-    await expect(page.locator("h2")).toHaveCount(3);
+    // 3 propsy wartości (wpisy index.md) — po tytułach, nie po globalnej
+    // liczbie h2, żeby dodanie kolejnej sekcji nie psuło testu
+    for (const title of ["Kumuluje się sama", "Index-first", "Przenośna"]) {
+      await expect(page.locator("h2", { hasText: title })).toBeVisible();
+    }
 
     // tło = rosnący graf
     await expect(page.locator("canvas[aria-hidden='true']")).toBeVisible();
@@ -23,6 +26,38 @@ test.describe("Landing LLM Wiki — treść", () => {
     await expect(
       page.getByRole("link", { name: /Weź szablon/i })
     ).toHaveCount(0);
+  });
+
+  test("sekcja „Dla kogo jest ten kurs”: widoczna, z terminem + definicją, przed formularzem", async ({
+    page,
+  }) => {
+    await page.goto("/llm-wiki");
+
+    const audience = page.getByTestId("course-audience");
+    await expect(
+      audience.getByRole("heading", { name: "Dla kogo jest ten kurs" })
+    ).toBeVisible();
+
+    // Co najmniej jeden termin z definicją (współdzielone dane z hubem kursu).
+    await expect(
+      audience.locator("dt", { hasText: "Claude Code" })
+    ).toBeVisible();
+    await expect(
+      audience.getByText(/agent od Anthropic działający w terminalu/i)
+    ).toBeVisible();
+
+    // Sekcja poprzedza formularz waitlisty w kolejności dokumentu.
+    const sectionBeforeForm = await page.evaluate(() => {
+      const section = document.querySelector('[data-testid="course-audience"]');
+      const form = document.querySelector("form");
+      return Boolean(
+        section &&
+          form &&
+          section.compareDocumentPosition(form) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+      );
+    });
+    expect(sectionBeforeForm).toBe(true);
   });
 });
 

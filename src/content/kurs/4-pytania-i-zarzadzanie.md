@@ -16,7 +16,7 @@ Onboarding (L2) i ingest (L3) masz za sobą - baza żyje. Teraz ją **używasz**
 
 ## `/qa` - pytaj bazę, nie czat
 
-`/qa "twoje pytanie"` to sedno. Agent nie zgaduje - **czyta bazę** przez progressive disclosure: `vault-map` → `catalog` → `graph` → otwiera **tylko trafne noty** → syntetyzuje odpowiedź **z `[[cytowaniami]]`** i **oznacza luki**, gdzie baza milczy.
+`/qa "twoje pytanie"` to sedno. Agent nie zgaduje - **czyta bazę** przez progressive disclosure (od ogółu do szczegółu): `vault-map` → `catalog` → `graph` → otwiera **tylko trafne noty** → syntetyzuje odpowiedź **z `[[cytowaniami]]`** i **oznacza luki**, gdzie baza milczy.
 
 Różnicę wobec czatu najlepiej widać, gdy pytasz o coś, **czego w bazie nie ma**. Zapytaj `/qa OKF` na bazie o samych notatkach o notowaniu:
 
@@ -55,7 +55,7 @@ Raport ląduje jako nota w `_outputs/reports/`, z tabelą wszystkich 10 klas i l
 
 ![Raport zdrowia bazy: tabela 10 klas problemów z liczbami](/images/kurs/4-pytania-i-zarzadzanie-04.webp)
 
-Co sprawdza (10 klas): brakujący/niepełny frontmatter · zepsute wikilinki · sieroty · stuby · niespójne tagi · `#todo` · brak `summary` · brakujące połączenia semantyczne · treść stale (>1 rok bez review) · zgodność `type` z `CLAUDE.md`. Na koniec proponuje naprawę (tu: martwe linki → `/reindex`, brakujący link → `/enhance`). **Odpalaj co jakiś czas** - inaczej problemy się kumulują.
+Co sprawdza (10 klas): brakujący/niepełny frontmatter · zepsute wikilinki · sieroty (noty, do których nic nie linkuje) · stuby (niedokończone noty-szkice) · niespójne tagi · `#todo` · brak `summary` · brakujące połączenia semantyczne · przeterminowana treść (>1 rok bez przeglądu) · zgodność `type` z `CLAUDE.md`. Na koniec proponuje naprawę (tu: martwe linki → `/reindex`, brakujący link → `/enhance`). **Odpalaj co jakiś czas** - inaczej problemy się kumulują.
 
 ## `/reindex` - przebuduj indeksy
 
@@ -80,7 +80,7 @@ To **deterministyczna** przebudowa: odtwarza indeksy z aktualnego stanu not i sp
 | `/enhance`   | Popraw/rozbuduj notę                  |
 | `/lint`      | Przegląd stanu / jakości              |
 | `/reindex`   | Przebuduj indeksy                     |
-| `/curate`    | Wycofaj słabe/stare noty do graveyard |
+| `/curate`    | Wycofaj słabe/stare noty do `_graveyard/` |
 | `/gaps`      | Znajdź luki / brakujące tematy        |
 | `/refactor`  | Przebuduj strukturę/noty              |
 | `/output`    | Wygeneruj raport/eksport              |
@@ -96,7 +96,7 @@ To **deterministyczna** przebudowa: odtwarza indeksy z aktualnego stanu not i sp
 
 ## Anty-wzorce
 
-Ręczne pisanie wiki · wrzucanie wszystkiego bez ingestu · olewanie `/lint` · skanowanie całego `content/` zamiast indeksów (pali tokeny).
+Ręczne pisanie wiki · wrzucanie wszystkiego bez `/ingest` · olewanie `/lint` · skanowanie całego `content/` zamiast indeksów (pali tokeny).
 
 ## FAQ
 

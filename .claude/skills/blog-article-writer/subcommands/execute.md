@@ -229,19 +229,20 @@ Use HTML format:
 
 ### Language Guidelines
 
-**Keep English:**
-- Technology names (React, Claude Code, Obsidian)
-- Technical terms (API, workflow, skills)
-- Established concepts (second brain, MCP)
+Follow **`.claude/rules/content/10-prosty-polski.md`** (single source of truth: replacement table, keep-list, gloss format, forbidden-word grep). Summary:
 
-**Use Polish:**
-- Explanations
-- Descriptions
-- Narrative
+**Keep English (UI / file-system test):**
+- Technology names (React, Claude Code, Obsidian), command names, file names
+- Terms visible in tools: commit, frontmatter, markdown, vault
+- Standards and acronyms: API, RAG, OKF, MCP
 
-**NEVER polonize:**
-- ❌ "komendyfikacja" → ✅ "commandification" or describe in Polish
-- ❌ "skillsy" → ✅ "skills"
+**Use Polish when the term exists only in prose:**
+- wdrożenie (not deployment), scalanie (not merge as a verb), potok (not pipeline), paczka (not bundle)
+
+**NEVER polonize verbs:**
+- ❌ "ingestować", "mergować", "commitować", "skillsy" → ✅ Polish verb, "robić commit", "skills"
+
+**First-use gloss (required):** every hard term - keep-list included - gets a parenthetical definition at its first occurrence in the article.
 
 ## Error Handling
 

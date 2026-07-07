@@ -100,9 +100,11 @@ The only subcommand that touches `_archive/` is `/blog-article-writer:archive`, 
 
 ### Language
 
-- Polish + natural English technical terms
-- NEVER polonize: "komendyfikacja" → use "commandification" or describe
-- Keep English: React, API, hooks, deployment, skills
+Single source of truth: **`.claude/rules/content/10-prosty-polski.md`** (replacement table, keep-list, forbidden-word grep). Core rules:
+
+- Plain Polish by default; English stays only when the reader sees the term in a tool's UI or file system (commit, frontmatter, vault, command names, technology names)
+- NEVER polonize verbs: "ingestować", "mergować", "commitować" → Polish verb or "robić commit"
+- Define every hard term (keep-list included) in parentheses at first use in the article
 
 ### Style
 

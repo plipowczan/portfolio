@@ -5,11 +5,11 @@ title: Rozwój i publikacja
 excerpt: Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju - multi-brain, MCP, publikacja i wymiana paczek wiedzy.
 ---
 
-Cel tej lekcji: domknąć arsenał komend, opublikować bazę i poznać ścieżkę rozwoju. Po lekcji znasz **pozostałe komendy** (porządki, generowanie, analiza), umiesz publikować przez Quartz, rozumiesz przenośność OKF i wiesz, dokąd baza rośnie dalej.
+Cel tej lekcji: domknąć zestaw komend, opublikować bazę i poznać ścieżkę rozwoju. Po lekcji znasz **pozostałe komendy** (porządki, generowanie, analiza), umiesz publikować przez Quartz (generator stron WWW z plików markdown), rozumiesz przenośność OKF (Open Knowledge Format - standard przenośnych baz wiedzy) i wiesz, dokąd baza rośnie dalej.
 
-## Pełny arsenał - pozostałe komendy
+## Pełny zestaw - pozostałe komendy
 
-Rdzeń masz z lekcji 1–4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plus `/compile` i `/enhance`. Zostały komendy, po które sięgasz rzadziej - do porządków, generowania i analizy. Wszystkie trzymają się tej samej zasady: **czytaj indeksy, aktualizuj indeksy, nie kasuj bez potwierdzenia.**
+Rdzeń masz z lekcji 1-4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plus `/compile` i `/enhance`. Zostały komendy, po które sięgasz rzadziej - do porządków, generowania i analizy. Wszystkie trzymają się tej samej zasady: **czytaj indeksy, aktualizuj indeksy, nie kasuj bez potwierdzenia.**
 
 ### `/gaps` - co zbudować dalej
 
@@ -17,7 +17,7 @@ Analiza **luk wiedzy** - nie mechanicznych problemów (tym zajmuje się `/lint`)
 
 ### `/curate` - sprzątanie (przeterminowane noty)
 
-Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy"_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ graveyard), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; graveyard jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
+Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy"_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ `_graveyard/`), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; `_graveyard/` jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
 
 ### `/refactor` - przebuduj bez psucia linków
 
@@ -29,7 +29,7 @@ Generuje **pochodny** artefakt z bazy: podsumowanie, listę lektur, mapę tematu
 
 ### Rodzina `research` - przedsmak (osobna lekcja)
 
-`/research`, `/research-add-items`, `/research-add-fields`, `/research-deep`, `/research-report` to potok, który **dokłada nową wiedzę z zewnątrz**. Buduje szkielet badania (`outline.yaml` + `fields.yaml`) w `content/_raw/research-workspaces/`, odpala po jednym agencie na element (ustrukturyzowany JSON per element), a na końcu składa raport i wrzuca go do `content/_raw/inbox/` - gotowy pod `/ingest`. To najmocniejsza dźwignia „baza rośnie sama". Rozbijemy ją w **osobnej lekcji** - tu tylko sygnalizuję, że istnieje.
+`/research`, `/research-add-items`, `/research-add-fields`, `/research-deep`, `/research-report` to potok, który **dokłada nową wiedzę z zewnątrz**. Buduje szkielet badania (`outline.yaml` + `fields.yaml`) w `content/_raw/research-workspaces/`, odpala po jednym agencie na element (ustrukturyzowany JSON per element), a na końcu składa raport i wrzuca go do `content/_raw/inbox/` - gotowy pod `/ingest`. To dzięki niemu baza rośnie sama. Rozbijemy go w **osobnej lekcji** - tu tylko sygnalizuję, że istnieje.
 
 ### `excalidraw-diagram` (skill) - diagramy
 
@@ -46,9 +46,9 @@ Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. 
 ## Ścieżka rozwoju
 
 - Podłącz brain do **systemu agentowego** (multi-brain): jeden agent odpytuje wiele baz (wzorzec `brain-query`).
-- **MCP** (`brain-mcp`): udostępnij bazę dowolnemu klientowi (Claude Desktop / IDE).
+- **MCP** (protokół, którym narzędzia AI podłączają się do zewnętrznych źródeł; tu: `brain-mcp`): udostępnij bazę dowolnemu klientowi (Claude Desktop / IDE).
 - **Publikacja Quartz** → marka osobista / portfolio wiedzy.
-- **Wymiana paczek OKF** - eksport „zżytej" bazy (ekstrakt) jako produkt.
+- **Wymiana paczek OKF** - eksport dopracowanej bazy jako produkt (ekstrakt: sama wiedza, bez plików roboczych).
 
 ## 🤖 Gotowe prompty - co dalej
 
@@ -84,7 +84,7 @@ Publikujesz tylko to, co sam zbudujesz i wypchniesz - Ty kontrolujesz zakres. Fo
 
 ### Czy `/curate` skasuje moje noty?
 
-Nie kasuje. Domyślnie robi próbny przebieg - sam raport segregacji. Przeterminowane noty wycofuje do `content/_graveyard/` **dopiero po Twoim potwierdzeniu**, i to odwracalnie (przeniesienie, nigdy `git rm`). Cofnięcie = przeniesienie noty z graveyard z powrotem.
+Nie kasuje. Domyślnie robi próbny przebieg - sam raport segregacji. Przeterminowane noty wycofuje do `content/_graveyard/` **dopiero po Twoim potwierdzeniu**, i to odwracalnie (przeniesienie, nigdy `git rm`). Cofnięcie = przeniesienie noty z `_graveyard/` z powrotem.
 
 ### Kiedy użyć `/output`, a kiedy `/compile`?
 
@@ -92,6 +92,6 @@ Nie kasuje. Domyślnie robi próbny przebieg - sam raport segregacji. Przetermin
 
 ## Most do wersji płatnej
 
-To był pusty szablon. Pełniejsze akceleratory - gotowe, dopieszczone skille i **ekstrakt realnej, zżytej bazy** (gotowe paczki wiedzy do załadowania do swojej bazy) - szykuję jako płatne paczki. Pomijasz tygodnie iteracji i tysiące spalonych tokenów.
+To był pusty szablon. Pełniejsze akceleratory - gotowe, sprawdzone skille i **ekstrakt realnej bazy dopracowanej miesiącami** (gotowe paczki wiedzy do załadowania do swojej bazy) - szykuję jako płatne paczki. Pomijasz tygodnie iteracji i tysiące spalonych tokenów.
 
 Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).

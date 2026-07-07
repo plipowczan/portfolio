@@ -19939,7 +19939,7 @@ When it doesn't know the answer, the user is frustrated, the matter requires dec
 
 Source: https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog
 
-Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings i RAG - architektura trzech warstw, trzy indeksy i zasada progressive disclosure.
+Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings (liczbowych reprezentacji tekstu do wyszukiwania) i bez RAG (techniki, w której model przy każdym pytaniu przeszukuje surowe dokumenty) - architektura trzech warstw, trzy indeksy i zasada progressive disclosure (czytania od ogółu do szczegółu).
 
 ## Po co to
 
@@ -20028,27 +20028,27 @@ brain-test/
 
 **Foldery:**
 
-- **`.claude/`** - mózg agenta. `commands/` to slash-komendy (`/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, `/gaps`, `/curate`, `/compile`, `/enhance`, `/output`, `/refactor`), `skills/` to ich implementacje (m.in. pythonowe: reindex, lint, ingest, gaps + skille research i `excalidraw-diagram`). `hooks/load_vault_map.py` auto-ładuje mapę vaultu na starcie każdej sesji, a `settings.json` to konfiguracja Claude Code.
+- **`.claude/`** - mózg agenta. `commands/` to slash-komendy (`/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, `/gaps`, `/curate`, `/compile`, `/enhance`, `/output`, `/refactor`), `skills/` to ich implementacje (m.in. pythonowe: reindex, lint, ingest, gaps + skille research i `excalidraw-diagram`). `hooks/load_vault_map.py` auto-ładuje mapę bazy na starcie każdej sesji, a `settings.json` to konfiguracja Claude Code.
 - **`.githooks/`** - hook `pre-commit`: kontrola jakości (format/lint), zanim cokolwiek trafi do commita.
-- **`content/`** - Twój vault: cała wiedza, indeksy, szablony i wzorce (rozbicie niżej).
+- **`content/`** - Twój vault (tak nazywamy folder z całą Twoją wiedzą): noty, indeksy, szablony i wzorce (rozbicie niżej).
 - **`tests/`** - `run_tests.py`, testy skryptów pythonowych skilli. Nie ruszasz na co dzień - są, żeby mechanika była pewna.
 
 **Pliki schemy (znikają po `/onboard`):**
 
-- **`CLAUDE.template.md` / `AGENTS.template.md`** - kontrakt agenta z placeholderami (`{{KB_NAME}}`, `{{KB_OWNER}}`, `{{TOPIC_TABLE}}`, …). `/onboard` renderuje je do `CLAUDE.md` / `AGENTS.md`. Ich obecność to znak, że baza jest jeszcze nieskonfigurowana.
-- **`content/WRITING_STYLE.template.md`** - szablon Twojego „głosu" (osoba, formalność, emoji w nagłówkach). `/onboard` renderuje go do `content/WRITING_STYLE.md`.
+- **`CLAUDE.template.md` / `AGENTS.template.md`** - kontrakt agenta z placeholderami, czyli polami do podmiany (`{{KB_NAME}}`, `{{KB_OWNER}}`, `{{TOPIC_TABLE}}`, ...). `/onboard` wypełnia je i zapisuje jako `CLAUDE.md` / `AGENTS.md`. Ich obecność to znak, że baza jest jeszcze nieskonfigurowana.
+- **`content/WRITING_STYLE.template.md`** - szablon Twojego „głosu" (osoba, formalność, emoji w nagłówkach). `/onboard` wypełnia go i zapisuje jako `content/WRITING_STYLE.md`.
 
 **Pozostałe pliki:**
 
-- **`schema.yml`** - kontrakt frontmatteru per typ noty: jakie pola są wymagane (np. `knowledge-note` musi mieć `title, date, type, tags, summary`). `/lint` to egzekwuje. Skasujesz plik → luźniejszy tryb, bez wymuszania pól.
+- **`schema.yml`** - kontrakt frontmatteru (bloku metadanych na początku pliku) per typ noty: jakie pola są wymagane (np. `knowledge-note` musi mieć `title, date, type, tags, summary`). `/lint` to egzekwuje. Skasujesz plik → luźniejszy tryb, bez wymuszania pól.
 - **`README.md`** - opis szablonu i quickstart.
 - **`package.json`** - jedyny skrypt to `npm run format` (Prettier). Potok publikacji (Quartz) świadomie **nie** wchodzi w zestaw - doklejasz go później (lekcja 5).
-- **`requirements.txt`** - zależności Pythona skryptów (`PyYAML`; `yt-dlp` opcjonalnie, pod ingest z YouTube).
+- **`requirements.txt`** - zależności Pythona skryptów (`PyYAML`; `yt-dlp` opcjonalnie, pod `/ingest` z YouTube).
 - **`.editorconfig` · `.gitattributes` · `.gitignore` · `.npmrc` · `.prettierrc`** - standardowa higiena repo (styl kodu, końcówki linii, ignorowane pliki, format).
 
 **W środku `content/`:**
 
-- **`_raw/inbox/`** - miejsce na surowe źródła (jest gotowy `sample-source.md` na rozgrzewkę). Po ingeście źródła lądują w `_raw/processed/`.
+- **`_raw/inbox/`** - miejsce na surowe źródła (jest gotowy `sample-source.md` na rozgrzewkę). Po `/ingest` źródła lądują w `_raw/processed/`.
 - **`_indexes/`** - trzy auto-utrzymywane indeksy nawigacyjne: `vault-map.md`, `catalog.md`, `graph.md` (serce progressive disclosure - patrz niżej).
 - **`_outputs/`** - `answers/` (zapisane odpowiedzi `/qa`) i `reports/` (raporty `/lint`).
 - **`_graveyard/`** - wycofane noty: odwracalne, wykluczone z indeksów (`/curate` je tam odkłada).
@@ -20061,7 +20061,7 @@ To „**pusty, ale uzbrojony**" brain - cała mechanika gotowa, brak tylko Twoje
 
 | Warstwa     | Gdzie                           | Kto włada                            |
 | ----------- | ------------------------------- | ------------------------------------ |
-| Raw sources | `_raw/inbox` → `_raw/processed` | Ty wrzucasz, agent czyta (immutable) |
+| Raw sources | `_raw/inbox` → `_raw/processed` | Ty wrzucasz, agent tylko czyta      |
 | Wiki        | `content/<TOPIC>/`              | Agent tworzy/utrzymuje noty          |
 | Schema      | `CLAUDE.md` (z onboardingu)     | Ty + agent współ-ewoluujecie         |
 
@@ -20072,7 +20072,7 @@ To „**pusty, ale uzbrojony**" brain - cała mechanika gotowa, brak tylko Twoje
 Porównaj dwa podejścia do tego samego pytania:
 
 - **Klasyczny RAG - „wrzuć wszystko".** Do kontekstu ląduje np. 35 000 tokenów notatek i historii, z czego realnie trafne jest może 2 000. Efektywność ~6%. Reszta zabiera uwagę modelu i miejsce na właściwe zadanie.
-- **Index-first - progressive disclosure.** Agent czyta najpierw **indeks** (~kilkaset tokenów): co istnieje, jakiego typu, z jakimi tagami. Na tej podstawie pobiera **tylko** 2–3 trafne noty (~kilkaset tokenów). Trafność bliska 100%, a okno kontekstu zostaje wolne na myślenie.
+- **Index-first - progressive disclosure.** Agent czyta najpierw **indeks** (~kilkaset tokenów): co istnieje, jakiego typu, z jakimi tagami. Na tej podstawie pobiera **tylko** 2-3 trafne noty (~kilkaset tokenów). Trafność bliska 100%, a okno kontekstu zostaje wolne na myślenie.
 
 To dlatego baza działa **bez embeddings i bez RAG do ~500 źródeł**: nie trzeba liczyć wektorów, gdy dobry indeks pozwala agentowi zawęzić wyszukiwanie samą lekturą.
 
@@ -20099,7 +20099,7 @@ total_notes: 330
 | CODE/TOOLS         |    40 | tool(40)           | frontend, framework, infrastructure |
 
 ## Tag Cloud
-agents:29  ai:119  claude-code:38  context-engineering:11  rag:10  skills:16 …
+agents:29  ai:119  claude-code:38  context-engineering:11  rag:10  skills:16 ...
 
 ## Recent Changes
 - 2026-06-30 AI/TOOLS/Ponytail (ingest - vibe-coding skill: YAGNI-first, −54% LOC)
@@ -20153,7 +20153,7 @@ Nie pisz wiki ręcznie - to robota agenta; Ty dostarczasz źródła i dobre pyta
 
 ### Czym LLM Wiki różni się od RAG i baz wektorowych?
 
-RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2–3 trafne noty. Nie liczy wektorów ani embeddingów - do ~500 źródeł dobry indeks wystarcza, żeby zawęzić wyszukiwanie samą lekturą.
+RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2-3 trafne noty. Nie liczy wektorów ani embeddingów - do ~500 źródeł dobry indeks wystarcza, żeby zawęzić wyszukiwanie samą lekturą.
 
 ### Czy do startu muszę odpalać `npm install` i `pip install`?
 
@@ -20161,7 +20161,7 @@ Nie, do pierwszego pytania nie są potrzebne. `npm install` instaluje tylko narz
 
 ### Repo z szablonu - publiczne czy prywatne?
 
-Twój wybór; baza to zwykłe repo git i działa tak samo w obu trybach. Prywatne, jeśli to Twoja osobista wiedza (domyślnie bezpieczniej). Publiczne - jeśli od razu chcesz ją publikować lub dzielić się nią jako bundlem OKF. Widoczność zmienisz w każdej chwili w ustawieniach repo.
+Twój wybór; baza to zwykłe repo git i działa tak samo w obu trybach. Prywatne, jeśli to Twoja osobista wiedza (domyślnie bezpieczniej). Publiczne - jeśli od razu chcesz ją publikować lub dzielić się nią jako paczką OKF. Widoczność zmienisz w każdej chwili w ustawieniach repo.
 
 ### Czy potrzebuję płatnych narzędzi albo zewnętrznej bazy danych?
 
@@ -20182,7 +20182,7 @@ Progressive disclosure skaluje się dalej - indeks i graf rosną wolniej niż tr
 
 Source: https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding
 
-Cel tej lekcji: przejść **cały onboarding krok po kroku** na konkretnym przykładzie. Po lekcji masz wygenerowaną schema (`CLAUDE.md`), foldery tematów i puste, ale gotowe indeksy - i wiesz dokładnie, co dzieje się pod spodem.
+Cel tej lekcji: przejść **cały onboarding krok po kroku** (onboarding = pierwsza konfiguracja bazy) na konkretnym przykładzie. Po lekcji masz wygenerowaną schema (`CLAUDE.md` - plik zasad Twojej bazy), foldery tematów i puste, ale gotowe indeksy - i wiesz dokładnie, co dzieje się pod spodem.
 
 Prowadzę Cię przez **realny przebieg** (screeny z prawdziwej sesji): **Anna** stawia bazę „Baza Anny" po polsku, na tematach `AI`, `BUSINESS`, `HEALTH`. Twoje odpowiedzi będą inne - proces jest ten sam.
 
@@ -20254,14 +20254,14 @@ Po ostatnim pytaniu kreator działa sam. Najpierw zapisuje odpowiedzi do `.kb-on
 
 Potem, krok po kroku (widać to na screenie):
 
-1. **Renderuje trzy pliki schematu** z szablonów (`render.py`): `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md`.
-2. **Kasuje szablony** (`*.template.md`) - dopiero gdy wszystkie trzy rendery się powiodą.
+1. **Wypełnia trzy pliki schematu** z szablonów (skrypt `render.py`): `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md`.
+2. **Kasuje szablony** (`*.template.md`) - dopiero gdy wszystkie trzy pliki wygenerują się poprawnie.
 3. **Tworzy foldery tematów** pod `content/`: `AI/`, `BUSINESS/`, `HEALTH/`.
 4. **Pyta o przykłady**: `content/REFERENCE/` (2 noty) + `content/_raw/inbox/sample-source.md` - usunąć czy zostawić jako samouczek. Anna wybiera **„Keep as tutorial"**.
 5. **Przycina szablony not** do wybranych typów (tu wszystkie 5 zostają - nic nie ubywa).
 6. **Przebudowuje indeksy** (`build_indexes.py`).
 
-![Faza generowania: render plików schemy, kasowanie szablonów, tworzenie folderów i pytanie o przykładowe treści](/images/kurs/2-onboarding-10.webp)
+![Faza generowania: wypełnianie plików schemy, kasowanie szablonów, tworzenie folderów i pytanie o przykładowe treści](/images/kurs/2-onboarding-10.webp)
 
 ## Faza 3 - Gotowe (podsumowanie + przekazanie)
 
@@ -20271,12 +20271,12 @@ Kreator drukuje podsumowanie: co powstało i co dalej.
 
 Dla „Bazy Anny" wyszło:
 
-- `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md` **wyrenderowane**, szablony **skasowane**,
+- `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md` **wygenerowane**, szablony **skasowane**,
 - foldery tematów: `content/AI/`, `content/BUSINESS/`, `content/HEALTH/`,
 - typy not: wszystkie 5; głos first-person direct/practical; emoji w nagłówkach: on,
 - `REFERENCE/` + `sample-source` **zostawione jako samouczek**,
 - **indeksy przebudowane** - 2 noty, 4 krawędzie (to te 2 przykładowe noty),
-- **zależności**: Python 3.13 ✅, yt-dlp ✅, ffmpeg ✅ (Python wymagany do `reindex`/`lint`/`render`; yt-dlp+ffmpeg opcjonalne, pod ingest z YouTube).
+- **zależności**: Python 3.13 ✅, yt-dlp ✅, ffmpeg ✅ (Python wymagany do `reindex`/`lint`/`render`; yt-dlp+ffmpeg opcjonalne, pod `/ingest` z YouTube).
 
 Repo po fazie:
 
@@ -20293,7 +20293,7 @@ AGENTS.md                 ← wygenerowany
 content/WRITING_STYLE.md  ← wygenerowany (Twój głos)
 ```
 
-Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. Kreator **nic nie commituje** („Not committed - your call").
+Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. Kreator **nie robi żadnego commita** („Not committed - your call").
 
 **Co teraz** (kreator podpowiada):
 
@@ -20305,7 +20305,7 @@ Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. K
 
 Baza to zwykłe repo git - pierwszy commit robisz jak zawsze. Możesz to nawet zlecić agentowi („commit this"): sam doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita - trzyma Twoje odpowiedzi lokalnie).
 
-![Agent commituje świeżo skonfigurowaną bazę - czysty stan repo](/images/kurs/2-onboarding-12.webp)
+![Agent robi pierwszy commit świeżo skonfigurowanej bazy - czysty stan repo](/images/kurs/2-onboarding-12.webp)
 
 ## Powtarzalność
 
@@ -20350,15 +20350,15 @@ W pliku `.kb-onboard.json` w korzeniu repo. Jest **pomijany przez gita** - trzym
 
 ### Dlaczego szablony `*.template.md` znikają po onboardingu?
 
-Bo kreator renderuje je do finalnych plików z Twoimi wartościami: `CLAUDE.template.md` → `CLAUDE.md`, `AGENTS.template.md` → `AGENTS.md`, `content/WRITING_STYLE.template.md` → `content/WRITING_STYLE.md`. Szablony kasuje **dopiero gdy wszystkie trzy rendery się powiodą**. Ich brak to znak, że baza jest zainicjalizowana.
+Bo kreator wypełnia je Twoimi wartościami i zapisuje jako finalne pliki: `CLAUDE.template.md` → `CLAUDE.md`, `AGENTS.template.md` → `AGENTS.md`, `content/WRITING_STYLE.template.md` → `content/WRITING_STYLE.md`. Szablony kasuje **dopiero gdy wszystkie trzy pliki wygenerują się poprawnie**. Ich brak to znak, że baza jest zainicjalizowana.
 
-### Czy `/onboard` commituje coś do gita?
+### Czy `/onboard` robi commit do gita?
 
 Nie - kończy komunikatem „Not committed - your call". Pierwszy commit robisz sam (albo zlecasz agentowi: „commit this"). Agent doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita).
 
 ### Czy do onboardingu potrzebuję Pythona?
 
-Tak - kreator używa skryptów pythonowych (`render.py` do renderu schemy, `build_indexes.py` do indeksów), a Python jest też wymagany później przez `/reindex` i `/lint`. `yt-dlp` i `ffmpeg` są opcjonalne - przydają się dopiero przy ingeście z YouTube (lekcja 3).
+Tak - kreator używa skryptów pythonowych (`render.py` do wygenerowania plików schemy, `build_indexes.py` do indeksów), a Python jest też wymagany później przez `/reindex` i `/lint`. `yt-dlp` i `ffmpeg` są opcjonalne - przydają się dopiero przy `/ingest` z YouTube (lekcja 3).
 
 
 ---
@@ -20373,9 +20373,9 @@ Cel tej lekcji: zamienić surowe źródło w noty i indeksy. Po lekcji umiesz do
 
 Wrzuć dowolne źródło do `content/_raw/inbox/` (jest gotowy `sample-source.md` na rozgrzewkę) i odpal **`/ingest`**. Tyle - komenda bierze wszystko, co leży w inboxie.
 
-`/ingest` przyjmuje też linki YouTube jako argument (`/ingest https://youtu.be/…`) - pobiera transkrypt i traktuje go jak zwykłe źródło.
+`/ingest` przyjmuje też linki YouTube jako argument (`/ingest https://youtu.be/...`) - pobiera transkrypt (tekstowy zapis nagrania) i traktuje go jak zwykłe źródło.
 
-W przykładzie: surowe źródło to `sample-source.md` - luźny tekst o metodzie **Zettelkasten**. Ingest rusza, czyta plik, widzi pojedyncze źródło (brak klastra) i ustala temat oraz typ noty.
+W przykładzie: surowe źródło to `sample-source.md` - luźny tekst o metodzie **Zettelkasten**. Ingest rusza, czyta plik, widzi pojedyncze źródło (brak klastra, czyli innych plików o tym samym temacie) i ustala temat oraz typ noty.
 
 ![Surowe źródło (sample-source.md o Zettelkasten) i ingest w akcji: czyta plik, brak klastra, ustala temat i typ](/images/kurs/3-pierwszy-ingest-02.webp)
 
@@ -20385,7 +20385,7 @@ W przykładzie: surowe źródło to `sample-source.md` - luźny tekst o metodzie
 
 ### Faza 0 - Pobranie z YouTube (tylko dla URL)
 
-Gdy podasz link YouTube, agent najpierw ściąga transkrypt (`yt-dlp`; przy braku napisów - fallback Whisper przez `ffmpeg`) i archiwizuje go w `content/_raw/processed/`. Dla zwykłych plików ta faza jest pomijana. Jeśli to samo wideo już ingestowałeś (ten sam `video_id`), agent nie pobiera drugi raz - dołoży do istniejącej noty.
+Gdy podasz link YouTube, agent najpierw ściąga transkrypt (`yt-dlp`; przy braku napisów - awaryjnie Whisper przez `ffmpeg`) i archiwizuje go w `content/_raw/processed/`. Dla zwykłych plików ta faza jest pomijana. Jeśli to samo wideo już wczytałeś (ten sam `video_id`), agent nie pobiera drugi raz - dołoży do istniejącej noty.
 
 ### Faza 1 - Wstępne rozpoznanie
 
@@ -20393,7 +20393,7 @@ Zanim cokolwiek utworzy, agent:
 
 1. czyta `vault-map.md` - żeby wiedzieć, co w bazie już jest (nie duplikować),
 2. listuje inbox (+ ewentualne źródła z Fazy 0),
-3. **wykrywa klastry** - pliki o wspólnym temacie (≥2 wspólne, wyróżniające słowa w tytułach/treści). Jeśli coś się klastruje, dostajesz **jedno pytanie**: potraktować je jako osobne noty, czy jako notę nadrzędną + noty-dzieci z linkami.
+3. **wykrywa klastry** - pliki o wspólnym temacie (≥2 wspólne, wyróżniające słowa w tytułach/treści). Jeśli pliki układają się w grupę, dostajesz **jedno pytanie**: potraktować je jako osobne noty, czy jako notę nadrzędną + noty-dzieci z linkami.
 
 To jedyny moment, w którym ingest Cię pyta - reszta idzie sama. Po co: żeby powiązane źródła (np. 5 plików o jednym produkcie) nie rozsypały się na oderwane noty bez wspólnego punktu.
 
@@ -20401,11 +20401,11 @@ To jedyny moment, w którym ingest Cię pyta - reszta idzie sama. Po co: żeby p
 
 Dla każdego źródła agent po kolei:
 
-1. **Klasyfikuje** - dobiera folder tematyczny i typ noty (`knowledge-note`, `tool`, `book-note`…) wg reguł z `CLAUDE.md`. Gdy nie jest pewny - daje najlepszy strzał + tag `#todo/classification`, żebyś dojrzał.
+1. **Klasyfikuje** - dobiera folder tematyczny i typ noty (`knowledge-note`, `tool`, `book-note`...) wg reguł z `CLAUDE.md`. Gdy nie jest pewny - daje najlepszy strzał + tag `#todo/classification`, żebyś to przejrzał.
 2. **Sprawdza pokrywanie** z `catalog.md`: jest podobna nota → **scalenie** (dokłada, nie nadpisuje Twojej treści); brak → **nowa nota** z szablonu z `content/templates/`.
-3. **Wypełnia frontmatter**: `title`, `date`, `tags`, **`type`** (minimum OKF → przenośność + `/lint`), `source`, `summary` (jedna linia - to trafia do katalogu).
+3. **Wypełnia frontmatter** (blok metadanych na początku pliku): `title`, `date`, `tags`, **`type`** (minimum OKF, standardu przenośnych baz wiedzy → przenośność + `/lint`), `source`, `summary` (jedna linia - to trafia do katalogu).
 4. **Ujednolica język.** Baza trzyma jeden kanoniczny język (ten z onboardingu; przy konflikcie `CLAUDE.md`/Twoje ustawienia wygrywają nad domyślnym językiem skilla). Źródło w innym języku agent tłumaczy przy wsadzie; nazwy własne, kod, URL-e, daty i wikilinki zostają nietknięte.
-5. **Rozstawia `[[wikilinki]]`** do pokrewnych not i **dopisuje linki zwrotne** w tamtych notach - to zasila graf.
+5. **Rozstawia `[[wikilinki]]`** (linki między notami zapisywane w podwójnych nawiasach) do pokrewnych not i **dopisuje linki zwrotne** w tamtych notach - to zasila graf.
 6. **Przenosi załączniki** (obrazki/PDF) do `content/ATTACHMENTS/` i poprawia odnośniki.
 7. **Przenosi źródło** z `inbox/` do `_raw/processed/` (z datą). Pusty inbox = „zrobione".
 8. **Aktualizuje 3 indeksy**: `catalog.md` (linia noty), `vault-map.md` (licznik + tagi + „recent changes"), `graph.md` (linki wychodzące + linki zwrotne na celach).
@@ -20418,16 +20418,16 @@ Na koniec agent sprawdza sam siebie: czy `total_notes` się zgadza, czy nowe not
 
 ## Co dokładnie się zmienia (diff)
 
-Po ingeście zajrzyj w Source Control - widzisz **na oczy, co się zmieniło**. Jedno źródło o Zettelkasten dotknęło **7 plików**:
+Po `/ingest` zajrzyj w Source Control - widzisz **na oczy, co się zmieniło**. Jedno źródło o Zettelkasten dotknęło **7 plików**:
 
-![Diff po ingeście: nowa nota Zettelkasten.md, zaktualizowane indeksy i link zwrotny w innej nocie](/images/kurs/3-pierwszy-ingest-01.webp)
+![Diff po /ingest: nowa nota Zettelkasten.md, zaktualizowane indeksy i link zwrotny w innej nocie](/images/kurs/3-pierwszy-ingest-01.webp)
 
 - **Nowa nota** - `content/REFERENCE/Zettelkasten.md`: z frontmatterem, streszczeniem i wikilinkami.
 - **Zaktualizowana inna nota** - `Wikilinks Explained.md` dostał **link zwrotny**, bo nowa nota do niego linkuje (`[[Wikilinks Explained]]`), a graf jest dwukierunkowy.
 - **Trzy indeksy** - `catalog.md`, `graph.md`, `vault-map.md` odświeżone.
 - **Źródło** - `sample-source.md` zniknął z inboxu i wylądował w `_raw/processed/` (z datą). Nic nie kasujesz; jest odwracalne.
 
-Raport na końcu: _1 źródło → 1 nowa nota, 0 scalonych, indeksy ✅, inbox pusty._ Jedno wiadomość: **pojedynczy plik wpiął się w graf i zaktualizował sąsiadów** - bez ingestu miałbyś tylko luźny plik w folderze.
+Raport na końcu: _1 źródło → 1 nowa nota, 0 scalonych, indeksy ✅, inbox pusty._ Jeden wniosek: **pojedynczy plik wpiął się w graf i zaktualizował sąsiadów** - bez `/ingest` miałbyś tylko luźny plik w folderze.
 
 ## Surowe pliki vs wiki
 
@@ -20435,10 +20435,10 @@ To różnica „**surowe pliki vs wiki**": bez `/ingest` nie ma linków ani inde
 
 ## Pułapki
 
-- **Nie wrzucaj wszystkiego bez ingestu** - surowe pliki ≠ wiki (brak linków i indeksów).
+- **Nie wrzucaj wszystkiego bez `/ingest`** - surowe pliki ≠ wiki (brak linków i indeksów).
 - **Nie edytuj indeksów ręcznie** - buduje je ingest (i `/reindex`, lekcja 4). Ręczna edycja się rozjedzie.
-- **Sprawdź `#todo/classification`** - jeśli agent nie był pewny folderu, oznaczy tak notę; dojrzyj ją.
-- **Inbox po ingeście ma być pusty** - jak coś zostało, raport powie dlaczego (np. nieudany URL).
+- **Sprawdź `#todo/classification`** - jeśli agent nie był pewny folderu, oznaczy tak notę; przejrzyj ją.
+- **Inbox po `/ingest` ma być pusty** - jak coś zostało, raport powie dlaczego (np. nieudany URL).
 
 ## FAQ
 
@@ -20448,11 +20448,11 @@ Wrzucony plik to luźny plik - bez frontmatteru, linków i wpisu w indeksie. `/i
 
 ### Co bierze `/ingest` - tylko wskazany plik?
 
-Bierze **wszystko, co leży w `content/_raw/inbox/`** - nie podajesz nazwy pliku. Możesz też podać link YouTube jako argument (`/ingest https://youtu.be/…`); agent ściągnie transkrypt (`yt-dlp`, w razie braku napisów fallback przez Whisper/`ffmpeg`) i potraktuje go jak zwykłe źródło.
+Bierze **wszystko, co leży w `content/_raw/inbox/`** - nie podajesz nazwy pliku. Możesz też podać link YouTube jako argument (`/ingest https://youtu.be/...`); agent ściągnie transkrypt (`yt-dlp`, w razie braku napisów awaryjnie przez Whisper/`ffmpeg`) i potraktuje go jak zwykłe źródło.
 
 ### Czy ingest nadpisze albo skasuje moje istniejące noty?
 
-Nie. Gdy w `catalog.md` znajdzie podobną notę, robi **merge** - dokłada treść, nie nadpisuje Twojej. Gdy podobnej nie ma, tworzy nową notę z szablonu. Źródło nie znika - wędruje z `inbox/` do `_raw/processed/` (z datą), więc wszystko jest odwracalne.
+Nie. Gdy w `catalog.md` znajdzie podobną notę, robi **scalenie** - dokłada treść, nie nadpisuje Twojej. Gdy podobnej nie ma, tworzy nową notę z szablonu. Źródło nie znika - wędruje z `inbox/` do `_raw/processed/` (z datą), więc wszystko jest odwracalne.
 
 ### W jakim języku powstaną noty, jeśli źródło jest po angielsku, a baza po polsku?
 
@@ -20481,7 +20481,7 @@ Onboarding (L2) i ingest (L3) masz za sobą - baza żyje. Teraz ją **używasz**
 
 ## `/qa` - pytaj bazę, nie czat
 
-`/qa "twoje pytanie"` to sedno. Agent nie zgaduje - **czyta bazę** przez progressive disclosure: `vault-map` → `catalog` → `graph` → otwiera **tylko trafne noty** → syntetyzuje odpowiedź **z `[[cytowaniami]]`** i **oznacza luki**, gdzie baza milczy.
+`/qa "twoje pytanie"` to sedno. Agent nie zgaduje - **czyta bazę** przez progressive disclosure (od ogółu do szczegółu): `vault-map` → `catalog` → `graph` → otwiera **tylko trafne noty** → syntetyzuje odpowiedź **z `[[cytowaniami]]`** i **oznacza luki**, gdzie baza milczy.
 
 Różnicę wobec czatu najlepiej widać, gdy pytasz o coś, **czego w bazie nie ma**. Zapytaj `/qa OKF` na bazie o samych notatkach o notowaniu:
 
@@ -20520,7 +20520,7 @@ Raport ląduje jako nota w `_outputs/reports/`, z tabelą wszystkich 10 klas i l
 
 ![Raport zdrowia bazy: tabela 10 klas problemów z liczbami](/images/kurs/4-pytania-i-zarzadzanie-04.webp)
 
-Co sprawdza (10 klas): brakujący/niepełny frontmatter · zepsute wikilinki · sieroty · stuby · niespójne tagi · `#todo` · brak `summary` · brakujące połączenia semantyczne · treść stale (>1 rok bez review) · zgodność `type` z `CLAUDE.md`. Na koniec proponuje naprawę (tu: martwe linki → `/reindex`, brakujący link → `/enhance`). **Odpalaj co jakiś czas** - inaczej problemy się kumulują.
+Co sprawdza (10 klas): brakujący/niepełny frontmatter · zepsute wikilinki · sieroty (noty, do których nic nie linkuje) · stuby (niedokończone noty-szkice) · niespójne tagi · `#todo` · brak `summary` · brakujące połączenia semantyczne · przeterminowana treść (>1 rok bez przeglądu) · zgodność `type` z `CLAUDE.md`. Na koniec proponuje naprawę (tu: martwe linki → `/reindex`, brakujący link → `/enhance`). **Odpalaj co jakiś czas** - inaczej problemy się kumulują.
 
 ## `/reindex` - przebuduj indeksy
 
@@ -20545,7 +20545,7 @@ To **deterministyczna** przebudowa: odtwarza indeksy z aktualnego stanu not i sp
 | `/enhance`   | Popraw/rozbuduj notę                  |
 | `/lint`      | Przegląd stanu / jakości              |
 | `/reindex`   | Przebuduj indeksy                     |
-| `/curate`    | Wycofaj słabe/stare noty do graveyard |
+| `/curate`    | Wycofaj słabe/stare noty do `_graveyard/` |
 | `/gaps`      | Znajdź luki / brakujące tematy        |
 | `/refactor`  | Przebuduj strukturę/noty              |
 | `/output`    | Wygeneruj raport/eksport              |
@@ -20561,7 +20561,7 @@ To **deterministyczna** przebudowa: odtwarza indeksy z aktualnego stanu not i sp
 
 ## Anty-wzorce
 
-Ręczne pisanie wiki · wrzucanie wszystkiego bez ingestu · olewanie `/lint` · skanowanie całego `content/` zamiast indeksów (pali tokeny).
+Ręczne pisanie wiki · wrzucanie wszystkiego bez `/ingest` · olewanie `/lint` · skanowanie całego `content/` zamiast indeksów (pali tokeny).
 
 ## FAQ
 
@@ -20596,11 +20596,11 @@ Nie. To **deterministyczna** przebudowa - odtwarza `vault-map.md`, `catalog.md`,
 
 Source: https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja
 
-Cel tej lekcji: domknąć arsenał komend, opublikować bazę i poznać ścieżkę rozwoju. Po lekcji znasz **pozostałe komendy** (porządki, generowanie, analiza), umiesz publikować przez Quartz, rozumiesz przenośność OKF i wiesz, dokąd baza rośnie dalej.
+Cel tej lekcji: domknąć zestaw komend, opublikować bazę i poznać ścieżkę rozwoju. Po lekcji znasz **pozostałe komendy** (porządki, generowanie, analiza), umiesz publikować przez Quartz (generator stron WWW z plików markdown), rozumiesz przenośność OKF (Open Knowledge Format - standard przenośnych baz wiedzy) i wiesz, dokąd baza rośnie dalej.
 
-## Pełny arsenał - pozostałe komendy
+## Pełny zestaw - pozostałe komendy
 
-Rdzeń masz z lekcji 1–4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plus `/compile` i `/enhance`. Zostały komendy, po które sięgasz rzadziej - do porządków, generowania i analizy. Wszystkie trzymają się tej samej zasady: **czytaj indeksy, aktualizuj indeksy, nie kasuj bez potwierdzenia.**
+Rdzeń masz z lekcji 1-4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plus `/compile` i `/enhance`. Zostały komendy, po które sięgasz rzadziej - do porządków, generowania i analizy. Wszystkie trzymają się tej samej zasady: **czytaj indeksy, aktualizuj indeksy, nie kasuj bez potwierdzenia.**
 
 ### `/gaps` - co zbudować dalej
 
@@ -20608,7 +20608,7 @@ Analiza **luk wiedzy** - nie mechanicznych problemów (tym zajmuje się `/lint`)
 
 ### `/curate` - sprzątanie (przeterminowane noty)
 
-Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy"_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ graveyard), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; graveyard jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
+Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy"_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ `_graveyard/`), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; `_graveyard/` jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
 
 ### `/refactor` - przebuduj bez psucia linków
 
@@ -20620,7 +20620,7 @@ Generuje **pochodny** artefakt z bazy: podsumowanie, listę lektur, mapę tematu
 
 ### Rodzina `research` - przedsmak (osobna lekcja)
 
-`/research`, `/research-add-items`, `/research-add-fields`, `/research-deep`, `/research-report` to potok, który **dokłada nową wiedzę z zewnątrz**. Buduje szkielet badania (`outline.yaml` + `fields.yaml`) w `content/_raw/research-workspaces/`, odpala po jednym agencie na element (ustrukturyzowany JSON per element), a na końcu składa raport i wrzuca go do `content/_raw/inbox/` - gotowy pod `/ingest`. To najmocniejsza dźwignia „baza rośnie sama". Rozbijemy ją w **osobnej lekcji** - tu tylko sygnalizuję, że istnieje.
+`/research`, `/research-add-items`, `/research-add-fields`, `/research-deep`, `/research-report` to potok, który **dokłada nową wiedzę z zewnątrz**. Buduje szkielet badania (`outline.yaml` + `fields.yaml`) w `content/_raw/research-workspaces/`, odpala po jednym agencie na element (ustrukturyzowany JSON per element), a na końcu składa raport i wrzuca go do `content/_raw/inbox/` - gotowy pod `/ingest`. To dzięki niemu baza rośnie sama. Rozbijemy go w **osobnej lekcji** - tu tylko sygnalizuję, że istnieje.
 
 ### `excalidraw-diagram` (skill) - diagramy
 
@@ -20637,9 +20637,9 @@ Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. 
 ## Ścieżka rozwoju
 
 - Podłącz brain do **systemu agentowego** (multi-brain): jeden agent odpytuje wiele baz (wzorzec `brain-query`).
-- **MCP** (`brain-mcp`): udostępnij bazę dowolnemu klientowi (Claude Desktop / IDE).
+- **MCP** (protokół, którym narzędzia AI podłączają się do zewnętrznych źródeł; tu: `brain-mcp`): udostępnij bazę dowolnemu klientowi (Claude Desktop / IDE).
 - **Publikacja Quartz** → marka osobista / portfolio wiedzy.
-- **Wymiana paczek OKF** - eksport „zżytej" bazy (ekstrakt) jako produkt.
+- **Wymiana paczek OKF** - eksport dopracowanej bazy jako produkt (ekstrakt: sama wiedza, bez plików roboczych).
 
 ## 🤖 Gotowe prompty - co dalej
 
@@ -20675,7 +20675,7 @@ Publikujesz tylko to, co sam zbudujesz i wypchniesz - Ty kontrolujesz zakres. Fo
 
 ### Czy `/curate` skasuje moje noty?
 
-Nie kasuje. Domyślnie robi próbny przebieg - sam raport segregacji. Przeterminowane noty wycofuje do `content/_graveyard/` **dopiero po Twoim potwierdzeniu**, i to odwracalnie (przeniesienie, nigdy `git rm`). Cofnięcie = przeniesienie noty z graveyard z powrotem.
+Nie kasuje. Domyślnie robi próbny przebieg - sam raport segregacji. Przeterminowane noty wycofuje do `content/_graveyard/` **dopiero po Twoim potwierdzeniu**, i to odwracalnie (przeniesienie, nigdy `git rm`). Cofnięcie = przeniesienie noty z `_graveyard/` z powrotem.
 
 ### Kiedy użyć `/output`, a kiedy `/compile`?
 
@@ -20683,6 +20683,6 @@ Nie kasuje. Domyślnie robi próbny przebieg - sam raport segregacji. Przetermin
 
 ## Most do wersji płatnej
 
-To był pusty szablon. Pełniejsze akceleratory - gotowe, dopieszczone skille i **ekstrakt realnej, zżytej bazy** (gotowe paczki wiedzy do załadowania do swojej bazy) - szykuję jako płatne paczki. Pomijasz tygodnie iteracji i tysiące spalonych tokenów.
+To był pusty szablon. Pełniejsze akceleratory - gotowe, sprawdzone skille i **ekstrakt realnej bazy dopracowanej miesiącami** (gotowe paczki wiedzy do załadowania do swojej bazy) - szykuję jako płatne paczki. Pomijasz tygodnie iteracji i tysiące spalonych tokenów.
 
 Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).

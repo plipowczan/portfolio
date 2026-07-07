@@ -39,6 +39,23 @@ test.describe("Kurs LLM Wiki — hub", () => {
     // Link do repo szablonu.
     await expect(page.locator(`a[href="${REPO_URL}"]`)).toHaveCount(1);
   });
+
+  test("hub renderuje sekcję „Dla kogo jest ten kurs” z tą samą listą pojęć co landing", async ({
+    page,
+  }) => {
+    await page.goto("/llm-wiki/kurs");
+
+    const audience = page.getByTestId("course-audience");
+    await expect(
+      audience.getByRole("heading", { name: "Dla kogo jest ten kurs" })
+    ).toBeVisible();
+    await expect(
+      audience.locator("dt", { hasText: "Claude Code" })
+    ).toBeVisible();
+    await expect(
+      audience.getByText(/agent od Anthropic działający w terminalu/i)
+    ).toBeVisible();
+  });
 });
 
 test.describe("Kurs LLM Wiki — lekcje", () => {
@@ -95,12 +112,18 @@ test.describe("Kurs LLM Wiki — lekcje", () => {
 });
 
 test.describe("Kurs LLM Wiki — landing bez regresji", () => {
-  test("/llm-wiki nadal renderuje „rośnie sama” + 3 wpisy indeksu (h2)", async ({
+  test("/llm-wiki nadal renderuje „rośnie sama” + wpisy indeksu i sekcję Dla kogo", async ({
     page,
   }) => {
     await page.goto("/llm-wiki");
     await expect(page.locator("h1")).toContainText("rośnie sama");
-    await expect(page.locator("h2")).toHaveCount(3);
+    // Po tytułach, nie po globalnej liczbie h2 — odporne na nowe sekcje.
+    for (const title of ["Kumuluje się sama", "Index-first", "Przenośna"]) {
+      await expect(page.locator("h2", { hasText: title })).toBeVisible();
+    }
+    await expect(
+      page.locator("h2", { hasText: "Dla kogo jest ten kurs" })
+    ).toBeVisible();
   });
 });
 
