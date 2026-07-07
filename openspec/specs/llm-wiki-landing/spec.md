@@ -38,17 +38,26 @@ The landing SHALL POST valid submissions to `https://formspree.io/f/xblqpqab` wi
 - **THEN** the request body to Formspree includes `email` and `source: "waitlist"`
 
 ### Requirement: Gated repo + onboarding delivery on success
-The repo link and onboarding guide SHALL be hidden before signup and revealed only after a successful submit, in an in-place success screen (no navigation). The success header MUST contain "Jesteś na liście".
+
+The repo link and onboarding guide SHALL be hidden before signup and revealed only after a successful submit, in an in-place success screen (no navigation). The success header MUST contain "Jesteś na liście". The success screen SHALL additionally reveal a link to the free course hub (`/llm-wiki/kurs`), so a fresh signup gets the course link on-page. The course itself remains publicly reachable (ungated); this link is a convenience nudge, not a gate.
 
 #### Scenario: Repo link gated before signup
+
 - **WHEN** the landing first renders, before any successful submit
 - **THEN** there is no link to `https://github.com/plipowczan/second-brain-template`
+- **AND** there is no link to `/llm-wiki/kurs`
 
 #### Scenario: Success screen reveals repo link and quick-start
+
 - **WHEN** a valid email submission succeeds
 - **THEN** the form is replaced in place by a success screen whose header contains "Jesteś na liście"
 - **AND** a link to `https://github.com/plipowczan/second-brain-template` is present
 - **AND** a "first 5 minutes" quick-start guide is shown
+
+#### Scenario: Success screen links to the free course
+
+- **WHEN** a valid email submission succeeds
+- **THEN** the success screen contains a link to `/llm-wiki/kurs`
 
 ### Requirement: Consent copy reflects capture-only backend
 The landing SHALL present a RODO/consent line referencing mail contact (not newsletter subscription) and linking to `/privacy-policy`, and SHALL hide that line once the success screen is shown.
@@ -60,4 +69,24 @@ The landing SHALL present a RODO/consent line referencing mail contact (not news
 #### Scenario: Consent line hidden after success
 - **WHEN** the success screen is shown
 - **THEN** the pre-signup consent line is no longer rendered
+
+### Requirement: Landing states the audience and prerequisites before signup
+
+The `/llm-wiki` landing SHALL present, before the waitlist form is reached in document order, a "Dla kogo jest ten kurs" section containing: (a) a short plain-Polish description of who benefits from the course, and (b) a list of prerequisite concepts where each concept carries a one-sentence plain-Polish definition. The concept list SHALL be derived from terms actually used in the lessons (at minimum: LLM, agent, markdown, git, Claude Code) and SHALL be sourced from a data module shared with the course hub so the two pages cannot drift.
+
+#### Scenario: Section visible with defined concepts
+
+- **WHEN** a visitor scrolls the `/llm-wiki` landing
+- **THEN** a "Dla kogo jest ten kurs" section is visible before the waitlist form
+- **AND** each listed prerequisite concept is followed by a one-sentence definition in plain Polish
+
+#### Scenario: Section is prerendered
+
+- **WHEN** `npm run build:prerender` runs
+- **THEN** `dist/llm-wiki/index.html` contains the audience section's heading text
+
+#### Scenario: Shared source with the course hub
+
+- **WHEN** the prerequisite list is edited in the shared data module
+- **THEN** both the landing and the course hub render the updated list without further edits
 
