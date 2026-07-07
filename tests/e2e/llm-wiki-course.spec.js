@@ -112,13 +112,18 @@ test.describe("Kurs LLM Wiki — lekcje", () => {
 });
 
 test.describe("Kurs LLM Wiki — landing bez regresji", () => {
-  test("/llm-wiki nadal renderuje „rośnie sama” + 3 wpisy indeksu i sekcję Dla kogo (h2)", async ({
+  test("/llm-wiki nadal renderuje „rośnie sama” + wpisy indeksu i sekcję Dla kogo", async ({
     page,
   }) => {
     await page.goto("/llm-wiki");
     await expect(page.locator("h1")).toContainText("rośnie sama");
-    // 3 wpisy index.md + nagłówek sekcji "Dla kogo jest ten kurs"
-    await expect(page.locator("h2")).toHaveCount(4);
+    // Po tytułach, nie po globalnej liczbie h2 — odporne na nowe sekcje.
+    for (const title of ["Kumuluje się sama", "Index-first", "Przenośna"]) {
+      await expect(page.locator("h2", { hasText: title })).toBeVisible();
+    }
+    await expect(
+      page.locator("h2", { hasText: "Dla kogo jest ten kurs" })
+    ).toBeVisible();
   });
 });
 

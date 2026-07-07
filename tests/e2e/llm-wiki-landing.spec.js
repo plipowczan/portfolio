@@ -8,8 +8,11 @@ test.describe("Landing LLM Wiki — treść", () => {
 
     await expect(page.locator("h1")).toContainText("rośnie sama");
 
-    // 3 propsy wartości (wpisy index.md) + nagłówek sekcji "Dla kogo jest ten kurs"
-    await expect(page.locator("h2")).toHaveCount(4);
+    // 3 propsy wartości (wpisy index.md) — po tytułach, nie po globalnej
+    // liczbie h2, żeby dodanie kolejnej sekcji nie psuło testu
+    for (const title of ["Kumuluje się sama", "Index-first", "Przenośna"]) {
+      await expect(page.locator("h2", { hasText: title })).toBeVisible();
+    }
 
     // tło = rosnący graf
     await expect(page.locator("canvas[aria-hidden='true']")).toBeVisible();

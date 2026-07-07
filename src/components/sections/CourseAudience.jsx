@@ -20,7 +20,10 @@ const CourseAudience = () => {
       className="space-y-3"
       data-testid="course-audience"
     >
-      <p className="select-none font-mono text-xs text-gray-600">
+      <p
+        className="select-none font-mono text-xs text-gray-600"
+        aria-hidden="true"
+      >
         dla-kogo.md
       </p>
       <h2 className="text-lg font-bold text-white md:text-xl">

@@ -76,7 +76,7 @@ Uwaga na fałszywego przyjaciela: polskie "stale" znaczy "ciągle". Angielskie *
 
 ## Walidacja (grep)
 
-Brama słownikowa - wynik musi być pusty (sprawdza prozę; trafienia w blokach kodu i ścieżkach w backtickach oceń ręcznie):
+Brama słownikowa. Grep to detektor - sam nie odróżnia prozy od kodu, więc każde trafienie oceń ręcznie: trafienie **w prozie** = błąd (blokuje publikację); trafienie **w bloku kodu lub ścieżce w backtickach** jest dopuszczalne - odnotuj je jako sprawdzony wyjątek. Brak trafień = brama przechodzi bez ręcznego kroku.
 
 ```bash
 grep -rniP '(ingestow|ingestuj|inge\x{15b}ci|ingestu\b|ingestem|mergow|merguj|robi\w* merge|renderow|renderuj|\brendery\b|\brenderu\b|deployow|deployuj|commitow|commituj|klastrow|klastruj|fallback|bundl|arsena\x{142}|z\x{17c}yt[aey]|dopieszczon|tre\x{15b}\x{107} stale|(?<!_)graveyard)' src/content/kurs/*.md
