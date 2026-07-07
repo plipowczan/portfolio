@@ -90,12 +90,18 @@ grep -n '```' src/content/blog/{slug}.md
 # Invalid: ``` (no tag)
 ```
 
-**Language validation:**
+**Language validation (vocabulary gate — critical, blocks publication):**
+
+Uses the forbidden-word list from `.claude/rules/content/10-prosty-polski.md` (single source of truth — if the lists diverge, the rules file wins):
+
 ```bash
-# Check for polonized terms (should fail)
-grep -i "komendyfik" src/content/blog/{slug}.md
-# Should return no results
+# Vocabulary gate: polonized verbs, false friends, banned borrowed nouns.
+# MUST return no results; any match = ❌ FAILURE (list line + suggested
+# replacement from the rules-file table) and validation stops before OG generation.
+grep -niP '(komendyfik|ingestow|ingestuj|inge\x{15b}ci|ingestu\b|ingestem|mergow|merguj|robi\w* merge|renderow|renderuj|\brendery\b|\brenderu\b|deployow|deployuj|commitow|commituj|klastrow|klastruj|fallback|bundl|arsena\x{142}|z\x{17c}yt[aey]|dopieszczon|tre\x{15b}\x{107} stale|(?<!_)graveyard)' src/content/blog/{slug}.md
 ```
+
+Matches inside code blocks or backticked file paths are acceptable — review manually and note in the report; matches in prose always fail.
 
 **Structure validation:**
 - H2 headers for main sections
@@ -261,7 +267,7 @@ Save to `.claude/agents/reports/validation-blog-{slug}.md`:
 
 ### Content Quality
 - [x] All code blocks have language tags
-- [x] No polonized terms found
+- [x] Vocabulary gate clean (forbidden-word grep from 10-prosty-polski.md)
 - [x] FAQ section present ({n} questions)
 - [x] CTA section present
 - [x] Short paragraphs

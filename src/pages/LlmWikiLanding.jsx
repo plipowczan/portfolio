@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import GrowingNetworkBackground from "../components/animations/GrowingNetworkBackground";
+import CourseAudience from "../components/sections/CourseAudience";
 import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
@@ -23,7 +24,7 @@ const VALUE_INDEX = [
   {
     num: "02",
     title: "Przenośna",
-    body: "Czysty markdown zgodny ze standardem OKF. git clone — i masz całą bazę u siebie.",
+    body: "Czysty markdown zgodny ze standardem OKF. git clone - i masz całą bazę u siebie.",
   },
 ];
 
@@ -79,8 +80,8 @@ const LlmWikiLanding = () => {
   return (
     <>
       <SEO
-        title="LLM Wiki — baza wiedzy, która rośnie sama"
-        description="Darmowy szablon second brain w modelu LLM Wiki (Karpathy), zgodny ze standardem OKF. Zapisz się na listę — dam znać, gdy ruszy kurs i kolejne materiały."
+        title="LLM Wiki - baza wiedzy, która rośnie sama"
+        description="Darmowy szablon second brain w modelu LLM Wiki (Karpathy), zgodny ze standardem OKF. Zapisz się na listę - dam znać, gdy ruszy kurs i kolejne materiały."
         path="/llm-wiki"
         // PL-only page: point the en-alternate at the PL URL instead of a
         // non-existent /en/llm-wiki mirror, so no EN URL leaks to crawlers.
@@ -121,8 +122,8 @@ const LlmWikiLanding = () => {
               </h1>
               <p className="text-base text-gray-400 md:text-lg">
                 LLM Wiki (koncept Karpathy&apos;ego): zamiast za każdym razem
-                przeszukiwać surowe notatki, agent inkrementalnie buduje żywą bazę
-                markdown — czytelną dla Ciebie i dla agenta, zgodną ze standardem
+                przeszukiwać surowe notatki, agent przyrostowo buduje żywą bazę
+                markdown - czytelną dla Ciebie i dla agenta, zgodną ze standardem
                 OKF (Google).
               </p>
             </motion.div>
@@ -159,6 +160,9 @@ const LlmWikiLanding = () => {
               </ul>
             </motion.div>
 
+            {/* Audience + prerequisites — shared with the course hub */}
+            <CourseAudience />
+
             {/* CTA + form / success screen */}
             {status === "success" ? (
               <motion.div variants={FADE_IN_UP} className="space-y-6">
@@ -167,8 +171,8 @@ const LlmWikiLanding = () => {
                     ✅ Jesteś na liście!
                   </p>
                   <p className="text-gray-400">
-                    Kurs już ruszył — a o kolejnych materiałach dam znać. Skoro
-                    już tu jesteś — zacznij od razu. Szablon jest darmowy i
+                    Kurs już ruszył - a o kolejnych materiałach dam znać. Skoro
+                    już tu jesteś - zacznij od razu. Szablon jest darmowy i
                     publiczny.
                   </p>
                 </div>
@@ -194,23 +198,23 @@ const LlmWikiLanding = () => {
 
                 <div className="space-y-3 rounded-lg border border-primary-500/20 bg-dark-700 p-5">
                   <p className="font-bold text-white">
-                    Od zera do pierwszego pytania — 5 minut:
+                    Od zera do pierwszego pytania - 5 minut:
                   </p>
                   <ol className="list-inside list-decimal space-y-2 text-sm leading-relaxed text-gray-300 marker:text-primary-500">
                     <li>
-                      <strong>Weź szablon</strong> — na GitHubie{" "}
+                      <strong>Weź szablon</strong> - na GitHubie{" "}
                       <em>Use this template</em> (albo{" "}
                       <code className="font-mono text-primary-400">git clone</code>
                       ), otwórz folder w Claude Code.
                     </li>
                     <li>
                       <code className="font-mono text-primary-400">/onboard</code>{" "}
-                      — krótki wywiad (nazwa, język, tematy, głos); struktura,
+                      - krótki wywiad (nazwa, język, tematy, głos); struktura,
                       schema i indeksy generują się same. Jedyna konfiguracja.
                     </li>
                     <li>
                       <code className="font-mono text-primary-400">/ingest</code>{" "}
-                      — wrzuć źródło do{" "}
+                      - wrzuć źródło do{" "}
                       <code className="font-mono text-primary-400">
                         content/_raw/inbox/
                       </code>{" "}
@@ -220,13 +224,14 @@ const LlmWikiLanding = () => {
                       <code className="font-mono text-primary-400">
                         /qa &quot;twoje pytanie&quot;
                       </code>{" "}
-                      — odpowiedź z cytowaniami z Twojej bazy. Pytanie do bazy, nie
+                      - odpowiedź z cytowaniami z Twojej bazy. Pytanie do bazy, nie
                       do czatu.
                     </li>
                     <li>
                       <strong>(bonus)</strong>{" "}
-                      <code className="font-mono text-primary-400">/lint</code> —
-                      health-check: sprzeczności, sieroty, stale claims.
+                      <code className="font-mono text-primary-400">/lint</code> -
+                      przegląd stanu bazy: sprzeczności, sieroty, przeterminowane
+                      noty.
                     </li>
                   </ol>
                 </div>
@@ -239,7 +244,7 @@ const LlmWikiLanding = () => {
             ) : (
               <motion.div variants={FADE_IN_UP} className="space-y-4">
                 <p className="text-gray-300">
-                  Zostaw maila — dostaniesz darmowy szablon i dam znać, gdy ruszy
+                  Zostaw maila - dostaniesz darmowy szablon i dam znać, gdy ruszy
                   kurs i kolejne materiały.
                 </p>
 
@@ -302,7 +307,7 @@ const LlmWikiLanding = () => {
                     disabled={isSubmitting}
                     className="btn-primary whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isSubmitting ? "Zapisuję…" : "Zapisz mnie"}
+                    {isSubmitting ? "Zapisuję..." : "Zapisz mnie"}
                   </button>
                 </form>
 

@@ -196,7 +196,7 @@ const CourseLesson = () => {
               {/* Bottom CTA → waitlist */}
               <div className="space-y-3 rounded-lg border border-primary-500/20 bg-dark-700 p-5">
                 <p className="text-gray-300">
-                  Zostaw maila — dam znać, gdy ruszą gotowe bundle wiedzy.
+                  Zostaw maila - dam znać, gdy ruszą gotowe paczki wiedzy.
                 </p>
                 <Link to="/llm-wiki" className="btn-primary inline-block">
                   Zapisz się na listę →

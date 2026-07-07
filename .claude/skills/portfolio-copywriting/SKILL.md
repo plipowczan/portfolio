@@ -14,7 +14,7 @@ Skill do tworzenia artykulow na bloga portfolio pawel.lipowczan.pl w charakterys
 
 | Aspekt      | Charakterystyka                              |
 | ----------- | -------------------------------------------- |
-| Jezyk       | Polski + angielskie terminy techniczne       |
+| Jezyk       | Prosty polski; angielski tylko dla nazw/komend/skrotow (reguly: `.claude/rules/content/10-prosty-polski.md`) |
 | Ton         | Bezposredni, praktyczny, osobisty            |
 | Perspektywa | Pierwsza osoba (ja, my)                      |
 | Podejscie   | Oparte na doswiadczeniu, konkretne przyklady |
@@ -133,6 +133,16 @@ tags:
 ```
 
 ## Wytyczne pisania
+
+### Slownictwo - prosty polski (WYMAGANE)
+
+Zrodlo prawdy: **[.claude/rules/content/10-prosty-polski.md](../../rules/content/10-prosty-polski.md)**. Sedno:
+
+- Domyslnie po polsku; angielski zostaje tylko, gdy czytelnik zobaczy termin w UI narzedzia lub w nazwie pliku (commit, frontmatter, vault, `/ingest`).
+- Nigdy nie polonizuj czasownikow (ingestowac, mergowac, renderowac, deployowac, commitowac).
+- Kazdy trudny termin (takze z keep-listy) dostaje definicje w nawiasie przy pierwszym uzyciu w artykule.
+- Przymiotnik bez liczby lub przykladu - skresl. Max jedna metafora na sekcje.
+- Brama grep ze slownika (lista zakazanych slow) musi byc pusta - odpalana w `blog-article-writer:validate`.
 
 ### Formatowanie
 

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import GrowingNetworkBackground from "../components/animations/GrowingNetworkBackground";
+import CourseAudience from "../components/sections/CourseAudience";
 import SEO from "../components/seo/SEO";
 import { coursePosts } from "../data/coursePosts";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
@@ -22,8 +23,8 @@ const CourseHub = () => {
   return (
     <>
       <SEO
-        title="LLM Wiki — darmowy kurs: zbuduj własny second brain"
-        description="Od «Use this template» do bazy wiedzy, która kumuluje się sama i zasila Twojego agenta. Krok po kroku, na darmowym szablonie — kurs rośnie o kolejne lekcje."
+        title="LLM Wiki - darmowy kurs: zbuduj własny second brain"
+        description="Od «Use this template» do bazy wiedzy, która kumuluje się sama i zasila Twojego agenta. Krok po kroku, na darmowym szablonie - kurs rośnie o kolejne lekcje."
         path="/llm-wiki/kurs"
         // PL-only section: point the en-alternate at the PL URL so no
         // /en/llm-wiki/kurs mirror leaks to crawlers.
@@ -61,12 +62,12 @@ const CourseHub = () => {
                   #
                 </span>{" "}
                 <span className="gradient-text">
-                  LLM Wiki — darmowy kurs: zbuduj własny second brain
+                  LLM Wiki - darmowy kurs: zbuduj własny second brain
                 </span>
               </h1>
               <p className="text-base text-gray-400 md:text-lg">
                 Od «Use this template» do bazy wiedzy, która kumuluje się sama i
-                zasila Twojego agenta. Krok po kroku, na darmowym szablonie —
+                zasila Twojego agenta. Krok po kroku, na darmowym szablonie -
                 kurs rośnie o kolejne lekcje.
               </p>
             </motion.div>
@@ -108,6 +109,9 @@ const CourseHub = () => {
               </ul>
             </motion.div>
 
+            {/* Audience + prerequisites — shared with the landing */}
+            <CourseAudience />
+
             {/* Repo link */}
             <motion.div variants={FADE_IN_UP}>
               <a
@@ -117,7 +121,7 @@ const CourseHub = () => {
                 className="inline-flex items-center gap-2 font-mono text-sm text-primary-500 hover:text-primary-400"
               >
                 <FaGithub size={16} />
-                second-brain-template — weź szablon na GitHubie →
+                second-brain-template - weź szablon na GitHubie →
               </a>
             </motion.div>
 
@@ -127,7 +131,7 @@ const CourseHub = () => {
               className="space-y-3 rounded-lg border border-primary-500/20 bg-dark-700 p-5"
             >
               <p className="text-gray-300">
-                Zostaw maila — dam znać, gdy ruszą gotowe bundle wiedzy.
+                Zostaw maila - dam znać, gdy ruszą gotowe paczki wiedzy.
               </p>
               <Link to="/llm-wiki" className="btn-primary inline-block">
                 Zapisz się na listę →

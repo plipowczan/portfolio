@@ -8,7 +8,7 @@ videoMp4: /videos/kurs/2-onboarding.mp4
 poster: /images/kurs/2-onboarding-poster.webp
 ---
 
-Cel tej lekcji: przejść **cały onboarding krok po kroku** na konkretnym przykładzie. Po lekcji masz wygenerowaną schema (`CLAUDE.md`), foldery tematów i puste, ale gotowe indeksy - i wiesz dokładnie, co dzieje się pod spodem.
+Cel tej lekcji: przejść **cały onboarding krok po kroku** (onboarding = pierwsza konfiguracja bazy) na konkretnym przykładzie. Po lekcji masz wygenerowaną schema (`CLAUDE.md` - plik zasad Twojej bazy), foldery tematów i puste, ale gotowe indeksy - i wiesz dokładnie, co dzieje się pod spodem.
 
 Prowadzę Cię przez **realny przebieg** (screeny z prawdziwej sesji): **Anna** stawia bazę „Baza Anny" po polsku, na tematach `AI`, `BUSINESS`, `HEALTH`. Twoje odpowiedzi będą inne - proces jest ten sam.
 
@@ -80,14 +80,14 @@ Po ostatnim pytaniu kreator działa sam. Najpierw zapisuje odpowiedzi do `.kb-on
 
 Potem, krok po kroku (widać to na screenie):
 
-1. **Renderuje trzy pliki schematu** z szablonów (`render.py`): `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md`.
-2. **Kasuje szablony** (`*.template.md`) - dopiero gdy wszystkie trzy rendery się powiodą.
+1. **Wypełnia trzy pliki schematu** z szablonów (skrypt `render.py`): `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md`.
+2. **Kasuje szablony** (`*.template.md`) - dopiero gdy wszystkie trzy pliki wygenerują się poprawnie.
 3. **Tworzy foldery tematów** pod `content/`: `AI/`, `BUSINESS/`, `HEALTH/`.
 4. **Pyta o przykłady**: `content/REFERENCE/` (2 noty) + `content/_raw/inbox/sample-source.md` - usunąć czy zostawić jako samouczek. Anna wybiera **„Keep as tutorial"**.
 5. **Przycina szablony not** do wybranych typów (tu wszystkie 5 zostają - nic nie ubywa).
 6. **Przebudowuje indeksy** (`build_indexes.py`).
 
-![Faza generowania: render plików schemy, kasowanie szablonów, tworzenie folderów i pytanie o przykładowe treści](/images/kurs/2-onboarding-10.webp)
+![Faza generowania: wypełnianie plików schemy, kasowanie szablonów, tworzenie folderów i pytanie o przykładowe treści](/images/kurs/2-onboarding-10.webp)
 
 ## Faza 3 - Gotowe (podsumowanie + przekazanie)
 
@@ -97,12 +97,12 @@ Kreator drukuje podsumowanie: co powstało i co dalej.
 
 Dla „Bazy Anny" wyszło:
 
-- `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md` **wyrenderowane**, szablony **skasowane**,
+- `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md` **wygenerowane**, szablony **skasowane**,
 - foldery tematów: `content/AI/`, `content/BUSINESS/`, `content/HEALTH/`,
 - typy not: wszystkie 5; głos first-person direct/practical; emoji w nagłówkach: on,
 - `REFERENCE/` + `sample-source` **zostawione jako samouczek**,
 - **indeksy przebudowane** - 2 noty, 4 krawędzie (to te 2 przykładowe noty),
-- **zależności**: Python 3.13 ✅, yt-dlp ✅, ffmpeg ✅ (Python wymagany do `reindex`/`lint`/`render`; yt-dlp+ffmpeg opcjonalne, pod ingest z YouTube).
+- **zależności**: Python 3.13 ✅, yt-dlp ✅, ffmpeg ✅ (Python wymagany do `reindex`/`lint`/`render`; yt-dlp+ffmpeg opcjonalne, pod `/ingest` z YouTube).
 
 Repo po fazie:
 
@@ -119,7 +119,7 @@ AGENTS.md                 ← wygenerowany
 content/WRITING_STYLE.md  ← wygenerowany (Twój głos)
 ```
 
-Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. Kreator **nic nie commituje** („Not committed - your call").
+Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. Kreator **nie robi żadnego commita** („Not committed - your call").
 
 **Co teraz** (kreator podpowiada):
 
@@ -131,7 +131,7 @@ Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. K
 
 Baza to zwykłe repo git - pierwszy commit robisz jak zawsze. Możesz to nawet zlecić agentowi („commit this"): sam doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita - trzyma Twoje odpowiedzi lokalnie).
 
-![Agent commituje świeżo skonfigurowaną bazę - czysty stan repo](/images/kurs/2-onboarding-12.webp)
+![Agent robi pierwszy commit świeżo skonfigurowanej bazy - czysty stan repo](/images/kurs/2-onboarding-12.webp)
 
 ## Powtarzalność
 
@@ -176,12 +176,12 @@ W pliku `.kb-onboard.json` w korzeniu repo. Jest **pomijany przez gita** - trzym
 
 ### Dlaczego szablony `*.template.md` znikają po onboardingu?
 
-Bo kreator renderuje je do finalnych plików z Twoimi wartościami: `CLAUDE.template.md` → `CLAUDE.md`, `AGENTS.template.md` → `AGENTS.md`, `content/WRITING_STYLE.template.md` → `content/WRITING_STYLE.md`. Szablony kasuje **dopiero gdy wszystkie trzy rendery się powiodą**. Ich brak to znak, że baza jest zainicjalizowana.
+Bo kreator wypełnia je Twoimi wartościami i zapisuje jako finalne pliki: `CLAUDE.template.md` → `CLAUDE.md`, `AGENTS.template.md` → `AGENTS.md`, `content/WRITING_STYLE.template.md` → `content/WRITING_STYLE.md`. Szablony kasuje **dopiero gdy wszystkie trzy pliki wygenerują się poprawnie**. Ich brak to znak, że baza jest zainicjalizowana.
 
-### Czy `/onboard` commituje coś do gita?
+### Czy `/onboard` robi commit do gita?
 
 Nie - kończy komunikatem „Not committed - your call". Pierwszy commit robisz sam (albo zlecasz agentowi: „commit this"). Agent doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita).
 
 ### Czy do onboardingu potrzebuję Pythona?
 
-Tak - kreator używa skryptów pythonowych (`render.py` do renderu schemy, `build_indexes.py` do indeksów), a Python jest też wymagany później przez `/reindex` i `/lint`. `yt-dlp` i `ffmpeg` są opcjonalne - przydają się dopiero przy ingeście z YouTube (lekcja 3).
+Tak - kreator używa skryptów pythonowych (`render.py` do wygenerowania plików schemy, `build_indexes.py` do indeksów), a Python jest też wymagany później przez `/reindex` i `/lint`. `yt-dlp` i `ffmpeg` są opcjonalne - przydają się dopiero przy `/ingest` z YouTube (lekcja 3).

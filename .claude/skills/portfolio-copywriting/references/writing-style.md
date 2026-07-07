@@ -232,28 +232,50 @@ Struktura:
 
 ## Język techniczny: Kiedy English vs Polish
 
-### Zasady używania terminów angielskich
+**Pełne reguły słownictwa: [.claude/rules/content/10-prosty-polski.md](../../../rules/content/10-prosty-polski.md)** - tabela zamian, keep-lista, brama grep. Ten plik jest źródłem prawdy; poniżej tylko sedno.
 
-**✅ ZAWSZE po angielsku:**
-- Nazwy technologii: React, Vue, TypeScript, Docker, Kubernetes
-- Nazwy frameworków: Next.js, Express, Django, FastAPI
-- Koncepcje bez polskiego odpowiednika: hooks, props, middleware, webhook
-- Terminy branżowe: deployment, staging, production, CI/CD
-- Nazwy wzorców: singleton, factory, observer, MVC
-- Skróty: API, SDK, CLI, GUI, REST, GraphQL
+### Zasada domyślna: po polsku
 
-**✅ PO POLSKU (z ang. w nawiasie przy pierwszym użyciu):**
-- Koncepcje z polskim odpowiednikiem:
-  - autentykacja (authentication)
-  - autoryzacja (authorization)
-  - walidacja (validation)
-  - testowanie (testing)
-  - wdrożenie (deployment) - ale można też "deploy"
+Gdy istnieje naturalny polski odpowiednik - pisz po polsku. Angielski zostaje tylko wtedy, gdy termin przechodzi **test UI / systemu plików**: czytelnik zobaczy go w interfejsie narzędzia albo w nazwie pliku.
 
-**❌ NIGDY nie polonizuj:**
-- "komendyfikacja" → użyj "przekształcanie w komendy" LUB zostaw "commandification"
-- "skomendyfikować" → użyj "przekształcić w komendę"
-- "zvalidować" → użyj "zwalidować" (akceptowalne) LUB "sprawdzić poprawność"
+**✅ Zostaje po angielsku (test UI/plików):**
+- Nazwy technologii i produktów: React, TypeScript, Docker, Claude Code
+- Nazwy komend i plików: `/prime`, `npm install`, `render.py`
+- Terminy widoczne w narzędziach: commit, branch, frontmatter, markdown, vault (Obsidian)
+- Skróty i standardy: API, SDK, CLI, REST, RAG, OKF, MCP
+
+**✅ Po polsku (istnieje tylko w prozie):**
+- wdrożenie (nie "deployment" ani "deployować")
+- środowisko testowe / produkcyjne (nie "staging/production")
+- scalanie (nie "mergowanie"), wczytywanie (nie "ingestowanie")
+- walidacja, autoryzacja, potok (pipeline), paczka (bundle), awaryjnie (fallback)
+
+**❌ NIGDY nie polonizuj czasowników:**
+- "ingestować", "mergować", "renderować", "deployować", "commitować" → polski czasownik albo "robić <rzeczownik z keep-listy>" ("robić commit")
+- "komendyfikacja" → "przekształcanie w komendy" LUB zostaw "commandification"
+
+### Definicja przy pierwszym użyciu (WYMAGANE)
+
+Każdy trudny termin - także z keep-listy - dostaje przy pierwszym wystąpieniu w artykule definicję w nawiasie (dla długich definicji: osobne zdanie zaraz po terminie). Kolejne wystąpienia bez definicji.
+
+```markdown
+❌ Baza działa bez RAG i embeddings.
+✅ Baza działa bez RAG (techniki, w której model przed odpowiedzią
+   przeszukuje surowe dokumenty) i bez embeddings (liczbowych
+   reprezentacji tekstu do wyszukiwania podobieństw).
+```
+
+### Ozdobniki i epitety - unikaj
+
+Rozszerzenie reguły "Puste wzmacniacze" z tabeli AI-tells:
+
+- Przymiotnik musi nieść informację (liczbę, przykład, sprawdzalną cechę) - inaczej skreśl.
+- Maksymalnie jedna metafora na sekcję.
+
+```markdown
+❌ Dopieszczone, potężne skille odmienią Twój workflow.
+✅ Sprawdzone skille - każdy przeszedł 20+ uruchomień na realnej bazie.
+```
 
 ### Formatowanie terminów technicznych
 

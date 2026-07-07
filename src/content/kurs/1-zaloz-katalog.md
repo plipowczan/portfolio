@@ -8,7 +8,7 @@ videoMp4: /videos/kurs/1-zaloz-katalog.mp4
 poster: /images/kurs/1-zaloz-katalog-poster.webp
 ---
 
-Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings i RAG - architektura trzech warstw, trzy indeksy i zasada progressive disclosure.
+Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings (liczbowych reprezentacji tekstu do wyszukiwania) i bez RAG (techniki, w której model przy każdym pytaniu przeszukuje surowe dokumenty) - architektura trzech warstw, trzy indeksy i zasada progressive disclosure (czytania od ogółu do szczegółu).
 
 ## Po co to
 
@@ -97,27 +97,27 @@ brain-test/
 
 **Foldery:**
 
-- **`.claude/`** - mózg agenta. `commands/` to slash-komendy (`/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, `/gaps`, `/curate`, `/compile`, `/enhance`, `/output`, `/refactor`), `skills/` to ich implementacje (m.in. pythonowe: reindex, lint, ingest, gaps + skille research i `excalidraw-diagram`). `hooks/load_vault_map.py` auto-ładuje mapę vaultu na starcie każdej sesji, a `settings.json` to konfiguracja Claude Code.
+- **`.claude/`** - mózg agenta. `commands/` to slash-komendy (`/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, `/gaps`, `/curate`, `/compile`, `/enhance`, `/output`, `/refactor`), `skills/` to ich implementacje (m.in. pythonowe: reindex, lint, ingest, gaps + skille research i `excalidraw-diagram`). `hooks/load_vault_map.py` auto-ładuje mapę bazy na starcie każdej sesji, a `settings.json` to konfiguracja Claude Code.
 - **`.githooks/`** - hook `pre-commit`: kontrola jakości (format/lint), zanim cokolwiek trafi do commita.
-- **`content/`** - Twój vault: cała wiedza, indeksy, szablony i wzorce (rozbicie niżej).
+- **`content/`** - Twój vault (tak nazywamy folder z całą Twoją wiedzą): noty, indeksy, szablony i wzorce (rozbicie niżej).
 - **`tests/`** - `run_tests.py`, testy skryptów pythonowych skilli. Nie ruszasz na co dzień - są, żeby mechanika była pewna.
 
 **Pliki schemy (znikają po `/onboard`):**
 
-- **`CLAUDE.template.md` / `AGENTS.template.md`** - kontrakt agenta z placeholderami (`{{KB_NAME}}`, `{{KB_OWNER}}`, `{{TOPIC_TABLE}}`, …). `/onboard` renderuje je do `CLAUDE.md` / `AGENTS.md`. Ich obecność to znak, że baza jest jeszcze nieskonfigurowana.
-- **`content/WRITING_STYLE.template.md`** - szablon Twojego „głosu" (osoba, formalność, emoji w nagłówkach). `/onboard` renderuje go do `content/WRITING_STYLE.md`.
+- **`CLAUDE.template.md` / `AGENTS.template.md`** - kontrakt agenta z placeholderami, czyli polami do podmiany (`{{KB_NAME}}`, `{{KB_OWNER}}`, `{{TOPIC_TABLE}}`, ...). `/onboard` wypełnia je i zapisuje jako `CLAUDE.md` / `AGENTS.md`. Ich obecność to znak, że baza jest jeszcze nieskonfigurowana.
+- **`content/WRITING_STYLE.template.md`** - szablon Twojego „głosu" (osoba, formalność, emoji w nagłówkach). `/onboard` wypełnia go i zapisuje jako `content/WRITING_STYLE.md`.
 
 **Pozostałe pliki:**
 
-- **`schema.yml`** - kontrakt frontmatteru per typ noty: jakie pola są wymagane (np. `knowledge-note` musi mieć `title, date, type, tags, summary`). `/lint` to egzekwuje. Skasujesz plik → luźniejszy tryb, bez wymuszania pól.
+- **`schema.yml`** - kontrakt frontmatteru (bloku metadanych na początku pliku) per typ noty: jakie pola są wymagane (np. `knowledge-note` musi mieć `title, date, type, tags, summary`). `/lint` to egzekwuje. Skasujesz plik → luźniejszy tryb, bez wymuszania pól.
 - **`README.md`** - opis szablonu i quickstart.
 - **`package.json`** - jedyny skrypt to `npm run format` (Prettier). Potok publikacji (Quartz) świadomie **nie** wchodzi w zestaw - doklejasz go później (lekcja 5).
-- **`requirements.txt`** - zależności Pythona skryptów (`PyYAML`; `yt-dlp` opcjonalnie, pod ingest z YouTube).
+- **`requirements.txt`** - zależności Pythona skryptów (`PyYAML`; `yt-dlp` opcjonalnie, pod `/ingest` z YouTube).
 - **`.editorconfig` · `.gitattributes` · `.gitignore` · `.npmrc` · `.prettierrc`** - standardowa higiena repo (styl kodu, końcówki linii, ignorowane pliki, format).
 
 **W środku `content/`:**
 
-- **`_raw/inbox/`** - miejsce na surowe źródła (jest gotowy `sample-source.md` na rozgrzewkę). Po ingeście źródła lądują w `_raw/processed/`.
+- **`_raw/inbox/`** - miejsce na surowe źródła (jest gotowy `sample-source.md` na rozgrzewkę). Po `/ingest` źródła lądują w `_raw/processed/`.
 - **`_indexes/`** - trzy auto-utrzymywane indeksy nawigacyjne: `vault-map.md`, `catalog.md`, `graph.md` (serce progressive disclosure - patrz niżej).
 - **`_outputs/`** - `answers/` (zapisane odpowiedzi `/qa`) i `reports/` (raporty `/lint`).
 - **`_graveyard/`** - wycofane noty: odwracalne, wykluczone z indeksów (`/curate` je tam odkłada).
@@ -130,7 +130,7 @@ To „**pusty, ale uzbrojony**" brain - cała mechanika gotowa, brak tylko Twoje
 
 | Warstwa     | Gdzie                           | Kto włada                            |
 | ----------- | ------------------------------- | ------------------------------------ |
-| Raw sources | `_raw/inbox` → `_raw/processed` | Ty wrzucasz, agent czyta (immutable) |
+| Raw sources | `_raw/inbox` → `_raw/processed` | Ty wrzucasz, agent tylko czyta      |
 | Wiki        | `content/<TOPIC>/`              | Agent tworzy/utrzymuje noty          |
 | Schema      | `CLAUDE.md` (z onboardingu)     | Ty + agent współ-ewoluujecie         |
 
@@ -141,7 +141,7 @@ To „**pusty, ale uzbrojony**" brain - cała mechanika gotowa, brak tylko Twoje
 Porównaj dwa podejścia do tego samego pytania:
 
 - **Klasyczny RAG - „wrzuć wszystko".** Do kontekstu ląduje np. 35 000 tokenów notatek i historii, z czego realnie trafne jest może 2 000. Efektywność ~6%. Reszta zabiera uwagę modelu i miejsce na właściwe zadanie.
-- **Index-first - progressive disclosure.** Agent czyta najpierw **indeks** (~kilkaset tokenów): co istnieje, jakiego typu, z jakimi tagami. Na tej podstawie pobiera **tylko** 2–3 trafne noty (~kilkaset tokenów). Trafność bliska 100%, a okno kontekstu zostaje wolne na myślenie.
+- **Index-first - progressive disclosure.** Agent czyta najpierw **indeks** (~kilkaset tokenów): co istnieje, jakiego typu, z jakimi tagami. Na tej podstawie pobiera **tylko** 2-3 trafne noty (~kilkaset tokenów). Trafność bliska 100%, a okno kontekstu zostaje wolne na myślenie.
 
 To dlatego baza działa **bez embeddings i bez RAG do ~500 źródeł**: nie trzeba liczyć wektorów, gdy dobry indeks pozwala agentowi zawęzić wyszukiwanie samą lekturą.
 
@@ -168,7 +168,7 @@ total_notes: 330
 | CODE/TOOLS         |    40 | tool(40)           | frontend, framework, infrastructure |
 
 ## Tag Cloud
-agents:29  ai:119  claude-code:38  context-engineering:11  rag:10  skills:16 …
+agents:29  ai:119  claude-code:38  context-engineering:11  rag:10  skills:16 ...
 
 ## Recent Changes
 - 2026-06-30 AI/TOOLS/Ponytail (ingest - vibe-coding skill: YAGNI-first, −54% LOC)
@@ -222,7 +222,7 @@ Nie pisz wiki ręcznie - to robota agenta; Ty dostarczasz źródła i dobre pyta
 
 ### Czym LLM Wiki różni się od RAG i baz wektorowych?
 
-RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2–3 trafne noty. Nie liczy wektorów ani embeddingów - do ~500 źródeł dobry indeks wystarcza, żeby zawęzić wyszukiwanie samą lekturą.
+RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2-3 trafne noty. Nie liczy wektorów ani embeddingów - do ~500 źródeł dobry indeks wystarcza, żeby zawęzić wyszukiwanie samą lekturą.
 
 ### Czy do startu muszę odpalać `npm install` i `pip install`?
 
@@ -230,7 +230,7 @@ Nie, do pierwszego pytania nie są potrzebne. `npm install` instaluje tylko narz
 
 ### Repo z szablonu - publiczne czy prywatne?
 
-Twój wybór; baza to zwykłe repo git i działa tak samo w obu trybach. Prywatne, jeśli to Twoja osobista wiedza (domyślnie bezpieczniej). Publiczne - jeśli od razu chcesz ją publikować lub dzielić się nią jako bundlem OKF. Widoczność zmienisz w każdej chwili w ustawieniach repo.
+Twój wybór; baza to zwykłe repo git i działa tak samo w obu trybach. Prywatne, jeśli to Twoja osobista wiedza (domyślnie bezpieczniej). Publiczne - jeśli od razu chcesz ją publikować lub dzielić się nią jako paczką OKF. Widoczność zmienisz w każdej chwili w ustawieniach repo.
 
 ### Czy potrzebuję płatnych narzędzi albo zewnętrznej bazy danych?
 
