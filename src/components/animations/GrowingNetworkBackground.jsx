@@ -144,9 +144,14 @@ const GrowingNetworkBackground = () => {
   }, []);
 
   return (
+    // `fixed`, not `absolute`: a canvas is a replaced element, so `inset-0`
+    // does NOT stretch it — its box stays at the bitmap size (one viewport).
+    // On pages taller than the viewport the section below the first screen
+    // went plain black. Fixing it to the viewport keeps the graph (and the
+    // gradient) behind the content for the whole scroll length.
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 z-0"
+      className="fixed inset-0 z-0"
       aria-hidden="true"
       style={{ background: "linear-gradient(135deg, #050810 0%, #0a0e1a 100%)" }}
     />

@@ -50,7 +50,7 @@ New `src/data/courseFaq.js` exporting an ordered list of `{ id, question, answer
 
 ### D3: Landing gets a filtered subset of the same data, no schema
 
-`CourseFaq` accepts the entries to render (or a `variant` prop); the landing renders the objection-4-focused subset **below** the form block, plus a 1–2 sentence TLDR line in the existing copy above the form. No `StructuredData` on the landing.
+`CourseFaq` accepts the entries to render (or a `variant` prop); the landing renders the objection-4-focused subset **below** the form block, plus a 1–2 sentence TLDR line in the existing copy above the form. No `StructuredData` on the landing. Landing entries render as a native `details`/`summary` accordion, collapsed by default — the block stays compact on the conversion page and answers load with zero JS state.
 
 **Why no landing schema:** duplicate FAQPage markup across two closely-linked pages is a negative signal; the hub is the canonical FAQ location. The landing block also must contain **no repo or `/llm-wiki/kurs` links** — the pre-signup gating requirement in `llm-wiki-landing` forbids them before a successful submit.
 

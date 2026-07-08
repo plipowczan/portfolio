@@ -70,11 +70,19 @@ test.describe("Landing LLM Wiki — treść", () => {
       page.getByText(/Metoda, szablon i kurs są darmowe/i)
     ).toBeVisible();
 
-    // Blok obiekcji obecny, z pytaniem build-vs-buy.
+    // Blok obiekcji obecny, z pytaniem build-vs-buy jako akordeonem:
+    // domyślnie zwinięty, odpowiedź rozwija się po kliknięciu.
     const faq = page.getByTestId("course-faq");
-    await expect(
-      faq.locator("dt", { hasText: "Po co płacić, skoro sam to zbuduję?" })
-    ).toBeVisible();
+    const buildVsBuy = faq.locator("details", {
+      has: page.locator("summary", {
+        hasText: "Po co płacić, skoro sam to zbuduję?",
+      }),
+    });
+    await expect(buildVsBuy.locator("summary")).toBeVisible();
+    const answer = buildVsBuy.locator("p", { hasText: "Masz rację" });
+    await expect(answer).toBeHidden();
+    await buildVsBuy.locator("summary").click();
+    await expect(answer).toBeVisible();
 
     // Blok występuje PO formularzu w kolejności dokumentu.
     const formBeforeBlock = await page.evaluate(() => {

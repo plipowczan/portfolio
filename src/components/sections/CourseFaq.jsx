@@ -12,9 +12,11 @@ const SURFACE_LABELS = {
 /**
  * Objections FAQ in the living-note aesthetic, fed from src/data/courseFaq.js.
  * Renders only the entries tagged for the given surface, so the hub shows the
- * full set while the landing shows the conversion-critical subset. Contains no
- * links by design: the landing renders it pre-signup, where repo/course links
- * must stay gated.
+ * full set while the landing shows the conversion-critical subset. On the hub
+ * entries are an open list; on the landing each entry is a native
+ * details/summary accordion, collapsed by default, so the block stays compact
+ * on the conversion page. Contains no links by design: the landing renders it
+ * pre-signup, where repo/course links must stay gated.
  * @param {{ surface: "hub" | "landing" }} props
  */
 const CourseFaq = ({ surface }) => {
@@ -39,20 +41,46 @@ const CourseFaq = ({ surface }) => {
       <h2 className="text-lg font-bold text-white md:text-xl">
         {COURSE_FAQ_HEADING}
       </h2>
-      <dl className="space-y-4">
-        {entries.map((entry) => (
-          <div key={entry.id} className="space-y-1">
-            <dt className="font-mono text-base text-white">
-              <span className="text-gray-600">[[</span>
-              {entry.question}
-              <span className="text-gray-600">]]</span>
-            </dt>
-            <dd className="text-sm leading-relaxed text-gray-400 md:text-base">
-              {entry.answer}
-            </dd>
-          </div>
-        ))}
-      </dl>
+
+      {surface === "landing" ? (
+        <div className="space-y-3">
+          {entries.map((entry) => (
+            <details key={entry.id} className="group">
+              <summary className="flex cursor-pointer list-none items-baseline gap-2 rounded font-mono text-base text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 [&::-webkit-details-marker]:hidden">
+                <span
+                  className="select-none text-primary-500 transition-transform group-open:rotate-90"
+                  aria-hidden="true"
+                >
+                  ▸
+                </span>
+                <span>
+                  <span className="text-gray-600">[[</span>
+                  {entry.question}
+                  <span className="text-gray-600">]]</span>
+                </span>
+              </summary>
+              <p className="mt-2 pl-5 text-sm leading-relaxed text-gray-400 md:text-base">
+                {entry.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      ) : (
+        <dl className="space-y-4">
+          {entries.map((entry) => (
+            <div key={entry.id} className="space-y-1">
+              <dt className="font-mono text-base text-white">
+                <span className="text-gray-600">[[</span>
+                {entry.question}
+                <span className="text-gray-600">]]</span>
+              </dt>
+              <dd className="text-sm leading-relaxed text-gray-400 md:text-base">
+                {entry.answer}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
     </motion.div>
   );
 };
