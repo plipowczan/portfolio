@@ -46,9 +46,13 @@ const CourseAudience = () => {
             </span>
             <div>
               <dt className="inline font-mono text-sm text-white">
-                <span className="text-gray-600">[[</span>
+                <span className="text-gray-600" aria-hidden="true">
+                  [[
+                </span>
                 {item.term}
-                <span className="text-gray-600">]]</span>
+                <span className="text-gray-600" aria-hidden="true">
+                  ]]
+                </span>
               </dt>{" "}
               <dd className="inline text-sm leading-relaxed text-gray-400">
                 {item.definition}

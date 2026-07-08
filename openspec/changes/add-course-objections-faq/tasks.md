@@ -10,7 +10,7 @@
 
 ## 2. Data + components
 
-- [x] 2.1 Create `src/data/courseFaq.js`: ordered entries `{ id, question, answer, surfaces }`, header comment pointing at the source objections file (`agentic-ai-private/.../obiekcje-klientow.md`) as the source of truth
+- [x] 2.1 Create `src/data/courseFaq.js`: ordered entries `{ id, question, answer, surfaces }`, header comment pointing at the source objections file (internal `obiekcje-klientow.md`, private and out-of-repo) as the source of truth
 - [x] 2.2 Create `src/components/sections/CourseFaq.jsx` after the `CourseAudience` pattern: living-note aesthetic (`faq.md` label, `[[question]]` styling), accepts the subset of entries to render, named data imports. Deviation: PropTypes dropped — `prop-types` is not a project dependency and importing it broke the Vite module graph; props documented via JSDoc instead (rules updated accordingly)
 - [x] 2.3 Wire `CourseFaq` into `CourseHub.jsx` (full entry set) and emit FAQPage JSON-LD via `StructuredData` + `generateFAQSchema()` built directly from the data array (no DOM extraction)
 - [x] 2.4 Wire the TLDR line and the `CourseFaq` subset into `LlmWikiLanding.jsx` **below** the form block; no `StructuredData` on the landing; do not touch form/submit logic

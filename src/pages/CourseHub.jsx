@@ -110,9 +110,13 @@ const CourseHub = () => {
                       </span>
                       <div>
                         <h2 className="font-mono text-base text-white">
-                          <span className="text-gray-600">[[</span>
+                          <span className="text-gray-600" aria-hidden="true">
+                            [[
+                          </span>
                           {lesson.title}
-                          <span className="text-gray-600">]]</span>
+                          <span className="text-gray-600" aria-hidden="true">
+                            ]]
+                          </span>
                         </h2>
                         <p className="text-sm leading-relaxed text-gray-400">
                           {LESSON_BLURBS[lesson.slug] || lesson.excerpt}

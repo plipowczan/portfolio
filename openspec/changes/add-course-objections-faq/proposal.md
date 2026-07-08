@@ -2,7 +2,7 @@
 
 ## Why
 
-Sales conversations and social comments around the LLM Wiki course keep raising the same five objections (collected in `agentic-ai-private/.../obiekcje-klientow.md`): "grep is enough", "why `/qa`", "what's the point at all / what if it breaks", "why pay if I can build it myself", "RAG vs structural retrieval". None of them is addressed on the course surfaces today — the conversion-critical one (objection 4, "why pay") is invisible exactly where the waitlist CTA asks for the signup. Addressing them on-page also feeds FAQPage/GEO visibility.
+Sales conversations and social comments around the LLM Wiki course keep raising the same five objections (collected in the internal `obiekcje-klientow.md` notes, private and out-of-repo): "grep is enough", "why `/qa`", "what's the point at all / what if it breaks", "why pay if I can build it myself", "RAG vs structural retrieval". None of them is addressed on the course surfaces today — the conversion-critical one (objection 4, "why pay") is invisible exactly where the waitlist CTA asks for the signup. Addressing them on-page also feeds FAQPage/GEO visibility.
 
 ## What Changes
 

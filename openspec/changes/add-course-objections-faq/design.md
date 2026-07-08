@@ -2,7 +2,7 @@
 
 ## Context
 
-Five recurring customer objections are documented in `agentic-ai-private/context/plsoft/projects/SECOND_BRAIN_KURS/data/obiekcje-klientow.md` (format: objection → why it lands → substantive answer → one-liner for the client). The course surfaces don't address them:
+Five recurring customer objections are documented in the internal `obiekcje-klientow.md` notes (private, out-of-repo course project docs; format: objection → why it lands → substantive answer → one-liner for the client). The course surfaces don't address them:
 
 - **Lessons** (`src/content/kurs/*.md`): all five already have `## FAQ` sections; `CourseLesson.jsx` extracts them from the rendered DOM via `src/utils/faqExtractor.js` and emits FAQPage JSON-LD. Lesson 1 covers "LLM Wiki vs RAG" but not "grep vs index"; lesson 4 has a thin "`/qa` vs chat" answer.
 - **Hub** (`src/pages/CourseHub.jsx`): JSX page, no FAQ, no schema machinery.

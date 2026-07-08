@@ -148,9 +148,13 @@ const LlmWikiLanding = () => {
                     </span>
                     <div>
                       <h2 className="font-mono text-base text-white">
-                        <span className="text-gray-600">[[</span>
+                        <span className="text-gray-600" aria-hidden="true">
+                          [[
+                        </span>
                         {item.title}
-                        <span className="text-gray-600">]]</span>
+                        <span className="text-gray-600" aria-hidden="true">
+                          ]]
+                        </span>
                       </h2>
                       <p className="text-sm leading-relaxed text-gray-400">
                         {item.body}
