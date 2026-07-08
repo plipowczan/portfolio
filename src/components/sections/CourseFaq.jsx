@@ -11,12 +11,11 @@ const SURFACE_LABELS = {
 
 /**
  * Objections FAQ in the living-note aesthetic, fed from src/data/courseFaq.js.
- * Renders only the entries tagged for the given surface, so the hub shows the
- * full set while the landing shows the conversion-critical subset. On the hub
- * entries are an open list; on the landing each entry is a native
- * details/summary accordion, collapsed by default, so the block stays compact
- * on the conversion page. Contains no links by design: the landing renders it
- * pre-signup, where repo/course links must stay gated.
+ * Renders the entries tagged for the given surface (currently the full set on
+ * both pages). On the hub entries are an open list; on the landing each entry
+ * is a native details/summary accordion, collapsed by default, so the block
+ * stays compact on the conversion page. Contains no links by design: the
+ * landing renders it pre-signup, where repo/course links must stay gated.
  * @param {{ surface: "hub" | "landing" }} props
  */
 const CourseFaq = ({ surface }) => {

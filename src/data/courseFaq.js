@@ -1,6 +1,7 @@
 // Shared source for the objections FAQ, rendered on the /llm-wiki/kurs hub
-// (full set + FAQPage JSON-LD) and the /llm-wiki landing (subset, no schema).
-// Single copy so the two pages cannot drift.
+// (open list + FAQPage JSON-LD) and the /llm-wiki landing (collapsed
+// accordion, no schema). Single copy so the two pages cannot drift. The
+// `surfaces` field stays per entry so a future item can target one page only.
 //
 // Source of truth for the objections themselves:
 // agentic-ai-private/context/plsoft/projects/SECOND_BRAIN_KURS/data/obiekcje-klientow.md
@@ -22,7 +23,7 @@ export const courseFaq = [
       "Ty dostajesz pamięć, która nie zapomina, a agent - kontekst, dzięki " +
       "któremu pracuje według Twoich decyzji i standardów. Mózg zostaje od " +
       "intuicji i ocen; baza przejmuje dokładne przypominanie i objętość.",
-    surfaces: ["hub"],
+    surfaces: ["hub", "landing"],
   },
   {
     id: "co-gdy-padnie",
@@ -47,7 +48,7 @@ export const courseFaq = [
       "(jednostek, w których model rozlicza tekst). Indeks najpierw zawęża " +
       "zakres do 2-3 właściwych not, a grep szuka już tylko wewnątrz nich. To " +
       "nie konkurencja - indeks naprawia skalowanie grepa.",
-    surfaces: ["hub"],
+    surfaces: ["hub", "landing"],
   },
   {
     id: "po-co-placic",

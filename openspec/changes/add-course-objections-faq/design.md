@@ -48,9 +48,9 @@ New `src/data/courseFaq.js` exporting an ordered list of `{ id, question, answer
 
 **Alternative considered:** reuse `extractFAQ` DOM extraction like lessons do — rejected: hub content is structured data already; DOM extraction adds a timing effect (150 ms timeout) and fragility for no benefit. Extraction exists for markdown, where the DOM is the only structured source.
 
-### D3: Landing gets a filtered subset of the same data, no schema
+### D3: Landing renders the same data as an accordion, no schema
 
-`CourseFaq` accepts the entries to render (or a `variant` prop); the landing renders the objection-4-focused subset **below** the form block, plus a 1–2 sentence TLDR line in the existing copy above the form. No `StructuredData` on the landing. Landing entries render as a native `details`/`summary` accordion, collapsed by default — the block stays compact on the conversion page and answers load with zero JS state.
+`CourseFaq` accepts the entries to render (or a `variant` prop); the landing renders the objections block **below** the form, plus a 1–2 sentence TLDR line in the existing copy above the form. No `StructuredData` on the landing. Landing entries render as a native `details`/`summary` accordion, collapsed by default — that keeps the block compact, which is why the landing shows the full entry set (initially a conversion-focused subset; widened once the accordion made space cheap). The per-entry `surfaces` field remains for future page-specific items.
 
 **Why no landing schema:** duplicate FAQPage markup across two closely-linked pages is a negative signal; the hub is the canonical FAQ location. The landing block also must contain **no repo or `/llm-wiki/kurs` links** — the pre-signup gating requirement in `llm-wiki-landing` forbids them before a successful submit.
 

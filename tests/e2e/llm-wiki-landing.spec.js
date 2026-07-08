@@ -70,9 +70,19 @@ test.describe("Landing LLM Wiki — treść", () => {
       page.getByText(/Metoda, szablon i kurs są darmowe/i)
     ).toBeVisible();
 
-    // Blok obiekcji obecny, z pytaniem build-vs-buy jako akordeonem:
-    // domyślnie zwinięty, odpowiedź rozwija się po kliknięciu.
+    // Blok obiekcji obecny — pełny zestaw (te same 4 wpisy co hub), każdy
+    // jako akordeon: domyślnie zwinięty, odpowiedź rozwija się po kliknięciu.
     const faq = page.getByTestId("course-faq");
+    for (const question of [
+      "Po co mi taka baza?",
+      "Co, gdy narzędzie padnie albo zniknie internet?",
+      "Agent ma grep - po co mu jeszcze indeks?",
+      "Po co płacić, skoro sam to zbuduję?",
+    ]) {
+      await expect(
+        faq.locator("summary", { hasText: question })
+      ).toBeVisible();
+    }
     const buildVsBuy = faq.locator("details", {
       has: page.locator("summary", {
         hasText: "Po co płacić, skoro sam to zbuduję?",
