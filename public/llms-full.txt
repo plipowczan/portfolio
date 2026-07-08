@@ -67,6 +67,9 @@
 ## Kurs LLM Wiki (PL)
 
 - [LLM Wiki — darmowy kurs](https://pawel.lipowczan.pl/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. Krok po kroku; kurs rośnie o kolejne lekcje.
+- [Co to jest drugi mózg i po co](https://pawel.lipowczan.pl/llm-wiki/kurs/0-co-to-drugi-mozg): Drugi mózg po ludzku, bez ani jednego technicznego słowa. Czym jest zewnętrzna pamięć na wiedzę, po co ją budować i dlaczego nie trzeba umieć programować.
+- [Trzy pojęcia zanim zaczniesz](https://pawel.lipowczan.pl/llm-wiki/kurs/0-trzy-pojecia): Trzy słowa, które padną w kursie, rozbrojone po ludzku - agent AI, repozytorium i markdown. Plus bonus - co to jest komenda. Zero kodu, same konkrety.
+- [Uruchom w swoim narzędziu](https://pawel.lipowczan.pl/llm-wiki/kurs/0-uruchom-w-swoim-narzedziu): Gdzie i jak odpalić szablon bez terminala i bez komend gita. Lista narzędzi z asystentem AI, jak wołać komendy, jak zapisać zmiany i jak pobrać przez ZIP.
 - [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy - architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
 - [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę - schema, foldery tematów i indeksy generują się same. Krok po kroku, na konkretnym przykładzie. To Twój dzień zerowy.
 - [Pierwszy ingest](https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest): Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z linkami i frontmatterem OKF.
@@ -19931,6 +19934,117 @@ Gather documents (FAQ, product documentation, articles, company policies), split
 When it doesn't know the answer, the user is frustrated, the matter requires decisions beyond the bot's authority, or it involves sensitive topics (complaints, legal issues). Graceful degradation is a key best practice -- the bot informs the user it's transferring them to a consultant, rather than generating uncertain responses.
 
 </details>
+
+
+---
+
+# Co to jest drugi mózg i po co
+
+Source: https://pawel.lipowczan.pl/llm-wiki/kurs/0-co-to-drugi-mozg
+
+Cel tej lekcji: zrozumieć ideę drugiego mózgu bez ani jednego technicznego słowa. Po lekcji wiesz, czym jest drugi mózg, po co go budować i że **nie trzeba umieć programować**.
+
+## Znasz to uczucie
+
+Coś już kiedyś przeczytałeś albo rozwiązałeś. Miesiąc później szukasz tego od zera - w mailach, w głowie, w internecie. Robisz tę samą robotę drugi raz.
+
+## Drugi mózg to lekarstwo na to
+
+Drugi mózg to zewnętrzna pamięć na rzeczy, które warto zatrzymać. Nie w głowie, tylko w plikach, do których zawsze wrócisz: rozwiązany problem, wnioski, sprawdzone podejście, ważna decyzja.
+
+## Nowość: korzysta z niego też AI
+
+Z tej pamięci korzystasz nie tylko Ty. Korzysta z niej też asystent AI (program, który rozumie polecenia po ludzku i sam wykonuje zadania w Twoim imieniu). Czyta Twoje notatki i działa z Twoim kontekstem: Twoimi decyzjami, Twoim stylem, tym, co już kiedyś ustaliłeś.
+
+## A skąd nazwa „LLM Wiki"?
+
+To po prostu sposób ułożenia tych notatek tak, żeby asystent AI szybko trafiał do właściwej rzeczy, zamiast czytać wszystko naraz. Nazwa brzmi technicznie, a idea jest prosta: uporządkowana pamięć, którą rozumie i człowiek, i maszyna.
+
+## Po co Ci to
+
+Przestajesz płacić drugi raz - czasem i uwagą - za wiedzę, którą raz już zdobyłeś. Wiedza się kumuluje, zamiast wyparowywać.
+
+## Dla kogo
+
+Dla każdego, kto dużo czyta, ustala i rozwiązuje - i nie chce tego gubić. Handlowiec, konsultant, właściciel firmy. **Nie trzeba umieć programować.**
+
+## Czego NIE musisz umieć
+
+Nie musisz znać terminala (czarnego okna, w którym wpisuje się polecenia tekstem), kodu ani gita (narzędzia, które pilnuje historii zmian w plikach). Jak odpalić to wszystko bez nich - pokazuję w lekcji 3.
+
+
+---
+
+# Trzy pojęcia zanim zaczniesz
+
+Source: https://pawel.lipowczan.pl/llm-wiki/kurs/0-trzy-pojecia
+
+Cel tej lekcji: rozbroić trzy słowa, które padną w kursie. Po lekcji wiesz, co znaczy agent AI, repozytorium i markdown (i przy okazji „komenda").
+
+## Agent AI (asystent AI)
+
+Program, który rozumie polecenia po ludzku, czyta Twoje pliki i **sam wykonuje zadania** - na przykład „zrób notatkę z tego tekstu". Różnica od zwykłego czatu: agent ma dostęp do Twoich plików i działa, a nie tylko rozmawia.
+
+## Repozytorium (repo)
+
+Brzmi groźnie, a to po prostu **folder z plikami** - Twoja baza. Czasem ma kopię w internecie (na GitHub, czyli w serwisie do przechowywania takich folderów), żeby nic nie zginęło. To Twoja kopia zapasowa. Tyle. Gdy w kursie pada „repo", myśl „folder".
+
+## Markdown
+
+Zwykły tekst z bardzo prostym formatowaniem: `#` robi nagłówek, `-` robi listę, `**tekst**` pogrubia. Otwierasz go w dowolnym edytorze. Nic więcej - żadnego kodu.
+
+## Bonus: komenda i „/slash"
+
+Komenda to skrót, który uruchamia gotowe zadanie. Wpisujesz `/ingest`, a asystent wie, co zrobić - trochę jak makro albo skrót klawiszowy. Kurs używa kilku takich komend; poznasz je po kolei.
+
+## To wszystkie „trudne" słowa
+
+Reszta kursu to już praktyka na gotowym szablonie (przygotowanej z góry bazie, którą tylko kopiujesz do siebie).
+
+
+---
+
+# Uruchom w swoim narzędziu
+
+Source: https://pawel.lipowczan.pl/llm-wiki/kurs/0-uruchom-w-swoim-narzedziu
+
+Cel tej lekcji: pokazać, gdzie i jak to odpalić - bez terminala (czarnego okna z poleceniami) i bez komend gita. Po lekcji wiesz, że działa w Twoim narzędziu, jak wołać komendy, jak zapisać zmiany bez gita i jak pobrać szablon bez gita.
+
+## Jeden warunek, reszta to szczegóły
+
+Wystarczy narzędzie, w którym **asystent AI ma dostęp do Twoich plików**. Asystent AI to program, który czyta Twoje pliki i sam wykonuje zadania. Jak ma dostęp - działasz. Nie musisz używać terminala. Nie musisz pisać komend gita.
+
+## Gdzie to działa
+
+W każdym z tych narzędzi wpisujesz polecenia w oknie czatu asystenta:
+
+- **Claude Code** - narzędzie, na którym powstał kurs.
+- **Claude Desktop** (zakładka „Code") - to samo, ale w aplikacji z okienkami, bez terminala.
+- **GitHub Copilot** (w edytorze VS Code) - bardzo popularny.
+- **Codex** - wielu użytkowników pracuje właśnie na nim.
+- **Cursor** i **Antigravity** - edytory z asystentem w bocznym panelu (jeden z użytkowników prowadzi na tym cały kurs).
+
+## Jak wołasz komendy
+
+Komenda to skrót, który uruchamia gotowe zadanie. W Claude Code i Claude Desktop (Code) piszesz wprost `/onboard`, `/ingest`. W pozostałych narzędziach albo tak samo w czacie, albo prosisz zwykłym zdaniem: *„wykonaj instrukcje z pliku `.claude/commands/ingest.md`"*. Efekt ten sam - bo te komendy to po prostu pliki z instrukcjami, które asystent czyta.
+
+## Zapis bez komend gita - trzy drogi
+
+Git to narzędzie, które zapisuje historię zmian w plikach. Nie musisz znać jego komend. Masz trzy drogi:
+
+1. Powiedz asystentowi: *„zapisz zmiany"* - zrobi to za Ciebie.
+2. Kliknij przyciski w panelu. Narzędzia oparte na edytorze VS Code (Copilot, Cursor, Antigravity) mają gotowy panel z guzikami.
+3. W trybie chmury asystent sam przygotuje zmiany do zatwierdzenia jednym kliknięciem.
+
+## Nie chcesz w ogóle gita na start?
+
+Wejdź na stronę szablonu na GitHub: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template). Kliknij zielony przycisk **„Code" → „Download ZIP"**, rozpakuj folder i otwórz go w swoim narzędziu. Tyle.
+
+## Uczciwa granica
+
+Jedyne, co NIE zadziała, to zwykła aplikacja-czat **bez dostępu do Twoich plików**. Wtedy albo wybierz jedno z narzędzi wyżej, albo podłącz do niej folder - ale to już bardziej techniczne i na start niepotrzebne.
+
+Gotowe? W następnej lekcji zakładasz katalog z szablonu i ruszamy z praktyką.
 
 
 ---

@@ -10,6 +10,12 @@ const REPO_URL = "https://github.com/plipowczan/second-brain-template";
 
 // Ordered lessons — a hardcoded mirror of src/content/kurs/*.md. Keep this in
 // sync when lessons are added/reordered (or derive it from the files later).
+// L0 basics tier (non-technical primer) sits before the main L1–L5 course.
+const BASICS = [
+  { slug: "0-co-to-drugi-mozg", title: "Co to jest drugi mózg i po co" },
+  { slug: "0-trzy-pojecia", title: "Trzy pojęcia zanim zaczniesz" },
+  { slug: "0-uruchom-w-swoim-narzedziu", title: "Uruchom w swoim narzędziu" },
+];
 const LESSONS = [
   { slug: "1-zaloz-katalog", title: "Załóż katalog z szablonu" },
   { slug: "2-onboarding", title: "Onboarding" },
@@ -17,17 +23,19 @@ const LESSONS = [
   { slug: "4-pytania-i-zarzadzanie", title: "Pytania i zarządzanie" },
   { slug: "5-rozwoj-i-publikacja", title: "Rozwój i publikacja" },
 ];
+// Full ordered chain: L0.1 → L0.2 → L0.3 → L1 → … → L5.
+const ALL_LESSONS = [...BASICS, ...LESSONS];
 
 test.describe("Kurs LLM Wiki — hub", () => {
-  test("renderuje tytuł, 5 linków do lekcji, CTA do waitlisty i link do repo", async ({
+  test("renderuje tytuł, wszystkie lekcje (L0 + L1–L5), CTA do waitlisty i link do repo", async ({
     page,
   }) => {
     await page.goto("/llm-wiki/kurs");
 
     await expect(page.locator("h1")).toContainText(/darmowy kurs/i);
 
-    // Wszystkie 5 lekcji zalinkowane.
-    for (const lesson of LESSONS) {
+    // Wszystkie lekcje (tier podstaw + kurs właściwy) zalinkowane.
+    for (const lesson of ALL_LESSONS) {
       await expect(
         page.locator(`a[href="/llm-wiki/kurs/${lesson.slug}"]`)
       ).toHaveCount(1);
@@ -38,6 +46,30 @@ test.describe("Kurs LLM Wiki — hub", () => {
 
     // Link do repo szablonu.
     await expect(page.locator(`a[href="${REPO_URL}"]`)).toHaveCount(1);
+  });
+
+  test("sekcja „Zanim zaczniesz — podstawy” jest nad listą L1–L5", async ({
+    page,
+  }) => {
+    await page.goto("/llm-wiki/kurs");
+
+    await expect(
+      page.getByRole("heading", { name: /Zanim zaczniesz - podstawy/i })
+    ).toBeVisible();
+
+    // Tier podstaw poprzedza kurs właściwy w DOM (pierwsza lekcja L0 przed L1).
+    const firstBasic = page.locator(
+      `a[href="/llm-wiki/kurs/${BASICS[0].slug}"]`
+    );
+    const firstMain = page.locator(
+      `a[href="/llm-wiki/kurs/${LESSONS[0].slug}"]`
+    );
+    const order = await firstBasic.evaluate((el, other) => {
+      const pos = el.compareDocumentPosition(other);
+      // eslint-disable-next-line no-bitwise
+      return pos & Node.DOCUMENT_POSITION_FOLLOWING ? "before" : "after";
+    }, await firstMain.elementHandle());
+    expect(order).toBe("before");
   });
 
   test("hub renderuje sekcję „Dla kogo jest ten kurs” z tą samą listą pojęć co landing", async ({
@@ -127,7 +159,7 @@ test.describe("Kurs LLM Wiki — hub", () => {
 });
 
 test.describe("Kurs LLM Wiki — lekcje", () => {
-  for (const lesson of LESSONS) {
+  for (const lesson of ALL_LESSONS) {
     test(`lekcja ${lesson.slug} renderuje h1 i CTA do /llm-wiki`, async ({
       page,
     }) => {
@@ -153,19 +185,36 @@ test.describe("Kurs LLM Wiki — lekcje", () => {
     ).toHaveCount(1);
   });
 
-  test("pierwsza lekcja bez „Poprzednia”, ostatnia bez „Następna”", async ({
+  test("pierwsza lekcja (L0.1) bez „Poprzednia”, ostatnia bez „Następna”", async ({
     page,
   }) => {
-    await page.goto("/llm-wiki/kurs/1-zaloz-katalog");
+    await page.goto("/llm-wiki/kurs/0-co-to-drugi-mozg");
     await expect(page.getByText("Poprzednia")).toHaveCount(0);
     await expect(
-      page.locator('a[href="/llm-wiki/kurs/2-onboarding"]')
+      page.locator('a[href="/llm-wiki/kurs/0-trzy-pojecia"]')
     ).toHaveCount(1);
 
     await page.goto("/llm-wiki/kurs/5-rozwoj-i-publikacja");
     await expect(page.getByText("Następna")).toHaveCount(0);
     await expect(
       page.locator('a[href="/llm-wiki/kurs/4-pytania-i-zarzadzanie"]')
+    ).toHaveCount(1);
+  });
+
+  test("łańcuch L0 → L1: L0.3 «Następna» → L1, L1 «Poprzednia» → L0.3", async ({
+    page,
+  }) => {
+    // L0.3 → następna to pierwsza lekcja kursu właściwego.
+    await page.goto("/llm-wiki/kurs/0-uruchom-w-swoim-narzedziu");
+    await expect(
+      page.locator('a[href="/llm-wiki/kurs/1-zaloz-katalog"]')
+    ).toHaveCount(1);
+
+    // L1 → poprzednia to ostatnia lekcja tieru podstaw (jedyny nowy link wstecz).
+    await page.goto("/llm-wiki/kurs/1-zaloz-katalog");
+    await expect(page.getByText("Poprzednia")).toHaveCount(1);
+    await expect(
+      page.locator('a[href="/llm-wiki/kurs/0-uruchom-w-swoim-narzedziu"]')
     ).toHaveCount(1);
   });
 
@@ -250,12 +299,12 @@ test.describe("Kurs LLM Wiki — prerender (PL-only)", () => {
     "brak dist/ — uruchom `npm run build:prerender` przed tym testem"
   );
 
-  test("hub i 5 lekcji mają statyczny HTML z meta description; brak wariantów /en", () => {
+  test("hub i wszystkie lekcje (L0 + L1–L5) mają statyczny HTML z meta description; brak wariantów /en", () => {
     const hubHtml = join(DIST, "llm-wiki", "kurs", "index.html");
     expect(existsSync(hubHtml)).toBe(true);
     expect(readFileSync(hubHtml, "utf-8")).toContain('name="description"');
 
-    for (const lesson of LESSONS) {
+    for (const lesson of ALL_LESSONS) {
       const lessonHtml = join(
         DIST,
         "llm-wiki",

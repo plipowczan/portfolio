@@ -107,6 +107,30 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs"/>
   </url>
   <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/0-co-to-drugi-mozg</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/0-co-to-drugi-mozg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/0-co-to-drugi-mozg"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/0-trzy-pojecia</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/0-trzy-pojecia"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/0-trzy-pojecia"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/0-uruchom-w-swoim-narzedziu</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/0-uruchom-w-swoim-narzedziu"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/0-uruchom-w-swoim-narzedziu"/>
+  </url>
+  <url>
     <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
