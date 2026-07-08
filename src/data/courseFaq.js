@@ -3,9 +3,9 @@
 // accordion, no schema). Single copy so the two pages cannot drift. The
 // `surfaces` field stays per entry so a future item can target one page only.
 //
-// Source of truth for the objections themselves:
-// agentic-ai-private/context/plsoft/projects/SECOND_BRAIN_KURS/data/obiekcje-klientow.md
-// New objections land there first; entries here are plain-Polish adaptations
+// Source of truth for the objections themselves: the internal
+// "obiekcje-klientow.md" notes in the (private, out-of-repo) course project
+// docs. New objections land there first; entries here are plain-Polish adaptations
 // following .claude/rules/content/10-prosty-polski.md (terms defined at first
 // use per page; hub and landing both render the prerequisites list earlier,
 // so LLM/agent/markdown/git/RAG/embeddings are already glossed on-page).

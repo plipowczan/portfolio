@@ -53,9 +53,13 @@ const CourseFaq = ({ surface }) => {
                   ▸
                 </span>
                 <span>
-                  <span className="text-gray-600">[[</span>
+                  <span className="text-gray-600" aria-hidden="true">
+                    [[
+                  </span>
                   {entry.question}
-                  <span className="text-gray-600">]]</span>
+                  <span className="text-gray-600" aria-hidden="true">
+                    ]]
+                  </span>
                 </span>
               </summary>
               <p className="mt-2 pl-5 text-sm leading-relaxed text-gray-400 md:text-base">
@@ -69,9 +73,13 @@ const CourseFaq = ({ surface }) => {
           {entries.map((entry) => (
             <div key={entry.id} className="space-y-1">
               <dt className="font-mono text-base text-white">
-                <span className="text-gray-600">[[</span>
+                <span className="text-gray-600" aria-hidden="true">
+                  [[
+                </span>
                 {entry.question}
-                <span className="text-gray-600">]]</span>
+                <span className="text-gray-600" aria-hidden="true">
+                  ]]
+                </span>
               </dt>
               <dd className="text-sm leading-relaxed text-gray-400 md:text-base">
                 {entry.answer}
