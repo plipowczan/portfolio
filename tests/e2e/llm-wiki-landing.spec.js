@@ -59,6 +59,71 @@ test.describe("Landing LLM Wiki — treść", () => {
     });
     expect(sectionBeforeForm).toBe(true);
   });
+
+  test("blok obiekcji: pod formularzem, TLDR przy CTA, bez FAQPage i bez linków", async ({
+    page,
+  }) => {
+    await page.goto("/llm-wiki");
+
+    // TLDR obiekcji „po co płacić” w copy przy formularzu.
+    await expect(
+      page.getByText(/Metoda, szablon i kurs są darmowe/i)
+    ).toBeVisible();
+
+    // Blok obiekcji obecny — pełny zestaw (te same 4 wpisy co hub), każdy
+    // jako akordeon: domyślnie zwinięty, odpowiedź rozwija się po kliknięciu.
+    const faq = page.getByTestId("course-faq");
+    for (const question of [
+      "Po co mi taka baza?",
+      "Co, gdy narzędzie padnie albo zniknie internet?",
+      "Agent ma grep - po co mu jeszcze indeks?",
+      "Po co płacić, skoro sam to zbuduję?",
+    ]) {
+      await expect(
+        faq.locator("summary", { hasText: question })
+      ).toBeVisible();
+    }
+    const buildVsBuy = faq.locator("details", {
+      has: page.locator("summary", {
+        hasText: "Po co płacić, skoro sam to zbuduję?",
+      }),
+    });
+    await expect(buildVsBuy.locator("summary")).toBeVisible();
+    const answer = buildVsBuy.locator("p", { hasText: "Masz rację" });
+    await expect(answer).toBeHidden();
+    await buildVsBuy.locator("summary").click();
+    await expect(answer).toBeVisible();
+
+    // Blok występuje PO formularzu w kolejności dokumentu.
+    const formBeforeBlock = await page.evaluate(() => {
+      const block = document.querySelector('[data-testid="course-faq"]');
+      const form = document.querySelector("form");
+      return Boolean(
+        form &&
+          block &&
+          form.compareDocumentPosition(block) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+      );
+    });
+    expect(formBeforeBlock).toBe(true);
+
+    // GATE: blok nie zawiera żadnych linków (repo i kurs zabramkowane do zapisu).
+    await expect(faq.locator("a")).toHaveCount(0);
+
+    // Landing nie emituje FAQPage JSON-LD (kanoniczne FAQ = hub kursu).
+    const hasFaqSchema = await page.evaluate(() =>
+      Array.from(
+        document.querySelectorAll('script[type="application/ld+json"]')
+      ).some((s) => {
+        try {
+          return JSON.parse(s.textContent)["@type"] === "FAQPage";
+        } catch {
+          return false;
+        }
+      })
+    );
+    expect(hasFaqSchema).toBe(false);
+  });
 });
 
 test.describe("Landing LLM Wiki — waitlist form", () => {

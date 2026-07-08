@@ -13,8 +13,11 @@
 
 ```jsx
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 
+/**
+ * Short description of the component.
+ * @param {{ prop1: string, prop2: number }} props
+ */
 const ComponentName = ({ prop1, prop2 }) => {
   // 1. Hooks
   const [state, setState] = useState(null);
@@ -33,13 +36,12 @@ const ComponentName = ({ prop1, prop2 }) => {
   return <div>{/* content */}</div>;
 };
 
-ComponentName.propTypes = {
-  prop1: PropTypes.string,
-  prop2: PropTypes.number,
-};
-
 export default ComponentName;
 ```
+
+> **No PropTypes**: `prop-types` is NOT a dependency of this project. Importing it
+> fails module resolution in Vite dev and blanks the entire app. Describe props
+> with a JSDoc comment instead.
 
 ## Design System Integration
 

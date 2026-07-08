@@ -45,7 +45,7 @@
 - **Props**: Use destructuring (`const Component = ({ prop1 }) => {}`).
 - **Null Safety**: Use optional chaining (`?.`) and nullish coalescing (`??`).
 - **Complexity**: Keep components focused (< 200 lines). Extract logic to custom hooks.
-- **Type Checking**: Use PropTypes.
+- **Type Checking**: No PropTypes — `prop-types` is NOT a project dependency (importing it breaks the whole Vite module graph). Document props with JSDoc; validate data at module boundaries (see loaders in `src/data/`).
 
 ### Naming Conventions
 

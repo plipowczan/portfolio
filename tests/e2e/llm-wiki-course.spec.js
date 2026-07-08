@@ -56,6 +56,74 @@ test.describe("Kurs LLM Wiki — hub", () => {
       audience.getByText(/agent od Anthropic działający w terminalu/i)
     ).toBeVisible();
   });
+
+  test("hub renderuje FAQ z obiekcjami i emituje FAQPage JSON-LD z danych", async ({
+    page,
+  }) => {
+    await page.goto("/llm-wiki/kurs");
+
+    const faq = page.getByTestId("course-faq");
+    await expect(
+      faq.getByRole("heading", { name: "Najczęstsze obiekcje" })
+    ).toBeVisible();
+
+    // Co najmniej 3 wpisy; obiekcje „po co”, „build vs buy”, „grep vs indeks”.
+    await expect(faq.locator("dt")).not.toHaveCount(0);
+    for (const question of [
+      "Po co mi taka baza?",
+      "Po co płacić, skoro sam to zbuduję?",
+      "Agent ma grep - po co mu jeszcze indeks?",
+    ]) {
+      await expect(faq.locator("dt", { hasText: question })).toBeVisible();
+    }
+    expect(await faq.locator("dt").count()).toBeGreaterThanOrEqual(3);
+
+    // Blok FAQ nie dodaje linków (hub ma dokładnie jedno CTA do /llm-wiki).
+    await expect(faq.locator("a")).toHaveCount(0);
+
+    // FAQPage JSON-LD wstrzykiwane przez StructuredData (useEffect) — poll.
+    await expect
+      .poll(async () =>
+        page.evaluate(() => {
+          const scripts = Array.from(
+            document.querySelectorAll('script[type="application/ld+json"]')
+          );
+          const faqSchema = scripts
+            .map((s) => {
+              try {
+                return JSON.parse(s.textContent);
+              } catch {
+                return null;
+              }
+            })
+            .find((s) => s && s["@type"] === "FAQPage");
+          return faqSchema ? faqSchema.mainEntity.map((q) => q.name) : null;
+        })
+      )
+      .not.toBeNull();
+
+    const schemaQuestions = await page.evaluate(() => {
+      const scripts = Array.from(
+        document.querySelectorAll('script[type="application/ld+json"]')
+      );
+      const faqSchema = scripts
+        .map((s) => {
+          try {
+            return JSON.parse(s.textContent);
+          } catch {
+            return null;
+          }
+        })
+        .find((s) => s && s["@type"] === "FAQPage");
+      return faqSchema.mainEntity.map((q) => q.name);
+    });
+
+    // Pytania w schemie odpowiadają wyrenderowanym wpisom.
+    const renderedQuestions = await faq.locator("dt").allTextContents();
+    for (const name of schemaQuestions) {
+      expect(renderedQuestions.some((text) => text.includes(name))).toBe(true);
+    }
+  });
 });
 
 test.describe("Kurs LLM Wiki — lekcje", () => {

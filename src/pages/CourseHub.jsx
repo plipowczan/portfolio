@@ -3,11 +3,24 @@ import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import GrowingNetworkBackground from "../components/animations/GrowingNetworkBackground";
 import CourseAudience from "../components/sections/CourseAudience";
+import CourseFaq from "../components/sections/CourseFaq";
 import SEO from "../components/seo/SEO";
+import StructuredData from "../components/seo/StructuredData";
+import { courseFaq } from "../data/courseFaq";
 import { coursePosts } from "../data/coursePosts";
+import { generateFAQSchema } from "../utils/faqExtractor";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
 const REPO_URL = "https://github.com/plipowczan/second-brain-template";
+
+// FAQPage JSON-LD built straight from the data module (no DOM extraction —
+// that path exists for markdown lessons, where the DOM is the only structured
+// source). The hub is the only non-lesson page emitting FAQ schema; the
+// landing renders a subset of the same entries without markup.
+const HUB_FAQ_SCHEMA = generateFAQSchema(
+  courseFaq.filter((entry) => entry.surfaces.includes("hub")),
+  `${SITE_CONFIG.url}/llm-wiki/kurs`
+);
 
 // Short one-line blurbs per lesson (from the deliverable Hub "spis lekcji").
 const LESSON_BLURBS = {
@@ -32,6 +45,8 @@ const CourseHub = () => {
         // Shared course OG (hub + all lessons use the same card).
         image="/images/og-llm-wiki-kurs.webp"
       />
+
+      <StructuredData schema={HUB_FAQ_SCHEMA} />
 
       <section className="relative flex min-h-screen items-center overflow-hidden py-24 md:py-32">
         <GrowingNetworkBackground />
@@ -95,9 +110,13 @@ const CourseHub = () => {
                       </span>
                       <div>
                         <h2 className="font-mono text-base text-white">
-                          <span className="text-gray-600">[[</span>
+                          <span className="text-gray-600" aria-hidden="true">
+                            [[
+                          </span>
                           {lesson.title}
-                          <span className="text-gray-600">]]</span>
+                          <span className="text-gray-600" aria-hidden="true">
+                            ]]
+                          </span>
                         </h2>
                         <p className="text-sm leading-relaxed text-gray-400">
                           {LESSON_BLURBS[lesson.slug] || lesson.excerpt}
@@ -111,6 +130,9 @@ const CourseHub = () => {
 
             {/* Audience + prerequisites — shared with the landing */}
             <CourseAudience />
+
+            {/* Objections FAQ — full set; source: src/data/courseFaq.js */}
+            <CourseFaq surface="hub" />
 
             {/* Repo link */}
             <motion.div variants={FADE_IN_UP}>
