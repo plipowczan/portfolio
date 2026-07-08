@@ -5,7 +5,7 @@ title: Uruchom w swoim narzędziu
 excerpt: Gdzie i jak odpalić szablon bez terminala i bez komend gita. Lista narzędzi z asystentem AI, jak wołać komendy, jak zapisać zmiany i jak pobrać przez ZIP.
 ---
 
-Cel tej lekcji: pokazać, gdzie i jak to odpalić - bez terminala (czarnego okna z poleceniami) i bez komend gita. Po lekcji wiesz, że działa w Twoim narzędziu, jak wołać komendy, jak zapisać zmiany bez gita i jak pobrać szablon bez gita.
+Cel tej lekcji: pokazać, gdzie i jak to odpalić - bez terminala (czarnego okna z poleceniami) i bez komend gita. Po lekcji wiesz, że działa w Twoim narzędziu, jak wołać komendy, jak zapisać zmiany i pobrać szablon bez komend gita oraz po co git i tak warto mieć pod spodem.
 
 ## Jeden warunek, reszta to szczegóły
 
@@ -32,6 +32,16 @@ Git to narzędzie, które zapisuje historię zmian w plikach. Nie musisz znać j
 1. Powiedz asystentowi: *„zapisz zmiany"* - zrobi to za Ciebie.
 2. Kliknij przyciski w panelu. Narzędzia oparte na edytorze VS Code (Copilot, Cursor, Antigravity) mają gotowy panel z guzikami.
 3. W trybie chmury asystent sam przygotuje zmiany do zatwierdzenia jednym kliknięciem.
+
+## Po co w ogóle git, skoro nie wpisujesz jego komend
+
+Nawet gdy nie znasz ani jednej komendy, git pracuje pod spodem i daje Ci trzy rzeczy, które bardzo się przydają - zwłaszcza gdy pliki zmienia za Ciebie asystent:
+
+- **Widzisz, co się zmieniło.** Git pokazuje diff (zestawienie „przed i po"): dokładnie te linie, które asystent dodał albo skasował. Zerkasz i wiesz, co zrobił, zamiast wierzyć na słowo.
+- **Cofasz zmiany.** Coś poszło nie tak? Wracasz do wcześniejszej wersji jednym ruchem. Nic nie ginie na stałe.
+- **Masz historię.** Każdy zapis to punkt w czasie - co i kiedy się zmieniło. Możesz przewinąć bazę do dowolnego wcześniejszego momentu.
+
+To jak automatyczna kopia zapasowa z maszyną czasu. Wszystko obsłużysz przyciskami w panelu albo prosząc asystenta zdaniem - komendy gita są opcjonalne, korzyści nie.
 
 ## Nie chcesz w ogóle gita na start?
 
