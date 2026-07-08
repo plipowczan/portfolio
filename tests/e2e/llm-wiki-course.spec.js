@@ -58,18 +58,31 @@ test.describe("Kurs LLM Wiki — hub", () => {
     ).toBeVisible();
 
     // Tier podstaw poprzedza kurs właściwy w DOM (pierwsza lekcja L0 przed L1).
-    const firstBasic = page.locator(
-      `a[href="/llm-wiki/kurs/${BASICS[0].slug}"]`
+    const basicHref = `/llm-wiki/kurs/${BASICS[0].slug}`;
+    const mainHref = `/llm-wiki/kurs/${LESSONS[0].slug}`;
+
+    // Fail fast with a clear message if either link is missing, before we
+    // reach into the DOM — avoids an opaque throw on a null element handle.
+    await expect(page.locator(`a[href="${basicHref}"]`)).toBeVisible();
+    await expect(page.locator(`a[href="${mainHref}"]`)).toBeVisible();
+
+    // Compare positions inside the page (querySelector can't leak a null
+    // handle across the boundary); null-guard returns null → assertion fails
+    // clearly rather than throwing.
+    const basicsBeforeMain = await page.evaluate(
+      ({ a, b }) => {
+        const first = document.querySelector(`a[href="${a}"]`);
+        const second = document.querySelector(`a[href="${b}"]`);
+        if (!first || !second) return null;
+        // eslint-disable-next-line no-bitwise
+        return Boolean(
+          first.compareDocumentPosition(second) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+        );
+      },
+      { a: basicHref, b: mainHref }
     );
-    const firstMain = page.locator(
-      `a[href="/llm-wiki/kurs/${LESSONS[0].slug}"]`
-    );
-    const order = await firstBasic.evaluate((el, other) => {
-      const pos = el.compareDocumentPosition(other);
-      // eslint-disable-next-line no-bitwise
-      return pos & Node.DOCUMENT_POSITION_FOLLOWING ? "before" : "after";
-    }, await firstMain.elementHandle());
-    expect(order).toBe("before");
+    expect(basicsBeforeMain).toBe(true);
   });
 
   test("hub renderuje sekcję „Dla kogo jest ten kurs” z tą samą listą pojęć co landing", async ({
