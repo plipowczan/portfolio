@@ -102,7 +102,7 @@ Ręczne pisanie wiki · wrzucanie wszystkiego bez `/ingest` · olewanie `/lint` 
 
 ### Czym `/qa` różni się od zwykłego zapytania czatu?
 
-Czat odpowiada z treningu modelu i zgaduje. `/qa` **czyta Twoją bazę** (index-first: `vault-map` → `catalog` → `graph` → trafne noty), syntetyzuje odpowiedź z `[[cytowaniami]]` i oznacza luki, gdzie baza milczy. Dostajesz odpowiedź osadzoną w Twojej wiedzy, z możliwością sprawdzenia źródeł.
+Czat odpowiada z treningu modelu i zgaduje - bez gwarancji, że w ogóle zajrzał do Twoich not. Zapytany wprost agent sam decyduje, czy i jak szukać: potrafi wczytać za dużo (koszt tokenów) albo za mało (pominie właściwą notę), a wynik zmienia się między uruchomieniami. `/qa` wymusza za każdym razem ten sam protokół: **czyta Twoją bazę** (index-first: `vault-map` → `catalog` → `graph` → trafne noty), syntetyzuje odpowiedź z `[[cytowaniami]]` i oznacza luki, gdzie baza milczy. Dostajesz odpowiedź osadzoną w Twojej wiedzy, powtarzalną i możliwą do sprawdzenia w źródłach.
 
 ### Co, gdy zapytam `/qa` o coś, czego nie ma w bazie?
 

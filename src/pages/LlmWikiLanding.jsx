@@ -4,6 +4,7 @@ import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import GrowingNetworkBackground from "../components/animations/GrowingNetworkBackground";
 import CourseAudience from "../components/sections/CourseAudience";
+import CourseFaq from "../components/sections/CourseFaq";
 import SEO from "../components/seo/SEO";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
@@ -245,7 +246,9 @@ const LlmWikiLanding = () => {
               <motion.div variants={FADE_IN_UP} className="space-y-4">
                 <p className="text-gray-300">
                   Zostaw maila - dostaniesz darmowy szablon i dam znać, gdy ruszy
-                  kurs i kolejne materiały.
+                  kurs i kolejne materiały. Metoda, szablon i kurs są darmowe -
+                  płatne będą tylko paczki gotowych, obrobionych notatek, dla
+                  tych, którzy wolą zacząć z pełną półką.
                 </p>
 
                 <form
@@ -337,6 +340,12 @@ const LlmWikiLanding = () => {
                 .
               </motion.p>
             )}
+
+            {/* Objections block — below the form by design (TLDR sits at the
+                CTA above); subset of src/data/courseFaq.js, no FAQPage schema
+                here (the course hub is the canonical FAQ page) and no links
+                (repo/course stay gated until signup). */}
+            <CourseFaq surface="landing" />
           </motion.div>
         </div>
       </section>

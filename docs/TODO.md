@@ -13,3 +13,7 @@
 - [ ] Pre-fill text for Twitter share
 - [ ] Pinterest Rich Pins
 - [ ] LinkedIn article sharing
+
+### Testing
+
+- [ ] Zbadać timeouty webkit/Mobile Safari na stronach lekcji `/llm-wiki/kurs/*` (Playwright, lokalny Windows). Testy lekcji wiszą ~1,1 min i padają; potwierdzone na `main` 2026-07-08, więc to nie regresja - hub i landing przechodzą. Podejrzani: element `<video>` (screencast) albo `networkidle` na webkit.

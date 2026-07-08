@@ -224,6 +224,10 @@ Nie pisz wiki ręcznie - to robota agenta; Ty dostarczasz źródła i dobre pyta
 
 RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2-3 trafne noty. Nie liczy wektorów ani embeddingów - do ~500 źródeł dobry indeks wystarcza, żeby zawęzić wyszukiwanie samą lekturą.
 
+### Agent ma grep - po co mu jeszcze indeks?
+
+Grep (wyszukiwanie w plikach po dokładnym słowie) wystarcza, gdy baza jest mała, a Ty znasz szukane słowo - i agent wciąż go używa. Problem zaczyna się ze skalą: przy setkach not częste słowo zwraca dziesiątki trafień, agent wczytuje je wszystkie i okno kontekstu puchnie. Do tego grep nie zna synonimów - szukając „składki zdrowotnej", nie znajdzie „ubezpieczenia zdrowotnego"; opisy i linki w indeksie niosą znaczenie, nie tylko ciąg znaków. Indeks nie zastępuje grepa: najpierw zawęża zakres do 2-3 właściwych not, a grep szuka już tylko wewnątrz nich.
+
 ### Czy do startu muszę odpalać `npm install` i `pip install`?
 
 Nie, do pierwszego pytania nie są potrzebne. `npm install` instaluje tylko narzędzia dev (Prettier - formatowanie), a `pip install -r requirements.txt` - zależności skryptów pythonowych (`/reindex`, `/lint`, `/ingest`, `render.py`). Publikację przez Quartz doklejasz osobno w lekcji 5. Sama struktura i noty to zwykły markdown - możesz zacząć od razu.
