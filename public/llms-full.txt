@@ -19956,7 +19956,7 @@ Drugi mózg to zewnętrzna pamięć na rzeczy, które warto zatrzymać. Nie w g�
 
 Z tej pamięci korzystasz nie tylko Ty. Korzysta z niej też asystent AI (program, który rozumie polecenia po ludzku i sam wykonuje zadania w Twoim imieniu). Czyta Twoje notatki i działa z Twoim kontekstem: Twoimi decyzjami, Twoim stylem, tym, co już kiedyś ustaliłeś.
 
-## A skąd nazwa „LLM Wiki"?
+## A skąd nazwa „LLM Wiki”?
 
 To po prostu sposób ułożenia tych notatek tak, żeby asystent AI szybko trafiał do właściwej rzeczy, zamiast czytać wszystko naraz. Nazwa brzmi technicznie, a idea jest prosta: uporządkowana pamięć, którą rozumie i człowiek, i maszyna.
 
@@ -19979,25 +19979,25 @@ Nie musisz znać terminala (czarnego okna, w którym wpisuje się polecenia teks
 
 Source: https://pawel.lipowczan.pl/llm-wiki/kurs/0-trzy-pojecia
 
-Cel tej lekcji: rozbroić trzy słowa, które padną w kursie. Po lekcji wiesz, co znaczy agent AI, repozytorium i markdown (i przy okazji „komenda").
+Cel tej lekcji: rozbroić trzy słowa, które padną w kursie. Po lekcji wiesz, co znaczy agent AI, repozytorium i markdown (i przy okazji „komenda”).
 
 ## Agent AI (asystent AI)
 
-Program, który rozumie polecenia po ludzku, czyta Twoje pliki i **sam wykonuje zadania** - na przykład „zrób notatkę z tego tekstu". Różnica od zwykłego czatu: agent ma dostęp do Twoich plików i działa, a nie tylko rozmawia.
+Program, który rozumie polecenia po ludzku, czyta Twoje pliki i **sam wykonuje zadania** - na przykład „zrób notatkę z tego tekstu”. Różnica od zwykłego czatu: agent ma dostęp do Twoich plików i działa, a nie tylko rozmawia.
 
 ## Repozytorium (repo)
 
-Brzmi groźnie, a to po prostu **folder z plikami** - Twoja baza. Czasem ma kopię w internecie (na GitHub, czyli w serwisie do przechowywania takich folderów), żeby nic nie zginęło. To Twoja kopia zapasowa. Tyle. Gdy w kursie pada „repo", myśl „folder".
+Brzmi groźnie, a to po prostu **folder z plikami** - Twoja baza. Czasem ma kopię w internecie (na GitHub, czyli w serwisie do przechowywania takich folderów), żeby nic nie zginęło. To Twoja kopia zapasowa. Tyle. Gdy w kursie pada „repo”, myśl „folder”.
 
 ## Markdown
 
 Zwykły tekst z bardzo prostym formatowaniem: `#` robi nagłówek, `-` robi listę, `**tekst**` pogrubia. Otwierasz go w dowolnym edytorze. Nic więcej - żadnego kodu.
 
-## Bonus: komenda i „/slash"
+## Bonus: komenda i „/slash”
 
 Komenda to skrót, który uruchamia gotowe zadanie. Wpisujesz `/ingest`, a asystent wie, co zrobić - trochę jak makro albo skrót klawiszowy. Kurs używa kilku takich komend; poznasz je po kolei.
 
-## To wszystkie „trudne" słowa
+## To wszystkie „trudne” słowa
 
 Reszta kursu to już praktyka na gotowym szablonie (przygotowanej z góry bazie, którą tylko kopiujesz do siebie).
 
@@ -20019,20 +20019,20 @@ Wystarczy narzędzie, w którym **asystent AI ma dostęp do Twoich plików**. As
 W każdym z tych narzędzi wpisujesz polecenia w oknie czatu asystenta:
 
 - **Claude Code** - narzędzie, na którym powstał kurs.
-- **Claude Desktop** (zakładka „Code") - to samo, ale w aplikacji z okienkami, bez terminala.
+- **Claude Desktop** (zakładka „Code”) - to samo, ale w aplikacji z okienkami, bez terminala.
 - **GitHub Copilot** (w edytorze VS Code) - bardzo popularny.
 - **Codex** - wielu użytkowników pracuje właśnie na nim.
 - **Cursor** i **Antigravity** - edytory z asystentem w bocznym panelu (jeden z użytkowników prowadzi na tym cały kurs).
 
 ## Jak wołasz komendy
 
-Komenda to skrót, który uruchamia gotowe zadanie. W Claude Code i Claude Desktop (Code) piszesz wprost `/onboard`, `/ingest`. W pozostałych narzędziach albo tak samo w czacie, albo prosisz zwykłym zdaniem: *„wykonaj instrukcje z pliku `.claude/commands/ingest.md`"*. Efekt ten sam - bo te komendy to po prostu pliki z instrukcjami, które asystent czyta.
+Komenda to skrót, który uruchamia gotowe zadanie. W Claude Code i Claude Desktop (Code) piszesz wprost `/onboard`, `/ingest`. W pozostałych narzędziach albo tak samo w czacie, albo prosisz zwykłym zdaniem: *„wykonaj instrukcje z pliku `.claude/commands/ingest.md`”*. Efekt ten sam - bo te komendy to po prostu pliki z instrukcjami, które asystent czyta.
 
 ## Zapis bez komend gita - trzy drogi
 
 Git to narzędzie, które zapisuje historię zmian w plikach. Nie musisz znać jego komend. Masz trzy drogi:
 
-1. Powiedz asystentowi: *„zapisz zmiany"* - zrobi to za Ciebie.
+1. Powiedz asystentowi: *„zapisz zmiany”* - zrobi to za Ciebie.
 2. Kliknij przyciski w panelu. Narzędzia oparte na edytorze VS Code (Copilot, Cursor, Antigravity) mają gotowy panel z guzikami.
 3. W trybie chmury asystent sam przygotuje zmiany do zatwierdzenia jednym kliknięciem.
 
@@ -20040,7 +20040,7 @@ Git to narzędzie, które zapisuje historię zmian w plikach. Nie musisz znać j
 
 Nawet gdy nie znasz ani jednej komendy, git pracuje pod spodem i daje Ci trzy rzeczy, które bardzo się przydają - zwłaszcza gdy pliki zmienia za Ciebie asystent:
 
-- **Widzisz, co się zmieniło.** Git pokazuje diff (zestawienie „przed i po"): dokładnie te linie, które asystent dodał albo skasował. Zerkasz i wiesz, co zrobił, zamiast wierzyć na słowo.
+- **Widzisz, co się zmieniło.** Git pokazuje diff (zestawienie „przed i po”): dokładnie te linie, które asystent dodał albo skasował. Zerkasz i wiesz, co zrobił, zamiast wierzyć na słowo.
 - **Cofasz zmiany.** Coś poszło nie tak? Wracasz do wcześniejszej wersji jednym ruchem. Nic nie ginie na stałe.
 - **Masz historię.** Każdy zapis to punkt w czasie - co i kiedy się zmieniło. Możesz przewinąć bazę do dowolnego wcześniejszego momentu.
 
@@ -20048,7 +20048,7 @@ To jak automatyczna kopia zapasowa z maszyną czasu. Wszystko obsłużysz przyci
 
 ## Nie chcesz w ogóle gita na start?
 
-Wejdź na stronę szablonu na GitHub: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template). Kliknij zielony przycisk **„Code" → „Download ZIP"**, rozpakuj folder i otwórz go w swoim narzędziu. Tyle.
+Wejdź na stronę szablonu na GitHub: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template). Kliknij zielony przycisk **„Code” → „Download ZIP”**, rozpakuj folder i otwórz go w swoim narzędziu. Tyle.
 
 ## Uczciwa granica
 
@@ -20063,7 +20063,7 @@ Gotowe? W następnej lekcji zakładasz katalog z szablonu i ruszamy z praktyką.
 
 Source: https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog
 
-Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings (liczbowych reprezentacji tekstu do wyszukiwania) i bez RAG (techniki, w której model przy każdym pytaniu przeszukuje surowe dokumenty) - architektura trzech warstw, trzy indeksy i zasada progressive disclosure (czytania od ogółu do szczegółu).
+Cel tej lekcji: przejść od „Use this template” do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings (liczbowych reprezentacji tekstu do wyszukiwania) i bez RAG (techniki, w której model przy każdym pytaniu przeszukuje surowe dokumenty) - architektura trzech warstw, trzy indeksy i zasada progressive disclosure (czytania od ogółu do szczegółu).
 
 ## Po co to
 
@@ -20071,7 +20071,7 @@ LLM Wiki (koncept Karpathy'ego) odwraca RAG: zamiast za każdym razem przeszukiw
 
 ## Weź szablon
 
-Na GitHubie „Use this template" (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Prettier - formatowanie) i `pip install -r requirements.txt` (skille pythonowe) - **do pierwszego pytania niepotrzebne**. Publikację przez Quartz doklejasz później (lekcja 5).
+Na GitHubie „Use this template” (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Prettier - formatowanie) i `pip install -r requirements.txt` (skille pythonowe) - **do pierwszego pytania niepotrzebne**. Publikację przez Quartz doklejasz później (lekcja 5).
 
 Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).
 
@@ -20079,11 +20079,11 @@ Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/
 
 Cały proces masz na wideo u góry. Poniżej to samo w krokach - ścieżka przez przeglądarkę + GitHub Desktop (najprościej dla każdego).
 
-**1. Wejdź na repo szablonu.** `github.com/plipowczan/second-brain-template`. Zielony przycisk **„Use this template"** w prawym górnym rogu.
+**1. Wejdź na repo szablonu.** `github.com/plipowczan/second-brain-template`. Zielony przycisk **„Use this template”** w prawym górnym rogu.
 
 ![Strona szablonu second-brain-template na GitHub z przyciskiem Use this template](/images/kurs/1-zaloz-katalog-01.webp)
 
-**2. „Use this template" → „Create a new repository".** Właściciel = Ty, **Repository name** = np. `brain-test`, widoczność Public lub Private (Twój wybór). Kliknij „Create repository".
+**2. „Use this template” → „Create a new repository”.** Właściciel = Ty, **Repository name** = np. `brain-test`, widoczność Public lub Private (Twój wybór). Kliknij „Create repository”.
 
 ![Formularz tworzenia nowego repozytorium z szablonu - pole Repository name](/images/kurs/1-zaloz-katalog-02.webp)
 
@@ -20091,7 +20091,7 @@ Po chwili masz **własne repo** z całą zawartością szablonu (tu: `brain-test
 
 ![Nowe repozytorium brain-test utworzone z szablonu](/images/kurs/1-zaloz-katalog-03.webp)
 
-**3. Sklonuj repo lokalnie.** Zielony **„Code" → „Open with GitHub Desktop"** (albo skopiuj URL HTTPS i użyj `git clone`).
+**3. Sklonuj repo lokalnie.** Zielony **„Code” → „Open with GitHub Desktop”** (albo skopiuj URL HTTPS i użyj `git clone`).
 
 ![Menu Code z opcją Open with GitHub Desktop](/images/kurs/1-zaloz-katalog-04.webp)
 
@@ -20099,7 +20099,7 @@ Po chwili masz **własne repo** z całą zawartością szablonu (tu: `brain-test
 
 ![Okno Clone a repository w GitHub Desktop - URL i ścieżka lokalna](/images/kurs/1-zaloz-katalog-05.webp)
 
-**5. Otwórz w edytorze.** Po sklonowaniu GitHub Desktop proponuje **„Open in Visual Studio Code"** (Ctrl+Shift+A).
+**5. Otwórz w edytorze.** Po sklonowaniu GitHub Desktop proponuje **„Open in Visual Studio Code”** (Ctrl+Shift+A).
 
 ![GitHub Desktop po klonie - przycisk Open in Visual Studio Code](/images/kurs/1-zaloz-katalog-06.webp)
 
@@ -20109,7 +20109,7 @@ Po chwili masz **własne repo** z całą zawartością szablonu (tu: `brain-test
 
 ## 🤖 Gotowy prompt - niech agent założy repo
 
-Ścieżka przez przeglądarkę („Use this template" wyżej) jest najprostsza. Jeśli wolisz, żeby **Claude Code sam** utworzył Twoje repo i sklonował je lokalnie - otwórz Claude Code w folderze na projekty i wklej (podmień `<nazwa-repo>`):
+Ścieżka przez przeglądarkę („Use this template” wyżej) jest najprostsza. Jeśli wolisz, żeby **Claude Code sam** utworzył Twoje repo i sklonował je lokalnie - otwórz Claude Code w folderze na projekty i wklej (podmień `<nazwa-repo>`):
 
 ```text
 Utwórz moje własne repo z szablonu second-brain i sklonuj je tutaj.
@@ -20160,7 +20160,7 @@ brain-test/
 **Pliki schemy (znikają po `/onboard`):**
 
 - **`CLAUDE.template.md` / `AGENTS.template.md`** - kontrakt agenta z placeholderami, czyli polami do podmiany (`{{KB_NAME}}`, `{{KB_OWNER}}`, `{{TOPIC_TABLE}}`, ...). `/onboard` wypełnia je i zapisuje jako `CLAUDE.md` / `AGENTS.md`. Ich obecność to znak, że baza jest jeszcze nieskonfigurowana.
-- **`content/WRITING_STYLE.template.md`** - szablon Twojego „głosu" (osoba, formalność, emoji w nagłówkach). `/onboard` wypełnia go i zapisuje jako `content/WRITING_STYLE.md`.
+- **`content/WRITING_STYLE.template.md`** - szablon Twojego „głosu” (osoba, formalność, emoji w nagłówkach). `/onboard` wypełnia go i zapisuje jako `content/WRITING_STYLE.md`.
 
 **Pozostałe pliki:**
 
@@ -20179,7 +20179,7 @@ brain-test/
 - **`templates/`** - szablony not per typ: `basic_notes.md`, `book.md`, `knowledge_note_info.md`, `knowledge_note_how_to.md`, `tool.md`.
 - **`REFERENCE/`** - wzorce na start: `Example Note.md` i `Wikilinks Explained.md` (jak wygląda dobra nota i jak działają `[[linki]]`).
 
-To „**pusty, ale uzbrojony**" brain - cała mechanika gotowa, brak tylko Twojej wiedzy.
+To „**pusty, ale uzbrojony**” brain - cała mechanika gotowa, brak tylko Twojej wiedzy.
 
 ## Architektura - 3 warstwy
 
@@ -20195,7 +20195,7 @@ To „**pusty, ale uzbrojony**" brain - cała mechanika gotowa, brak tylko Twoje
 
 Porównaj dwa podejścia do tego samego pytania:
 
-- **Klasyczny RAG - „wrzuć wszystko".** Do kontekstu ląduje np. 35 000 tokenów notatek i historii, z czego realnie trafne jest może 2 000. Efektywność ~6%. Reszta zabiera uwagę modelu i miejsce na właściwe zadanie.
+- **Klasyczny RAG - „wrzuć wszystko”.** Do kontekstu ląduje np. 35 000 tokenów notatek i historii, z czego realnie trafne jest może 2 000. Efektywność ~6%. Reszta zabiera uwagę modelu i miejsce na właściwe zadanie.
 - **Index-first - progressive disclosure.** Agent czyta najpierw **indeks** (~kilkaset tokenów): co istnieje, jakiego typu, z jakimi tagami. Na tej podstawie pobiera **tylko** 2-3 trafne noty (~kilkaset tokenów). Trafność bliska 100%, a okno kontekstu zostaje wolne na myślenie.
 
 To dlatego baza działa **bez embeddings i bez RAG do ~500 źródeł**: nie trzeba liczyć wektorów, gdy dobry indeks pozwala agentowi zawęzić wyszukiwanie samą lekturą.
@@ -20206,7 +20206,7 @@ Trzy indeksy w `content/_indexes/` to ten sam vault widziany z trzech odległoś
 
 ### vault-map.md - mapa z lotu ptaka (L0)
 
-Co gdzie leży: tabela folderów (ile not, jakie typy, dominujące tagi), chmura tagów i lista ostatnich zmian. Jedna „strona", z której agent wybiera **folder**, nie notę.
+Co gdzie leży: tabela folderów (ile not, jakie typy, dominujące tagi), chmura tagów i lista ostatnich zmian. Jedna „strona”, z której agent wybiera **folder**, nie notę.
 
 ```text
 ---
@@ -20230,7 +20230,7 @@ agents:29  ai:119  claude-code:38  context-engineering:11  rag:10  skills:16 ...
 - 2026-06-25 CODE/TOOLS/Git (enhance - uzupełniony stub + linki)
 ```
 
-Czytając to, agent od razu wie: „temat o agentach i tokenach? → folder `AI/KNOWLEDGE/INFO`". Zawęża, zanim cokolwiek otworzy.
+Czytając to, agent od razu wie: „temat o agentach i tokenach? → folder `AI/KNOWLEDGE/INFO`”. Zawęża, zanim cokolwiek otworzy.
 
 ### catalog.md - jedna linia na notę (L1)
 
@@ -20259,9 +20259,9 @@ AI/KNOWLEDGE/INFO/Progressive Disclosure -> AI/KNOWLEDGE/INFO/Context Engineerin
 Zapytanie: `/qa "jak ograniczyć zużycie tokenów w agencie?"`
 
 1. **vault-map (L0):** agent czyta mapę (~jedna strona). Widzi, że temat pasuje do `AI/KNOWLEDGE/INFO` (tagi `context-engineering`, `token-optimization`). Zawęża do tego folderu.
-2. **catalog (L1):** czyta tylko linie tego folderu. Po streszczeniach wybiera 2 noty: „Token Optimization for Claude Code" i „Progressive Disclosure".
+2. **catalog (L1):** czyta tylko linie tego folderu. Po streszczeniach wybiera 2 noty: „Token Optimization for Claude Code” i „Progressive Disclosure”.
 3. **Pełne noty (Layer 2):** otwiera **tylko te 2** - nie 330.
-4. **graph (L2):** widzi, że obie linkują do „Context Engineering", więc dociąga ją, bo spina temat.
+4. **graph (L2):** widzi, że obie linkują do „Context Engineering”, więc dociąga ją, bo spina temat.
 
 Efekt: agent przeczytał ~3 noty zamiast całej bazy. Kilkaset tokenów indeksu + kilka trafnych not - zamiast wrzucania wszystkiego. To jest progressive disclosure w akcji.
 
@@ -20281,7 +20281,7 @@ RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę
 
 ### Agent ma grep - po co mu jeszcze indeks?
 
-Grep (wyszukiwanie w plikach po dokładnym słowie) wystarcza, gdy baza jest mała, a Ty znasz szukane słowo - i agent wciąż go używa. Problem zaczyna się ze skalą: przy setkach not częste słowo zwraca dziesiątki trafień, agent wczytuje je wszystkie i okno kontekstu puchnie. Do tego grep nie zna synonimów - szukając „składki zdrowotnej", nie znajdzie „ubezpieczenia zdrowotnego"; opisy i linki w indeksie niosą znaczenie, nie tylko ciąg znaków. Indeks nie zastępuje grepa: najpierw zawęża zakres do 2-3 właściwych not, a grep szuka już tylko wewnątrz nich.
+Grep (wyszukiwanie w plikach po dokładnym słowie) wystarcza, gdy baza jest mała, a Ty znasz szukane słowo - i agent wciąż go używa. Problem zaczyna się ze skalą: przy setkach not częste słowo zwraca dziesiątki trafień, agent wczytuje je wszystkie i okno kontekstu puchnie. Do tego grep nie zna synonimów - szukając „składki zdrowotnej”, nie znajdzie „ubezpieczenia zdrowotnego”; opisy i linki w indeksie niosą znaczenie, nie tylko ciąg znaków. Indeks nie zastępuje grepa: najpierw zawęża zakres do 2-3 właściwych not, a grep szuka już tylko wewnątrz nich.
 
 ### Czy do startu muszę odpalać `npm install` i `pip install`?
 
@@ -20295,7 +20295,7 @@ Twój wybór; baza to zwykłe repo git i działa tak samo w obu trybach. Prywatn
 
 Szablon jest darmowy, a cała baza to pliki markdown w Twoim repo - żadnej zewnętrznej bazy danych, wektorowej usługi ani API do przechowywania wiedzy. Potrzebujesz Claude Code do pracy z agentem oraz (opcjonalnie) Pythona do skryptowych skilli. Nic nie wychodzi na zewnątrz, dopóki sam nie opublikujesz.
 
-### Co znaczy, że baza jest „pusta, ale uzbrojona"?
+### Co znaczy, że baza jest „pusta, ale uzbrojona”?
 
 Cała mechanika jest gotowa od pierwszej minuty: slash-komendy, skille, trzy indeksy nawigacyjne, hook ładujący mapę vaultu, kontrakt frontmatteru (`schema.yml`) i szablony not. Brakuje wyłącznie Twojej wiedzy. Nie budujesz narzędzi - od razu ich używasz, a baza rośnie z każdym źródłem.
 
@@ -20312,7 +20312,7 @@ Source: https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding
 
 Cel tej lekcji: przejść **cały onboarding krok po kroku** (onboarding = pierwsza konfiguracja bazy) na konkretnym przykładzie. Po lekcji masz wygenerowaną schema (`CLAUDE.md` - plik zasad Twojej bazy), foldery tematów i puste, ale gotowe indeksy - i wiesz dokładnie, co dzieje się pod spodem.
 
-Prowadzę Cię przez **realny przebieg** (screeny z prawdziwej sesji): **Anna** stawia bazę „Baza Anny" po polsku, na tematach `AI`, `BUSINESS`, `HEALTH`. Twoje odpowiedzi będą inne - proces jest ten sam.
+Prowadzę Cię przez **realny przebieg** (screeny z prawdziwej sesji): **Anna** stawia bazę „Baza Anny” po polsku, na tematach `AI`, `BUSINESS`, `HEALTH`. Twoje odpowiedzi będą inne - proces jest ten sam.
 
 ## Warunek startu
 
@@ -20324,11 +20324,11 @@ Onboarding odpalasz **raz**, na świeżym klonie. Kreator rozpoznaje świeży kl
 
 ![Sesja Claude Code otwarta na repo bazy (brain-test) z wpisanym /onboard](/images/kurs/2-onboarding-01.webp)
 
-Jeśli `CLAUDE.template.md` już nie istnieje (baza była konfigurowana), kreator nie nadpisze niczego - zaproponuje **ponowną konfigurację** (patrz „Powtarzalność" niżej).
+Jeśli `CLAUDE.template.md` już nie istnieje (baza była konfigurowana), kreator nie nadpisze niczego - zaproponuje **ponowną konfigurację** (patrz „Powtarzalność” niżej).
 
 ## Faza 1 - Wywiad (jedno pytanie na raz)
 
-Kreator prowadzi **sześć pytań, pojedynczo** - wybierasz z gotowych opcji albo wpisujesz swoje. Po każdej odpowiedzi powtarza wybór i zapowiada następne pytanie, więc widzisz cały ślad decyzji. Poniżej realny przebieg „Bazy Anny".
+Kreator prowadzi **sześć pytań, pojedynczo** - wybierasz z gotowych opcji albo wpisujesz swoje. Po każdej odpowiedzi powtarza wybór i zapowiada następne pytanie, więc widzisz cały ślad decyzji. Poniżej realny przebieg „Bazy Anny”.
 
 **Q1 - Nazwa bazy i właściciel.** Wolny tekst; kreator podpowiada warianty (np. z Twojej tożsamości git). Anna wpisuje `Baza Anny · Anna Kowalska`.
 
@@ -20346,7 +20346,7 @@ Kreator prowadzi **sześć pytań, pojedynczo** - wybierasz z gotowych opcji alb
 
 ![Pytanie 4 - typy not: wszystkie 5 domyślnych albo własny zestaw](/images/kurs/2-onboarding-05.webp)
 
-**Q5 - Głos.** Osoba + formalność. Anna: **first-person, direct & practical** („Notuję", ton casual-professional).
+**Q5 - Głos.** Osoba + formalność. Anna: **first-person, direct & practical** („Notuję”, ton casual-professional).
 
 ![Pytanie 5 - głos: osoba i formalność](/images/kurs/2-onboarding-06.webp)
 
@@ -20385,7 +20385,7 @@ Potem, krok po kroku (widać to na screenie):
 1. **Wypełnia trzy pliki schematu** z szablonów (skrypt `render.py`): `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md`.
 2. **Kasuje szablony** (`*.template.md`) - dopiero gdy wszystkie trzy pliki wygenerują się poprawnie.
 3. **Tworzy foldery tematów** pod `content/`: `AI/`, `BUSINESS/`, `HEALTH/`.
-4. **Pyta o przykłady**: `content/REFERENCE/` (2 noty) + `content/_raw/inbox/sample-source.md` - usunąć czy zostawić jako samouczek. Anna wybiera **„Keep as tutorial"**.
+4. **Pyta o przykłady**: `content/REFERENCE/` (2 noty) + `content/_raw/inbox/sample-source.md` - usunąć czy zostawić jako samouczek. Anna wybiera **„Keep as tutorial”**.
 5. **Przycina szablony not** do wybranych typów (tu wszystkie 5 zostają - nic nie ubywa).
 6. **Przebudowuje indeksy** (`build_indexes.py`).
 
@@ -20395,9 +20395,9 @@ Potem, krok po kroku (widać to na screenie):
 
 Kreator drukuje podsumowanie: co powstało i co dalej.
 
-![Podsumowanie onboardingu: wygenerowane pliki, foldery tematów, indeksy, sprawdzenie zależności i „co teraz"](/images/kurs/2-onboarding-11.webp)
+![Podsumowanie onboardingu: wygenerowane pliki, foldery tematów, indeksy, sprawdzenie zależności i „co teraz”](/images/kurs/2-onboarding-11.webp)
 
-Dla „Bazy Anny" wyszło:
+Dla „Bazy Anny” wyszło:
 
 - `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md` **wygenerowane**, szablony **skasowane**,
 - foldery tematów: `content/AI/`, `content/BUSINESS/`, `content/HEALTH/`,
@@ -20421,7 +20421,7 @@ AGENTS.md                 ← wygenerowany
 content/WRITING_STYLE.md  ← wygenerowany (Twój głos)
 ```
 
-Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. Kreator **nie robi żadnego commita** („Not committed - your call").
+Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. Kreator **nie robi żadnego commita** („Not committed - your call”).
 
 **Co teraz** (kreator podpowiada):
 
@@ -20431,7 +20431,7 @@ Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. K
 
 ## Zapisz stan (git)
 
-Baza to zwykłe repo git - pierwszy commit robisz jak zawsze. Możesz to nawet zlecić agentowi („commit this"): sam doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita - trzyma Twoje odpowiedzi lokalnie).
+Baza to zwykłe repo git - pierwszy commit robisz jak zawsze. Możesz to nawet zlecić agentowi („commit this”): sam doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita - trzyma Twoje odpowiedzi lokalnie).
 
 ![Agent robi pierwszy commit świeżo skonfigurowanej bazy - czysty stan repo](/images/kurs/2-onboarding-12.webp)
 
@@ -20460,7 +20460,7 @@ Efekt ten sam co wywiad - bez klikania. Odpowiedzi lądują w `.kb-onboard.json`
 
 ## Dzień zerowy
 
-To Twój „**dzień zerowy**" - jedyny moment konfiguracji. Potem już tylko używasz: `/ingest`, `/qa`, `/lint`. Przechodzimy do karmienia bazy w lekcji 3.
+To Twój „**dzień zerowy**” - jedyny moment konfiguracji. Potem już tylko używasz: `/ingest`, `/qa`, `/lint`. Przechodzimy do karmienia bazy w lekcji 3.
 
 ## FAQ
 
@@ -20482,7 +20482,7 @@ Bo kreator wypełnia je Twoimi wartościami i zapisuje jako finalne pliki: `CLAU
 
 ### Czy `/onboard` robi commit do gita?
 
-Nie - kończy komunikatem „Not committed - your call". Pierwszy commit robisz sam (albo zlecasz agentowi: „commit this"). Agent doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita).
+Nie - kończy komunikatem „Not committed - your call”. Pierwszy commit robisz sam (albo zlecasz agentowi: „commit this”). Agent doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita).
 
 ### Czy do onboardingu potrzebuję Pythona?
 
@@ -20509,7 +20509,7 @@ W przykładzie: surowe źródło to `sample-source.md` - luźny tekst o metodzie
 
 ## Co się dzieje pod spodem (4 fazy)
 
-`/ingest` nie „wkleja pliku do wiki". Prowadzi źródło przez cztery fazy - trzy autonomiczne, jedna z jednym pytaniem do Ciebie.
+`/ingest` nie „wkleja pliku do wiki”. Prowadzi źródło przez cztery fazy - trzy autonomiczne, jedna z jednym pytaniem do Ciebie.
 
 ### Faza 0 - Pobranie z YouTube (tylko dla URL)
 
@@ -20535,14 +20535,14 @@ Dla każdego źródła agent po kolei:
 4. **Ujednolica język.** Baza trzyma jeden kanoniczny język (ten z onboardingu; przy konflikcie `CLAUDE.md`/Twoje ustawienia wygrywają nad domyślnym językiem skilla). Źródło w innym języku agent tłumaczy przy wsadzie; nazwy własne, kod, URL-e, daty i wikilinki zostają nietknięte.
 5. **Rozstawia `[[wikilinki]]`** (linki między notami zapisywane w podwójnych nawiasach) do pokrewnych not i **dopisuje linki zwrotne** w tamtych notach - to zasila graf.
 6. **Przenosi załączniki** (obrazki/PDF) do `content/ATTACHMENTS/` i poprawia odnośniki.
-7. **Przenosi źródło** z `inbox/` do `_raw/processed/` (z datą). Pusty inbox = „zrobione".
-8. **Aktualizuje 3 indeksy**: `catalog.md` (linia noty), `vault-map.md` (licznik + tagi + „recent changes"), `graph.md` (linki wychodzące + linki zwrotne na celach).
+7. **Przenosi źródło** z `inbox/` do `_raw/processed/` (z datą). Pusty inbox = „zrobione”.
+8. **Aktualizuje 3 indeksy**: `catalog.md` (linia noty), `vault-map.md` (licznik + tagi + „recent changes”), `graph.md` (linki wychodzące + linki zwrotne na celach).
 
 Jedno źródło potrafi dotknąć kilkunastu not - bo dokłada linki i linki zwrotne po całym grafie.
 
 ### Faza 3 - Kontrola (lista kontrolna)
 
-Na koniec agent sprawdza sam siebie: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Potem drukuje raport: ile źródeł, ile not powstało, ile scalono, stan indeksów (✅). Jak coś się nie zgadza - pokazuje rozbieżność, zanim powie „gotowe".
+Na koniec agent sprawdza sam siebie: czy `total_notes` się zgadza, czy nowe noty są w „recent changes”, czy każda ma linię w `catalog.md`. Potem drukuje raport: ile źródeł, ile not powstało, ile scalono, stan indeksów (✅). Jak coś się nie zgadza - pokazuje rozbieżność, zanim powie „gotowe”.
 
 ## Co dokładnie się zmienia (diff)
 
@@ -20559,7 +20559,7 @@ Raport na końcu: _1 źródło → 1 nowa nota, 0 scalonych, indeksy ✅, inbox 
 
 ## Surowe pliki vs wiki
 
-To różnica „**surowe pliki vs wiki**": bez `/ingest` nie ma linków ani indeksów - masz tylko stertę plików.
+To różnica „**surowe pliki vs wiki**”: bez `/ingest` nie ma linków ani indeksów - masz tylko stertę plików.
 
 ## Pułapki
 
@@ -20588,7 +20588,7 @@ Baza trzyma **jeden kanoniczny język** ustalony przy onboardingu, a przy konfli
 
 ### Skąd wiem, że ingest zrobił wszystko poprawnie?
 
-Faza 3 to lista kontrolna: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Na koniec dostajesz raport (ile źródeł, ile not powstało, ile scalono, stan indeksów). Dodatkowo zajrzyj w Source Control - zobaczysz na oczy pełny diff.
+Faza 3 to lista kontrolna: czy `total_notes` się zgadza, czy nowe noty są w „recent changes”, czy każda ma linię w `catalog.md`. Na koniec dostajesz raport (ile źródeł, ile not powstało, ile scalono, stan indeksów). Dodatkowo zajrzyj w Source Control - zobaczysz na oczy pełny diff.
 
 ### Jedno źródło zmieniło kilkanaście plików - czy to normalne?
 
@@ -20613,9 +20613,9 @@ Onboarding (L2) i ingest (L3) masz za sobą - baza żyje. Teraz ją **używasz**
 
 Różnicę wobec czatu najlepiej widać, gdy pytasz o coś, **czego w bazie nie ma**. Zapytaj `/qa OKF` na bazie o samych notatkach o notowaniu:
 
-![/qa o OKF - brak pokrycia: baza mówi „nie mam tego", nie zmyśla](/images/kurs/4-pytania-i-zarzadzanie-05.webp)
+![/qa o OKF - brak pokrycia: baza mówi „nie mam tego”, nie zmyśla](/images/kurs/4-pytania-i-zarzadzanie-05.webp)
 
-Baza sprawdza wszystkie noty, widzi **zero pokrycia** i mówi wprost: _„nie zmyślam odpowiedzi"_. Zamiast halucynacji dostajesz uczciwe „nie mam" + co dalej (`/ingest`, web research, `/gaps`). **Czat zgaduje; baza cytuje albo przyznaje, że nie wie.**
+Baza sprawdza wszystkie noty, widzi **zero pokrycia** i mówi wprost: _„nie zmyślam odpowiedzi”_. Zamiast halucynacji dostajesz uczciwe „nie mam” + co dalej (`/ingest`, web research, `/gaps`). **Czat zgaduje; baza cytuje albo przyznaje, że nie wie.**
 
 Teraz to samo dla tematu, który **jest** w bazie - `/qa` o Zettelkasten:
 
@@ -20699,7 +20699,7 @@ Czat odpowiada z treningu modelu i zgaduje - bez gwarancji, że w ogóle zajrza�
 
 ### Co, gdy zapytam `/qa` o coś, czego nie ma w bazie?
 
-Zamiast halucynować, baza raportuje **zero pokrycia** i mówi wprost: „nie zmyślam odpowiedzi". Dostajesz uczciwe „nie mam tego" plus co dalej: `/ingest` nowego źródła, research z sieci albo `/gaps`. To kluczowa różnica: czat zgaduje, baza cytuje albo przyznaje, że nie wie.
+Zamiast halucynować, baza raportuje **zero pokrycia** i mówi wprost: „nie zmyślam odpowiedzi”. Dostajesz uczciwe „nie mam tego” plus co dalej: `/ingest` nowego źródła, research z sieci albo `/gaps`. To kluczowa różnica: czat zgaduje, baza cytuje albo przyznaje, że nie wie.
 
 ### `/compile` vs `/enhance` - kiedy którego użyć?
 
@@ -20732,11 +20732,11 @@ Rdzeń masz z lekcji 1-4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plu
 
 ### `/gaps` - co zbudować dalej
 
-Analiza **luk wiedzy** - nie mechanicznych problemów (tym zajmuje się `/lint`), tylko braków merytorycznych: noty słabo połączone (stopień linków ≤ 1), tematy implikowane, lecz nieopisane, cienkie foldery i tagi, przeterminowane klastry. Zwraca uszeregowaną listę „do zbudowania / do połączenia" i proponuje zapis do `content/_outputs/reports/`. Nie zmienia bazy - to kompas, nie koparka. Odpalaj, gdy nie wiesz, co notować następne.
+Analiza **luk wiedzy** - nie mechanicznych problemów (tym zajmuje się `/lint`), tylko braków merytorycznych: noty słabo połączone (stopień linków ≤ 1), tematy implikowane, lecz nieopisane, cienkie foldery i tagi, przeterminowane klastry. Zwraca uszeregowaną listę „do zbudowania / do połączenia” i proponuje zapis do `content/_outputs/reports/`. Nie zmienia bazy - to kompas, nie koparka. Odpalaj, gdy nie wiesz, co notować następne.
 
 ### `/curate` - sprzątanie (przeterminowane noty)
 
-Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy"_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ `_graveyard/`), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; `_graveyard/` jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
+Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy”_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ `_graveyard/`), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; `_graveyard/` jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
 
 ### `/refactor` - przebuduj bez psucia linków
 
@@ -20760,7 +20760,7 @@ Skill generujący diagramy `.excalidraw` (proces, architektura, koncept) z pętl
 
 ## OKF / przenośność
 
-Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. „If you can `git clone` it, you can ship it."
+Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. „If you can `git clone` it, you can ship it.”
 
 ## Ścieżka rozwoju
 
@@ -20787,7 +20787,7 @@ kroku, jak wypchnąć ją na GitHub Pages. Nie publikuj niczego bez mojej zgody.
 
 ### Czym jest OKF i dlaczego baza jest przenośna?
 
-OKF (Open Knowledge Format) to standard opisany przez Google, który formalizuje wzorzec „wiedza jako zwykły markdown z frontmatterem". Twoja baza to zwykłe pliki `.md` z polem `type` - czytelne i dla agenta, i dla człowieka, bez uzależnienia od konkretnej aplikacji. Stąd „jeśli możesz to `git clone`, możesz to wysłać": przenosisz repo i cała wiedza działa dalej.
+OKF (Open Knowledge Format) to standard opisany przez Google, który formalizuje wzorzec „wiedza jako zwykły markdown z frontmatterem”. Twoja baza to zwykłe pliki `.md` z polem `type` - czytelne i dla agenta, i dla człowieka, bez uzależnienia od konkretnej aplikacji. Stąd „jeśli możesz to `git clone`, możesz to wysłać”: przenosisz repo i cała wiedza działa dalej.
 
 ### Czy muszę publikować bazę?
 

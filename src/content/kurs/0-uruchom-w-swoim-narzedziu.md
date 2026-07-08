@@ -16,20 +16,20 @@ Wystarczy narzędzie, w którym **asystent AI ma dostęp do Twoich plików**. As
 W każdym z tych narzędzi wpisujesz polecenia w oknie czatu asystenta:
 
 - **Claude Code** - narzędzie, na którym powstał kurs.
-- **Claude Desktop** (zakładka „Code") - to samo, ale w aplikacji z okienkami, bez terminala.
+- **Claude Desktop** (zakładka „Code”) - to samo, ale w aplikacji z okienkami, bez terminala.
 - **GitHub Copilot** (w edytorze VS Code) - bardzo popularny.
 - **Codex** - wielu użytkowników pracuje właśnie na nim.
 - **Cursor** i **Antigravity** - edytory z asystentem w bocznym panelu (jeden z użytkowników prowadzi na tym cały kurs).
 
 ## Jak wołasz komendy
 
-Komenda to skrót, który uruchamia gotowe zadanie. W Claude Code i Claude Desktop (Code) piszesz wprost `/onboard`, `/ingest`. W pozostałych narzędziach albo tak samo w czacie, albo prosisz zwykłym zdaniem: *„wykonaj instrukcje z pliku `.claude/commands/ingest.md`"*. Efekt ten sam - bo te komendy to po prostu pliki z instrukcjami, które asystent czyta.
+Komenda to skrót, który uruchamia gotowe zadanie. W Claude Code i Claude Desktop (Code) piszesz wprost `/onboard`, `/ingest`. W pozostałych narzędziach albo tak samo w czacie, albo prosisz zwykłym zdaniem: *„wykonaj instrukcje z pliku `.claude/commands/ingest.md`”*. Efekt ten sam - bo te komendy to po prostu pliki z instrukcjami, które asystent czyta.
 
 ## Zapis bez komend gita - trzy drogi
 
 Git to narzędzie, które zapisuje historię zmian w plikach. Nie musisz znać jego komend. Masz trzy drogi:
 
-1. Powiedz asystentowi: *„zapisz zmiany"* - zrobi to za Ciebie.
+1. Powiedz asystentowi: *„zapisz zmiany”* - zrobi to za Ciebie.
 2. Kliknij przyciski w panelu. Narzędzia oparte na edytorze VS Code (Copilot, Cursor, Antigravity) mają gotowy panel z guzikami.
 3. W trybie chmury asystent sam przygotuje zmiany do zatwierdzenia jednym kliknięciem.
 
@@ -37,7 +37,7 @@ Git to narzędzie, które zapisuje historię zmian w plikach. Nie musisz znać j
 
 Nawet gdy nie znasz ani jednej komendy, git pracuje pod spodem i daje Ci trzy rzeczy, które bardzo się przydają - zwłaszcza gdy pliki zmienia za Ciebie asystent:
 
-- **Widzisz, co się zmieniło.** Git pokazuje diff (zestawienie „przed i po"): dokładnie te linie, które asystent dodał albo skasował. Zerkasz i wiesz, co zrobił, zamiast wierzyć na słowo.
+- **Widzisz, co się zmieniło.** Git pokazuje diff (zestawienie „przed i po”): dokładnie te linie, które asystent dodał albo skasował. Zerkasz i wiesz, co zrobił, zamiast wierzyć na słowo.
 - **Cofasz zmiany.** Coś poszło nie tak? Wracasz do wcześniejszej wersji jednym ruchem. Nic nie ginie na stałe.
 - **Masz historię.** Każdy zapis to punkt w czasie - co i kiedy się zmieniło. Możesz przewinąć bazę do dowolnego wcześniejszego momentu.
 
@@ -45,7 +45,7 @@ To jak automatyczna kopia zapasowa z maszyną czasu. Wszystko obsłużysz przyci
 
 ## Nie chcesz w ogóle gita na start?
 
-Wejdź na stronę szablonu na GitHub: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template). Kliknij zielony przycisk **„Code" → „Download ZIP"**, rozpakuj folder i otwórz go w swoim narzędziu. Tyle.
+Wejdź na stronę szablonu na GitHub: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template). Kliknij zielony przycisk **„Code” → „Download ZIP”**, rozpakuj folder i otwórz go w swoim narzędziu. Tyle.
 
 ## Uczciwa granica
 

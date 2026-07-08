@@ -13,11 +13,11 @@ Rdzeń masz z lekcji 1-4: `/onboard`, `/ingest`, `/qa`, `/lint`, `/reindex`, plu
 
 ### `/gaps` - co zbudować dalej
 
-Analiza **luk wiedzy** - nie mechanicznych problemów (tym zajmuje się `/lint`), tylko braków merytorycznych: noty słabo połączone (stopień linków ≤ 1), tematy implikowane, lecz nieopisane, cienkie foldery i tagi, przeterminowane klastry. Zwraca uszeregowaną listę „do zbudowania / do połączenia" i proponuje zapis do `content/_outputs/reports/`. Nie zmienia bazy - to kompas, nie koparka. Odpalaj, gdy nie wiesz, co notować następne.
+Analiza **luk wiedzy** - nie mechanicznych problemów (tym zajmuje się `/lint`), tylko braków merytorycznych: noty słabo połączone (stopień linków ≤ 1), tematy implikowane, lecz nieopisane, cienkie foldery i tagi, przeterminowane klastry. Zwraca uszeregowaną listę „do zbudowania / do połączenia” i proponuje zapis do `content/_outputs/reports/`. Nie zmienia bazy - to kompas, nie koparka. Odpalaj, gdy nie wiesz, co notować następne.
 
 ### `/curate` - sprzątanie (przeterminowane noty)
 
-Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy"_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ `_graveyard/`), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; `_graveyard/` jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
+Okresowa higiena: ocenia każdą notę (wiek, izolacja, martwe linki, duplikaty), pisze raport segregacji do `content/_outputs/reports/` i **dopiero po Twoim potwierdzeniu** wycofuje przeterminowane noty do `content/_graveyard/`. Motto: _„`/lint` diagnozuje; `/curate` leczy”_. Domyślnie to próbny przebieg - sam raport. Akcje na notę: `archive` (→ `_graveyard/`), `merge` (→ `/refactor`), `refresh` (→ `/enhance`), `keep`. Wycofanie jest **odwracalne** (przeniesienie, nigdy `git rm`; `_graveyard/` jest wykluczony z indeksów i publikacji). Kadencja: raz na kwartał.
 
 ### `/refactor` - przebuduj bez psucia linków
 
@@ -41,7 +41,7 @@ Skill generujący diagramy `.excalidraw` (proces, architektura, koncept) z pętl
 
 ## OKF / przenośność
 
-Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. „If you can `git clone` it, you can ship it."
+Markdown + frontmatter + `index.md`/`log.md` = baza, którą da się wymienić. „If you can `git clone` it, you can ship it.”
 
 ## Ścieżka rozwoju
 
@@ -68,7 +68,7 @@ kroku, jak wypchnąć ją na GitHub Pages. Nie publikuj niczego bez mojej zgody.
 
 ### Czym jest OKF i dlaczego baza jest przenośna?
 
-OKF (Open Knowledge Format) to standard opisany przez Google, który formalizuje wzorzec „wiedza jako zwykły markdown z frontmatterem". Twoja baza to zwykłe pliki `.md` z polem `type` - czytelne i dla agenta, i dla człowieka, bez uzależnienia od konkretnej aplikacji. Stąd „jeśli możesz to `git clone`, możesz to wysłać": przenosisz repo i cała wiedza działa dalej.
+OKF (Open Knowledge Format) to standard opisany przez Google, który formalizuje wzorzec „wiedza jako zwykły markdown z frontmatterem”. Twoja baza to zwykłe pliki `.md` z polem `type` - czytelne i dla agenta, i dla człowieka, bez uzależnienia od konkretnej aplikacji. Stąd „jeśli możesz to `git clone`, możesz to wysłać”: przenosisz repo i cała wiedza działa dalej.
 
 ### Czy muszę publikować bazę?
 

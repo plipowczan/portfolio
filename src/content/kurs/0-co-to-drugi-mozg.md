@@ -19,7 +19,7 @@ Drugi mózg to zewnętrzna pamięć na rzeczy, które warto zatrzymać. Nie w g�
 
 Z tej pamięci korzystasz nie tylko Ty. Korzysta z niej też asystent AI (program, który rozumie polecenia po ludzku i sam wykonuje zadania w Twoim imieniu). Czyta Twoje notatki i działa z Twoim kontekstem: Twoimi decyzjami, Twoim stylem, tym, co już kiedyś ustaliłeś.
 
-## A skąd nazwa „LLM Wiki"?
+## A skąd nazwa „LLM Wiki”?
 
 To po prostu sposób ułożenia tych notatek tak, żeby asystent AI szybko trafiał do właściwej rzeczy, zamiast czytać wszystko naraz. Nazwa brzmi technicznie, a idea jest prosta: uporządkowana pamięć, którą rozumie i człowiek, i maszyna.
 

@@ -20,9 +20,9 @@ Onboarding (L2) i ingest (L3) masz za sobą - baza żyje. Teraz ją **używasz**
 
 Różnicę wobec czatu najlepiej widać, gdy pytasz o coś, **czego w bazie nie ma**. Zapytaj `/qa OKF` na bazie o samych notatkach o notowaniu:
 
-![/qa o OKF - brak pokrycia: baza mówi „nie mam tego", nie zmyśla](/images/kurs/4-pytania-i-zarzadzanie-05.webp)
+![/qa o OKF - brak pokrycia: baza mówi „nie mam tego”, nie zmyśla](/images/kurs/4-pytania-i-zarzadzanie-05.webp)
 
-Baza sprawdza wszystkie noty, widzi **zero pokrycia** i mówi wprost: _„nie zmyślam odpowiedzi"_. Zamiast halucynacji dostajesz uczciwe „nie mam" + co dalej (`/ingest`, web research, `/gaps`). **Czat zgaduje; baza cytuje albo przyznaje, że nie wie.**
+Baza sprawdza wszystkie noty, widzi **zero pokrycia** i mówi wprost: _„nie zmyślam odpowiedzi”_. Zamiast halucynacji dostajesz uczciwe „nie mam” + co dalej (`/ingest`, web research, `/gaps`). **Czat zgaduje; baza cytuje albo przyznaje, że nie wie.**
 
 Teraz to samo dla tematu, który **jest** w bazie - `/qa` o Zettelkasten:
 
@@ -106,7 +106,7 @@ Czat odpowiada z treningu modelu i zgaduje - bez gwarancji, że w ogóle zajrza�
 
 ### Co, gdy zapytam `/qa` o coś, czego nie ma w bazie?
 
-Zamiast halucynować, baza raportuje **zero pokrycia** i mówi wprost: „nie zmyślam odpowiedzi". Dostajesz uczciwe „nie mam tego" plus co dalej: `/ingest` nowego źródła, research z sieci albo `/gaps`. To kluczowa różnica: czat zgaduje, baza cytuje albo przyznaje, że nie wie.
+Zamiast halucynować, baza raportuje **zero pokrycia** i mówi wprost: „nie zmyślam odpowiedzi”. Dostajesz uczciwe „nie mam tego” plus co dalej: `/ingest` nowego źródła, research z sieci albo `/gaps`. To kluczowa różnica: czat zgaduje, baza cytuje albo przyznaje, że nie wie.
 
 ### `/compile` vs `/enhance` - kiedy którego użyć?
 
