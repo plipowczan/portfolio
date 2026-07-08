@@ -8,7 +8,7 @@ videoMp4: /videos/kurs/1-zaloz-katalog.mp4
 poster: /images/kurs/1-zaloz-katalog-poster.webp
 ---
 
-Cel tej lekcji: przejść od „Use this template" do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings (liczbowych reprezentacji tekstu do wyszukiwania) i bez RAG (techniki, w której model przy każdym pytaniu przeszukuje surowe dokumenty) - architektura trzech warstw, trzy indeksy i zasada progressive disclosure (czytania od ogółu do szczegółu).
+Cel tej lekcji: przejść od „Use this template” do gotowej, uzbrojonej struktury bazy. Po lekcji rozumiesz koncept LLM Wiki, masz własne repo z szablonu i wiesz, **dlaczego** ta baza działa bez embeddings (liczbowych reprezentacji tekstu do wyszukiwania) i bez RAG (techniki, w której model przy każdym pytaniu przeszukuje surowe dokumenty) - architektura trzech warstw, trzy indeksy i zasada progressive disclosure (czytania od ogółu do szczegółu).
 
 ## Po co to
 
@@ -16,7 +16,7 @@ LLM Wiki (koncept Karpathy'ego) odwraca RAG: zamiast za każdym razem przeszukiw
 
 ## Weź szablon
 
-Na GitHubie „Use this template" (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Prettier - formatowanie) i `pip install -r requirements.txt` (skille pythonowe) - **do pierwszego pytania niepotrzebne**. Publikację przez Quartz doklejasz później (lekcja 5).
+Na GitHubie „Use this template” (albo `git clone`) → własne repo. Otwórz folder w Claude Code. Opcjonalnie `npm install` (Prettier - formatowanie) i `pip install -r requirements.txt` (skille pythonowe) - **do pierwszego pytania niepotrzebne**. Publikację przez Quartz doklejasz później (lekcja 5).
 
 Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/plipowczan/second-brain-template).
 
@@ -24,11 +24,11 @@ Repo szablonu: [github.com/plipowczan/second-brain-template](https://github.com/
 
 Cały proces masz na wideo u góry. Poniżej to samo w krokach - ścieżka przez przeglądarkę + GitHub Desktop (najprościej dla każdego).
 
-**1. Wejdź na repo szablonu.** `github.com/plipowczan/second-brain-template`. Zielony przycisk **„Use this template"** w prawym górnym rogu.
+**1. Wejdź na repo szablonu.** `github.com/plipowczan/second-brain-template`. Zielony przycisk **„Use this template”** w prawym górnym rogu.
 
 ![Strona szablonu second-brain-template na GitHub z przyciskiem Use this template](/images/kurs/1-zaloz-katalog-01.webp)
 
-**2. „Use this template" → „Create a new repository".** Właściciel = Ty, **Repository name** = np. `brain-test`, widoczność Public lub Private (Twój wybór). Kliknij „Create repository".
+**2. „Use this template” → „Create a new repository”.** Właściciel = Ty, **Repository name** = np. `brain-test`, widoczność Public lub Private (Twój wybór). Kliknij „Create repository”.
 
 ![Formularz tworzenia nowego repozytorium z szablonu - pole Repository name](/images/kurs/1-zaloz-katalog-02.webp)
 
@@ -36,7 +36,7 @@ Po chwili masz **własne repo** z całą zawartością szablonu (tu: `brain-test
 
 ![Nowe repozytorium brain-test utworzone z szablonu](/images/kurs/1-zaloz-katalog-03.webp)
 
-**3. Sklonuj repo lokalnie.** Zielony **„Code" → „Open with GitHub Desktop"** (albo skopiuj URL HTTPS i użyj `git clone`).
+**3. Sklonuj repo lokalnie.** Zielony **„Code” → „Open with GitHub Desktop”** (albo skopiuj URL HTTPS i użyj `git clone`).
 
 ![Menu Code z opcją Open with GitHub Desktop](/images/kurs/1-zaloz-katalog-04.webp)
 
@@ -44,7 +44,7 @@ Po chwili masz **własne repo** z całą zawartością szablonu (tu: `brain-test
 
 ![Okno Clone a repository w GitHub Desktop - URL i ścieżka lokalna](/images/kurs/1-zaloz-katalog-05.webp)
 
-**5. Otwórz w edytorze.** Po sklonowaniu GitHub Desktop proponuje **„Open in Visual Studio Code"** (Ctrl+Shift+A).
+**5. Otwórz w edytorze.** Po sklonowaniu GitHub Desktop proponuje **„Open in Visual Studio Code”** (Ctrl+Shift+A).
 
 ![GitHub Desktop po klonie - przycisk Open in Visual Studio Code](/images/kurs/1-zaloz-katalog-06.webp)
 
@@ -54,7 +54,7 @@ Po chwili masz **własne repo** z całą zawartością szablonu (tu: `brain-test
 
 ## 🤖 Gotowy prompt - niech agent założy repo
 
-Ścieżka przez przeglądarkę („Use this template" wyżej) jest najprostsza. Jeśli wolisz, żeby **Claude Code sam** utworzył Twoje repo i sklonował je lokalnie - otwórz Claude Code w folderze na projekty i wklej (podmień `<nazwa-repo>`):
+Ścieżka przez przeglądarkę („Use this template” wyżej) jest najprostsza. Jeśli wolisz, żeby **Claude Code sam** utworzył Twoje repo i sklonował je lokalnie - otwórz Claude Code w folderze na projekty i wklej (podmień `<nazwa-repo>`):
 
 ```text
 Utwórz moje własne repo z szablonu second-brain i sklonuj je tutaj.
@@ -105,7 +105,7 @@ brain-test/
 **Pliki schemy (znikają po `/onboard`):**
 
 - **`CLAUDE.template.md` / `AGENTS.template.md`** - kontrakt agenta z placeholderami, czyli polami do podmiany (`{{KB_NAME}}`, `{{KB_OWNER}}`, `{{TOPIC_TABLE}}`, ...). `/onboard` wypełnia je i zapisuje jako `CLAUDE.md` / `AGENTS.md`. Ich obecność to znak, że baza jest jeszcze nieskonfigurowana.
-- **`content/WRITING_STYLE.template.md`** - szablon Twojego „głosu" (osoba, formalność, emoji w nagłówkach). `/onboard` wypełnia go i zapisuje jako `content/WRITING_STYLE.md`.
+- **`content/WRITING_STYLE.template.md`** - szablon Twojego „głosu” (osoba, formalność, emoji w nagłówkach). `/onboard` wypełnia go i zapisuje jako `content/WRITING_STYLE.md`.
 
 **Pozostałe pliki:**
 
@@ -124,7 +124,7 @@ brain-test/
 - **`templates/`** - szablony not per typ: `basic_notes.md`, `book.md`, `knowledge_note_info.md`, `knowledge_note_how_to.md`, `tool.md`.
 - **`REFERENCE/`** - wzorce na start: `Example Note.md` i `Wikilinks Explained.md` (jak wygląda dobra nota i jak działają `[[linki]]`).
 
-To „**pusty, ale uzbrojony**" brain - cała mechanika gotowa, brak tylko Twojej wiedzy.
+To „**pusty, ale uzbrojony**” brain - cała mechanika gotowa, brak tylko Twojej wiedzy.
 
 ## Architektura - 3 warstwy
 
@@ -140,7 +140,7 @@ To „**pusty, ale uzbrojony**" brain - cała mechanika gotowa, brak tylko Twoje
 
 Porównaj dwa podejścia do tego samego pytania:
 
-- **Klasyczny RAG - „wrzuć wszystko".** Do kontekstu ląduje np. 35 000 tokenów notatek i historii, z czego realnie trafne jest może 2 000. Efektywność ~6%. Reszta zabiera uwagę modelu i miejsce na właściwe zadanie.
+- **Klasyczny RAG - „wrzuć wszystko”.** Do kontekstu ląduje np. 35 000 tokenów notatek i historii, z czego realnie trafne jest może 2 000. Efektywność ~6%. Reszta zabiera uwagę modelu i miejsce na właściwe zadanie.
 - **Index-first - progressive disclosure.** Agent czyta najpierw **indeks** (~kilkaset tokenów): co istnieje, jakiego typu, z jakimi tagami. Na tej podstawie pobiera **tylko** 2-3 trafne noty (~kilkaset tokenów). Trafność bliska 100%, a okno kontekstu zostaje wolne na myślenie.
 
 To dlatego baza działa **bez embeddings i bez RAG do ~500 źródeł**: nie trzeba liczyć wektorów, gdy dobry indeks pozwala agentowi zawęzić wyszukiwanie samą lekturą.
@@ -151,7 +151,7 @@ Trzy indeksy w `content/_indexes/` to ten sam vault widziany z trzech odległoś
 
 ### vault-map.md - mapa z lotu ptaka (L0)
 
-Co gdzie leży: tabela folderów (ile not, jakie typy, dominujące tagi), chmura tagów i lista ostatnich zmian. Jedna „strona", z której agent wybiera **folder**, nie notę.
+Co gdzie leży: tabela folderów (ile not, jakie typy, dominujące tagi), chmura tagów i lista ostatnich zmian. Jedna „strona”, z której agent wybiera **folder**, nie notę.
 
 ```text
 ---
@@ -175,7 +175,7 @@ agents:29  ai:119  claude-code:38  context-engineering:11  rag:10  skills:16 ...
 - 2026-06-25 CODE/TOOLS/Git (enhance - uzupełniony stub + linki)
 ```
 
-Czytając to, agent od razu wie: „temat o agentach i tokenach? → folder `AI/KNOWLEDGE/INFO`". Zawęża, zanim cokolwiek otworzy.
+Czytając to, agent od razu wie: „temat o agentach i tokenach? → folder `AI/KNOWLEDGE/INFO`”. Zawęża, zanim cokolwiek otworzy.
 
 ### catalog.md - jedna linia na notę (L1)
 
@@ -204,9 +204,9 @@ AI/KNOWLEDGE/INFO/Progressive Disclosure -> AI/KNOWLEDGE/INFO/Context Engineerin
 Zapytanie: `/qa "jak ograniczyć zużycie tokenów w agencie?"`
 
 1. **vault-map (L0):** agent czyta mapę (~jedna strona). Widzi, że temat pasuje do `AI/KNOWLEDGE/INFO` (tagi `context-engineering`, `token-optimization`). Zawęża do tego folderu.
-2. **catalog (L1):** czyta tylko linie tego folderu. Po streszczeniach wybiera 2 noty: „Token Optimization for Claude Code" i „Progressive Disclosure".
+2. **catalog (L1):** czyta tylko linie tego folderu. Po streszczeniach wybiera 2 noty: „Token Optimization for Claude Code” i „Progressive Disclosure”.
 3. **Pełne noty (Layer 2):** otwiera **tylko te 2** - nie 330.
-4. **graph (L2):** widzi, że obie linkują do „Context Engineering", więc dociąga ją, bo spina temat.
+4. **graph (L2):** widzi, że obie linkują do „Context Engineering”, więc dociąga ją, bo spina temat.
 
 Efekt: agent przeczytał ~3 noty zamiast całej bazy. Kilkaset tokenów indeksu + kilka trafnych not - zamiast wrzucania wszystkiego. To jest progressive disclosure w akcji.
 
@@ -226,7 +226,7 @@ RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę
 
 ### Agent ma grep - po co mu jeszcze indeks?
 
-Grep (wyszukiwanie w plikach po dokładnym słowie) wystarcza, gdy baza jest mała, a Ty znasz szukane słowo - i agent wciąż go używa. Problem zaczyna się ze skalą: przy setkach not częste słowo zwraca dziesiątki trafień, agent wczytuje je wszystkie i okno kontekstu puchnie. Do tego grep nie zna synonimów - szukając „składki zdrowotnej", nie znajdzie „ubezpieczenia zdrowotnego"; opisy i linki w indeksie niosą znaczenie, nie tylko ciąg znaków. Indeks nie zastępuje grepa: najpierw zawęża zakres do 2-3 właściwych not, a grep szuka już tylko wewnątrz nich.
+Grep (wyszukiwanie w plikach po dokładnym słowie) wystarcza, gdy baza jest mała, a Ty znasz szukane słowo - i agent wciąż go używa. Problem zaczyna się ze skalą: przy setkach not częste słowo zwraca dziesiątki trafień, agent wczytuje je wszystkie i okno kontekstu puchnie. Do tego grep nie zna synonimów - szukając „składki zdrowotnej”, nie znajdzie „ubezpieczenia zdrowotnego”; opisy i linki w indeksie niosą znaczenie, nie tylko ciąg znaków. Indeks nie zastępuje grepa: najpierw zawęża zakres do 2-3 właściwych not, a grep szuka już tylko wewnątrz nich.
 
 ### Czy do startu muszę odpalać `npm install` i `pip install`?
 
@@ -240,7 +240,7 @@ Twój wybór; baza to zwykłe repo git i działa tak samo w obu trybach. Prywatn
 
 Szablon jest darmowy, a cała baza to pliki markdown w Twoim repo - żadnej zewnętrznej bazy danych, wektorowej usługi ani API do przechowywania wiedzy. Potrzebujesz Claude Code do pracy z agentem oraz (opcjonalnie) Pythona do skryptowych skilli. Nic nie wychodzi na zewnątrz, dopóki sam nie opublikujesz.
 
-### Co znaczy, że baza jest „pusta, ale uzbrojona"?
+### Co znaczy, że baza jest „pusta, ale uzbrojona”?
 
 Cała mechanika jest gotowa od pierwszej minuty: slash-komendy, skille, trzy indeksy nawigacyjne, hook ładujący mapę vaultu, kontrakt frontmatteru (`schema.yml`) i szablony not. Brakuje wyłącznie Twojej wiedzy. Nie budujesz narzędzi - od razu ich używasz, a baza rośnie z każdym źródłem.
 

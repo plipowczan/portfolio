@@ -67,6 +67,9 @@
 ## Kurs LLM Wiki (PL)
 
 - [LLM Wiki — darmowy kurs](https://pawel.lipowczan.pl/llm-wiki/kurs): Zbuduj własny second brain na darmowym szablonie. Krok po kroku; kurs rośnie o kolejne lekcje.
+- [Co to jest drugi mózg i po co](https://pawel.lipowczan.pl/llm-wiki/kurs/0-co-to-drugi-mozg): Drugi mózg po ludzku, bez ani jednego technicznego słowa. Czym jest zewnętrzna pamięć na wiedzę, po co ją budować i dlaczego nie trzeba umieć programować.
+- [Trzy pojęcia zanim zaczniesz](https://pawel.lipowczan.pl/llm-wiki/kurs/0-trzy-pojecia): Trzy słowa, które padną w kursie, rozbrojone po ludzku - agent AI, repozytorium i markdown. Plus bonus - co to jest komenda. Zero kodu, same konkrety.
+- [Uruchom w swoim narzędziu](https://pawel.lipowczan.pl/llm-wiki/kurs/0-uruchom-w-swoim-narzedziu): Gdzie i jak odpalić szablon bez terminala i bez komend gita. Lista narzędzi z asystentem AI, jak wołać komendy, jak zapisać zmiany i jak pobrać przez ZIP.
 - [Załóż katalog z szablonu](https://pawel.lipowczan.pl/llm-wiki/kurs/1-zaloz-katalog): Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy - architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
 - [Onboarding](https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding): Jeden wywiad /onboard konfiguruje całą bazę - schema, foldery tematów i indeksy generują się same. Krok po kroku, na konkretnym przykładzie. To Twój dzień zerowy.
 - [Pierwszy ingest](https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest): Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z linkami i frontmatterem OKF.

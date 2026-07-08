@@ -10,7 +10,7 @@ poster: /images/kurs/2-onboarding-poster.webp
 
 Cel tej lekcji: przejść **cały onboarding krok po kroku** (onboarding = pierwsza konfiguracja bazy) na konkretnym przykładzie. Po lekcji masz wygenerowaną schema (`CLAUDE.md` - plik zasad Twojej bazy), foldery tematów i puste, ale gotowe indeksy - i wiesz dokładnie, co dzieje się pod spodem.
 
-Prowadzę Cię przez **realny przebieg** (screeny z prawdziwej sesji): **Anna** stawia bazę „Baza Anny" po polsku, na tematach `AI`, `BUSINESS`, `HEALTH`. Twoje odpowiedzi będą inne - proces jest ten sam.
+Prowadzę Cię przez **realny przebieg** (screeny z prawdziwej sesji): **Anna** stawia bazę „Baza Anny” po polsku, na tematach `AI`, `BUSINESS`, `HEALTH`. Twoje odpowiedzi będą inne - proces jest ten sam.
 
 ## Warunek startu
 
@@ -22,11 +22,11 @@ Onboarding odpalasz **raz**, na świeżym klonie. Kreator rozpoznaje świeży kl
 
 ![Sesja Claude Code otwarta na repo bazy (brain-test) z wpisanym /onboard](/images/kurs/2-onboarding-01.webp)
 
-Jeśli `CLAUDE.template.md` już nie istnieje (baza była konfigurowana), kreator nie nadpisze niczego - zaproponuje **ponowną konfigurację** (patrz „Powtarzalność" niżej).
+Jeśli `CLAUDE.template.md` już nie istnieje (baza była konfigurowana), kreator nie nadpisze niczego - zaproponuje **ponowną konfigurację** (patrz „Powtarzalność” niżej).
 
 ## Faza 1 - Wywiad (jedno pytanie na raz)
 
-Kreator prowadzi **sześć pytań, pojedynczo** - wybierasz z gotowych opcji albo wpisujesz swoje. Po każdej odpowiedzi powtarza wybór i zapowiada następne pytanie, więc widzisz cały ślad decyzji. Poniżej realny przebieg „Bazy Anny".
+Kreator prowadzi **sześć pytań, pojedynczo** - wybierasz z gotowych opcji albo wpisujesz swoje. Po każdej odpowiedzi powtarza wybór i zapowiada następne pytanie, więc widzisz cały ślad decyzji. Poniżej realny przebieg „Bazy Anny”.
 
 **Q1 - Nazwa bazy i właściciel.** Wolny tekst; kreator podpowiada warianty (np. z Twojej tożsamości git). Anna wpisuje `Baza Anny · Anna Kowalska`.
 
@@ -44,7 +44,7 @@ Kreator prowadzi **sześć pytań, pojedynczo** - wybierasz z gotowych opcji alb
 
 ![Pytanie 4 - typy not: wszystkie 5 domyślnych albo własny zestaw](/images/kurs/2-onboarding-05.webp)
 
-**Q5 - Głos.** Osoba + formalność. Anna: **first-person, direct & practical** („Notuję", ton casual-professional).
+**Q5 - Głos.** Osoba + formalność. Anna: **first-person, direct & practical** („Notuję”, ton casual-professional).
 
 ![Pytanie 5 - głos: osoba i formalność](/images/kurs/2-onboarding-06.webp)
 
@@ -83,7 +83,7 @@ Potem, krok po kroku (widać to na screenie):
 1. **Wypełnia trzy pliki schematu** z szablonów (skrypt `render.py`): `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md`.
 2. **Kasuje szablony** (`*.template.md`) - dopiero gdy wszystkie trzy pliki wygenerują się poprawnie.
 3. **Tworzy foldery tematów** pod `content/`: `AI/`, `BUSINESS/`, `HEALTH/`.
-4. **Pyta o przykłady**: `content/REFERENCE/` (2 noty) + `content/_raw/inbox/sample-source.md` - usunąć czy zostawić jako samouczek. Anna wybiera **„Keep as tutorial"**.
+4. **Pyta o przykłady**: `content/REFERENCE/` (2 noty) + `content/_raw/inbox/sample-source.md` - usunąć czy zostawić jako samouczek. Anna wybiera **„Keep as tutorial”**.
 5. **Przycina szablony not** do wybranych typów (tu wszystkie 5 zostają - nic nie ubywa).
 6. **Przebudowuje indeksy** (`build_indexes.py`).
 
@@ -93,9 +93,9 @@ Potem, krok po kroku (widać to na screenie):
 
 Kreator drukuje podsumowanie: co powstało i co dalej.
 
-![Podsumowanie onboardingu: wygenerowane pliki, foldery tematów, indeksy, sprawdzenie zależności i „co teraz"](/images/kurs/2-onboarding-11.webp)
+![Podsumowanie onboardingu: wygenerowane pliki, foldery tematów, indeksy, sprawdzenie zależności i „co teraz”](/images/kurs/2-onboarding-11.webp)
 
-Dla „Bazy Anny" wyszło:
+Dla „Bazy Anny” wyszło:
 
 - `CLAUDE.md`, `AGENTS.md`, `content/WRITING_STYLE.md` **wygenerowane**, szablony **skasowane**,
 - foldery tematów: `content/AI/`, `content/BUSINESS/`, `content/HEALTH/`,
@@ -119,7 +119,7 @@ AGENTS.md                 ← wygenerowany
 content/WRITING_STYLE.md  ← wygenerowany (Twój głos)
 ```
 
-Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. Kreator **nie robi żadnego commita** („Not committed - your call").
+Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. Kreator **nie robi żadnego commita** („Not committed - your call”).
 
 **Co teraz** (kreator podpowiada):
 
@@ -129,7 +129,7 @@ Szablony `*.template.md` zniknęły - to znak, że baza jest zainicjalizowana. K
 
 ## Zapisz stan (git)
 
-Baza to zwykłe repo git - pierwszy commit robisz jak zawsze. Możesz to nawet zlecić agentowi („commit this"): sam doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita - trzyma Twoje odpowiedzi lokalnie).
+Baza to zwykłe repo git - pierwszy commit robisz jak zawsze. Możesz to nawet zlecić agentowi („commit this”): sam doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita - trzyma Twoje odpowiedzi lokalnie).
 
 ![Agent robi pierwszy commit świeżo skonfigurowanej bazy - czysty stan repo](/images/kurs/2-onboarding-12.webp)
 
@@ -158,7 +158,7 @@ Efekt ten sam co wywiad - bez klikania. Odpowiedzi lądują w `.kb-onboard.json`
 
 ## Dzień zerowy
 
-To Twój „**dzień zerowy**" - jedyny moment konfiguracji. Potem już tylko używasz: `/ingest`, `/qa`, `/lint`. Przechodzimy do karmienia bazy w lekcji 3.
+To Twój „**dzień zerowy**” - jedyny moment konfiguracji. Potem już tylko używasz: `/ingest`, `/qa`, `/lint`. Przechodzimy do karmienia bazy w lekcji 3.
 
 ## FAQ
 
@@ -180,7 +180,7 @@ Bo kreator wypełnia je Twoimi wartościami i zapisuje jako finalne pliki: `CLAU
 
 ### Czy `/onboard` robi commit do gita?
 
-Nie - kończy komunikatem „Not committed - your call". Pierwszy commit robisz sam (albo zlecasz agentowi: „commit this"). Agent doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita).
+Nie - kończy komunikatem „Not committed - your call”. Pierwszy commit robisz sam (albo zlecasz agentowi: „commit this”). Agent doda pliki i zrobi commit, **pomijając `.kb-onboard.json`** (jest pomijany przez gita).
 
 ### Czy do onboardingu potrzebuję Pythona?
 

@@ -22,7 +22,7 @@ W przykładzie: surowe źródło to `sample-source.md` - luźny tekst o metodzie
 
 ## Co się dzieje pod spodem (4 fazy)
 
-`/ingest` nie „wkleja pliku do wiki". Prowadzi źródło przez cztery fazy - trzy autonomiczne, jedna z jednym pytaniem do Ciebie.
+`/ingest` nie „wkleja pliku do wiki”. Prowadzi źródło przez cztery fazy - trzy autonomiczne, jedna z jednym pytaniem do Ciebie.
 
 ### Faza 0 - Pobranie z YouTube (tylko dla URL)
 
@@ -48,14 +48,14 @@ Dla każdego źródła agent po kolei:
 4. **Ujednolica język.** Baza trzyma jeden kanoniczny język (ten z onboardingu; przy konflikcie `CLAUDE.md`/Twoje ustawienia wygrywają nad domyślnym językiem skilla). Źródło w innym języku agent tłumaczy przy wsadzie; nazwy własne, kod, URL-e, daty i wikilinki zostają nietknięte.
 5. **Rozstawia `[[wikilinki]]`** (linki między notami zapisywane w podwójnych nawiasach) do pokrewnych not i **dopisuje linki zwrotne** w tamtych notach - to zasila graf.
 6. **Przenosi załączniki** (obrazki/PDF) do `content/ATTACHMENTS/` i poprawia odnośniki.
-7. **Przenosi źródło** z `inbox/` do `_raw/processed/` (z datą). Pusty inbox = „zrobione".
-8. **Aktualizuje 3 indeksy**: `catalog.md` (linia noty), `vault-map.md` (licznik + tagi + „recent changes"), `graph.md` (linki wychodzące + linki zwrotne na celach).
+7. **Przenosi źródło** z `inbox/` do `_raw/processed/` (z datą). Pusty inbox = „zrobione”.
+8. **Aktualizuje 3 indeksy**: `catalog.md` (linia noty), `vault-map.md` (licznik + tagi + „recent changes”), `graph.md` (linki wychodzące + linki zwrotne na celach).
 
 Jedno źródło potrafi dotknąć kilkunastu not - bo dokłada linki i linki zwrotne po całym grafie.
 
 ### Faza 3 - Kontrola (lista kontrolna)
 
-Na koniec agent sprawdza sam siebie: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Potem drukuje raport: ile źródeł, ile not powstało, ile scalono, stan indeksów (✅). Jak coś się nie zgadza - pokazuje rozbieżność, zanim powie „gotowe".
+Na koniec agent sprawdza sam siebie: czy `total_notes` się zgadza, czy nowe noty są w „recent changes”, czy każda ma linię w `catalog.md`. Potem drukuje raport: ile źródeł, ile not powstało, ile scalono, stan indeksów (✅). Jak coś się nie zgadza - pokazuje rozbieżność, zanim powie „gotowe”.
 
 ## Co dokładnie się zmienia (diff)
 
@@ -72,7 +72,7 @@ Raport na końcu: _1 źródło → 1 nowa nota, 0 scalonych, indeksy ✅, inbox 
 
 ## Surowe pliki vs wiki
 
-To różnica „**surowe pliki vs wiki**": bez `/ingest` nie ma linków ani indeksów - masz tylko stertę plików.
+To różnica „**surowe pliki vs wiki**”: bez `/ingest` nie ma linków ani indeksów - masz tylko stertę plików.
 
 ## Pułapki
 
@@ -101,7 +101,7 @@ Baza trzyma **jeden kanoniczny język** ustalony przy onboardingu, a przy konfli
 
 ### Skąd wiem, że ingest zrobił wszystko poprawnie?
 
-Faza 3 to lista kontrolna: czy `total_notes` się zgadza, czy nowe noty są w „recent changes", czy każda ma linię w `catalog.md`. Na koniec dostajesz raport (ile źródeł, ile not powstało, ile scalono, stan indeksów). Dodatkowo zajrzyj w Source Control - zobaczysz na oczy pełny diff.
+Faza 3 to lista kontrolna: czy `total_notes` się zgadza, czy nowe noty są w „recent changes”, czy każda ma linię w `catalog.md`. Na koniec dostajesz raport (ile źródeł, ile not powstało, ile scalono, stan indeksów). Dodatkowo zajrzyj w Source Control - zobaczysz na oczy pełny diff.
 
 ### Jedno źródło zmieniło kilkanaście plików - czy to normalne?
 
