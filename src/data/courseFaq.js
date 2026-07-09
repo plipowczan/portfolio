@@ -62,4 +62,40 @@ export const courseFaq = [
       "zupełności wystarczy.",
     surfaces: ["hub", "landing"],
   },
+  {
+    id: "projekty-per-model",
+    question:
+      "Mam osobne Projekty w Claude, ChatGPT i Gemini i porównuję wyniki - " +
+      "po co mi baza?",
+    answer:
+      "Porównywanie kilku modeli to dobry nawyk, zostaw go. Problem jest gdzie " +
+      "indziej: dziś każdy Projekt (osobne miejsce na wiedzę wewnątrz danego " +
+      "czatu) karmisz osobną kopią tej samej wiedzy, a te kopie z czasem się " +
+      "rozjeżdżają. Wtedy różnica w odpowiedziach może brać się nie z modelu, " +
+      "tylko z tego, że jeden Projekt był nieaktualny. Trzymaj wiedzę raz - w " +
+      "plikach - i ładuj ten sam wsad do wszystkich trzech. Porównanie robi się " +
+      "uczciwe, bo różni się tylko model. A w bonusie: te same pliki czyta agent " +
+      "pracujący za Ciebie i zostają u Ciebie, gdy któryś dostawca zniknie.",
+    surfaces: ["hub"],
+  },
+  {
+    id: "agents-md-i-narzedzia-kodu",
+    question:
+      "Mam już AGENTS.md i narzędzia do analizy kodu - po co mi jeszcze " +
+      "osobna baza wiedzy?",
+    answer:
+      "Te narzędzia robią co innego, więc się nie wykluczają. Graf symboli albo " +
+      "LSP (narzędzia, które automatycznie czytają strukturę kodu) pamiętają, JAK " +
+      "kod wygląda: co się z czym wywołuje i co pęknie po zmianie. Plik AGENTS.md " +
+      "pamięta lokalne zasady jednego folderu i znika razem z tym repozytorium " +
+      "(repo - katalog projektu w gicie). Baza wiedzy dokłada trzecią warstwę, " +
+      "której żadne z nich nie ma: DLACZEGO kod tak wygląda - jakie decyzje " +
+      "podjęliśmy, co odrzuciliśmy, jaki standard obowiązuje ponad jednym " +
+      "projektem. Ta warstwa jest przenośna (git clone i masz ją w każdym repo). " +
+      "Efekt: agent przed przebudową kodu czyta 'czemu tak zdecydowaliśmy', a po " +
+      "naprawie błędu zapisuje 'czego próbowaliśmy i co nie zadziałało' - i ta " +
+      "wiedza nie ginie między projektami. Kod nie zapisuje intencji. Baza wiedzy " +
+      "tak.",
+    surfaces: ["hub"],
+  },
 ];
