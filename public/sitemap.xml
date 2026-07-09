@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://pawel.lipowczan.pl/</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/"/>
@@ -11,7 +11,7 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/en/</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/"/>
@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/blog</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog"/>
@@ -29,7 +29,7 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/en/blog</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog"/>
@@ -140,7 +140,7 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/2-onboarding"/>
@@ -148,7 +148,7 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/3-pierwszy-ingest"/>
@@ -164,11 +164,20 @@
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/llm-wiki/kurs/5-rozwoj-i-publikacja"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/blog/rag-ragowi-nierowny</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/rag-ragowi-nierowny"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/not-all-rag-is-equal"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/rag-ragowi-nierowny"/>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/blog/okf-standard-przenosnosc-bazy-wiedzy-ai</loc>
@@ -421,6 +430,15 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/chatboty-ai-od-koncepcji-do-wdrozenia"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/ai-chatbots-from-concept-to-deployment"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/chatboty-ai-od-koncepcji-do-wdrozenia"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/en/blog/not-all-rag-is-equal</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/rag-ragowi-nierowny"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/not-all-rag-is-equal"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/rag-ragowi-nierowny"/>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/en/blog/okf-standard-portable-knowledge-base</loc>

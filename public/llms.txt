@@ -4,6 +4,7 @@
 
 ## Blog (PL)
 
+- [RAG ragowi nierówny: do kodu graf, do notatek indeks](https://pawel.lipowczan.pl/blog/rag-ragowi-nierowny): RAG to rodzina technik, nie jedna. Do kodu wygrywa retrieval strukturalny (AST, LSP, graf), do notatek kurowany indeks. Mapa doboru mechanizmu do materiału.
 - [Zbudowałem drugi mózg. Trafiłem w standard Google (OKF)](https://pawel.lipowczan.pl/blog/okf-standard-przenosnosc-bazy-wiedzy-ai): Mój second brain jest zgodny z Open Knowledge Format Google w ~100% - choć nigdy go pod niego nie projektowałem. O przenośności bazy wiedzy decyduje format, nie narzędzie.
 - [Software 3.0: dlaczego twoja aplikacja nie powinna istnieć](https://pawel.lipowczan.pl/blog/software-3-0-agentic-engineering): Trzy paradygmaty oprogramowania i nowa dyscyplina: agentic engineering. Mapa decyzyjna od Karpathy'ego - co budować, czego nie i czego nie da się outsourcować.
 - [Pre-revenue startup bez działu finansów. Anatomia systemu agentów AI.](https://pawel.lipowczan.pl/blog/system-agentow-ai-skills-rules-kontekst): 5 ról specjalistów, 2 założycieli. Jak skills, deterministyczne reguły i wspólny kontekst zastąpiły zespół w 200IQ LABS - case study i architektura.
@@ -35,6 +36,7 @@
 
 ## Blog (EN)
 
+- [Not All RAG Is Equal: a Graph for Code, an Index for Notes](https://pawel.lipowczan.pl/en/blog/not-all-rag-is-equal): RAG is a family, not one technique. Code favors structural retrieval (AST, LSP, graphs), notes a curated index. A map for matching mechanism to material.
 - [I Built a Second Brain. It Already Matched Google's Standard (OKF)](https://pawel.lipowczan.pl/en/blog/okf-standard-portable-knowledge-base): My second brain hit ~100% compliance with Google's Open Knowledge Format - though I never designed it for OKF. Format, not tooling, decides whether your knowledge base is portable.
 - [Software 3.0: why your app shouldn't exist](https://pawel.lipowczan.pl/en/blog/software-3-0-agentic-engineering-guide): Three software paradigms and a new discipline: agentic engineering. A decision map from Karpathy - what to build, what not to, and what you can't outsource.
 - [Pre-revenue startup without a finance department. AI agent system anatomy.](https://pawel.lipowczan.pl/en/blog/ai-agent-system-skills-rules-shared-context): 5 specialist roles, 2 founders. How skills, deterministic rules, and shared context replaced a team at 200IQ LABS - case study and architecture.
