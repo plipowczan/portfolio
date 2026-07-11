@@ -14,12 +14,12 @@
 
 ## 3. Sentry-side quota guard
 
-- [x] 3.1 Resolve the open issues in the `portfolio-csp` project (9/10 allowlist-covered resolved via Sentry MCP; CSP-H `frontend-cdn.perplexity.ai` left for inbound filter 3.2)
+- [x] 3.1 Resolve the open issues in the `portfolio-csp` project (9/10 allowlist-covered resolved via Sentry MCP; CSP-H `frontend-cdn.perplexity.ai` left for inbound filter 3.2). 2026-07-11 re-triage of the 6 issues open in the last 7d: CSP-8/9/A resolved (policy-covered, silent 6d); CSP-7 (data: font), CSP-J (connect.facebook.net), CSP-K (wasm-eval) ignored forever — external client injection, none loaded by the site (grep of src/ + build = none), so not allowlisted by design.
 - [~] 3.2 Add an inbound filter for known uncontrollable client-injected hosts — DEFERRED (blocked by Sentry free plan; custom inbound filters / delete-and-discard require a paid plan). `frontend-cdn.perplexity.ai` isolated as issue CSP-H. See design.md "Plan limitation".
 - [~] 3.3 Enable spike protection / rate-limiting on the `portfolio-csp` project — DEFERRED (blocked by Sentry free plan; spike protection + DSN rate limits require a paid plan). Residual noise bounded instead by the allowlist fix (~2 events/mo). See design.md "Plan limitation".
 
 ## 4. Deploy and verify
 
-- [ ] 4.1 Push to a Vercel preview deployment and run `npm test` (Playwright) — all green
-- [ ] 4.2 Promote to production; confirm responses carry the corrected `Content-Security-Policy-Report-Only` (curl -I)
-- [ ] 4.3 Over the following days, confirm `portfolio-csp` event inflow drops to near-zero (only genuine anomalies remain) and quota is no longer being exhausted
+- [x] 4.1 Push to a Vercel preview deployment and run `npm test` (Playwright) — all green — shipped via PR #5 (`d5ec52b`, merged to main → auto-deployed). Targeted header suite run against production (`SEO_HEADERS_URL=https://pawel.lipowczan.pl npx playwright test seo-security-headers`): 4/4 passing (2026-07-11).
+- [x] 4.2 Promote to production; confirm responses carry the corrected `Content-Security-Policy-Report-Only` (curl -I) — confirmed 2026-07-11: prod header on `https://pawel.lipowczan.pl/` matches `vercel.json` byte-for-byte, incl. `Reporting-Endpoints`.
+- [x] 4.3 Over the following days, confirm `portfolio-csp` event inflow drops to near-zero (only genuine anomalies remain) and quota is no longer being exhausted — confirmed 2026-07-11: allowlist-covered issues (CSP-8/9/A) silent 6d since deploy; only residual client-injected noise remains (CSP-7/J/K, 1–2 events each), matching the design's ~2 events/mo prediction.

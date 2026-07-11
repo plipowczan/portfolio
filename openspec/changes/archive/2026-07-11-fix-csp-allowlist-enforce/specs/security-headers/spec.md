@@ -37,12 +37,22 @@ The allowlist SHALL cover every external resource the site loads, so that report
 ## ADDED Requirements
 
 ### Requirement: CSP reporting pipeline is protected against quota exhaustion
-The Sentry `portfolio-csp` project receiving CSP reports SHALL be protected so that uncontrollable client-injected violations (browser extensions, AI browsers) cannot exhaust the event quota. Protection SHALL include an inbound filter for known client-injected hosts and spike protection / rate-limiting.
+The Sentry `portfolio-csp` project receiving CSP reports SHALL be protected so that uncontrollable client-injected violations (browser extensions, AI browsers) cannot exhaust the event quota.
 
-#### Scenario: Known client-injected host is filtered
-- **WHEN** a CSP report references a known uncontrollable client-injected host (e.g. `frontend-cdn.perplexity.ai`)
-- **THEN** the report is dropped by an inbound filter and does not consume quota
+On the current (free) Sentry plan the protection SHALL consist of: (a) a corrected allowlist that eliminates self-inflicted violations — the dominant volume — and (b) per-issue muting (`ignore forever`) of known client-injected hosts as they surface. Project-level inbound filters and spike protection / rate-limiting require a paid Sentry plan; when the project runs on such a plan the protection SHALL additionally include an inbound filter for known client-injected hosts and spike protection / rate-limiting.
 
-#### Scenario: Report spikes are rate-limited
-- **WHEN** inbound CSP reports spike well above normal volume
+#### Scenario: Self-inflicted violations are eliminated
+- **WHEN** the corrected allowlist is live in production
+- **THEN** resources the site loads itself (Google Fonts, clickrank, Zencal, Formspree) no longer generate CSP reports
+
+#### Scenario: Known client-injected host is muted (free plan)
+- **WHEN** a CSP report references a known uncontrollable client-injected host (e.g. `connect.facebook.net`, `wasm-eval:`, a `data:` font)
+- **THEN** the corresponding Sentry issue is set to `ignore forever` so it stops consuming triage attention and alerts
+
+#### Scenario: Report spikes are rate-limited (paid plan)
+- **WHEN** the project runs on a paid Sentry plan **AND** inbound CSP reports spike well above normal volume
 - **THEN** spike protection / rate-limiting caps ingestion so the plan quota is not exhausted
+
+#### Scenario: Known client-injected host is filtered at ingest (paid plan)
+- **WHEN** the project runs on a paid Sentry plan **AND** a CSP report references a known client-injected host (e.g. `frontend-cdn.perplexity.ai`)
+- **THEN** an inbound filter drops the report before it consumes quota
