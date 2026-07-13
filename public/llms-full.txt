@@ -4,6 +4,7 @@
 
 ## Blog (PL)
 
+- [5 słabych stron Claude Code i jak je nadrobić](https://pawel.lipowczan.pl/blog/slabe-strony-claude-code): Claude Code jest świetny w kodzie, ale ślepy przy wideo, designie, pamięci i researchu. Oto 5 słabych stron i narzędzia, których używam, żeby je nadrobić.
 - [RAG ragowi nierówny: do kodu graf, do notatek indeks](https://pawel.lipowczan.pl/blog/rag-ragowi-nierowny): RAG to rodzina technik, nie jedna. Do kodu wygrywa retrieval strukturalny (AST, LSP, graf), do notatek kurowany indeks. Mapa doboru mechanizmu do materiału.
 - [Zbudowałem drugi mózg. Trafiłem w standard Google (OKF)](https://pawel.lipowczan.pl/blog/okf-standard-przenosnosc-bazy-wiedzy-ai): Mój second brain jest zgodny z Open Knowledge Format Google w ~100% - choć nigdy go pod niego nie projektowałem. O przenośności bazy wiedzy decyduje format, nie narzędzie.
 - [Software 3.0: dlaczego twoja aplikacja nie powinna istnieć](https://pawel.lipowczan.pl/blog/software-3-0-agentic-engineering): Trzy paradygmaty oprogramowania i nowa dyscyplina: agentic engineering. Mapa decyzyjna od Karpathy'ego - co budować, czego nie i czego nie da się outsourcować.
@@ -36,6 +37,7 @@
 
 ## Blog (EN)
 
+- [5 Weak Spots of Claude Code and How to Fix Them](https://pawel.lipowczan.pl/en/blog/claude-code-weak-spots): Claude Code is brilliant with code but blind at video, design, memory and research. Here are its 5 weak spots and the tools I use to fix each one.
 - [Not All RAG Is Equal: a Graph for Code, an Index for Notes](https://pawel.lipowczan.pl/en/blog/not-all-rag-is-equal): RAG is a family, not one technique. Code favors structural retrieval (AST, LSP, graphs), notes a curated index. A map for matching mechanism to material.
 - [I Built a Second Brain. It Already Matched Google's Standard (OKF)](https://pawel.lipowczan.pl/en/blog/okf-standard-portable-knowledge-base): My second brain hit ~100% compliance with Google's Open Knowledge Format - though I never designed it for OKF. Format, not tooling, decides whether your knowledge base is portable.
 - [Software 3.0: why your app shouldn't exist](https://pawel.lipowczan.pl/en/blog/software-3-0-agentic-engineering-guide): Three software paradigms and a new discipline: agentic engineering. A decision map from Karpathy - what to build, what not to, and what you can't outsource.
@@ -94,6 +96,262 @@
 
 - email: pawel@lipowczan.pl
 - strona: https://pawel.lipowczan.pl
+
+
+---
+
+# 5 słabych stron Claude Code i jak je nadrobić
+
+Source: https://pawel.lipowczan.pl/blog/slabe-strony-claude-code
+Published: 2026-07-13
+
+Claude Code czyta kod, edytuje pliki i odpala komendy w terminalu. W tych zadaniach jest bardzo dobry. Ale poproś go, żeby obejrzał wideo albo zaprojektował ładny front - i od razu widać granice.
+
+Testuję dziesiątki narzędzi wokół Claude Code. Za każdym razem wraca ten sam zestaw pięciu słabych stron: wideo, design, pamięć, research i tokeny (**token** - jednostka tekstu, którą model liczy i za którą płacisz). To nie są wady, które psują pracę z kodem. To obszary, w których Claude Code po prostu nie ma wbudowanej funkcji.
+
+Dobra wiadomość: każdą z tych dziur da się załatać. Nie teorią, tylko konkretnym narzędziem. Dla każdego obszaru pokażę, czym posługuję się na co dzień. Będę uczciwy - część narzędzi sprawdziłem w codziennej pracy, część mam dopiero na radarze i wyraźnie to zaznaczę.
+
+Pomysł na ten podział zainspirował film Chase AI o pięciu repozytoriach dla Claude Code. Ale to jest mój własny zestaw - narzędzia, które sam odpalam, z moimi zastrzeżeniami.
+
+## 🎬 Wideo - Claude Code nie widzi i nie tworzy filmów
+
+Claude Code nie potrafi obejrzeć wideo ani go wygenerować. Domyślnie utyka na transkrypcie (**transkrypt** - tekstowy zapis ścieżki dźwiękowej). A transkrypt nie wystarczy, gdy liczy się to, co realnie dzieje się na ekranie.
+
+### Oglądanie: Claude Video
+
+`Claude Video` to skill (**skill** - gotowy zestaw instrukcji, który rozszerza agenta o nową umiejętność) z komendą `/watch`. Wklejam adres albo plik plus pytanie. Agent pobiera napisy, wycina klatki (**klatka** - pojedynczy obraz z wideo) i czyta je jako obrazy. Zanim odpowie, naprawdę zobaczył wideo, a nie zgadł z tytułu.
+
+Używam tego do dwóch rzeczy. Analizuję cudze treści szybciej niż odtwarzaniem na 2x i wyciągam wiedzę, która potem trafia do mojej bazy notatek. Wyciągam nim też transkrypty z YouTube.
+
+```bash
+/watch https://youtu.be/dQw4w9WgXcQ co dzieje sie w 30 sekundzie?
+```
+
+Koszt tokenów zależy głównie od klatek, bo każda to obraz. Dlatego skill ma cztery tryby, od najtańszego do najdroższego:
+
+```text
+transcript    - same napisy, zero klatek (najtaniej)
+efficient     - klatki kluczowe, do 50
+balanced      - po zmianach sceny, do 100 (domyslny)
+token-burner  - bez limitu klatek (pelne pokrycie, drogo)
+```
+
+Tryb `efficient` bierze klatki kluczowe (**klatka kluczowa** - klatka, którą samo wideo oznacza jako punkt odniesienia). Gdy wideo nie ma napisów, skill zamienia mowę na tekst modelem whisper (**whisper** - model zamieniający mowę na tekst), za darmo przez Groqa.
+
+### Tworzenie: HyperFrames
+
+Odwrotny kierunek to generowanie wideo. `HyperFrames` tworzy wideo z plików HTML - kompozycja to zwykły HTML z atrybutami `data-*`, bez Reacta i bez własnego języka. „Marka" żyje w moich stylach CSS, więc każde wideo wychodzi spójne z moją identyfikacją wizualną, a nie generyczne.
+
+```bash
+npx skills add heygen-com/hyperframes
+```
+
+Wymaga Node.js >= 22 i FFmpeg. O generowaniu wideo z kodu pisałem już przy okazji [Remotion do filmów explainer](/blog/remotion-explainer-videos-ai). Różnica jest prosta: HyperFrames jest HTML-native i na licencji Apache 2.0 (komercyjne użycie bez limitów), a Remotion ma za to gotowy rendering rozproszony w chmurze.
+
+## 🎨 Design - koniec z generycznym AI slop
+
+Poproś Claude Code o stronę i dostajesz dokładnie to samo co wszyscy: sekcja hero na górze, zaokrąglone karty, fioletowy gradient. To **AI slop** (**AI slop** - generyczny wygląd, który od razu zdradza, że front wygenerował model). Powód jest prosty: modele trenowano na tych samych szablonach.
+
+Nie łatam tego jednym narzędziem, tylko trzema skillami ustawionymi w kolejności: kto, system, strażnik.
+
+### 1. UX RULER - dla kogo i po co
+
+`UX RULER` wymusza pytanie „dla kogo to jest i jaką mierzalną wartość daje", zanim wskoczę w funkcje. Decyzje o odbiorcy i potrzebie zapisuje do repozytorium jako product memory (**product memory** - pliki w repo, które trzymają decyzje produktowe dla następnego człowieka albo agenta). Dzięki temu wybory są jawne i wielokrotnego użytku.
+
+### 2. UI UX Pro Max - gotowy design system
+
+`UI UX Pro Max` generuje spójny design system (**design system** - zestaw reguł koloru, typografii i komponentów) dopasowany do typu projektu. Portfolio dostaje inną logikę niż SaaS czy sklep. Uruchamiam go z Tailwind CSS i React jako bazę, którą potem dociągam, co oszczędza czas na prototyp. To narzędzie opisałem szerzej w [5 repozytoriach GitHub dla Claude Code](/blog/5-repozytoriow-github-claude-code), więc tu nie powtarzam.
+
+### 3. Impeccable - strażnik języka designu
+
+`Impeccable` to warstwa, która usuwa charakterystyczne znaki AI: Inter wszędzie, gradienty fioletu, karty w kartach, szary tekst na kolorowym tle. Ma deterministyczny linter (**linter** - narzędzie sprawdzające kod albo wygląd według sztywnych reguł), który działa bez modelu i bez klucza API:
+
+```bash
+npx impeccable detect src/
+```
+
+Skill daje **23 komendy** pod `/impeccable`, między innymi `craft`, `shape`, `critique` i `colorize`, oraz **27 reguł deterministycznych** plus dodatkowy przegląd modelu. To ta rzecz, która pilnuje, żeby front nie krzyczał „zrobił mnie AI".
+
+Razem układa się to w linię: RULER mówi dla kogo, Pro Max buduje system, Impeccable pilnuje języka i ścina AI slop.
+
+## 🧠 Pamięć - Claude Code zapomina po każdej sesji
+
+Koniec sesji to zerowanie. Claude Code nie ma wbudowanej pamięci, która kumuluje się między rozmowami. Za każdym razem zaczyna od zera.
+
+### Second brain jako pamięć
+
+Mój sposób to **second brain** (**second brain** - tekstowa baza notatek, którą agent czyta, uzupełnia i przeszukuje). Repozytorium jest moją pamięcią: agent zapisuje do niego wiedzę, linkuje notatki i odpowiada na pytania z całości.
+
+To wzorzec, który Andrej Karpathy nazwał **LLM Wiki** (**LLM Wiki** - baza, którą model sam buduje i utrzymuje z Twoich źródeł). Różni się od RAG (**RAG** - technika, w której model przed odpowiedzią przeszukuje surowe dokumenty). W RAG nic się nie kumuluje, bo model za każdym razem odkrywa wszystko na nowo. W LLM Wiki wiedza zostaje w plikach i rośnie.
+
+Kluczowy element to **progressive disclosure** (**progressive disclosure** - układ notatek tak, żeby agent je znalazł bez zaśmiecania okna kontekstowego). Okno kontekstowe (**okno kontekstowe** - ile tekstu model widzi naraz) jest ograniczone, więc dobry indeks jest ważniejszy niż wrzucenie wszystkiego do jednego pliku.
+
+Zbudowałem to na Obsidian i Claude Code. Pełną architekturę, 185 notatek i trzy indeksy opisałem w [artykule o LLM Wiki Karpathy'ego](/blog/llm-knowledge-base-brain-karpathy) oraz w [budowie drugiego mózgu w Obsidian](/blog/second-brain-obsidian-claude-code-skills). Gdzie kończy się graf kodu, a zaczyna baza notatek, rozkładam w [tekście o RAG](/blog/rag-ragowi-nierowny).
+
+Jak taką bazę zbudować od zera, pokazuję krok po kroku w [darmowym kursie LLM Wiki](/llm-wiki).
+
+### NotebookLM-py - świeży dodatek
+
+`NotebookLM-py` wkłada NotebookLM (**NotebookLM** - silnik Google, w którym Gemini czyta Twoje źródła i odpowiada z cytatami) do wnętrza Claude Code. To nieoficjalne API, więc używam go na własne ryzyko.
+
+```bash
+uv tool install "notebooklm-py[browser]"
+notebooklm login
+```
+
+Na razie służy mi głównie jako druga droga do transkryptów z YouTube. Dopiero zaczynam, więc traktuję go jako dodatek, nie fundament.
+
+## 🔎 Research - wbudowane wyszukiwanie jest płytkie
+
+Wbudowane wyszukiwanie w Claude Code działa, ale powierzchownie. Brakuje środka między „płytko" a „sto agentów i 10 milionów tokenów na deep research" (**deep research** - głębokie, wieloźródłowe badanie tematu).
+
+### Firecrawl - niezawodne pobieranie stron
+
+Gdy wbudowany scraper (**scraper** - narzędzie, które pobiera treść strony) zawodzi, sięgam po `Firecrawl`. Zamienia dowolną stronę na czysty markdown albo strukturalny JSON, radząc sobie z JavaScriptem i podziałem na podstrony.
+
+```bash
+pip install firecrawl-py
+```
+
+Ma pięć trybów: Scrape (jedna strona), Crawl (cała witryna po linkach), Map (lista adresów), Search (wyszukiwanie z treścią) i Extract (dane według schematu). Działa jako MCP (**MCP** - Model Context Protocol, standard podłączania narzędzi do agenta), więc wpina się prosto w Claude Code.
+
+### Deep research - do przetestowania
+
+`NotebookLM-py` z sekcji o pamięci ma też tryb deep research po stronie Google, więc teoretycznie tańszy. Nie sprawdziłem go jeszcze na poważnie, dlatego traktuję to jako kandydata, nie rekomendację.
+
+### Research swarm - struktura wpięta w wiki
+
+Do ustrukturyzowanego researchu używam skilla, który odpala agent swarm (**agent swarm** - rój niezależnych agentów pracujących równolegle). Jeden agent na pozycję, w partiach. Każdy zapisuje zwalidowany rekord JSON, a gotowy raport wpada do mojej bazy notatek. To zamienia jednorazowy research na trwały wpis w wiki.
+
+## 🪙 Tokeny - gadatliwy output pali budżet i kontekst
+
+Rozwlekłe odpowiedzi (**output** - to, co agent wypisuje w odpowiedzi) kosztują podwójnie. Płacisz za tokeny i zapychasz okno kontekstowe. Im dłuższy output, tym szybciej agent traci miejsce na to, co ważne.
+
+### Caveman - kompresja outputu
+
+`Caveman` to skill, który każe agentowi mówić jak jaskiniowiec: bez rodzajników, waty i uprzejmości, samo mięso. Tnie średnio **~65% tokenów outputu** (zakres 22-87%), zachowując 100% treści technicznej.
+
+```powershell
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.ps1 | iex
+```
+
+```bash
+# macOS / Linux / WSL
+curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.sh | bash
+```
+
+Ma trzy poziomy: `/caveman lite`, `/caveman full` i `/caveman ultra`. I tu moje szczere zastrzeżenie: w trybie `full` opisy bywają nieczytelne, zwłaszcza po polsku. Dlatego trzymam się `lite`, a przy kodzie, commitach i tekstach o bezpieczeństwie przełączam na `normal mode`.
+
+Ważny szczegół z dokumentacji: Caveman ścina tylko output, nie tokeny myślenia (**reasoning** - tokeny, które model zużywa na wewnętrzne rozumowanie). Skraca usta, nie mózg. Największa korzyść to czytelność i szybkość, a oszczędność jest dodatkiem.
+
+### Na radarze - kandydaci, nie rekomendacje
+
+Reszta zestawu leży u mnie na liście do sprawdzenia. Wymieniam je, ale wyraźnie zaznaczam, że sam ich jeszcze nie przetestowałem.
+
+- **Headroom** - kompresuje to, co agent czyta (input i kontekst) o 60-95%. Strona wejścia, tam gdzie Caveman zajmuje się wyjściem.
+- **Ponytail** - zmusza agenta do minimalnego kodu, więc mniej linii i mniej tokenów.
+- **Graphify** - zamienia kod w graf wiedzy, żeby agent nie czytał pliku po pliku.
+
+## Kluczowe wnioski
+
+Pięć słabych stron, pięć konkretnych ruchów:
+
+1. **Wideo** - dodaj `/watch`, zanim znów zaczniesz czytać sam transkrypt. Do generowania sprawdź HyperFrames.
+2. **Design** - ustaw trzy skille w kolejności: kto (UX RULER), system (UI UX Pro Max), strażnik (Impeccable).
+3. **Pamięć** - tekstowa wiki utrzymywana przez agenta bije RAG na małej skali. Jeśli budujesz od zera, zacznij od kursu.
+4. **Research** - Firecrawl, gdy wbudowany scraper zawiedzie, a deep research tylko wtedy, gdy naprawdę go potrzebujesz.
+5. **Tokeny** - Caveman ścina output, ale po polsku wybierz `lite`. Resztę traktuj jako kandydatów do testu.
+
+Najlepsze w tym wszystkim jest to, że każde z tych narzędzi jest darmowe i open source. Najgorsze, co się stanie, to że odpalisz jedno, nie spodoba Ci się i je odinstalujesz. Wybierz obszar, który najbardziej Cię boli, i zacznij od niego.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz wycisnąć więcej z Claude Code w swoim zespole?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci dobrać narzędzia i skille pod Twój sposób pracy, wdrożyć je i ustawić powtarzalny proces pracy z agentem. A jeśli wolisz zacząć sam, pamięć agenta zbudujesz krok po kroku w <a href="/llm-wiki" class="text-primary-500 hover:text-primary-400">darmowym kursie LLM Wiki</a>.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
+## Przydatne zasoby
+
+- [Claude Video](https://github.com/bradautomates/claude-video) - skill `/watch`, który daje agentowi wzrok.
+- [HyperFrames](https://github.com/heygen-com/hyperframes) - generowanie wideo z plików HTML.
+- [Impeccable](https://impeccable.style/) - język designu plus linter usuwający AI slop.
+- [NotebookLM-py](https://github.com/teng-lin/notebooklm-py) - NotebookLM w terminalu Claude Code.
+- [Firecrawl](https://www.firecrawl.dev/) - dowolna strona zamieniona w czysty markdown.
+- [Caveman](https://github.com/JuliusBrussee/caveman) - kompresja tokenów w odpowiedziach agenta.
+- [Darmowy kurs LLM Wiki](/llm-wiki) - jak zbudować pamięć agenta (drugi mózg) od zera.
+
+## FAQ
+
+<details open>
+<summary>
+
+### W jakich obszarach Claude Code jest słaby out of the box?
+
+</summary>
+
+Claude Code świetnie radzi sobie z kodem, plikami i komendami, ale ma pięć słabych stron: nie widzi ani nie tworzy wideo, generuje generyczny design, zapomina po sesji, ma płytkie wyszukiwanie i gadatliwy output. Każdą z tych dziur łata się osobnym narzędziem albo skillem. To luki w funkcjach, a nie wady w pracy z kodem.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy Claude Code potrafi obejrzeć wideo z YouTube?
+
+</summary>
+
+Domyślnie nie, ale zmienia to skill Claude Video z komendą `/watch`. Wkleja adres i pytanie, pobiera napisy oraz klatki wideo i czyta je jako obrazy, więc realnie „widzi" nagranie. Gdy brakuje napisów, zamienia mowę na tekst modelem whisper. Sprawdza się też do szybkiego pobierania transkryptów.
+
+</details>
+
+<details open>
+<summary>
+
+### Jak dać agentowi AI pamięć między sesjami?
+
+</summary>
+
+Najprostszy sposób to second brain, czyli tekstowa baza notatek w repozytorium, którą agent czyta, uzupełnia i przeszukuje. To wzorzec LLM Wiki: wiedza kumuluje się w plikach, inaczej niż w RAG, gdzie model odkrywa wszystko od nowa. Jak zbudować taką bazę od zera, pokazuję krok po kroku w [darmowym kursie LLM Wiki](/llm-wiki).
+
+</details>
+
+<details open>
+<summary>
+
+### Czym jest „AI slop" i jak uniknąć generycznego designu?
+
+</summary>
+
+AI slop to generyczny wygląd strony, który od razu zdradza, że front wygenerował model: ten sam układ hero, zaokrąglone karty i fioletowe gradienty. Unikniesz go, dając agentowi prawdziwy design system i linter, który wyłapie te wzorce. Używam do tego skilli UI UX Pro Max i Impeccable, ten drugi ma komendę `npx impeccable detect`.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy Caveman naprawdę oszczędza tokeny i czy warto go używać?
+
+</summary>
+
+Tak, Caveman ścina średnio około 65% tokenów outputu, zachowując pełną treść techniczną. Zastrzeżenie: w trybie `full` opisy bywają nieczytelne, zwłaszcza po polsku, więc lepiej ustawić `lite`. Pamiętaj, że skraca tylko output, a nie tokeny myślenia modelu.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy te narzędzia dla Claude Code są darmowe?
+
+</summary>
+
+Tak, wszystkie pięć rozwiązań jest darmowych i open source. Część wymaga własnych kluczy albo dodatków: Claude Video może potrzebować klucza whisper przy wideo bez napisów, a Firecrawl konta do trybu API. Instalacja sprowadza się zwykle do jednej komendy w terminalu.
+
+</details>
 
 
 ---
@@ -10238,6 +10496,262 @@ Zbierz dokumenty (FAQ, dokumentacja produktu, artykuły, polityki firmy), podzie
 </summary>
 
 Gdy nie zna odpowiedzi, użytkownik jest sfrustrowany, sprawa wymaga decyzji wykraczających poza uprawnienia bota lub dotyczy wrażliwych tematów (reklamacje, sprawy prawne). Graceful degradation to kluczowa best practice - bot informuje, że przekazuje do konsultanta, zamiast generować niepewne odpowiedzi.
+
+</details>
+
+
+---
+
+# 5 Weak Spots of Claude Code and How to Fix Them
+
+Source: https://pawel.lipowczan.pl/en/blog/claude-code-weak-spots
+Published: 2026-07-13
+
+Claude Code reads code, edits files and runs commands in the terminal. At those tasks it is very good. But ask it to watch a video or design a nice front end, and the limits show up fast.
+
+I test dozens of tools around Claude Code. The same set of five weak spots keeps coming back: video, design, memory, research and tokens (**token** - the unit of text a model counts and that you pay for). These are not flaws that break your work with code. They are areas where Claude Code simply has no built-in feature.
+
+The good news: each of these gaps can be patched. Not with theory, but with a concrete tool. For every area I will show what I use day to day. And I will be honest - some tools I have tested in daily work, some are only on my radar, and I will flag that clearly.
+
+The framing was inspired by a Chase AI video about five repos for Claude Code. But this is my own stack - tools I run myself, with my own caveats.
+
+## 🎬 Video - Claude Code cannot see or make videos
+
+Claude Code cannot watch a video or generate one. By default it gets stuck on the transcript (**transcript** - a text record of the audio track). And a transcript is not enough when what matters is happening on screen.
+
+### Watching: Claude Video
+
+`Claude Video` is a skill (**skill** - a ready set of instructions that extends the agent with a new ability) with the `/watch` command. I paste a URL or file plus a question. The agent pulls captions, extracts frames (**frame** - a single image from a video) and reads them as images. Before it answers, it has actually seen the video instead of guessing from the title.
+
+I use it for two things. I analyze other people's content faster than playback at 2x, and I pull knowledge that then lands in my notes base. It also works as a transcript grabber for YouTube.
+
+```bash
+/watch https://youtu.be/dQw4w9WgXcQ co dzieje sie w 30 sekundzie?
+```
+
+The token cost depends mostly on frames, because each one is an image. That is why the skill has four modes, from cheapest to most expensive:
+
+```text
+transcript    - captions only, no frames (cheapest)
+efficient     - keyframes, up to 50
+balanced      - on scene changes, up to 100 (default)
+token-burner  - no frame cap (full coverage, pricey)
+```
+
+The `efficient` mode takes keyframes (**keyframe** - a frame the video itself marks as a reference point). When a video has no captions, the skill turns speech into text with the whisper model (**whisper** - a model that converts speech to text), for free through Groq.
+
+### Creating: HyperFrames
+
+The opposite direction is generating video. `HyperFrames` builds video from HTML files - a composition is plain HTML with `data-*` attributes, no React and no custom language. The "brand" lives in my own CSS styles, so every video comes out consistent with my visual identity rather than generic.
+
+```bash
+npx skills add heygen-com/hyperframes
+```
+
+It needs Node.js >= 22 and FFmpeg. I already wrote about generating video from code in the piece on [Remotion for explainer videos](/en/blog/remotion-explainer-videos-ai). The difference is simple: HyperFrames is HTML-native and under an Apache 2.0 license (commercial use with no limits), while Remotion ships distributed rendering in the cloud.
+
+## 🎨 Design - no more generic AI slop
+
+Ask Claude Code for a page and you get exactly what everyone else gets: a hero section on top, rounded cards, a purple gradient. That is **AI slop** (**AI slop** - the generic look that instantly gives away a front end generated by a model). The reason is simple: models were trained on the same templates.
+
+I do not patch this with one tool, but with three skills lined up in order: who, system, guard.
+
+### 1. UX RULER - who and why
+
+`UX RULER` forces the question "who is this for and what measurable value does it give", before I jump into features. It writes the decisions about audience and need into the repository as product memory (**product memory** - files in the repo that hold product decisions for the next human or agent). That way the choices are explicit and reusable.
+
+### 2. UI UX Pro Max - a ready design system
+
+`UI UX Pro Max` generates a coherent design system (**design system** - a set of rules for color, typography and components) matched to the project type. A portfolio gets a different logic than a SaaS or a shop. I run it with Tailwind CSS and React as a base that I then refine, which saves prototype time. I covered this tool in more depth in [5 GitHub repos for Claude Code](/en/blog/5-github-repos-claude-code), so I will not repeat it here.
+
+### 3. Impeccable - the design-language guard
+
+`Impeccable` is the layer that removes the tell-tale signs of AI: Inter everywhere, purple gradients, cards inside cards, gray text on colored backgrounds. It has a deterministic linter (**linter** - a tool that checks code or a layout against fixed rules) that runs with no model and no API key:
+
+```bash
+npx impeccable detect src/
+```
+
+The skill ships **23 commands** under `/impeccable`, among them `craft`, `shape`, `critique` and `colorize`, plus **27 deterministic rules** and an extra model review. This is the thing that keeps a front end from screaming "an AI made me".
+
+Together it forms a line: RULER says who for, Pro Max builds the system, Impeccable guards the language and cuts the AI slop.
+
+## 🧠 Memory - Claude Code forgets after every session
+
+The end of a session is a reset. Claude Code has no built-in memory that accumulates across conversations. Every time it starts from zero.
+
+### A second brain as memory
+
+My approach is a **second brain** (**second brain** - a text notes base that the agent reads, updates and searches). The repository is my memory: the agent writes knowledge into it, links notes and answers questions from the whole.
+
+This is a pattern that Andrej Karpathy named **LLM Wiki** (**LLM Wiki** - a base that the model itself builds and maintains from your sources). It differs from RAG (**RAG** - a technique where the model searches raw documents before answering). In RAG nothing accumulates, because the model rediscovers everything each time. In an LLM Wiki the knowledge stays in the files and grows.
+
+The key element is **progressive disclosure** (**progressive disclosure** - arranging notes so the agent can find them without cluttering the context window). The context window (**context window** - how much text the model sees at once) is limited, so a good index matters more than dumping everything into one file.
+
+I built this on Obsidian and Claude Code. The full architecture, 185 notes and three indexes I described in the [article on Karpathy's LLM Wiki](/en/blog/karpathy-llm-wiki-knowledge-base) and in [building a second brain in Obsidian](/en/blog/second-brain-obsidian-claude-code-skills). Where the code graph ends and the notes base begins, I lay out in the [piece on RAG](/en/blog/not-all-rag-is-equal).
+
+How to build such a base from scratch, I show step by step in the [free LLM Wiki course](/llm-wiki).
+
+### NotebookLM-py - a fresh addition
+
+`NotebookLM-py` puts NotebookLM (**NotebookLM** - a Google engine where Gemini reads your sources and answers with citations) inside Claude Code. It is an unofficial API, so I use it at my own risk.
+
+```bash
+uv tool install "notebooklm-py[browser]"
+notebooklm login
+```
+
+For now it mostly serves as a second route to YouTube transcripts. I am only starting, so I treat it as an addition, not a foundation.
+
+## 🔎 Research - the built-in search is shallow
+
+The built-in search in Claude Code works, but only on the surface. What is missing is the middle ground between "shallow" and "a hundred agents and 10 million tokens on deep research" (**deep research** - a deep, multi-source study of a topic).
+
+### Firecrawl - reliable page fetching
+
+When the built-in scraper (**scraper** - a tool that pulls the content of a page) fails, I reach for `Firecrawl`. It turns any page into clean markdown or structured JSON, handling JavaScript and pagination.
+
+```bash
+pip install firecrawl-py
+```
+
+It has five modes: Scrape (one page), Crawl (a whole site by links), Map (a list of addresses), Search (search with content) and Extract (data by schema). It works as an MCP (**MCP** - Model Context Protocol, a standard for connecting tools to an agent), so it plugs straight into Claude Code.
+
+### Deep research - to be tested
+
+`NotebookLM-py` from the memory section also has a deep research mode on Google's side, so in theory cheaper. I have not tested it seriously yet, so I treat it as a candidate, not an endorsement.
+
+### Research swarm - structure wired into the wiki
+
+For structured research I use a skill that fires up an agent swarm (**agent swarm** - a swarm of independent agents working in parallel). One agent per item, in batches. Each writes a validated JSON record, and the finished report lands in my notes base. That turns a one-off research run into a permanent entry in the wiki.
+
+## 🪙 Tokens - verbose output burns budget and context
+
+Long-winded answers (**output** - what the agent prints in its response) cost twice. You pay for tokens and you clog the context window. The longer the output, the faster the agent loses room for what matters.
+
+### Caveman - output compression
+
+`Caveman` is a skill that makes the agent talk like a caveman: no articles, no filler, no pleasantries, just the meat. It cuts an average of **~65% of output tokens** (range 22-87%), keeping 100% of the technical content.
+
+```powershell
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.ps1 | iex
+```
+
+```bash
+# macOS / Linux / WSL
+curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.sh | bash
+```
+
+It has three levels: `/caveman lite`, `/caveman full` and `/caveman ultra`. And here is my honest caveat: in `full` mode the descriptions can become unreadable, especially in Polish. So I stick to `lite`, and for code, commits and security writing I switch to `normal mode`.
+
+An important detail from the docs: Caveman only cuts the output, not the thinking tokens (**reasoning** - tokens the model spends on internal reasoning). It shrinks the mouth, not the brain. The biggest win is readability and speed, and the savings are a bonus.
+
+### On the radar - candidates, not endorsements
+
+The rest of the set sits on my to-check list. I list them, but I flag clearly that I have not tested them myself yet.
+
+- **Headroom** - compresses what the agent reads (input and context) by 60-95%. The input side, where Caveman handles the output.
+- **Ponytail** - pushes the agent toward minimal code, so fewer lines and fewer tokens.
+- **Graphify** - turns code into a knowledge graph so the agent does not read file by file.
+
+## Key takeaways
+
+Five weak spots, five concrete moves:
+
+1. **Video** - add `/watch` before you read a bare transcript again. For generation, check HyperFrames.
+2. **Design** - line up three skills in order: who (UX RULER), system (UI UX Pro Max), guard (Impeccable).
+3. **Memory** - a text wiki maintained by the agent beats RAG at small scale. If you build from scratch, start with the course.
+4. **Research** - Firecrawl when the built-in scraper fails, and deep research only when you truly need it.
+5. **Tokens** - Caveman cuts the output, but in Polish pick `lite`. Treat the rest as candidates to test.
+
+The best part is that every one of these tools is free and open source. The worst that can happen is you run one, dislike it and uninstall it. Pick the area that hurts you most and start there.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Want to get more out of Claude Code in your team?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    I will help you pick tools and skills that fit your way of working, roll them out and set up a repeatable process with the agent. And if you prefer to start on your own, you can build the agent's memory step by step in the <a href="/llm-wiki" class="text-primary-500 hover:text-primary-400">free LLM Wiki course</a>.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
+</div>
+
+## Useful Resources
+
+- [Claude Video](https://github.com/bradautomates/claude-video) - the `/watch` skill that gives the agent sight.
+- [HyperFrames](https://github.com/heygen-com/hyperframes) - generating video from HTML files.
+- [Impeccable](https://impeccable.style/) - a design language plus a linter that removes AI slop.
+- [NotebookLM-py](https://github.com/teng-lin/notebooklm-py) - NotebookLM in the Claude Code terminal.
+- [Firecrawl](https://www.firecrawl.dev/) - any page turned into clean markdown.
+- [Caveman](https://github.com/JuliusBrussee/caveman) - token compression in the agent's answers.
+- [Free LLM Wiki course](/llm-wiki) - how to build the agent's memory (a second brain) from scratch.
+
+## FAQ
+
+<details open>
+<summary>
+
+### In which areas is Claude Code weak out of the box?
+
+</summary>
+
+Claude Code is great with code, files and commands, but it has five weak spots: it cannot see or make video, it generates generic design, it forgets after a session, it has shallow search and verbose output. Each of these gaps is patched with a separate tool or skill. These are gaps in features, not flaws in working with code.
+
+</details>
+
+<details open>
+<summary>
+
+### Can Claude Code watch a YouTube video?
+
+</summary>
+
+Not by default, but the Claude Video skill with the `/watch` command changes that. It takes a URL and a question, pulls captions and video frames and reads them as images, so it really "sees" the recording. When captions are missing, it turns speech into text with the whisper model. It also works well for quickly grabbing transcripts.
+
+</details>
+
+<details open>
+<summary>
+
+### How do you give an AI agent memory between sessions?
+
+</summary>
+
+The simplest way is a second brain, a text notes base in a repository that the agent reads, updates and searches. This is the LLM Wiki pattern: knowledge accumulates in files, unlike RAG where the model rediscovers everything from scratch. How to build such a base from scratch, I show step by step in the [free LLM Wiki course](/llm-wiki).
+
+</details>
+
+<details open>
+<summary>
+
+### What is "AI slop" and how do you avoid generic design?
+
+</summary>
+
+AI slop is the generic look of a page that instantly gives away a front end generated by a model: the same hero layout, rounded cards and purple gradients. You avoid it by giving the agent a real design system and a linter that catches these patterns. I use the UI UX Pro Max and Impeccable skills for this, the latter has the `npx impeccable detect` command.
+
+</details>
+
+<details open>
+<summary>
+
+### Does Caveman really save tokens and is it worth using?
+
+</summary>
+
+Yes, Caveman cuts an average of about 65% of output tokens while keeping the full technical content. The caveat: in `full` mode the descriptions can be unreadable, especially in Polish, so it is better to set `lite`. Remember that it only shortens the output, not the model's thinking tokens.
+
+</details>
+
+<details open>
+<summary>
+
+### Are these tools for Claude Code free?
+
+</summary>
+
+Yes, all five solutions are free and open source. Some need your own keys or add-ons: Claude Video may need a whisper key for videos without captions, and Firecrawl an account for the API mode. Installation usually comes down to a single command in the terminal.
 
 </details>
 

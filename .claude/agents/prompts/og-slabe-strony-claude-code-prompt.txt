@@ -1,0 +1,56 @@
+Generated: 2026-07-13
+Article: 5 słabych stron Claude Code i jak je nadrobić
+Slug: slabe-strony-claude-code
+Category: Code
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEMINI API PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about developer tooling for an AI coding agent (Claude Code) with this exact visual specification:
+
+Article Context:
+- Topic: Claude Code developer tools, agent skills, productivity
+- Theme: Professional developer blog, five capability gaps closed by external tools
+
+Visual Design Requirements:
+
+Background:
+- Deep dark gradient from #0a0e1a (bottom) to #151b2b (top)
+- Smooth, professional gradient transition matching portfolio aesthetic
+
+Primary Visual Elements (bright green #00ff9d):
+- Abstract geometric shapes suggesting code and modular tooling
+- A cluster of five distinct interlocking nodes or panels, hinting at five separate building blocks plugging into a central core
+- Neural network node patterns with connecting lines
+- Circuit board inspired pathways branching outward
+- Floating hexagons and triangular elements with subtle glow
+
+Secondary Visual Elements (cyan #00b8ff):
+- Complementary geometric shapes bridging the gaps between the green modules
+- Terminal window outlines (no text inside)
+- Data flow visualization patterns, connectors slotting into an empty socket
+
+Style & Effects:
+- Glassmorphism-inspired transparency on some panels
+- Subtle blur effects creating depth
+- Modern tech aesthetic, minimalist composition
+- Clean, uncluttered layout with breathing room
+
+CRITICAL CONSTRAINTS:
+- ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS
+- Pure abstract visual art only
+- NO readable symbols, NO typography, NO linguistic characters
+- Focus on shapes, patterns, gradients, and geometric elements
+- Professional enough for LinkedIn/Twitter social previews
+- Must work as a thumbnail (recognizable at small sizes)
+
+Aspect Ratio: 1200x630 pixels (Open Graph standard)
+
+Mood: Innovative, professional, cutting-edge, trustworthy, expert
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+node scripts/generate-image.js "<prompt above>" --filename og-slabe-strony-claude-code --output public/images --model gemini-3-pro-image-preview
