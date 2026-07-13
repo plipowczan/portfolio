@@ -11,6 +11,7 @@ truth) — motyw ciemny, akcent `#00ff9d`, font Inter.
 | Plik | Do czego |
 |---|---|
 | `WaitlistLaunch.jsx` | Ogłoszenie startu darmowego kursu → CTA `pawel.lipowczan.pl/llm-wiki/kurs` |
+| `TemplateRelease010.jsx` | Ogłoszenie v0.1.0 szablonu (`/curate`, `/export`+`/import`, auto-reindex, fix PL, MIT) → CTA repo GitHub |
 
 ## Instalacja
 
