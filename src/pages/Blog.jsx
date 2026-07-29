@@ -9,15 +9,24 @@ import { getPostsByLang } from "../data/blogPosts";
 import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
-const BlogCard = ({ post, localizedPath, readMoreLabel }) => {
+const BlogCard = ({ post, localizedPath, readMoreLabel, isFirst = false }) => {
   return (
     <motion.article variants={FADE_IN_UP} className="card blog-card group">
       {/* Featured Image */}
       <div className="relative overflow-hidden rounded-lg mb-6 bg-dark-600 h-48">
+        {/*
+          The first card is this page's LCP candidate, so it stays eager and
+          priority-hinted; marking it lazy is its own Lighthouse penalty.
+          Every other card is lazy — the rest of the first row is inside the
+          viewport and still fetches immediately, while the ~27 below the fold
+          stop blocking first paint.
+        */}
         <img
           src={post.image}
           alt={post.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading={isFirst ? "eager" : "lazy"}
+          fetchPriority={isFirst ? "high" : "auto"}
         />
       </div>
 
@@ -141,12 +150,13 @@ const Blog = () => {
               variants={STAGGER_CONTAINER}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {posts.map((post) => (
+              {posts.map((post, index) => (
                 <BlogCard
                   key={post.id}
                   post={post}
                   localizedPath={localizedPath}
                   readMoreLabel={t("blog.readMore")}
+                  isFirst={index === 0}
                 />
               ))}
             </motion.div>

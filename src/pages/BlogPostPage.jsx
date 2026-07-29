@@ -562,14 +562,19 @@ const BlogPostPage = () => {
                 </div>
               </div>
 
-              {/* Featured Image */}
+              {/*
+                Featured Image. This cover sits at the top of the article and
+                is the page's LCP element — it was previously `loading="lazy"`,
+                which deferred the very image the metric is measured on.
+              */}
               <div className="relative overflow-hidden rounded-xl bg-dark-700 h-96">
                 {!imageError ? (
                   <img
                     src={post.image}
                     alt={post.title}
                     className="w-full h-full object-cover"
-                    loading="lazy"
+                    loading="eager"
+                    fetchPriority="high"
                     onError={() => {
                       console.error(`Failed to load image: ${post.image}`);
                       setImageError(true);
