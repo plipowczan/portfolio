@@ -155,13 +155,20 @@ test.describe("SEO — page metadata invariants", () => {
       await openPage(page, path);
 
       // 1. Exactly one description tag. Two of them (the old static one in
-      //    index.html plus Helmet's) let a parser pick the wrong one.
+      //    index.html plus the one React renders) let a parser pick the wrong
+      //    one.
       const descriptions = await page.$$eval(
         'meta[name="description"]',
         (metas) => metas.map((m) => m.getAttribute("content")),
       );
       expect(descriptions).toHaveLength(1);
       expect(descriptions[0]?.trim().length ?? 0).toBeGreaterThan(0);
+
+      // 1a. Exactly one <title>, for the same reason. react-helmet-async used
+      //     to overwrite the text of the static tag in index.html, so a second
+      //     title was impossible; React 19 hoists a new element instead, which
+      //     is why that static tag had to go.
+      await expect(page.locator("title")).toHaveCount(1);
 
       // 2. Canonical points at this page, /en prefix kept.
       const canonical = await page
@@ -400,5 +407,162 @@ test.describe("SEO — page metadata invariants", () => {
     // Prefix mirror is fine here — the switcher is a user affordance, not an
     // hreflang declaration. What matters is that no hreflang was emitted.
     await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0);
+  });
+
+  /**
+   * Metadata after a client-side route change (openspec:
+   * migrate-seo-to-react19-metadata, decision D3).
+   *
+   * React 19 hoists <title>, <meta> and <link> into <head> by itself, but it
+   * does not deduplicate <meta> by `name` — two components rendering a
+   * description produce two tags. Here <SEO> renders once per route and
+   * unmounts on the way out, so React should remove the previous page's tags.
+   * "Should" is not enough for a layer that was just found silently broken,
+   * so these tests prove it instead of assuming it.
+   *
+   * Every case asserts the transition happened without a document load. A full
+   * reload would rebuild <head> from scratch and pass trivially, proving
+   * nothing about unmount cleanup.
+   */
+  test.describe("po nawigacji po stronie klienta", () => {
+    const POST_A = "/blog/slabe-strony-claude-code";
+    const POST_B = "/blog/rag-ragowi-nierowny";
+    const LESSON_WITHOUT_TRANSLATION = "/llm-wiki/kurs/0-co-to-drugi-mozg";
+
+    /** Counts main-frame document loads from the moment it is attached. */
+    const countDocumentLoads = (page) => {
+      const counter = { loads: 0 };
+      page.on("load", () => {
+        counter.loads += 1;
+      });
+      return counter;
+    };
+
+    /**
+     * A route change the router handles, with no <Link> to click.
+     *
+     * Nothing reaches /llm-wiki/kurs through the router: it is absent from the
+     * nav and the footer, and the one article that mentions it does so with
+     * raw HTML from markdown, which reloads the document. `pushState` plus a
+     * `popstate` event is precisely what React Router subscribes to, so the
+     * route swaps client-side — the condition under test.
+     */
+    const navigateClientSide = async (page, path) => {
+      await page.evaluate((target) => {
+        window.history.pushState({}, "", target);
+        window.dispatchEvent(new PopStateEvent("popstate", { state: {} }));
+      }, path);
+      await page.waitForFunction(
+        (target) => window.location.pathname === target,
+        path,
+      );
+    };
+
+    test("artykuł → artykuł: jeden opis, treść z artykułu docelowego", async ({
+      page,
+    }) => {
+      // Three navigations in one test — the reference value has to come from a
+      // real load of the target article, not from a string in the test.
+      test.slow();
+
+      await openPage(page, POST_B);
+      const expected = await page
+        .locator('meta[name="description"]')
+        .getAttribute("content");
+      expect(expected?.trim().length ?? 0).toBeGreaterThan(0);
+
+      await openPage(page, POST_A);
+      const before = await page
+        .locator('meta[name="description"]')
+        .getAttribute("content");
+      expect(before).not.toBe(expected);
+
+      const loads = countDocumentLoads(page);
+
+      // The listing is the only page holding a <Link> to both articles.
+      await page.locator(`a[href="/blog"]:visible`).first().click();
+      await page.waitForURL("**/blog");
+      await page.locator(`a[href="${POST_B}"]:visible`).first().click();
+      await page.waitForURL(`**${POST_B}`);
+
+      // The router updates the URL before React commits the new render, so
+      // the tags lag the address by a frame or two. Retrying assertions, not a
+      // single read — a one-shot read here catches the listing's description.
+      await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+        "content",
+        expected,
+      );
+      await expect(page.locator('meta[name="description"]')).toHaveCount(1);
+      expect(loads.loads, "route change must not reload the document").toBe(0);
+    });
+
+    test("przełączenie języka: jeden canonical, na bieżącą wersję językową", async ({
+      page,
+    }) => {
+      await openPage(page, POST_A);
+      const loads = countDocumentLoads(page);
+
+      await page
+        .locator('a[aria-label="Switch to English"]:visible')
+        .first()
+        .click();
+      await page.waitForURL("**/en/blog/claude-code-weak-spots", {
+        timeout: 15000,
+      });
+
+      await expect
+        .poll(async () =>
+          normalize(
+            await page
+              .locator('link[rel="canonical"]')
+              .first()
+              .getAttribute("href"),
+          ),
+        )
+        .toBe(normalize(`${SITE_URL}/en/blog/claude-code-weak-spots`));
+      await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
+      expect(loads.loads, "route change must not reload the document").toBe(0);
+    });
+
+    test("strona z parą hreflang → strona bez tłumaczenia: zero hreflang", async ({
+      page,
+    }) => {
+      await openPage(page, POST_A);
+      await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(
+        3,
+      );
+
+      const loads = countDocumentLoads(page);
+      await navigateClientSide(page, LESSON_WITHOUT_TRANSLATION);
+
+      await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(
+        0,
+      );
+      expect(loads.loads, "route change must not reload the document").toBe(0);
+    });
+
+    test("każde przejście zostawia dokładnie jeden <title>", async ({
+      page,
+    }) => {
+      test.slow();
+
+      await openPage(page, POST_A);
+      await expect(page.locator("title")).toHaveCount(1);
+      const first = await page.title();
+
+      const loads = countDocumentLoads(page);
+
+      // toHaveTitle retries, so it waits out the gap between the URL changing
+      // and React committing the new <title>.
+      await navigateClientSide(page, LESSON_WITHOUT_TRANSLATION);
+      await expect(page).not.toHaveTitle(first);
+      await expect(page.locator("title")).toHaveCount(1);
+
+      await navigateClientSide(page, POST_A);
+      await expect(page).toHaveTitle(first);
+      await expect(page.locator("title")).toHaveCount(1);
+
+      expect(loads.loads, "route change must not reload the document").toBe(0);
+    });
   });
 });

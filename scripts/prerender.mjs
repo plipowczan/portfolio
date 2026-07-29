@@ -147,7 +147,8 @@ async function prerenderPage(browser, route, retries = 2) {
       timeout: timeout,
     });
 
-    // Czekaj na React Helmet - metatagi muszą NALEŻEĆ DO TEJ TRASY.
+    // Czekaj na hoistowanie metadanych przez React 19 - metatagi muszą
+    // NALEŻEĆ DO TEJ TRASY.
     //
     // Sama obecność og:title i description nie wystarcza. Wdrożenie z 29.07.2026
     // wypuściło /privacy-policy, /terms-of-service i /llm-wiki z poprawnym

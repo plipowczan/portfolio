@@ -1,18 +1,21 @@
 ## 1. Migracja komponentów
 
-- [ ] 1.1 W `src/components/seo/SEO.jsx` usuń import i opakowanie `<Helmet>` — komponent zwraca te same tagi jako fragment, bez zmiany wartości i warunków emisji
-- [ ] 1.2 W `src/components/layout/LocaleLayout.jsx` zamień `<Helmet><html lang={...} /></Helmet>` na efekt ustawiający `document.documentElement.lang`
-- [ ] 1.3 W `src/main.jsx` usuń `HelmetProvider`, zostawiając `<React.StrictMode>` bez zmian
-- [ ] 1.4 Uruchom `npm run dev` i potwierdź w narzędziach przeglądarki, że strona główna ma jeden opis, canonical i komplet hreflang — czyli to, czego przed migracją w dev nie było w ogóle
+- [x] 1.1 W `src/components/seo/SEO.jsx` usuń import i opakowanie `<Helmet>` — komponent zwraca te same tagi jako fragment, bez zmiany wartości i warunków emisji
+- [x] 1.2 W `src/components/layout/LocaleLayout.jsx` zamień `<Helmet><html lang={...} /></Helmet>` na efekt ustawiający `document.documentElement.lang`
+- [x] 1.3 W `src/main.jsx` usuń `HelmetProvider`, zostawiając `<React.StrictMode>` bez zmian
+- [x] 1.4 Uruchom `npm run dev` i potwierdź w narzędziach przeglądarki, że strona główna ma jeden opis, canonical i komplet hreflang — czyli to, czego przed migracją w dev nie było w ogóle
 
 ## 2. Dowód na brak duplikatów
 
-- [ ] 2.1 Dodaj do `tests/e2e/seo-metadata-invariants.spec.js` blok nawigacji po stronie klienta (podpórki testowe wciąż na miejscu — patrz decyzja D4)
-- [ ] 2.2 Test: przejście `/blog/<slug-a>` → `/blog/<slug-b>` zostawia dokładnie jeden `<meta name="description">`, z treścią artykułu docelowego
-- [ ] 2.3 Test: przełączenie języka zostawia dokładnie jeden `<link rel="canonical">`, wskazujący na bieżącą wersję językową
-- [ ] 2.4 Test: przejście ze strony z parą hreflang na stronę bez tłumaczenia (lekcja kursu) nie zostawia żadnego `<link rel="alternate" hreflang>`
-- [ ] 2.5 Test: liczba elementów `<title>` w dokumencie wynosi jeden — Helmet nadpisywał tytuł z `index.html`, React 19 wstawia własny
-- [ ] 2.6 Uruchom te testy i doprowadź do zieleni; jeśli duplikaty jednak powstają, zatrzymaj się i rozstrzygnij sposób usuwania przed dalszymi krokami
+- [x] 2.1 Dodaj do `tests/e2e/seo-metadata-invariants.spec.js` blok nawigacji po stronie klienta (podpórki testowe wciąż na miejscu — patrz decyzja D4)
+- [x] 2.2 Test: przejście `/blog/<slug-a>` → `/blog/<slug-b>` zostawia dokładnie jeden `<meta name="description">`, z treścią artykułu docelowego
+- [x] 2.3 Test: przełączenie języka zostawia dokładnie jeden `<link rel="canonical">`, wskazujący na bieżącą wersję językową
+- [x] 2.4 Test: przejście ze strony z parą hreflang na stronę bez tłumaczenia (lekcja kursu) nie zostawia żadnego `<link rel="alternate" hreflang>`
+- [x] 2.5 Test: liczba elementów `<title>` w dokumencie wynosi jeden — Helmet nadpisywał tytuł z `index.html`, React 19 wstawia własny
+- [x] 2.6 Uruchom te testy i doprowadź do zieleni; jeśli duplikaty jednak powstają, zatrzymaj się i rozstrzygnij sposób usuwania przed dalszymi krokami
+  - **Wynik: duplikatów metadanych nie ma.** React odmontowuje `<SEO>` przy zmianie trasy i zabiera ze sobą wstawione tagi — hreflang schodzi z 3 do 0, opis i canonical zostają pojedyncze. Własne usuwanie tagów niepotrzebne, D3 zamknięte.
+  - Jedyny duplikat dotyczył `<title>` i pochodził ze statycznego tagu w `index.html`, nie z Reacta — usunięty w kroku 3.6.
+  - Uwaga do testów: adres zmienia się przed zatwierdzeniem renderu, więc asercje muszą być ponawiane (`toHaveAttribute`, `toHaveTitle`, `expect.poll`). Pojedynczy odczyt `getAttribute` łapie stan poprzedniej trasy i daje test niestabilny.
 
 ## 3. Weryfikacja przed zdjęciem podpórek
 
@@ -21,7 +24,8 @@
 - [ ] 3.3 Policz w kilku plikach z `dist/` elementy `<title>` i `<meta name="description">` — po jednym na plik (licz z pominięciem komentarzy HTML)
 - [ ] 3.4 Sprawdź w `dist/` canonical i hreflang dla `/en/index.html` i jednego artykułu bloga — wartości identyczne jak przed migracją
 - [ ] 3.5 Sprawdź w `dist/` atrybut `lang` na `<html>` dla trasy polskiej i angielskiej
-- [ ] 3.6 Rozstrzygnij pytanie otwarte z design.md: czy `<title>` zostaje w `index.html` jako wartość zapasowa
+- [x] 3.6 Rozstrzygnij pytanie otwarte z design.md: czy `<title>` zostaje w `index.html` jako wartość zapasowa
+  - **Rozstrzygnięcie: nie zostaje.** Pod Helmetem statyczny `<title>` był bezpieczny, bo Helmet nadpisywał jego treść. React 19 wstawia własny element, więc statyczny zostaje jako duplikat — na serwerze deweloperskim widać było dwa. Prerender zrzuca DOM, więc trafiłyby do każdego z 98 plików. Usunięty; `index.html` niesie teraz komentarz w tej samej konwencji co przy opisie. Koszt: pusta zakładka do zamontowania Reacta w dev — na produkcji nie występuje, bo prerenderowany plik ma tytuł Reacta.
 
 ## 4. Usunięcie zależności
 
