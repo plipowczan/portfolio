@@ -20,7 +20,11 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const FONT_DIR = resolve(ROOT, "public/fonts");
+// Under src/, not public/: Vite fingerprints anything referenced from CSS and
+// emits it to /assets/, which vercel.json already caches immutably for a year.
+// Served from public/ the files kept their literal names, so they fell through
+// to the catch-all rule and were revalidated on every single page load.
+const FONT_DIR = resolve(ROOT, "src/assets/fonts");
 const CSS_OUT = resolve(ROOT, "src/styles/fonts.css");
 
 // A modern UA is required — Google serves woff2 + variable axes only to browsers
@@ -99,7 +103,9 @@ const main = async () => {
         // every weight in between, so there is nothing to pick per weight.
         `  font-weight: ${field(block, "font-weight")};`,
         "  font-display: swap;",
-        `  src: url("/fonts/${file}") format("woff2");`,
+        // Relative, so Vite resolves and fingerprints it. An absolute /fonts/…
+        // path would be treated as a public-dir URL and left untouched.
+        `  src: url("../assets/fonts/${file}") format("woff2");`,
         `  unicode-range: ${field(block, "unicode-range")};`,
         "}",
         "",

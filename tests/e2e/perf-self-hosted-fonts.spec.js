@@ -34,7 +34,7 @@ for (const path of ["/", "/blog", "/blog/slabe-strony-claude-code", "/en/"]) {
 test("serves the body font from our own origin", async ({ page }) => {
   const fontRequests = [];
   page.on("response", (res) => {
-    if (res.url().includes("/fonts/") && res.url().endsWith(".woff2")) {
+    if (res.url().endsWith(".woff2")) {
       fontRequests.push({ url: res.url(), status: res.status() });
     }
   });
@@ -43,15 +43,27 @@ test("serves the body font from our own origin", async ({ page }) => {
   await page.waitForTimeout(1500);
 
   expect(fontRequests.length).toBeGreaterThan(0);
-  for (const r of fontRequests) expect(r.status).toBe(200);
-  expect(fontRequests.some((r) => r.url.includes("inter-latin"))).toBe(true);
+  for (const r of fontRequests) {
+    expect(r.status).toBe(200);
+    expect(new URL(r.url).origin).toBe(new URL(page.url()).origin);
+  }
+  expect(fontRequests.some((r) => /inter-latin/.test(r.url))).toBe(true);
 });
 
 test("preloads the always-used latin subset, crossorigin", async ({ page }) => {
   await page.goto("/");
-  const preload = page.locator('link[rel="preload"][href="/fonts/inter-latin.woff2"]');
+  // Matched by pattern, not literal path: the file is fingerprinted in a
+  // production build, so its name differs between dev and dist.
+  const preload = page.locator('link[rel="preload"][as="font"]');
   await expect(preload).toHaveCount(1);
-  await expect(preload).toHaveAttribute("as", "font");
+
+  const href = await preload.getAttribute("href");
+  // The `(?!-ext)` is the whole point. `inter-latin-ext-<hash>.woff2` starts
+  // with `inter-latin` too, and preloading it would pull the 83kB diacritics
+  // subset on every route instead of the 47kB one — which is exactly the bug
+  // this plugin shipped with first time round. The optional group covers the
+  // fingerprint, which is present in a build and absent in dev.
+  expect(href).toMatch(/inter-latin(?!-ext)(-[A-Za-z0-9_-]+)?\.woff2$/);
   // Without crossorigin the preload is discarded and the font fetched twice.
   await expect(preload).toHaveAttribute("crossorigin", /.*/);
 });
