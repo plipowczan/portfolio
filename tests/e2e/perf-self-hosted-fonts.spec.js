@@ -58,7 +58,12 @@ test("preloads the always-used latin subset, crossorigin", async ({ page }) => {
   await expect(preload).toHaveCount(1);
 
   const href = await preload.getAttribute("href");
-  expect(href).toMatch(/inter-latin[^/]*\.woff2$/);
+  // The `(?!-ext)` is the whole point. `inter-latin-ext-<hash>.woff2` starts
+  // with `inter-latin` too, and preloading it would pull the 83kB diacritics
+  // subset on every route instead of the 47kB one — which is exactly the bug
+  // this plugin shipped with first time round. The optional group covers the
+  // fingerprint, which is present in a build and absent in dev.
+  expect(href).toMatch(/inter-latin(?!-ext)(-[A-Za-z0-9_-]+)?\.woff2$/);
   // Without crossorigin the preload is discarded and the font fetched twice.
   await expect(preload).toHaveAttribute("crossorigin", /.*/);
 });
