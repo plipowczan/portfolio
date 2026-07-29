@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 import { PREVIEW_URL } from "../../scripts/ports.mjs";
+import matter from "gray-matter";
 
 /**
  * Page-level SEO invariants (openspec: fix-seo-hreflang-canonical-meta).
@@ -62,6 +63,20 @@ const parseSitemap = () => {
 
 const SITEMAP = parseSitemap();
 const SITEMAP_LOCS = new Set(SITEMAP.keys());
+
+/**
+ * A PL post's `excerpt` straight from its frontmatter — the exact string
+ * <BlogPostPage> hands to <SEO> as `description`, so it is the honest expected
+ * value for a metadata assertion.
+ */
+const readExcerpt = (slug) => {
+  const file = fileURLToPath(
+    new URL(`../../src/content/blog/${slug}.md`, import.meta.url),
+  );
+  const { excerpt } = matter(readFileSync(file, "utf8")).data;
+  if (!excerpt) throw new Error(`${slug}.md has no excerpt in frontmatter`);
+  return excerpt;
+};
 
 /**
  * The URL set from the change's task 5.7. `/llm-wiki/kurs/...` stands in for
@@ -461,21 +476,24 @@ test.describe("SEO — page metadata invariants", () => {
     test("artykuł → artykuł: jeden opis, treść z artykułu docelowego", async ({
       page,
     }) => {
-      // Three navigations in one test — the reference value has to come from a
-      // real load of the target article, not from a string in the test.
       test.slow();
 
-      await openPage(page, POST_B);
-      const expected = await page
-        .locator('meta[name="description"]')
-        .getAttribute("content");
-      expect(expected?.trim().length ?? 0).toBeGreaterThan(0);
+      // Expected values come from the articles' frontmatter, not from a
+      // reference page load. <BlogPostPage> picks the post with
+      // getPostsByLang(i18n.language), and i18n settles its language in an
+      // effect — so the first render of a direct hit can be the "post not
+      // found" branch, which carries a description of its own. Reading the
+      // reference off the page catches that value on slower engines.
+      const expectedA = readExcerpt("slabe-strony-claude-code");
+      const expected = readExcerpt("rag-ragowi-nierowny");
+      expect(expectedA).not.toBe(expected);
 
       await openPage(page, POST_A);
-      const before = await page
-        .locator('meta[name="description"]')
-        .getAttribute("content");
-      expect(before).not.toBe(expected);
+      // Retrying assertion, so it also waits out the language settling above.
+      await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+        "content",
+        expectedA,
+      );
 
       const loads = countDocumentLoads(page);
 
