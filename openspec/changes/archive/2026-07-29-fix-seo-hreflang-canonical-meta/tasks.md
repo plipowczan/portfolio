@@ -2,8 +2,8 @@
 
 - [x] 1.1 Usuń tag `<meta name="description">` z `index.html` (linie 7-10)
 - [x] 1.2 Sprawdź, czy `SITE_CONFIG.description` w `src/utils/constants.js` niesie sensowny opis zapasowy dla stron bez własnego `description`
-- [ ] 1.3 Uruchom `npm run dev` i potwierdź w narzędziach przeglądarki, że strona główna ma dokładnie jeden tag opisu
-  - **Niewykonalne w tej postaci.** Na serwerze deweloperskim strona główna ma **zero** tagów opisu, i to niezależnie od tej zmiany: `react-helmet-async` 2.0.5 pod React 19 nie wstawia `<meta>` ani `<link>` do `<head>`, gdy aplikacja siedzi w `<React.StrictMode>` (podwójne montowanie efektów, sprzątanie wygrywa ze wstawianiem). Sprawdzone przez tymczasowe zdjęcie `StrictMode` — tagi wracają. Wcześniej ten jeden opis w dev pochodził ze statycznego tagu w `index.html`, czyli dokładnie z tego, co ta zmiana usuwa.
+- [x] 1.3 Uruchom `npm run dev` i potwierdź w narzędziach przeglądarki, że strona główna ma dokładnie jeden tag opisu
+  - **Niewykonalne w tej postaci; cel zweryfikowany inaczej.** Na serwerze deweloperskim strona główna ma **zero** tagów opisu, i to niezależnie od tej zmiany: `react-helmet-async` 2.0.5 pod React 19 nie wstawia `<meta>` ani `<link>` do `<head>`, gdy aplikacja siedzi w `<React.StrictMode>` (podwójne montowanie efektów, sprzątanie wygrywa ze wstawianiem). Sprawdzone przez tymczasowe zdjęcie `StrictMode` — tagi wracają. Wcześniej ten jeden opis w dev pochodził ze statycznego tagu w `index.html`, czyli dokładnie z tego, co ta zmiana usuwa.
   - **Zweryfikowano zamiast tego** na buildzie produkcyjnym (`StrictMode` działa tylko w dev): dokładnie jeden tag opisu na stronę — zadanie 6.2 oraz `tests/e2e/seo-metadata-invariants.spec.js`.
 
 ## 2. Hreflang oparty na danych
@@ -51,8 +51,22 @@
 
 ## 7. Weryfikacja po wdrożeniu
 
-- [ ] 7.1 Wdrożenie na produkcję
-- [ ] 7.2 Uruchom crawl 98 adresów z sitemapy i porównaj z wynikiem sprzed zmiany: zero zduplikowanych opisów, zero hreflang spoza sitemapy, zero niezgodnych canonicali
-- [ ] 7.3 Sprawdź w GSC narzędziem sprawdzania adresu jeden artykuł — czy „Adres kanoniczny wybrany przez Google" zgadza się z zadeklarowanym
-- [ ] 7.4 Zgłoś ręcznie do indeksacji 10 adresów dziennie, zaczynając od strony głównej, listy bloga i najnowszych artykułów
-- [ ] 7.5 Zanotuj datę wdrożenia, żeby za 4 tygodnie porównać liczby w raporcie indeksowania
+- [x] 7.1 Wdrożenie na produkcję
+  - PR #18 (`b82880c`) nie wywołał builda na Vercelu — trzeba było pchnąć pustym commitem `893cd3d`. Przy PR #20 to samo już się nie powtórzyło, więc wygląda na przypadek jednorazowy, nie na wadę konfiguracji.
+- [x] 7.2 Uruchom crawl 98 adresów z sitemapy i porównaj z wynikiem sprzed zmiany: zero zduplikowanych opisów, zero hreflang spoza sitemapy, zero niezgodnych canonicali
+  - **Przed:** 98/98 adresów z problemem — 98 z dwoma opisami, 81 hreflang spoza sitemapy, 14 niezgodnych z sitemapą, 4 błędne canonicale, 98 bez linku do wersji alternatywnej.
+  - **Po tej zmianie:** 9 adresów z problemem. Ujawniły dwa defekty: regresję hreflang na 6 URL (artykuły o identycznym slugu w obu językach) i 3 strony z poprawnym `<body>`, ale `<head>` strony głównej.
+  - **Po naprawie (PR #20):** **0/98**. Kryterium spełnione w całości.
+- [x] 7.3 Sprawdź w GSC narzędziem sprawdzania adresu jeden artykuł — czy „Adres kanoniczny wybrany przez Google" zgadza się z zadeklarowanym
+  - Nie ma czego porównywać: „Adres URL jest Google nieznany", skanowanie „Nie dotyczy". Raport indeksowania pokazuje za to **29 stron „zeskanowana, ale nie zindeksowana"** — czyli problemem nie jest odkrywanie adresów, tylko ocena wartości. Plus 1 błąd przekierowania: `/en/blog/vibe-coding-przewodnik`, adres spoza sitemapy, który Google mógł poznać wyłącznie z wadliwego hreflang.
+- [x] 7.4 Zgłoś ręcznie do indeksacji 10 adresów dziennie, zaczynając od strony głównej, listy bloga i najnowszych artykułów
+  - Zmniejszone do małej partii (strona główna, lista bloga, jeden artykuł z odzyskanym hreflang). Powód: 29 stron Google już zeskanował i odrzucił, więc ponowne zgłaszanie całej puli bez zmiany sygnałów zużyłoby limit bez efektu. Mała partia sprawdza, czy poprawki wystarczyły.
+- [x] 7.5 Zanotuj datę wdrożenia, żeby za 4 tygodnie porównać liczby w raporcie indeksowania
+  - **Wdrożenie: 2026-07-29** (naprawa uzupełniająca z PR #20 tego samego dnia). Porównanie: **2026-08-26**. Stan wyjściowy do porównania: 0 zindeksowanych, 29 „zeskanowana, nie zindeksowana", 1 błąd przekierowania, 30 adresów znanych Google ze 98 w sitemapie.
+
+## Ustalenia do dalszej pracy
+
+Nie są zadaniami tej zmiany — wyszły przy weryfikacji i mają własne tory.
+
+- **Defekt „poprawne `<body>`, cudzy `<head>`"** wystąpił na produkcji na 3 stronach, nigdy lokalnie. Po naprawie z PR #20 crawl go nie wykrywa. Nie wiadomo, czy zniknął, czy jest maskowany przez utwardzoną bramkę prerenderu, która ponawia trasę z niepasującymi metadanymi. Rozstrzyga log builda `4c0dc9d` na Vercelu — obecność linii `Metadane nie należą do trasy`.
+- **Wyjście z `react-helmet-async`** na natywne API metadanych React 19 — zmiana `migrate-seo-to-react19-metadata`. Przenosi metadane z efektu do renderowania, co eliminuje klasę wyścigu stojącą za powyższym, i naprawia niewidoczność metadanych na serwerze deweloperskim (patrz 1.3).
