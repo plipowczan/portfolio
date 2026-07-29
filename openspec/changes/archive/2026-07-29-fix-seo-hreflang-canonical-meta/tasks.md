@@ -68,5 +68,5 @@
 
 Nie są zadaniami tej zmiany — wyszły przy weryfikacji i mają własne tory.
 
-- **Defekt „poprawne `<body>`, cudzy `<head>`"** wystąpił na produkcji na 3 stronach, nigdy lokalnie. Po naprawie z PR #20 crawl go nie wykrywa. Nie wiadomo, czy zniknął, czy jest maskowany przez utwardzoną bramkę prerenderu, która ponawia trasę z niepasującymi metadanymi. Rozstrzyga log builda `4c0dc9d` na Vercelu — obecność linii `Metadane nie należą do trasy`.
+- **Defekt „poprawne `<body>`, cudzy `<head>`"** wystąpił na produkcji na 3 stronach, nigdy lokalnie. **Rozstrzygnięte:** log builda `4c0dc9d` (334 linie) nie zawiera ani jednego wystąpienia `Metadane nie należą do trasy`, a bramka była już w tym buildzie. Nie jest więc maskowany — po prostu tym razem nie wystąpił. Nie jest też naprawiony: nic w PR #20 nie dotknęło przyczyny, która pozostaje nieznana. Stan faktyczny: defekt utajony i niedeterministyczny, ale ograniczony — przy następnym wystąpieniu build padnie, zamiast wypuścić strony z cudzymi metadanymi. Zamknie go dopiero migracja poniżej, bo usuwa sam mechanizm.
 - **Wyjście z `react-helmet-async`** na natywne API metadanych React 19 — zmiana `migrate-seo-to-react19-metadata`. Przenosi metadane z efektu do renderowania, co eliminuje klasę wyścigu stojącą za powyższym, i naprawia niewidoczność metadanych na serwerze deweloperskim (patrz 1.3).
