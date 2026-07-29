@@ -77,8 +77,9 @@ const Footer = () => {
                   {t("nav.blog")}
                 </Link>
               </li>
-              {/* Polish-only section — /en/llm-wiki is a hard 404, so the entry
-                  is omitted on English routes rather than linked with a prefix. */}
+              {/* Polish-only section. There is no /en/llm-wiki page — it resolves
+                  only through the 301 in vercel.json — so the entry is omitted on
+                  English routes rather than linked with an /en prefix. */}
               {i18n.language !== "en" && (
                 <li>
                   <Link

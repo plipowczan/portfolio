@@ -6,8 +6,10 @@ import { expect, test } from "@playwright/test";
  * Not from the nav, the footer, the homepage or the blog index. Reachable only
  * via sitemap.xml, which is the weakest possible discovery signal.
  *
- * The section is Polish-only, and /en/llm-wiki returns a hard 404, so these
- * links must appear on PL routes and must NOT be emitted with an /en prefix.
+ * The section is Polish-only. Before this change /en/llm-wiki returned a hard
+ * 404; it now resolves through a 301 in vercel.json, which exists as a safety
+ * net for external and legacy links. Nothing on the site should link there —
+ * the course links belong on PL routes, without an /en prefix.
  */
 
 const PL_ROUTES = ["/", "/blog", "/blog/slabe-strony-claude-code"];

@@ -13,9 +13,10 @@ const NAV_ITEMS = [
   { key: "nav.skills", href: "/#skills" },
   { key: "nav.testimonials", href: "/#testimonials" },
   { key: "nav.blog", href: "/blog" },
-  // The course exists only in Polish, and /en/llm-wiki is a hard 404, so this
-  // entry is dropped entirely on English routes rather than linking out of the
-  // reader's language or into a dead URL.
+  // The course exists only in Polish. There is no /en/llm-wiki page — it
+  // resolves solely through the 301 in vercel.json — so this entry is dropped
+  // on English routes rather than linking a reader out of their language or
+  // sending them through a redirect to Polish content.
   { key: "nav.llmWiki", href: "/llm-wiki", plOnly: true },
   { key: "nav.contact", href: "/#contact" },
 ];
