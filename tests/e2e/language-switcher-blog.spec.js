@@ -16,7 +16,7 @@ test.describe("Language Switcher - Blog Posts", () => {
 
     // Click language switcher — pick the VISIBLE one (desktop + mobile nav each
     // render a switcher; `.first()` would grab the hidden desktop copy on mobile)
-    const langButton = page.locator('button[aria-label="Switch to English"]:visible').first();
+    const langButton = page.locator('a[aria-label="Switch to English"]:visible').first();
     await expect(langButton).toBeVisible({ timeout: 10000 });
     await langButton.click();
 
@@ -37,7 +37,7 @@ test.describe("Language Switcher - Blog Posts", () => {
     await expect(article).toBeVisible({ timeout: 15000 });
 
     // Click language switcher — pick the VISIBLE one (see note above)
-    const langButton = page.locator('button[aria-label="Przełącz na polski"]:visible').first();
+    const langButton = page.locator('a[aria-label="Przełącz na polski"]:visible').first();
     await expect(langButton).toBeVisible({ timeout: 10000 });
     await langButton.click();
 
@@ -55,7 +55,7 @@ test.describe("Language Switcher - Blog Posts", () => {
     await waitForAnimations(page, 1000);
 
     // Switch to EN — pick the VISIBLE switcher (desktop/mobile both render one)
-    const langButton = page.locator('button[aria-label="Switch to English"]:visible').first();
+    const langButton = page.locator('a[aria-label="Switch to English"]:visible').first();
     await expect(langButton).toBeVisible({ timeout: 10000 });
     await langButton.click();
 
@@ -63,7 +63,7 @@ test.describe("Language Switcher - Blog Posts", () => {
     expect(page.url()).toContain("/en/blog");
 
     // Switch back to PL
-    const langButtonBack = page.locator('button[aria-label="Przełącz na polski"]:visible').first();
+    const langButtonBack = page.locator('a[aria-label="Przełącz na polski"]:visible').first();
     await expect(langButtonBack).toBeVisible({ timeout: 10000 });
     await langButtonBack.click();
 

@@ -87,6 +87,7 @@ const Blog = () => {
         description={t("blog.seoDescription")}
         path={localizedPath("/blog")}
         image="/images/og-blog.webp"
+        mirroredByPrefix
       />
       <StructuredData
         schema={{

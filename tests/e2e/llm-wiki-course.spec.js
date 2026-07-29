@@ -305,11 +305,20 @@ test.describe("Kurs LLM Wiki — PL-only redirecty /en", () => {
 
 // Prerender assertions read the built `dist/`. `npm test` runs the dev server
 // only, so this block is skipped unless a `npm run build:prerender` was run
-// first (locally / in the verify step). It never fails a build-less run.
+// first. It never fails a build-less run.
+//
+// Znacznikiem jest `dist/blog/index.html`: zwykły `npm run build` produkuje
+// wyłącznie `dist/index.html`, dopiero prerender rozpisuje podstrony na
+// osobne pliki. Samo istnienie `dist/` nie wystarcza - po zwykłym buildzie
+// katalog jest, a prerenderowanych stron w nim nie ma, więc warunek oparty na
+// katalogu wywracał ten test zamiast go pominąć. Celowo NIE jest to ścieżka
+// z kursu, żeby warunek nie zaliczał się z tego samego, co asercje niżej.
+const PRERENDERED = existsSync(join(DIST, "blog", "index.html"));
+
 test.describe("Kurs LLM Wiki — prerender (PL-only)", () => {
   test.skip(
-    !existsSync(DIST),
-    "brak dist/ — uruchom `npm run build:prerender` przed tym testem"
+    !PRERENDERED,
+    "dist/ bez prerenderu — uruchom `npm run build:prerender` przed tym testem"
   );
 
   test("hub i wszystkie lekcje (L0 + L1–L5) mają statyczny HTML z meta description; brak wariantów /en", () => {

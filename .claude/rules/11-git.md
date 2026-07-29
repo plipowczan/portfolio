@@ -139,6 +139,32 @@ wip
 
 ---
 
+## Before Merging
+
+**REQUIRED — run the prerender test pass before every merge to `main`:**
+
+```bash
+npm run build:prerender   # ~6.5 min, writes dist/
+npm test                  # prerender assertions now run instead of skipping
+```
+
+**Why this is a manual gate, not CI:** several tests read the built `dist/`
+— the static HTML a crawler actually receives (SEO metadata, hreflang,
+alternate-language links, the LLM Wiki course pages). They only run when a
+prerendered `dist/` exists. CI runs `npm test` alone, and adding
+`build:prerender` to it would cost 6.5 min in each of the four shards,
+blowing the 30-minute job limit. So CI covers everything except the
+prerendered output, and this step covers the rest.
+
+**Watch out:** `npm run build` (without `:prerender`) overwrites `dist/`
+with a plain SPA build and silently undoes the prerender. The prerender
+tests then report as *skipped*, not failed — a green run does not prove
+they executed. Check the skip count, or rebuild before trusting it. The
+test build used by `npm test` writes to `dist-test/` and leaves `dist/`
+alone.
+
+---
+
 ## Pull Requests
 
 ### PR Description Template

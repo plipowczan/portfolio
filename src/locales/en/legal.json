@@ -125,5 +125,9 @@
   "cookies.section7.title": "7. More Information",
   "cookies.section7.content": "For more information about cookies, please visit: ",
   "cookies.section8.title": "8. Contact",
-  "cookies.section8.content": "For matters related to the Cookie Policy, please contact us at the email address: "
+  "cookies.section8.content": "For matters related to the Cookie Policy, please contact us at the email address: ",
+
+  "privacy.seoDescription": "Privacy policy for pawel.lipowczan.pl - what data is collected, why it is processed, and the rights you have under GDPR.",
+  "terms.seoDescription": "Terms of service for pawel.lipowczan.pl - rules for using the site, copyright, and the limits of liability.",
+  "cookies.seoDescription": "Cookie policy for pawel.lipowczan.pl - which cookies are used, what for, and how to change the settings in your browser."
 }

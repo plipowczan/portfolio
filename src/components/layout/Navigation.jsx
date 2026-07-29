@@ -16,53 +16,54 @@ const NAV_ITEMS = [
   { key: "nav.contact", href: "/#contact" },
 ];
 
+/**
+ * Where the language switch leads from a given path. Pure, so it can run
+ * during render instead of inside a click handler — that is what puts the
+ * href into the prerendered HTML and makes /en/* reachable in the link graph.
+ *
+ * @param {string} pathname current location pathname
+ * @param {string} currentLang "pl" | "en"
+ * @returns {string} path of the alternate-language version
+ */
+export const resolveLanguageSwitchPath = (pathname, currentLang) => {
+  // Blog posts have translated slugs, so the target comes from frontmatter.
+  const blogPostMatch = pathname.match(/^(?:\/en)?\/blog\/([^/]+)\/?$/);
+  if (blogPostMatch) {
+    const alternatePost = getAlternatePost(blogPostMatch[1]);
+
+    if (alternatePost) {
+      return currentLang === "pl"
+        ? `/en/blog/${alternatePost.slug}`
+        : `/blog/${alternatePost.slug}`;
+    }
+
+    // No translation → the blog listing in the other language. It returns 200,
+    // unlike the current slug with the other prefix bolted on.
+    return currentLang === "pl" ? "/en/blog" : "/blog";
+  }
+
+  // Everything else mirrors by prefix.
+  if (currentLang === "pl") return `/en${pathname}`;
+  return pathname.replace(/^\/en/, "") || "/";
+};
+
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
   const location = useLocation();
-  const navigate = useNavigate();
   const currentLang = i18n.language;
 
-  const switchLanguage = () => {
-    const currentPath = location.pathname;
-
-    // Detect blog post pages and resolve alternate slug
-    const blogPostMatch = currentPath.match(/^(?:\/en)?\/blog\/([^/]+)\/?$/);
-    if (blogPostMatch) {
-      const currentSlug = blogPostMatch[1];
-      const alternatePost = getAlternatePost(currentSlug);
-
-      if (alternatePost) {
-        const targetPath = currentLang === "pl"
-          ? `/en/blog/${alternatePost.slug}`
-          : `/blog/${alternatePost.slug}`;
-        navigate(targetPath);
-        return;
-      }
-
-      // Fallback: no translation found → go to blog listing
-      navigate(currentLang === "pl" ? "/en/blog" : "/blog");
-      return;
-    }
-
-    // Non-blog pages: prefix-based switching
-    if (currentLang === "pl") {
-      navigate(`/en${currentPath}`);
-    } else {
-      const pathWithoutLang = currentPath.replace(/^\/en/, "") || "/";
-      navigate(pathWithoutLang);
-    }
-  };
+  const target = resolveLanguageSwitchPath(location.pathname, currentLang);
 
   return (
-    <button
-      onClick={switchLanguage}
-      className="flex items-center space-x-1 px-3 py-1.5 rounded-full border border-primary-500/30 hover:border-primary-500 transition-colors text-sm font-medium"
+    <Link
+      to={target}
+      className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-full border border-primary-500/30 hover:border-primary-500 transition-colors text-sm font-medium"
       aria-label={currentLang === "pl" ? "Switch to English" : "Przełącz na polski"}
     >
       <span className={currentLang === "pl" ? "text-primary-500" : "text-gray-400"}>PL</span>
       <span className="text-gray-500">|</span>
       <span className={currentLang === "en" ? "text-primary-500" : "text-gray-400"}>EN</span>
-    </button>
+    </Link>
   );
 };
 

@@ -2,6 +2,32 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { SITE_CONFIG } from "../../utils/constants";
 
+/**
+ * Page-level metadata: title, description, canonical, hreflang, OG, Twitter.
+ *
+ * @param {{
+ *   title?: string,
+ *   description?: string,
+ *   path?: string,
+ *   image?: string,
+ *   article?: boolean,
+ *   publishedTime?: string,
+ *   modifiedTime?: string,
+ *   author?: string,
+ *   alternateUrl?: string,
+ *   mirroredByPrefix?: boolean,
+ * }} props
+ *
+ * `path` must already carry the `/en` prefix on English routes (use
+ * `useLocalizedPath()`), so every URL canonicalises to itself.
+ *
+ * The alternate-language URL comes from data, never from string surgery on the
+ * current path: a page that owns the mapping passes `alternateUrl` (blog posts
+ * resolve it through `getAlternatePost()`), and a page whose two versions
+ * genuinely are the same path with an `/en` prefix opts in with
+ * `mirroredByPrefix`. Without either, no `alternate` tag is emitted — a
+ * guessed URL that 404s is worse than a missing tag.
+ */
 const SEO = ({
   title,
   description,
@@ -12,6 +38,7 @@ const SEO = ({
   modifiedTime,
   author,
   alternateUrl,
+  mirroredByPrefix = false,
 }) => {
   const { i18n } = useTranslation();
   const siteUrl = SITE_CONFIG.url;
@@ -33,13 +60,25 @@ const SEO = ({
       : `${siteUrl}${image}`
     : `${siteUrl}${SITE_CONFIG.ogImage}`;
 
-  // Build hreflang URLs
-  const plUrl = currentLang === "en"
-    ? (alternateUrl || canonicalUrl.replace("/en/", "/").replace("/en", "/"))
-    : canonicalUrl;
-  const enUrl = currentLang === "en"
-    ? canonicalUrl
-    : (alternateUrl || `${siteUrl}/en${formattedPath}`);
+  const isEnglish = currentLang === "en";
+
+  // Only for pages that opted in via `mirroredByPrefix`.
+  const prefixMirrorUrl = isEnglish
+    ? `${siteUrl}${formattedPath.replace(/^\/en(?=\/|$)/, "") || "/"}`
+    : `${siteUrl}/en${formattedPath}`;
+
+  const resolvedAlternate =
+    alternateUrl || (mirroredByPrefix ? prefixMirrorUrl : null);
+
+  // An alternate pointing back at this very page is not an alternate. Guarding
+  // here keeps a self-referential `alternateUrl` from producing an hreflang
+  // pair that contradicts sitemap.xml.
+  const hasAlternate = Boolean(
+    resolvedAlternate && resolvedAlternate !== canonicalUrl,
+  );
+
+  const plUrl = isEnglish ? resolvedAlternate : canonicalUrl;
+  const enUrl = isEnglish ? canonicalUrl : resolvedAlternate;
 
   return (
     <Helmet>
@@ -47,10 +86,12 @@ const SEO = ({
       <meta name="description" content={metaDescription} />
       <link rel="canonical" href={canonicalUrl} />
 
-      {/* Hreflang Alternate Links */}
-      <link rel="alternate" hreflang="pl" href={plUrl} />
-      <link rel="alternate" hreflang="en" href={enUrl} />
-      <link rel="alternate" hreflang="x-default" href={plUrl} />
+      {/* Hreflang — emitted as a complete set or not at all */}
+      {hasAlternate && <link rel="alternate" hreflang="pl" href={plUrl} />}
+      {hasAlternate && <link rel="alternate" hreflang="en" href={enUrl} />}
+      {hasAlternate && (
+        <link rel="alternate" hreflang="x-default" href={plUrl} />
+      )}
 
       {/* Open Graph */}
       <meta property="og:url" content={canonicalUrl} />

@@ -1,18 +1,21 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import SEO from "../components/seo/SEO";
+import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const PrivacyPolicy = () => {
   const { t, i18n } = useTranslation("legal");
+  const localizedPath = useLocalizedPath();
   const dateLocale = i18n.language === "en" ? "en-US" : "pl-PL";
 
   return (
     <>
       <SEO
         title="Privacy Policy"
-        description="Privacy Policy and GDPR compliance information"
-        path="/privacy-policy"
+        description={t("privacy.seoDescription")}
+        path={localizedPath("/privacy-policy")}
+        mirroredByPrefix
       />
 
       <div className="min-h-screen py-24 md:py-32">

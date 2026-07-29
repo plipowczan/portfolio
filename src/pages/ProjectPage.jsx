@@ -91,7 +91,7 @@ const ProjectPage = () => {
         description={projectDescription}
         image={project.image}
         path={localizedPath(`/projects/${project.slug}`)}
-        type="article"
+        mirroredByPrefix
       />
 
       <script type="application/ld+json">
