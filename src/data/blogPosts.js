@@ -141,15 +141,31 @@ export function getPostsByLang(lang) {
 }
 
 /**
- * Pobiera alternate post (tłumaczenie) dla danego slugu
+ * Pobiera alternate post (tłumaczenie) dla danego slugu.
+ *
+ * Para rozwiązuje się przez slug ORAZ język, bo slug sam w sobie nie jest
+ * unikalny: część artykułów ma tę samą nazwę po obu stronach (np.
+ * `no-code-lead-generation` istnieje w `blog/` i w `blog/en/`). Szukanie po
+ * samym slugu trafiało wtedy w losową z dwóch wersji.
+ *
+ * Odpowiednikiem jest wpis o slugu z `alternateSlug` w INNYM języku. Ten
+ * warunek zastępuje wcześniejsze odrzucanie `alternateSlug === slug`: artykuł
+ * wskazujący sam na siebie i tak nie znajdzie wersji w drugim języku, a para o
+ * identycznych slugach rozwiązuje się poprawnie.
+ *
+ * @param {string} slug slug artykułu
+ * @param {"pl"|"en"} [lang] język tego artykułu; pomiń tylko gdy nieznany
+ * @returns {object|null} artykuł w drugim języku albo null
  */
-export function getAlternatePost(slug) {
-  const post = allPosts.find((p) => p.slug === slug);
+export function getAlternatePost(slug, lang) {
+  const post = lang
+    ? allPosts.find((p) => p.slug === slug && p.lang === lang)
+    : allPosts.find((p) => p.slug === slug);
   if (!post?.alternateSlug) return null;
-  if (post.alternateSlug === post.slug) return null;
-  const alternate = allPosts.find((p) => p.slug === post.alternateSlug);
-  if (!alternate || alternate.lang === post.lang) return null;
-  return alternate;
+  const alternate = allPosts.find(
+    (p) => p.slug === post.alternateSlug && p.lang !== post.lang,
+  );
+  return alternate ?? null;
 }
 
 /**

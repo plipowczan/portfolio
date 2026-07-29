@@ -204,7 +204,7 @@ const BlogPostPage = () => {
   const localizedPath = useLocalizedPath();
   const langPosts = getPostsByLang(i18n.language);
   const post = langPosts.find((p) => p.slug === slug);
-  const alternatePost = post ? getAlternatePost(post.slug) : null;
+  const alternatePost = post ? getAlternatePost(post.slug, post.lang) : null;
   const [imageError, setImageError] = useState(false);
   const { openBookingModal } = useBooking();
 

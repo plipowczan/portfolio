@@ -29,7 +29,7 @@ export const resolveLanguageSwitchPath = (pathname, currentLang) => {
   // Blog posts have translated slugs, so the target comes from frontmatter.
   const blogPostMatch = pathname.match(/^(?:\/en)?\/blog\/([^/]+)\/?$/);
   if (blogPostMatch) {
-    const alternatePost = getAlternatePost(blogPostMatch[1]);
+    const alternatePost = getAlternatePost(blogPostMatch[1], currentLang);
 
     if (alternatePost) {
       return currentLang === "pl"

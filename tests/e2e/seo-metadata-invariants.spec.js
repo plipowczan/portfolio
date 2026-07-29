@@ -83,6 +83,19 @@ const PAGES = [
     path: "/llm-wiki/kurs/0-co-to-drugi-mozg",
     label: "PL-only page (no translation)",
   },
+  // Both language versions of these three posts live under the SAME slug, so
+  // `alternateSlug` equals the post's own slug. Resolving the pair by slug
+  // alone finds an arbitrary one of the two and yields no alternate, which
+  // silently dropped hreflang from six live URLs. Resolution is by
+  // (slug, lang); these entries keep it that way.
+  {
+    path: "/blog/no-code-lead-generation",
+    label: "PL post sharing its slug with the EN version",
+  },
+  {
+    path: "/en/blog/no-code-lead-generation",
+    label: "EN post sharing its slug with the PL version",
+  },
 ];
 
 /** Canonical form of a site URL, so a trailing slash never decides a match. */

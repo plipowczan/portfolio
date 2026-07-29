@@ -160,22 +160,62 @@ async function prerenderPage(browser, route, retries = 2) {
       timeout: timeout,
     });
 
-    // Czekaj na React Helmet - sprawdź czy metatagi są w DOM
-    let metaTagsFound = true;
+    // Czekaj na React Helmet - metatagi muszą NALEŻEĆ DO TEJ TRASY.
+    //
+    // Sama obecność og:title i description nie wystarcza. Wdrożenie z 29.07.2026
+    // wypuściło /privacy-policy, /terms-of-service i /llm-wiki z poprawnym
+    // <body>, ale z <head> strony głównej (canonical "/", tytuł domyślny) -
+    // bramka sprawdzająca tylko istnienie tagów przepuściła to bez śladu w
+    // logach. Ten sam build lokalnie wychodził poprawnie, więc rzecz jest
+    // niedeterministyczna i tym bardziej potrzebuje twardego warunku.
+    //
+    // Canonical jest tu jedynym wiarygodnym świadkiem: to jedyny tag, który
+    // musi się różnić między trasami i który znamy z góry.
+    // Porównujemy z `location.pathname`, nie z `route`: strona w trakcie
+    // prerenderu jest pod swoim adresem, więc nie trzeba nic przekazywać do
+    // kontekstu strony, a trasy z przekierowaniem po stronie klienta
+    // (np. /en/llm-wiki/kurs → /llm-wiki/kurs) porównują się z adresem, na
+    // którym faktycznie wylądowały.
     try {
       await page.waitForFunction(
         () => {
-          const ogTitle = document.querySelector('meta[property="og:title"]');
+          const canonical = document.querySelector('link[rel="canonical"]');
           const description = document.querySelector(
             'meta[name="description"]'
           );
-          return ogTitle && description;
+          const ogTitle = document.querySelector('meta[property="og:title"]');
+          if (!canonical || !description || !ogTitle) return false;
+          const trim = (p) => (p.length > 1 ? p.replace(/\/+$/, "") : p);
+          return (
+            trim(new URL(canonical.href).pathname) ===
+            trim(window.location.pathname)
+          );
         },
         { timeout: 20000 } // Zwiększony timeout dla metatagów
       );
     } catch (e) {
-      console.error(`  ⚠️  Timeout: Brak metatagów SEO dla ${route} (kontynuuję generowanie)`);
-      metaTagsFound = false;
+      const actual = await page
+        .evaluate(() => {
+          const c = document.querySelector('link[rel="canonical"]');
+          const t = document.querySelector("title");
+          return {
+            canonical: c?.href ?? null,
+            title: t?.textContent ?? null,
+            at: window.location.pathname,
+          };
+        })
+        .catch(() => ({ canonical: null, title: null, at: null }));
+
+      // Świadomie twardy błąd zamiast ostrzeżenia: strona z cudzymi
+      // metadanymi jest gorsza niż brak strony, bo wygląda na poprawną.
+      // failCount kończy build kodem 1, więc nic takiego nie trafi na produkcję.
+      const problem = new Error(
+        `Metadane nie należą do trasy ${route} ` +
+          `(jestem na: ${actual.at ?? "?"}, canonical: ${actual.canonical ?? "brak"}, ` +
+          `title: ${actual.title ?? "brak"})`
+      );
+      problem.retryable = true;
+      throw problem;
     }
 
     // Dodatkowy czas na animacje i lazy loading (zmniejszony dla Vercel)
@@ -207,9 +247,11 @@ async function prerenderPage(browser, route, retries = 2) {
 
     return true;
   } catch (error) {
-    // Retry logic dla timeoutów
-    if (retries > 0 && error.message.includes("timeout")) {
-      console.error(`  ⚠️  Timeout dla ${route}, ponawiam próbę (pozostało ${retries} prób)...`);
+    // Retry logic dla timeoutów i dla metadanych z niewłaściwej trasy -
+    // to drugie bywa wyścigiem, więc druga próba zwykle wychodzi poprawnie.
+    if (retries > 0 && (error.retryable || error.message.includes("timeout"))) {
+      console.error(`  ⚠️  ${error.message}`);
+      console.error(`  ⚠️  Ponawiam ${route} (pozostało ${retries} prób)...`);
       // Zamknij stronę bezpiecznie - nawet jeśli się nie powiedzie, kontynuuj retry
       try {
         await page.close();
