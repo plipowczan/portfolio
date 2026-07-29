@@ -66,8 +66,12 @@ test.describe("SEO — security headers on deployed site", () => {
       return match ? match[1] : "";
     };
 
-    expect(directive("font-src")).toContain("https://fonts.gstatic.com");
-    expect(directive("style-src")).toContain("https://fonts.googleapis.com");
+    // Fonts are self-hosted, so neither Google origin should be reachable
+    // under the policy. Asserting their absence is the point: a re-added
+    // @import or <link> would otherwise creep back in unnoticed, and the
+    // allowlist is supposed to describe what the site actually loads.
+    expect(directive("font-src")).toBe("'self'");
+    expect(directive("style-src")).not.toContain("https://fonts.googleapis.com");
 
     const connectSrc = directive("connect-src");
     expect(connectSrc).toContain("https://js.clickrank.ai");
