@@ -4,6 +4,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--
+      Body font, same origin, needed by every page. Preloading only the `latin`
+      subset on purpose: `latin-ext` (the Polish diacritics) is another 83kB and
+      is unused on the English routes, so it is left to load on demand via its
+      unicode-range. `crossorigin` is required even same-origin — fonts are
+      always fetched in CORS mode, and without it the preload is discarded and
+      the file downloaded twice.
+    -->
+    <link
+      rel="preload"
+      href="/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <!-- Page description is owned solely by src/components/seo/SEO.jsx.
          Declaring one here too would ship two of them on every page, and a
          parser taking the first would read one description for the whole

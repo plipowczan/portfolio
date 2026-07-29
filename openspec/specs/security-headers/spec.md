@@ -36,8 +36,8 @@ The site SHALL return `Content-Security-Policy-Report-Only` with a policy coveri
 
 The allowlist SHALL cover every external resource the site loads, so that reported violations represent genuine anomalies rather than self-inflicted noise. It SHALL include at minimum:
 - `script-src`: `'self' 'unsafe-inline' https://js.clickrank.ai https://vitals.vercel-insights.com https://va.vercel-scripts.com https://app.zencal.io https://vercel.live`
-- `style-src`: `'self' 'unsafe-inline' https://fonts.googleapis.com`
-- `font-src`: `'self' https://fonts.gstatic.com`
+- `style-src`: `'self' 'unsafe-inline'`
+- `font-src`: `'self'` — fonts are self-hosted from `public/fonts/`, so no third-party font origin is allowed
 - `img-src`: `'self' data: https:`
 - `connect-src`: `'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://o4511257435308032.ingest.de.sentry.io https://js.clickrank.ai https://formspree.io https://app.zencal.io`
 - `frame-src`: `'self' https://app.zencal.io https://vercel.live`
@@ -55,7 +55,7 @@ The allowlist SHALL cover every external resource the site loads, so that report
 
 #### Scenario: Allowlist covers self-loaded resources
 - **WHEN** the CSP-Report-Only header is inspected
-- **THEN** `style-src` includes `https://fonts.googleapis.com` and `font-src` includes `https://fonts.gstatic.com`
+- **THEN** `font-src` is exactly `'self'` and `style-src` does NOT include `https://fonts.googleapis.com`
 - **AND** `connect-src` includes `https://js.clickrank.ai`, `https://formspree.io`, and `https://app.zencal.io`
 - **AND** `script-src` includes `https://app.zencal.io`
 - **AND** `frame-src` includes `https://app.zencal.io`

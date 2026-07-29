@@ -14,6 +14,7 @@
     "lint": "echo 'Linting complete'",
     "format": "echo 'Formatting complete'",
     "blog:sitemap": "node scripts/update-sitemap.js",
+    "fonts:fetch": "node scripts/fetch-fonts.mjs",
     "img:convert": "node scripts/convert-to-webp.js",
     "og:check": "node scripts/check-og-images.mjs",
     "og:resize": "node scripts/resize-og-image.mjs",
