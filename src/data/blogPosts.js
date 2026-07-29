@@ -153,14 +153,24 @@ export function getPostsByLang(lang) {
  * wskazujący sam na siebie i tak nie znajdzie wersji w drugim języku, a para o
  * identycznych slugach rozwiązuje się poprawnie.
  *
+ * `lang` jest wymagany. Bez niego wyszukiwanie po samym slugu jest
+ * niejednoznaczne dokładnie w tych przypadkach, dla których ta funkcja
+ * powstała, i cicho zwracałoby wersję z drugiego języka. Brak języka to błąd
+ * w kodzie wywołującym, więc zgłaszamy go w konsoli i zwracamy null: metadane
+ * pominięte są mniej szkodliwe niż metadane wskazujące na zły adres.
+ *
  * @param {string} slug slug artykułu
- * @param {"pl"|"en"} [lang] język tego artykułu; pomiń tylko gdy nieznany
+ * @param {"pl"|"en"} lang język tego artykułu
  * @returns {object|null} artykuł w drugim języku albo null
  */
 export function getAlternatePost(slug, lang) {
-  const post = lang
-    ? allPosts.find((p) => p.slug === slug && p.lang === lang)
-    : allPosts.find((p) => p.slug === slug);
+  if (!lang) {
+    console.error(
+      `getAlternatePost("${slug}") wywołane bez języka - slug nie jest unikalny między wersjami, więc para nie zostanie rozwiązana.`,
+    );
+    return null;
+  }
+  const post = allPosts.find((p) => p.slug === slug && p.lang === lang);
   if (!post?.alternateSlug) return null;
   const alternate = allPosts.find(
     (p) => p.slug === post.alternateSlug && p.lang !== post.lang,
