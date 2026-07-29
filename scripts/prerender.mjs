@@ -117,6 +117,24 @@ const CONTENT_ROUTES = new Set([
   ...courseRoutes.filter((route) => route !== "/llm-wiki/kurs"),
 ]);
 
+// "/" goes last, and the order is load-bearing.
+//
+// Prerendering "/" writes dist/index.html — the very file `vite preview` hands
+// back for any route that has no generated file yet. Render it first and every
+// later route starts from a shell that already carries the home page's
+// <title>, <meta name="description"> and <link rel="canonical">; React 19
+// hoists the route's own tags on top rather than replacing them, so the file
+// ships two of each with the home values first. A crawler reading the first
+// canonical would fold every other page into the home page.
+//
+// react-helmet-async used to hide this: it tagged what it managed with
+// `data-rh` and dropped pre-existing `data-rh` elements on mount, sweeping the
+// shell clean. React 19 marks nothing, so the pipeline has to stop poisoning
+// the shell in the first place.
+//
+// tests/e2e/prerender-metadata.spec.js fails if this regresses.
+const orderedRoutes = [...allRoutes.filter((r) => r !== "/"), "/"];
+
 /**
  * Prerenderuje pojedynczą stronę z retry logic
  */
@@ -427,7 +445,7 @@ async function main() {
     console.log("🤖 Browser uruchomiony\n");
 
     // Prerenderuj każdą stronę
-    for (const route of allRoutes) {
+    for (const route of orderedRoutes) {
       const success = await prerenderPage(browser, route);
       if (success) {
         successCount++;

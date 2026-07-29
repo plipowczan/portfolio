@@ -19,11 +19,19 @@
 
 ## 3. Weryfikacja przed zdjęciem podpórek
 
-- [ ] 3.1 `npm test` na komplecie — metadane sprawdzane wciąż na buildzie produkcyjnym, czyli tak jak przed migracją
-- [ ] 3.2 `npm run build:prerender` — licznik błędów równy zero i brak ostrzeżeń „Brak metatagów SEO" dla którejkolwiek ze 98 tras
-- [ ] 3.3 Policz w kilku plikach z `dist/` elementy `<title>` i `<meta name="description">` — po jednym na plik (licz z pominięciem komentarzy HTML)
-- [ ] 3.4 Sprawdź w `dist/` canonical i hreflang dla `/en/index.html` i jednego artykułu bloga — wartości identyczne jak przed migracją
-- [ ] 3.5 Sprawdź w `dist/` atrybut `lang` na `<html>` dla trasy polskiej i angielskiej
+- [~] 3.1 `npm test` na komplecie — metadane sprawdzane wciąż na buildzie produkcyjnym, czyli tak jak przed migracją
+  - **Nie do domknięcia lokalnie.** Serwer deweloperski i preview padają w trakcie długich przebiegów (`ECONNREFUSED :3000` / `:4173`), niezależnie od zmiany — ta sama niestabilność ubiła też trzy zadania w tle. Dwa przebiegi tego samego projektu na **niezmienionym** kodzie dały 153 zdane / 0 błędów oraz 90 zdanych / 58 błędów, więc porównanie pełnych przebiegów nic nie rozstrzyga.
+  - Co zostało potwierdzone: pełny projekt chromium (151 zdanych, 6 pominiętych — bramki sprzed zmiany), `seo-metadata-invariants.spec.js` 32/32 na chromium i webkit (po dwa przebiegi, bez ponowień).
+  - Padnięcia na firefox i webkit odtworzone na plikach sprzed migracji (firefox: te same dwa testy; webkit: 6 błędów na bazie wobec 5 po zmianie) — nie są regresją.
+  - **Do zrobienia na stabilnej maszynie albo w CI** (CI i tak dzieli suite na 4 shardy z `workers: 1`).
+- [x] 3.2 `npm run build:prerender` — licznik błędów równy zero i brak ostrzeżeń „Brak metatagów SEO" dla którejkolwiek ze 98 tras
+- [x] 3.3 Policz w kilku plikach z `dist/` elementy `<title>` i `<meta name="description">` — po jednym na plik (licz z pominięciem komentarzy HTML)
+  - Sprawdzone na **wszystkich 98** plikach, nie na kilku: po jednym `<title>`, `<meta name="description">` i `<link rel="canonical">`.
+  - **Pierwszy przebieg wykrył duplikaty na 97 z 98 stron.** Prerender zapisuje `/` do `dist/index.html`, czyli do pliku, który `vite preview` oddaje jako awaryjny dla każdej trasy bez własnego pliku. Renderowane jako pierwsze, zatruwało powłokę tytułem, opisem i canonicalem strony głównej; React 19 dokładał tagi trasy obok nich, więc artykuł niósł **canonical strony głównej jako pierwszy**. Helmet to maskował — usuwał zastane elementy z `data-rh`. Poprawka: `/` renderowane na końcu (`scripts/prerender.mjs`), plus `tests/e2e/prerender-metadata.spec.js` jako stała bramka (potwierdzone: czerwony na zatrutym `dist/`, zielony po poprawce).
+- [x] 3.4 Sprawdź w `dist/` canonical i hreflang dla `/en/index.html` i jednego artykułu bloga — wartości identyczne jak przed migracją
+  - Bramka sprawdza dodatkowo, że canonical każdego z 98 plików wskazuje na jego własny adres, oraz że żaden artykuł nie zapisał się z metadanymi strony „nie znaleziono".
+- [x] 3.5 Sprawdź w `dist/` atrybut `lang` na `<html>` dla trasy polskiej i angielskiej
+  - Sprawdzone na wszystkich 98 plikach: zero rozjazdów `lang`.
 - [x] 3.6 Rozstrzygnij pytanie otwarte z design.md: czy `<title>` zostaje w `index.html` jako wartość zapasowa
   - **Rozstrzygnięcie: nie zostaje.** Pod Helmetem statyczny `<title>` był bezpieczny, bo Helmet nadpisywał jego treść. React 19 wstawia własny element, więc statyczny zostaje jako duplikat — na serwerze deweloperskim widać było dwa. Prerender zrzuca DOM, więc trafiłyby do każdego z 98 plików. Usunięty; `index.html` niesie teraz komentarz w tej samej konwencji co przy opisie. Koszt: pusta zakładka do zamontowania Reacta w dev — na produkcji nie występuje, bo prerenderowany plik ma tytuł Reacta.
 
