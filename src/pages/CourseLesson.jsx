@@ -47,7 +47,6 @@ const CourseLesson = () => {
           title="Lekcja nie znaleziona"
           description="Nie znaleźliśmy tej lekcji kursu LLM Wiki."
           path="/llm-wiki/kurs"
-          alternateUrl={`${SITE_CONFIG.url}/llm-wiki/kurs`}
         />
 
         <div className="flex min-h-screen items-center justify-center">
@@ -65,7 +64,6 @@ const CourseLesson = () => {
   }
 
   const { prev, next } = getPrevNext(slug);
-  const lessonUrl = `${SITE_CONFIG.url}/llm-wiki/kurs/${lesson.slug}`;
 
   // Build <source> list from optional frontmatter. Type is derived from the
   // extension so an author can put either webm or mp4 in `video`; `videoMp4`
@@ -84,9 +82,8 @@ const CourseLesson = () => {
         title={lesson.title}
         description={lesson.excerpt}
         path={`/llm-wiki/kurs/${lesson.slug}`}
-        // PL-only lesson: point the en-alternate at this lesson's own PL URL so
-        // no /en mirror leaks to crawlers.
-        alternateUrl={lessonUrl}
+        // PL-only lesson: no alternate, so <SEO> emits no hreflang. No /en
+        // mirror of the course exists.
         // Shared course OG (same card across hub + all lessons).
         image="/images/og-llm-wiki-kurs.webp"
         article={true}

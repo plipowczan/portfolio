@@ -81,11 +81,35 @@ export default defineConfig({
     },
   ],
 
-  // Uruchom dev server przed testami
-  webServer: {
-    command: "npm run dev",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
+  // Dwa serwery, bo dwa różne cele testów:
+  //
+  // 3000 (dev) — domyślny baseURL dla testów zachowania interfejsu.
+  //
+  // 4173 (preview) — produkcyjny build, jedyne miejsce, gdzie widać metadane
+  // SEO. react-helmet-async 2.0.5 pod React 19 nie wstawia <meta> ani <link>
+  // do <head>, gdy aplikacja siedzi w <React.StrictMode>: podwójne
+  // zamontowanie efektów w trybie deweloperskim kończy się sprzątaniem, które
+  // wygrywa z wstawianiem. StrictMode działa tylko w dev, więc build ma
+  // komplet tagów. Testy z tests/e2e/seo-metadata-invariants.spec.js celują
+  // więc w 4173 (własne `test.use({ baseURL })`).
+  //
+  // Build testowy idzie do `dist-test/`, nie do `dist/`. Inaczej `npm test`
+  // nadpisywałby prerenderowany katalog zwykłym buildem SPA — a z niego idzie
+  // wdrożenie i na nim opierają się testy prerenderu w llm-wiki-course.spec.js.
+  // Pełnego `build:prerender` tu nie ma celowo: trwa ~6,5 min, co w czterech
+  // shardach CI przekroczyłoby limit 30 min na zadanie.
+  webServer: [
+    {
+      command: "npm run dev",
+      url: "http://localhost:3000",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120 * 1000,
+    },
+    {
+      command: "npm run build:test && npm run preview:test",
+      url: "http://localhost:4173",
+      reuseExistingServer: !process.env.CI,
+      timeout: 180 * 1000,
+    },
+  ],
 });

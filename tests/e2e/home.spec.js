@@ -47,8 +47,25 @@ test.describe("Strona główna - Home", () => {
     // Sprawdź podstawowe tagi (zawsze wymagane)
     expect(metaTags.title).toBeTruthy();
     expect(metaTags.title).toMatch(/Pawel Lipowczan/i);
-    expect(metaTags.description).toBeTruthy();
-    expect(metaTags.description.length).toBeGreaterThan(50);
+
+    // Description trafia teraz wyłącznie z Helmeta (statyczny tag z index.html
+    // dublował opis na wszystkich stronach i został usunięty), a Helmet pod
+    // React 19 milczy w trybie deweloperskim. Ta sama tolerancja co niżej dla
+    // og:*; twardą kontrolę robi seo-metadata-invariants.spec.js na buildzie.
+    if (!metaTags.description) {
+      const message = "meta description is missing";
+      if (isDevMode) {
+        console.warn(
+          `⚠️ DEV MODE: ${message} - expected, react-helmet-async does not commit tags under StrictMode`
+        );
+      } else {
+        throw new Error(
+          `PRODUCTION: ${message} - description is required for SEO`
+        );
+      }
+    } else {
+      expect(metaTags.description.length).toBeGreaterThan(50);
+    }
 
     // Sprawdź Open Graph (toleruj brak w dev mode ze względu na React Helmet timing)
     if (!metaTags.ogTitle) {

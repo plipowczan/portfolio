@@ -86,9 +86,8 @@ const CourseHub = () => {
         title="LLM Wiki - darmowy kurs: zbuduj własny second brain"
         description="Od «Use this template» do bazy wiedzy, która kumuluje się sama i zasila Twojego agenta. Krok po kroku, na darmowym szablonie - kurs rośnie o kolejne lekcje."
         path="/llm-wiki/kurs"
-        // PL-only section: point the en-alternate at the PL URL so no
-        // /en/llm-wiki/kurs mirror leaks to crawlers.
-        alternateUrl={`${SITE_CONFIG.url}/llm-wiki/kurs`}
+        // PL-only section: no alternate, so <SEO> emits no hreflang. A
+        // /en/llm-wiki/kurs mirror does not exist.
         // Shared course OG (hub + all lessons use the same card).
         image="/images/og-llm-wiki-kurs.webp"
       />

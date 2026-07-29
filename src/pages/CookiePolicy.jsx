@@ -1,18 +1,21 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import SEO from "../components/seo/SEO";
+import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const CookiePolicy = () => {
   const { t, i18n } = useTranslation("legal");
+  const localizedPath = useLocalizedPath();
   const dateLocale = i18n.language === "en" ? "en-US" : "pl-PL";
 
   return (
     <>
       <SEO
         title="Cookie Policy"
-        description="Cookie Policy and usage information"
-        path="/cookie-policy"
+        description={t("cookies.seoDescription")}
+        path={localizedPath("/cookie-policy")}
+        mirroredByPrefix
       />
 
       <div className="min-h-screen py-24 md:py-32">

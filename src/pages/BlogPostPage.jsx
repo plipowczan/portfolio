@@ -439,6 +439,20 @@ const BlogPostPage = () => {
   };
 
   const postUrl = `${SITE_CONFIG.url}${localizedPath(`/blog/${post.slug}`)}`;
+
+  // Blog slugs are translated, not prefixed (`slabe-strony-claude-code` ↔
+  // `claude-code-weak-spots`), so the alternate URL has to come from the
+  // frontmatter mapping (`alternatePost`, resolved above). No `alternateSlug`
+  // → `undefined` → <SEO> emits no hreflang at all, instead of a prefixed URL
+  // that would 404.
+  const alternateUrl = alternatePost
+    ? `${SITE_CONFIG.url}${
+        alternatePost.lang === "en"
+          ? `/en/blog/${alternatePost.slug}`
+          : `/blog/${alternatePost.slug}`
+      }`
+    : undefined;
+
   const postDescription =
     post.description || extractFirstParagraph(post.content);
   const dateModifiedRaw = post.modified || post.date;
@@ -486,6 +500,7 @@ const BlogPostPage = () => {
         publishedTime={datePublishedIso}
         modifiedTime={dateModifiedIso}
         author={post.author}
+        alternateUrl={alternateUrl}
       />
       <StructuredData schema={blogPostingSchema} />
       <StructuredData

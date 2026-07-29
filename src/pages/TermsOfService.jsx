@@ -1,18 +1,21 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import SEO from "../components/seo/SEO";
+import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const TermsOfService = () => {
   const { t, i18n } = useTranslation("legal");
+  const localizedPath = useLocalizedPath();
   const dateLocale = i18n.language === "en" ? "en-US" : "pl-PL";
 
   return (
     <>
       <SEO
         title="Terms of Service"
-        description="Terms of Service and usage guidelines"
-        path="/terms-of-service"
+        description={t("terms.seoDescription")}
+        path={localizedPath("/terms-of-service")}
+        mirroredByPrefix
       />
 
       <div className="min-h-screen py-24 md:py-32">

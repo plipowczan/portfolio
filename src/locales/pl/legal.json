@@ -125,5 +125,9 @@
   "cookies.section7.title": "7. Więcej informacji",
   "cookies.section7.content": "Więcej informacji o plikach cookies można znaleźć na stronie: ",
   "cookies.section8.title": "8. Kontakt",
-  "cookies.section8.content": "W sprawach dotyczących Polityki Ciasteczek prosimy o kontakt pod adresem email: "
+  "cookies.section8.content": "W sprawach dotyczących Polityki Ciasteczek prosimy o kontakt pod adresem email: ",
+
+  "privacy.seoDescription": "Polityka prywatności serwisu pawel.lipowczan.pl - jakie dane zbieramy, w jakim celu i jakie prawa masz na gruncie RODO.",
+  "terms.seoDescription": "Regulamin serwisu pawel.lipowczan.pl - zasady korzystania ze strony, prawa autorskie i zakres odpowiedzialności.",
+  "cookies.seoDescription": "Polityka cookies serwisu pawel.lipowczan.pl - jakich plików cookie używamy, po co i jak zmienić ustawienia w przeglądarce."
 }
