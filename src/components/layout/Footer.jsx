@@ -6,7 +6,7 @@ import { SITE_CONFIG } from "../../utils/constants";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
   const localizedPath = useLocalizedPath();
 
   const socialLinks = [
@@ -77,6 +77,18 @@ const Footer = () => {
                   {t("nav.blog")}
                 </Link>
               </li>
+              {/* Polish-only section — /en/llm-wiki is a hard 404, so the entry
+                  is omitted on English routes rather than linked with a prefix. */}
+              {i18n.language !== "en" && (
+                <li>
+                  <Link
+                    to="/llm-wiki"
+                    className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                  >
+                    {t("nav.llmWiki")}
+                  </Link>
+                </li>
+              )}
               <li>
                 <a
                   href={localizedPath("/#contact")}

@@ -7,6 +7,16 @@
     "cleanUrls": true,
     "redirects": [
         {
+            "source": "/en/llm-wiki",
+            "destination": "/llm-wiki",
+            "statusCode": 301
+        },
+        {
+            "source": "/en/llm-wiki/(.*)",
+            "destination": "/llm-wiki/$1",
+            "statusCode": 301
+        },
+        {
             "source": "/en/blog/vibe-coding-przewodnik",
             "destination": "/en/blog/vibe-coding-guide",
             "statusCode": 301

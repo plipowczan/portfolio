@@ -13,8 +13,15 @@ const NAV_ITEMS = [
   { key: "nav.skills", href: "/#skills" },
   { key: "nav.testimonials", href: "/#testimonials" },
   { key: "nav.blog", href: "/blog" },
+  // The course exists only in Polish, and /en/llm-wiki is a hard 404, so this
+  // entry is dropped entirely on English routes rather than linking out of the
+  // reader's language or into a dead URL.
+  { key: "nav.llmWiki", href: "/llm-wiki", plOnly: true },
   { key: "nav.contact", href: "/#contact" },
 ];
+
+const visibleNavItems = (currentLang) =>
+  NAV_ITEMS.filter((item) => !item.plOnly || currentLang !== "en");
 
 /**
  * Where the language switch leads from a given path. Pure, so it can run
@@ -41,6 +48,11 @@ export const resolveLanguageSwitchPath = (pathname, currentLang) => {
     // unlike the current slug with the other prefix bolted on.
     return currentLang === "pl" ? "/en/blog" : "/blog";
   }
+
+  // /llm-wiki has no English version at all. Mirroring by prefix would point at
+  // /en/llm-wiki, which only resolves because of a redirect — so send the
+  // reader to the English home instead of through a 301 to a Polish page.
+  if (/^\/llm-wiki(\/|$)/.test(pathname)) return "/en/";
 
   // Everything else mirrors by prefix.
   if (currentLang === "pl") return `/en${pathname}`;
@@ -72,8 +84,9 @@ const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
   const localizedPath = useLocalizedPath();
+  const navItems = visibleNavItems(i18n.language);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -152,7 +165,7 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.key}
                 to={localizedPath(item.href)}
@@ -194,7 +207,7 @@ const Navigation = () => {
             className="md:hidden glass border-t border-primary-500/20"
           >
             <div className="section-container py-6 space-y-4">
-              {NAV_ITEMS.map((item) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.key}
                   to={localizedPath(item.href)}

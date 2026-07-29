@@ -323,6 +323,20 @@ const LlmWikiLanding = () => {
                     {SITE_CONFIG.email}.
                   </p>
                 )}
+
+                {/*
+                  Secondary, ungated way into the course. The course is public
+                  and returns 200 to anyone who knows the URL, so the form was
+                  not protecting it — it only hid the link, which left
+                  /llm-wiki/kurs and all 8 lessons with no internal inbound
+                  link at all. The signup above stays the primary call.
+                */}
+                <Link
+                  to="/llm-wiki/kurs"
+                  className="inline-flex items-center gap-2 font-mono text-sm text-gray-400 hover:text-primary-500 transition-colors"
+                >
+                  → albo wejdź od razu w darmowy kurs
+                </Link>
               </motion.div>
             )}
 
