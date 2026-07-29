@@ -2,11 +2,53 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 
+/**
+ * Injects the `<link rel="preload">` for the body font.
+ *
+ * The font lives under src/ so Vite fingerprints it, which means its final
+ * filename is only known once the bundle exists — it cannot be hardcoded in
+ * index.html. This looks the emitted asset up instead, and falls back to the
+ * source path during `vite dev`, where nothing is hashed.
+ *
+ * Only the `latin` subset is preloaded. `latin-ext` (the Polish diacritics) is
+ * another ~83kB and goes unused on the English routes, so it is left to load on
+ * demand via its unicode-range.
+ */
+const preloadBodyFont = () => ({
+  name: "preload-body-font",
+  transformIndexHtml: {
+    order: "post",
+    handler(_html, ctx) {
+      // The lookahead matters: `inter-latin-ext-<hash>.woff2` also starts with
+      // `inter-latin-`, and preloading it would pull the 83kB diacritics subset
+      // on every route instead of the 47kB one we actually want everywhere.
+      const emitted = Object.keys(ctx.bundle ?? {}).find((f) =>
+        /inter-latin-(?!ext-)[^/]*\.woff2$/.test(f),
+      );
+      const href = emitted
+        ? `/${emitted}`
+        : "/src/assets/fonts/inter-latin.woff2";
+
+      return [
+        {
+          tag: "link",
+          // `crossorigin` is required even same-origin: fonts are always
+          // fetched in CORS mode, and without it the preload is discarded and
+          // the file downloaded a second time.
+          attrs: { rel: "preload", href, as: "font", type: "font/woff2", crossorigin: "" },
+          injectTo: "head-prepend",
+        },
+      ];
+    },
+  },
+});
+
 // https://vitejs.dev/config/
 export default defineConfig({
   publicDir: "public",
   plugins: [
     react(),
+    preloadBodyFont(),
     nodePolyfills({
       // Whether to polyfill `node:` protocol imports.
       protocolImports: true,
