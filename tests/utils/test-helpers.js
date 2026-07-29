@@ -258,6 +258,9 @@ export async function getSeoMetaTags(page) {
         twitterCard: getMetaContent("twitter:card"),
         canonical:
           document.querySelector('link[rel="canonical"]')?.href || null,
+        // react-helmet-async oznacza każdy zarządzany element atrybutem
+        // data-rh. Brak choćby jednego = Helmet w ogóle nie doszedł do skutku.
+        helmetActive: !!document.querySelector("[data-rh]"),
       };
     });
 
@@ -265,6 +268,17 @@ export async function getSeoMetaTags(page) {
     if (tags.title && tags.description) {
       console.log(
         `✅ Meta tags loaded successfully on attempt ${currentAttempt}/${maxRetries}`
+      );
+      break;
+    }
+
+    // Helmet nie oddał ani jednego tagu - ponawianie nic nie da, a kosztuje
+    // ~7 s na próbę. Tak wygląda serwer deweloperski: pod <React.StrictMode>
+    // react-helmet-async 2.0.5 z React 19 nigdy nie zatwierdza <meta>/<link>.
+    // Testy tolerujące brak metadanych w dev nie mają za co płacić.
+    if (tags.title && !tags.helmetActive) {
+      console.log(
+        "ℹ️ Helmet nie zarządza <head> (brak data-rh) - pomijam ponawianie"
       );
       break;
     }
