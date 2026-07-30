@@ -66,8 +66,14 @@ npx playwright install
 ### Podstawowe komendy
 
 ```bash
-# Uruchom wszystkie testy (headless)
+# Uruchom testy na domyślnym zestawie: chromium + Mobile Chrome
 npm test
+
+# Pełna macierz przeglądarek (chromium, edge, firefox, webkit, oba mobilne)
+PW_ALL=1 npm test
+
+# Dołóż serwer preview (produkcyjny build) - wymaga go seo-metadata-invariants
+PW_PREVIEW=1 npm test
 
 # Uruchom testy z interfejsem graficznym
 npm run test:headed
@@ -136,22 +142,33 @@ npx playwright test --project="Mobile Safari"
 Główny plik konfiguracyjny znajduje się w katalogu głównym projektu. Zawiera:
 
 - **testDir**: katalog z testami (`./tests`)
-- **timeout**: maksymalny czas na test (30s)
+- **timeout**: maksymalny czas na test (60s)
+- **globalTimeout**: górna granica całego przebiegu (20 min lokalnie, 25 w CI) - zawieszony przebieg kończy się sam, zamiast wisieć z serwerami Vite
 - **retries**: liczba ponownych prób w CI (2)
-- **workers**: liczba równoległych workerów
-- **baseURL**: `http://localhost:3000`
-- **projects**: konfiguracje dla różnych przeglądarek
-- **webServer**: automatyczne uruchamianie dev servera
+- **workers**: 1 w CI (testy nawigacyjne są wrażliwe na czas)
+- **baseURL**: serwer dev na porcie wyliczonym per worktree
+- **projects**: domyślnie `chromium` + `Mobile Chrome`, pełna macierz pod `PW_ALL=1`
+- **webServer**: dev zawsze, preview tylko pod `PW_PREVIEW=1`
+
+### Porty
+
+Porty serwera dev i preview liczy `scripts/ports.mjs` z położenia katalogu
+roboczego. Dzięki temu każdy git worktree ma własną parę i dwa worktree mogą
+testować równolegle - wcześniej `reuseExistingServer` potrafił po cichu podpiąć
+przebieg pod aplikację serwowaną z innego worktree.
+
+Nie wpisuj portu na sztywno w teście. Adres bezwzględny bierz z `baseURL` albo
+importuj z tego modułu.
 
 ### Zmienne środowiskowe
 
-Możesz utworzyć plik `.env.test` dla zmiennych testowych:
-
-```env
-# .env.test
-TEST_BASE_URL=http://localhost:3000
-TEST_TIMEOUT=30000
-```
+| Zmienna | Działanie |
+| --- | --- |
+| `PW_ALL=1` | pełna macierz przeglądarek zamiast domyślnej pary |
+| `PW_PREVIEW=1` | uruchamia serwer preview (produkcyjny build) |
+| `PW_DEPLOYED=1` | nie stawia żadnego serwera lokalnego - cel jest zdalny |
+| `SEO_HEADERS_URL` | adres wdrożenia dla testów nagłówków (`seo-security-headers`, `perf-font-cache-headers`) |
+| `DEV_PORT`, `PREVIEW_PORT` | nadpisują wyliczone porty |
 
 ## ✍️ Pisanie testów
 
@@ -460,38 +477,27 @@ test.describe('Strona główna', () => {
 
 ## 🚦 Continuous Integration (CI)
 
-### GitHub Actions przykład
+Trzy przebiegi, każdy odpowiada na inne pytanie. Konfiguracja:
+`.github/workflows/playwright.yml` i `.github/workflows/deployed-checks.yml`.
 
-```yaml
-name: Playwright Tests
+| Kiedy | Co leci | Po co |
+| --- | --- | --- |
+| Pull request | `chromium` + `Mobile Chrome`, każdy na 2 shardy (4 joby) | czy zmiana nie psuje niczego oczywistego, zanim wejdzie na main |
+| Push na `main` | pełna macierz, jeden job na projekt (5 jobów) | czy nie psuje pozostałych silników |
+| Po wdrożeniu Vercela | `seo-security-headers` + `perf-font-cache-headers` pod adresem wdrożenia | nagłówki z `vercel.json` istnieją tylko na wdrożeniu |
 
-on: [push, pull_request]
+Szczegóły, które łatwo przeoczyć:
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: npm test
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-```
+- **Jeden job = jedna przeglądarka.** Każdy instaluje tylko swoją binarkę, a
+  czerwony job nazywa silnik zamiast numeru sharda.
+- **Cache przeglądarek** kluczowany wersją `@playwright/test` i przeglądarką.
+  Krok instalacji ma własny `timeout-minutes: 10` - kiedyś zawisł na 30 minut i
+  zjadł cały budżet joba, przez co testy nie wystartowały wcale.
+- **`PW_PREVIEW` tylko w jobie chromium.** Testy metadanych SEO są przypięte do
+  chromium, więc pozostałe joby nie płacą za produkcyjny build.
+- **Prerenderu nie ma w CI.** Kompletność `dist/` sprawdza sam
+  `npm run build:prerender`, a to `buildCommand` z `vercel.json` - bramka działa
+  na każdym wdrożeniu, bez minuty runnera.
 
 ## 📚 Dodatkowe zasoby
 

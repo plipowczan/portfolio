@@ -105,7 +105,8 @@ Before reporting a change complete:
 - OpenSpec is the primary workflow. Structured work runs through `/opsx:*`; the
   command table is in `CLAUDE.md`.
 - Feature branches and Conventional Commits. Never commit straight to `main`.
-- Run the prerender pass before every merge to `main` — see `tests/AGENTS.md`.
+- No manual test pass before merging. Read the PR's checks, Vercel included —
+  see `tests/AGENTS.md`.
 - Project state and measurements: `docs/PROJECT_STATUS.md`. Open work:
   `docs/TODO.md`.
 
@@ -113,7 +114,7 @@ Before reporting a change complete:
 
 - `src/AGENTS.md` — application source: routing, i18n, pages, hooks, styles, utils.
 - `scripts/AGENTS.md` — Node build and content tooling: prerender, sitemap, images, fonts.
-- `tests/AGENTS.md` — Playwright E2E and unit suites, and the pre-merge prerender gate.
+- `tests/AGENTS.md` — Playwright E2E and unit suites, and which automated run gates what.
 - `api/AGENTS.md` — Vercel Node functions; today just the waitlist endpoint.
 - `openspec/AGENTS.md` — the primary workflow: capability specs and change artifacts.
 - `remotion/AGENTS.md` — Remotion video project, built and released separately.

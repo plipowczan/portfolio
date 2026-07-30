@@ -26,12 +26,20 @@ VITE_FORM_ENDPOINT=https://formspree.io/f/...
 
 ### Commands
 
-- **Start Dev Server**: `npm run dev` (localhost:5173)
+- **Start Dev Server**: `npm run dev`
 - **Build**: `npm run build` (standard build)
-- **Build & Prerender**: `npm run build:prerender` (production build with SEO)
+- **Build & Prerender**: `npm run build:prerender` (production build with SEO, plus a check that the prerender output is complete)
 - **Preview**: `npm run preview`
-- **Test**: `npm test` (Playwright E2E)
+- **Test**: `npm test` (Playwright E2E — chromium + Mobile Chrome by default; `PW_ALL=1` for the full matrix)
 - **Test UI**: `npm test:ui` (Interactive mode)
+
+### Ports
+
+Dev and preview ports are **derived from the checkout location** by
+`scripts/ports.mjs`, so every git worktree gets its own pair and two worktrees
+can run servers or tests at the same time. Nothing hardcodes a port; the server
+prints the one it took at startup. Set `DEV_PORT` / `PREVIEW_PORT` to override
+when external tooling needs a fixed address.
 
 ### Configuration Files
 

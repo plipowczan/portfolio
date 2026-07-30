@@ -24,7 +24,7 @@ test.describe("Policy Pages - SEO", () => {
     test(`${path} should have correct canonical tag and SEO meta tags`, async ({
       page,
     }) => {
-      await page.goto(`http://localhost:3000${path}`);
+      await page.goto(path);
       await waitForAnimations(page, 1000);
 
       const metaTags = await getSeoMetaTags(page);
@@ -79,7 +79,7 @@ test.describe("Policy Pages - SEO", () => {
   test("policy pages should be accessible and have proper structure", async ({
     page,
   }) => {
-    await page.goto("http://localhost:3000/privacy-policy");
+    await page.goto("/privacy-policy");
     await waitForAnimations(page, 1000);
 
     // Sprawdź czy strona się załadowała

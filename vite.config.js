@@ -1,6 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
+import { DEV_PORT, PREVIEW_PORT } from "./scripts/ports.mjs";
 
 /**
  * Injects the `<link rel="preload">` for the body font.
@@ -54,8 +55,16 @@ export default defineConfig({
       protocolImports: true,
     }),
   ],
+  // Ports come from scripts/ports.mjs so every worktree gets its own pair —
+  // see that file for why. `strictPort` on both: a taken port must fail the
+  // run, not silently move it somewhere the tests are not looking.
+  preview: {
+    port: PREVIEW_PORT,
+    strictPort: true,
+  },
   server: {
-    port: 3000,
+    port: DEV_PORT,
+    strictPort: true,
     open: process.env.NODE_ENV !== "production",
     fs: {
       // Allow serving files with UTF-8 encoding
@@ -65,7 +74,7 @@ export default defineConfig({
       // Katalogi buildu muszą być poza obserwacją. Podczas `npm test` serwer
       // deweloperski i build testowy startują równolegle, a watcher trafia na
       // plik, do którego build jeszcze pisze - EBUSY na kilkumegabajtowym .mp4
-      // wywraca cały serwer, a z nim wszystkie testy na porcie 3000.
+      // wywraca cały serwer, a z nim wszystkie testy na porcie dev.
       //
       // Lista jest jawna, razem z pozycjami, które Vite pomija domyślnie:
       // `ignored` od użytkownika trafia wprost do chokidara, więc poleganie na

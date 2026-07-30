@@ -1,16 +1,20 @@
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 import { MEASUREMENT_ID, PRODUCTION_HOST } from "../../src/utils/analytics.js";
 import { SITE_CONFIG } from "../../src/utils/constants.js";
+import { PREVIEW_URL } from "../../scripts/ports.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const DIST = join(ROOT, "dist");
 
 const PRODUCTION_ORIGIN = `https://${PRODUCTION_HOST}`;
-/** The production build that playwright.config.js already starts for SEO tests. */
-const PREVIEW_ORIGIN = "http://localhost:4173";
+/**
+ * The production build that playwright.config.js starts under `PW_PREVIEW=1`.
+ * The port is derived per worktree — see scripts/ports.mjs — so it must be
+ * imported, never written out.
+ */
+const PREVIEW_ORIGIN = PREVIEW_URL;
 
 /**
  * Longer than the loader's `requestIdleCallback` timeout (3 s) and its
@@ -139,6 +143,15 @@ const countGaCookies = async (page) =>
 
 test.describe("Analytics — bramka zgody na hoście produkcyjnym", () => {
   test.use({ baseURL: PRODUCTION_ORIGIN });
+
+  // Ten blok proxuje host produkcyjny na serwer preview, a ten startuje tylko
+  // pod `PW_PREVIEW=1` (patrz playwright.config.js). Bez niego każde `goto`
+  // kończy się `net::ERR_FAILED`, więc blok pomija się z nazwą zmiennej
+  // zamiast wywracać przebieg na odmowie połączenia.
+  test.skip(
+    !process.env.PW_PREVIEW,
+    "Serwer preview nie działa — uruchom z PW_PREVIEW=1, żeby wykonać ten blok."
+  );
 
   test.afterEach(async ({ page }) => {
     await releaseRoutes(page);
@@ -361,29 +374,8 @@ test.describe("Analytics — niezmienniki konfiguracji", () => {
   });
 });
 
-// Reads the built `dist/`, so it skips unless `npm run build:prerender` ran
-// first. The marker is `dist/blog/index.html`: a plain `npm run build` leaves
-// only `dist/index.html`, so the directory's existence alone would let this
-// pass without a prerender having happened.
-const PRERENDERED = existsSync(join(DIST, "blog", "index.html"));
-
-test.describe("Analytics — prerender", () => {
-  test.skip(
-    !PRERENDERED,
-    "dist/ bez prerenderu - uruchom `npm run build:prerender` przed tym testem",
-  );
-
-  test("żaden statyczny plik HTML nie odwołuje się do googletagmanager", () => {
-    const htmlFiles = readdirSync(DIST, { recursive: true })
-      .map(String)
-      .filter((name) => name.endsWith(".html"));
-
-    expect(htmlFiles.length).toBeGreaterThan(1);
-
-    const offenders = htmlFiles.filter((name) =>
-      readFileSync(join(DIST, name), "utf-8").includes("googletagmanager"),
-    );
-
-    expect(offenders).toEqual([]);
-  });
-});
+// Asercja o wyjściu prerenderu — „żaden statyczny HTML nie odwołuje się do
+// googletagmanager" — mieszka w `scripts/verify-prerender-output.mjs`, które
+// `npm run build:prerender` wywołuje jako ostatni krok. Tutaj pomijałaby się
+// przy każdym przebiegu bez wcześniejszego builda; tam jest bramką na każdym
+// wdrożeniu Vercela, bo to jego `buildCommand`.
