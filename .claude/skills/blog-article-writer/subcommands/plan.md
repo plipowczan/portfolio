@@ -37,10 +37,17 @@ Review:
 ### Step 2: Determine Next Blog ID
 
 ```bash
-grep "^id:" src/content/blog/*.md | grep -vE '/(AGENTS|CLAUDE|README)\.md:' | sort -t: -k2 -n | tail -1
+grep "^id:" src/content/blog/*.md \
+  | grep -vE '/(AGENTS|CLAUDE|README)\.md:' \
+  | sed 's/.*id: *//' | awk '{print $1}' | sort -n | tail -1
 ```
 
 Calculate: highest ID + 1
+
+Strip the filename before sorting. `sort -t: -k2 -n` on the raw grep output
+sorts by the literal word `id`, identical for every line, so `-n` does nothing
+and `tail -1` returns whatever happened to come last — `5` while the real
+maximum is `31`. That silently produces a duplicate ID.
 
 The exclusion matters: `src/content/blog/AGENTS.md` documents the frontmatter
 schema, so its example block contains a literal `id: 1` line that the plain grep

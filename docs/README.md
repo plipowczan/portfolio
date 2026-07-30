@@ -21,19 +21,18 @@ docs/
 │   ├── PRERENDERING_SUMMARY.md   # Szybkie podsumowanie prerenderingu
 │   └── SEO_VERIFICATION.md       # Checklist weryfikacji SEO
 │
-├── blog/                         # ✍️ System blogowy
-│   ├── BLOG_WORKFLOW.md          # Workflow tworzenia postów
-│   ├── BLOG_SYSTEM_SUMMARY.md    # Podsumowanie systemu blogowego
-│   └── BLOG_AI_OPTIONS.md        # Opcje AI dla generowania treści
+├── BLOG_WORKFLOW.md               # Workflow tworzenia postów
+├── blog/                         # ✍️ Materiały źródłowe artykułów
+│   └── _archive/                 # Zarchiwizowane materiały per artykuł
 │
-├── testing/                      # 🧪 Testy E2E
-│   ├── README.md                 # Przegląd dokumentacji testów
-│   └── TESTING_QUICKSTART.md     # Szybki start z Playwright
-│
-└── maintenance/                  # 🛠️ Utrzymanie projektu
-    ├── TODO.md                   # Lista zadań do zrobienia
-    └── BUGFIX_SUMMARY.md         # Podsumowania napraw bugów
+└── testing/                      # 🧪 Testy E2E
+    ├── README.md                 # Przegląd dokumentacji testów
+    └── TESTING_QUICKSTART.md     # Szybki start z Playwright
 ```
+
+Drzewo pokazuje najczęściej używane pozycje, nie wszystkie. Katalog zawiera też
+`faq/`, `toc/`, `methodology/`, `getting-started/`, `extending/`, `examples/`
+i `posts/`.
 
 ---
 
@@ -132,28 +131,11 @@ Pełny workflow tworzenia postów:
 - Obrazki OG
 - Publikacja
 
-#### BLOG_SYSTEM_SUMMARY.md
-
-Podsumowanie architektury systemu blogowego:
-
-- Jak działa system
-- Struktura folderów
-- Parsowanie markdown
-- Routing
-
-#### BLOG_AI_OPTIONS.md
-
-Opcje użycia AI do generowania treści blogowych:
-
-- Claude, OpenAI, inne
-- Prompty
-- Best practices
-
 **Kiedy używać:**
 
 - Tworzysz nowy post - czytaj BLOG_WORKFLOW.md
-- Chcesz zrozumieć system - BLOG_SYSTEM_SUMMARY.md
-- Chcesz użyć AI - BLOG_AI_OPTIONS.md
+- Chcesz zrozumieć system - `src/content/blog/AGENTS.md` (kontrakt) i
+  `src/data/AGENTS.md` (loader)
 
 ---
 
@@ -181,9 +163,7 @@ Szybki przewodnik (2 minuty):
 
 ---
 
-### 🛠️ Maintenance - Utrzymanie
-
-Zadania do zrobienia i historia napraw:
+### 🛠️ Utrzymanie
 
 #### TODO.md
 
@@ -200,18 +180,19 @@ Lista zadań do zrobienia:
 - Instrukcje implementacji
 - Linki do zasobów
 
-#### BUGFIX_SUMMARY.md
+#### PROJECT_STATUS.md
 
-Historia naprawionych bugów:
+Stan projektu, którego nie da się odczytać z repozytorium:
 
-- Co było nie tak
-- Jak naprawiono
-- Czego się nauczono
+- Pomiary Core Web Vitals wraz z datą pomiaru
+- Stan wdrożenia i SEO
+- Świadomie odrzucone pomysły - żeby nie wracały jako nowe
 
 **Kiedy używać:**
 
 - Planujesz dalszy rozwój - czytaj TODO.md
-- Chcesz zobaczyć historię - BUGFIX_SUMMARY.md
+- Sprawdzasz stan albo czy coś już odrzucono - PROJECT_STATUS.md
+- Historia napraw: `git log`
 
 ---
 
@@ -222,7 +203,7 @@ Historia naprawionych bugów:
 1. **[SRS.md](./SRS.md)** - Specyfikacja techniczna i architektura (NOWE - dla AI)
 2. **[deployment/DEPLOYMENT.md](./deployment/DEPLOYMENT.md)** - Jak wdrożyć na Vercel
 3. **[PRD.md](./PRD.md)** - Wymagania produktowe (dla AI)
-4. **[maintenance/TODO.md](./maintenance/TODO.md)** - Roadmap i zadania do zrobienia
+4. **[TODO.md](./TODO.md)** - Roadmap i zadania do zrobienia
 5. **[QUICK_START.md](./QUICK_START.md)** - Szybki start dla nowych użytkowników
 
 ---
@@ -235,7 +216,7 @@ README.md (root) ──────────────────┐
     ├─→ PRD.md (Biznes & Wizja - EN dla AI)
     ├─→ SRS.md (Technika & Architektura - EN dla AI) ← NOWE
     ├─→ QUICK_START.md ──→ deployment/DEPLOYMENT.md
-    └─→ maintenance/TODO.md
+    └─→ TODO.md
             ↓
         seo/SEO_VERIFICATION.md
             ↓
@@ -261,7 +242,7 @@ README.md (root) ──────────────────┐
 
 ### Format linków
 
-- Linki wewnętrzne: relatywne (`../seo/PRERENDERING.md`)
+- Linki wewnętrzne: relatywne względem pliku, w którym są - `./seo/PRERENDERING.md` z `docs/`, `../seo/PRERENDERING.md` z podkatalogu
 - Linki zewnętrzne: pełne URL z https://
 
 ### Struktura plików MD
@@ -281,8 +262,8 @@ README.md (root) ──────────────────┐
 
 - **Po każdej większej zmianie** - zaktualizuj odpowiedni dokument
 - **Po wdrożeniu** - uzupełnij TODO.md o nowe zadania
-- **Po naprawie buga** - dodaj wpis do BUGFIX_SUMMARY.md
-- **Po dodaniu featury** - zaktualizuj PROJECT_SUMMARY.md
+- **Po zmianie w folderze** - zaktualizuj jego `AGENTS.md` (przejście DOX)
+- **Po nowym pomiarze wydajności** - wpisz go do PROJECT_STATUS.md z datą
 
 ### Jak aktualizować?
 
@@ -300,9 +281,9 @@ README.md (root) ──────────────────┐
 
 - Deployment → `deployment/DEPLOYMENT.md`
 - SEO → `seo/SEO_VERIFICATION.md` lub `seo/PRERENDERING.md`
-- Blog → `blog/BLOG_WORKFLOW.md`
+- Blog → `BLOG_WORKFLOW.md`
 - Testy → `testing/TESTING_QUICKSTART.md`
-- Planowanie → `maintenance/TODO.md`
+- Planowanie → `TODO.md`
 - Przegląd projektu → `../README.md` (katalog główny)
 - Specyfikacja techniczna (AI) → `SRS.md`
 - Wymagania biznesowe (AI) → `PRD.md`
