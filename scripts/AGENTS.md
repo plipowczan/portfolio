@@ -35,7 +35,8 @@ disagree, this file is binding — the README predates several of these scripts.
 
 `dox-pass-check.mjs` is the one script here that is not build tooling. It is
 registered in `.claude/settings.json` and always exits 0 — a warning must never
-fail a turn or block a commit.
+fail a turn or block a commit. A moved file flags both folders: the one it left
+and the one it landed in.
 
 - Route lists are derived from the filesystem, not hardcoded: the prerender and
   sitemap scripts read `src/content/kurs/` and the blog folders directly. Keep

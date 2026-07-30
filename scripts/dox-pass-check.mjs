@@ -50,7 +50,10 @@ function changedPaths(root) {
   const out = new Set();
 
   // `--porcelain=v1 -z`: NUL-separated `XY path` entries. A rename or copy is
-  // followed by an extra NUL-terminated source path, which we skip.
+  // `XY <destination>\0<source>\0` — note the order is destination first, the
+  // reverse of the `old -> new` form printed without `-z`. Both paths matter:
+  // moving a file out of a folder changes that folder's scope just as much as
+  // moving one in, so both owning docs should be flagged.
   const status = git(["status", "--porcelain=v1", "-z"]);
   if (status) {
     const parts = status.split("\0");
@@ -58,9 +61,13 @@ function changedPaths(root) {
       const entry = parts[i];
       if (!entry) continue;
       const code = entry.slice(0, 2);
-      const file = entry.slice(3);
-      if (code[0] === "R" || code[0] === "C") i += 1;
-      if (file) out.add(file);
+      const destination = entry.slice(3);
+      if (destination) out.add(destination);
+      if (code[0] === "R" || code[0] === "C") {
+        i += 1; // the source path is a payload, not the next status entry
+        const source = parts[i];
+        if (source) out.add(source);
+      }
     }
   }
 
