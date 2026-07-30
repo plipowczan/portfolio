@@ -26,18 +26,34 @@ export const COURSE_CONTENT_DIR = join(HERE, "..", "src", "content", "kurs");
 export const COURSE_BASE_PATH = "/llm-wiki/kurs";
 
 /**
- * @param {string} [dir] katalog z lekcjami (domyślnie `src/content/kurs`)
- * @returns {{ file: string, slug: string, order: number }[]} lekcje wg `order`
+ * Pliki, które w tym katalogu w ogóle kandydują na lekcję: markdown, nie szkic
+ * (`_` na początku), nie dokumentacja.
+ *
+ * Wydzielone, bo sprawdzenie wyniku prerenderu musi umieć porównać, ile plików
+ * kandydowało, z tym, ile z nich dało poprawną lekcję. Bez tego porównania plik
+ * z uszkodzonym frontmatterem wypada po cichu: nie prerenderuje się i nie ma go
+ * na liście, którą sprawdza inwariant, więc build przechodzi.
+ *
+ * @param {string} [dir]
+ * @returns {string[]} nazwy plików
  */
-export function getCourseLessons(dir = COURSE_CONTENT_DIR) {
+export function listLessonFiles(dir = COURSE_CONTENT_DIR) {
   if (!existsSync(dir)) {
     return [];
   }
 
-  const files = readdirSync(dir).filter(
+  return readdirSync(dir).filter(
     (file) =>
       file.endsWith(".md") && !file.startsWith("_") && !DOC_FILES.has(file)
   );
+}
+
+/**
+ * @param {string} [dir] katalog z lekcjami (domyślnie `src/content/kurs`)
+ * @returns {{ file: string, slug: string, order: number }[]} lekcje wg `order`
+ */
+export function getCourseLessons(dir = COURSE_CONTENT_DIR) {
+  const files = listLessonFiles(dir);
 
   return files
     .map((file) => {

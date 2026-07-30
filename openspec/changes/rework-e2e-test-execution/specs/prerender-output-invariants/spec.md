@@ -39,6 +39,12 @@ A lesson is added by dropping a markdown file; a hand-maintained checklist would
 - **WHEN** a new lesson file is added and the prerender build runs
 - **THEN** the invariant checks the new lesson's output too, with no change to the check itself
 
+#### Scenario: A lesson file has malformed frontmatter
+
+- **WHEN** a file in the course content folder looks like a lesson but lacks a usable `slug` or `order`
+- **THEN** the build fails with a non-zero exit code naming that file
+- **AND** does not pass merely because the loader dropped the file from the list it checks
+
 ### Requirement: The invariant runs wherever the prerender build runs
 
 The check SHALL live inside the prerender build, so it executes in every environment that runs `npm run build:prerender`, including Vercel deployments.

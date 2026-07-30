@@ -15,8 +15,10 @@ import { fileURLToPath } from "url";
  * pair, across processes and across machines.
  *
  * Consumers: vite.config.js, playwright.config.js, scripts/prerender.mjs, and
- * the two specs that need an absolute local URL. No port literal belongs
- * anywhere else.
+ * the two specs that need an absolute local URL. In runtime code, config and
+ * tests, no port literal belongs anywhere else. (Generic examples in the
+ * `.claude/rules/**` technology guides are prose about Vite and Playwright in
+ * general, not about this repository's setup.)
  */
 
 // Derived from this file's location, not process.cwd(): a command run from a

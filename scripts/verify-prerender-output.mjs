@@ -19,7 +19,11 @@
 import { existsSync, readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
-import { COURSE_BASE_PATH, getCourseLessons } from "./course-lessons.mjs";
+import {
+  COURSE_BASE_PATH,
+  getCourseLessons,
+  listLessonFiles,
+} from "./course-lessons.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DIST = join(HERE, "..", "dist");
@@ -61,6 +65,20 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
     problems.push(
       "nie znaleziono żadnej lekcji kursu w src/content/kurs — sprawdzenie nie miałoby czego weryfikować"
     );
+  }
+
+  // Plik, który kandydował na lekcję, ale nie ma poprawnego `slug`/`order`,
+  // wypada z listy z samym ostrzeżeniem na konsoli. Nie prerenderuje się i nie
+  // trafia do pętli niżej, więc bez tego porównania build przechodzi mimo
+  // lekcji, której nikt nigdy nie zobaczy — czyli dokładnie przypadek „lekcja
+  // dodana, ale niepodpięta", od którego jest ten inwariant.
+  const parsed = new Set(lessons.map((lesson) => lesson.file));
+  for (const file of listLessonFiles()) {
+    if (!parsed.has(file)) {
+      problems.push(
+        `src/content/kurs/${file} wygląda na lekcję, ale nie ma poprawnego frontmatteru (\`slug\` i \`order\`), więc nie została prerenderowana`
+      );
+    }
   }
   for (const lesson of lessons) {
     requirePage([...COURSE_SEGMENTS, lesson.slug], `lekcja ${lesson.slug}`);
