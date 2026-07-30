@@ -23,7 +23,9 @@ PLAN (Planning) - Design article structure and approach
 ### 2. Determine Next Blog ID
 
 - List blog files: `ls src/content/blog/*.md | grep -vE '/(AGENTS|CLAUDE|README)\.md$'`
-- Grep for IDs: `grep "^id:" src/content/blog/*.md | grep -vE '/(AGENTS|CLAUDE|README)\.md:'` (the doc's schema example contains a literal `id: 1`)
+- Highest ID: `grep "^id:" src/content/blog/*.md | grep -vE '/(AGENTS|CLAUDE|README)\.md:' | sed 's/.*id: *//' | awk '{print $1}' | sort -n | tail -1`
+  - The `grep -v` drops the literal `id: 1` in the doc's schema example
+  - The `sed`/`awk` strip the filename — sorting the raw grep output keys on the word `id` and returns the wrong maximum
 - Calculate next available ID (highest + 1)
 
 ### 3. Design Article Structure
