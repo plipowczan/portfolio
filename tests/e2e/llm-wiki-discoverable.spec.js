@@ -21,11 +21,23 @@ for (const path of PL_ROUTES) {
   });
 }
 
-test("the nav exposes the course on Polish routes", async ({ page }) => {
+test("the nav exposes the course on Polish routes", async ({ page, isMobile }) => {
   await page.goto("/");
+
+  // One instance in the markup: the desktop bar. The mobile menu renders the
+  // same items, but AnimatePresence only mounts them once the menu is open —
+  // so this count is also what a crawler sees.
   const navLink = page.locator('nav a[href="/llm-wiki"]');
   await expect(navLink).toHaveCount(1);
-  await expect(navLink).toBeVisible();
+
+  if (isMobile) {
+    // The desktop bar is `hidden md:flex`, so on a phone viewport the link is
+    // attached but not visible. Reaching it means opening the menu.
+    await page.getByRole("button", { name: "Toggle menu" }).click();
+    await expect(page.locator('#mobile-menu a[href="/llm-wiki"]')).toBeVisible();
+  } else {
+    await expect(navLink).toBeVisible();
+  }
 });
 
 test("the footer exposes the course on Polish routes", async ({ page }) => {
