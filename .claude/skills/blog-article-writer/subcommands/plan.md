@@ -37,10 +37,14 @@ Review:
 ### Step 2: Determine Next Blog ID
 
 ```bash
-grep "^id:" src/content/blog/*.md | sort -t: -k2 -n | tail -1
+grep "^id:" src/content/blog/*.md | grep -vE '/(AGENTS|CLAUDE|README)\.md:' | sort -t: -k2 -n | tail -1
 ```
 
 Calculate: highest ID + 1
+
+The exclusion matters: `src/content/blog/AGENTS.md` documents the frontmatter
+schema, so its example block contains a literal `id: 1` line that the plain grep
+picks up as if it were a real article.
 
 ### Step 3: Design Frontmatter
 

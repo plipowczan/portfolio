@@ -1,6 +1,12 @@
+@AGENTS.md
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+The line above imports the DOX rail — the binding work contract. This file adds
+the Claude Code specifics: the OpenSpec command table and the `.claude/rules/`
+index.
 
 ## Project Overview
 
@@ -56,8 +62,11 @@ All project rules are centralized in **[.claude/rules/](.claude/rules/)**.
 - **[00-universal-overview.md](.claude/rules/00-universal-overview.md)**: Core principles, coding style, file organization.
 - **[10-setup.md](.claude/rules/10-setup.md)**: Environment setup and configuration.
 - **[11-git.md](.claude/rules/11-git.md)**: Git workflow and conventions.
-- **[data-storage/00-overview.md](.claude/rules/data-storage/00-overview.md)**: Data handling (Markdown, static files).
 - **[content/10-prosty-polski.md](.claude/rules/content/10-prosty-polski.md)**: Plain-Polish vocabulary and style rules for all PL content (blog, course lessons, landings).
+
+Blog frontmatter, FAQ structure, and loader conventions are **not** here — they
+live with the folders that own them: [src/content/blog/AGENTS.md](src/content/blog/AGENTS.md)
+and [src/data/AGENTS.md](src/data/AGENTS.md).
 
 ### Technology Rules
 
@@ -73,9 +82,9 @@ Specific rules for project technologies:
 
 ## Documentation Structure
 
+- **[AGENTS.md](AGENTS.md)**: The DOX rail — the binding work contract, plus the Child DOX Index of every folder-level `AGENTS.md`.
 - **[.claude/](.claude/)**: Agent-facing documentation (Rules, Reference, Plans).
-- **[docs/](docs/)**: User-facing documentation (Polish).
-- **[AGENTS.md](AGENTS.md)**: High-level guide for AI agents.
+- **[docs/](docs/)**: User-facing documentation (Polish), plus [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) and [TODO.md](docs/TODO.md).
 
 ## Architecture & Code Patterns
 

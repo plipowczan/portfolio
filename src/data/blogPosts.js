@@ -14,6 +14,11 @@ const blogFilesEn = import.meta.glob("../content/blog/en/*.md", {
   import: "default",
 });
 
+// Dokumentacja mieszkająca w folderze z treścią. To pliki `.md`, więc glob je
+// łapie, a bez frontmattera przewróciłyby walidację. `README.md` to przewodnik
+// po polsku, `AGENTS.md` to kontrakt DOX dla agentów, `CLAUDE.md` to jego shim.
+const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
+
 /**
  * Waliduje czy wszystkie wymagane pola istnieją w front matter
  */
@@ -114,7 +119,7 @@ function filterAndParse(files) {
       return (
         !filename.endsWith("_wsad.md") &&
         !filename.startsWith("_") &&
-        filename !== "README.md"
+        !DOC_FILES.has(filename)
       );
     })
     .map(([path, content]) => {

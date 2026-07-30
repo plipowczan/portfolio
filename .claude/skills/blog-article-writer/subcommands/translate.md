@@ -13,7 +13,8 @@ After `/blog-article-writer:validate` returns ✅ PASSED on the PL article. Same
 
 ## Inputs
 
-- PL slug (defaults to most recent `src/content/blog/*.md` not in `en/` subdirectory)
+- PL slug (defaults to most recent `src/content/blog/*.md` not in `en/` subdirectory,
+  excluding `AGENTS.md`, `CLAUDE.md`, and `README.md` — those are docs, not articles)
 - Optional: explicit EN slug override
 
 ## Workflow
@@ -117,4 +118,4 @@ Append "## EN Translation" section to `.claude/agents/reports/validation-blog-{p
 
 - `.claude/skills/portfolio-copywriting/references/article-structure.md` — canonical CTA pattern
 - `.claude/commands/blog-article-writer/translate.md` — full command spec
-- `.claude/rules/data-storage/00-overview.md` — `alternateSlug` rules (post-karpathy fix)
+- `src/content/blog/AGENTS.md` — `alternateSlug` rules (post-karpathy fix)

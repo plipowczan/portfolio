@@ -21,6 +21,12 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Dokumentacja mieszkająca w folderach z treścią. To pliki `.md`, więc
+// readdir je łapie, a bez frontmattera wygenerowałyby fałszywe trasy.
+// `README.md` to przewodnik po polsku, `AGENTS.md` to kontrakt DOX dla
+// agentów, `CLAUDE.md` to jego shim.
+const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
+
 // Funkcja do wczytywania postów bezpośrednio z plików markdown
 function getBlogPosts(dir) {
   if (!existsSync(dir)) {
@@ -32,7 +38,7 @@ function getBlogPosts(dir) {
       file.endsWith(".md") &&
       !file.endsWith("_wsad.md") &&
       !file.startsWith("_") &&
-      file !== "README.md"
+      !DOC_FILES.has(file)
   );
 
   return files.map((file) => {
@@ -54,7 +60,7 @@ function getCourseLessons(dir) {
 
   const files = readdirSync(dir).filter(
     (file) =>
-      file.endsWith(".md") && !file.startsWith("_") && file !== "README.md"
+      file.endsWith(".md") && !file.startsWith("_") && !DOC_FILES.has(file)
   );
 
   return files

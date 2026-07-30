@@ -42,8 +42,12 @@ Look for (only at the top level of `docs/blog/`):
 
 Read 2-3 recent articles from `src/content/blog/`:
 ```bash
-ls -t src/content/blog/*.md | head -5
+ls -t src/content/blog/*.md | grep -vE '/(AGENTS|CLAUDE|README)\.md$' | head -5
 ```
+
+The folder also holds `AGENTS.md` (the DOX contract), its `CLAUDE.md` shim, and
+`README.md`. They are not articles — exclude them or they crowd out the real
+ones, since they are usually the most recently touched files there.
 
 Analyze for:
 - Pawel's writing style (direct, practical, personal)
