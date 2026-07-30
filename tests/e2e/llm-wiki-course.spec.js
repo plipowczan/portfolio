@@ -41,8 +41,9 @@ test.describe("Kurs LLM Wiki — hub", () => {
       ).toHaveCount(1);
     }
 
-    // CTA do waitlisty.
-    await expect(page.locator('a[href="/llm-wiki"]')).toHaveCount(1);
+    // CTA do waitlisty. Liczone w treści, nie w całym dokumencie — nawigacja
+    // i stopka też linkują do /llm-wiki, odkąd sekcja przestała być osierocona.
+    await expect(page.locator('main a[href="/llm-wiki"]')).toHaveCount(1);
 
     // Link do repo szablonu.
     await expect(page.locator(`a[href="${REPO_URL}"]`)).toHaveCount(1);
@@ -182,8 +183,9 @@ test.describe("Kurs LLM Wiki — lekcje", () => {
         page.getByRole("heading", { level: 1 })
       ).toContainText(lesson.title);
 
-      // CTA na dole → waitlista.
-      await expect(page.locator('a[href="/llm-wiki"]')).toHaveCount(1);
+      // CTA na dole → waitlista. Zawężone do treści: nawigacja i stopka też
+      // linkują do /llm-wiki, odkąd sekcja przestała być osierocona.
+      await expect(page.locator('main a[href="/llm-wiki"]')).toHaveCount(1);
     });
   }
 
@@ -257,8 +259,8 @@ test.describe("Kurs LLM Wiki — landing bez regresji", () => {
   });
 });
 
-test.describe("Kurs LLM Wiki — link z ekranu sukcesu landingu", () => {
-  test("link do /llm-wiki/kurs pojawia się dopiero po zapisie", async ({
+test.describe("Kurs LLM Wiki — wejście w kurs z landingu", () => {
+  test("link do /llm-wiki/kurs jest dostępny przed zapisem i po zapisie", async ({
     page,
   }) => {
     await page.route("**/api/subscribe", async (route) => {
@@ -271,16 +273,19 @@ test.describe("Kurs LLM Wiki — link z ekranu sukcesu landingu", () => {
 
     await page.goto("/llm-wiki");
 
-    // GATE: brak linku do kursu przed zapisem.
-    await expect(page.locator('a[href="/llm-wiki/kurs"]')).toHaveCount(0);
+    // Wcześniej link pojawiał się dopiero po zapisie. Bramka niczego nie
+    // chroniła — /llm-wiki/kurs zwraca 200 każdemu, kto zna adres — a ukrywała
+    // kurs i 8 lekcji przed robotem: w prerenderowanym HTML nie było do nich
+    // żadnego linku wewnętrznego. Formularz zostaje głównym wezwaniem.
+    await expect(page.locator('main a[href="/llm-wiki/kurs"]')).toHaveCount(1);
 
     await page.locator("#waitlist-email").fill("test@example.com");
     await page.getByRole("button", { name: /Zapisz mnie/i }).click();
 
     await expect(page.getByText(/Jesteś na liście/i)).toBeVisible();
 
-    // Po zapisie: link do darmowego kursu odbramkowany.
-    await expect(page.locator('a[href="/llm-wiki/kurs"]')).toHaveCount(1);
+    // Ekran sukcesu ma własne wejście w kurs.
+    await expect(page.locator('main a[href="/llm-wiki/kurs"]')).toHaveCount(1);
   });
 });
 
