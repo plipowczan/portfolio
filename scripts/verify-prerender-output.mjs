@@ -16,7 +16,7 @@
  *   node scripts/verify-prerender-output.mjs
  */
 
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readdirSync, readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import {
@@ -90,6 +90,33 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
     problems.push(
       `kurs jest PL-only, a powstał wariant /en: ${enMirror} — usuń go albo popraw listę tras w scripts/prerender.mjs`
     );
+  }
+
+  // Analityka jest bramkowana zgodą i wstrzykiwana dopiero w przeglądarce.
+  // Gdyby prerender zapisał gotowy tag do statycznego HTML, skrypt Google
+  // ładowałby się przed jakąkolwiek decyzją użytkownika — czyli bramka zgody
+  // przestałaby istnieć, a statyczny plik nie ma jak tego zgłosić.
+  const htmlFiles = existsSync(distDir)
+    ? readdirSync(distDir, { recursive: true })
+        .map(String)
+        .filter((name) => name.endsWith(".html"))
+    : [];
+
+  if (htmlFiles.length <= 1) {
+    problems.push(
+      `w ${distDir} jest ${htmlFiles.length} plików .html — to nie wygląda na wynik prerenderu`
+    );
+  }
+
+  const withAnalytics = htmlFiles.filter((name) =>
+    readFileSync(join(distDir, name), "utf-8").includes("googletagmanager")
+  );
+  if (withAnalytics.length > 0) {
+    problems.push(
+      `statyczny HTML odwołuje się do googletagmanager, co omija bramkę zgody: ${withAnalytics.join(", ")}`
+    );
+  } else {
+    checked.push(`${htmlFiles.length} plików HTML bez odwołań do googletagmanager`);
   }
 
   return { problems, checked };

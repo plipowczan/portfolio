@@ -23,9 +23,18 @@
 - **WHEN** the prerender build finishes and `dist/en/llm-wiki/kurs` exists
 - **THEN** the build fails with a non-zero exit code
 
+#### Scenario: A static file would load analytics before consent
+
+- **WHEN** any HTML file in the build output references `googletagmanager`
+- **THEN** the build fails with a non-zero exit code naming the files
+
+Analytics is consent-gated and injected at runtime. A tag baked into static HTML
+would load before any decision, which removes the gate entirely — and the static
+file has no way to report that itself.
+
 #### Scenario: Output is complete
 
-- **WHEN** the hub and every lesson exist with a meta description, and no EN mirror is present
+- **WHEN** the hub and every lesson exist with a meta description, no EN mirror is present, and no static file references an analytics host
 - **THEN** the build completes successfully and reports the pages it verified
 
 ### Requirement: The lesson list checked matches the lesson list published

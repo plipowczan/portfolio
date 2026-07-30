@@ -42,11 +42,10 @@ Playwright starts every configured `webServer` regardless of test selection, so 
 - **THEN** the preview server starts
 - **AND** `tests/e2e/seo-metadata-invariants.spec.js` executes its assertions
 
-#### Scenario: CI browser job that cannot run those tests
+#### Scenario: CI jobs
 
-- **WHEN** a CI job runs a project the preview-dependent tests are excluded from
-- **THEN** that job does not set the opt-in variable
-- **AND** does not pay for a production build it would not read
+- **WHEN** CI runs any browser job
+- **THEN** it sets the opt-in variable, because a preview-dependent block (the production-host consent gate) runs on every project, not only on `chromium`
 
 ### Requirement: Every run is time-bounded
 

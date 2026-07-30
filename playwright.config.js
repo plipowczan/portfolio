@@ -19,10 +19,11 @@ const FULL_MATRIX = !!process.env.CI || !!process.env.PW_ALL;
  * które testy wybrano — bezwarunkowy wpis dokłada pełny `vite build` do
  * każdego przebiegu, także przebiegu jednego niezwiązanego spec-a.
  *
- * Warunek celowo NIE obejmuje samego `CI`: testy, które potrzebują preview,
- * są przypięte do chromium (ENGINE_INDEPENDENT), więc joby firefoksa, webkita
- * i mobilne płaciłyby za build, z którego nic nie czytają. Workflow ustawia tę
- * zmienną tylko w jobie chromium.
+ * Warunek celowo NIE obejmuje samego `CI` — zmienną ustawia workflow, jawnie,
+ * per job. Dziś we wszystkich, bo preview potrzebują dwa zestawy: metadane SEO
+ * (przypięte do chromium) i bramka zgody na hoście produkcyjnym, która proxuje
+ * ten host na build i leci na każdej przeglądarce. Gdyby kiedyś został tylko
+ * ten pierwszy, wystarczy zdjąć zmienną z pozostałych jobów.
  */
 const WITH_PREVIEW = !!process.env.PW_PREVIEW;
 

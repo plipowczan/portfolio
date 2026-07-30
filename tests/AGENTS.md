@@ -51,8 +51,13 @@ Never hardcode a port in a spec — take the URL from `baseURL` or that module.
   **Started only under `PW_PREVIEW=1`.** Playwright starts every configured
   server regardless of which tests were selected, so an unconditional entry
   charged a full production build to every run — including a single-spec run.
-  Without the variable, `seo-metadata-invariants.spec.js` skips with a message
-  naming it.
+  Without the variable, the blocks that need it skip with a message naming it:
+  `seo-metadata-invariants.spec.js`, and the production-host block of
+  `analytics-consent.spec.js`, which proxies the real hostname to that build
+  because `window.location.hostname` cannot be faked from page script.
+
+  CI sets the variable in every job — the analytics block is not
+  engine-independent, so it runs on the full matrix.
 
 `PW_DEPLOYED=1` starts neither server: the target is a deployment, addressed
 through `SEO_HEADERS_URL`.
@@ -62,12 +67,17 @@ through `SEO_HEADERS_URL`.
 The test build writes to `dist-test/` and leaves `dist/` alone. `dist/` holds
 the prerendered output that ships.
 
-No test reads `dist/` any more. The assertions that did — hub and lesson HTML
-with a meta description, no `/en` mirror — now live in
-`scripts/verify-prerender-output.mjs`, which `npm run build:prerender` runs as
-its last step. Since that command is `vercel.json`'s `buildCommand`, the check
-runs on every preview and production deployment, and a broken prerender fails
-the deployment instead of waiting for someone to remember a local build.
+No test reads `dist/`. The assertions that did — hub and lesson HTML with a
+meta description, no `/en` mirror, and no `googletagmanager` reference in any
+static file — now live in `scripts/verify-prerender-output.mjs`, which
+`npm run build:prerender` runs as its last step. Since that command is
+`vercel.json`'s `buildCommand`, the check runs on every preview and production
+deployment, and a broken prerender fails the deployment instead of waiting for
+someone to remember a local build.
+
+**Do not add a test that reads `dist/`.** It can only skip on a normal run, so
+it looks green while proving nothing. A claim about build output belongs in the
+invariant, where it runs every time the build does.
 
 ### What gates a merge
 

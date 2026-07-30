@@ -28,8 +28,8 @@ jobs:
         include:
           - { project: chromium, browser: chromium, id: chromium, shard: 1, preview: "1" }
           - { project: chromium, browser: chromium, id: chromium, shard: 2, preview: "1" }
-          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, shard: 1, preview: "" }
-          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, shard: 2, preview: "" }
+          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, shard: 1, preview: "1" }
+          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, shard: 2, preview: "1" }
 
     steps:
       - uses: actions/checkout@v4
@@ -66,8 +66,10 @@ jobs:
         timeout-minutes: 10
         run: npx playwright install-deps ${{ matrix.browser }}
 
-      # PW_PREVIEW tylko tam, gdzie testy go potrzebują: metadane SEO widać
-      # wyłącznie w produkcyjnym buildzie, a te testy są przypięte do chromium.
+      # PW_PREVIEW startuje serwer preview. Potrzebują go dwa zestawy: metadane
+      # SEO (przypięte do chromium) i bramka zgody na hoście produkcyjnym, która
+      # proxuje ten host na build i leci na każdej przeglądarce. Stąd zmienna
+      # jest we wszystkich jobach — koszt to jeden `vite build`, ok. minuty.
       - name: Run Playwright tests
         env:
           PW_PREVIEW: ${{ matrix.preview }}
@@ -100,10 +102,10 @@ jobs:
       matrix:
         include:
           - { project: chromium, browser: chromium, id: chromium, preview: "1" }
-          - { project: firefox, browser: firefox, id: firefox, preview: "" }
-          - { project: webkit, browser: webkit, id: webkit, preview: "" }
-          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, preview: "" }
-          - { project: Mobile Safari, browser: webkit, id: mobile-safari, preview: "" }
+          - { project: firefox, browser: firefox, id: firefox, preview: "1" }
+          - { project: webkit, browser: webkit, id: webkit, preview: "1" }
+          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, preview: "1" }
+          - { project: Mobile Safari, browser: webkit, id: mobile-safari, preview: "1" }
 
     steps:
       - uses: actions/checkout@v4
