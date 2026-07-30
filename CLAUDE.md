@@ -38,13 +38,15 @@ Personal portfolio website for Pawel Lipowczan. React 19 + Vite 7 + Tailwind CSS
 
 ```bash
 # Development
-npm run dev              # Start dev server (localhost:5173)
+npm run dev              # Start dev server (port derived per worktree - see scripts/ports.mjs)
 npm run build            # Fast build (no prerender)
-npm run build:prerender  # Full production build with SEO prerendering
-npm run preview          # Preview production build (localhost:4173)
+npm run build:prerender  # Full production build with SEO prerendering + output check
+npm run preview          # Preview production build (port derived per worktree)
 
 # Testing
-npm test                 # Run all Playwright E2E tests
+npm test                 # Playwright E2E: chromium + Mobile Chrome (narrow default)
+PW_ALL=1 npm test        # Full browser matrix
+PW_PREVIEW=1 npm test    # Also start the preview server (needed by the SEO metadata suite)
 npm run test:headed      # Run with visible browser
 npm run test:ui          # Interactive test UI
 

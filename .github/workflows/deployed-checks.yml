@@ -1,0 +1,70 @@
+name: Deployed checks
+
+# Nagłówki bezpieczeństwa i cache fontów pochodzą z `vercel.json`, więc istnieją
+# wyłącznie na wdrożeniu — ani serwer dev, ani `vite preview` ich nie wystawia.
+# Te siedem testów gate'uje się zmienną SEO_HEADERS_URL, której dotąd nic nie
+# ustawiało: pomijały się lokalnie, w CI i w bramie merge. Zawsze.
+#
+# Vercel zakłada w GitHubie deployment dla każdego preview i produkcji, a jego
+# status niesie `environment_url`. Stąd wyzwalacz: preview pokrywa pull
+# requesty (czyli zmianę w `vercel.json` widać PRZED scaleniem), produkcja
+# pokrywa main.
+on:
+  deployment_status
+
+jobs:
+  headers:
+    name: nagłówki na ${{ github.event.deployment_status.environment }}
+    # Tylko udane wdrożenia. Bez tego warunku job odpalałby się także na
+    # `pending` i `failure`, celując w adres, którego jeszcze (albo już) nie ma.
+    if: github.event.deployment_status.state == 'success'
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ steps.pw.outputs.version }}-chromium
+
+      - name: Install Playwright browser
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 10
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright OS dependencies
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
+        run: npx playwright install-deps chromium
+
+      # PW_DEPLOYED wyłącza serwery lokalne — cel jest zdalny, więc nie ma po co
+      # stawiać dev servera ani budować dist-test/.
+      - name: Run deployed-environment checks
+        env:
+          SEO_HEADERS_URL: ${{ github.event.deployment_status.environment_url }}
+          PW_DEPLOYED: "1"
+        run: npm test -- --project=chromium seo-security-headers perf-font-cache-headers
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployed-checks-report-${{ github.event.deployment_status.id }}
+          path: playwright-report/
+          retention-days: 30

@@ -1,31 +1,40 @@
 name: Playwright Tests
 
+# Dwa różne przebiegi, bo dwa różne pytania:
+#
+# Pull request — czy zmiana nie psuje niczego oczywistego. Wąsko: chromium
+# (silnik) + Mobile Chrome (viewport). Ta para łapie klasę „działa na
+# desktopie, znika na telefonie", której sam chromium nie widzi.
+#
+# Push na main — czy nie psuje niczego w pozostałych silnikach. Pełna macierz,
+# jeden job na projekt: każdy instaluje tylko swoją przeglądarkę, a czerwony
+# job nazywa winowajcę zamiast numeru sharda.
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
-    branches: [main, develop]
+    branches: [main]
 
 jobs:
-  test:
-    name: test (shard ${{ matrix.shard }}/4)
-    timeout-minutes: 30
+  pr:
+    name: PR — ${{ matrix.project }} (${{ matrix.shard }}/2)
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 20
     runs-on: ubuntu-latest
 
-    # Split the suite across 4 runners. Each shard runs serially (workers:1 in
-    # playwright.config.js) so timing-fragile navigation tests stay reliable,
-    # while wall-clock drops to ~1/4 of the serial run (~15 min vs ~60 min).
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        include:
+          - { project: chromium, browser: chromium, id: chromium, shard: 1, preview: "1" }
+          - { project: chromium, browser: chromium, id: chromium, shard: 2, preview: "1" }
+          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, shard: 1, preview: "" }
+          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, shard: 2, preview: "" }
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "npm"
@@ -33,17 +42,42 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+      - name: Read Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
 
+      # Krok instalacji potrafił zawisnąć i zjeść cały budżet joba (run
+      # 30489037702: 30 min na samym `playwright install`). Cache skraca go do
+      # zera przy trafieniu, a własny timeout wywala go, póki został czas.
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ matrix.browser }}
+
+      - name: Install Playwright browser
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 10
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Install Playwright OS dependencies
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
+        run: npx playwright install-deps ${{ matrix.browser }}
+
+      # PW_PREVIEW tylko tam, gdzie testy go potrzebują: metadane SEO widać
+      # wyłącznie w produkcyjnym buildzie, a te testy są przypięte do chromium.
       - name: Run Playwright tests
-        run: npm test -- --shard=${{ matrix.shard }}/4
+        env:
+          PW_PREVIEW: ${{ matrix.preview }}
+        run: npm test -- --project="${{ matrix.project }}" --shard=${{ matrix.shard }}/2
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ matrix.shard }}
+          name: playwright-report-pr-${{ matrix.id }}-${{ matrix.shard }}
           path: playwright-report/
           retention-days: 30
 
@@ -51,6 +85,75 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-screenshots-${{ matrix.shard }}
+          name: test-screenshots-pr-${{ matrix.id }}-${{ matrix.shard }}
+          path: test-results/
+          retention-days: 7
+
+  main:
+    name: main — ${{ matrix.project }}
+    if: github.event_name == 'push'
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { project: chromium, browser: chromium, id: chromium, preview: "1" }
+          - { project: firefox, browser: firefox, id: firefox, preview: "" }
+          - { project: webkit, browser: webkit, id: webkit, preview: "" }
+          - { project: Mobile Chrome, browser: chromium, id: mobile-chrome, preview: "" }
+          - { project: Mobile Safari, browser: webkit, id: mobile-safari, preview: "" }
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ matrix.browser }}
+
+      - name: Install Playwright browser
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 10
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Install Playwright OS dependencies
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
+        run: npx playwright install-deps ${{ matrix.browser }}
+
+      - name: Run Playwright tests
+        env:
+          PW_PREVIEW: ${{ matrix.preview }}
+        run: npm test -- --project="${{ matrix.project }}"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-main-${{ matrix.id }}
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screenshots-main-${{ matrix.id }}
           path: test-results/
           retention-days: 7

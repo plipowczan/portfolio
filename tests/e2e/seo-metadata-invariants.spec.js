@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
+import { PREVIEW_URL } from "../../scripts/ports.mjs";
 
 /**
  * Page-level SEO invariants (openspec: fix-seo-hreflang-canonical-meta).
@@ -17,7 +18,7 @@ import { expect, test } from "@playwright/test";
  * found the same page shipping a description from index.html, a canonical
  * pointing at the other language, and hreflang built by string surgery.
  *
- * Runs against the preview build (4173), not the dev server: under
+ * Runs against the preview build, not the dev server: under
  * <React.StrictMode> react-helmet-async 2.0.5 + React 19 never commit their
  * <meta>/<link> tags, so the dev server shows an empty <head> regardless of
  * what the code does. StrictMode is development-only, so the build is the
@@ -124,7 +125,16 @@ const readHreflang = (page) =>
   );
 
 test.describe("SEO — page metadata invariants", () => {
-  test.use({ baseURL: "http://localhost:4173" });
+  test.use({ baseURL: PREVIEW_URL });
+
+  // Serwer preview startuje tylko pod `PW_PREVIEW=1` — patrz
+  // playwright.config.js. Bez niego nie ma czego odpytać, więc blok pomija
+  // się z nazwą zmiennej zamiast wywracać przebieg na odmowie połączenia.
+  // W CI zmienną ustawia workflow, w jobie chromium.
+  test.skip(
+    !process.env.PW_PREVIEW,
+    "Serwer preview nie działa — uruchom z PW_PREVIEW=1, żeby wykonać ten blok."
+  );
 
   test("sitemap.xml parsed and every checked path is listed in it", () => {
     expect(SITEMAP.size).toBeGreaterThan(0);

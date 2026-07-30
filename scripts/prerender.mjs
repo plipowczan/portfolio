@@ -52,47 +52,18 @@ function getBlogPosts(dir) {
   });
 }
 
-// Funkcja do wczytywania lekcji kursu (PL-only) bezpośrednio z plików markdown
-function getCourseLessons(dir) {
-  if (!existsSync(dir)) {
-    return [];
-  }
-
-  const files = readdirSync(dir).filter(
-    (file) =>
-      file.endsWith(".md") && !file.startsWith("_") && !DOC_FILES.has(file)
-  );
-
-  return files
-    .map((file) => {
-      const { data } = matter(readFileSync(join(dir, file), "utf-8"));
-      return { file, slug: data.slug, order: data.order };
-    })
-    .filter((lesson) => {
-      const valid =
-        typeof lesson.slug === "string" &&
-        lesson.slug.length > 0 &&
-        typeof lesson.order === "number";
-      if (!valid) {
-        console.warn(
-          `  ⚠️  Pomijam lekcję kursu bez poprawnego slug/order: ${lesson.file}`
-        );
-      }
-      return valid;
-    })
-    .sort((a, b) => a.order - b.order);
-}
-
 import { projects } from "../src/data/projects.js";
+// Lista lekcji mieszka w scripts/course-lessons.mjs, bo czyta ją też
+// sprawdzenie wyniku prerenderu — obie strony muszą widzieć ten sam katalog.
+import { COURSE_CONTENT_DIR, getCourseLessons } from "./course-lessons.mjs";
+import { PREVIEW_URL } from "./ports.mjs";
 
 const blogPostsPl = getBlogPosts(join(__dirname, "..", "src", "content", "blog"));
 const blogPostsEn = getBlogPosts(join(__dirname, "..", "src", "content", "blog", "en"));
-const courseLessons = getCourseLessons(
-  join(__dirname, "..", "src", "content", "kurs")
-);
+const courseLessons = getCourseLessons(COURSE_CONTENT_DIR);
 
 // Konfiguracja
-const BASE_URL = "http://localhost:4173"; // Vite preview port
+const BASE_URL = PREVIEW_URL; // patrz scripts/ports.mjs — port per worktree
 const DIST_DIR = join(__dirname, "..", "dist");
 
 // Wykrywanie środowiska Vercel

@@ -1,10 +1,4 @@
 import { expect, test } from "@playwright/test";
-import { existsSync, readFileSync } from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const DIST = join(__dirname, "..", "..", "dist");
 
 const REPO_URL = "https://github.com/plipowczan/second-brain-template";
 
@@ -308,42 +302,8 @@ test.describe("Kurs LLM Wiki — PL-only redirecty /en", () => {
   });
 });
 
-// Prerender assertions read the built `dist/`. `npm test` runs the dev server
-// only, so this block is skipped unless a `npm run build:prerender` was run
-// first. It never fails a build-less run.
-//
-// Znacznikiem jest `dist/blog/index.html`: zwykły `npm run build` produkuje
-// wyłącznie `dist/index.html`, dopiero prerender rozpisuje podstrony na
-// osobne pliki. Samo istnienie `dist/` nie wystarcza - po zwykłym buildzie
-// katalog jest, a prerenderowanych stron w nim nie ma, więc warunek oparty na
-// katalogu wywracał ten test zamiast go pominąć. Celowo NIE jest to ścieżka
-// z kursu, żeby warunek nie zaliczał się z tego samego, co asercje niżej.
-const PRERENDERED = existsSync(join(DIST, "blog", "index.html"));
-
-test.describe("Kurs LLM Wiki — prerender (PL-only)", () => {
-  test.skip(
-    !PRERENDERED,
-    "dist/ bez prerenderu — uruchom `npm run build:prerender` przed tym testem"
-  );
-
-  test("hub i wszystkie lekcje (L0 + L1–L5) mają statyczny HTML z meta description; brak wariantów /en", () => {
-    const hubHtml = join(DIST, "llm-wiki", "kurs", "index.html");
-    expect(existsSync(hubHtml)).toBe(true);
-    expect(readFileSync(hubHtml, "utf-8")).toContain('name="description"');
-
-    for (const lesson of ALL_LESSONS) {
-      const lessonHtml = join(
-        DIST,
-        "llm-wiki",
-        "kurs",
-        lesson.slug,
-        "index.html"
-      );
-      expect(existsSync(lessonHtml)).toBe(true);
-      expect(readFileSync(lessonHtml, "utf-8")).toContain('name="description"');
-    }
-
-    // PL-only: żadnych stron kursu pod /en.
-    expect(existsSync(join(DIST, "en", "llm-wiki", "kurs"))).toBe(false);
-  });
-});
+// Asercje o prerenderze (statyczny HTML huba i lekcji, brak wariantów /en)
+// nie mieszkają już tutaj. Przeniosły się do `scripts/verify-prerender-output.mjs`,
+// które `npm run build:prerender` wywołuje jako ostatni krok — a że to
+// `buildCommand` z `vercel.json`, bramka działa na każdym wdrożeniu, zamiast
+// czekać, aż ktoś pamięta uruchomić 6,5-minutowy build przed merge.
