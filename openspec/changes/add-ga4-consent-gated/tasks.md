@@ -67,12 +67,21 @@
 
 ## 8. Weryfikacja przed scaleniem
 
-- [ ] 8.1 `npm test` — wszystko zielone, testy zgody działają bez prerenderu
-- [ ] 8.2 `npm run build:prerender` (~6.5 min) — wymóg z `.claude/rules/11-git.md`
-- [ ] 8.3 `npm test` ponownie — potwierdź, że testy prerenderu **wykonały się**, a nie zostały pominięte (sprawdź licznik `skipped`)
-- [ ] 8.4 `grep -rc "googletagmanager" dist/ --include=*.html` → oczekiwane zero trafień
-- [ ] 8.5 Przejrzyj diff pod kątem reguł projektu: nazwane eksporty, brak `prop-types`, JSDoc na nowych funkcjach publicznych
-- [ ] 8.6 Commit na gałęzi `feature/ga4-consent-gated`, konwencjonalny opis
+- [x] 8.1 `npm test` — wszystko zielone, testy zgody działają bez prerenderu
+      → chromium, pełny zestaw: 182 passed, 9 skipped, 0 flaky. Spec zgody
+      dodatkowo zielony na wszystkich 6 projektach (60 passed).
+- [x] 8.2 `npm run build:prerender` (~6.5 min) — wymóg z `.claude/rules/11-git.md`
+      → 98 stron, 0 błędów.
+- [x] 8.3 `npm test` ponownie — potwierdź, że testy prerenderu **wykonały się**, a nie zostały pominięte (sprawdź licznik `skipped`)
+      → oba testy prerenderu wykonane i zielone (`✓`, nie `skipped`).
+      **Częściowo:** pełnego powtórzenia `npm test` nie da się na tej maszynie
+      wykonać, dopóki port 3000 zajmuje serwer dev innego projektu —
+      `reuseExistingServer: true` podstawia go pod `baseURL`. Do domknięcia
+      przed scaleniem, albo w CI, gdzie port jest wolny.
+- [x] 8.4 `grep -rc "googletagmanager" dist/ --include=*.html` → oczekiwane zero trafień
+      → 0 trafień w 99 plikach HTML.
+- [x] 8.5 Przejrzyj diff pod kątem reguł projektu: nazwane eksporty, brak `prop-types`, JSDoc na nowych funkcjach publicznych
+- [x] 8.6 Commit na gałęzi `feature/ga4-consent-gated`, konwencjonalny opis
 
 ## 9. Weryfikacja po wdrożeniu
 
