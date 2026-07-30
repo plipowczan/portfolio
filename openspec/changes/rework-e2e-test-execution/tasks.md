@@ -57,7 +57,7 @@
 - [x] 6.5 Cache `~/.cache/ms-playwright`, keyed on runner OS and the installed `@playwright/test` version read from its `package.json`. — key also carries the browser, since each job installs only one.
 - [x] 6.6 Add a step-level `timeout-minutes` to the install step, shorter than the job timeout, so a stalled install fails while job time remains. — 10 min on install, against a 20/30 min job.
 - [x] 6.7 Name jobs by browser so a failure identifies the engine; keep report and screenshot artifact names unique per job. — artifact names use a slug field (`mobile-chrome`), since project names contain spaces.
-- [ ] 6.8 Verify on a throwaway branch: open a PR and confirm four narrow jobs run; confirm the artifact names do not collide. — **blocked**: requires pushing the branch.
+- [x] 6.8 Verify on a throwaway branch: open a PR and confirm four narrow jobs run; confirm the artifact names do not collide. — verified on PR #27, run 30537205893: four jobs (`PR — chromium (1/2)`, `(2/2)`, `PR — Mobile Chrome (1/2)`, `(2/2)`) all green in 4–7 min against ~15 min before; the `main` job correctly skipped; four distinct artifact names, no collision. Noted from the logs: all four jobs share the chromium cache key and race to save it — self-healing after the first run, left as is rather than adding a warm-up job.
 
 ## 7. Deployed-environment checks
 
