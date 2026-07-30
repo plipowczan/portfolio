@@ -18,7 +18,7 @@
   "footer.termsOfService": "Regulamin",
   "footer.cookiePolicy": "Polityka cookies",
   "cookie.title": "Używamy plików cookie",
-  "cookie.description": "Ta strona wykorzystuje pliki cookie, aby zapewnić Ci najlepsze doświadczenie. Kontynuując przeglądanie, wyrażasz zgodę na ich użycie.",
+  "cookie.description": "Ta strona używa plików cookie do analizy ruchu. Analitykę uruchomimy tylko wtedy, gdy klikniesz \"Akceptuję\".",
   "cookie.learnMore": "Dowiedz się więcej",
   "cookie.reject": "Odrzuć",
   "cookie.accept": "Akceptuję",

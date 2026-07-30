@@ -4,6 +4,7 @@ import { BookingProvider } from "./context/BookingContext";
 import Layout from "./components/layout/Layout";
 import LocaleLayout from "./components/layout/LocaleLayout";
 import StripEnRedirect from "./components/routing/StripEnRedirect";
+import usePageTracking from "./hooks/usePageTracking";
 import Blog from "./pages/Blog";
 import BlogPostPage from "./pages/BlogPostPage";
 import CookiePolicy from "./pages/CookiePolicy";
@@ -17,6 +18,10 @@ import TermsOfService from "./pages/TermsOfService";
 import ProjectPage from "./pages/ProjectPage";
 
 function App() {
+  // Consent-gated GA4 page views. Sits here rather than in Layout because
+  // Layout does not wrap every route, and here it is still under BrowserRouter.
+  usePageTracking();
+
   return (
     <BookingProvider>
       <MotionConfig reducedMotion="user">

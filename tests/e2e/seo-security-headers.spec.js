@@ -81,4 +81,26 @@ test.describe("SEO — security headers on deployed site", () => {
     expect(directive("script-src")).toContain("https://app.zencal.io");
     expect(directive("frame-src")).toContain("https://app.zencal.io");
   });
+
+  test("CSP allowlist pokrywa hosty Google Analytics", async ({ request }) => {
+    const res = await request.get(DEPLOYED_URL, { maxRedirects: 5 });
+    const csp = res.headers()["content-security-policy-report-only"];
+
+    const directive = (name) =>
+      csp.match(new RegExp(`(?:^|;)\\s*${name}\\s+([^;]+)`))?.[1] ?? "";
+
+    // These entries grant nothing on their own: nothing requests them until a
+    // visitor accepts cookies. They exist because the policy is Report-Only, so
+    // a missing entry would not block the loader - it would only spend the
+    // Sentry event quota on violations we caused ourselves.
+    expect(directive("script-src")).toContain(
+      "https://www.googletagmanager.com",
+    );
+
+    const connectSrc = directive("connect-src");
+    expect(connectSrc).toContain("https://www.googletagmanager.com");
+    expect(connectSrc).toContain("https://www.google-analytics.com");
+    expect(connectSrc).toContain("https://*.google-analytics.com");
+    expect(connectSrc).toContain("https://*.analytics.google.com");
+  });
 });

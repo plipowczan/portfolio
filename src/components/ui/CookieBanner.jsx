@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { FaCookie, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useLocalizedPath from "../../hooks/useLocalizedPath";
+import { initAnalytics, sendPageView } from "../../utils/analytics";
 
 const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
@@ -22,9 +23,15 @@ const CookieBanner = () => {
 
   const acceptCookies = () => {
     localStorage.setItem("cookieConsent", "accepted");
+    // Order matters: initAnalytics reads the value written above.
+    initAnalytics();
+    // The route hook already fired for this page, so without this call the page
+    // the visitor consented on would go unrecorded until they navigate.
+    sendPageView();
     setShowBanner(false);
   };
 
+  // Also wired to the X control: dismissing the notice is not consent.
   const rejectCookies = () => {
     localStorage.setItem("cookieConsent", "rejected");
     setShowBanner(false);

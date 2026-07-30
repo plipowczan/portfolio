@@ -17,7 +17,7 @@
   "footer.termsOfService": "Terms of Service",
   "footer.cookiePolicy": "Cookie Policy",
   "cookie.title": "We use cookies",
-  "cookie.description": "This site uses cookies to ensure the best experience. By continuing to browse, you consent to their use.",
+  "cookie.description": "This site uses cookies to measure traffic. We only start analytics if you click \"Accept\".",
   "cookie.learnMore": "Learn more",
   "cookie.reject": "Reject",
   "cookie.accept": "Accept",
