@@ -13,12 +13,15 @@ const PRODUCTION_ORIGIN = `https://${PRODUCTION_HOST}`;
 const PREVIEW_ORIGIN = "http://localhost:4173";
 
 /**
- * Longer than the loader's `requestIdleCallback` timeout (3 s) plus its
+ * Longer than the loader's `requestIdleCallback` timeout (3 s) and its
  * `setTimeout` fallback (2 s). Every assertion that something was *not*
  * injected has to outlast the deferral, or it passes before the code it is
- * meant to catch has even had a chance to run.
+ * meant to catch has had a chance to run.
  */
 const PAST_INJECTION_WINDOW_MS = 3500;
+
+/** In-page navigation target: a footer link, so it exists on every viewport. */
+const SECOND_ROUTE_LINK = "Polityka cookies";
 
 const isGoogleAnalyticsHost = (url) =>
   url.hostname === "www.googletagmanager.com" ||
@@ -28,23 +31,46 @@ const isGoogleAnalyticsHost = (url) =>
 /**
  * Serves the production origin from the local preview build.
  *
- * The host gate compares `window.location.hostname` against a constant, and
- * page script cannot fake that — `location` is unforgeable. Routing the real
- * hostname to the local build is therefore the only way to exercise the consent
- * gate at all: on localhost the host gate short-circuits first, so every "no
- * script without consent" assertion would pass without proving anything.
+ * The host gate compares `window.location.hostname` against a constant, and page
+ * script cannot fake that — `location` is unforgeable. Routing the real hostname
+ * to the local build is therefore the only way to exercise the consent gate at
+ * all: on localhost the host gate short-circuits first, so every "no script
+ * without consent" assertion would pass without proving anything.
  */
 const serveProductionOrigin = async (page) => {
+  const previewHost = new URL(PREVIEW_ORIGIN).host;
+
   await page.route(
     (url) => url.hostname === PRODUCTION_HOST,
     async (route) => {
       const { pathname, search } = new URL(route.request().url());
-      const response = await route.fetch({
-        url: `${PREVIEW_ORIGIN}${pathname}${search}`,
-      });
-      await route.fulfill({ response });
+      try {
+        // The Host header has to be rewritten explicitly. Chromium and WebKit
+        // derive it from the rewritten URL, but Firefox forwards the original,
+        // and `vite preview` rejects an unknown Host with "Blocked request".
+        const response = await route.fetch({
+          url: `${PREVIEW_ORIGIN}${pathname}${search}`,
+          headers: { ...route.request().headers(), host: previewHost },
+        });
+        await route.fulfill({ response });
+      } catch {
+        // The page can close while a proxied request is still in flight. That
+        // is teardown, not a failure, so the rejection is swallowed here.
+        await route.abort().catch(() => {});
+      }
     },
   );
+};
+
+/**
+ * Releases route handlers that may still be mid-flight.
+ *
+ * Without this, Playwright surfaces a cancelled proxy request as a test
+ * failure even when every assertion passed — visible only under load, which is
+ * why an isolated run of this spec looks clean and a full run does not.
+ */
+const releaseRoutes = async (page) => {
+  await page.unrouteAll({ behavior: "ignoreErrors" });
 };
 
 /**
@@ -52,33 +78,48 @@ const serveProductionOrigin = async (page) => {
  * returns the list of attempted URLs.
  *
  * The loader is fulfilled with an empty body on purpose: the real gtag.js would
- * drain `window.dataLayer`, and leaving it queued is what makes the page views
- * readable from the test.
+ * drain `window.dataLayer`, and leaving the queue intact is what makes the sent
+ * page views readable from the test.
  */
 const captureGoogleRequests = async (page) => {
   const attempted = [];
   await page.route(isGoogleAnalyticsHost, async (route) => {
     attempted.push(route.request().url());
-    await route.fulfill({
-      status: 200,
-      contentType: "application/javascript",
-      body: "",
-    });
+    await route
+      .fulfill({
+        status: 200,
+        contentType: "application/javascript",
+        body: "",
+      })
+      .catch(() => {});
   });
   return attempted;
 };
 
+/** Runs before app script on every document in this page, including reloads. */
 const seedConsent = (page, value) =>
   page.addInitScript((consent) => {
-    if (consent === null) {
-      window.localStorage.removeItem("cookieConsent");
-    } else {
-      window.localStorage.setItem("cookieConsent", consent);
-    }
+    window.localStorage.setItem("cookieConsent", consent);
   }, value);
 
+/**
+ * The loader is a `<script>`, not a user-facing element, so there is no role to
+ * locate it by. Everything the visitor can see is addressed by role and name.
+ */
 const gtagScripts = (page) =>
   page.locator('script[src*="googletagmanager.com"]');
+
+const cookieBanner = (page) =>
+  page.getByRole("heading", { name: "Używamy plików cookie" });
+
+const acceptButton = (page) =>
+  page.getByRole("button", { name: "Zaakceptuj cookies" });
+
+const closeBannerButton = (page) =>
+  page.getByRole("button", { name: "Zamknij banner cookies" });
+
+const withdrawButton = (page) =>
+  page.getByRole("button", { name: /Wycofaj zgodę/ });
 
 const readPageViews = (page) =>
   page.evaluate(() =>
@@ -92,26 +133,33 @@ const readPageViews = (page) =>
 const readConsent = (page) =>
   page.evaluate(() => window.localStorage.getItem("cookieConsent"));
 
+const countGaCookies = async (page) =>
+  (await page.context().cookies()).filter((c) => c.name.startsWith("_ga"))
+    .length;
+
 test.describe("Analytics — bramka zgody na hoście produkcyjnym", () => {
   test.use({ baseURL: PRODUCTION_ORIGIN });
+
+  test.afterEach(async ({ page }) => {
+    await releaseRoutes(page);
+  });
 
   test("brak decyzji: gtag się nie wstrzykuje i nie leci żądanie do Google", async ({
     page,
   }) => {
     const attempted = await captureGoogleRequests(page);
     await serveProductionOrigin(page);
-    await seedConsent(page, null);
 
     await page.goto("/");
     await page.waitForTimeout(PAST_INJECTION_WINDOW_MS);
 
+    expect(await readConsent(page)).toBeNull();
     await expect(gtagScripts(page)).toHaveCount(0);
     expect(attempted).toEqual([]);
 
     // `_ga` follows from the assertion above rather than standing on its own:
     // the cookie is set by a script this test proves never loads.
-    const cookies = await page.context().cookies();
-    expect(cookies.filter((c) => c.name.startsWith("_ga"))).toEqual([]);
+    expect(await countGaCookies(page)).toBe(0);
   });
 
   test("zgoda odrzucona: gtag się nie wstrzykuje", async ({ page }) => {
@@ -124,9 +172,7 @@ test.describe("Analytics — bramka zgody na hoście produkcyjnym", () => {
 
     await expect(gtagScripts(page)).toHaveCount(0);
     expect(attempted).toEqual([]);
-
-    const cookies = await page.context().cookies();
-    expect(cookies.filter((c) => c.name.startsWith("_ga"))).toEqual([]);
+    expect(await countGaCookies(page)).toBe(0);
   });
 
   test("zgoda udzielona: gtag się wstrzykuje z właściwym measurement ID", async ({
@@ -145,43 +191,36 @@ test.describe("Analytics — bramka zgody na hoście produkcyjnym", () => {
     );
   });
 
-  test("kliknięcie „Akceptuję\" uruchamia analitykę bez przeładowania", async ({
+  test("kliknięcie akceptacji uruchamia analitykę bez przeładowania", async ({
     page,
   }) => {
     await captureGoogleRequests(page);
     await serveProductionOrigin(page);
-    await seedConsent(page, null);
 
     await page.goto("/");
-    const banner = page.locator(".cookie-banner");
-    await expect(banner).toBeVisible();
+    await expect(cookieBanner(page)).toBeVisible();
     await expect(gtagScripts(page)).toHaveCount(0);
 
-    await banner.locator(".btn-primary").click();
+    await acceptButton(page).click();
 
     expect(await readConsent(page)).toBe("accepted");
     await expect(gtagScripts(page)).toHaveCount(1);
 
-    // The page the visitor consented on must be recorded; the route hook has
-    // already fired for it by now.
+    // The page the visitor consented on must be recorded: the route hook has
+    // already fired for it, so without an explicit send it would go missing.
     await expect
       .poll(async () => (await readPageViews(page)).length)
       .toBeGreaterThan(0);
   });
 
-  test("zamknięcie bannera przyciskiem X to odrzucenie, nie zgoda", async ({
-    page,
-  }) => {
+  test("zamknięcie bannera to odrzucenie, nie zgoda", async ({ page }) => {
     const attempted = await captureGoogleRequests(page);
     await serveProductionOrigin(page);
-    await seedConsent(page, null);
 
     await page.goto("/");
-    const banner = page.locator(".cookie-banner");
-    await expect(banner).toBeVisible();
+    await expect(cookieBanner(page)).toBeVisible();
 
-    // Both locales spell the close control's aria-label with "banner".
-    await banner.locator('button[aria-label*="banner"]').click();
+    await closeBannerButton(page).click();
 
     expect(await readConsent(page)).toBe("rejected");
     await page.waitForTimeout(PAST_INJECTION_WINDOW_MS);
@@ -197,23 +236,17 @@ test.describe("Analytics — bramka zgody na hoście produkcyjnym", () => {
     await seedConsent(page, "accepted");
 
     await page.goto("/");
-    await expect
-      .poll(async () => (await readPageViews(page)).length)
-      .toBe(1);
+    await expect.poll(async () => (await readPageViews(page)).length).toBe(1);
     const [firstView] = await readPageViews(page);
 
-    // In-page navigation via a footer link: present on every viewport, unlike
-    // the header nav, which collapses into a menu on mobile projects.
-    await page.locator('a[href="/blog"]').first().click();
-    await page.waitForURL("**/blog");
+    await page.getByRole("link", { name: SECOND_ROUTE_LINK }).click();
+    await page.waitForURL("**/cookie-policy");
 
-    await expect
-      .poll(async () => (await readPageViews(page)).length)
-      .toBe(2);
+    await expect.poll(async () => (await readPageViews(page)).length).toBe(2);
     const [, secondView] = await readPageViews(page);
 
-    expect(secondView.page_path).toBe("/blog");
-    expect(secondView.page_location).toContain("/blog");
+    expect(secondView.page_path).toBe("/cookie-policy");
+    expect(secondView.page_location).toContain("/cookie-policy");
     // The regression this guards: react-helmet-async writes the title
     // asynchronously, so an undeferred send would repeat the previous title.
     expect(secondView.page_title).not.toBe(firstView.page_title);
@@ -229,10 +262,10 @@ test.describe("Analytics — bramka zgody na hoście produkcyjnym", () => {
     await page.goto("/");
     await expect(gtagScripts(page)).toHaveCount(1);
 
-    // Re-entering the same route re-runs the hook's effect, which calls
-    // initAnalytics again — the production path for a repeat invocation.
-    await page.locator('a[href="/blog"]').first().click();
-    await page.waitForURL("**/blog");
+    // Each route change re-runs the hook's effect, which calls initAnalytics
+    // again — the production path for a repeat invocation.
+    await page.getByRole("link", { name: SECOND_ROUTE_LINK }).click();
+    await page.waitForURL("**/cookie-policy");
     await page.goBack();
     await page.waitForTimeout(PAST_INJECTION_WINDOW_MS);
 
@@ -242,24 +275,40 @@ test.describe("Analytics — bramka zgody na hoście produkcyjnym", () => {
   test("wycofanie zgody kasuje wybór i przywraca banner", async ({ page }) => {
     await captureGoogleRequests(page);
     await serveProductionOrigin(page);
-    await seedConsent(page, "accepted");
 
+    // Consent is written through the page rather than via addInitScript: an init
+    // script re-runs on every document, so it would re-grant consent during the
+    // reload that the withdrawal button triggers.
     await page.goto("/cookie-policy");
-
-    const withdraw = page.locator(
-      'button[aria-label*="Google Analytics"], button[aria-label*="analytics consent"]',
+    await page.evaluate(() =>
+      window.localStorage.setItem("cookieConsent", "accepted"),
     );
-    await expect(withdraw).toHaveCount(1);
-    await withdraw.click();
+    await page.reload();
 
-    // The handler reloads, so the assertions below run against a fresh document.
-    await expect(page.locator(".cookie-banner")).toBeVisible();
+    await expect(gtagScripts(page)).toHaveCount(1);
+    await withdrawButton(page).click();
+
+    // The handler reloads, so what follows is asserted on a fresh document.
+    await expect(cookieBanner(page)).toBeVisible();
     expect(await readConsent(page)).toBeNull();
     await expect(gtagScripts(page)).toHaveCount(0);
+  });
+
+  test("przycisk wycofania nie pojawia się bez decyzji", async ({ page }) => {
+    await captureGoogleRequests(page);
+    await serveProductionOrigin(page);
+
+    await page.goto("/cookie-policy");
+    await expect(page.getByText("Twój obecny wybór: brak decyzji")).toBeVisible();
+    await expect(withdrawButton(page)).toHaveCount(0);
   });
 });
 
 test.describe("Analytics — bramka hosta", () => {
+  test.afterEach(async ({ page }) => {
+    await releaseRoutes(page);
+  });
+
   test("zgoda na localhost nie uruchamia analityki", async ({ page }) => {
     const attempted = await captureGoogleRequests(page);
     await seedConsent(page, "accepted");
@@ -277,23 +326,26 @@ test.describe("Analytics — bramka hosta", () => {
 
 test.describe("Analytics — niezmienniki konfiguracji", () => {
   test("PRODUCTION_HOST zgadza się z hostem z SITE_CONFIG.url", () => {
-    // Guards the failure mode the host gate cannot signal itself: a domain
+    // Guards the one failure mode the host gate cannot signal itself: a domain
     // change would silently stop all reporting instead of breaking anything.
     expect(PRODUCTION_HOST).toBe(new URL(SITE_CONFIG.url).hostname);
   });
 
   test("CSP w vercel.json dopuszcza hosty Google w script-src i connect-src", () => {
     const config = JSON.parse(readFileSync(join(ROOT, "vercel.json"), "utf-8"));
-    const csp = config.headers
-      .flatMap((entry) => entry.headers ?? [])
-      .find((h) => h.key === "Content-Security-Policy-Report-Only")?.value;
+    const allHeaders = config.headers.flatMap((entry) => entry.headers ?? []);
+    const csp = allHeaders.find(
+      (h) => h.key === "Content-Security-Policy-Report-Only",
+    )?.value;
 
     expect(csp, "Report-Only CSP must be declared in vercel.json").toBeDefined();
 
     const directive = (name) =>
       csp.match(new RegExp(`(?:^|;)\\s*${name}\\s+([^;]+)`))?.[1] ?? "";
 
-    expect(directive("script-src")).toContain("https://www.googletagmanager.com");
+    expect(directive("script-src")).toContain(
+      "https://www.googletagmanager.com",
+    );
 
     const connectSrc = directive("connect-src");
     expect(connectSrc).toContain("https://www.googletagmanager.com");
@@ -304,17 +356,15 @@ test.describe("Analytics — niezmienniki konfiguracji", () => {
     // Report-Only must stay Report-Only: an enforcing header would start
     // blocking on the very origins this change just allowlisted.
     expect(
-      config.headers
-        .flatMap((entry) => entry.headers ?? [])
-        .some((h) => h.key === "Content-Security-Policy"),
+      allHeaders.some((h) => h.key === "Content-Security-Policy"),
     ).toBe(false);
   });
 });
 
-// Reads the built `dist/`, so it is skipped unless `npm run build:prerender`
-// ran first. The marker is `dist/blog/index.html`: a plain `npm run build`
-// leaves only `dist/index.html`, so the directory's existence alone would let
-// this pass without a prerender having happened.
+// Reads the built `dist/`, so it skips unless `npm run build:prerender` ran
+// first. The marker is `dist/blog/index.html`: a plain `npm run build` leaves
+// only `dist/index.html`, so the directory's existence alone would let this
+// pass without a prerender having happened.
 const PRERENDERED = existsSync(join(DIST, "blog", "index.html"));
 
 test.describe("Analytics — prerender", () => {

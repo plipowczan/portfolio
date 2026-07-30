@@ -10,11 +10,12 @@ and the shared hooks and utilities behind them.
 **Owns directly** — these folders have no doc of their own and are governed here:
 
 - `pages/` — one component per route
-- `hooks/` — shared hooks (`useLocalizedPath.js`)
+- `hooks/` — shared hooks (`useLocalizedPath.js`, `usePageTracking.js`)
 - `context/` — React context providers (`BookingContext.jsx`)
 - `locales/pl/`, `locales/en/` — i18next translation resources
 - `styles/` — `index.css` (global + custom animations) and `fonts.css`
-- `utils/` — `constants.js`, `extractFirstParagraph.js`, `faqExtractor.js`
+- `utils/` — `analytics.js`, `constants.js`, `extractFirstParagraph.js`,
+  `faqExtractor.js`
 - `assets/fonts/` — self-hosted font files
 - `App.jsx`, `main.jsx`, `i18n.js`
 

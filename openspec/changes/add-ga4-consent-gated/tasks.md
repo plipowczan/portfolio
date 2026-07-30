@@ -52,18 +52,18 @@
 
 ## 7. Testy
 
-- [ ] 7.1 Utwórz `tests/e2e/analytics-consent.spec.js`
-- [ ] 7.2 Test: brak wartości `cookieConsent` → w dokumencie nie ma elementu `<script>` z `googletagmanager.com`, nie ma ciasteczka `_ga`
-- [ ] 7.3 Test: `cookieConsent = "rejected"` → to samo co wyżej
-- [ ] 7.4 Test: `cookieConsent = "accepted"` przy nadpisanym hoście na produkcyjny → skrypt gtag obecny (nadpisanie hosta przez `page.route`/`addInitScript`, bo `localhost` jest z definicji zablokowany — D2)
-- [ ] 7.5 Test: kliknięcie „Akceptuję" w bannerze uruchamia analitykę bez przeładowania
-- [ ] 7.6 Test: zamknięcie bannera przyciskiem X zapisuje `"rejected"` i nie uruchamia analityki
-- [ ] 7.7 Test: dwie nawigacje po trasach dają dwie odsłony, druga z **własnym** tytułem (przechwyć wywołania przez podstawiony `window.dataLayer`)
-- [ ] 7.8 Test: `initAnalytics()` wywołane dwukrotnie daje dokładnie jeden element skryptu
-- [ ] 7.9 Test: przycisk wycofania kasuje `cookieConsent` i po przeładowaniu banner wraca
-- [ ] 7.10 Test: `PRODUCTION_HOST` zgadza się z hostem z `SITE_CONFIG.siteUrl` (ochrona przed cichą śmiercią analityki po zmianie domeny — ryzyko z design)
-- [ ] 7.11 Test na prerenderowanym `dist/` (warunkowy, wzorcem istniejących testów prerenderu): żaden statyczny plik HTML nie zawiera `googletagmanager`
-- [ ] 7.12 Test: nagłówek CSP zawiera hosty Google w `script-src` i `connect-src` (dopisz do istniejącego zestawu testów nagłówków, jeśli taki jest — nie duplikuj)
+- [x] 7.1 Utwórz `tests/e2e/analytics-consent.spec.js`
+- [x] 7.2 Test: brak wartości `cookieConsent` → w dokumencie nie ma elementu `<script>` z `googletagmanager.com`, nie ma ciasteczka `_ga`
+- [x] 7.3 Test: `cookieConsent = "rejected"` → to samo co wyżej
+- [x] 7.4 Test: `cookieConsent = "accepted"` przy nadpisanym hoście na produkcyjny → skrypt gtag obecny (nadpisanie hosta przez `page.route`/`addInitScript`, bo `localhost` jest z definicji zablokowany — D2)
+- [x] 7.5 Test: kliknięcie „Akceptuję" w bannerze uruchamia analitykę bez przeładowania
+- [x] 7.6 Test: zamknięcie bannera przyciskiem X zapisuje `"rejected"` i nie uruchamia analityki
+- [x] 7.7 Test: dwie nawigacje po trasach dają dwie odsłony, druga z **własnym** tytułem (przechwyć wywołania przez podstawiony `window.dataLayer`)
+- [x] 7.8 Test: `initAnalytics()` wywołane dwukrotnie daje dokładnie jeden element skryptu
+- [x] 7.9 Test: przycisk wycofania kasuje `cookieConsent` i po przeładowaniu banner wraca
+- [x] 7.10 Test: `PRODUCTION_HOST` zgadza się z hostem z `SITE_CONFIG.siteUrl` (ochrona przed cichą śmiercią analityki po zmianie domeny — ryzyko z design)
+- [x] 7.11 Test na prerenderowanym `dist/` (warunkowy, wzorcem istniejących testów prerenderu): żaden statyczny plik HTML nie zawiera `googletagmanager`
+- [x] 7.12 Test: nagłówek CSP zawiera hosty Google w `script-src` i `connect-src` (dopisz do istniejącego zestawu testów nagłówków, jeśli taki jest — nie duplikuj)
 
 ## 8. Weryfikacja przed scaleniem
 
