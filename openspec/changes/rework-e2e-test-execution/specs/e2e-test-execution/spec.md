@@ -141,7 +141,7 @@ Without this, a hung install consumes the whole job budget and the tests never r
 
 The suites requiring `SEO_HEADERS_URL` SHALL run automatically against a completed deployment, with the variable set to that deployment's URL. Preview deployments cover pull requests; production deployments cover `main`. No scheduled run is introduced.
 
-These seven tests currently skip everywhere, because nothing sets the variable. They are the only automated coverage of `vercel.json`.
+These five tests currently skip everywhere, because nothing sets the variable. They are the only automated coverage of `vercel.json`.
 
 #### Scenario: Preview deployment completes
 

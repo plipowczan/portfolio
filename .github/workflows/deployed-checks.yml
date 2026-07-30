@@ -2,7 +2,7 @@ name: Deployed checks
 
 # Nagłówki bezpieczeństwa i cache fontów pochodzą z `vercel.json`, więc istnieją
 # wyłącznie na wdrożeniu — ani serwer dev, ani `vite preview` ich nie wystawia.
-# Te siedem testów gate'uje się zmienną SEO_HEADERS_URL, której dotąd nic nie
+# Te pięć testów gate'uje się zmienną SEO_HEADERS_URL, której dotąd nic nie
 # ustawiało: pomijały się lokalnie, w CI i w bramie merge. Zawsze.
 #
 # Vercel zakłada w GitHubie deployment dla każdego preview i produkcji, a jego

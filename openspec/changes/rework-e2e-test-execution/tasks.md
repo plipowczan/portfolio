@@ -62,7 +62,7 @@
 
 - [x] 7.1 Add a workflow triggered by successful deployments (or the task 0.1 fallback), guarded so it does not run on failed or pending deployments. — `.github/workflows/deployed-checks.yml`, `on: deployment_status` with `if: state == 'success'`.
 - [x] 7.2 Set `SEO_HEADERS_URL` to the deployment URL and run `seo-security-headers.spec.js` and `perf-font-cache-headers.spec.js` under `chromium` only. — URL from `environment_url`; `PW_DEPLOYED=1` suppresses both local servers, since the target is remote.
-- [ ] 7.3 Verify against a preview deployment: confirm the seven tests execute rather than skip, and that the result is visible on the pull request. — **blocked**: requires pushing the branch.
+- [ ] 7.3 Verify against a preview deployment: confirm the five tests execute rather than skip, and that the result is visible on the pull request. — the job was simulated locally against production first: `SEO_HEADERS_URL=https://pawel.lipowczan.pl PW_DEPLOYED=1` ran 5 tests in 1.5 s with no local server started. Awaiting a real preview deployment for the trigger half.
 - [ ] 7.4 Verify the negative path: confirm the workflow does not report a pass when a deployment fails. — **blocked**: requires pushing the branch.
 
 ## 8. Documentation

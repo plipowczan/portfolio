@@ -2,7 +2,7 @@
 
 Every local verification runs the full Playwright suite across all six browser projects — ~153 tests × 5–6 projects ≈ 850 executions, tens of minutes at 100% CPU, for a change that usually touches one or two files. On top of that, Playwright starts **every** configured `webServer` before any run, so even `npx playwright test home.spec.js` first pays a full `vite build` into `dist-test/`. The suite is unusable as a feedback loop, so it gets skipped or run wholesale — both bad outcomes.
 
-Three concrete failures observed 2026-07-30 make this urgent: worktree port collisions silently test the wrong application, orphaned processes accumulate for hours, and a CI shard died on `timeout-minutes: 30` inside `npx playwright install --with-deps`. Meanwhile seven tests (`seo-security-headers`, `perf-font-cache-headers`) skip in every environment because `SEO_HEADERS_URL` is never set — they have never run.
+Three concrete failures observed 2026-07-30 make this urgent: worktree port collisions silently test the wrong application, orphaned processes accumulate for hours, and a CI shard died on `timeout-minutes: 30` inside `npx playwright install --with-deps`. Meanwhile five tests (`seo-security-headers`, `perf-font-cache-headers`) skip in every environment because `SEO_HEADERS_URL` is never set — they have never run.
 
 ## What Changes
 
