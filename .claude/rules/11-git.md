@@ -141,11 +141,15 @@ wip
 
 ## Before Merging
 
-**REQUIRED — run the prerender test pass before every merge to `main`.**
+**No manual test pass is required.** Merging is gated by automated runs on three
+triggers — the pull request, the push to `main`, and the finished Vercel
+deployment. Which run covers what is documented with the tests:
+**[tests/AGENTS.md](../../tests/AGENTS.md)**.
 
-The gate itself, why it is manual instead of CI, and the `dist/` vs
-`dist-test/` trap that makes a green run misleading are documented with the
-tests: **[tests/AGENTS.md](../../tests/AGENTS.md)**.
+Read the PR's checks before merging, including the Vercel deployment: the
+prerender output check lives inside `npm run build:prerender`, which is
+Vercel's build command, so a broken prerender shows up as a failed deployment
+rather than a failed test.
 
 Not restated here. This file owns technology-generic git workflow; repository
 knowledge belongs to the `AGENTS.md` tree — see the ownership boundary in the

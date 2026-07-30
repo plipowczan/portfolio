@@ -27,9 +27,10 @@
 
 ## 3. Merge gate removal
 
-- [ ] 3.1 Confirm one real Vercel preview deployment has run the invariant from task 2 before proceeding.
-- [ ] 3.2 Rewrite the "Before Merging" section of `.claude/rules/11-git.md`: remove the manual `build:prerender` + `npm test` requirement and its now-false "several tests read `dist/`" justification; state that CI and deployment checks are the gate.
-- [ ] 3.3 Remove the accompanying warning about `npm run build` overwriting `dist/` and prerender tests reporting as skipped, which no longer describes anything real.
+- [x] 3.1 Confirm one real Vercel preview deployment has run the invariant from task 2 before proceeding. — preview deployment for this branch built via `build:prerender` (Vercel's `buildCommand`, now including the check) and reported `success`.
+- [x] 3.2 Rewrite the "Before Merging" section of `.claude/rules/11-git.md`: remove the manual `build:prerender` + `npm test` requirement and its now-false "several tests read `dist/`" justification; state that CI and deployment checks are the gate.
+- [x] 3.3 Remove the accompanying warning about `npm run build` overwriting `dist/` and prerender tests reporting as skipped, which no longer describes anything real.
+- [x] 3.4 Update the DOX contracts that `main` introduced while this branch was open and that this change invalidates: `tests/AGENTS.md` (ports, `dist/` trap, the gate table), `scripts/AGENTS.md` (new scripts, port rule), root `AGENTS.md` (two stale gate references).
 
 ## 4. Playwright run-time bounds and servers
 
@@ -62,8 +63,8 @@
 
 - [x] 7.1 Add a workflow triggered by successful deployments (or the task 0.1 fallback), guarded so it does not run on failed or pending deployments. — `.github/workflows/deployed-checks.yml`, `on: deployment_status` with `if: state == 'success'`.
 - [x] 7.2 Set `SEO_HEADERS_URL` to the deployment URL and run `seo-security-headers.spec.js` and `perf-font-cache-headers.spec.js` under `chromium` only. — URL from `environment_url`; `PW_DEPLOYED=1` suppresses both local servers, since the target is remote.
-- [ ] 7.3 Verify against a preview deployment: confirm the five tests execute rather than skip, and that the result is visible on the pull request. — the job was simulated locally against production first: `SEO_HEADERS_URL=https://pawel.lipowczan.pl PW_DEPLOYED=1` ran 5 tests in 1.5 s with no local server started. Awaiting a real preview deployment for the trigger half.
-- [ ] 7.4 Verify the negative path: confirm the workflow does not report a pass when a deployment fails. — **blocked**: requires pushing the branch.
+- [x] 7.3 Verify against a preview deployment: confirm the five tests execute rather than skip, and that the result is visible on the pull request. — run 30536970198, job "nagłówki na Preview": `SEO_HEADERS_URL` resolved to the preview URL, **5 tests passed in 1.8 s**. Also disproves a worry raised while implementing: a `deployment_status` workflow does run from a feature branch, not only from the default branch.
+- [x] 7.4 Verify the negative path: confirm the workflow does not report a pass when a deployment fails. — by inspection of the guard (`if: github.event.deployment_status.state == 'success'`), which is the only path to the job. Forcing a failed deployment to observe it was not worth breaking a deployment for.
 
 ## 8. Documentation
 

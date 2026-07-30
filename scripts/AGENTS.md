@@ -19,8 +19,11 @@ disagree, this file is binding — the README predates several of these scripts.
 
 | Script | npm script | Role |
 | --- | --- | --- |
-| `build-with-prerender.mjs` | `build:prerender` | orchestrates `vite build` then the prerender pass; this is the production build |
+| `build-with-prerender.mjs` | `build:prerender` | orchestrates `vite build`, the prerender pass, then the output check; this is the production build |
 | `prerender.mjs` | `prerender:run` | Puppeteer pass writing static HTML for every route |
+| `verify-prerender-output.mjs` | — | fails the build when the prerender output is incomplete; also runnable alone against a `dist/` |
+| `course-lessons.mjs` | — | the course lesson list, read by both the prerender and the output check |
+| `ports.mjs` | — | dev and preview ports, derived from the checkout location |
 | `update-sitemap.js` | `blog:sitemap` | rebuilds `public/sitemap.xml` with `lastmod` from git |
 | `generate-llms-txt.js` | — | writes `public/llms.txt`; invoked from the build chain |
 | `fetch-fonts.mjs` | `fonts:fetch` | downloads self-hosted font files into `src/assets/fonts/` |
@@ -46,6 +49,12 @@ and the one it landed in.
   becomes a phantom article — `update-sitemap.js` fails with
   `Invalid time value`. The canonical list is in `src/data/AGENTS.md`.
 - Scripts are ES modules (`"type": "module"`). New Node tooling uses `.mjs`.
+- Ports are never hardcoded. `ports.mjs` derives the dev and preview ports from
+  the checkout location so parallel worktrees do not collide, and `vite.config.js`,
+  `playwright.config.js` and `prerender.mjs` all read from it.
+- `prerender.mjs` exits non-zero only for routes it was *asked* to render.
+  `verify-prerender-output.mjs` covers what that cannot see: a route never on
+  the list, and a page that rendered but lost its metadata.
 - A script that needs an API key reads it from the environment and fails with a
   clear message when it is absent. Never inline a key.
 
@@ -54,7 +63,8 @@ and the one it landed in.
 - Adding a route to the site means adding it to `prerender.mjs` and
   `update-sitemap.js` unless it is derived from a content folder already.
 - `npm run build:prerender` takes roughly 6.5 minutes. Use `npm run build` while
-  iterating and the full one before merging.
+  iterating; Vercel runs the full one on every deployment, so it is not a manual
+  pre-merge step.
 
 ## Verification
 
