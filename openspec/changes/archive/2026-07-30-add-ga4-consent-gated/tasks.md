@@ -74,20 +74,56 @@
       → 98 stron, 0 błędów.
 - [x] 8.3 `npm test` ponownie — potwierdź, że testy prerenderu **wykonały się**, a nie zostały pominięte (sprawdź licznik `skipped`)
       → oba testy prerenderu wykonane i zielone (`✓`, nie `skipped`).
-      **Częściowo:** pełnego powtórzenia `npm test` nie da się na tej maszynie
-      wykonać, dopóki port 3000 zajmuje serwer dev innego projektu —
-      `reuseExistingServer: true` podstawia go pod `baseURL`. Do domknięcia
-      przed scaleniem, albo w CI, gdzie port jest wolny.
+      **Było częściowo:** pełnego powtórzenia `npm test` nie dało się wtedy
+      wykonać, bo port 3000 zajmował serwer dev innego projektu, a
+      `reuseExistingServer: true` podstawiał go pod `baseURL`. Domknięte w CI
+      przy PR #26 (4 shardy, wszystkie zielone). Przyczynę usunięto później na
+      `main`: `scripts/ports.mjs` wylicza porty z lokalizacji checkoutu, więc
+      każdy worktree ma własną parę i kolizja nie może wrócić.
 - [x] 8.4 `grep -rc "googletagmanager" dist/ --include=*.html` → oczekiwane zero trafień
-      → 0 trafień w 99 plikach HTML.
+      → 0 trafień w 99 plikach HTML. Ta asercja nie jest już testem: przeniesiono
+      ją do `scripts/verify-prerender-output.mjs`, uruchamianego jako ostatni krok
+      `build:prerender`. Ponieważ to `buildCommand` z `vercel.json`, sprawdzenie
+      wykonuje się przy każdym wdrożeniu, zamiast czekać na czyjś lokalny build.
 - [x] 8.5 Przejrzyj diff pod kątem reguł projektu: nazwane eksporty, brak `prop-types`, JSDoc na nowych funkcjach publicznych
 - [x] 8.6 Commit na gałęzi `feature/ga4-consent-gated`, konwencjonalny opis
 
 ## 9. Weryfikacja po wdrożeniu
 
-- [ ] 9.1 Wejdź na `https://pawel.lipowczan.pl`, kliknij „Akceptuję", potwierdź trafienie w GA4 → Raporty → Czas rzeczywisty
-- [ ] 9.2 Przejdź na drugą podstronę i potwierdź w GA4, że druga odsłona ma **swój** tytuł, nie tytuł pierwszej — to jedyna weryfikacja D4, której testy nie domykają
-- [ ] 9.3 W trybie prywatnym kliknij „Odrzuć": w narzędziach przeglądarki zero żądań do `googletagmanager.com`, zero ciasteczek `_ga`
-- [ ] 9.4 Otwórz politykę cookies, wycofaj zgodę, potwierdź powrót bannera i brak gtag
+Wdrożone 2026-07-30 (PR #26). Weryfikacja prowadzona przez sterowaną przeglądarkę
+na żywej produkcji.
+
+- [x] 9.1 Wejdź na `https://pawel.lipowczan.pl`, kliknij „Akceptuję", potwierdź trafienie w GA4 → Raporty → Czas rzeczywisty
+      → skrypt `G-7L4PXG8E8Z` wstrzyknięty, ciasteczka `_ga` i `_ga_7L4PXG8E8Z`
+      ustawione, odsłony w `dataLayer`. Potwierdzone w GA4 **w Chrome**.
+- [x] 9.2 Przejdź na drugą podstronę i potwierdź w GA4, że druga odsłona ma **swój** tytuł, nie tytuł pierwszej — to jedyna weryfikacja D4, której testy nie domykają
+      → przechwycone żądanie `collect`: `dp=/cookie-policy`,
+      `dt=Cookie Policy | Pawel Lipowczan`. Tytuł i ścieżka zgodne.
+      **Pułapka pomiarowa:** pierwsze podejście pokazało tytuł poprzedniej strony
+      i wyglądało na defekt. Sonda działała w karcie w tle —
+      `document.hidden = true`, zero klatek `requestAnimationFrame` na sekundę —
+      gdzie Chrome dławi renderowanie i animacje. Każdy pomiar czasowy z takiej
+      karty jest nieważny. Sprawdzaj `visibilityState` przed pomiarem.
+- [x] 9.3 W trybie prywatnym kliknij „Odrzuć": w narzędziach przeglądarki zero żądań do `googletagmanager.com`, zero ciasteczek `_ga`
+      → zgoda `rejected`, zero skryptów gtag po przekroczeniu okna wstrzyknięcia,
+      `window.dataLayer` nie istnieje, `google_tag_manager` niezdefiniowany.
+- [x] 9.4 Otwórz politykę cookies, wycofaj zgodę, potwierdź powrót bannera i brak gtag
+      → zgoda skasowana, banner wrócił, zero skryptów. Zaległe ciasteczka `_ga`
+      pozostały — dokładnie jak zapowiada tekst polityki, więc nie obiecuje ona
+      więcej, niż przycisk robi.
 - [ ] 9.5 Sprawdź Sentry po dobie: brak nowych naruszeń CSP z hostami Google
-- [ ] 9.6 Odnotuj datę pierwszych danych w GA4 — od niej liczy się okno porównawcze dla prac SEO
+      **Niewykonane w chwili archiwizacji.** Wymaga doby od wdrożenia
+      (2026-07-30). Zarchiwizowano wcześniej na wyraźną decyzję właściciela
+      repozytorium. Do sprawdzenia osobno; nagłówek CSP na produkcji zawiera
+      wszystkie cztery hosty Google, więc naruszeń nie oczekujemy.
+- [x] 9.6 Odnotuj datę pierwszych danych w GA4 — od niej liczy się okno porównawcze dla prac SEO
+      → **2026-07-30**. Brak danych GA4 sprzed tej daty.
+
+### Znalezisko środowiskowe z weryfikacji
+
+Microsoft Edge na maszynie właściciela zwraca sztuczne `503` dla
+`region1.google-analytics.com/g/collect`, przepuszczając przy tym `gtag.js`.
+`curl` z tej samej maszyny dostaje z tych hostów `411`, więc blokada jest po
+stronie przeglądarki (zapobieganie śledzeniu), nie sieci. Objaw jest mylący:
+skrypt się ładuje, ciasteczka powstają, żądania wychodzą z poprawnym `tid`,
+a GA4 pokazuje zero. **Analitykę weryfikuj w Chrome.**
