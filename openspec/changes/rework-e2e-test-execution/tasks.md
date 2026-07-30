@@ -81,3 +81,11 @@
 - [x] 9.2 Run the full matrix locally under the opt-in and confirm no test that previously passed now fails or silently disappears. — scope reduced by agreement: running 936 tests locally is the cost this change exists to remove. Instead `breadcrumbs` ran across all six projects (24 passed, 1.1 min), proving every engine still launches and passes; disappearance is covered by 9.3, and the full matrix runs on `main` regardless.
 - [x] 9.3 Compare the total test count before and after: engine-independent specs should drop from 5-6 executions to 1, with no test lost from the run entirely. — full local matrix 1056 → 936 executions (−120); CI 880 → 784 (−96). The 24 pinned tests still run, once, under `chromium`. No test disappeared from the run: the same 19 files and the same set of test titles are present.
 - [x] 9.4 Confirm no orphaned Vite or Playwright process survives a run that hits `globalTimeout`. — forced with `--global-timeout=20000`: the run reported "Timed out waiting 20s for the test suite to run", exited 1, and both derived ports were free immediately afterwards.
+
+## 10. Reconciliation with `main` (discovered during review)
+
+- [x] 10.1 Rebase onto the `main` that landed PR #26 (consent-gated GA4) and resolve the interaction: `analytics-consent.spec.js` proxied the production host to a hardcoded `http://localhost:4173`, which this change made derived and opt-in. Now imports `PREVIEW_URL`.
+- [x] 10.2 Add a `PW_PREVIEW` skip guard to that spec's production-host block, matching `seo-metadata-invariants`.
+- [x] 10.3 Set `PW_PREVIEW` in every CI job. The earlier reasoning — preview-dependent tests are pinned to chromium — stopped holding once a preview-dependent block ran on the full matrix.
+- [x] 10.4 Move that PR's new `dist/`-reading assertion (no `googletagmanager` in static HTML) into `scripts/verify-prerender-output.mjs`, and state the rule in `tests/AGENTS.md` so the next one lands there directly.
+- [x] 10.5 Verify: 12/12 on chromium and Mobile Chrome with `PW_PREVIEW`, 3 passed / 9 skipped without it; the invariant catches an injected tag and passes 99 clean files.
