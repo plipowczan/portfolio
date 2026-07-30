@@ -242,7 +242,7 @@ README.md (root) ──────────────────┐
 
 ### Format linków
 
-- Linki wewnętrzne: relatywne (`../seo/PRERENDERING.md`)
+- Linki wewnętrzne: relatywne względem pliku, w którym są - `./seo/PRERENDERING.md` z `docs/`, `../seo/PRERENDERING.md` z podkatalogu
 - Linki zewnętrzne: pełne URL z https://
 
 ### Struktura plików MD
@@ -281,7 +281,7 @@ README.md (root) ──────────────────┐
 
 - Deployment → `deployment/DEPLOYMENT.md`
 - SEO → `seo/SEO_VERIFICATION.md` lub `seo/PRERENDERING.md`
-- Blog → `blog/BLOG_WORKFLOW.md`
+- Blog → `BLOG_WORKFLOW.md`
 - Testy → `testing/TESTING_QUICKSTART.md`
 - Planowanie → `TODO.md`
 - Przegląd projektu → `../README.md` (katalog główny)
