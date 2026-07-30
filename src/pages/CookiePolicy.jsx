@@ -1,13 +1,29 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SEO from "../components/seo/SEO";
 import useLocalizedPath from "../hooks/useLocalizedPath";
+import { getConsentState, withdrawAnalyticsConsent } from "../utils/analytics";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
 const CookiePolicy = () => {
   const { t, i18n } = useTranslation("legal");
   const localizedPath = useLocalizedPath();
   const dateLocale = i18n.language === "en" ? "en-US" : "pl-PL";
+  // null until read on the client. Reading during render would bake a decision
+  // into the prerendered HTML that belongs to whoever ran the build.
+  const [consentState, setConsentState] = useState(null);
+
+  useEffect(() => {
+    setConsentState(getConsentState());
+  }, []);
+
+  const handleWithdraw = () => {
+    withdrawAnalyticsConsent();
+    // Reloading rather than patching state: gtag.js cannot be unloaded once
+    // injected, and the reload is also what brings the banner back.
+    window.location.reload();
+  };
 
   return (
     <>
@@ -157,6 +173,24 @@ const CookiePolicy = () => {
                 <p className="leading-relaxed">
                   {t("cookies.section5.content")}
                 </p>
+
+                {consentState && (
+                  <div className="mt-6 space-y-3">
+                    <p className="text-sm text-gray-400">
+                      {t(`cookies.section5.status.${consentState}`)}
+                    </p>
+                    {consentState !== "none" && (
+                      <button
+                        type="button"
+                        onClick={handleWithdraw}
+                        className="px-6 py-3 rounded-lg font-semibold text-gray-400 hover:text-white border border-gray-600 hover:border-gray-500 transition-all"
+                        aria-label={t("cookies.section5.withdrawAria")}
+                      >
+                        {t("cookies.section5.withdraw")}
+                      </button>
+                    )}
+                  </div>
+                )}
               </section>
 
               <section>
