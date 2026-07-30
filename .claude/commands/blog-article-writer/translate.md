@@ -12,7 +12,7 @@ TRANSLATE - EN translation immediately after PL validation passes
 
 Manually invoke after `/blog-article-writer:validate` completes successfully: `/blog-article-writer:translate`
 
-Optional argument: PL slug (defaults to most recently created article in `src/content/blog/*.md`).
+Optional argument: PL slug (defaults to most recently created article in `src/content/blog/*.md`, excluding the `AGENTS.md` / `CLAUDE.md` / `README.md` docs).
 
 ## Prerequisites
 

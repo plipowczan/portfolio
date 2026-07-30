@@ -20,6 +20,12 @@ const root = path.join(__dirname, "..");
 
 const SITE_URL = "https://pawel.lipowczan.pl";
 const SITE_NAME = "Pawel Lipowczan";
+
+// Dokumentacja mieszkająca w folderach z treścią. To pliki `.md`, więc
+// readdir je łapie, a bez frontmattera trafiłyby do llms.txt jako artykuły.
+// `README.md` to przewodnik po polsku, `AGENTS.md` to kontrakt DOX dla
+// agentów, `CLAUDE.md` to jego shim.
+const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
 const SITE_SUMMARY =
   "Architekt oprogramowania i doradca ds. technologii — agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI.";
 const CONTACT_EMAIL = "pawel@lipowczan.pl";
@@ -33,7 +39,7 @@ function readPosts(blogDir) {
         f.endsWith(".md") &&
         !f.endsWith("_wsad.md") &&
         !f.startsWith("_") &&
-        f !== "README.md",
+        !DOC_FILES.has(f),
     )
     .map((file) => {
       const raw = fs.readFileSync(path.join(blogDir, file), "utf-8");
@@ -61,7 +67,7 @@ function readCourseLessons(kursDir) {
   return fs
     .readdirSync(kursDir)
     .filter(
-      (f) => f.endsWith(".md") && !f.startsWith("_") && f !== "README.md",
+      (f) => f.endsWith(".md") && !f.startsWith("_") && !DOC_FILES.has(f),
     )
     .map((file) => {
       const { data, content } = matter(

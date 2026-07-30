@@ -11,6 +11,12 @@ const __dirname = path.dirname(__filename);
 const SITE_URL = "https://pawel.lipowczan.pl";
 const ROOT = path.join(__dirname, "..");
 
+// Dokumentacja mieszkająca w folderach z treścią. To pliki `.md`, więc
+// readdir je łapie, a bez frontmattera wywracają generowanie (brak `date`
+// kończy się "Invalid time value"). `README.md` to przewodnik po polsku,
+// `AGENTS.md` to kontrakt DOX dla agentów, `CLAUDE.md` to jego shim.
+const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
+
 /**
  * Zwraca git committer date (ISO 8601, date-only) dla pliku.
  * Fallback do dzisiejszej daty jeśli git nie jest dostępny albo plik nie jest śledzony.
@@ -44,7 +50,7 @@ function getAllBlogPosts(lang, blogDir) {
         f.endsWith(".md") &&
         !f.endsWith("_wsad.md") &&
         !f.startsWith("_") &&
-        f !== "README.md"
+        !DOC_FILES.has(f)
     );
 
   return files
@@ -92,7 +98,7 @@ function getCourseLessons(kursDir) {
   return fs
     .readdirSync(kursDir)
     .filter(
-      (f) => f.endsWith(".md") && !f.startsWith("_") && f !== "README.md"
+      (f) => f.endsWith(".md") && !f.startsWith("_") && !DOC_FILES.has(f)
     )
     .map((file) => {
       const { data } = matter(

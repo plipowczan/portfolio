@@ -36,7 +36,7 @@ lang: pl
 - Title length: 99 chars (over the 50-60 SEO target, but matches Pawel's recent style: id 19 = 75 chars, id 20 = 70 chars). Provocative hook beats keyword-cramming for this audience.
 - Excerpt: 158 chars. Hits "spec-driven", "SEO", "AI workflow", "Qamera AI", "portfolio".
 - Slug: 5 words, hits qamera + spec-driven + seo.
-- No `description` field for now — schema will fall back to first paragraph (acceptable per data-storage rules).
+- No `description` field for now — schema will fall back to first paragraph (acceptable per `src/content/blog/AGENTS.md`).
 - No `modified` field — date = today.
 - `alternateSlug` deliberately omitted (rule from CLAUDE.md after the karpathy bug fix).
 
@@ -211,7 +211,7 @@ Dwa pod-przykłady, każdy ~200 słów:
 - Audyt SEO portfolio pokazał, że hreflang post `llm-knowledge-base-brain-karpathy` wskazuje na `/en/blog/<pl-slug>` → "Post not found"
 - Root cause: post był PL-only, ale frontmatter miał `alternateSlug: <własny-slug>` — efekt wcześniejszej iteracji blog-article-writer skilla, który autouzupełnił pole bez walidacji
 - Łańcuch zdarzeń: user klika przełącznik języka → `getAlternatePost` zwraca ten sam post → LanguageSwitcher buduje `/en/blog/<pl-slug>` → 404
-- **Trzy-poziomowa naprawa:** data fix (usuń pole), code defense (`getAlternatePost` odrzuca self-reference + same-lang candidates), process fix (rule w `.claude/rules/data-storage/`)
+- **Trzy-poziomowa naprawa:** data fix (usuń pole), code defense (`getAlternatePost` odrzuca self-reference + same-lang candidates), process fix (rule w `src/content/blog/AGENTS.md`)
 - **Meta-lekcja (mocna):** audyt SEO uruchamia bug-i, które **nie były jego celem**. Nigdy bym nie znalazł tego bez claude-seo. Argument za regularnym audytem nawet na małym projekcie.
 - **Drugi meta-poziom:** bug został wprowadzony przez AI workflow (skill autouzupełnił bez walidacji). Naprawiony przez inny AI workflow (audyt + spec-driven fix + reguła w skillu). To pętla samokorygująca — pod warunkiem, że jest proces.
 

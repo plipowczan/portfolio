@@ -7,6 +7,11 @@ const courseFiles = import.meta.glob("../content/kurs/*.md", {
   import: "default",
 });
 
+// Dokumentacja mieszkająca w folderze z lekcjami. To pliki `.md`, więc glob je
+// łapie, a bez frontmattera przewróciłyby walidację. `README.md` to przewodnik
+// po polsku, `AGENTS.md` to kontrakt DOX dla agentów, `CLAUDE.md` to jego shim.
+const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
+
 /**
  * Waliduje wymagane pola front matter lekcji kursu.
  */
@@ -66,7 +71,7 @@ function parseLesson(rawMarkdown, filename = "unknown") {
 const allLessons = Object.entries(courseFiles)
   .filter(([path]) => {
     const filename = path.split("/").pop();
-    return !filename.startsWith("_") && filename !== "README.md";
+    return !filename.startsWith("_") && !DOC_FILES.has(filename);
   })
   .map(([path, content]) => {
     const filename = path.split("/").pop();

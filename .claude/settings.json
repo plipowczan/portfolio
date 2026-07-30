@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/dox-pass-check.mjs --json"
+          }
+        ]
+      }
+    ]
+  }
+}

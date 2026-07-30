@@ -9,6 +9,8 @@ docs/
 ├── README.md                      # Ten plik - przegląd dokumentacji
 ├── PRD.md                         # Product Requirements Document (EN - dla AI)
 ├── SRS.md                         # Software Requirements Specification (EN - dla AI)
+├── PROJECT_STATUS.md              # Stan projektu: pomiary, deployment, odrzucone pomysły (EN - dla AI)
+├── TODO.md                        # Lista zadań i roadmap
 ├── QUICK_START.md                 # Szybki start
 │
 ├── deployment/                    # 🚀 Deployment
@@ -47,6 +49,8 @@ docs/
 
 - **[SRS.md](./SRS.md)** - Specyfikacja techniczna i architektura (EN - dla AI)
 - **[PRD.md](./PRD.md)** - Wymagania produktowe i wizja (EN - dla AI)
+- **[PROJECT_STATUS.md](./PROJECT_STATUS.md)** - Pomiary, stan wdrożenia, świadomie odrzucone pomysły (EN - dla AI)
+- **[TODO.md](./TODO.md)** - Otwarte zadania i roadmap
 
 ---
 

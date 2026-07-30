@@ -2,10 +2,23 @@
 
 - [ ] Add FAQ section
 - [x] Sidebar navigation
-- [ ] Related posts section
+- [ ] Related posts section (internal linking between posts)
 - [ ] Add case studies
 - [x] Complete cta for all blog posts - remove cta to Automation House
 - [ ] Extend blog categories - add more categories
+- [ ] Blog search
+- [ ] Blog category filtering on `/blog`
+- [ ] Complete live URLs for the automation projects in `src/data/projects.js`
+
+### Performance
+
+- [ ] Re-measure Core Web Vitals — the figures in [PROJECT_STATUS.md](./PROJECT_STATUS.md) are from 2026-01, before the self-hosted fonts and cache headers landed
+- [ ] Reduce bundle size / route-based code splitting
+- [ ] Image optimisation pass: WebP everywhere, lazy loading below the fold
+
+### Accessibility & content quality
+
+- [ ] Image alt text audit across posts and sections
 
 ### Social Media optimization
 

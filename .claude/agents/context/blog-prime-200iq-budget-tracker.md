@@ -218,7 +218,7 @@ OG image: needs to be generated separately during the `:execute` phase (1200×63
 - `image: /images/og-<slug>.webp`
 - `tags:` likely include `Claude Code`, `AI`, `Workflow`, `Case Study`, `Automatyzacja`, plus topic-specific (`Finanse`, `OpenSpec`, `Pre-revenue`, `200IQ LABS`)
 - `lang: pl`
-- `alternateSlug:` **leave OUT initially** — EN translation is a separate deliberate step per CLAUDE.md (`src/content/blog/data-storage/00-overview.md`). Add only after EN file exists with reciprocal pointer.
+- `alternateSlug:` **leave OUT initially** — EN translation is a separate deliberate step per `src/content/blog/AGENTS.md`. Add only after EN file exists with reciprocal pointer.
 
 ---
 
