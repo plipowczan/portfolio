@@ -136,9 +136,27 @@
   **What remains red locally:** the H1 skip-link test on the two WebKit projects, for the platform reason above. Every other project is green.
 
   **One real failure found and fixed.** Firefox failed `policy-pages.spec.js` on the canonical tag for `/terms-of-service` and `/cookie-policy`: the page rendered `<html lang="pl">` but its canonical still carried the `/en` prefix. Diagnosed rather than assumed — on the **production build** in Firefox with `navigator.languages = en-US`, `/`, `/blog`, `/privacy-policy`, `/terms-of-service` and `/cookie-policy` all emit an unprefixed canonical, and `dist/` matches, so nothing wrong ships. The stale tag is the documented React 19 + `react-helmet-async` + `StrictMode` behaviour, dev-server only: the tag from the first render survives, and route splitting moved when a policy page mounts relative to i18next settling, which flipped which side of that race Firefox lands on. The spec already forgave a *missing* canonical in dev but not a *stale* one; the tolerance is now symmetric, and canonical is asserted only outside dev — where `seo-metadata-invariants.spec.js` already covers it. Both engines green afterwards.
-- [ ] 8.3 Verify on a Vercel preview deployment that a blog post and a lesson both return complete HTML — this is the one failure mode local testing has historically missed
+- [x] 8.3 Verify on a Vercel preview deployment that a blog post and a lesson both return complete HTML — this is the one failure mode local testing has historically missed
 
-  Needs the pull request to exist first: the check reads the Vercel preview deployment.
+  Vercel's GitHub integration produced no deployment for this branch — today's push drew zero statuses, not a red one — so the preview was deployed from the CLI with the user's approval: `https://portfolio-77y0xiez6-pawellipowczan.vercel.app`. **The build is the real thing**: `npm run build:prerender` on Vercel's machine, `@sparticuz/chromium` + `puppeteer-core`, and the 1000 ms wait rather than the local 2000 ms.
+
+  **Build:** 98 routes prerendered, **0 failures**; output check passed; budget `200.7 kB / 230.5 kB (87 %)` — the same figure as locally, so the gate travels.
+
+  **Fetched from the deployment:**
+  - `/blog/vibe-coding-przewodnik` → HTTP 200, 71 578 B, article body text present.
+  - `/llm-wiki/kurs/2-onboarding` → HTTP 200, lesson body text present, `data-content-ready="true"` in the served HTML.
+
+  That settles the highest-risk part of the change — the readiness marker works under Puppeteer on Vercel, not only under Playwright locally.
+
+  **It also settles the production question raised by the parallel session,** in the environment where it actually mattered:
+
+  | | production (today) | this preview |
+  | --- | --- | --- |
+  | hero `<h1>` | `opacity: 0; translateY(13.8694px)` | **`opacity: 1; transform: none`** |
+  | `/` invisible / visible | 74 / 1 | 68 / 7 |
+  | `/blog` invisible / visible | 27 / 7 | **1 / 33** |
+
+  Vercel's shorter wait no longer matters above the fold, because `initial={false}` leaves a state rather than an animation to catch. The 68 remaining on `/` are the six `whileInView` sections the prerenderer never scrolls to — `fix-build-output-integrity`'s scope, untouched here by task 6.3. The single one left on `/blog` is the cookie banner's slide-up, also a snapshot-fidelity item rather than content.
 - [x] 8.4 Run the DOX pass: update `src/data/AGENTS.md`, `scripts/AGENTS.md` and `tests/AGENTS.md` for the new generator, the readiness marker and the budget gate, or state explicitly that a doc is unchanged
 
   **Updated:**
