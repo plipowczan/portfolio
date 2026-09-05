@@ -3,8 +3,10 @@
 Three build scripts emit output that does not match what the source says, and all
 three reached production unnoticed because nothing asserts the claim they break.
 
-An SEO audit on 2026-09-05 measured the live site (evidence in
-`.claude/agents/reports/seo-audit-2026-09-05/`). Production serves:
+An SEO audit on 2026-09-05 measured the live site. Its detailed reports are a
+local working artifact and are not in the repository — `.gitignore` excludes
+`reports/` — so every figure this proposal relies on is stated inline below and
+re-derivable by fetching the URLs named. Production serves:
 
 | URL | `opacity: 0` | `opacity: 1` |
 |---|---|---|
