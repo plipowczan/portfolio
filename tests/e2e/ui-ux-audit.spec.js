@@ -184,7 +184,12 @@ test.describe("C1 — prefers-reduced-motion", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(testUrls.home);
 
-    // The hero logo uses .animate-glow (2s by default).
+    // The hero logo uses .animate-glow (2s by default). Wait for it: on the dev
+    // server the page renders client-side, so `goto` can return before React
+    // has put the element in the DOM. Reading straight away returned null on
+    // the WebKit engines — a missing wait, not a motion-preference failure.
+    await page.locator(".animate-glow").first().waitFor();
+
     const durationSeconds = await page.evaluate(() => {
       const el = document.querySelector(".animate-glow");
       if (!el) return null;
