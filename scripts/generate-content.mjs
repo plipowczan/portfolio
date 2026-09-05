@@ -245,6 +245,34 @@ function pruneStale(dir, keep) {
 }
 
 /**
+ * Przewraca build, gdy dwa pliki dają tę samą wartość klucza.
+ *
+ * Nazwa modułu z treścią bierze się ze `slug`, więc dwa artykuły o tym samym
+ * slugu w jednym języku nadpisywały się nawzajem — po cichu, bo indeks nadal
+ * miał dwa wpisy i wszystko wyglądało poprawnie. Ten sam problem dotyczy
+ * `order` lekcji: napędza kolejność na hubie oraz linki poprzednia/następna,
+ * a przy remisie kolejność zależy od sortowania, nie od autora.
+ *
+ * @param {{ file: string }[]} items
+ * @param {(item: any) => string} keyOf
+ * @param {string} label nazwa klucza w komunikacie
+ */
+function assertUnique(items, keyOf, label) {
+  const seen = new Map();
+  for (const item of items) {
+    const key = keyOf(item);
+    const previous = seen.get(key);
+    if (previous) {
+      throw new Error(
+        `Duplicate ${label} "${key}" in ${item.file} and ${previous} — ` +
+          `each one must be unique, the content module is named after it`,
+      );
+    }
+    seen.set(key, item.file);
+  }
+}
+
+/**
  * Buduje indeks i moduły treści.
  *
  * @param {{ contentDir?: string, outDir?: string, quiet?: boolean }} [options]
@@ -263,14 +291,22 @@ export function generateContent(options = {}) {
   ]) {
     for (const file of listContentFiles(dir)) {
       const parsed = parsePost(readFileSync(join(dir, file), "utf-8"), file, lang);
-      posts.push({ ...parsed, module: `${parsed.entry.lang}-${parsed.entry.slug}.js` });
+      posts.push({
+        ...parsed,
+        file,
+        module: `${parsed.entry.lang}-${parsed.entry.slug}.js`,
+      });
     }
   }
 
   const lessons = listContentFiles(courseDir).map((file) => {
     const parsed = parseLesson(readFileSync(join(courseDir, file), "utf-8"), file);
-    return { ...parsed, module: `${parsed.entry.slug}.js` };
+    return { ...parsed, file, module: `${parsed.entry.slug}.js` };
   });
+
+  assertUnique(posts, (p) => `${p.entry.lang}/${p.entry.slug}`, "slug");
+  assertUnique(lessons, (l) => l.entry.slug, "slug lekcji");
+  assertUnique(lessons, (l) => String(l.entry.order), "order lekcji");
 
   // Ta sama kolejność, którą wcześniej ustalały loadery: artykuły od
   // najnowszego, lekcje wg `order`.
