@@ -47,20 +47,37 @@ test.describe("Policy Pages - SEO", () => {
         }
       }
 
-      // Sprawdź Canonical Tag
-      if (!metaTags.canonical) {
-        const message = `canonical tag missing for ${path}`;
-        if (isDevMode) {
-          console.warn(
-            `⚠️ DEV MODE: ${message} - expected due to React Helmet limitation`
-          );
-        } else {
+      // Sprawdź Canonical Tag.
+      //
+      // Na serwerze deweloperskim canonical nie jest dowodem na nic — ani gdy
+      // go nie ma, ani gdy jest. Pod React 19 w <React.StrictMode> podwójne
+      // montowanie efektów sprawia, że react-helmet-async gubi aktualizację:
+      // zostaje wartość z pierwszego renderu, sprzed ustalenia języka. Dla
+      // przeglądarki z angielskim `navigator.language` daje to canonical z
+      // prefiksem /en na polskiej trasie, przy `<html lang="pl">`. Który
+      // wariant wypadnie, zależy od wyścigu i różni się między silnikami.
+      //
+      // Sprawdzone na buildzie produkcyjnym (bez StrictMode) w Firefoksie z
+      // `navigator.languages = en-US`: `/terms-of-service`, `/cookie-policy`,
+      // `/privacy-policy`, `/blog` i `/` mają canonical bez prefiksu, czyli
+      // poprawny. Prerenderowany HTML w `dist/` też.
+      //
+      // Metadane sprawdza więc `seo-metadata-invariants.spec.js` na buildzie
+      // produkcyjnym; tutaj canonical jest asercją tylko poza trybem
+      // deweloperskim.
+      if (!isDevMode) {
+        if (!metaTags.canonical) {
           throw new Error(
-            `PRODUCTION: ${message} - canonical tag is required for SEO`
+            `PRODUCTION: canonical tag missing for ${path} - required for SEO`
           );
         }
-      } else {
         expect(metaTags.canonical).toBe(canonical);
+      } else if (metaTags.canonical !== canonical) {
+        console.warn(
+          `⚠️ DEV MODE: canonical for ${path} is ${
+            metaTags.canonical ?? "missing"
+          } - expected due to the React Helmet + StrictMode limitation`
+        );
       }
 
       // Sprawdź Open Graph tags (toleruj brak w dev mode)
