@@ -23,8 +23,8 @@ The flip side: a non-lesson `.md` dropped here becomes a phantom lesson.
 `README.md`, `AGENTS.md`, and `CLAUDE.md` are excluded by name in every reader —
 see `src/data/AGENTS.md`.
 
-Required frontmatter — a missing or mistyped field throws and the lesson is
-dropped:
+Required frontmatter — a missing or mistyped field fails the build, naming this
+file and the field:
 
 ```yaml
 ---

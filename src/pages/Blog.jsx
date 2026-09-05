@@ -6,6 +6,7 @@ import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
 import { getPostsByLang } from "../data/blogPosts";
+import { useIsFirstLoad } from "../hooks/useFirstLoad";
 import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
@@ -88,6 +89,9 @@ const Blog = () => {
   const { t, i18n } = useTranslation("common");
   const localizedPath = useLocalizedPath();
   const posts = getPostsByLang(i18n.language);
+  // Wejście bezpośrednie dostaje prerenderowany, widoczny nagłówek listingu —
+  // hydratacja nie ma go po co gasić. Patrz `useFirstLoad`.
+  const entrance = useIsFirstLoad() ? false : "hidden";
 
   return (
     <>
@@ -123,7 +127,7 @@ const Blog = () => {
         <div className="section-container">
           <motion.div
             variants={STAGGER_CONTAINER}
-            initial="hidden"
+            initial={entrance}
             animate="visible"
             className="space-y-16"
           >

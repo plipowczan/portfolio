@@ -10,12 +10,13 @@ and the shared hooks and utilities behind them.
 **Owns directly** — these folders have no doc of their own and are governed here:
 
 - `pages/` — one component per route
-- `hooks/` — shared hooks (`useLocalizedPath.js`, `usePageTracking.js`)
+- `hooks/` — shared hooks (`useLocalizedPath.js`, `usePageTracking.js`,
+  `useContentBody.js`, `useFirstLoad.js`)
 - `context/` — React context providers (`BookingContext.jsx`)
 - `locales/pl/`, `locales/en/` — i18next translation resources
 - `styles/` — `index.css` (global + custom animations) and `fonts.css`
 - `utils/` — `analytics.js`, `constants.js`, `extractFirstParagraph.js`,
-  `faqExtractor.js`
+  `faqExtractor.js`, `prerenderMarker.js`
 - `assets/fonts/` — self-hosted font files
 - `App.jsx`, `main.jsx`, `i18n.js`
 
@@ -46,6 +47,13 @@ General React, Tailwind, and router style is not repeated here — it lives in
 - Animate `transform` and `opacity` only; respect `prefers-reduced-motion`.
 - Adding a route means updating `App.jsx`, the prerender route list in
   `scripts/prerender.mjs`, and `scripts/update-sitemap.js`.
+- Pages are lazy in `App.jsx` — except `Home`, which is a static import on
+  purpose. It is the route this repository optimises for, and it is what the
+  build's payload budget measures (`scripts/check-payload-budget.mjs`). Making
+  it lazy would add a round trip to its critical path and hide it from the gate.
+- A route whose body arrives asynchronously must set the readiness marker
+  (`utils/prerenderMarker.js`), or the prerenderer will fail that route. The
+  marker is handled for you by `hooks/useContentBody.js`.
 
 ## Verification
 

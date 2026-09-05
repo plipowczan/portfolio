@@ -36,6 +36,8 @@
   "blog.tags": "Tags:",
   "blog.by": "By",
   "blog.imageError": "Image could not be loaded",
+  "blog.contentLoading": "Loading article content...",
+  "blog.contentError": "This article's content could not be loaded. Check your connection and reload the page, or go back to the article list.",
   "blog.seoDescription": "Technical articles and insights about web development, React, and modern technologies.",
   "siteConfig.title": "Your Tech Guide",
   "siteConfig.description": "Software architect and technology advisor - technology-agnostic tool selection, business process optimization through automation and intelligent no-code and AI solutions."

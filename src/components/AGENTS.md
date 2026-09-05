@@ -19,7 +19,7 @@ One folder per role. A new component goes in exactly one of them:
 | --- | --- | --- |
 | `layout/` | page chrome that wraps routes | `Layout.jsx`, `LocaleLayout.jsx`, `Navigation.jsx`, `Footer.jsx` |
 | `sections/` | full-width blocks composed into a page | `Hero.jsx`, `About.jsx`, `Projects.jsx`, `CourseFaq.jsx` |
-| `ui/` | reusable, page-agnostic primitives | `Modal.jsx`, `Breadcrumbs.jsx`, `MarkdownContent.jsx`, `ArticleTOC.jsx` |
+| `ui/` | reusable, page-agnostic primitives | `Modal.jsx`, `Breadcrumbs.jsx`, `MarkdownContent.jsx`, `ContentBody.jsx`, `ArticleTOC.jsx` |
 | `seo/` | head and structured-data emitters | `SEO.jsx`, `StructuredData.jsx` |
 | `animations/` | canvas and motion backgrounds | `NetworkBackground.jsx`, `GrowingNetworkBackground.jsx` |
 | `widgets/` | third-party embed wrappers | `ZencalWidget.jsx` |

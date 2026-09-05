@@ -1,6 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
+import { contentGenerator } from "./scripts/generate-content.mjs";
 import { DEV_PORT, PREVIEW_PORT } from "./scripts/ports.mjs";
 
 /**
@@ -48,6 +49,9 @@ const preloadBodyFont = () => ({
 export default defineConfig({
   publicDir: "public",
   plugins: [
+    // Musi być przed `react()`: aplikacja importuje `src/data/generated/`,
+    // które ten plugin dopiero zapisuje w `buildStart`.
+    contentGenerator(),
     react(),
     preloadBodyFont(),
     nodePolyfills({
@@ -95,5 +99,25 @@ export default defineConfig({
   // Ensure proper charset handling
   build: {
     charset: "utf8",
+    // Manifest jest wejściem dla bramki rozmiaru
+    // (`scripts/check-payload-budget.mjs`): mówi wprost, który chunk jest
+    // wejściowy i co importuje statycznie. Czytanie tego z `index.html` byłoby
+    // zawodne — pomocnik preloadu Vite dokłada `modulepreload` w trakcie
+    // działania strony, więc prerender zapisałby też chunki tras leniwych.
+    manifest: true,
+    rollupOptions: {
+      output: {
+        // Trzy duże paczki wydzielone jawnie. `react-markdown` z remarkiem i
+        // rehypem wchodzi tylko na artykuł i lekcję, więc bez tego podziału
+        // doklejałby się do chunka trasy i pobierał się dwa razy — raz dla
+        // bloga, raz dla kursu. Ikony i `framer-motion` wydzielone dla cache'u:
+        // zmiana kodu strony nie unieważnia wtedy wersji przeglądarki.
+        manualChunks: {
+          "vendor-motion": ["framer-motion"],
+          "vendor-markdown": ["react-markdown", "remark-gfm", "rehype-raw"],
+          "vendor-icons": ["react-icons/fa"],
+        },
+      },
+    },
   },
 });

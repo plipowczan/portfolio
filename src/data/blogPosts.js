@@ -1,148 +1,33 @@
-import matter from "gray-matter";
-
-// Import PL posts from root blog folder
-const blogFilesPl = import.meta.glob("../content/blog/*.md", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-});
-
-// Import EN posts from blog/en/ subfolder
-const blogFilesEn = import.meta.glob("../content/blog/en/*.md", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-});
-
-// Dokumentacja mieszkająca w folderze z treścią. To pliki `.md`, więc glob je
-// łapie, a bez frontmattera przewróciłyby walidację. `README.md` to przewodnik
-// po polsku, `AGENTS.md` to kontrakt DOX dla agentów, `CLAUDE.md` to jego shim.
-const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
+import { blogIndex, loadBlogBody } from "./generated/index.js";
 
 /**
- * Waliduje czy wszystkie wymagane pola istnieją w front matter
+ * Warstwa dostępu do artykułów bloga.
+ *
+ * Indeks (`src/data/generated/index.js`) powstaje w buildzie —
+ * `scripts/generate-content.mjs` parsuje frontmatter i waliduje go tam, więc
+ * do przeglądarki nie trafia ani parser frontmattera, ani treść artykułów.
+ * Wpis indeksu ma wszystkie pola poza `content`; treść pobiera się osobno
+ * przez `loadPostContent`, dopiero dla otwartego artykułu.
  */
-function validateFrontMatter(data, filename) {
-  const requiredFields = [
-    "id",
-    "slug",
-    "title",
-    "excerpt",
-    "category",
-    "author",
-    "date",
-    "readTime",
-    "image",
-  ];
 
-  const missingFields = requiredFields.filter((field) => !data[field]);
-
-  if (missingFields.length > 0) {
-    throw new Error(
-      `Missing required fields in ${filename}: ${missingFields.join(", ")}`
-    );
-  }
-
-  if (typeof data.id !== "number") {
-    throw new Error(`Invalid 'id' type in ${filename}: expected number`);
-  }
-
-  if (!Array.isArray(data.tags)) {
-    console.warn(`Missing or invalid 'tags' in ${filename}, using empty array`);
-  }
-
-  if (data.description !== undefined && typeof data.description !== "string") {
-    console.warn(
-      `Invalid optional 'description' type in ${filename}: expected string, ignoring`
-    );
-  }
-
-  if (data.modified !== undefined) {
-    const m = data.modified;
-    const isDate = m instanceof Date;
-    const isIsoString =
-      typeof m === "string" && /^\d{4}-\d{2}-\d{2}$/.test(m);
-    if (!isDate && !isIsoString) {
-      console.warn(
-        `Invalid optional 'modified' in ${filename}: expected YYYY-MM-DD string or Date, ignoring`
-      );
-    }
-  }
-}
+// Wszystkie artykuły, od najnowszego. Indeks przychodzi już posortowany.
+export const blogPosts = blogIndex;
 
 /**
- * Parsuje plik markdown z front matter i zwraca obiekt artykułu
+ * Pobiera treść artykułu. Jeden `import()` na artykuł, więc pobiera się tylko
+ * ten, który ktoś otworzył.
+ *
+ * @param {"pl"|"en"} lang język artykułu
+ * @param {string} slug slug artykułu
+ * @returns {Promise<string>} treść w markdown
  */
-function parsePost(rawMarkdown, filename = "unknown") {
-  try {
-    const { data, content } = matter(rawMarkdown);
-
-    validateFrontMatter(data, filename);
-
-    return {
-      id: data.id,
-      slug: data.slug,
-      title: data.title,
-      excerpt: data.excerpt,
-      content: content.trim(),
-      category: data.category,
-      author: data.author,
-      date:
-        data.date instanceof Date
-          ? data.date.toISOString().split("T")[0]
-          : data.date,
-      readTime: data.readTime,
-      image: data.image,
-      tags: Array.isArray(data.tags) ? data.tags : [],
-      lang: data.lang || "pl",
-      alternateSlug: data.alternateSlug || null,
-      description:
-        typeof data.description === "string" ? data.description : null,
-      modified:
-        data.modified instanceof Date
-          ? data.modified.toISOString().split("T")[0]
-          : typeof data.modified === "string" &&
-              /^\d{4}-\d{2}-\d{2}$/.test(data.modified)
-            ? data.modified
-            : null,
-    };
-  } catch (error) {
-    console.error(`Error parsing blog post ${filename}:`, error.message);
-    return null;
-  }
-}
-
-function filterAndParse(files) {
-  return Object.entries(files)
-    .filter(([path]) => {
-      const filename = path.split("/").pop();
-      return (
-        !filename.endsWith("_wsad.md") &&
-        !filename.startsWith("_") &&
-        !DOC_FILES.has(filename)
-      );
-    })
-    .map(([path, content]) => {
-      const filename = path.split("/").pop();
-      return parsePost(content, filename);
-    })
-    .filter((post) => post !== null);
-}
-
-const allPosts = [...filterAndParse(blogFilesPl), ...filterAndParse(blogFilesEn)].sort(
-  (a, b) => new Date(b.date) - new Date(a.date)
-);
-
-// Default export: all posts (backward compatible)
-export const blogPosts = allPosts;
+export const loadPostContent = loadBlogBody;
 
 /**
  * Pobiera posty filtrowane po języku
  */
 export function getPostsByLang(lang) {
-  return allPosts
-    .filter((post) => post.lang === lang)
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  return blogIndex.filter((post) => post.lang === lang);
 }
 
 /**
@@ -175,9 +60,9 @@ export function getAlternatePost(slug, lang) {
     );
     return null;
   }
-  const post = allPosts.find((p) => p.slug === slug && p.lang === lang);
+  const post = blogIndex.find((p) => p.slug === slug && p.lang === lang);
   if (!post?.alternateSlug) return null;
-  const alternate = allPosts.find(
+  const alternate = blogIndex.find(
     (p) => p.slug === post.alternateSlug && p.lang !== post.lang,
   );
   return alternate ?? null;
@@ -187,34 +72,33 @@ export function getAlternatePost(slug, lang) {
  * Pobiera pojedynczy artykuł po slug
  */
 export function getPostBySlug(slug) {
-  return allPosts.find((post) => post.slug === slug) || null;
+  return blogIndex.find((post) => post.slug === slug) || null;
 }
 
 /**
  * Pobiera artykuły według kategorii
  */
 export function getPostsByCategory(category) {
-  return allPosts.filter((post) => post.category === category);
+  return blogIndex.filter((post) => post.category === category);
 }
 
 /**
  * Pobiera artykuły według tagu
  */
 export function getPostsByTag(tag) {
-  return allPosts.filter((post) => post.tags.includes(tag));
+  return blogIndex.filter((post) => post.tags.includes(tag));
 }
 
 /**
  * Pobiera wszystkie unikalne kategorie
  */
 export function getAllCategories() {
-  return [...new Set(allPosts.map((post) => post.category))];
+  return [...new Set(blogIndex.map((post) => post.category))];
 }
 
 /**
  * Pobiera wszystkie unikalne tagi
  */
 export function getAllTags() {
-  const allTags = allPosts.flatMap((post) => post.tags);
-  return [...new Set(allTags)];
+  return [...new Set(blogIndex.flatMap((post) => post.tags))];
 }

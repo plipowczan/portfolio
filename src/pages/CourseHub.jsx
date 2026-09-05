@@ -8,6 +8,7 @@ import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import { courseFaq } from "../data/courseFaq";
 import { coursePosts } from "../data/coursePosts";
+import { useIsFirstLoad } from "../hooks/useFirstLoad";
 import { generateFAQSchema } from "../utils/faqExtractor";
 import { FADE_IN_UP, SITE_CONFIG, STAGGER_CONTAINER } from "../utils/constants";
 
@@ -80,6 +81,10 @@ const LessonLink = ({ lesson }) => (
 );
 
 const CourseHub = () => {
+  // Wejście bezpośrednie dostaje prerenderowany, widoczny hub — hydratacja nie
+  // ma go po co gasić. Patrz `useFirstLoad`.
+  const entrance = useIsFirstLoad() ? false : "hidden";
+
   return (
     <>
       <SEO
@@ -100,7 +105,7 @@ const CourseHub = () => {
         <div className="section-container relative z-10">
           <motion.div
             variants={STAGGER_CONTAINER}
-            initial="hidden"
+            initial={entrance}
             animate="visible"
             className="mx-auto max-w-2xl space-y-8 rounded-xl border border-primary-500/20 bg-dark-800/50 p-6 backdrop-blur-sm md:p-10"
           >

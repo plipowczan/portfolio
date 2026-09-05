@@ -79,6 +79,15 @@ someone to remember a local build.
 it looks green while proving nothing. A claim about build output belongs in the
 invariant, where it runs every time the build does.
 
+The same rule now carries a second gate. `scripts/check-payload-budget.mjs`
+sums the entry chunk and its static imports out of Vite's manifest, gzips them,
+and fails `npm run build:prerender` when the total exceeds
+`INITIAL_JS_BUDGET_GZIP_BYTES` — the single declared constant in that file.
+Measured and ceiling are printed whether it passes or fails. Because it runs
+inside the build, a payload regression fails the Vercel deployment and shows up
+on the pull request; there is no Playwright spec for bundle size, and adding one
+would be the mistake this section already names.
+
 ### What gates a merge
 
 Nothing manual. Three automated runs cover it, each on a different trigger:

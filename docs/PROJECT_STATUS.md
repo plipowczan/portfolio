@@ -36,6 +36,13 @@ numbers. Re-measure before citing.
 
 Also recorded 2026-01: JS bundle 483 KB, main-thread work 2.3 s.
 
+**Initial JavaScript, measured 2026-09-05** (entry chunk plus its static
+imports, gzipped): **200.7 kB**, down from **778.71 kB** in a single 2 429.90 kB
+chunk. Blog and course markdown no longer ships with the app — bodies load per
+route — and the routes are split. The figure is now enforced by the build:
+`scripts/check-payload-budget.mjs` fails `npm run build:prerender`, and
+therefore the Vercel deployment, when it drifts past the declared ceiling.
+
 ## SEO status
 
 Shipped and in production:

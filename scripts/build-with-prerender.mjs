@@ -8,11 +8,13 @@
  * 2. Uruchamia preview server
  * 3. Wykonuje prerendering wszystkich stron
  * 4. Sprawdza, czy wyjście prerenderu jest kompletne
- * 5. Zamyka preview server
+ * 5. Sprawdza rozmiar pierwszego ładunku JS strony głównej
+ * 6. Zamyka preview server
  */
 
 import { spawn, spawnSync } from "child_process";
 import { setTimeout as sleep } from "timers/promises";
+import { verifyPayloadBudget } from "./check-payload-budget.mjs";
 import { PREVIEW_PORT } from "./ports.mjs";
 import { verifyPrerenderOutput } from "./verify-prerender-output.mjs";
 
@@ -134,20 +136,20 @@ async function main() {
 
   try {
     // Krok 0: Generowanie sitemap
-    console.log("📦 Krok 1/6: Generowanie sitemap.xml...\n");
+    console.log("📦 Krok 1/7: Generowanie sitemap.xml...\n");
     await runCommand("node", ["scripts/update-sitemap.js"]);
 
     // Krok 0.5: Generowanie llms.txt / llms-full.txt
-    console.log("📦 Krok 2/6: Generowanie llms.txt...\n");
+    console.log("📦 Krok 2/7: Generowanie llms.txt...\n");
     await runCommand("node", ["scripts/generate-llms-txt.js"]);
 
     // Krok 1: Build aplikacji
-    console.log("📦 Krok 3/6: Budowanie aplikacji...\n");
+    console.log("📦 Krok 3/7: Budowanie aplikacji...\n");
     await runCommand("npm", ["run", "build"]);
     console.log("\n✅ Build zakończony!\n");
 
     // Krok 2: Uruchom preview server
-    console.log("📦 Krok 4/6: Uruchamianie preview server...\n");
+    console.log("📦 Krok 4/7: Uruchamianie preview server...\n");
     previewServer = await startPreviewServer();
 
     // Dodatkowy czas na stabilizację servera (dłuższy na Vercel)
@@ -156,15 +158,21 @@ async function main() {
     await sleep(stabilizationTime);
 
     // Krok 3: Prerendering
-    console.log("📦 Krok 5/6: Prerendering stron...\n");
+    console.log("📦 Krok 5/7: Prerendering stron...\n");
     await runCommand("node", ["scripts/prerender.mjs"]);
 
     // Krok 4: Sprawdzenie wyniku. Prerender melduje błąd tylko dla tras, o
     // które go poproszono — tu wychodzą te, których na liście nie było, i
     // strony bez metadanych. Bramka działa też na Vercelu, bo to jego
     // `buildCommand`.
-    console.log("📦 Krok 6/6: Sprawdzanie wyniku prerenderu...\n");
+    console.log("📦 Krok 6/7: Sprawdzanie wyniku prerenderu...\n");
     verifyPrerenderOutput();
+
+    // Krok 5: Bramka rozmiaru. Tu, a nie w teście Playwrighta, z tego samego
+    // powodu co wyżej: `vercel.json` woła ten skrypt jako `buildCommand`, więc
+    // przekroczony pułap wywraca wdrożenie i widać to na pull requeście.
+    console.log("📦 Krok 7/7: Sprawdzanie rozmiaru pierwszego ładunku...\n");
+    verifyPayloadBudget();
 
     console.log("\n🎉 SUKCES! Build z prerenderingiem zakończony.\n");
     console.log("📂 Pliki gotowe do deployu w folderze: dist/\n");

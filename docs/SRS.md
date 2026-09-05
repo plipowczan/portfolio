@@ -1084,8 +1084,13 @@ FR-BLOG-008: **404 Handling**
 **Implementation:**
 
 - Blog posts: `src/content/blog/*.md`
-- Loader uses `import.meta.glob('../content/blog/*.md', { eager: true })`
-- Frontmatter extracted with `gray-matter`
+- `scripts/generate-content.mjs` (a Vite plugin) reads the markdown at build
+  time and emits `src/data/generated/`: an index without bodies, plus one
+  module per body
+- Frontmatter extracted and validated at build time with `gray-matter`; the
+  build fails on a malformed file
+- The loader (`src/data/blogPosts.js`) reads the index; a body is fetched with a
+  dynamic `import()` only for the article being opened
 - Content rendered with `react-markdown` + `rehype-raw`
 - Slug generated from filename (remove `.md`)
 - Reading time calculated from word count (average 200 wpm)

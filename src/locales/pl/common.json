@@ -37,6 +37,8 @@
   "blog.tags": "Tagi:",
   "blog.by": "Autor:",
   "blog.imageError": "Obrazek nie mógł zostać załadowany",
+  "blog.contentLoading": "Wczytuję treść artykułu...",
+  "blog.contentError": "Nie udało się wczytać treści tego artykułu. Sprawdź połączenie i odśwież stronę albo wróć do listy artykułów.",
   "blog.seoDescription": "Artykuły techniczne i porady dotyczące web developmentu, React i nowoczesnych technologii.",
   "siteConfig.title": "Twój Przewodnik Technologiczny",
   "siteConfig.description": "Architekt oprogramowania i doradca ds. technologii - agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI."

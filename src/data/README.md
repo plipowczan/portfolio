@@ -1,36 +1,46 @@
 # 📚 Blog Data Loader
 
-System automatycznego ładowania artykułów blogowych z plików markdown.
+Jak artykuły bloga i lekcje kursu trafiają z plików markdown do aplikacji.
+
+> Wiążącym kontraktem jest `AGENTS.md` w tym folderze. Ten plik to przewodnik po
+> polsku dla człowieka.
 
 ---
 
 ## 🔄 Jak to działa
 
-### Automatyczny import
+### Indeks budowany raz, przy buildzie
 
-Plik `blogPosts.js` używa **Vite glob imports** do automatycznego załadowania wszystkich plików markdown z folderu `src/content/blog/`.
+Markdown nie trafia już do bundla przeglądarki. `scripts/generate-content.mjs`
+czyta `src/content/blog/*.md`, `src/content/blog/en/*.md` i
+`src/content/kurs/*.md`, parsuje frontmatter i zapisuje do
+`src/data/generated/`:
 
-```javascript
-const blogFiles = import.meta.glob("../content/blog/*.md", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-});
-```
+- `index.js` — lekki indeks (wszystkie pola **poza** treścią) plus mapy leniwych
+  importów,
+- `blog/<lang>-<slug>.js` i `kurs/<slug>.js` — po jednym module na artykuł
+  i lekcję, z samą treścią.
+
+Generator jest wtyczką Vite: leci w `buildStart` i pilnuje `src/content/**` w
+`npm run dev`. `blogPosts.js` i `coursePosts.js` czytają wygenerowany indeks.
 
 **Oznacza to:**
 
-- ✅ Nowe artykuły są **automatycznie** wykrywane
-- ✅ Nie musisz ręcznie importować każdego pliku
-- ✅ Nie musisz aktualizować tablicy blogPosts
+- ✅ Nowe artykuły są **automatycznie** wykrywane — wrzucasz plik, pojawia się
+- ✅ Nie musisz niczego importować ani aktualizować żadnej listy
+- ✅ Listing `/blog` i hub kursu renderują się z samego indeksu
+- ✅ Treść artykułu pobiera się dopiero po jego otwarciu, osobnym chunkiem
+
+`src/data/generated/` to artefakt buildu — jest w `.gitignore`. Generator jest
+powtarzalny, więc nieaktualny katalog naprawia dowolny build.
 
 ### Filtrowanie plików
 
-System automatycznie **pomija**:
+Generator automatycznie **pomija**:
 
 - ❌ Pliki wsadowe: `*_wsad.md`
 - ❌ Pliki template: `_*.md`
-- ❌ Dokumentację: `README.md`
+- ❌ Dokumentację: `README.md`, `AGENTS.md`, `CLAUDE.md`
 
 **Ładuje tylko:**
 
@@ -40,7 +50,7 @@ System automatycznie **pomija**:
 
 ## ✅ Walidacja front matter
 
-### Wymagane pola
+### Wymagane pola (artykuł)
 
 Każdy artykuł **MUSI** zawierać następujące pola w front matter:
 
@@ -61,27 +71,29 @@ tags: # Array (opcjonalne)
 ---
 ```
 
+Lekcja kursu wymaga `slug`, `order` (liczba), `title` i `excerpt` (string).
+
 ### Walidacja
 
-System wykonuje następujące sprawdzenia:
+Generator sprawdza:
 
-1. **Wymagane pola** - sprawdza czy wszystkie wymagane pola istnieją
-2. **Typ ID** - weryfikuje czy `id` jest liczbą
-3. **Tagi** - jeśli brakuje lub nieprawidłowe, używa pustej tablicy `[]`
+1. **Wymagane pola** — czy wszystkie istnieją
+2. **Typ `id`** — czy jest liczbą (artykuł)
+3. **Typ `order`** — czy jest liczbą (lekcja)
+4. **`slug`** — czy jest niepustym stringiem
+5. **Tagi** — brakujące lub nieprawidłowe dają ostrzeżenie i pustą tablicę `[]`
 
 ### Obsługa błędów
 
-Jeśli artykuł ma **nieprawidłowy front matter**:
+Nieprawidłowy front matter **przewraca build**:
 
-1. ❌ Błąd zostaje wylogowany do konsoli:
+```
+❌ Generator treści: Missing required fields in nowy-artykul.md: excerpt
+```
 
-   ```
-   Error parsing blog post article.md: Missing required fields: excerpt, date
-   ```
-
-2. ⚠️ Artykuł jest **pomijany** (nie crashuje aplikacji)
-
-3. ✅ Pozostałe artykuły ładują się normalnie
+Wcześniej walidacja działała w przeglądarce i cicho pomijała zepsuty artykuł.
+Walidacja odpalana w przeglądarce może zawieść dopiero po wypuszczeniu strony —
+teraz problem widać w buildzie, z nazwą pliku i nazwą brakującego pola.
 
 ---
 
@@ -102,6 +114,7 @@ Jeśli artykuł ma **nieprawidłowy front matter**:
 4. **Gotowe!** ✅
    - Artykuł automatycznie pojawi się na liście
    - Nie musisz modyfikować `blogPosts.js`
+   - Przy włączonym `npm run dev` wystarczy zapis, bez restartu serwera
 
 ### Przykład minimalnego artykułu
 
@@ -135,7 +148,7 @@ Treść artykułu w markdown...
 W konsoli przeglądarki:
 
 ```javascript
-// Pokaż wszystkie artykuły
+// Pokaż wszystkie artykuły (bez treści - indeks)
 console.log(blogPosts);
 
 // Sprawdź liczbę artykułów
@@ -145,7 +158,28 @@ console.log(blogPosts.length);
 console.log(getPostBySlug("slug-artykulu"));
 ```
 
+Treści w indeksie nie ma. Żeby ją zobaczyć:
+
+```javascript
+loadPostContent("pl", "slug-artykulu").then(console.log);
+```
+
+### Ręczne uruchomienie generatora
+
+```bash
+node scripts/generate-content.mjs
+```
+
 ### Typowe problemy
+
+#### Problem: build wywala się na `Missing required fields`
+
+**Rozwiązanie:**
+Dodaj brakujące pola do front matter. Komunikat mówi, w którym pliku i których:
+
+```
+❌ Generator treści: Missing required fields in article.md: excerpt, date, image
+```
 
 #### Problem: Artykuł nie pojawia się na liście
 
@@ -153,23 +187,15 @@ console.log(getPostBySlug("slug-artykulu"));
 
 1. Sprawdź czy nazwa pliku nie kończy się na `_wsad.md`
 2. Sprawdź czy nazwa nie zaczyna się od `_`
-3. Sprawdź console - może być błąd walidacji
-4. Sprawdź czy wszystkie wymagane pola są w front matter
-5. Zrestartuj dev server (`npm run dev`)
+3. Sprawdź czy plik leży w `src/content/blog/` albo `src/content/blog/en/`
+4. Uruchom `node scripts/generate-content.mjs` i przeczytaj wynik
 
-#### Problem: Błąd "Missing required fields"
-
-**Rozwiązanie:**
-Dodaj brakujące pola do front matter. Komunikat błędu powie które:
-
-```
-Error parsing blog post article.md: Missing required fields: excerpt, date, image
-```
-
-#### Problem: Artykuł ładuje się ale ma undefined fields
+#### Problem: strona artykułu pokazuje „Nie udało się wczytać treści"
 
 **Rozwiązanie:**
-To niemożliwe - walidacja zapobiega ładowaniu artykułów z brakującymi polami.
+Chunk z treścią nie doszedł — najczęściej wdrożenie w trakcie sesji albo
+przerwana sieć. Odśwież stronę. Jeśli powtarza się lokalnie, przebuduj:
+`npm run build`.
 
 ---
 
@@ -177,9 +203,9 @@ To niemożliwe - walidacja zapobiega ładowaniu artykułów z brakującymi polam
 
 ### `blogPosts`
 
-**Typ:** `Array<Post>`
+**Typ:** `Array<PostIndexEntry>`
 
-Główna tablica wszystkich artykułów, posortowana od najnowszych.
+Główna tablica wszystkich artykułów **bez treści**, posortowana od najnowszych.
 
 ```javascript
 import { blogPosts } from "./data/blogPosts";
@@ -187,13 +213,31 @@ import { blogPosts } from "./data/blogPosts";
 console.log(blogPosts[0]); // Najnowszy artykuł
 ```
 
+### `loadPostContent(lang, slug)`
+
+**Parametry:**
+
+- `lang` (`"pl" | "en"`) — język artykułu
+- `slug` (string) — slug artykułu
+
+**Zwraca:** `Promise<string>` — treść w markdown. Odrzuca się dla nieznanej pary.
+
+```javascript
+import { loadPostContent } from "./data/blogPosts";
+
+const markdown = await loadPostContent("pl", "automatyzacja-email");
+```
+
+W komponentach nie wołaj tego wprost — użyj hooka `useContentBody`, który
+obsługuje stan wczytywania, stan błędu i znacznik gotowości dla prerenderu.
+
 ### `getPostBySlug(slug)`
 
 **Parametry:**
 
 - `slug` (string) - Slug artykułu
 
-**Zwraca:** `Post | null`
+**Zwraca:** `PostIndexEntry | null`
 
 ```javascript
 import { getPostBySlug } from "./data/blogPosts";
@@ -210,7 +254,7 @@ if (post) {
 
 - `category` (string) - Nazwa kategorii
 
-**Zwraca:** `Array<Post>`
+**Zwraca:** `Array<PostIndexEntry>`
 
 ```javascript
 import { getPostsByCategory } from "./data/blogPosts";
@@ -225,7 +269,7 @@ console.log(`Artykułów AI: ${aiPosts.length}`);
 
 - `tag` (string) - Nazwa tagu
 
-**Zwraca:** `Array<Post>`
+**Zwraca:** `Array<PostIndexEntry>`
 
 ```javascript
 import { getPostsByTag } from "./data/blogPosts";
@@ -261,50 +305,43 @@ const tags = getAllTags();
 
 ---
 
-## 📊 Struktura Post
+## 📊 Struktura wpisu indeksu
 
 ```typescript
-interface Post {
+interface PostIndexEntry {
   id: number;
   slug: string;
   title: string;
   excerpt: string;
-  content: string;
   category: string;
   author: string;
   date: string; // YYYY-MM-DD format
   readTime: string; // "X min" format
   image: string; // "/images/og-*.webp"
   tags: string[];
+  lang: "pl" | "en";
+  alternateSlug: string | null;
+  description: string | null;
+  modified: string | null; // YYYY-MM-DD format
 }
 ```
+
+Pola `content` tu nie ma — treść pobiera `loadPostContent`.
 
 ---
 
 ## ⚡ Performance
 
-### Eager loading
+Indeks 60 artykułów i 8 lekcji waży kilkadziesiąt kilobajtów i jedzie z
+aplikacją, żeby listingi renderowały się synchronicznie i dały się
+prerenderować. Treści — 722 kB markdownu — nie ma w pierwszym ładowaniu wcale.
 
-System używa **eager imports** (`eager: true`), co oznacza:
+Pierwszy ładunek JS strony głównej pilnuje bramka w buildzie:
+`scripts/check-payload-budget.mjs`. Przekroczenie pułapu wywraca
+`npm run build:prerender`, czyli też wdrożenie na Vercelu.
 
-✅ **Zalety:**
-
-- Wszystkie artykuły ładują się przy starcie
-- Brak opóźnień przy nawigacji
-- Prostsza implementacja
-
-⚠️ **Wady:**
-
-- Initial bundle zawiera wszystkie artykuły
-- Dla 100+ artykułów może być wolniejszy
-
-### Optymalizacja dla dużej liczby artykułów
-
-Jeśli masz > 50 artykułów, rozważ:
-
-1. **Lazy loading** - ładuj artykuły na żądanie
-2. **Pagination** - pokazuj 10-20 artykułów na stronę
-3. **Virtual scrolling** - renderuj tylko widoczne artykuły
+Publikacja kolejnego artykułu powiększa pierwszy ładunek o jego wpis w indeksie,
+nie o jego treść.
 
 ---
 
@@ -312,7 +349,7 @@ Jeśli masz > 50 artykułów, rozważ:
 
 ### Walidacja
 
-System **zawsze** waliduje front matter przed zwróceniem posta.
+Front matter jest walidowany w buildzie, zanim cokolwiek trafi do `dist/`.
 
 ### Brak XSS
 
@@ -332,6 +369,13 @@ Rozważ dodanie React Error Boundary wokół komponentów blogowych:
 
 ## 📝 Changelog
 
+### v3.0 (2026-09-05)
+
+- ✅ Indeks i moduły treści generowane w buildzie (`scripts/generate-content.mjs`)
+- ✅ Treść artykułu i lekcji pobierana na żądanie, osobnym chunkiem
+- ✅ `gray-matter` zniknął z bundla przeglądarki
+- ✅ Zepsuty front matter przewraca build zamiast po cichu gubić artykuł
+
 ### v2.0 (2025-11-15)
 
 - ✅ Automatyczny import przez `import.meta.glob`
@@ -346,4 +390,4 @@ Rozważ dodanie React Error Boundary wokół komponentów blogowych:
 
 ---
 
-**Ostatnia aktualizacja:** 2025-11-15
+**Ostatnia aktualizacja:** 2026-09-05
