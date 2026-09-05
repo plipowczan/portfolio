@@ -7,8 +7,9 @@ build time or on demand from an npm script.
 
 ## Ownership
 
-**Owns:** prerendering, sitemap generation, `public/llms.txt` generation, font
-fetching, OG image checks and resizing, and WebP conversion.
+**Owns:** content generation, prerendering, sitemap generation,
+`public/llms.txt` generation, font fetching, OG image checks and resizing, and
+WebP conversion.
 
 **Does not own:** application code (`src/`) or Vercel runtime code (`api/`).
 
@@ -19,9 +20,11 @@ disagree, this file is binding — the README predates several of these scripts.
 
 | Script | npm script | Role |
 | --- | --- | --- |
-| `build-with-prerender.mjs` | `build:prerender` | orchestrates `vite build`, the prerender pass, then the output check; this is the production build |
+| `build-with-prerender.mjs` | `build:prerender` | orchestrates `vite build`, the prerender pass, then the output check and the payload budget; this is the production build |
+| `generate-content.mjs` | — | Vite plugin: parses and validates content frontmatter, emits `src/data/generated/`; also runnable alone |
 | `prerender.mjs` | `prerender:run` | Puppeteer pass writing static HTML for every route |
 | `verify-prerender-output.mjs` | — | fails the build when the prerender output is incomplete; also runnable alone against a `dist/` |
+| `check-payload-budget.mjs` | — | fails the build when the homepage's initial gzipped JS exceeds the declared ceiling; also runnable alone against a `dist/` |
 | `course-lessons.mjs` | — | the course lesson list, read by both the prerender and the output check |
 | `ports.mjs` | — | dev and preview ports, derived from the checkout location |
 | `update-sitemap.js` | `blog:sitemap` | rebuilds `public/sitemap.xml` with `lastmod` from git |
@@ -55,6 +58,16 @@ and the one it landed in.
 - `prerender.mjs` exits non-zero only for routes it was *asked* to render.
   `verify-prerender-output.mjs` covers what that cannot see: a route never on
   the list, and a page that rendered but lost its metadata.
+- Article and lesson bodies arrive through a dynamic `import()`, so those routes
+  are captured only after `data-content-ready` appears on `<html>`
+  (`src/utils/prerenderMarker.js`). Waiting on network idle instead cannot tell
+  "the content chunk arrived" from "the analytics beacon arrived", and degrades
+  silently into writing an empty article. Never swap the marker for a sleep.
+- `generate-content.mjs` carries no shebang on purpose: `vite.config.js` imports
+  it, and the esbuild pass that bundles the config would put `#!` mid-file and
+  break the build.
+- The payload ceiling is one constant, `INITIAL_JS_BUDGET_GZIP_BYTES` in
+  `check-payload-budget.mjs`. Raising it is meant to show up in a diff.
 - A script that needs an API key reads it from the environment and fails with a
   clear message when it is absent. Never inline a key.
 

@@ -87,8 +87,8 @@ Full guidelines: `docs/faq/FAQ_TEMPLATE.md` and `docs/faq/FAQ_GUIDELINES.md`.
 - `<slug>.md` is a published article. The filename slug and the `slug` field
   should match.
 - Names starting with `_` and names ending in `*_wsad.md` are skipped by the
-  loader, so they are safe as drafts or scratch. So are `README.md`,
-  `AGENTS.md`, and `CLAUDE.md` — this folder is globbed as content, so its own
+  content generator, so they are safe as drafts or scratch. So are `README.md`,
+  `AGENTS.md`, and `CLAUDE.md` — this folder is scanned as content, so its own
   documentation has to be excluded by name. Full rules in `src/data/AGENTS.md`.
 - Anything scanning this folder must exclude those three. The schema example
   below contains a literal `id: 1` line, which a naive `grep "^id:"` reads as a

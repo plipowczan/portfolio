@@ -54,7 +54,7 @@ przebiegiem, który niczego nie sprawdził.
 | `public/fonts/**`, `scripts/fetch-fonts.mjs` | `perf-self-hosted-fonts` |
 | `public/images/**` | `perf-image-loading` |
 | `vercel.json` | **żaden przebieg lokalny tego nie pokrywa** — nagłówki widać dopiero na wdrożeniu, sprawdza je workflow `deployed-checks.yml` |
-| `scripts/prerender*.mjs`, `scripts/build-*.mjs` | uruchom `npm run build:prerender` — kompletność wyjścia sprawdza sam build |
+| `scripts/prerender*.mjs`, `scripts/build-*.mjs`, `scripts/generate-content.mjs`, `scripts/check-payload-budget.mjs`, `src/utils/prerenderMarker.js` | uruchom `npm run build:prerender` — kompletność wyjścia i rozmiar pierwszego ładunku sprawdza sam build |
 | cokolwiek innego | całość na domyślnym zestawie |
 
 ## Testy niezależne od silnika

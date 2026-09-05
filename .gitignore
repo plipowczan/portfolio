@@ -69,3 +69,6 @@ reports/
 lighthouse-report.*
 .claude/settings.local.json
 .claude/settings.local.json
+
+# Wygenerowana treść (scripts/generate-content.mjs) - artefakt buildu
+src/data/generated/

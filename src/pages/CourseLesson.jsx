@@ -1,13 +1,19 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaPlay } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import ArticleTOC from "../components/ui/ArticleTOC";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
-import MarkdownContent from "../components/ui/MarkdownContent";
-import { getLessonBySlug, getPrevNext } from "../data/coursePosts";
+import ContentBody from "../components/ui/ContentBody";
+import {
+  getLessonBySlug,
+  getPrevNext,
+  loadLessonContent,
+} from "../data/coursePosts";
+import useContentBody from "../hooks/useContentBody";
+import { useIsFirstLoad } from "../hooks/useFirstLoad";
 import { extractFAQ, generateFAQSchema } from "../utils/faqExtractor";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 
@@ -17,12 +23,27 @@ const CourseLesson = () => {
   const contentRef = useRef(null);
   const [faqSchema, setFaqSchema] = useState(null);
 
+  // Treść lekcji przychodzi osobnym chunkiem — przejście do następnej lekcji
+  // pobiera tylko ją. Hook ustawia znacznik gotowości dla prerenderu.
+  const loadBody = useCallback(
+    () => loadLessonContent(lesson?.slug),
+    [lesson?.slug],
+  );
+  const { content, status: contentStatus } = useContentBody(
+    loadBody,
+    lesson ? lesson.slug : null,
+  );
+
+  // Wejście bezpośrednie dostaje prerenderowaną, widoczną głowę lekcji —
+  // hydratacja nie ma jej po co gasić. Patrz `useFirstLoad`.
+  const entrance = useIsFirstLoad() ? false : "hidden";
+
   // After the markdown renders, extract any FAQ section (H2 "FAQ" → H3 Q / P A)
   // and emit FAQPage JSON-LD — same DOM-based extraction the blog uses, so the
   // prerender captures the schema. Hook runs before the early return below to
   // keep hook order stable when a slug is unknown.
   useEffect(() => {
-    if (!lesson) {
+    if (!lesson || !content) {
       setFaqSchema(null);
       return;
     }
@@ -37,7 +58,7 @@ const CourseLesson = () => {
       }
     }, 150);
     return () => clearTimeout(timer);
-  }, [lesson]);
+  }, [lesson, content]);
 
   // Unknown slug → graceful "not found" state (mirror blog post-not-found).
   if (!lesson) {
@@ -97,7 +118,7 @@ const CourseLesson = () => {
           <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-8">
             {/* Main lesson content */}
             <motion.div
-              initial="hidden"
+              initial={entrance}
               animate="visible"
               variants={FADE_IN_UP}
               className="w-full min-w-0 space-y-8"
@@ -150,7 +171,15 @@ const CourseLesson = () => {
               )}
 
               {/* Lesson body */}
-              <MarkdownContent content={lesson.content} contentRef={contentRef} />
+              <ContentBody
+                status={contentStatus}
+                content={content}
+                contentRef={contentRef}
+                loadingLabel="Wczytuję treść lekcji..."
+                errorLabel="Nie udało się wczytać treści tej lekcji. Sprawdź połączenie i odśwież stronę albo wróć do spisu lekcji."
+                backTo="/llm-wiki/kurs"
+                backLabel="← Wróć do kursu"
+              />
 
               {/* Prev / next navigation */}
               <nav
@@ -202,7 +231,12 @@ const CourseLesson = () => {
             </motion.div>
 
             {/* TOC — desktop sidebar + mobile drawer */}
-            <ArticleTOC contentRef={contentRef} contentKey={lesson.slug} />
+            {/* `contentKey` niesie też status treści: nagłówki istnieją dopiero
+                po dojściu chunka, więc bez tego spis wyszedłby pusty. */}
+            <ArticleTOC
+              contentRef={contentRef}
+              contentKey={`${lesson.slug}:${contentStatus}`}
+            />
           </div>
         </div>
       </article>

@@ -110,15 +110,14 @@ Zobacz: [BLOG_WORKFLOW.md](../../../BLOG_WORKFLOW.md) dla pełnej procedury.
 
 ## 🔍 Parsowanie artykułów
 
-Artykuły są parsowane przez `src/data/blogPosts.js` używając biblioteki `gray-matter`.
+Artykuły parsuje `scripts/generate-content.mjs` **w trakcie builda**, biblioteką
+`gray-matter`. Zapisuje z tego lekki indeks i po jednym module na treść do
+`src/data/generated/`; `src/data/blogPosts.js` czyta ten indeks, a treść pobiera
+się dopiero przy otwarciu artykułu.
 
-Import w blogPosts.js:
-
-```javascript
-import post1Raw from "../content/blog/automatyzacja-email-frontdesk-ai.md?raw";
-
-const { data, content } = matter(post1Raw);
-```
+W praktyce dla Ciebie: wrzucasz plik `.md`, artykuł się pojawia. Zepsuty front
+matter przewraca build z nazwą pliku i nazwą brakującego pola — nie znika po
+cichu z listy. Szczegóły: [src/data/README.md](../../data/README.md).
 
 ---
 

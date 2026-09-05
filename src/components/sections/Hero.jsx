@@ -1,11 +1,20 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { useIsFirstLoad } from "../../hooks/useFirstLoad";
 import useLocalizedPath from "../../hooks/useLocalizedPath";
 import NetworkBackground from "../animations/NetworkBackground";
 
 const Hero = () => {
   const { t } = useTranslation("home");
   const localizedPath = useLocalizedPath();
+
+  // Przy wejściu bezpośrednim prerender wydał już hero z `opacity: 1`.
+  // `initial={false}` każe Framer Motion przyjąć stan docelowy bez animacji —
+  // bez tego hydratacja gasi największy tekst na stronie i zapala go z
+  // powrotem po ~1,45 s, a LCP mierzy się od końca tej animacji.
+  const firstLoad = useIsFirstLoad();
+  const logoInitial = firstLoad ? false : { opacity: 0, scale: 0.5 };
+  const riseInitial = firstLoad ? false : { opacity: 0, y: 30 };
 
   return (
     <section
@@ -20,7 +29,7 @@ const Hero = () => {
         <div className="text-center space-y-8">
           {/* Logo */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={logoInitial}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }}
             className="flex justify-center mb-8"
@@ -34,7 +43,7 @@ const Hero = () => {
 
           {/* Name */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={riseInitial}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight"
@@ -46,7 +55,7 @@ const Hero = () => {
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
+            initial={riseInitial}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl sm:text-2xl md:text-3xl text-primary-500 uppercase tracking-widest font-light"
@@ -56,7 +65,7 @@ const Hero = () => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
+            initial={riseInitial}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto"
@@ -66,7 +75,7 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={riseInitial}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8"

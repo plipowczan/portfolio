@@ -1,14 +1,20 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCalendar, FaClock, FaList, FaTag, FaTimes } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import SEO from "../components/seo/SEO";
 import StructuredData from "../components/seo/StructuredData";
 import Breadcrumbs from "../components/ui/Breadcrumbs";
-import MarkdownContent from "../components/ui/MarkdownContent";
+import ContentBody from "../components/ui/ContentBody";
 import { useBooking } from "../context/BookingContext";
-import { getPostsByLang, getAlternatePost } from "../data/blogPosts";
+import {
+  getPostsByLang,
+  getAlternatePost,
+  loadPostContent,
+} from "../data/blogPosts";
+import useContentBody from "../hooks/useContentBody";
+import { useIsFirstLoad } from "../hooks/useFirstLoad";
 import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 import { extractFAQ, generateFAQSchema } from "../utils/faqExtractor";
@@ -208,6 +214,21 @@ const BlogPostPage = () => {
   const [imageError, setImageError] = useState(false);
   const { openBookingModal } = useBooking();
 
+  // Treść artykułu przychodzi osobnym chunkiem — pobiera się tylko ta jedna.
+  // Hook ustawia też znacznik gotowości, na który czeka prerender.
+  const loadBody = useCallback(
+    () => loadPostContent(post?.lang, post?.slug),
+    [post?.lang, post?.slug],
+  );
+  const { content, status: contentStatus } = useContentBody(
+    loadBody,
+    post ? `${post.lang}/${post.slug}` : null,
+  );
+
+  // Wejście bezpośrednie dostaje prerenderowaną, widoczną głowę artykułu —
+  // hydratacja nie ma jej po co gasić. Patrz `useFirstLoad`.
+  const entrance = useIsFirstLoad() ? false : "hidden";
+
   // Flag to prevent scroll spy updates during manual scrolling
   const isManualScrollingRef = useRef(false);
 
@@ -306,8 +327,9 @@ const BlogPostPage = () => {
   const [faqSchema, setFaqSchema] = useState(null);
 
   useEffect(() => {
-    // Guard: Don't run if post doesn't exist (handles navigation to non-existent post)
-    if (!post) {
+    // Guard: nothing to read until the post exists AND its body has arrived —
+    // headings and the FAQ section only exist once the markdown has rendered.
+    if (!post || !content) {
       setTocItems([]);
       setFaqSchema(null);
       return;
@@ -361,7 +383,7 @@ const BlogPostPage = () => {
     }, 150); // Increase to 150ms for safer timing
 
     return () => clearTimeout(timer);
-  }, [post]);
+  }, [post, content]);
 
   const activeId = useScrollSpy(tocItems, isManualScrollingRef);
 
@@ -453,8 +475,11 @@ const BlogPostPage = () => {
       }`
     : undefined;
 
+  // Do czasu, aż treść dojdzie, opis bierzemy z `excerpt`. Prerender czeka na
+  // znacznik gotowości, więc do `dist/` trafia zawsze ta sama wartość co
+  // wcześniej — pierwszy akapit artykułu.
   const postDescription =
-    post.description || extractFirstParagraph(post.content);
+    post.description || (content ? extractFirstParagraph(content) : post.excerpt);
   const dateModifiedRaw = post.modified || post.date;
   const toIsoDateTime = (d) =>
     /^\d{4}-\d{2}-\d{2}$/.test(d) ? `${d}T00:00:00Z` : d;
@@ -536,7 +561,7 @@ const BlogPostPage = () => {
           <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-8">
             {/* Main Article Content */}
             <motion.div
-              initial="hidden"
+              initial={entrance}
               animate="visible"
               variants={FADE_IN_UP}
               className="space-y-8 w-full min-w-0"
@@ -609,7 +634,15 @@ const BlogPostPage = () => {
               </div>
 
               {/* Content */}
-              <MarkdownContent content={post.content} contentRef={contentRef} />
+              <ContentBody
+                status={contentStatus}
+                content={content}
+                contentRef={contentRef}
+                loadingLabel={t("blog.contentLoading")}
+                errorLabel={t("blog.contentError")}
+                backTo={localizedPath("/blog")}
+                backLabel={t("blog.backToBlog")}
+              />
 
               {/* Tags */}
               <div className="pt-8 border-t border-gray-700">

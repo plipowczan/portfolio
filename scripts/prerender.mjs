@@ -57,6 +57,7 @@ import { projects } from "../src/data/projects.js";
 // sprawdzenie wyniku prerenderu — obie strony muszą widzieć ten sam katalog.
 import { COURSE_CONTENT_DIR, getCourseLessons } from "./course-lessons.mjs";
 import { PREVIEW_URL } from "./ports.mjs";
+import { PRERENDER_READY_ATTR } from "../src/utils/prerenderMarker.js";
 
 const blogPostsPl = getBlogPosts(join(__dirname, "..", "src", "content", "blog"));
 const blogPostsEn = getBlogPosts(join(__dirname, "..", "src", "content", "blog", "en"));
@@ -106,6 +107,15 @@ const allRoutes = [
   ...blogRoutesEn,
   ...projectRoutesEn,
 ];
+
+// Trasy, których treść przychodzi osobnym chunkiem (`import()` w
+// `useContentBody`). Tylko na nich czekamy na znacznik gotowości — hub kursu i
+// listing bloga renderują się z indeksu, synchronicznie.
+const CONTENT_ROUTES = new Set([
+  ...blogRoutesPl,
+  ...blogRoutesEn,
+  ...courseRoutes.filter((route) => route !== "/llm-wiki/kurs"),
+]);
 
 /**
  * Prerenderuje pojedynczą stronę z retry logic
@@ -193,6 +203,34 @@ async function prerenderPage(browser, route, retries = 2) {
       );
       problem.retryable = true;
       throw problem;
+    }
+
+    // Treść artykułu i lekcji przychodzi osobnym chunkiem, więc jest za
+    // granicą asynchroniczną. Zrzut zrobiony przed jej rozwiązaniem zapisałby
+    // stronę z tytułem i metadanymi, ale bez tekstu — poprawną w przeglądarce
+    // i pustą dla robotów. Czekamy na jawny znacznik, nie na ciszę w sieci:
+    // cisza nie odróżnia „doszedł chunk z treścią" od „doszedł beacon
+    // analityki".
+    if (CONTENT_ROUTES.has(route)) {
+      try {
+        // Uwaga na sygnatury: Playwright czyta drugi argument jako `arg`,
+        // Puppeteer jako opcje. Ten sam kompromis co przy oczekiwaniu na
+        // metadane wyżej — lokalnie działa domyślny timeout Playwrighta, na
+        // Vercelu podana wartość. Obie kończą się błędem, nie zawieszeniem.
+        await page.waitForFunction(
+          `document.documentElement.hasAttribute(${JSON.stringify(PRERENDER_READY_ATTR)})`,
+          { timeout: 20000 },
+        );
+      } catch {
+        // Twardy błąd: pusty artykuł wygląda na poprawny i niczego nie zgłasza.
+        // failCount kończy build kodem 1, więc taka strona nie trafi do dist/.
+        const problem = new Error(
+          `Treść nie doszła dla trasy ${route} — brak znacznika ` +
+            `${PRERENDER_READY_ATTR} na <html>, strona wyszłaby bez tekstu`,
+        );
+        problem.retryable = true;
+        throw problem;
+      }
     }
 
     // Dodatkowy czas na animacje i lazy loading (zmniejszony dla Vercel)
