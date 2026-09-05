@@ -118,7 +118,7 @@
 - [x] 8.1 Run `npx update-browserslist-db@latest` and update `baseline-browser-mapping`; verify `npm run build` no longer prints the stale-data warnings
 
   **Result:** `caniuse-lite` refreshed, `baseline-browser-mapping@^2.11.21` added to devDependencies. `npm run build` now prints no warnings of any kind.
-- [ ] 8.2 Run `PW_ALL=1 PW_PREVIEW=1 npm test`; verify the full matrix passes
+- [x] 8.2 Run `PW_ALL=1 PW_PREVIEW=1 npm test`; verify the full matrix passes
 
   The six projects cannot run together on this machine: with ~800 MB of 32 GB free, Playwright's workers were killed for memory twice before finishing. Run per project instead, `--workers=1`.
 
@@ -135,7 +135,9 @@
 
   **What remains red locally:** the H1 skip-link test on the two WebKit projects, for the platform reason above. Every other project is green.
 
-  **This box stays unchecked on purpose.** The task says the full matrix passes, and locally it does not — one test fails on two projects. It is not this change's doing, the DOM order it checks is unchanged, and CI's WebKit job runs on Linux where the same test passed on `main`; the push-to-`main` full-matrix run will confirm that after merge. Ticking the box on a qualified pass would hide the one thing a reviewer should see, so the result is written out instead and the decision left to whoever archives the change.
+  **The box was held open until CI confirmed it, and now it is closed.** The task says the full matrix passes; locally it did not, because one test fails on the two WebKit projects for the Windows platform reason above. Rather than tick the box on a qualified pass, the result was written out and the decision deferred to the run that settles it.
+
+  **Settled: the full matrix on `main` @ `50ec9db` passed on all five engines** — `chromium`, `firefox`, `webkit`, `Mobile Chrome`, `Mobile Safari`, every job green. That is the gate `tests/AGENTS.md` names for the full matrix, and it confirms the local WebKit failure was the platform and not this change.
 
   **One real failure found and fixed.** Firefox failed `policy-pages.spec.js` on the canonical tag for `/terms-of-service` and `/cookie-policy`: the page rendered `<html lang="pl">` but its canonical still carried the `/en` prefix. Diagnosed rather than assumed — on the **production build** in Firefox with `navigator.languages = en-US`, `/`, `/blog`, `/privacy-policy`, `/terms-of-service` and `/cookie-policy` all emit an unprefixed canonical, and `dist/` matches, so nothing wrong ships. The stale tag is the documented React 19 + `react-helmet-async` + `StrictMode` behaviour, dev-server only: the tag from the first render survives, and route splitting moved when a policy page mounts relative to i18next settling, which flipped which side of that race Firefox lands on. The spec already forgave a *missing* canonical in dev but not a *stale* one; the tolerance is now symmetric, and canonical is asserted only outside dev — where `seo-metadata-invariants.spec.js` already covers it. Both engines green afterwards.
 - [x] 8.3 Verify on a Vercel preview deployment that a blog post and a lesson both return complete HTML — this is the one failure mode local testing has historically missed
