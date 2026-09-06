@@ -67,6 +67,19 @@ playwright/.cache/
 # LH Reports
 reports/
 lighthouse-report.*
+
+# Agent audit and validation reports are the exception to the rule above.
+# `reports/` was written for Lighthouse output, but it matches any directory of
+# that name at any depth — including `.claude/agents/reports/`, which AGENTS.md
+# and CLAUDE.md both name as where validation reports belong. The repository was
+# discarding the very artifacts its own docs told agents to write there.
+!.claude/agents/reports/
+
+# The July 2026 audit is the one exception to the exception: 45 MB, with single
+# full-page screenshots up to 17.8 MB. It predates the decision to keep audit
+# output in the repository and has never been tracked. Left out deliberately, so
+# that it stays out of `git status` rather than sitting there as noise.
+.claude/agents/reports/seo-audit-2026-07-28/
 .claude/settings.local.json
 .claude/settings.local.json
 
