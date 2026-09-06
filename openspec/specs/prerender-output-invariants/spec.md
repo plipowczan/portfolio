@@ -217,8 +217,13 @@ and such a map drifts from the code it describes.
 ### Requirement: The build rejects duplicate or malformed structured data
 
 The build SHALL fail when a prerendered document contains the same
-structured-data block more than once, or a block that is not valid JSON, naming
-the document and the block's type.
+structured-data block more than once, naming the document and the block's type,
+or contains a block that is not valid JSON, naming the document and the parse
+error.
+
+The distinction is not cosmetic: a block that does not parse has no readable
+type to name, so demanding one would be a requirement the implementation cannot
+meet.
 
 This is the part that *is* decidable from the output alone, and it catches the
 observable symptom of head content escaping its route.

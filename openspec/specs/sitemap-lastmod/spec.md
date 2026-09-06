@@ -1,7 +1,18 @@
 # sitemap-lastmod Specification
 
 ## Purpose
-TBD - created by archiving change seo-improvements. Update Purpose after archive.
+
+Guarantees that every `<lastmod>` in `sitemap.xml` states a true date, or that no
+sitemap is written at all.
+
+Each date comes from the thing it describes — a post's frontmatter, a lesson's
+`updated` field, a project's own entry, a page's `@sitemapUpdated` marker — and
+never from repository history, which the build environment cannot read reliably.
+A date that cannot be resolved fails the build rather than defaulting to today.
+
+The stakes are why this is enforced rather than encouraged: Google discounts a
+sitemap's dates wholesale once they prove unreliable, so a single fabricated
+date costs every real one.
 
 ## Requirements
 
