@@ -19,11 +19,12 @@
 
 ## 3. Weryfikacja przed zdjęciem podpórek
 
-- [~] 3.1 `npm test` na komplecie — metadane sprawdzane wciąż na buildzie produkcyjnym, czyli tak jak przed migracją
+- [x] 3.1 `npm test` na komplecie — metadane sprawdzane wciąż na buildzie produkcyjnym, czyli tak jak przed migracją
   - **Nie do domknięcia lokalnie.** Serwer deweloperski i preview padają w trakcie długich przebiegów (`ECONNREFUSED :3000` / `:4173`), niezależnie od zmiany — ta sama niestabilność ubiła też trzy zadania w tle. Dwa przebiegi tego samego projektu na **niezmienionym** kodzie dały 153 zdane / 0 błędów oraz 90 zdanych / 58 błędów, więc porównanie pełnych przebiegów nic nie rozstrzyga.
   - Co zostało potwierdzone: pełny projekt chromium (151 zdanych, 6 pominiętych — bramki sprzed zmiany), `seo-metadata-invariants.spec.js` 32/32 na chromium i webkit (po dwa przebiegi, bez ponowień).
   - Padnięcia na firefox i webkit odtworzone na plikach sprzed migracji (firefox: te same dwa testy; webkit: 6 błędów na bazie wobec 5 po zmianie) — nie są regresją.
   - **Do zrobienia na stabilnej maszynie albo w CI** (CI i tak dzieli suite na 4 shardy z `workers: 1`).
+  - **Domknięte przez CI na PR #38**, zgodnie z planem: 357 zdanych, 0 błędów, 8 pominiętych. Pominięcia sprawdzone po nazwach - sześć to testy nagłówków działających wyłącznie na wdrożeniu (pokryte zielonym jobem "nagłówki na Preview"), dwa to jawny wcześniejszy skip w `ui-ux-audit` na pliku, którego ta zmiana nie dotyka. Przebieg: https://github.com/plipowczan/portfolio/actions/runs/34039198835
 - [x] 3.2 `npm run build:prerender` — licznik błędów równy zero i brak ostrzeżeń „Brak metatagów SEO" dla którejkolwiek ze 98 tras
 - [x] 3.3 Policz w kilku plikach z `dist/` elementy `<title>` i `<meta name="description">` — po jednym na plik (licz z pominięciem komentarzy HTML)
   - Sprawdzone na **wszystkich 98** plikach, nie na kilku: po jednym `<title>`, `<meta name="description">` i `<link rel="canonical">`.
