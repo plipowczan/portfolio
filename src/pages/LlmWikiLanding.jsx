@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import GrowingNetworkBackground from "../components/animations/GrowingNetworkBackground";
+import NetworkBackground from "../components/animations/NetworkBackground";
 import CourseAudience from "../components/sections/CourseAudience";
 import CourseFaq from "../components/sections/CourseFaq";
 import SEO from "../components/seo/SEO";
@@ -97,8 +97,8 @@ const LlmWikiLanding = () => {
         // emits no hreflang at all. A /en/llm-wiki mirror does not exist.
       />
 
-      <section className="relative flex min-h-screen items-center overflow-hidden py-24 md:py-32">
-        <GrowingNetworkBackground />
+      <section className="relative flex min-h-screen min-h-[100svh] items-center overflow-hidden py-24 md:py-32">
+        <NetworkBackground seed={12} cap={40} position="fixed" />
 
         <div className="section-container relative z-10">
           <motion.div
@@ -110,7 +110,7 @@ const LlmWikiLanding = () => {
             {/* Eyebrow — this is a living note */}
             <motion.div
               variants={FADE_IN_UP}
-              className="flex items-center gap-2 font-mono text-xs text-gray-500 md:text-sm"
+              className="flex items-center gap-2 font-mono text-xs text-gray-400 md:text-sm"
             >
               <span>second-brain/llm-wiki.md</span>
               <span className="text-primary-500" aria-hidden="true">
@@ -139,13 +139,13 @@ const LlmWikiLanding = () => {
 
             {/* Signature: index.md block (the 3 value props) */}
             <motion.div variants={FADE_IN_UP} className="space-y-3">
-              <p className="select-none font-mono text-xs text-gray-600">
+              <p className="select-none font-mono text-xs text-gray-400">
                 index.md
               </p>
               <ul className="space-y-3">
                 {VALUE_INDEX.map((item) => (
                   <li key={item.num} className="flex items-baseline gap-3">
-                    <span className="select-none font-mono text-sm text-gray-600">
+                    <span className="select-none font-mono text-sm text-gray-400">
                       {item.num}
                     </span>
                     <span
@@ -156,11 +156,11 @@ const LlmWikiLanding = () => {
                     </span>
                     <div>
                       <h2 className="font-mono text-base text-white">
-                        <span className="text-gray-600" aria-hidden="true">
+                        <span className="text-gray-500" aria-hidden="true">
                           [[
                         </span>
                         {item.title}
-                        <span className="text-gray-600" aria-hidden="true">
+                        <span className="text-gray-500" aria-hidden="true">
                           ]]
                         </span>
                       </h2>
@@ -203,7 +203,7 @@ const LlmWikiLanding = () => {
 
                   <Link
                     to="/llm-wiki/kurs"
-                    className="inline-flex items-center gap-2 font-mono text-sm text-primary-500 hover:text-primary-400"
+                    className="inline-flex items-center gap-2 py-0.5 font-mono text-sm text-primary-500 hover:text-primary-400"
                   >
                     → Wejdź w darmowy kurs
                   </Link>
@@ -249,7 +249,7 @@ const LlmWikiLanding = () => {
                   </ol>
                 </div>
 
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-400">
                   Pełny przewodnik + akceleratory (gotowe skille, ekstrakt realnej
                   bazy) będą w kursie. Odezwę się.
                 </p>
@@ -304,7 +304,7 @@ const LlmWikiLanding = () => {
                         error ? "waitlist-email-error" : undefined
                       }
                       className={`w-full rounded-lg border bg-dark-700 px-4 py-3 font-mono text-white transition-colors placeholder:font-mono focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ${
-                        error ? "border-red-500" : "border-primary-500/20"
+                        error ? "border-red-500" : "border-primary-500/50"
                       }`}
                     />
                     {error && (
@@ -342,7 +342,7 @@ const LlmWikiLanding = () => {
                 */}
                 <Link
                   to="/llm-wiki/kurs"
-                  className="inline-flex items-center gap-2 font-mono text-sm text-gray-400 hover:text-primary-500 transition-colors"
+                  className="inline-flex items-center gap-2 py-0.5 font-mono text-sm text-gray-400 hover:text-primary-500 transition-colors"
                 >
                   → albo wejdź od razu w darmowy kurs
                 </Link>
@@ -353,7 +353,7 @@ const LlmWikiLanding = () => {
             {status !== "success" && (
               <motion.p
                 variants={FADE_IN_UP}
-                className="text-xs text-gray-500"
+                className="text-sm text-gray-400"
               >
                 Zapisując się, zgadzasz się na kontakt mailowy w sprawie szablonu
                 i kursu. Szczegóły w{" "}

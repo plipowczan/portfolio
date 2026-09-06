@@ -48,13 +48,15 @@ przebiegiem, który niczego nie sprawdził.
 
 | Zmieniona ścieżka | Uruchom |
 | --- | --- |
-| `src/pages/Home.jsx`, `src/components/sections/**` | `home`, `testimonials`, `booking-cta`, `contact-form`, `ui-ux-audit` |
+| `src/pages/Home.jsx`, `src/components/sections/**` | `home`, `testimonials`, `booking-cta`, `contact-form`, `ui-ux-audit`, `a11y-baseline` |
 | `src/pages/Blog*.jsx`, `src/content/blog/**`, `src/data/blogPosts.js` | `blog`, `language-switcher-blog`, `breadcrumbs` |
 | `src/pages/Course*.jsx`, `src/content/kurs/**`, `src/data/course*.js` | `llm-wiki-course`, `llm-wiki-discoverable` |
 | `src/pages/LlmWikiLanding.jsx` | `llm-wiki-landing`, `llm-wiki-discoverable` |
 | `src/pages/{Privacy,Terms,Cookie}*.jsx` | `policy-pages` |
 | `src/components/seo/**`, narzędzia od schematów | `seo-metadata-invariants`, `breadcrumbs`, `policy-pages`, `seo-llms-txt` |
-| `src/components/layout/**` | `home`, `blog`, `llm-wiki-course` — nawigacja i stopka renderują się wszędzie, więc ten wiersz jest celowo szeroki |
+| `src/components/layout/**` | `home`, `blog`, `llm-wiki-course`, `a11y-baseline` — nawigacja i stopka renderują się wszędzie, więc ten wiersz jest celowo szeroki |
+| `src/components/animations/**`, `src/components/ui/CookieBanner.jsx` | `a11y-baseline`, `llm-wiki-landing` |
+| `src/locales/**` | `a11y-baseline` plus zestaw dla zmienionego widoku — brakujący klucz widać dopiero w interfejsie |
 | `src/data/projects.js` | `projects` |
 | `public/fonts/**`, `scripts/fetch-fonts.mjs` | `perf-self-hosted-fonts` |
 | `public/images/**` | `perf-image-loading` |

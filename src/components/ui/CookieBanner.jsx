@@ -45,6 +45,9 @@ const CookieBanner = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
+          role="region"
+          aria-label={t("cookie.title")}
+          aria-live="polite"
           className="cookie-banner fixed bottom-0 left-0 right-0 bg-dark-800/95 backdrop-blur-md border-t border-primary-500/20 p-6 z-50 shadow-2xl"
         >
           <div className="section-container">
@@ -74,7 +77,7 @@ const CookieBanner = () => {
               <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                 <button
                   onClick={rejectCookies}
-                  className="px-6 py-3 rounded-lg font-semibold text-gray-400 hover:text-white border border-gray-600 hover:border-gray-500 transition-all text-center"
+                  className="px-6 py-3 rounded-lg font-semibold text-gray-400 hover:text-white border border-gray-500 hover:border-gray-400 transition-all text-center"
                   aria-label={t("cookie.rejectAria")}
                 >
                   {t("cookie.reject")}
@@ -91,7 +94,7 @@ const CookieBanner = () => {
               {/* Close Button (X) */}
               <button
                 onClick={rejectCookies}
-                className="absolute top-4 right-4 md:relative md:top-auto md:right-auto text-gray-500 hover:text-white transition-colors p-2"
+                className="absolute top-4 right-4 md:relative md:top-auto md:right-auto text-gray-500 hover:text-white transition-colors p-3.5"
                 aria-label={t("cookie.closeAria")}
               >
                 <FaTimes />

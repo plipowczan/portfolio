@@ -19,7 +19,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen min-h-[100svh] flex items-center justify-center overflow-hidden"
     >
       {/* Network Background */}
       <NetworkBackground />

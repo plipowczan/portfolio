@@ -164,7 +164,7 @@ const CourseLesson = () => {
                   >
                     <FaPlay className="text-primary-500" />
                   </div>
-                  <p className="font-mono text-sm text-gray-500">
+                  <p className="font-mono text-sm text-gray-400">
                     Screencast wkrótce
                   </p>
                 </div>
@@ -191,7 +191,7 @@ const CourseLesson = () => {
                     to={`/llm-wiki/kurs/${prev.slug}`}
                     className="group flex flex-col rounded-lg border border-white/10 bg-dark-800/50 p-4 transition-colors hover:border-primary-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                   >
-                    <span className="flex items-center gap-2 font-mono text-xs text-gray-500">
+                    <span className="flex items-center gap-2 font-mono text-xs text-gray-400">
                       <FaArrowLeft size={12} /> Poprzednia
                     </span>
                     <span className="mt-1 text-white group-hover:text-primary-400">
@@ -207,7 +207,7 @@ const CourseLesson = () => {
                     to={`/llm-wiki/kurs/${next.slug}`}
                     className="group flex flex-col rounded-lg border border-white/10 bg-dark-800/50 p-4 text-right transition-colors hover:border-primary-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 sm:col-start-2"
                   >
-                    <span className="flex items-center justify-end gap-2 font-mono text-xs text-gray-500">
+                    <span className="flex items-center justify-end gap-2 font-mono text-xs text-gray-400">
                       Następna <FaArrowRight size={12} />
                     </span>
                     <span className="mt-1 text-white group-hover:text-primary-400">

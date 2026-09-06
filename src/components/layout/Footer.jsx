@@ -56,7 +56,7 @@ const Footer = () => {
               <li>
                 <a
                   href={localizedPath("/#about")}
-                  className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                  className="inline-block py-1 text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
                   {t("nav.about")}
                 </a>
@@ -64,7 +64,7 @@ const Footer = () => {
               <li>
                 <a
                   href={localizedPath("/#projects")}
-                  className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                  className="inline-block py-1 text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
                   {t("nav.projects")}
                 </a>
@@ -72,7 +72,7 @@ const Footer = () => {
               <li>
                 <Link
                   to={localizedPath("/blog")}
-                  className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                  className="inline-block py-1 text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
                   {t("nav.blog")}
                 </Link>
@@ -84,7 +84,7 @@ const Footer = () => {
                 <li>
                   <Link
                     to="/llm-wiki"
-                    className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                    className="inline-block py-1 text-gray-400 hover:text-primary-500 transition-colors text-sm"
                   >
                     {t("nav.llmWiki")}
                   </Link>
@@ -93,7 +93,7 @@ const Footer = () => {
               <li>
                 <a
                   href={localizedPath("/#contact")}
-                  className="text-gray-400 hover:text-primary-500 transition-colors text-sm"
+                  className="inline-block py-1 text-gray-400 hover:text-primary-500 transition-colors text-sm"
                 >
                   {t("nav.contact")}
                 </a>
@@ -104,14 +104,14 @@ const Footer = () => {
           {/* Social & Legal */}
           <div>
             <h4 className="text-white font-semibold mb-4">{t("footer.socialMedia")}</h4>
-            <div className="flex space-x-4 mb-6">
+            <div className="flex flex-wrap gap-1 mb-6">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel={social.relMe ? "me noopener noreferrer" : "noopener noreferrer"}
-                  className="text-gray-400 hover:text-primary-500 transition-colors"
+                  className="inline-flex h-11 w-11 items-center justify-center text-gray-400 hover:text-primary-500 transition-colors"
                   aria-label={social.label}
                 >
                   <social.icon size={24} />
@@ -134,7 +134,7 @@ const Footer = () => {
                 <Link
                   key={link.key}
                   to={localizedPath(link.href)}
-                  className="block text-gray-400 hover:text-primary-500 transition-colors text-xs"
+                  className="block py-1 text-gray-400 hover:text-primary-500 transition-colors text-xs"
                 >
                   {t(link.key)}
                 </Link>

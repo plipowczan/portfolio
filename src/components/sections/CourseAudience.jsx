@@ -21,7 +21,7 @@ const CourseAudience = () => {
       data-testid="course-audience"
     >
       <p
-        className="select-none font-mono text-xs text-gray-600"
+        className="select-none font-mono text-xs text-gray-400"
         aria-hidden="true"
       >
         dla-kogo.md
@@ -46,11 +46,11 @@ const CourseAudience = () => {
             </span>
             <div>
               <dt className="inline font-mono text-sm text-white">
-                <span className="text-gray-600" aria-hidden="true">
+                <span className="text-gray-500" aria-hidden="true">
                   [[
                 </span>
                 {item.term}
-                <span className="text-gray-600" aria-hidden="true">
+                <span className="text-gray-500" aria-hidden="true">
                   ]]
                 </span>
               </dt>{" "}

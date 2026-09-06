@@ -21,7 +21,7 @@ const Breadcrumbs = ({ items }) => {
               ) : (
                 <Link
                   to={item.path}
-                  className="hover:text-primary-500 transition-colors flex items-center"
+                  className="flex items-center py-0.5 hover:text-primary-500 transition-colors"
                 >
                   {index === 0 && <FaHome className="mr-1.5 w-4 h-4" />}
                   {item.label}

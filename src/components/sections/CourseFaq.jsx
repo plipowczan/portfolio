@@ -32,7 +32,7 @@ const CourseFaq = ({ surface }) => {
       data-testid="course-faq"
     >
       <p
-        className="select-none font-mono text-xs text-gray-600"
+        className="select-none font-mono text-xs text-gray-400"
         aria-hidden="true"
       >
         {SURFACE_LABELS[surface]}
@@ -53,11 +53,11 @@ const CourseFaq = ({ surface }) => {
                   ▸
                 </span>
                 <span>
-                  <span className="text-gray-600" aria-hidden="true">
+                  <span className="text-gray-500" aria-hidden="true">
                     [[
                   </span>
                   {entry.question}
-                  <span className="text-gray-600" aria-hidden="true">
+                  <span className="text-gray-500" aria-hidden="true">
                     ]]
                   </span>
                 </span>
@@ -73,11 +73,11 @@ const CourseFaq = ({ surface }) => {
           {entries.map((entry) => (
             <div key={entry.id} className="space-y-1">
               <dt className="font-mono text-base text-white">
-                <span className="text-gray-600" aria-hidden="true">
+                <span className="text-gray-500" aria-hidden="true">
                   [[
                 </span>
                 {entry.question}
-                <span className="text-gray-600" aria-hidden="true">
+                <span className="text-gray-500" aria-hidden="true">
                   ]]
                 </span>
               </dt>

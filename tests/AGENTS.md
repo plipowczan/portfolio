@@ -145,6 +145,36 @@ assertion that now lives in the build.
   `testIgnore` works per file, so one such assertion keeps the whole file on the
   full matrix.
 
+### The accessibility floor is measured, not reviewed
+
+`e2e/a11y-baseline.spec.js` walks five routes and computes composited text
+contrast, resting-state boundary contrast, hit-area size and the carousel's
+pause behaviour. It runs on **both** default projects on purpose: `chromium`
+supplies the desktop viewport and `Mobile Chrome` the phone one, and the
+target-size and overflow results genuinely differ between them. It is therefore
+not a candidate for `ENGINE_INDEPENDENT`.
+
+Two traps live in it, both already paid for once:
+
+- **A page must be settled before it is measured.** Sections that animate on
+  viewport entry are invisible to the measurement until they have appeared, and
+  a page measured too early yields a short finding list and a green run that
+  proves nothing. `settle()` walks the page and repeats the walk until nothing
+  carrying text is left at `opacity: 0`; the first assertion in every route
+  block is that the page settled. Do not replace that with a fixed delay — one
+  pass plus an eight-second wait still left the booking call to action hidden
+  on `/`, because nothing was in flight to wait for.
+- **Gradient text cannot be measured.** `.gradient-text` paints its glyphs from
+  a background gradient clipped to the text box, leaving `color` transparent, so
+  a naive ratio comes out as a meaningless 1.00:1. Those nodes are counted, not
+  asserted on. The `OVER_CANVAS` allowlist is for the other unmeasurable case —
+  text over a `<canvas>` — and carries a reason per entry. A growing allowlist
+  means the approach needs revisiting, not another exception.
+
+The enforced target floor is 24×24 (WCAG 2.2 AA, SC 2.5.8). Four small graphic
+controls are held to 44×44 by a separate assertion, as a comfort decision — 44
+is SC 2.5.5 at Level AAA and is not the site-wide bar.
+
 ## Work Guidance
 
 - New feature, new spec in `e2e/`. Name it after the feature, not the page.

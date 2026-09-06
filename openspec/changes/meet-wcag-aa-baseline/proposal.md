@@ -29,7 +29,9 @@ The contrast failures cluster: Home, `/blog` and `/en/` each produce one, both L
 
 ### Modified Capabilities
 
-None. The contrast and motion rules apply site-wide and belong to the new capability; the existing `llm-wiki-landing` and `llm-wiki-course` specs describe routes, capture and gating, and none of their requirements change. `llm-wiki-landing` already requires its canvas to be reduced-motion safe — this change brings the homepage canvas up to that same standard rather than altering the landing's contract.
+- `llm-wiki-landing`: its "Growing knowledge-graph background" requirement currently forbids mutating the shared `NetworkBackground`. Decision D4 collapses the fork back into that shared component, so the clause is replaced by the guarantee it was protecting — growth is opt-in through props, and the homepage cannot inherit it. The accretion and `aria-hidden` requirements are unchanged. **This was missed when the proposal was written:** the section said "None" while D4 planned exactly the mutation the requirement rules out, and the contradiction surfaced during implementation.
+
+`llm-wiki-course` is untouched — it describes routes, capture and gating, and none of its requirements change. The contrast, target-size and motion rules apply site-wide and belong to the new capability.
 
 ## Impact
 
