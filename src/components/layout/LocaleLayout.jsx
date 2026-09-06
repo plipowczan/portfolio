@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 
@@ -27,14 +26,15 @@ const LocaleLayout = () => {
 
   const currentLang = lang === "en" ? "en" : "pl";
 
-  return (
-    <>
-      <Helmet>
-        <html lang={currentLang} />
-      </Helmet>
-      <Outlet />
-    </>
-  );
+  // React 19 hoists `<title>`, `<meta>` and `<link>` on its own, but not
+  // attributes of `<html>` — there is no element to insert, only one to mutate.
+  // Setting it imperatively is safe under StrictMode precisely because it is a
+  // mutation: running the effect twice lands on the same value.
+  useEffect(() => {
+    document.documentElement.lang = currentLang;
+  }, [currentLang]);
+
+  return <Outlet />;
 };
 
 export default LocaleLayout;

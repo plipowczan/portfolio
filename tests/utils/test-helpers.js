@@ -193,7 +193,7 @@ export async function getSeoMetaTags(page) {
   // Czekaj na kompletne załadowanie strony
   await page.waitForLoadState("networkidle");
 
-  // Strategia retry - czekaj aż React Helmet ustawi wszystkie tagi
+  // Strategia retry - czekaj aż React zatwierdzi render z metadanymi
   let retries = 0;
   const maxRetries = 5;
 
@@ -214,22 +214,22 @@ export async function getSeoMetaTags(page) {
       `🔍 Attempting to load meta tags (${currentAttempt}/${maxRetries})...`
     );
 
-    // Czekaj na title (description i og:* mogą pojawić się później).
-    //
-    // Description NIE jest częścią tej bramki. Na serwerze deweloperskim
-    // react-helmet-async pod React 19 nie wstawia <meta> ani <link> do <head>
-    // - <React.StrictMode> montuje efekty dwukrotnie i sprzątanie wygrywa ze
-    // wstawianiem. Opis nie pojawi się więc nigdy, a bramka czekająca na niego
-    // paliła pełne 30 s na każdą próbę i wywracała test na timeoucie.
-    // Wcześniej bramka przechodziła tylko dlatego, że opis dawał statyczny tag
-    // z index.html - ten sam, który dublował opis na produkcji i został
-    // usunięty. Metadane sprawdza teraz seo-metadata-invariants.spec.js na
-    // buildzie produkcyjnym, gdzie StrictMode nie działa.
+    // Czekaj na title i description. Oba pochodzą z tego samego renderu
+    // <SEO>, który React 19 hoistuje do <head> przy zatwierdzeniu - jeśli jest
+    // jedno, jest i drugie. Za Helmeta opis nie pojawiał się w dev nigdy, więc
+    // bramka musiała go pomijać; teraz czekanie na niego jest sensowne i od
+    // razu wyłapuje stronę bez opisu.
     await page
       .waitForFunction(
         () => {
           const title = document.title;
-          return title && title.length > 0 && !title.includes("Vite");
+          const description = document.querySelector('meta[name="description"]');
+          return (
+            title &&
+            title.length > 0 &&
+            !title.includes("Vite") &&
+            description?.getAttribute("content")
+          );
         },
         { timeout: 30000 }
       )
@@ -237,7 +237,7 @@ export async function getSeoMetaTags(page) {
         // waitForFunction timeout - kontynuuj do sprawdzenia tagów
       });
 
-    // Dodatkowy czas na React Helmet (zwiększony dla Mobile Safari)
+    // Dodatkowy czas na dokończenie renderu (zwiększony dla Mobile Safari)
     await page.waitForTimeout(5000);
 
     // Pobierz tagi
@@ -258,9 +258,6 @@ export async function getSeoMetaTags(page) {
         twitterCard: getMetaContent("twitter:card"),
         canonical:
           document.querySelector('link[rel="canonical"]')?.href || null,
-        // react-helmet-async oznacza każdy zarządzany element atrybutem
-        // data-rh. Brak choćby jednego = Helmet w ogóle nie doszedł do skutku.
-        helmetActive: !!document.querySelector("[data-rh]"),
       };
     });
 
@@ -268,17 +265,6 @@ export async function getSeoMetaTags(page) {
     if (tags.title && tags.description) {
       console.log(
         `✅ Meta tags loaded successfully on attempt ${currentAttempt}/${maxRetries}`
-      );
-      break;
-    }
-
-    // Helmet nie oddał ani jednego tagu - ponawianie nic nie da, a kosztuje
-    // ~7 s na próbę. Tak wygląda serwer deweloperski: pod <React.StrictMode>
-    // react-helmet-async 2.0.5 z React 19 nigdy nie zatwierdza <meta>/<link>.
-    // Testy tolerujące brak metadanych w dev nie mają za co płacić.
-    if (tags.title && !tags.helmetActive) {
-      console.log(
-        "ℹ️ Helmet nie zarządza <head> (brak data-rh) - pomijam ponawianie"
       );
       break;
     }

@@ -24,11 +24,24 @@ import {
   getCourseLessons,
   listLessonFiles,
 } from "./course-lessons.mjs";
+import { SITE_CONFIG } from "../src/utils/constants.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DIST = join(HERE, "..", "dist");
 
 const DESCRIPTION_TAG = 'name="description"';
+
+/**
+ * Ile ukrytych elementów w sekcji jeszcze nie jest usterką.
+ *
+ * Karuzela opinii animuje się w kółko, więc któryś jej slajd zawsze wypadnie w
+ * połowie przejścia. Próg oddziela to od sekcji, która nigdy się nie odsłoniła.
+ *
+ * Eksportowana, bo `scripts/prerender.mjs` przewija dopóty, dopóki jest coś
+ * ponad ten próg. Dwie kopie tej liczby rozjechałyby się przy pierwszej zmianie
+ * i przejazd przestałby mówić o tym samym co bramka.
+ */
+export const HIDDEN_DESCENDANTS_LIMIT = 3;
 
 /** `/llm-wiki/kurs` → ["llm-wiki", "kurs"] — segmenty do złożenia ścieżki. */
 const COURSE_SEGMENTS = COURSE_BASE_PATH.split("/").filter(Boolean);
@@ -122,17 +135,18 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
   // Dane strukturalne: każdy blok ma być poprawnym JSON-em i ma wystąpić raz.
   //
   // Bramka wyżej w scripts/prerender.mjs sprawdza kanoniczny adres, opis i
-  // og:title — czyli to, czym zarządza Helmet. JSON-LD było poza jej zasięgiem,
-  // bo komponent doklejał skrypt wprost do `document.head`. Skutek: strona
-  // prywatności serwowała blok `Person` ze strony głównej, a `/en/` ten sam blok
-  // dwa razy. Emisja przez Helmet związała bloki z trasą, a to sprawdzenie
-  // pilnuje, żeby nawrót zatrzymał build zamiast wyjechać na produkcję.
+  // og:title. JSON-LD było poza jej zasięgiem, bo komponent doklejał skrypt
+  // wprost do `document.head`. Skutek: strona prywatności serwowała blok
+  // `Person` ze strony głównej, a `/en/` ten sam blok dwa razy. Dziś
+  // `StructuredData` renderuje `<script>` jako własny węzeł w drzewie Reacta,
+  // więc odmontowanie trasy zabiera blok ze sobą — a to sprawdzenie pilnuje,
+  // żeby nawrót zatrzymał build zamiast wyjechać na produkcję.
   //
   // Świadomie sprawdzamy dwie rzeczy, których wynik da się rozstrzygnąć z
   // samego pliku: duplikat i niepoprawny JSON. „Blok należący do innej trasy"
   // nie jest tu rozstrzygalny — wymagałby mapy trasa→schematy, a tę utrzymywano
   // by ręcznie i rozjechałaby się z kodem. Przynależność do trasy zapewnia
-  // Helmet konstrukcyjnie, nie ta bramka.
+  // drzewo Reacta konstrukcyjnie, nie ta bramka.
   const LD_BLOCK = /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g;
   let ldChecked = 0;
 
@@ -170,6 +184,107 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
 
   if (ldChecked > 0) {
     checked.push(`${ldChecked} bloków danych strukturalnych: poprawny JSON, bez duplikatów`);
+  }
+
+
+  // Metadane w wygenerowanym pliku: dokładnie po jednym tytule, opisie i
+  // canonicalu, canonical wskazujący na własny adres, poprawny `lang`.
+  //
+  // Prerender zapisuje "/" do `dist/index.html`, czyli do pliku, który serwer
+  // preview oddaje jako awaryjny dla każdej trasy bez własnego pliku.
+  // Renderowane jako pierwsze, zatruwało powłokę tytułem, opisem i canonicalem
+  // strony głównej; React 19 dokłada tagi trasy obok zastanych, zamiast je
+  // zastąpić, więc plik wychodził z dwoma kompletami — z wartościami strony
+  // głównej na pierwszym miejscu. Robot czytający pierwszy canonical złożyłby
+  // cały serwis do strony głównej. `react-helmet-async` to maskował, bo usuwał
+  // zastane elementy z `data-rh`; React 19 nie znaczy niczego, co hoistuje,
+  // więc kolejność w `scripts/prerender.mjs` ("/" na końcu) jest tym, co
+  // trzyma poprawność. To sprawdzenie pilnuje, żeby tak zostało.
+  const stripComments = (html) => html.replace(/<!--[\s\S]*?-->/g, "");
+  const trimSlash = (url) => url.replace(/\/+$/, "") || "/";
+
+  // Tylko pliki tras. Prerender zapisuje każdą trasę jako `<ścieżka>/index.html`,
+  // ale w `dist/` leżą też statyczne pliki skopiowane z `public/` — na przykład
+  // `email-signature.html`, który nie jest stroną aplikacji i z założenia nie ma
+  // ani canonicala, ani atrybutu `lang`.
+  const routeFiles = htmlFiles.filter((name) => name.endsWith("index.html"));
+
+  const metaOffenders = [];
+  const canonicalMismatches = [];
+  const notFoundPages = [];
+  const langMismatches = [];
+
+  for (const name of routeFiles) {
+    const html = stripComments(readFileSync(join(distDir, name), "utf-8"));
+    const count = (re) => (html.match(re) ?? []).length;
+
+    const counts = {
+      title: count(/<title[\s>]/g),
+      description: count(/<meta[^>]+name="description"/g),
+      canonical: count(/<link[^>]+rel="canonical"/g),
+    };
+    if (counts.title !== 1 || counts.description !== 1 || counts.canonical !== 1) {
+      metaOffenders.push(
+        `${name} (title ${counts.title}, description ${counts.description}, canonical ${counts.canonical})`
+      );
+    }
+
+    // "blog/index.html" → "/blog", "index.html" → "/"
+    const route =
+      "/" +
+      name
+        .replace(/\\/g, "/")
+        .replace(/index\.html$/, "")
+        .replace(/\/$/, "");
+
+    const canonical = html.match(/<link[^>]+rel="canonical"[^>]+href="([^"]+)"/)?.[1];
+    const expected = `${SITE_CONFIG.url}${route}`;
+    if (trimSlash(canonical ?? "") !== trimSlash(expected)) {
+      canonicalMismatches.push(`${name}: canonical ${canonical ?? "brak"}, oczekiwany ${expected}`);
+    }
+
+    // <BlogPostPage> szuka wpisu przez język z i18n, a ten ustala się w
+    // efekcie. Zbyt wczesny zrzut łapie gałąź "nie znaleziono", która niesie
+    // og:title i opis — czyli dokładnie te tagi, na które czeka prerender.
+    const description =
+      html.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/)?.[1] ?? "";
+    if (/could not be found|nie został znaleziony|nie znaleziono/i.test(description)) {
+      notFoundPages.push(`${name}: "${description}"`);
+    }
+
+    // Atrybut `lang` nie jest hoistowany przez React 19 — ustawia go efekt w
+    // `LocaleLayout.jsx` na `document.documentElement`. Prerender zrzuca DOM po
+    // efektach, więc w pliku ma już być poprawny.
+    const lang = html.match(/<html[^>]*\slang="([^"]*)"/)?.[1];
+    const expectedLang = route === "/en" || route.startsWith("/en/") ? "en" : "pl";
+    if (lang !== expectedLang) {
+      langMismatches.push(`${name}: lang="${lang ?? "brak"}", oczekiwany "${expectedLang}"`);
+    }
+  }
+
+  if (metaOffenders.length > 0) {
+    problems.push(
+      `zdublowane albo brakujące metadane — czy "/" nadal renderuje się na końcu? ${metaOffenders.join("; ")}`
+    );
+  }
+  if (canonicalMismatches.length > 0) {
+    problems.push(`canonical nie wskazuje na własny adres: ${canonicalMismatches.join("; ")}`);
+  }
+  if (notFoundPages.length > 0) {
+    problems.push(`strona zapisana z metadanymi "nie znaleziono": ${notFoundPages.join("; ")}`);
+  }
+  if (langMismatches.length > 0) {
+    problems.push(`atrybut lang niezgodny z trasą: ${langMismatches.join("; ")}`);
+  }
+  if (
+    metaOffenders.length === 0 &&
+    canonicalMismatches.length === 0 &&
+    notFoundPages.length === 0 &&
+    langMismatches.length === 0
+  ) {
+    checked.push(
+      `${routeFiles.length} plików tras: po jednym title/description/canonical, canonical na własny adres, poprawny lang`
+    );
   }
 
   // Treść główna ma wyjść widoczna, bez udziału JavaScriptu.
@@ -222,7 +337,6 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
     // Nie liczymy tu pojedynczych sztuk, bo karuzela opinii animuje się w kółko
     // i zawsze wypadnie w połowie przejścia. Próg oddziela „jeden element w
     // ruchu" od „sekcja, która nigdy się nie odsłoniła".
-    const HIDDEN_DESCENDANTS_LIMIT = 3;
     for (const m of html.matchAll(/<section\b[^>]*\bid="([^"]+)"[^>]*>/g)) {
       const from = m.index + m[0].length;
       const to = html.indexOf("</section>", from);

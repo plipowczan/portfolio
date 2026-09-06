@@ -46,7 +46,7 @@ npm run preview          # Preview production build (port derived per worktree)
 # Testing
 npm test                 # Playwright E2E: chromium + Mobile Chrome (narrow default)
 PW_ALL=1 npm test        # Full browser matrix
-PW_PREVIEW=1 npm test    # Also start the preview server (needed by the SEO metadata suite)
+PW_PREVIEW=1 npm test    # Also start the preview server (needed by the consent gate suite)
 npm run test:headed      # Run with visible browser
 npm run test:ui          # Interactive test UI
 
@@ -96,7 +96,6 @@ Specific rules for project technologies:
 - **Tailwind CSS 3**
 - **Framer Motion 12**
 - **React Router 7**
-- **React Helmet Async**
 
 ### Component Structure
 

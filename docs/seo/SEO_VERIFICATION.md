@@ -203,7 +203,7 @@ Po wdrożeniu na Vercel z prerenderingiem, zweryfikuj:
 
 **Najczęstsze przyczyny:**
 
-- Brak meta description → dodaj w Helmet
+- Brak meta description → dodaj w `src/components/seo/SEO.jsx`
 - Broken links → napraw linki 404
 - Zbyt małe klikalne elementy → popraw CSS
 - Brak alt text w obrazkach → dodaj alt=""

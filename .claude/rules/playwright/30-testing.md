@@ -32,7 +32,12 @@ desktopie, znika na telefonie", której sam `chromium` nie widzi.
 **Serwer preview nie startuje bez `PW_PREVIEW=1`.** Playwright podnosi każdy
 skonfigurowany serwer niezależnie od tego, które testy wybrałeś, więc
 bezwarunkowy wpis dokładałby pełny `vite build` do przebiegu jednego spec-a.
-Bez tej zmiennej `seo-metadata-invariants.spec.js` pomija się z komunikatem.
+
+Potrzebuje go dziś jeden blok: bramka zgody na hoście produkcyjnym z
+`analytics-consent.spec.js`, która proxuje prawdziwy adres na ten build. Bez
+zmiennej pomija się z komunikatem. Metadane SEO **już go nie potrzebują** —
+React 19 hoistuje je przy zatwierdzeniu renderu, więc serwer deweloperski
+pokazuje to samo co build.
 
 ## Które testy dotyczą mojej zmiany
 
@@ -48,7 +53,7 @@ przebiegiem, który niczego nie sprawdził.
 | `src/pages/Course*.jsx`, `src/content/kurs/**`, `src/data/course*.js` | `llm-wiki-course`, `llm-wiki-discoverable` |
 | `src/pages/LlmWikiLanding.jsx` | `llm-wiki-landing`, `llm-wiki-discoverable` |
 | `src/pages/{Privacy,Terms,Cookie}*.jsx` | `policy-pages` |
-| `src/components/seo/**`, narzędzia od schematów | `seo-metadata-invariants` (wymaga `PW_PREVIEW=1`), `breadcrumbs`, `policy-pages`, `seo-llms-txt` |
+| `src/components/seo/**`, narzędzia od schematów | `seo-metadata-invariants`, `breadcrumbs`, `policy-pages`, `seo-llms-txt` |
 | `src/components/layout/**` | `home`, `blog`, `llm-wiki-course` — nawigacja i stopka renderują się wszędzie, więc ten wiersz jest celowo szeroki |
 | `src/data/projects.js` | `projects` |
 | `public/fonts/**`, `scripts/fetch-fonts.mjs` | `perf-self-hosted-fonts` |
@@ -71,10 +76,14 @@ viewportu. Nagłówek `Cache-Control` jest ten sam w każdej przeglądarce; uży
 `testIgnore` działa na poziomie pliku, nie testu. Plik mieszany zostaje na
 pełnej macierzy. `breadcrumbs` był tego przykładem — jeden test o JSON-LD, który
 by się kwalifikował, obok czterech `toBeVisible()`, które nie. Ten test przeniósł
-się 2026-09-06 do `seo-metadata-invariants`, i nie z powodu tej listy: dane
-strukturalne idą teraz przez tę samą warstwę nagłówka co reszta metadanych, a ta
-pod StrictMode nie wystawia niczego na serwerze deweloperskim. Asercja o
-nagłówku musi więc celować w build. `breadcrumbs` został czysto wizualny.
+się 2026-09-06 do `seo-metadata-invariants`, i nie z powodu tej listy, tylko
+dlatego, że tamten plik jest właścicielem asercji o metadanych. `breadcrumbs`
+został czysto wizualny.
+
+Powód, dla którego wtedy musiał celować w build, już nie obowiązuje: dane
+strukturalne szły przez Helmeta, a ten pod StrictMode nie wystawiał niczego na
+serwerze deweloperskim. Dziś `StructuredData` renderuje `<script>` jako własny
+węzeł w drzewie Reacta i widać go w dev tak samo jak każdy inny znacznik.
 
 ## Porty i worktree
 
