@@ -1,6 +1,7 @@
 ---
 slug: 0-trzy-pojecia
 order: 0.2
+updated: 2026-07-08
 title: Trzy pojęcia zanim zaczniesz
 excerpt: Trzy słowa, które padną w kursie, rozbrojone po ludzku - agent AI, repozytorium i markdown. Plus bonus - co to jest komenda. Zero kodu, same konkrety.
 ---

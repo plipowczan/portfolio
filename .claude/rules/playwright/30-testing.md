@@ -69,8 +69,12 @@ viewportu. Nagłówek `Cache-Control` jest ten sam w każdej przeglądarce; uży
 `toBeVisible()` już nie.
 
 `testIgnore` działa na poziomie pliku, nie testu. Plik mieszany zostaje na
-pełnej macierzy — `breadcrumbs` ma jeden test o JSON-LD, który by się
-kwalifikował, i cztery `toBeVisible()`, które nie.
+pełnej macierzy. `breadcrumbs` był tego przykładem — jeden test o JSON-LD, który
+by się kwalifikował, obok czterech `toBeVisible()`, które nie. Ten test przeniósł
+się 2026-09-06 do `seo-metadata-invariants`, i nie z powodu tej listy: dane
+strukturalne idą teraz przez tę samą warstwę nagłówka co reszta metadanych, a ta
+pod StrictMode nie wystawia niczego na serwerze deweloperskim. Asercja o
+nagłówku musi więc celować w build. `breadcrumbs` został czysto wizualny.
 
 ## Porty i worktree
 

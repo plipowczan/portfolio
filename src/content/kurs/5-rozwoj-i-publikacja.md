@@ -1,6 +1,7 @@
 ---
 slug: 5-rozwoj-i-publikacja
 order: 5
+updated: 2026-07-08
 title: Rozwój i publikacja
 excerpt: Opublikuj bazę przez Quartz, zrozum przenośność OKF i poznaj ścieżkę rozwoju - multi-brain, MCP, publikacja i wymiana paczek wiedzy.
 ---

@@ -58,7 +58,7 @@ const BLOG_REQUIRED = [
   "image",
 ];
 
-const LESSON_REQUIRED = ["slug", "order", "title", "excerpt"];
+const LESSON_REQUIRED = ["slug", "order", "title", "excerpt", "updated"];
 
 /**
  * Pliki, które w danym katalogu kandydują na treść: markdown, nie szkic
@@ -135,7 +135,7 @@ function validatePost(data, filename) {
 }
 
 /** Waliduje frontmatter lekcji. Rzuca z nazwą pliku i nazwą problemu. */
-function validateLesson(data, filename) {
+function validateLesson(data, filename, raw) {
   const missing = LESSON_REQUIRED.filter(
     (field) => data[field] === undefined || data[field] === null || data[field] === "",
   );
@@ -155,6 +155,32 @@ function validateLesson(data, filename) {
   // build, żeby strona nie wyszła z pustym meta description.
   if (typeof data.excerpt !== "string") {
     throw new Error(`Invalid 'excerpt' type in ${filename}: expected string`);
+  }
+
+  // `updated` zasila <lastmod> w sitemapie. Kiedyś brało się z historii gita,
+  // ale środowisko budujące klonuje repozytorium ze skróconą historią i każdy
+  // plik nietknięty od granicy skrótu raportował tę samą, fałszywą datę.
+  // Data mieszka więc przy treści, a walidacja jest tutaj, żeby nowa lekcja bez
+  // daty przewróciła build od razu, a nie dopiero przy generowaniu sitemapy.
+  // Z surowego tekstu, nie z przetworzonego frontmattera: YAML zamienia
+  // niecytowaną datę na Date, a niemożliwa data przewija się po cichu
+  // (`2026-13-01` → `2027-01-01`), więc po przekształceniu nie da się jej już
+  // odróżnić od poprawnej.
+  const updatedRaw = raw.match(/^updated:\s*(\S+)/m)?.[1];
+  const updatedIso = updatedRaw;
+  const [uy, um, ud] = (updatedIso ?? "").split("-").map(Number);
+  const updatedReal =
+    Number.isFinite(uy) &&
+    new Date(Date.UTC(uy, um - 1, ud)).getUTCMonth() === um - 1 &&
+    new Date(Date.UTC(uy, um - 1, ud)).getUTCDate() === ud;
+  if (
+    typeof updatedIso !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(updatedIso) ||
+    !updatedReal
+  ) {
+    throw new Error(
+      `Invalid 'updated' in ${filename}: expected a real YYYY-MM-DD date, got ${String(updatedRaw ?? data.updated)}`,
+    );
   }
 }
 
@@ -190,12 +216,13 @@ function parsePost(raw, filename, lang) {
 /** @returns {{ entry: object, body: string }} */
 function parseLesson(raw, filename) {
   const { data, content } = matter(raw);
-  validateLesson(data, filename);
+  validateLesson(data, filename, raw);
 
   return {
     entry: {
       slug: data.slug,
       order: data.order,
+      updated: raw.match(/^updated:\s*(\S+)/m)?.[1],
       title: data.title,
       excerpt: data.excerpt,
       // Opcjonalny screencast wpięty w górny slot lekcji. `video` = źródło

@@ -1,6 +1,7 @@
 ---
 slug: 2-onboarding
 order: 2
+updated: 2026-07-08
 title: Onboarding
 excerpt: Jeden wywiad /onboard konfiguruje całą bazę - schema, foldery tematów i indeksy generują się same. Krok po kroku, na konkretnym przykładzie. To Twój dzień zerowy.
 video: /videos/kurs/2-onboarding.webm

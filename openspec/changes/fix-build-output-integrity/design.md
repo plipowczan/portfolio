@@ -2,35 +2,21 @@
 
 See `proposal.md` — Why. Three constraints shape the approach.
 
-**This change branches from `perf/speed-up-first-load`, not `main`.** PR #29 has
-already modified `scripts/prerender.mjs`: it adds `CONTENT_ROUTES` (line 114) and
-waits for a `data-content-ready` marker on `<html>` for article and lesson routes
-(line 214), because those pages now load their body through a separate
-`import()`. Branching from `main` conflicts in that file.
+**Base branch.** PR #29 modified `scripts/prerender.mjs`, adding `CONTENT_ROUTES`
+and a wait on a `data-content-ready` marker for article and lesson routes, whose
+bodies now arrive through a separate `import()`. It merged on 2026-09-06, so this
+change branches from `main` (`10c0e59`) and both markers are already present.
 
-**`getGitLastModDate()` has two silent failure paths, not one.** The visible one
-is `catch {}`. The more likely one on Vercel is quieter:
+**`lastmod` cannot be derived from git in this build environment.** The full
+account is in Decision 4, including the two attempts that failed before the
+working one. The short version: the build clones shallow, a shallow clone reports
+its boundary date for every untouched file, and the result is non-empty and
+well-formed, so nothing downstream can tell it from a real date.
 
-```js
-const iso = execFileSync("git", ["log", "-1", "--format=%cI", "--", relativePath], …).trim();
-if (iso) return iso.split("T")[0];
-// falls through
-return new Date().toISOString().split("T")[0];
-```
-
-A shallow clone does not make `git log` throw. It makes it succeed and print
-nothing. `iso` is `""`, the `if` is skipped, and the current date is returned
-without any error ever being raised. That is why 34 URLs carry the deploy date
-and nothing in the build log mentions it.
-
-The function is called at seven sites — three legal pages, the llm-wiki landing,
-the course hub, each lesson, and `src/data/projects.js` (line 265) whose single
-date stamps all eighteen project URLs.
-
-**Nothing can be verified on a deployment right now.** The Vercel integration has
-produced no deployment since 2026-07-30 and posts no status on PR #29. This does
-not block implementation, but it does block the final confidence check, and the
-build gates only bite where the build runs.
+**Deployments work again.** The Vercel integration was silent between 2026-07-30
+and 2026-09-06; it now produces previews on push and a production deployment on
+merge. That is what made Decision 4 resolvable — the first two attempts both
+looked correct locally and were only disproved by a real build.
 
 ## Goals / Non-Goals
 
@@ -51,8 +37,8 @@ build gates only bite where the build runs.
 - Touching `Hero.jsx`, `App.jsx`, the content loaders or `vite.config.js` — PR #29
   owns those.
 - Tuning `waitTime`. See Decision 1.
-- Moving `lastmod` to content-colocated metadata. Worth doing, larger than this
-  change; noted under Open Questions.
+- Changing where blog post dates come from. Frontmatter already carries them and
+  already worked; only the non-markdown routes move.
 
 ## Decisions
 
@@ -123,15 +109,40 @@ class of defect stays unobservable. The point is not only to fix these two pages
 
 ### 4. `lastmod` failure is loud, and covers the empty-output path
 
-Chosen: `getGitLastModDate` throws, naming the path and whether git errored or
-returned nothing. Both paths must be handled — the empty-output one is the one
-that actually fires on Vercel and the one currently invisible.
+**Superseded 2026-09-06 by measurement.** Two earlier attempts are recorded here
+because each looked right until it met the real build.
 
-The build then needs git history deep enough to answer. Vercel clones shallow by
-default, so this will surface as a failing build until history is available. That
-is the intended behaviour and the reason the sitemap fix should land before the
-gates: a loud failure that names the file is a better starting point than a
-sitemap full of plausible lies.
+*Attempt 1 — guard the empty result.* Never fired. Shallow clones return a
+plausible wrong date, not an empty one. A Vercel preview built from it passed and
+still emitted 33 fabricated dates.
+
+*Attempt 2 — detect the shallow state and `git fetch --unshallow`.* The detection
+worked; the repair did not. On Vercel the fetch returned success and left the
+repository shallow, so the guard threw and the build failed. Correct behaviour,
+unusable outcome: it blocks every deployment, and no build-environment setting was
+found that fixes it.
+
+**Chosen: take git out of the question entirely.** Every date lives with the thing
+it describes, as blog frontmatter already did:
+
+| Source | Where the date lives |
+|---|---|
+| blog posts | `date` / `modified` in frontmatter (unchanged) |
+| course lessons | `updated` in frontmatter, required by the content validator |
+| projects | `updated` on each entry in `src/data/projects.js` |
+| pages without markdown | `@sitemapUpdated YYYY-MM-DD` marker in the page's own `.jsx` |
+
+`getGitLastModDate` and the shallow guard are both deleted; the script no longer
+imports `child_process`. A missing date fails the build, naming the file.
+
+This also fixes a defect the git approach hid: all nine project URLs shared one
+date taken from the single file backing them, so touching one project claimed the
+other eight had changed. Per-entry dates end that.
+
+The cost is that dates are now maintained by hand. That is mitigated where it
+matters — the content validator rejects a lesson without `updated`, and the
+sitemap generator rejects a page without its marker — so the failure mode is a
+red build, not a quiet lie.
 
 ### 5. Gate sequencing
 
@@ -155,14 +166,22 @@ If merge order reverses, the gate must not be enabled by the earlier merge.
 - **JSON-LD through Helmet may render differently than the manual append** → the
   prerender guard and the duplicate check both assert on the output, so a
   regression here fails the build rather than shipping.
-- **Nothing can be verified on a preview deployment** → the Vercel integration has
-  been silent since 2026-07-30. Every claim in this change is verifiable in a
-  local `npm run build:prerender`, which is the same script Vercel runs, so this
-  degrades confidence rather than blocking work. It does mean the gates go
-  unexercised in their real environment until deployments return.
-- **Two changes edit `prerender-output-invariants`** → whichever merges second
-  reconciles the delta. #29 adds a JavaScript payload budget; this change adds two
-  output invariants. They do not overlap in content.
+- **Local success does not predict the build environment** → proven twice in this
+  change: attempt 1 passed locally and on a real preview while still emitting 33
+  fabricated dates, and attempt 2 passed locally and failed the deployment. The
+  environments differ precisely where the defects live — clone depth and
+  animation timing. Every claim here is verified on a Vercel preview before the
+  task is ticked, not only in `npm run build:prerender` locally.
+- **Hand-maintained dates go stale** → the mitigation is that forgetting one is a
+  red build, not a wrong date: the content validator rejects a lesson without
+  `updated` and the sitemap generator rejects a page without its marker. Nothing
+  catches a date that is present but not refreshed after an edit; that is the
+  residual cost of this approach and it is accepted, because the alternative is a
+  date that is confidently wrong on every deployment.
+- **`prerender-output-invariants` was edited by both changes** → #29 merged first
+  and added a JavaScript payload budget as its fifth requirement, so this change
+  reconciles by appending its two output invariants as the sixth and seventh.
+  They do not overlap in content.
 
 ## Migration Plan
 
@@ -178,8 +197,7 @@ If merge order reverses, the gate must not be enabled by the earlier merge.
 
 ## Open Questions
 
-- Whether `lastmod` should move from git history to content-colocated metadata,
-  as blog frontmatter already does. It would remove the dependency on checkout
-  depth entirely and give `src/data/projects.js` per-project dates instead of one
-  shared date. Deferring this does not change these specs or the task breakdown —
-  the loud-failure requirement holds either way — so it belongs in its own change.
+None. The one that stood here — whether `lastmod` should move from git history to
+content-colocated metadata — was forced by measurement rather than deferred:
+git-derived dates cannot be made correct in this build environment, so the move
+happened inside this change rather than a later one. See Decision 4.

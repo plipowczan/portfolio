@@ -93,6 +93,12 @@ the wrong URL.
 `coursePrerequisites.js` export plain arrays and objects. Treat loaded data as
 immutable, keep numeric ids unique, and use `YYYY-MM-DD` for every date.
 
+Every entry in `projects.js` carries `updated`, and it is required: it becomes
+that project's `<lastmod>` in the sitemap. The date used to come from the git
+history of `projects.js` itself, which gave all nine projects one shared date and,
+in the build environment's shallow clone, a date that was simply wrong. Per-entry
+dates also let one project's change stop restating the other eight as fresh.
+
 ## Work Guidance
 
 - Adding a field to the frontmatter schema means changing the validator in

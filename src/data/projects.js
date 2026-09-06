@@ -2,6 +2,7 @@ export const projects = [
   {
     id: 1,
     slug: "note-taker-addons",
+    updated: "2025-12-01",
     title: "Note Taker + Add-ons",
     description:
       "System do automatycznego przetwarzania notatek ze spotkań (Fireflies) poprzez Airtable. Umożliwia kompleksowe zarządzanie informacjami z rozmów biznesowych, analizę spotkań, wykorzystanie w innych narzędziach i procesowanie przez AI z różnymi promptami.",
@@ -47,6 +48,7 @@ Głównym celem projektu było wyeliminowanie ręcznego przepisywania notatek i 
   {
     id: 2,
     slug: "lead-generator",
+    updated: "2025-12-01",
     title: "Lead Generator",
     description:
       "System do automatycznego generowania bazy kontaktów na podstawie Google Search, Apollo, The Company API. Automatyczne generowanie leadów dla zadanych parametrów, szybkie budowanie bazy kontaktów i automatyczna weryfikacja danych.",
@@ -85,6 +87,7 @@ System pozwala na zdefiniowanie profilu idealnego klienta (ICP), a następnie au
   {
     id: 3,
     slug: "context-based-chatbot",
+    updated: "2025-12-01",
     title: "Context-based Chatbot",
     description:
       "Inteligentny chatbot/voicebot do komunikacji na stronach www i messengerach wykorzystujący AI do kontekstowych rozmów. System rozumie intencje użytkownika, prowadzi naturalne konwersacje o ofercie i może wykonywać automatyczne akcje.",
@@ -123,6 +126,7 @@ System "uczy się" na podstawie dostarczonej bazy wiedzy (dokumenty, strona www,
   {
     id: 4,
     slug: "integracja-systemow-phu-impex",
+    updated: "2025-12-01",
     title: "Integracja Systemów - PHU Impex",
     description:
       "Kompleksowy system synchronizacji danych między SQL Server, Airtable i BigQuery. Umożliwia wygodne przetwarzanie danych finansowo-księgowych w nowoczesnym interfejsie, synchronizację na żądanie i automatyczną oraz przygotowanie do analityki BI.",
@@ -164,6 +168,7 @@ Głównym wyzwaniem była zapewnienie spójności danych przy dużej wolumenie t
   {
     id: 5,
     slug: "frontdesk-ai",
+    updated: "2025-12-01",
     title: "Frontdesk AI",
     description:
       "System do automatycznego przetwarzania i kategoryzacji poczty przychodzącej. Analizuje wiadomości email, klasyfikuje według kategorii, automatycznie odpowiada na najczęstsze pytania i wykonuje routing do odpowiednich osób.",
@@ -202,6 +207,7 @@ Dzięki wykorzystaniu AI, system rozumie kontekst wiadomości, potrafi odróżni
   {
     id: 6,
     slug: "automatyzacje-dokumentow",
+    updated: "2025-12-01",
     title: "Automatyzacje Dokumentów",
     description:
       "Kompleksowe systemy do przetwarzania, generowania i obiegu dokumentów. Automatyczne generowanie umów, dokumentacji projektowej, integracja z podpisem elektronicznym Autenti. Case studies: Energocentrum (fotowoltaika), Manufaktura Przygody (wycieczki szkolne).",
@@ -244,6 +250,7 @@ Systemy te integrują dane z CRM lub formularzy, generują dokumenty PDF na pods
   {
     id: 7,
     slug: "system-hrm",
+    updated: "2025-12-01",
     title: "System HRM",
     description:
       "Kompleksowy system do zarządzania Human Resources obejmujący zarządzanie urlopami, zwolnieniami lekarskimi i dostępnością pracowników. Automatyzacja procesów HR, system wniosków i automatyczne powiadomienia.",
@@ -281,6 +288,7 @@ System umożliwia pracownikom składanie wniosków urlopowych przez prosty formu
   {
     id: 8,
     slug: "lead-enrichment",
+    updated: "2025-12-01",
     title: "Lead Enrichment",
     description:
       "System automatycznego uzupełniania i wzbogacania danych kontaktowych w CRM. Pozyskuje dodatkowe informacje o firmach, decydentach i kontaktach biznesowych z różnych źródeł, aktualizuje dane w CRM.",
@@ -316,6 +324,7 @@ System monitoruje nowe rekordy w CRM. Gdy pojawi się nowy lead, uruchamia proce
   {
     id: 9,
     slug: "ankiety-badania-satysfakcji",
+    updated: "2025-12-01",
     title: "Ankiety & Badania Satysfakcji",
     description:
       "System do automatycznej obsługi ankiet i badań satysfakcji klientów oraz pracowników. Automatyczna wysyłka w kluczowych momentach customer journey, zbieranie odpowiedzi, analiza wyników z AI i generowanie raportów.",

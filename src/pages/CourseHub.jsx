@@ -1,3 +1,12 @@
+/**
+ * @sitemapUpdated 2026-09-05
+ *
+ * Data ostatniej znaczacej zmiany tresci tej strony, czytana przez
+ * scripts/update-sitemap.js. Trzymana tutaj, a nie wyciagana z historii
+ * gita, bo srodowisko budujace klonuje repozytorium ze skrocona historia
+ * i kazdy plik nietkniety od granicy skrotu raportowal te sama, falszywa
+ * date. Zmieniasz tresc strony - zmieniasz te date.
+ */
 import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";

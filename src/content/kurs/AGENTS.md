@@ -30,10 +30,17 @@ file and the field:
 ---
 slug: 2-onboarding    # URL segment; match the filename
 order: 2              # number, not a string; drives every derived list
+updated: 2026-07-08   # YYYY-MM-DD; becomes this lesson's <lastmod> in the sitemap
 title: Onboarding
 excerpt: One-sentence summary          # string; feeds the hub card and the SEO description
 ---
 ```
+
+`updated` is the date of the last meaningful change to the lesson, and it is
+required. It used to be read from git history instead, which broke silently: the
+build environment clones shallow, and in a shallow clone every file untouched
+since the boundary commit reports the boundary date, so eight lessons shared one
+wrong date. Change a lesson, change its `updated`.
 
 Optional: `video` (primary WebM/VP9), `videoMp4` (H.264 fallback for Safari and
 iOS), `poster` (still shown before play). All three are optional; a lesson

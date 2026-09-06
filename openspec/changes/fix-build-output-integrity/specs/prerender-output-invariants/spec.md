@@ -15,8 +15,10 @@ requirement.
 
 This exists because the guard already present in the prerender step asserts only
 that Helmet-managed head tags belong to the route. It says nothing about whether
-the captured body is visible, which is how a homepage serving 74 elements at
-inline `opacity: 0` reached production.
+the captured body is visible, which is how a homepage whose sections were served
+hidden reached production. The measurements behind that are in the change
+proposal and its archive, deliberately not here — a count in a spec is stale the
+first time the page changes.
 
 #### Scenario: Sections that animate on scroll
 
@@ -32,6 +34,19 @@ inline `opacity: 0` reached production.
 - **THEN** the build fails and names the route and the offending element
 - **AND** nothing is written for that route
 
+#### Scenario: A section is visible but its content is not
+
+- **WHEN** a landmark section is captured visible while the elements inside it
+  are hidden
+- **THEN** the build fails, naming the section and how many of its elements are
+  hidden
+
+This scenario exists because asserting the section tag alone is not enough, and
+that gap was reached in practice: one revision of the capture produced a homepage
+whose headings were all visible and whose content beneath them was not, and the
+build was green. A tolerance separates one element mid-animation — the
+testimonials carousel always has one — from a section that never revealed.
+
 #### Scenario: A deliberately hidden element
 
 - **WHEN** a route contains an element hidden by design, such as a closed mobile
@@ -45,31 +60,55 @@ inline `opacity: 0` reached production.
 - **THEN** those sections still animate as they enter the viewport
 - **AND** the change to prerendered output does not alter that behaviour
 
-### Requirement: Prerendered output contains no duplicate or route-foreign structured data
+### Requirement: Structured data is emitted through the route-scoped head layer
 
-Each prerendered document SHALL contain only the structured-data blocks its own
-route declares, and SHALL contain each of them exactly once. A document SHALL
-NOT carry a block that another route declares.
+Structured data SHALL be emitted through the same route-scoped mechanism as the
+rest of the document head, rather than written to the document directly. A
+document SHALL therefore contain only the blocks its own route declares.
 
-The existing prerender guard validates canonical, description and og:title. Those
-are managed by the head-tag layer; structured data is not, so the guard cannot
-observe it. That gap is how `/privacy-policy` came to serve the homepage's
+The existing prerender guard validates canonical, description and og:title —
+tags the head layer manages. Structured data was written outside it, so the guard
+could not observe it, which is how `/privacy-policy` came to serve the homepage's
 `Person` block and `/en/` came to serve it twice.
 
-#### Scenario: A route carries another route's structured data
+Belonging-to-the-route is guaranteed structurally by that mechanism, not by an
+after-the-fact check. A build-time assertion cannot decide it: knowing which
+blocks a route "should" declare would need a hand-maintained route-to-schema map,
+and such a map drifts from the code it describes.
 
-- **WHEN** the prerendered `/privacy-policy` contains a `Person` block that only
-  the homepage route declares
-- **THEN** the build fails, naming the route and the block's `@type`
+#### Scenario: A page that declares no structured data
 
-#### Scenario: A route carries the same block twice
+- **WHEN** the prerendered output for a route whose page declares no structured
+  data is inspected
+- **THEN** it contains no structured-data block
 
-- **WHEN** a prerendered document contains two structured-data blocks with
-  identical content
-- **THEN** the build fails, naming the route and the duplicated `@type`
+#### Scenario: A page carries exactly what it declares
 
-#### Scenario: A route carries exactly what it declares
+- **WHEN** a prerendered blog post is inspected
+- **THEN** it contains the blocks its route declares, and no others
 
-- **WHEN** a prerendered blog post contains the `BlogPosting`, `BreadcrumbList`
-  and `Person` blocks its route declares, each once
+### Requirement: The build rejects duplicate or malformed structured data
+
+The build SHALL fail when a prerendered document contains the same
+structured-data block more than once, or a block that is not valid JSON, naming
+the document and the block's type.
+
+This is the part that *is* decidable from the output alone, and it catches the
+observable symptom of head content escaping its route.
+
+#### Scenario: The same block appears twice in one document
+
+- **WHEN** a prerendered document contains two identical structured-data blocks
+- **THEN** the build fails, naming the document and the duplicated type
+
+#### Scenario: A block is not valid JSON
+
+- **WHEN** a prerendered document contains a structured-data block that does not
+  parse
+- **THEN** the build fails, naming the document and the parse error
+
+#### Scenario: Every block is unique and parses
+
+- **WHEN** every structured-data block across the output is valid and unique
+  within its document
 - **THEN** the build succeeds

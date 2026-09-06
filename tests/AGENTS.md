@@ -48,6 +48,30 @@ Never hardcode a port in a spec — take the URL from `baseURL` or that module.
   tags set their own `test.use({ baseURL })` — see
   `e2e/seo-metadata-invariants.spec.js`.
 
+  **JSON-LD emitted through `StructuredData` counts as a head tag.** Until
+  2026-09-06 that component appended its script straight to `document.head`,
+  outside Helmet, so its output was the one piece of head content that did work
+  on the dev server — and assertions about it grew up inside interface specs. It
+  goes through Helmet now, so it follows the same rule as every other head tag.
+
+  This is not a rule about JSON-LD in general. `src/pages/ProjectPage.jsx`
+  renders its own `<script type="application/ld+json">` in the page body rather
+  than through `StructuredData`, so it is part of the component's render tree,
+  route-scoped by construction, and visible on the dev server like any other
+  markup. Assertions about that block do not need the preview server.
+
+  Two assertions moved to
+  `seo-metadata-invariants.spec.js` for that reason: the breadcrumb
+  `BreadcrumbList` (from `breadcrumbs.spec.js`) and the course hub's `FAQPage`
+  (from `llm-wiki-course.spec.js`). Both files kept their visual assertions.
+
+  **A spec that mixes the two is brittle**, because each half needs a different
+  server. Put a new head assertion in the preview spec and leave what is visible
+  on screen where it belongs. An article or lesson route needs one extra step:
+  its schema is built from a body that arrives by dynamic import, so wait for
+  `data-content-ready` on `<html>` before reading — the same marker
+  `scripts/prerender.mjs` waits on.
+
   **Started only under `PW_PREVIEW=1`.** Playwright starts every configured
   server regardless of which tests were selected, so an unconditional entry
   charged a full production build to every run — including a single-spec run.

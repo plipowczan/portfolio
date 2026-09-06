@@ -1,6 +1,7 @@
 ---
 slug: 0-co-to-drugi-mozg
 order: 0.1
+updated: 2026-07-08
 title: Co to jest drugi mózg i po co
 excerpt: Drugi mózg po ludzku, bez ani jednego technicznego słowa. Czym jest zewnętrzna pamięć na wiedzę, po co ją budować i dlaczego nie trzeba umieć programować.
 ---

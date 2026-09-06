@@ -233,6 +233,84 @@ async function prerenderPage(browser, route, retries = 2) {
       }
     }
 
+    // Przejazd scrollem przed zrzutem.
+    //
+    // Sekcje strony głównej (`#about`, `#skills`, `#projects`, `#testimonials`,
+    // `#contact`, wezwanie do rezerwacji) odsłaniają się przy wejściu w kadr.
+    // Prerenderer nigdy nie scrollował, więc nigdy w kadr nie wchodziły, nigdy
+    // się nie animowały i lądowały w statycznym pliku w stanie początkowym —
+    // 68 elementów z `opacity: 0` na produkcji, zmierzone 2026-09-06. To nie
+    // jest wyścig, tylko zdarzenie, które się nie odpala, więc żadne wydłużenie
+    // oczekiwania go nie dosięgnie.
+    //
+    // Idzie PO oczekiwaniu na treść, nie przed: na trasach artykułów i lekcji
+    // ciało dochodzi osobnym `import()`, a scroll po dokumencie bez ciała mierzy
+    // nieprawdziwą wysokość i kończy się za wcześnie.
+    //
+    // Animacja dla prawdziwych odwiedzających zostaje bez zmian — zmienia się
+    // tylko to, co widzi robot i użytkownik bez JavaScriptu.
+    // Krok to POŁOWA ekranu, nie cały. Sekcje odsłaniają się dopiero, gdy są
+    // 100 px w środku kadru (`viewport={{ margin: "-100px" }}`), a skok o pełny
+    // ekran potrafi przenieść element spod dolnego progu nad górny, nigdy go w
+    // próg nie wprowadzając. Zmierzone na zbudowanej stronie: pełny ekran przy
+    // 120 ms zostawia 46 niewidocznych elementów, pół ekranu przy 250 ms
+    // zostawia zero. Ćwierć ekranu nie poprawia już nic, więc połowa jest
+    // najtańszym krokiem, który wystarcza.
+    // Przejazd kończy się, gdy nie ma już czego odsłaniać, a nie po dojechaniu
+    // do końca strony. Bezwarunkowy przejazd po wszystkich 98 trasach wydłużył
+    // build z 3 do 10 minut na Vercelu, a płaci go każde wdrożenie — podczas gdy
+    // sekcje odsłaniane przewijaniem ma garść tras, a nie artykuły bloga.
+    //
+    // Warunek jest samoograniczający: element jeszcze nieodsłonięty ma
+    // `opacity: 0`, więc pętla jedzie dopóki cokolwiek istotnego jest ukryte, i
+    // wychodzi po jednym sprawdzeniu tam, gdzie nie ma nic do odsłonięcia.
+    await page.evaluate(async () => {
+      const settle = () => new Promise((r) => setTimeout(r, 250));
+
+      // Liczymy WSZYSTKIE ukryte elementy, nie tylko nagłówek i sekcje.
+      // Warunek zawężony do nagłówków wychodził za wcześnie: same sekcje stają
+      // się widoczne od razu, a animują się dopiero elementy w środku — strona
+      // główna kończyła wtedy z 67 ukrytymi kaflami przy widocznych nagłówkach.
+      const hiddenCount = () =>
+        [...document.querySelectorAll("[style]")].filter((el) =>
+          /opacity:\s*0(?![.\d])/.test(el.getAttribute("style") || ""),
+        ).length;
+
+      const step = window.innerHeight / 2;
+      let position = 0;
+      let guard = 0;
+      let previous = hiddenCount();
+      let stagnant = 0;
+
+      // Jedziemy, dopóki przewijanie coś odsłania. Zatrzymanie po braku postępu,
+      // a nie po dojechaniu do końca strony, jest tu istotne z dwóch powodów:
+      // artykuły bloga nie mają czego odsłaniać i wychodzą po dwóch krokach
+      // zamiast przewijać całą długość, a karuzela opinii animuje się w kółko i
+      // nigdy nie dojdzie do zera — bez tego warunku pętla kręciłaby się do
+      // wyczerpania `guard`. Bezwarunkowy przejazd po wszystkich 98 trasach
+      // wydłużył build z 3 do 10 minut, a płaci go każde wdrożenie.
+      while (previous > 0 && position < document.body.scrollHeight && guard < 200) {
+        window.scrollTo(0, position);
+        await settle();
+
+        const current = hiddenCount();
+        if (current === 0) break;
+        stagnant = current < previous ? 0 : stagnant + 1;
+        if (stagnant >= 3) break;
+
+        previous = current;
+        position += step;
+        guard += 1;
+      }
+
+      if (guard > 0) {
+        window.scrollTo(0, document.body.scrollHeight);
+        await settle();
+        window.scrollTo(0, 0);
+        await settle();
+      }
+    });
+
     // Dodatkowy czas na animacje i lazy loading (zmniejszony dla Vercel)
     const waitTime = IS_VERCEL ? 1000 : 2000;
     await new Promise((resolve) => setTimeout(resolve, waitTime));

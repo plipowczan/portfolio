@@ -27,7 +27,7 @@ disagree, this file is binding — the README predates several of these scripts.
 | `check-payload-budget.mjs` | — | fails the build when the homepage's initial gzipped JS exceeds the declared ceiling; also runnable alone against a `dist/` |
 | `course-lessons.mjs` | — | the course lesson list, read by both the prerender and the output check |
 | `ports.mjs` | — | dev and preview ports, derived from the checkout location |
-| `update-sitemap.js` | `blog:sitemap` | rebuilds `public/sitemap.xml` with `lastmod` from git |
+| `update-sitemap.js` | `blog:sitemap` | rebuilds `public/sitemap.xml`; every `lastmod` comes from the content itself, never from git |
 | `generate-llms-txt.js` | — | writes `public/llms.txt`; invoked from the build chain |
 | `fetch-fonts.mjs` | `fonts:fetch` | downloads self-hosted font files into `src/assets/fonts/` |
 | `check-og-images.mjs` | `og:check` | verifies every referenced OG image exists at the right size |
@@ -68,6 +68,17 @@ and the one it landed in.
   break the build.
 - The payload ceiling is one constant, `INITIAL_JS_BUDGET_GZIP_BYTES` in
   `check-payload-budget.mjs`. Raising it is meant to show up in a diff.
+- **`lastmod` never comes from `git log`.** The build environment clones with a
+  shallow history, and a shallow clone grafts its boundary commit as parentless —
+  so every file untouched since that boundary reports the boundary date. The
+  result is non-empty, well-formed and wrong, which is how 34 of 38 non-blog URLs
+  came to share one fabricated date while nothing appeared in the build log. No
+  emptiness check can see it, and `git fetch --unshallow` returns success without
+  deepening anything. Each date therefore lives with the thing it describes:
+  `updated` in lesson frontmatter, `updated` per entry in `src/data/projects.js`,
+  and an `@sitemapUpdated YYYY-MM-DD` marker in the page's own `.jsx`. A missing
+  date fails the build rather than defaulting — a sitemap Google catches lying
+  about one date loses its credibility for every date.
 - A script that needs an API key reads it from the environment and fails with a
   clear message when it is absent. Never inline a key.
 

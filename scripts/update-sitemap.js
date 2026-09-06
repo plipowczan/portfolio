@@ -1,4 +1,3 @@
-import { execFileSync } from "child_process";
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
@@ -18,21 +17,87 @@ const ROOT = path.join(__dirname, "..");
 const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
 
 /**
- * Zwraca git committer date (ISO 8601, date-only) dla pliku.
- * Fallback do dzisiejszej daty jeśli git nie jest dostępny albo plik nie jest śledzony.
+ * Data ostatniej zmiany strony, czytana ze znacznika `@sitemapUpdated` w jej
+ * własnym pliku.
+ *
+ * Wcześniej brała się z `git log`. To nie działa w środowisku budowania, które
+ * klonuje repozytorium ze skróconą historią: commit graniczny jest wtedy
+ * traktowany jak korzeń, więc każdy plik nietknięty od tej granicy wygląda,
+ * jakby powstał właśnie w niej. `git log` zwracał datę graniczną — niepustą,
+ * poprawnie sformatowaną i nieprawdziwą — przez co 34 z 38 adresów spoza bloga
+ * dostawały jedną wspólną datę. Zmierzone na wdrożeniu 2026-09-06: próba
+ * dociągnięcia pełnej historii kończyła się bez błędu i bez skutku.
+ *
+ * Data mieszka więc przy treści, tak jak we frontmatterze artykułów. Brak
+ * znacznika zatrzymuje generowanie: lepszy zepsuty build niż mapa, która kłamie
+ * Google o świeżości — jedna fałszywa data podważa zaufanie do całej mapy.
  */
-function getGitLastModDate(relativePath) {
+/**
+ * Czy `RRRR-MM-DD` opisuje istniejący dzień.
+ *
+ * Sam kształt nie wystarcza: `2026-02-30` przechodzi przez wyrażenie regularne
+ * i daje `<lastmod>`, który wygląda poprawnie i nie istnieje. To dokładnie ta
+ * klasa usterki, przed którą ta zmiana ma bronić — data wiarygodna z wyglądu i
+ * nieprawdziwa — więc kształt trzeba domknąć sprawdzeniem kalendarza.
+ */
+function isRealDate(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const date = new Date(Date.UTC(y, m - 1, d));
+  return (
+    date.getUTCFullYear() === y &&
+    date.getUTCMonth() === m - 1 &&
+    date.getUTCDate() === d
+  );
+}
+
+function readPageDate(relativePath) {
+  let source;
   try {
-    const iso = execFileSync(
-      "git",
-      ["log", "-1", "--format=%cI", "--", relativePath],
-      { cwd: ROOT, encoding: "utf-8" },
-    ).trim();
-    if (iso) return iso.split("T")[0];
-  } catch {
-    // ignore
+    source = fs.readFileSync(path.join(ROOT, relativePath), "utf-8");
+  } catch (error) {
+    throw new Error(
+      `Nie udało się odczytać "${relativePath}" przy ustalaniu daty: ${error.message}`,
+    );
   }
-  return new Date().toISOString().split("T")[0];
+
+  const match = source.match(/@sitemapUpdated\s+(\d{4}-\d{2}-\d{2})/);
+  if (!match) {
+    throw new Error(
+      `Brak znacznika @sitemapUpdated w "${relativePath}". Każda strona ` +
+        `wchodząca do sitemapy musi nieść datę swojej ostatniej zmiany ` +
+        `w formacie RRRR-MM-DD.`,
+    );
+  }
+
+  if (!isRealDate(match[1])) {
+    throw new Error(
+      `Znacznik @sitemapUpdated w "${relativePath}" podaje datę, która nie ` +
+        `istnieje: ${match[1]}.`,
+    );
+  }
+
+  return match[1];
+}
+
+/**
+ * Sprowadza datę z frontmattera albo z modułu danych do postaci RRRR-MM-DD.
+ * `gray-matter` zwraca `Date` dla niecytowanej daty w YAML i `string` dla
+ * cytowanej, więc obie postacie muszą być obsłużone.
+ */
+function normalizeDate(value, source) {
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}/.test(value)) {
+    const iso = value.slice(0, 10);
+    if (!isRealDate(iso)) {
+      throw new Error(`Data dla ${source} nie istnieje w kalendarzu: ${iso}`);
+    }
+    return iso;
+  }
+  if (value instanceof Date && !Number.isNaN(value.valueOf())) {
+    return value.toISOString().split("T")[0];
+  }
+  throw new Error(
+    `Brak poprawnej daty dla ${source}. Oczekiwano RRRR-MM-DD, otrzymano: ${String(value)}`,
+  );
 }
 
 /**
@@ -101,10 +166,23 @@ function getCourseLessons(kursDir) {
       (f) => f.endsWith(".md") && !f.startsWith("_") && !DOC_FILES.has(f)
     )
     .map((file) => {
-      const { data } = matter(
-        fs.readFileSync(path.join(kursDir, file), "utf-8")
-      );
-      return { file, slug: data.slug, order: data.order };
+      const raw = fs.readFileSync(path.join(kursDir, file), "utf-8");
+      const { data } = matter(raw);
+
+      // `updated` czytamy z SUROWEGO tekstu, nie z przetworzonego frontmattera.
+      // YAML zamienia niecytowaną datę na obiekt Date, a ten przy niemożliwej
+      // dacie przewija się po cichu: `2026-13-01` stawało się `2027-01-01` i
+      // trafiało do sitemapy jako poprawnie wyglądający `<lastmod>`. Po
+      // przewinięciu informacja o błędzie już nie istnieje, więc walidacja musi
+      // zobaczyć tekst sprzed przekształcenia.
+      const updatedMatch = raw.match(/^updated:\s*(\S+)/m);
+
+      return {
+        file,
+        slug: data.slug,
+        order: data.order,
+        updated: updatedMatch ? updatedMatch[1] : undefined,
+      };
     })
     .filter(
       (l) =>
@@ -134,11 +212,11 @@ function generateSitemap() {
       ? allLastmods.sort().slice(-1)[0]
       : today;
 
-  // Legal pages: lastmod = git mtime of corresponding .jsx
+  // Strony prawne: data ze znacznika @sitemapUpdated w ich własnym pliku
   const legalLastmods = {
-    "privacy-policy": getGitLastModDate("src/pages/PrivacyPolicy.jsx"),
-    "terms-of-service": getGitLastModDate("src/pages/TermsOfService.jsx"),
-    "cookie-policy": getGitLastModDate("src/pages/CookiePolicy.jsx"),
+    "privacy-policy": readPageDate("src/pages/PrivacyPolicy.jsx"),
+    "terms-of-service": readPageDate("src/pages/TermsOfService.jsx"),
+    "cookie-policy": readPageDate("src/pages/CookiePolicy.jsx"),
   };
 
   // Static pages — mix of listing and legal, each with its own lastmod
@@ -156,7 +234,7 @@ function generateSitemap() {
       url: "llm-wiki",
       priority: "0.8",
       changefreq: "monthly",
-      lastmod: getGitLastModDate("src/pages/LlmWikiLanding.jsx"),
+      lastmod: readPageDate("src/pages/LlmWikiLanding.jsx"),
     },
   ];
 
@@ -169,14 +247,14 @@ function generateSitemap() {
       url: "llm-wiki/kurs",
       priority: "0.7",
       changefreq: "monthly",
-      lastmod: getGitLastModDate("src/pages/CourseHub.jsx"),
+      lastmod: readPageDate("src/pages/CourseHub.jsx"),
     });
     for (const lesson of courseLessons) {
       plOnlyPages.push({
         url: `llm-wiki/kurs/${lesson.slug}`,
         priority: "0.6",
         changefreq: "monthly",
-        lastmod: getGitLastModDate(`src/content/kurs/${lesson.file}`),
+        lastmod: normalizeDate(lesson.updated, `lekcji ${lesson.file}`),
       });
     }
   }
@@ -261,8 +339,7 @@ function generateSitemap() {
     xml += "  </url>\n";
   });
 
-  // Projects — PL and EN (lastmod = git mtime of projects.js as best proxy)
-  const projectsLastmod = getGitLastModDate("src/data/projects.js");
+  // Projects — PL and EN; każdy niesie własną datę w src/data/projects.js
   projects.forEach((project) => {
     const plUrl = `${SITE_URL}/projects/${project.slug}`;
     const enUrl = `${SITE_URL}/en/projects/${project.slug}`;
@@ -270,7 +347,7 @@ function generateSitemap() {
     // PL
     xml += "  <url>\n";
     xml += `    <loc>${plUrl}</loc>\n`;
-    xml += `    <lastmod>${projectsLastmod}</lastmod>\n`;
+    xml += `    <lastmod>${normalizeDate(project.updated, `projektu ${project.slug}`)}</lastmod>\n`;
     xml += "    <changefreq>monthly</changefreq>\n";
     xml += "    <priority>0.8</priority>\n";
     xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
@@ -281,7 +358,7 @@ function generateSitemap() {
     // EN
     xml += "  <url>\n";
     xml += `    <loc>${enUrl}</loc>\n`;
-    xml += `    <lastmod>${projectsLastmod}</lastmod>\n`;
+    xml += `    <lastmod>${normalizeDate(project.updated, `projektu ${project.slug}`)}</lastmod>\n`;
     xml += "    <changefreq>monthly</changefreq>\n";
     xml += "    <priority>0.8</priority>\n";
     xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;

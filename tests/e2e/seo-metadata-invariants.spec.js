@@ -213,6 +213,134 @@ test.describe("SEO — page metadata invariants", () => {
     });
   }
 
+  /**
+   * Dane strukturalne należą do trasy, która je deklaruje.
+   *
+   * Do 2026-09-06 komponent StructuredData doklejał skrypt wprost do
+   * `document.head`, poza drzewem Reacta, więc blok nie był związany z trasą:
+   * `/privacy-policy` serwowała `Person` ze strony głównej mimo braku
+   * jakiegokolwiek kodu od schematów u siebie, a `/en/` serwowała ten sam blok
+   * dwa razy. Emisja idzie teraz przez Helmet, tak jak reszta nagłówka.
+   *
+   * Ten test siedzi tutaj, a nie w `breadcrumbs.spec.js`, z tego samego powodu
+   * co reszta pliku: pod StrictMode Helmet nie wystawia tagów na serwerze
+   * deweloperskim, więc jedyny uczciwy cel to build.
+   */
+  test("structured data belongs to the route that declares it", async ({
+    page,
+  }) => {
+    const blocksOn = async (path, { awaitContent = false, expected = null } = {}) => {
+      await page.goto(path);
+      // Ciało artykułu i lekcji przychodzi osobnym `import()`, a schemat
+      // `BlogPosting` powstaje dopiero z niego. Przed tym momentem hydratacja
+      // zdejmuje bloki wypieczone w prerenderze, bo schemat jest jeszcze pusty.
+      // `data-content-ready` na <html> to ten sam znacznik, na który czeka
+      // scripts/prerender.mjs.
+      if (awaitContent) {
+        await page.waitForFunction(
+          () => document.documentElement.dataset.contentReady === "true",
+          null,
+          { timeout: 10000 },
+        );
+      }
+      const read = () =>
+        page.evaluate(() =>
+          [...document.querySelectorAll('script[type="application/ld+json"]')].map(
+            (el) => el.textContent,
+          ),
+        );
+
+      // Gdy spodziewamy się bloków, czekamy aż Helmet je wystawi. Gdy
+      // spodziewamy się zera, odczyt natychmiastowy nic nie dowodzi — dajemy
+      // stronie czas na ewentualny wyciek, zanim stwierdzimy, że go nie ma.
+      if (expected === null) {
+        await page.waitForTimeout(1000);
+        return read();
+      }
+      await expect.poll(async () => (await read()).length).toBe(expected);
+      return read();
+    };
+
+    // Strona bez własnych danych strukturalnych nie niesie cudzych.
+    const legal = await blocksOn("/privacy-policy");
+    expect(
+      legal,
+      "/privacy-policy carries structured data it does not declare",
+    ).toHaveLength(0);
+
+    // Strona, która deklaruje jeden blok, niesie go dokładnie raz.
+    const en = await blocksOn("/en/", { expected: 1 });
+    expect(en, "/en/ should carry exactly one block").toHaveLength(1);
+
+    // Artykuł niesie własne bloki, każdy raz, w tym okruszki nawigacyjne.
+    const post = await blocksOn("/blog/rag-ragowi-nierowny", {
+      awaitContent: true,
+      expected: 3,
+    });
+    expect(new Set(post).size, "article repeats a structured-data block").toBe(
+      post.length,
+    );
+    const types = post.map((raw) => JSON.parse(raw)["@type"]);
+    expect(types, "article is missing its BreadcrumbList").toContain(
+      "BreadcrumbList",
+    );
+    expect(types, "article is missing its BlogPosting").toContain("BlogPosting");
+  });
+
+  /**
+   * FAQPage huba kursu — asercja przeniesiona z `llm-wiki-course.spec.js`
+   * 2026-09-06, z tego samego powodu co wyżej: pod StrictMode Helmet nie
+   * wystawia tagów na serwerze deweloperskim, więc jedynym uczciwym celem jest
+   * build. Sam widok FAQ testuje się dalej tam, gdzie testowały go asercje
+   * wizualne.
+   */
+  test("course hub emits a FAQPage whose questions match the rendered list", async ({
+    page,
+  }) => {
+    await page.goto("/llm-wiki/kurs");
+
+    // Helmet wystawia tagi dopiero po hydratacji, więc odczyt tuż po `goto`
+    // trafia w pustkę — w CI powtarzalnie. Odpytujemy, i bierzemy wartość z
+    // tego samego sprawdzenia: drugi odczyt po udanym pollu potrafił trafić w
+    // moment, gdy Helmet akurat przestawiał zawartość.
+    let faqSchema = null;
+    await expect
+      .poll(
+        async () => {
+          faqSchema = await page.evaluate(() =>
+            [...document.querySelectorAll('script[type="application/ld+json"]')]
+              .map((el) => {
+                try {
+                  return JSON.parse(el.textContent);
+                } catch {
+                  return null;
+                }
+              })
+              .find((data) => data && data["@type"] === "FAQPage"),
+          );
+          return Boolean(faqSchema?.mainEntity?.length);
+        },
+        { message: "course hub is missing its FAQPage block" },
+      )
+      .toBe(true);
+
+    expect(faqSchema.mainEntity.length).toBeGreaterThanOrEqual(3);
+
+    await expect(page.getByTestId("course-faq").locator("dt").first()).toBeVisible();
+
+    const rendered = await page
+      .getByTestId("course-faq")
+      .locator("dt")
+      .allTextContents();
+
+    for (const { name } of faqSchema.mainEntity) {
+      expect(
+        rendered.some((text) => text.includes(name)),
+        `FAQPage question not rendered on the page: ${name}`,
+      ).toBe(true);
+    }
+  });
+
   test("descriptions are unique across pages", async ({ page }) => {
     // One navigation per page in a single test, so the comparison sees them
     // all — worth the extra wall clock, hence test.slow().
