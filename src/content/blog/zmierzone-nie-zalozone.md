@@ -17,6 +17,7 @@ tags:
   - C2PA
   - AI
 lang: pl
+alternateSlug: measured-not-assumed
 ---
 
 W [Qamerze](https://qamera.ai) budujemy system, który generuje zdjęcia i wideo produktowe dla sklepów internetowych: packshoty i sesje z modelkami, bez studia i bez fotografa. Odpowiadam w niej za warstwę techniczną, w tym za to, żeby każdy wygenerowany plik niósł zapis swojego pochodzenia.

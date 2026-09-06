@@ -254,6 +254,43 @@ inaczej portfolio wystawia martwy link w „Przydatnych zasobach". Przed scaleni
 - [x] Sitemap zaktualizowany (`public/sitemap.xml`, 61 artykułów, 99 URLi)
 - [x] Test renderowania na serwerze deweloperskim przeszedł, konsola bez błędów
 
+## EN Translation
+
+- **EN file:** `src/content/blog/en/measured-not-assumed.md`
+- **EN slug:** `measured-not-assumed` (potwierdzony z operatorem przed zapisem pliku)
+- **EN title:** „Measured, Not Assumed. Three Conclusions I Overturned Myself"
+- **Dwukierunkowy `alternateSlug`:** ✅ PL → `measured-not-assumed`, EN → `zmierzone-nie-zalozone`.
+  Żadna strona nie wskazuje na samą siebie (pułapka z artykułu o Karpathym omijana świadomie).
+- **Sitemap:** symetria przywrócona - 62 artykuły (31 PL + 31 EN), 100 URLi.
+- **Linki wewnętrzne:** 3/3 zmapowane na odpowiedniki EN, zero pominiętych.
+  Sprawdzone w renderze: zero linków `/blog/` bez prefiksu `/en`.
+- **CTA:** wzorzec kanoniczny, przycisk „Book a free consultation".
+- **Sekcja zasobów:** `## Useful Resources`.
+- **`readTime`:** 16 min, dziedziczone z PL mimo 3865 słów wobec 3159. Zgodne z konwencją
+  repozytorium - sprawdzone na dwóch istniejących parach (2191→2557 słów, oba 11 min;
+  2823→3086 słów, oba 14 min).
+- **Tagi:** nietłumaczone, zgodnie z konwencją (istniejące pary trzymają polskie tagi w EN).
+- **hreflang:** `pl`, `en` i `x-default` wskazują poprawnie, canonical na wersję EN.
+- **Schematy:** `BlogPosting` + `BreadcrumbList` + `FAQPage` z 6 pytaniami.
+- **Bramy:** zero myślników Unicode, zero polskich cudzysłowów, blok kodu ze znacznikiem.
+- **EN validation:** ✅ PASSED
+
+### Odstępstwo: blok kodu przetłumaczony
+
+Komenda `translate` nakazuje zostawiać bloki kodu nietknięte, „nawet jeśli zawierają polskie
+lub angielskie napisy, bo kod traktujemy jak dane". Ten blok nie jest kodem ani wyjściem
+narzędzia - to ręcznie narysowany diagram łańcucha pochodzenia, którego etykiety są prozą
+(„warstwa aktywna", „składnik rodzica", „podpis dostawcy"). Zostawienie ich po polsku dałoby
+czytelnikowi anglojęzycznemu nieczytelny rysunek w środku sekcji, która na nim stoi.
+Przetłumaczone; struktura, wcięcia i znaczniki `text` bez zmian.
+
+### Pułapka odczytu przy weryfikacji
+
+Pierwszy odczyt schematów na stronie EN pokazał brak `FAQPage` i zgłosiłem to jako defekt.
+Był to fałszywy alarm: `extractFAQ` działa na zamontowanym DOM-ie, więc schemat pojawia się
+chwilę po pierwszym renderze. Powtórny odczyt pokazał komplet. Kto weryfikuje to samo,
+niech czyta schematy po ustabilizowaniu strony, nie natychmiast po nawigacji.
+
 ## Pass DOX
 
 Zmiana dodaje jeden artykuł zgodnie z istniejącym kontraktem `src/content/blog/AGENTS.md`.
@@ -270,6 +307,7 @@ To nie jest wada artykułu, tylko kolejność wydania pary.
 
 ## Next Step
 
-1. `/blog-article-writer:translate` - wersja EN plus wzajemne `alternateSlug` po obu stronach.
-2. Commit obejmujący artykuł, obraz OG i sitemap.
+1. ~~`/blog-article-writer:translate`~~ - **zrobione**, patrz sekcja „EN Translation".
+2. ~~Commit obejmujący artykuł, obraz OG i sitemap~~ - **zrobione**, PR #42 (draft).
 3. **Przed scaleniem:** `curl` na adres bliźniaka musi zwrócić `200`, nie `404`.
+   To jedyna pozostała pozycja.

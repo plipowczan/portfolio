@@ -176,6 +176,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/zmierzone-nie-zalozone"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/measured-not-assumed"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/zmierzone-nie-zalozone"/>
   </url>
   <url>
@@ -447,6 +448,15 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/chatboty-ai-od-koncepcji-do-wdrozenia"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/ai-chatbots-from-concept-to-deployment"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/chatboty-ai-od-koncepcji-do-wdrozenia"/>
+  </url>
+  <url>
+    <loc>https://pawel.lipowczan.pl/en/blog/measured-not-assumed</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://pawel.lipowczan.pl/blog/zmierzone-nie-zalozone"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pawel.lipowczan.pl/en/blog/measured-not-assumed"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pawel.lipowczan.pl/blog/zmierzone-nie-zalozone"/>
   </url>
   <url>
     <loc>https://pawel.lipowczan.pl/en/blog/claude-code-weak-spots</loc>
