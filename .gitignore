@@ -74,6 +74,7 @@ lighthouse-report.*
 # and CLAUDE.md both name as where validation reports belong. The repository was
 # discarding the very artifacts its own docs told agents to write there.
 !.claude/agents/reports/
+!.claude/agents/reports/**
 
 # The July 2026 audit is the one exception to the exception: 45 MB, with single
 # full-page screenshots up to 17.8 MB. It predates the decision to keep audit
