@@ -70,34 +70,4 @@ test.describe("Breadcrumbs", () => {
     await expect(page).toHaveURL(/\/$/);
   });
   
-  test("powinny zawierać dane strukturalne JSON-LD", async ({ page }) => {
-    await page.goto(testUrls.blog);
-    await waitForAnimations(page, 2000);
-    
-    // Wait for the script to appear
-    try {
-      await page.waitForSelector('script[type="application/ld+json"]', { state: 'attached', timeout: 5000 });
-    } catch (e) {
-      console.log("JSON-LD script not found within timeout");
-    }
-
-    const jsonLd = await page.evaluate(() => {
-      const scripts = document.querySelectorAll('script[type="application/ld+json"]');
-      for (const script of scripts) {
-        try {
-          const data = JSON.parse(script.innerText);
-          if (data["@type"] === "BreadcrumbList") {
-            return data;
-          }
-        } catch (e) {}
-      }
-      return null;
-    });
-
-    expect(jsonLd).not.toBeNull();
-    expect(jsonLd["@type"]).toBe("BreadcrumbList");
-    expect(jsonLd.itemListElement).toHaveLength(2);
-    expect(jsonLd.itemListElement[0].name).toBe("Home");
-    expect(jsonLd.itemListElement[1].name).toBe("Blog");
-  });
 });

@@ -47,31 +47,55 @@ first time the page changes.
 - **THEN** those sections still animate as they enter the viewport
 - **AND** the change to prerendered output does not alter that behaviour
 
-### Requirement: Prerendered output contains no duplicate or route-foreign structured data
+### Requirement: Structured data is emitted through the route-scoped head layer
 
-Each prerendered document SHALL contain only the structured-data blocks its own
-route declares, and SHALL contain each of them exactly once. A document SHALL
-NOT carry a block that another route declares.
+Structured data SHALL be emitted through the same route-scoped mechanism as the
+rest of the document head, rather than written to the document directly. A
+document SHALL therefore contain only the blocks its own route declares.
 
-The existing prerender guard validates canonical, description and og:title. Those
-are managed by the head-tag layer; structured data is not, so the guard cannot
-observe it. That gap is how `/privacy-policy` came to serve the homepage's
+The existing prerender guard validates canonical, description and og:title —
+tags the head layer manages. Structured data was written outside it, so the guard
+could not observe it, which is how `/privacy-policy` came to serve the homepage's
 `Person` block and `/en/` came to serve it twice.
 
-#### Scenario: A route carries another route's structured data
+Belonging-to-the-route is guaranteed structurally by that mechanism, not by an
+after-the-fact check. A build-time assertion cannot decide it: knowing which
+blocks a route "should" declare would need a hand-maintained route-to-schema map,
+and such a map drifts from the code it describes.
 
-- **WHEN** the prerendered `/privacy-policy` contains a `Person` block that only
-  the homepage route declares
-- **THEN** the build fails, naming the route and the block's `@type`
+#### Scenario: A page that declares no structured data
 
-#### Scenario: A route carries the same block twice
+- **WHEN** the prerendered output for a route whose page declares no structured
+  data is inspected
+- **THEN** it contains no structured-data block
 
-- **WHEN** a prerendered document contains two structured-data blocks with
-  identical content
-- **THEN** the build fails, naming the route and the duplicated `@type`
+#### Scenario: A page carries exactly what it declares
 
-#### Scenario: A route carries exactly what it declares
+- **WHEN** a prerendered blog post is inspected
+- **THEN** it contains the blocks its route declares, and no others
 
-- **WHEN** a prerendered blog post contains the `BlogPosting`, `BreadcrumbList`
-  and `Person` blocks its route declares, each once
+### Requirement: The build rejects duplicate or malformed structured data
+
+The build SHALL fail when a prerendered document contains the same
+structured-data block more than once, or a block that is not valid JSON, naming
+the document and the block's type.
+
+This is the part that *is* decidable from the output alone, and it catches the
+observable symptom of head content escaping its route.
+
+#### Scenario: The same block appears twice in one document
+
+- **WHEN** a prerendered document contains two identical structured-data blocks
+- **THEN** the build fails, naming the document and the duplicated type
+
+#### Scenario: A block is not valid JSON
+
+- **WHEN** a prerendered document contains a structured-data block that does not
+  parse
+- **THEN** the build fails, naming the document and the parse error
+
+#### Scenario: Every block is unique and parses
+
+- **WHEN** every structured-data block across the output is valid and unique
+  within its document
 - **THEN** the build succeeds

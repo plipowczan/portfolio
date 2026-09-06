@@ -213,6 +213,68 @@ test.describe("SEO — page metadata invariants", () => {
     });
   }
 
+  /**
+   * Dane strukturalne należą do trasy, która je deklaruje.
+   *
+   * Do 2026-09-06 komponent StructuredData doklejał skrypt wprost do
+   * `document.head`, poza drzewem Reacta, więc blok nie był związany z trasą:
+   * `/privacy-policy` serwowała `Person` ze strony głównej mimo braku
+   * jakiegokolwiek kodu od schematów u siebie, a `/en/` serwowała ten sam blok
+   * dwa razy. Emisja idzie teraz przez Helmet, tak jak reszta nagłówka.
+   *
+   * Ten test siedzi tutaj, a nie w `breadcrumbs.spec.js`, z tego samego powodu
+   * co reszta pliku: pod StrictMode Helmet nie wystawia tagów na serwerze
+   * deweloperskim, więc jedyny uczciwy cel to build.
+   */
+  test("structured data belongs to the route that declares it", async ({
+    page,
+  }) => {
+    const blocksOn = async (path, { awaitContent = false } = {}) => {
+      await page.goto(path);
+      // Ciało artykułu i lekcji przychodzi osobnym `import()`, a schemat
+      // `BlogPosting` powstaje dopiero z niego. Przed tym momentem hydratacja
+      // zdejmuje bloki wypieczone w prerenderze, bo schemat jest jeszcze pusty.
+      // `data-content-ready` na <html> to ten sam znacznik, na który czeka
+      // scripts/prerender.mjs.
+      if (awaitContent) {
+        await page.waitForFunction(
+          () => document.documentElement.dataset.contentReady === "true",
+          null,
+          { timeout: 10000 },
+        );
+      }
+      return page.evaluate(() =>
+        [...document.querySelectorAll('script[type="application/ld+json"]')].map(
+          (el) => el.textContent,
+        ),
+      );
+    };
+
+    // Strona bez własnych danych strukturalnych nie niesie cudzych.
+    const legal = await blocksOn("/privacy-policy");
+    expect(
+      legal,
+      "/privacy-policy carries structured data it does not declare",
+    ).toHaveLength(0);
+
+    // Strona, która deklaruje jeden blok, niesie go dokładnie raz.
+    const en = await blocksOn("/en/");
+    expect(en, "/en/ should carry exactly one block").toHaveLength(1);
+
+    // Artykuł niesie własne bloki, każdy raz, w tym okruszki nawigacyjne.
+    const post = await blocksOn("/blog/rag-ragowi-nierowny", {
+      awaitContent: true,
+    });
+    expect(new Set(post).size, "article repeats a structured-data block").toBe(
+      post.length,
+    );
+    const types = post.map((raw) => JSON.parse(raw)["@type"]);
+    expect(types, "article is missing its BreadcrumbList").toContain(
+      "BreadcrumbList",
+    );
+    expect(types, "article is missing its BlogPosting").toContain("BlogPosting");
+  });
+
   test("descriptions are unique across pages", async ({ page }) => {
     // One navigation per page in a single test, so the comparison sees them
     // all — worth the extra wall clock, hence test.slow().

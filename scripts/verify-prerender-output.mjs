@@ -119,6 +119,59 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
     checked.push(`${htmlFiles.length} plików HTML bez odwołań do googletagmanager`);
   }
 
+  // Dane strukturalne: każdy blok ma być poprawnym JSON-em i ma wystąpić raz.
+  //
+  // Bramka wyżej w scripts/prerender.mjs sprawdza kanoniczny adres, opis i
+  // og:title — czyli to, czym zarządza Helmet. JSON-LD było poza jej zasięgiem,
+  // bo komponent doklejał skrypt wprost do `document.head`. Skutek: strona
+  // prywatności serwowała blok `Person` ze strony głównej, a `/en/` ten sam blok
+  // dwa razy. Emisja przez Helmet związała bloki z trasą, a to sprawdzenie
+  // pilnuje, żeby nawrót zatrzymał build zamiast wyjechać na produkcję.
+  //
+  // Świadomie sprawdzamy dwie rzeczy, których wynik da się rozstrzygnąć z
+  // samego pliku: duplikat i niepoprawny JSON. „Blok należący do innej trasy"
+  // nie jest tu rozstrzygalny — wymagałby mapy trasa→schematy, a tę utrzymywano
+  // by ręcznie i rozjechałaby się z kodem. Przynależność do trasy zapewnia
+  // Helmet konstrukcyjnie, nie ta bramka.
+  const LD_BLOCK = /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g;
+  let ldChecked = 0;
+
+  for (const name of htmlFiles) {
+    const html = readFileSync(join(distDir, name), "utf-8");
+    const blocks = [...html.matchAll(LD_BLOCK)].map((m) => m[1].trim());
+    if (blocks.length === 0) continue;
+
+    const seen = new Map();
+    for (const raw of blocks) {
+      ldChecked += 1;
+
+      let parsed;
+      try {
+        parsed = JSON.parse(raw);
+      } catch (error) {
+        problems.push(
+          `${name}: blok danych strukturalnych nie jest poprawnym JSON-em (${error.message})`
+        );
+        continue;
+      }
+
+      const type = Array.isArray(parsed)
+        ? "tablica"
+        : (parsed["@type"] ?? "bez @type");
+
+      if (seen.has(raw)) {
+        problems.push(
+          `${name}: blok danych strukturalnych "${type}" występuje ${seen.get(raw) + 1} razy — ten sam byte w byte`
+        );
+      }
+      seen.set(raw, (seen.get(raw) ?? 0) + 1);
+    }
+  }
+
+  if (ldChecked > 0) {
+    checked.push(`${ldChecked} bloków danych strukturalnych: poprawny JSON, bez duplikatów`);
+  }
+
   return { problems, checked };
 }
 

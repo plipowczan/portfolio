@@ -15,11 +15,11 @@ Independent of PR #29 and of the other two defects. Land first.
 
 Independent of PR #29. Can land in parallel with group 2.
 
-- [ ] 3.1 Move `src/components/seo/StructuredData.jsx` from the `document.head` append onto `<Helmet>`, escaping JSON so a `<` inside a string cannot terminate the script element; verify the component still renders valid JSON-LD on a blog post
-- [ ] 3.2 Run `npm run build:prerender` and verify `dist/privacy-policy/index.html` contains no `Person` block, and `dist/en/index.html` contains exactly one
-- [ ] 3.3 Verify each page type still carries the blocks its route declares — blog post keeps `BlogPosting`, `BreadcrumbList` and `FAQPage`; project page keeps its own; course lesson keeps `FAQPage`
-- [ ] 3.4 Add the duplicate-and-foreign-block assertion to `scripts/verify-prerender-output.mjs`; verify it fails, naming route and `@type`, against a deliberately broken fixture, and passes on a clean build
-- [ ] 3.5 Run the test rows `tests/AGENTS.md` maps to `src/components/seo/**` — `seo-metadata-invariants` (needs `PW_PREVIEW=1`), `breadcrumbs`, `policy-pages`, `seo-llms-txt` — and verify they pass unchanged
+- [x] 3.1 Move `src/components/seo/StructuredData.jsx` from the `document.head` append onto `<Helmet>`, escaping JSON so a `<` inside a string cannot terminate the script element; verify the component still renders valid JSON-LD on a blog post
+- [x] 3.2 Run `npm run build:prerender` and verify `dist/privacy-policy/index.html` contains no `Person` block, and `dist/en/index.html` contains exactly one
+- [x] 3.3 Verify each page type still carries the blocks its route declares — blog post keeps `BlogPosting`, `BreadcrumbList` and `FAQPage`; project page keeps its own; course lesson keeps `FAQPage`
+- [x] 3.4 Add the duplicate-and-malformed-block assertion to `scripts/verify-prerender-output.mjs`; verify it fails, naming route and `@type`, against a deliberately broken fixture, and passes on a clean build. **Scope narrowed:** route-foreignness is not decidable from the output alone — it would need a hand-maintained route-to-schema map that drifts from the code. Helmet guarantees it structurally instead; the gate asserts what the output can answer, namely duplicates and invalid JSON. Verified: passes on 208 blocks across 99 files, fails by name on a deliberately duplicated block
+- [x] 3.5 Run the test rows `tests/AGENTS.md` maps to `src/components/seo/**` — `seo-metadata-invariants` (needs `PW_PREVIEW=1`), `breadcrumbs`, `policy-pages`, `seo-llms-txt` — and verify they pass. **Not unchanged:** the JSON-LD assertion moved from `breadcrumbs` to `seo-metadata-invariants`. Structured data now travels the same head layer as the rest of the metadata, and under StrictMode that layer commits nothing on the dev server — the repository already documents this and already runs head assertions against the preview build for exactly this reason. Also waits on `data-content-ready`, because an article's schema is built from a body that arrives by dynamic import. Result: breadcrumbs/policy-pages/seo-llms-txt 9 passed, preview suite 15 passed
 
 ## 4. Scrolled capture
 
