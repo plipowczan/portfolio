@@ -132,7 +132,7 @@ const CONTENT_ROUTES = new Set([
 // shell clean. React 19 marks nothing, so the pipeline has to stop poisoning
 // the shell in the first place.
 //
-// tests/e2e/prerender-metadata.spec.js fails if this regresses.
+// scripts/verify-prerender-output.mjs fails the build if this regresses.
 const orderedRoutes = [...allRoutes.filter((r) => r !== "/"), "/"];
 
 /**

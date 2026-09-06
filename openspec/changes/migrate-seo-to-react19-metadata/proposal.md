@@ -12,10 +12,11 @@ React 19 sam przenosi `<title>`, `<meta>` i `<link>` renderowane w dowolnym komp
 - `LocaleLayout.jsx` ustawia `<html lang>` przez `document.documentElement`, bo hoistowanie React 19 obejmuje `<title>`, `<meta>` i `<link>`, ale **nie** atrybuty `<html>`. To jedyne miejsce, które nie jest prostym zdjęciem opakowania.
 - `main.jsx` traci `HelmetProvider`; `<React.StrictMode>` zostaje.
 - `react-helmet-async` znika z `package.json`.
-- Testy metadanych wracają na serwer deweloperski: znika drugi `webServer` (preview na 4173) z `playwright.config.js`, a `seo-metadata-invariants.spec.js` przestaje potrzebować własnego `baseURL`.
+- Testy metadanych wracają na serwer deweloperski: `seo-metadata-invariants.spec.js` przestaje potrzebować własnego `baseURL` i bramki `PW_PREVIEW`. Sam serwer preview **zostaje** — po scaleniu PR #26 potrzebuje go bramka zgody na hoście produkcyjnym z `analytics-consent.spec.js`.
 - Tolerancja na brakujący opis w `home.spec.js`, `blog.spec.js` i `policy-pages.spec.js` przestaje być potrzebna — asercje wracają do twardej postaci.
 - `getSeoMetaTags` w `test-helpers.js` traci obejście oparte na `data-rh` (atrybut należał do Helmeta).
-- Skrypty `build:test` i `preview:test` znikają, jeśli nic innego ich nie potrzebuje.
+- `StructuredData.jsx` przestaje korzystać z Helmeta i renderuje `<script type="application/ld+json">` jako własny węzeł w drzewie Reacta. To wymuszone: PR #34 przepiął ten komponent na Helmeta dzień przed tą zmianą, więc bez migracji usunięcie zależności nie jest możliwe.
+- Skrypty `build:test` i `preview:test` **zostają** — używa ich warunkowy serwer preview.
 
 Bez zmian łamiących zgodność: żaden adres, żaden tag ani żadna wartość metadanych się nie zmienia. Zmiana jest niewidoczna dla robota — widoczna wyłącznie dla osoby pracującej lokalnie.
 
@@ -36,11 +37,14 @@ Bez zmian łamiących zgodność: żaden adres, żaden tag ani żadna wartość 
 - `src/components/seo/SEO.jsx` — zdjęcie `<Helmet>`
 - `src/components/layout/LocaleLayout.jsx` — `<html lang>` poza Reactem
 - `src/main.jsx` — usunięcie `HelmetProvider`
-- `package.json` — usunięcie zależności, ewentualnie skryptów `build:test` / `preview:test`
-- `playwright.config.js` — powrót do jednego serwera
+- `src/components/seo/StructuredData.jsx` — zdjęcie `<Helmet>`
+- `src/utils/serializeJsonLd.js` — wydzielona ucieczka znaków dla JSON-LD (nowy plik)
+- `package.json` — usunięcie zależności; naprawa skryptu `test:unit`
+- `playwright.config.js` — komentarz o serwerze preview; sam serwer zostaje
+- `scripts/verify-prerender-output.mjs` — bramka metadanych w wygenerowanym `dist/`
 - `tests/e2e/seo-metadata-invariants.spec.js`, `home.spec.js`, `blog.spec.js`, `policy-pages.spec.js`, `tests/utils/test-helpers.js` — cofnięcie obejść
 
-**Bez zmian:** `StructuredData.jsx` nigdy nie korzystał z Helmeta (wstawia `application/ld+json` bezpośrednio i sprząta po sobie, więc działa także pod `StrictMode`). React 19 nie hoistuje `<script type="application/ld+json">`, więc obecne podejście zostaje.
+**Zmienione po drodze:** `StructuredData.jsx`. Propozycja zakładała, że komponent wstawia `application/ld+json` bezpośrednio do `document.head` i zostaje bez zmian. PR #34 (scalony 2026-09-06) przepiął go na Helmeta, żeby związać blok z trasą. Ponieważ ta zmiana usuwa Helmeta, blok wraca do drzewa Reacta — jako zwykły renderowany `<script>`. Związanie z trasą zostaje: odmontowanie komponentu zabiera węzeł ze sobą. React 19 nie hoistuje skryptów z treścią, więc element zostaje w `<body>`; dla JSON-LD jest to bez znaczenia.
 
 **Ryzyko do potwierdzenia:** React 19 hoistuje, ale **nie** deduplikuje tagów po atrybucie `name`. Trzeba udowodnić, że przy zmianie trasy nie zostają tagi po poprzedniej stronie i że `scripts/prerender.mjs` (czeka na `og:title` i `description` przed zrzutem) nadal widzi komplet.
 

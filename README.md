@@ -150,7 +150,7 @@ Nowoczesna, responsywna strona portfolio zbudowana przy użyciu React, Vite, Tai
 
 ### Content & SEO
 
-- **React Helmet Async 2.0.5** - Dynamiczne meta tagi SEO
+- **Natywne metadane React 19** - Dynamiczne meta tagi SEO, hoistowane przy renderze
 - **React Markdown 10.1.0** - Renderowanie treści bloga
 - **gray-matter 4.0.3** - Parsowanie frontmatter markdown
 - **React Icons 5.5.0** - Komponenty ikon

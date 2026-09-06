@@ -21,7 +21,8 @@ import matter from "gray-matter";
  * Runs against the dev server. React 19 hoists <title>, <meta> and <link>
  * itself as part of committing a render, so development and the production
  * build put the same tags in <head>. What the generated `dist/` contains is a
- * separate question, checked by prerender-metadata.spec.js.
+ * separate question, checked by scripts/verify-prerender-output.mjs,
+ * which `npm run build:prerender` runs as its last step.
  */
 
 const SITE_URL = "https://pawel.lipowczan.pl";

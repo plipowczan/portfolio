@@ -53,9 +53,6 @@ const ENGINE_INDEPENDENT = [
   "**/seo-llms-txt.spec.js",
   "**/seo-metadata-invariants.spec.js",
   "**/perf-image-loading.spec.js",
-  // Czyta pliki z `dist/` przez node:fs i nigdy nie otwiera strony — nie ma
-  // tu ani jednej asercji o widoczności, focusie czy viewporcie.
-  "**/prerender-metadata.spec.js",
 ];
 
 const chromium = {
@@ -163,13 +160,16 @@ export default defineConfig({
   //
   // dev — domyślny baseURL dla testów zachowania interfejsu.
   //
-  // preview — produkcyjny build, jedyne miejsce, gdzie widać metadane
-  // SEO. react-helmet-async 2.0.5 pod React 19 nie wstawia <meta> ani <link>
-  // do <head>, gdy aplikacja siedzi w <React.StrictMode>: podwójne
-  // zamontowanie efektów w trybie deweloperskim kończy się sprzątaniem, które
-  // wygrywa z wstawianiem. StrictMode działa tylko w dev, więc build ma
-  // komplet tagów. Testy z tests/e2e/seo-metadata-invariants.spec.js celują
-  // więc w preview (własne `test.use({ baseURL })`).
+  // preview — produkcyjny build. Potrzebuje go dziś jeden blok: bramka zgody
+  // na hoście produkcyjnym z analytics-consent.spec.js, która proxuje prawdziwy
+  // adres na ten build, bo window.location.hostname nie da się podmienić ze
+  // skryptu strony.
+  //
+  // Metadane SEO przestały go potrzebować. Do 2026-09-06 był ich jedynym
+  // widocznym źródłem: react-helmet-async wstawiał tagi w efekcie, a
+  // <React.StrictMode> montował efekty dwukrotnie, aż <head> wychodził pusty.
+  // React 19 hoistuje <title>, <meta> i <link> przy zatwierdzeniu renderu, więc
+  // seo-metadata-invariants.spec.js celuje w serwer deweloperski jak reszta.
   //
   // Build testowy idzie do `dist-test/`, nie do `dist/`. Inaczej `npm test`
   // nadpisywałby prerenderowany katalog zwykłym buildem SPA, z którego idzie

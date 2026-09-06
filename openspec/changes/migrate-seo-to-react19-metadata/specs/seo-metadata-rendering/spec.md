@@ -62,7 +62,7 @@ Element `<html>` MUSI nieść atrybut `lang` zgodny z bieżącą wersją języko
 
 ### Requirement: Metadane widoczne dla prerenderu
 
-Prerendering przez Puppeteer MUSI widzieć komplet metadanych w DOM przed zrzutem HTML. Każdy z 98 adresów MUSI wygenerować się bez ostrzeżenia o braku metatagów.
+Prerendering przez Puppeteer MUSI widzieć komplet metadanych w DOM przed zrzutem HTML. Każdy prerenderowany adres MUSI wygenerować się bez ostrzeżenia o braku metatagów.
 
 #### Scenario: Pełny przebieg prerenderu
 
@@ -74,6 +74,30 @@ Prerendering przez Puppeteer MUSI widzieć komplet metadanych w DOM przed zrzute
 
 - **WHEN** odczytamy `dist/blog/<slug>/index.html` bez uruchamiania JavaScriptu
 - **THEN** plik zawiera `<meta name="description">`, `<link rel="canonical">` i pary `hreflang` tego artykułu
+
+#### Scenario: Powłoka SPA nie zatruwa pozostałych plików
+
+- **WHEN** prerender zapisze `/` do `dist/index.html`, czyli do pliku oddawanego awaryjnie dla trasy bez własnego pliku
+- **THEN** żaden inny wygenerowany plik nie niesie tytułu, opisu ani canonicala strony głównej
+- **AND** każdy plik zawiera dokładnie jeden `<title>`, jeden `<meta name="description">` i jeden `<link rel="canonical">`
+- **AND** ten canonical wskazuje na adres tego właśnie pliku
+
+### Requirement: Dane strukturalne emitowane przez drzewo Reacta
+
+Blok `<script type="application/ld+json">` MUSI powstawać jako renderowany węzeł komponentu, nie jako efekt uboczny wstawiający go do `document.head`. Dzięki temu blok należy do trasy, która go deklaruje, a odmontowanie trasy usuwa go razem z komponentem.
+
+Treść bloku MUSI mieć uciekniete wszystkie wystąpienia znaku `<`, ponieważ trafia do dokumentu dosłownie, a prerender zapisuje ją do pliku.
+
+#### Scenario: Blok należy do swojej trasy
+
+- **WHEN** użytkownik przechodzi na trasę, która nie deklaruje żadnego schematu
+- **THEN** dokument nie zawiera bloku danych strukturalnych poprzedniej trasy
+
+#### Scenario: Wartość zawierająca znacznik zamykający
+
+- **WHEN** dowolna wartość schematu zawiera tekst `</script>`
+- **THEN** zapisany blok nie zawiera surowego znaku `<`
+- **AND** po sparsowaniu zwraca dokładnie te same wartości, które weszły
 
 ### Requirement: Brak zależności react-helmet-async
 
@@ -89,3 +113,4 @@ Projekt NIE MOŻE zawierać `react-helmet-async` w zależnościach ani importowa
 - **WHEN** testy E2E sprawdzają metadane
 - **THEN** robią to na serwerze deweloperskim, bez własnego `baseURL` wskazującego na build produkcyjny
 - **AND** nie zawierają tolerancji na brakujący opis uzasadnionej trybem deweloperskim
+- **AND** nie potrzebują zmiennej `PW_PREVIEW`

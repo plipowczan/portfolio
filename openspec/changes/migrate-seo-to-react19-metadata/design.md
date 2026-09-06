@@ -24,7 +24,7 @@ Ograniczenia: żaden adres ani żadna wartość metadanych nie może się zmieni
 **Non-Goals:**
 
 - Zmiana treści albo zestawu metadanych — wartości zostają co do znaku.
-- `StructuredData.jsx` — nie używa Helmeta i działa poprawnie pod `StrictMode`.
+- ~~`StructuredData.jsx` — nie używa Helmeta i działa poprawnie pod `StrictMode`.~~ **Nieaktualne od 2026-09-06** — patrz D6.
 - Rezygnacja z `<React.StrictMode>`.
 - Zmiana sposobu prerenderowania.
 
@@ -66,7 +66,23 @@ Po migracji dev i produkcja renderują metadane tym samym mechanizmem, więc ser
 
 *Co przez to tracimy:* kontrolę metadanych na buildzie produkcyjnym w CI. *Czym to zastępujemy:* scenariusz parzystości dev/produkcja ze specyfikacji — jeden test porównujący oba źródła — plus istniejąca reguła uruchamiania testów prerenderu przed scaleniem (`.claude/rules/11-git.md`).
 
-*Efekt uboczny:* `npm test` przestaje budować cokolwiek, więc znikają `build:test`, `preview:test` i katalog `dist-test/`. Lista wykluczeń watchera w `vite.config.js` zostaje — obserwowanie katalogów buildu było złym pomysłem niezależnie od tej zmiany.
+*Efekt uboczny — nie wystąpił.* Założenie brzmiało: skoro metadane schodzą z preview, `npm test` przestaje cokolwiek budować, więc znikają `build:test`, `preview:test` i `dist-test/`. Między napisaniem projektu a jego realizacją scalił się PR #26, a wraz z nim `analytics-consent.spec.js` — blok „bramka zgody na hoście produkcyjnym" proxuje prawdziwy adres na serwer preview, bo `window.location.hostname` nie da się podmienić ze skryptu strony. Preview ma więc drugiego konsumenta i zostaje razem z oboma skryptami. Zmienia się tylko jedno: `seo-metadata-invariants.spec.js` przestaje go potrzebować. Lista wykluczeń watchera w `vite.config.js` zostaje bez zmian.
+
+### D6: Dane strukturalne wracają do drzewa Reacta
+
+Ta decyzja nie była planowana — wymusiła ją kolizja z równoległą pracą. PR #34, scalony 2026-09-06, przepiął `StructuredData.jsx` z ręcznego wstawiania do `document.head` na `<Helmet>`. Powód był dobry: blok nie był związany z trasą, więc `/privacy-policy` serwowała `Person` ze strony głównej, a `/en/` ten sam blok dwa razy. Skoro ta zmiana usuwa Helmeta, ten sam komponent trzeba przenieść jeszcze raz.
+
+*Decyzja:* `<script type="application/ld+json">` staje się zwykłym renderowanym węzłem komponentu.
+
+*Dlaczego to trzyma:* związanie z trasą wynika teraz z konstrukcji, nie z biblioteki — odmontowanie komponentu zabiera jego własny węzeł. To ta sama własność, którą dawał Helmet, tyle że bez zależności i bez efektu.
+
+*Czym to się różni od stanu sprzed PR #34:* tamto podejście wstawiało węzeł do `document.head` **poza** drzewem, więc React nic o nim nie wiedział i nie miał czego sprzątać. Tu węzeł jest częścią renderu.
+
+*Koszt:* React 19 hoistuje `<title>`, `<meta>` i `<link>`, ale nie skrypty niosące treść, więc blok zostaje w `<body>`, przy komponencie. Dla JSON-LD to bez znaczenia — wyszukiwarki czytają go z dowolnego miejsca dokumentu, a bramki (`scripts/verify-prerender-output.mjs`, testy) pytają o cały dokument, nie o `<head>`. Tak samo od zawsze emituje swój blok `src/pages/ProjectPage.jsx`.
+
+*Alternatywy:* (a) portal do `document.head` — trzyma blok w nagłówku i też jest sterowany renderem, ale dokłada zależność od `document` w miejscu, gdzie nic jej nie wymaga; (b) powrót do ręcznego wstawiania — cofa naprawę z PR #34.
+
+*Konsekwencja uboczna:* ucieczka znaku `<` przestała być szczegółem komponentu i wylądowała w `src/utils/serializeJsonLd.js` z własnym testem jednostkowym. Powód jest empiryczny: w trakcie tej zmiany ucieczka pękła po cichu (jeden ukośnik zamiast dwóch zamienił ją w operację pustą) i nie złapał tego żaden test, bo prawdziwe schematy w repozytorium nie zawierają `<`.
 
 ## Risks / Trade-offs
 
@@ -92,7 +108,7 @@ Po migracji dev i produkcja renderują metadane tym samym mechanizmem, więc ser
 
 **Wycofanie:** zmiana nie rusza tras, danych ani wartości metadanych. Cofnięcie commita przywraca stan sprzed, łącznie z zależnością. Żaden adres nie znika, więc wycofanie nie generuje 404.
 
-## Open Questions
+## Open Questions — rozstrzygnięte
 
-- Czy po migracji `index.html` powinien nadal zawierać `<title>`? Dziś jest tam jako wartość zapasowa widoczna przed zamontowaniem Reacta. Do rozstrzygnięcia w kroku 4, na podstawie tego, co faktycznie znajdzie się w `dist/`.
-- Czy scenariusz parzystości dev/produkcja ma być testem stałym, czy jednorazową kontrolą przy migracji? Test stały wymaga obu serwerów, czyli częściowo utrzymuje to, co D5 usuwa.
+- **Czy `index.html` zachowuje `<title>`?** Nie. Pod Helmetem statyczny tytuł był bezpieczny, bo Helmet nadpisywał treść istniejącego elementu. React 19 wstawia własny, więc statyczny zostawał jako duplikat — i trafiłby do każdego wygenerowanego pliku. Usunięty; `index.html` niesie komentarz w tej samej konwencji co przy opisie.
+- **Czy parzystość dev/produkcja ma być testem stałym?** Nie — kontrola jednorazowa. Po zmianie pilnują tego dwie osobne bramki, obie porównujące wartości z tą samą `sitemap.xml`: `seo-metadata-invariants.spec.js` na serwerze deweloperskim i `scripts/verify-prerender-output.mjs` na wygenerowanym `dist/`. Jeśli obie są zielone, parzystość wynika z nich pośrednio. Osobny test byłby ich powtórzeniem, za cenę przebiegu zależnego od produkcyjnego builda.
