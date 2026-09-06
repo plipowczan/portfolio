@@ -1,3 +1,5 @@
+import { serializeJsonLd } from "../../utils/serializeJsonLd";
+
 /**
  * Emituje jeden blok JSON-LD dla bieżącej trasy.
  *
@@ -26,10 +28,7 @@
 const StructuredData = ({ schema }) => {
   if (!schema) return null;
 
-  // `<` w treści zamknęłoby element `<script>` wcześniej, niż powinien się
-  // zamknąć — wystarczy `</script>` w dowolnym łańcuchu znaków. Ucieczka jest
-  // po stronie serializacji, bo treść wstawiamy dosłownie.
-  const json = JSON.stringify(schema).replace(/</g, "\\u003c");
+  const json = serializeJsonLd(schema);
 
   return (
     <script

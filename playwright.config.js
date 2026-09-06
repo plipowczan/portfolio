@@ -53,6 +53,9 @@ const ENGINE_INDEPENDENT = [
   "**/seo-llms-txt.spec.js",
   "**/seo-metadata-invariants.spec.js",
   "**/perf-image-loading.spec.js",
+  // Czyta pliki z `dist/` przez node:fs i nigdy nie otwiera strony — nie ma
+  // tu ani jednej asercji o widoczności, focusie czy viewporcie.
+  "**/prerender-metadata.spec.js",
 ];
 
 const chromium = {
