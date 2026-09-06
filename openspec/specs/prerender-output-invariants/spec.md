@@ -96,11 +96,12 @@ A spec reading `dist/` has to skip when no prerender build has run, which is the
 - **WHEN** a contributor wants to assert something about the prerendered output
 - **THEN** the assertion goes into the build check, where it runs on every build
 - **AND** `tests/AGENTS.md` states this rule so the choice is not left to judgement
+
 ### Requirement: The build enforces a JavaScript payload budget
 
 `npm run build:prerender` SHALL compare the gzipped JavaScript required for the initial render of the homepage against a declared ceiling, and SHALL exit non-zero when the ceiling is exceeded. The ceiling and the measured value SHALL both appear in the build output, whether the check passes or fails.
 
-The current build emits a single 2,417.80 kB chunk (779.92 kB gzipped) and reports it only as an advisory Rollup warning, which nothing acts on. A budget expressed as a build failure is what stops the payload from creeping back — and because `vercel.json` sets `buildCommand: "npm run build:prerender"`, it gates every deployment at no CI cost. This follows the rule already stated in this capability: a claim about the contents of `dist/` belongs to the build check, not to a Playwright spec that skips on a normal run.
+Why a failure and not a warning: before this gate existed, the build emitted a single 2,417.80 kB chunk (779.92 kB gzipped) and reported it only as an advisory Rollup warning, which nothing acted on. A budget expressed as a build failure is what stops the payload from creeping back — and because `vercel.json` sets `buildCommand: "npm run build:prerender"`, it gates every deployment at no CI cost. This follows the rule already stated in this capability: a claim about the contents of `dist/` belongs to the build check, not to a Playwright spec that skips on a normal run.
 
 #### Scenario: Payload exceeds the ceiling
 

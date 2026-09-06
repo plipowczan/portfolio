@@ -2,7 +2,9 @@
 
 ## Purpose
 
-How blog and course markdown reaches the browser: an index built once at build time carries what listings need, article and lesson bodies arrive only when opened, and no markdown parser ships to the client.
+How blog and course markdown reaches the browser: an index built once at build time carries what listings need, article and lesson bodies arrive only when opened, and no frontmatter parser ships to the client.
+
+The renderer is a separate matter and stays in the browser: `react-markdown` with `remark` and `rehype` turns a body into elements, and gets its own chunk so it loads only on an article or a lesson. What leaves the client is frontmatter parsing — `gray-matter` — which now runs at build time.
 
 ## Requirements
 
