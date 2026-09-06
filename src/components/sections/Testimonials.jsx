@@ -78,16 +78,15 @@ const Testimonials = () => {
   // last only as long as they last; the third is a standing choice, so moving
   // the mouse away must not restart something deliberately stopped.
   //
-  // All three live in refs, and the auto-advance reads the refs. State would
-  // not do: pausing by tearing the interval down waits on a React re-render,
-  // and under load the next tick fires first — measured, with parallel workers
-  // the carousel advanced despite held focus in half the runs. Mirroring the
-  // state into a ref was not enough either, because the mirror effect could
-  // overwrite a synchronous pause with a stale value when the pointer left the
-  // carousel in the same beat as focus entering it. Only `isStopped` is also
-  // state, because the toggle's label and icon render from it.
-  const hoverPausedRef = useRef(false);
-  const focusPausedRef = useRef(false);
+  // The first two are read off the DOM at the moment of each tick rather than
+  // tracked through events. Tracking them means the pause can go stale: pausing
+  // by tearing the interval down waits on a React re-render, and a mirrored ref
+  // can be overwritten by a sync effect carrying a value from before the pause.
+  // Asking `document.activeElement` at tick time cannot go stale, and it is
+  // less code than either. Neither failure was observed in the wild — this is a
+  // design choice, not a bug fix.
+  const carouselRef = useRef(null);
+  const touchPausedRef = useRef(false);
   const stoppedRef = useRef(false);
   const [isStopped, setIsStopped] = useState(false);
 
@@ -96,8 +95,8 @@ const Testimonials = () => {
     setIsStopped(value);
   }, []);
 
-  const setHoverPaused = useCallback((value) => {
-    hoverPausedRef.current = value;
+  const setTouchPaused = useCallback((value) => {
+    touchPausedRef.current = value;
   }, []);
 
   // The preference can flip mid-session; the carousel follows it rather than
@@ -106,29 +105,13 @@ const Testimonials = () => {
     if (prefersReducedMotion) setStopped(true);
   }, [prefersReducedMotion, setStopped]);
 
-  // Focus is tracked with native focusin/focusout on the container rather than
-  // React's onFocus/onBlur props, because `relatedTarget` is what distinguishes
-  // focus leaving the carousel from focus moving between its own controls —
-  // without it, tabbing from an arrow to a dot unpauses mid-move.
-  const carouselRef = useRef(null);
-  useEffect(() => {
+  const isPausedNow = useCallback(() => {
+    if (stoppedRef.current || touchPausedRef.current) return true;
     const node = carouselRef.current;
-    if (!node) return undefined;
-
-    const onFocusIn = () => {
-      focusPausedRef.current = true;
-    };
-    const onFocusOut = (event) => {
-      if (node.contains(event.relatedTarget)) return;
-      focusPausedRef.current = false;
-    };
-
-    node.addEventListener("focusin", onFocusIn);
-    node.addEventListener("focusout", onFocusOut);
-    return () => {
-      node.removeEventListener("focusin", onFocusIn);
-      node.removeEventListener("focusout", onFocusOut);
-    };
+    if (!node) return false;
+    // `:hover` covers the pointer without a pair of listeners to keep in step;
+    // touch does not report it reliably, which is what `touchPausedRef` is for.
+    return node.contains(document.activeElement) || node.matches(":hover");
   }, []);
 
   // Number of visible cards based on screen size (handled via CSS)
@@ -145,14 +128,12 @@ const Testimonials = () => {
   // Auto-scroll effect
   useEffect(() => {
     const interval = setInterval(() => {
-      if (hoverPausedRef.current || focusPausedRef.current || stoppedRef.current) {
-        return;
-      }
+      if (isPausedNow()) return;
       nextSlide();
     }, AUTO_SCROLL_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [nextSlide]);
+  }, [nextSlide, isPausedNow]);
 
   // Get visible testimonials (3 for desktop, 1 for mobile - handled via CSS)
   const getVisibleTestimonials = () => {
@@ -195,10 +176,8 @@ const Testimonials = () => {
             variants={FADE_IN_UP}
             ref={carouselRef}
             className="relative"
-            onMouseEnter={() => setHoverPaused(true)}
-            onMouseLeave={() => setHoverPaused(false)}
-            onTouchStart={() => setHoverPaused(true)}
-            onTouchEnd={() => setHoverPaused(false)}
+            onTouchStart={() => setTouchPaused(true)}
+            onTouchEnd={() => setTouchPaused(false)}
           >
             {/* Navigation Arrows */}
             <button

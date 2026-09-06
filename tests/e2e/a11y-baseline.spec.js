@@ -65,6 +65,24 @@ const OVER_CANVAS = [
 ];
 
 /**
+ * Controls whose resting boundary is what identifies them, beyond the form
+ * fields the measurement always covers. WCAG 1.4.11 applies to a boundary that
+ * carries the identification, not to every border on the page — a control with
+ * a visible label or glyph is identified by that, and holding its decorative
+ * border to 3:1 would report findings the criterion does not ask for.
+ *
+ * Both entries are controls this change altered, so a regression in either has
+ * an assertion behind it rather than a commit message.
+ */
+const BOUNDARY_COMPONENTS = [
+  // The consent choice: accept is a filled button, reject is a bordered one,
+  // and the pair has to read as equals.
+  ".cookie-banner button",
+  // The language switcher is a pill whose border is the whole control.
+  'nav a[aria-label*="Switch"], nav a[aria-label*="Przełącz"]',
+];
+
+/**
  * KNOWN FAILURES — meet-wcag-aa-baseline.
  *
  * Measured on `main` at 445cf56, chromium and Mobile Chrome. Recorded so the
@@ -90,8 +108,8 @@ const isExpected = (finding) =>
  * readable.
  */
 /* eslint-disable no-undef */
-async function measure(page, allowlistSelectors) {
-  return page.evaluate((allowlist) => {
+async function measure(page, allowlistSelectors, boundarySelectors) {
+  return page.evaluate(([allowlist, boundaries]) => {
     const parseColor = (value) => {
       const match = value && value.match(/rgba?\(([^)]+)\)/);
       if (!match) return null;
@@ -253,22 +271,35 @@ async function measure(page, allowlistSelectors) {
       }
 
       // --- non-text contrast: the boundary that identifies a component ----
-      if (/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)) {
+      // Form fields always qualify — the border is the only thing marking the
+      // field. Buttons and links qualify when they are named here, because for
+      // most of them the label or glyph is what identifies the control and the
+      // border is decoration; measuring every bordered control would report
+      // findings WCAG 1.4.11 does not ask for.
+      const isFormField = /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
+      const isNamedComponent = boundaries.some((selector) =>
+        el.matches(selector),
+      );
+      if (isFormField || isNamedComponent) {
         const style = getComputedStyle(el);
         const width = parseFloat(style.borderTopWidth);
-        const parent = el.parentElement
-          ? compositedBackground(el.parentElement)
-          : { r: 255, g: 255, b: 255, a: 1 };
-        const boundary =
-          width > 0 && style.borderTopStyle !== "none"
-            ? parseColor(style.borderTopColor)
-            : parseColor(style.backgroundColor);
-        if (boundary) {
-          nonText.push({
-            node: describe(el),
-            kind: width > 0 ? "border" : "fill",
-            ratio: contrast(over(boundary, parent), parent),
-          });
+        const hasBorder = width > 0 && style.borderTopStyle !== "none";
+        const fill = parseColor(style.backgroundColor);
+        // Neither a border nor a fill means the control is identified by its
+        // glyph, not by a boundary — the banner's close cross, for one. There
+        // is nothing here for 1.4.11 to measure.
+        if (hasBorder || (fill && fill.a > 0)) {
+          const parent = el.parentElement
+            ? compositedBackground(el.parentElement)
+            : { r: 255, g: 255, b: 255, a: 1 };
+          const boundary = hasBorder ? parseColor(style.borderTopColor) : fill;
+          if (boundary) {
+            nonText.push({
+              node: describe(el),
+              kind: hasBorder ? "border" : "fill",
+              ratio: contrast(over(boundary, parent), parent),
+            });
+          }
         }
       }
 
@@ -317,7 +348,7 @@ async function measure(page, allowlistSelectors) {
         document.documentElement.scrollWidth >
         document.documentElement.clientWidth,
     };
-  }, allowlistSelectors);
+  }, [allowlistSelectors, boundarySelectors]);
 }
 /* eslint-enable no-undef */
 
@@ -390,6 +421,7 @@ async function settle(page) {
 }
 
 const allowlistSelectors = OVER_CANVAS.map((entry) => entry.selector);
+const boundarySelectors = BOUNDARY_COMPONENTS;
 
 const format = (rows) => rows.map((row) => `  ${row}`).join("\n");
 
@@ -423,7 +455,7 @@ test.describe("accessibility baseline", () => {
         const page = await context.newPage();
         await page.goto(route);
         await settle(page);
-        measured = await measure(page, allowlistSelectors);
+        measured = await measure(page, allowlistSelectors, boundarySelectors);
       });
 
       test.afterAll(async () => {
@@ -441,6 +473,21 @@ test.describe("accessibility baseline", () => {
             measured.unsettled,
           )}`,
         ).toEqual([]);
+      });
+
+      test("most text on the page is measurable", () => {
+        // Gradient-painted text is excluded from the contrast assertion because
+        // its glyphs come from a clipped background and cannot be read off
+        // computed style. That exclusion is only safe while it stays a handful
+        // of headings. If a regression made `color` transparent across the
+        // page — or the contrast check simply stopped seeing text — the
+        // exclusion would swallow the page and every assertion below would pass
+        // on an empty set. Headings are outnumbered by body text on every one
+        // of these routes, so this holds with room to spare.
+        expect(
+          measured.text.length,
+          `measurable text nodes on ${route}: ${measured.text.length}, unmeasurable: ${measured.unmeasurable.length}`,
+        ).toBeGreaterThan(measured.unmeasurable.length);
       });
 
       test("text that conveys meaning reaches its contrast floor", () => {
@@ -587,6 +634,66 @@ test.describe("named controls reach the comfort target", () => {
  * touch, but not on keyboard focus — so a keyboard visitor reading a
  * testimonial has it replaced under them, with no way to stop it.
  */
+/**
+ * Waits for the carousel to stand still, then watches it for `windowMs` and
+ * returns every movement it saw.
+ *
+ * Both halves matter. Watching rather than sampling the ends means a movement
+ * anywhere in the window counts, and the timeline says when it happened.
+ * Settling first means the clock does not start inside a slide transition: that
+ * animation runs 300 ms, and a transition left over from before the test
+ * touched anything swaps the card under the reader while the index stays put.
+ * An earlier version of these tests reported that tail as an advance in roughly
+ * one run in fifteen — a measurement artefact that looked exactly like a
+ * product defect.
+ */
+async function watchCarousel(page, windowMs) {
+  return page.evaluate(async (duration) => {
+    const read = () => {
+      const dots = Array.from(
+        document.querySelectorAll("#testimonials [aria-label^='Przejd']"),
+      );
+      const active = dots.findIndex((d) =>
+        d.firstElementChild?.className.includes("bg-primary-500"),
+      );
+      const text =
+        document.querySelector("#testimonials p.text-gray-300")?.innerText ?? "";
+      return { active, text: text.slice(0, 40) };
+    };
+
+    // Two agreeing reads 400 ms apart, longer than the transition. Bounded, so
+    // a genuinely moving carousel cannot stall here — it just starts moving
+    // inside the window instead, which is what the assertion is looking for.
+    const settleStart = performance.now();
+    let stable = read();
+    while (performance.now() - settleStart < 4000) {
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      const next = read();
+      if (next.text === stable.text && next.active === stable.active) break;
+      stable = next;
+    }
+
+    const start = performance.now();
+    const first = read();
+    const changes = [];
+    let previous = first;
+
+    while (performance.now() - start < duration) {
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      const now = read();
+      if (now.text !== previous.text || now.active !== previous.active) {
+        changes.push({
+          at: Math.round(performance.now() - start),
+          from: previous.active,
+          to: now.active,
+        });
+        previous = now;
+      }
+    }
+    return { first, changes };
+  }, windowMs);
+}
+
 test.describe("testimonials carousel can be paused", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/#testimonials");
@@ -614,28 +721,20 @@ test.describe("testimonials carousel can be paused", () => {
       "focus is not inside the testimonials section",
     ).toBe(true);
 
-    const before = await page
-      .locator("#testimonials p.text-gray-300")
-      .first()
-      .innerText();
-
-    // Longer than one advance interval, so a carousel that ignores focus has
-    // certainly moved by the time this resolves.
-    await page.waitForTimeout(6500);
-
-    const after = await page
-      .locator("#testimonials p.text-gray-300")
-      .first()
-      .innerText();
+    const timeline = await watchCarousel(page, 6500);
 
     const stillFocused = await page.evaluate(
       () => document.activeElement?.getAttribute("aria-label") ?? "(none)",
     );
 
     expect(
-      after,
-      `carousel advanced while a control held focus (focus at the end: ${stillFocused})`,
-    ).toBe(before);
+      timeline.changes,
+      `carousel moved while a control held focus. Started at indicator ${
+        timeline.first.active
+      }, focus at the end: ${stillFocused}. Timeline: ${JSON.stringify(
+        timeline.changes,
+      )}`,
+    ).toEqual([]);
   });
 
   test("a visible pause control is present and keyboard operable", async ({
@@ -661,18 +760,13 @@ test.describe("testimonials carousel can be paused", () => {
     await page.evaluate(() => document.activeElement?.blur());
     await expect(pause).not.toBeFocused();
 
-    const before = await page
-      .locator("#testimonials p.text-gray-300")
-      .first()
-      .innerText();
-    await page.waitForTimeout(6500);
-    const after = await page
-      .locator("#testimonials p.text-gray-300")
-      .first()
-      .innerText();
+    const timeline = await watchCarousel(page, 6500);
 
-    expect(after, "carousel advanced after the pause control was used").toBe(
-      before,
-    );
+    expect(
+      timeline.changes,
+      `carousel moved after the pause control was used. Started at indicator ${
+        timeline.first.active
+      }. Timeline: ${JSON.stringify(timeline.changes)}`,
+    ).toEqual([]);
   });
 });

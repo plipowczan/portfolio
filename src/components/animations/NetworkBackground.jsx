@@ -89,6 +89,13 @@ const NetworkBackground = ({
 
     const spawnNear = () => {
       const anchor = nodes[Math.floor(Math.random() * nodes.length)];
+      // No anchor means the field is empty: `seed={0}`, or a viewport small
+      // enough that the derived count floors to zero. Seed one node at random
+      // rather than reading `anchor.x` off `undefined` and taking the page down.
+      if (!anchor) {
+        nodes.push(new Node(undefined, undefined, false));
+        return;
+      }
       const angle = Math.random() * Math.PI * 2;
       const dist = LINK_DIST * (0.4 + Math.random() * 0.5); // within link range
       nodes.push(
