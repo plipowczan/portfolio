@@ -70,11 +70,13 @@ const LanguageSwitcher = () => {
   return (
     <Link
       to={target}
-      className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-full border border-primary-500/30 hover:border-primary-500 transition-colors text-sm font-medium"
+      className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-full border border-primary-500/50 hover:border-primary-500 transition-colors text-sm font-medium"
       aria-label={currentLang === "pl" ? "Switch to English" : "Przełącz na polski"}
     >
       <span className={currentLang === "pl" ? "text-primary-500" : "text-gray-400"}>PL</span>
-      <span className="text-gray-500">|</span>
+      <span className="text-gray-500" aria-hidden="true">
+        |
+      </span>
       <span className={currentLang === "en" ? "text-primary-500" : "text-gray-400"}>EN</span>
     </Link>
   );
@@ -88,6 +90,12 @@ const Navigation = () => {
   const { t, i18n } = useTranslation("common");
   const localizedPath = useLocalizedPath();
   const navItems = visibleNavItems(i18n.language);
+
+  // Only route links can be "the current page". The in-page anchors (#about,
+  // #contact) point at sections of whatever page is already open, so marking
+  // one of them current would claim something untrue.
+  const isCurrentPage = (href) =>
+    href.startsWith("/") && localizedPath(href) === location.pathname;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -139,6 +147,9 @@ const Navigation = () => {
 
   return (
     <nav
+      // The footer renders a second navigation landmark, so both need a name
+      // for the list of landmarks to be navigable at all.
+      aria-label={t("nav.primaryLabel")}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? "glass shadow-lg" : "bg-transparent"
       }`}
@@ -171,6 +182,7 @@ const Navigation = () => {
                 key={item.key}
                 to={localizedPath(item.href)}
                 onClick={(e) => handleNavClick(e, item.href)}
+                aria-current={isCurrentPage(item.href) ? "page" : undefined}
                 className="text-gray-300 hover:text-primary-500 transition-colors duration-200 font-medium"
               >
                 {t(item.key)}
@@ -213,6 +225,7 @@ const Navigation = () => {
                   key={item.key}
                   to={localizedPath(item.href)}
                   onClick={(e) => handleNavClick(e, item.href)}
+                  aria-current={isCurrentPage(item.href) ? "page" : undefined}
                   className="block text-gray-300 hover:text-primary-500 transition-colors duration-200 font-medium py-2"
                 >
                   {t(item.key)}

@@ -10,7 +10,7 @@
 import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import GrowingNetworkBackground from "../components/animations/GrowingNetworkBackground";
+import NetworkBackground from "../components/animations/NetworkBackground";
 import CourseAudience from "../components/sections/CourseAudience";
 import CourseFaq from "../components/sections/CourseFaq";
 import SEO from "../components/seo/SEO";
@@ -62,7 +62,7 @@ const LessonLink = ({ lesson }) => (
       to={`/llm-wiki/kurs/${lesson.slug}`}
       className="group flex items-baseline gap-3 rounded-lg border border-transparent p-3 -m-3 transition-colors hover:border-primary-500/20 hover:bg-dark-700/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
     >
-      <span className="select-none font-mono text-sm text-gray-600">
+      <span className="select-none font-mono text-sm text-gray-400">
         {String(lesson.order).padStart(2, "0")}
       </span>
       <span
@@ -73,11 +73,11 @@ const LessonLink = ({ lesson }) => (
       </span>
       <div>
         <h3 className="font-mono text-base text-white">
-          <span className="text-gray-600" aria-hidden="true">
+          <span className="text-gray-500" aria-hidden="true">
             [[
           </span>
           {lesson.title}
-          <span className="text-gray-600" aria-hidden="true">
+          <span className="text-gray-500" aria-hidden="true">
             ]]
           </span>
         </h3>
@@ -108,8 +108,8 @@ const CourseHub = () => {
 
       <StructuredData schema={HUB_FAQ_SCHEMA} />
 
-      <section className="relative flex min-h-screen items-center overflow-hidden py-24 md:py-32">
-        <GrowingNetworkBackground />
+      <section className="relative flex min-h-screen min-h-[100svh] items-center overflow-hidden py-24 md:py-32">
+        <NetworkBackground seed={12} cap={40} position="fixed" />
 
         <div className="section-container relative z-10">
           <motion.div
@@ -121,7 +121,7 @@ const CourseHub = () => {
             {/* Eyebrow */}
             <motion.div
               variants={FADE_IN_UP}
-              className="flex items-center gap-2 font-mono text-xs text-gray-500 md:text-sm"
+              className="flex items-center gap-2 font-mono text-xs text-gray-400 md:text-sm"
             >
               <span>second-brain/llm-wiki/kurs.md</span>
               <span className="text-primary-500" aria-hidden="true">
@@ -150,7 +150,7 @@ const CourseHub = () => {
             {/* Basics tier (L0) — non-technical primer, above the main course */}
             {basicsLessons.length > 0 && (
               <motion.div variants={FADE_IN_UP} className="space-y-3">
-                <p className="select-none font-mono text-xs text-gray-600">
+                <p className="select-none font-mono text-xs text-gray-400">
                   podstawy.md
                 </p>
                 <h2 className="text-lg font-bold text-white md:text-xl">
@@ -172,7 +172,7 @@ const CourseHub = () => {
 
             {/* Main course (L1–L5) */}
             <motion.div variants={FADE_IN_UP} className="space-y-3">
-              <p className="select-none font-mono text-xs text-gray-600">
+              <p className="select-none font-mono text-xs text-gray-400">
                 spis-lekcji.md
               </p>
               <h2 className="text-lg font-bold text-white md:text-xl">
@@ -198,7 +198,7 @@ const CourseHub = () => {
                 href={REPO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-mono text-sm text-primary-500 hover:text-primary-400"
+                className="inline-flex items-center gap-2 py-0.5 font-mono text-sm text-primary-500 hover:text-primary-400"
               >
                 <FaGithub size={16} />
                 second-brain-template - weź szablon na GitHubie →

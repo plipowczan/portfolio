@@ -70,9 +70,22 @@ The visual boundary of an interactive component SHALL reach at least 3:1 against
 
 ### Requirement: Interactive targets meet the minimum size
 
-Every interactive target SHALL present a hit area of at least 44×44 CSS pixels, except where the target is inline within a sentence of text.
+Every interactive target SHALL present a hit area of at least 24×24 CSS pixels, except where the target is inline within a sentence of text.
+
+That is the WCAG 2.2 AA minimum (SC 2.5.8). The 44×44 of SC 2.5.5 is Level AAA, which this change lists as a non-goal; four named controls are taken to 44×44 anyway by the requirement below, as a deliberate comfort decision rather than a conformance one.
 
 The hit area, not the painted graphic, is what SHALL be measured — a small visual indicator with generous padding satisfies this, and is often the right answer where the design calls for a small mark.
+
+#### Scenario: No target falls below the floor on any audited route
+
+- **WHEN** every interactive target on `/`, `/blog`, `/llm-wiki`, `/llm-wiki/kurs` and `/en/` is measured at both a desktop and a phone viewport
+- **THEN** no target that is not inline within a sentence falls below 24×24 CSS pixels
+
+### Requirement: Small graphic controls are comfortable to hit
+
+A control whose target is a small graphic with no text to widen its box SHALL present a hit area of at least 44×44 CSS pixels.
+
+The AA floor above is met by a 24×24 box, which still leaves an 8 px dot fiddly on a phone. These four controls carry no label text that would grow the box on its own, so they are raised deliberately.
 
 #### Scenario: Carousel position indicators
 

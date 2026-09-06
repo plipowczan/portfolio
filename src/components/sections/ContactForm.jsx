@@ -207,7 +207,7 @@ const ContactForm = () => {
                     aria-invalid={errors.name ? "true" : "false"}
                     aria-describedby={errors.name ? "name-error" : undefined}
                     className={`w-full px-4 py-3 bg-dark-700 border ${
-                      errors.name ? "border-red-500" : "border-primary-500/20"
+                      errors.name ? "border-red-500" : "border-primary-500/50"
                     } rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors`}
                     placeholder={t("contact.namePlaceholder")}
                   />
@@ -235,7 +235,7 @@ const ContactForm = () => {
                     aria-invalid={errors.email ? "true" : "false"}
                     aria-describedby={errors.email ? "email-error" : undefined}
                     className={`w-full px-4 py-3 bg-dark-700 border ${
-                      errors.email ? "border-red-500" : "border-primary-500/20"
+                      errors.email ? "border-red-500" : "border-primary-500/50"
                     } rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors`}
                     placeholder={t("contact.emailPlaceholder")}
                   />
@@ -257,7 +257,7 @@ const ContactForm = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-dark-700 border border-primary-500/20 rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors"
+                    className="w-full px-4 py-3 bg-dark-700 border border-primary-500/50 rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors"
                     placeholder={t("contact.subjectPlaceholder")}
                   />
                 </div>
@@ -283,7 +283,7 @@ const ContactForm = () => {
                     className={`w-full px-4 py-3 bg-dark-700 border ${
                       errors.message
                         ? "border-red-500"
-                        : "border-primary-500/20"
+                        : "border-primary-500/50"
                     } rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors resize-none`}
                     placeholder={t("contact.messagePlaceholder")}
                   />

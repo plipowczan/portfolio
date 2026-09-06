@@ -15,8 +15,17 @@ const SkillCard = ({ skill }) => {
         {skill.name}
       </span>
 
-      {/* Skill Level Bar */}
-      <div className="w-full bg-dark-600 rounded-full h-2 overflow-hidden">
+      {/* Skill Level Bar. The value is exposed here rather than left to the
+          "%" caption beside it, which reads as loose text with no relationship
+          to the bar it describes. */}
+      <div
+        role="meter"
+        aria-valuenow={skill.level}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={skill.name}
+        className="w-full bg-dark-600 rounded-full h-2 overflow-hidden"
+      >
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${skill.level}%` }}
