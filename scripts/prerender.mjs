@@ -233,6 +233,51 @@ async function prerenderPage(browser, route, retries = 2) {
       }
     }
 
+    // Przejazd scrollem przed zrzutem.
+    //
+    // Sekcje strony głównej (`#about`, `#skills`, `#projects`, `#testimonials`,
+    // `#contact`, wezwanie do rezerwacji) odsłaniają się przy wejściu w kadr.
+    // Prerenderer nigdy nie scrollował, więc nigdy w kadr nie wchodziły, nigdy
+    // się nie animowały i lądowały w statycznym pliku w stanie początkowym —
+    // 68 elementów z `opacity: 0` na produkcji, zmierzone 2026-09-06. To nie
+    // jest wyścig, tylko zdarzenie, które się nie odpala, więc żadne wydłużenie
+    // oczekiwania go nie dosięgnie.
+    //
+    // Idzie PO oczekiwaniu na treść, nie przed: na trasach artykułów i lekcji
+    // ciało dochodzi osobnym `import()`, a scroll po dokumencie bez ciała mierzy
+    // nieprawdziwą wysokość i kończy się za wcześnie.
+    //
+    // Animacja dla prawdziwych odwiedzających zostaje bez zmian — zmienia się
+    // tylko to, co widzi robot i użytkownik bez JavaScriptu.
+    // Krok to POŁOWA ekranu, nie cały. Sekcje odsłaniają się dopiero, gdy są
+    // 100 px w środku kadru (`viewport={{ margin: "-100px" }}`), a skok o pełny
+    // ekran potrafi przenieść element spod dolnego progu nad górny, nigdy go w
+    // próg nie wprowadzając. Zmierzone na zbudowanej stronie: pełny ekran przy
+    // 120 ms zostawia 46 niewidocznych elementów, pół ekranu przy 250 ms
+    // zostawia zero. Ćwierć ekranu nie poprawia już nic, więc połowa jest
+    // najtańszym krokiem, który wystarcza.
+    await page.evaluate(async () => {
+      const step = window.innerHeight / 2;
+      const settle = () => new Promise((r) => setTimeout(r, 250));
+
+      let position = 0;
+      let guard = 0;
+      // Wysokość rośnie w trakcie, bo odsłaniane sekcje dokładają treści.
+      // Czytamy ją w każdej iteracji; `guard` chroni przed stroną, która rośnie
+      // w nieskończoność.
+      while (position < document.body.scrollHeight && guard < 200) {
+        window.scrollTo(0, position);
+        await settle();
+        position += step;
+        guard += 1;
+      }
+
+      window.scrollTo(0, document.body.scrollHeight);
+      await settle();
+      window.scrollTo(0, 0);
+      await settle();
+    });
+
     // Dodatkowy czas na animacje i lazy loading (zmniejszony dla Vercel)
     const waitTime = IS_VERCEL ? 1000 : 2000;
     await new Promise((resolve) => setTimeout(resolve, waitTime));

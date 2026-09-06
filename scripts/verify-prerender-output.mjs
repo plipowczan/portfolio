@@ -172,6 +172,53 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
     checked.push(`${ldChecked} bloków danych strukturalnych: poprawny JSON, bez duplikatów`);
   }
 
+  // Treść główna ma wyjść widoczna, bez udziału JavaScriptu.
+  //
+  // Sekcje strony głównej odsłaniają się przy wejściu w kadr, a prerenderer nie
+  // scrollował, więc nigdy w kadr nie wchodziły i lądowały w pliku w stanie
+  // początkowym: 68 elementów z `opacity: 0` na produkcji, w tym `<h1>`, który
+  // Lighthouse wskazuje jako największy element strony. Serwer odpowiadał w
+  // 30 ms i nie malował nic.
+  //
+  // Sprawdzamy sam znacznik `<h1>` i same znaczniki `<section id="...">`, nie
+  // ich potomków. Karuzela opinii animuje się w kółko, więc któryś jej slajd
+  // zawsze wypadnie w połowie przejścia — to nie jest usterka, bo sekcja i jej
+  // tekst są w pliku. Element świadomie ukryty, jak zwinięte menu, też ma prawo
+  // być niewidoczny. Ukryta sekcja albo ukryty nagłówek to co innego: wtedy
+  // odwiedzający widzi pustą przestrzeń.
+  //
+  // Lista sekcji bierze się z samego wyjścia, nie z listy w kodzie — dzięki temu
+  // nowa sekcja jest objęta sprawdzeniem bez dopisywania jej gdziekolwiek.
+  // Zero, ale nie `0.5` i nie `0` z dalszymi cyframi. Wzorzec wymagający znaku
+  // po zerze nie działa, bo `opacity: 0"` kończy atrybut — dlatego lookahead.
+  const HIDDEN_STYLE = /style="[^"]*opacity:\s*0(?![.\d])/;
+  let visibilityChecked = 0;
+
+  for (const name of htmlFiles) {
+    const html = readFileSync(join(distDir, name), "utf-8");
+
+    const landmarks = [
+      ...[...html.matchAll(/<h1\b[^>]*>/g)].map((m) => ["<h1>", m[0]]),
+      ...[...html.matchAll(/<section\b[^>]*\bid="([^"]+)"[^>]*>/g)].map((m) => [
+        `<section id="${m[1]}">`,
+        m[0],
+      ]),
+    ];
+
+    for (const [label, tag] of landmarks) {
+      visibilityChecked += 1;
+      if (HIDDEN_STYLE.test(tag)) {
+        problems.push(
+          `${name}: ${label} wychodzi niewidoczny (opacity: 0) — bez JavaScriptu odwiedzający zobaczy w tym miejscu pustkę`
+        );
+      }
+    }
+  }
+
+  if (visibilityChecked > 0) {
+    checked.push(`${visibilityChecked} nagłówków i sekcji wychodzi widocznych`);
+  }
+
   return { problems, checked };
 }
 
