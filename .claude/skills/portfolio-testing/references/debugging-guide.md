@@ -69,12 +69,12 @@ await page.goto('http://localhost:3000');
 
 **Symptom:** Meta tags return null
 
-**Cause:** react-helmet-async updates DOM asynchronously
+**Cause:** the render carrying the tags has not been committed yet
 
 **Solution:**
 
 ```javascript
-// Wait for Helmet to update
+// Wait for React to commit the render that hoists the tags
 await page.waitForFunction(() => {
   return document.title !== '' &&
          document.title !== 'Loading...';

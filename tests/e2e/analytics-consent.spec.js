@@ -260,8 +260,11 @@ test.describe("Analytics — bramka zgody na hoście produkcyjnym", () => {
 
     expect(secondView.page_path).toBe("/cookie-policy");
     expect(secondView.page_location).toContain("/cookie-policy");
-    // The regression this guards: react-helmet-async writes the title
-    // asynchronously, so an undeferred send would repeat the previous title.
+    // The regression this guards: a page view sent before the new title is in
+    // place repeats the previous one. React 19 writes the title while
+    // committing the render, so the race that made this likely is gone -- but
+    // the assertion stays, because the ordering is what matters, not the
+    // mechanism that once broke it.
     expect(secondView.page_title).not.toBe(firstView.page_title);
   });
 

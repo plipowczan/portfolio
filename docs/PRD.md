@@ -93,7 +93,7 @@ A modern, responsive portfolio website for Pawel Lipowczan ("Your Tech Guide") s
 
 ### Content & SEO
 
-- **React Helmet Async 2.0.5** for dynamic SEO meta tags
+- **React 19 native metadata hoisting** for dynamic SEO meta tags
 - **React Markdown 10.1.0** for blog content rendering
 - **gray-matter 4.0.3** for markdown frontmatter parsing
 - **React Icons 5.5.0** for icon components

@@ -44,7 +44,7 @@ Before starting review, familiarize yourself with:
 
 ### SEO & Prerendering
 
-- Meta tags (title, description, OG tags, Twitter cards) via react-helmet-async
+- Meta tags (title, description, OG tags, Twitter cards) via `src/components/seo/SEO.jsx`
 - Structured data (JSON-LD) for Person/BlogPosting schemas
 - Canonical URL
 - Alt text on all images
@@ -162,7 +162,7 @@ CRITICAL: Focus on bugs and error conditions
 - [ ] Component in correct directory
 
 **SEO & Prerendering:**
-- [ ] Meta tags present (react-helmet-async)
+- [ ] Meta tags present (emitted by `SEO.jsx`, never inline in a page)
 - [ ] New routes added to prerender.mjs
 - [ ] Sitemap updated
 - [ ] OG images exist (WebP, 1200x630px)

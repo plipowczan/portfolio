@@ -267,17 +267,20 @@ test.describe("Feature Name", () => {
 ## 8. SEO
 
 ### Meta Tags
-```jsx
-import { Helmet } from 'react-helmet-async';
+Head tags are never written inline in a page. `src/components/seo/SEO.jsx` owns
+them, and React 19 hoists what it renders into `<head>` while committing the
+render — no metadata library is involved.
 
-<Helmet>
-  <title>{post.title} | Pawel Lipowczan</title>
-  <meta name="description" content={post.excerpt} />
-  <meta property="og:title" content={post.title} />
-  <meta property="og:image" content={post.image} />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="canonical" href={`https://pawel.lipowczan.pl/blog/${post.slug}`} />
-</Helmet>
+```jsx
+import SEO from '../components/seo/SEO';
+
+<SEO
+  title={post.title}
+  description={post.excerpt}
+  path={`/blog/${post.slug}`}
+  image={post.image}
+  article
+/>
 ```
 
 ### Structured Data

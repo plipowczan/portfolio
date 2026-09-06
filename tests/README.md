@@ -165,7 +165,7 @@ importuj z tego modułu.
 | Zmienna | Działanie |
 | --- | --- |
 | `PW_ALL=1` | pełna macierz przeglądarek zamiast domyślnej pary |
-| `PW_PREVIEW=1` | uruchamia serwer preview (produkcyjny build) |
+| `PW_PREVIEW=1` | uruchamia serwer preview (produkcyjny build) - potrzebuje go bramka zgody na hoście produkcyjnym |
 | `PW_DEPLOYED=1` | nie stawia żadnego serwera lokalnego - cel jest zdalny |
 | `SEO_HEADERS_URL` | adres wdrożenia dla testów nagłówków (`seo-security-headers`, `perf-font-cache-headers`) |
 | `DEV_PORT`, `PREVIEW_PORT` | nadpisują wyliczone porty |
@@ -493,8 +493,9 @@ Szczegóły, które łatwo przeoczyć:
 - **Cache przeglądarek** kluczowany wersją `@playwright/test` i przeglądarką.
   Krok instalacji ma własny `timeout-minutes: 10` - kiedyś zawisł na 30 minut i
   zjadł cały budżet joba, przez co testy nie wystartowały wcale.
-- **`PW_PREVIEW` tylko w jobie chromium.** Testy metadanych SEO są przypięte do
-  chromium, więc pozostałe joby nie płacą za produkcyjny build.
+- **`PW_PREVIEW` w każdym jobie.** Serwera preview potrzebuje dziś bramka zgody
+  na hoście produkcyjnym, a ta nie jest niezależna od silnika i leci na pełnej
+  macierzy. Metadane SEO przestały go potrzebować, kiedy zniknął Helmet.
 - **Prerenderu nie ma w CI.** Kompletność `dist/` sprawdza sam
   `npm run build:prerender`, a to `buildCommand` z `vercel.json` - bramka działa
   na każdym wdrożeniu, bez minuty runnera.
