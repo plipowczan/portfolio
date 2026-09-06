@@ -15,8 +15,10 @@ requirement.
 
 This exists because the guard already present in the prerender step asserts only
 that Helmet-managed head tags belong to the route. It says nothing about whether
-the captured body is visible, which is how a homepage serving 74 elements at
-inline `opacity: 0` reached production.
+the captured body is visible, which is how a homepage whose sections were served
+hidden reached production. The measurements behind that are in the change
+proposal and its archive, deliberately not here — a count in a spec is stale the
+first time the page changes.
 
 #### Scenario: Sections that animate on scroll
 

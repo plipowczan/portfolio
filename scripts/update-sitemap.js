@@ -19,20 +19,48 @@ const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
 
 /**
  * Zwraca git committer date (ISO 8601, date-only) dla pliku.
- * Fallback do dzisiejszej daty jeśli git nie jest dostępny albo plik nie jest śledzony.
+ *
+ * Rzuca, gdy daty nie da się ustalić. Wcześniej wracała wtedy dzisiejsza data,
+ * przez co sitemap niósł datę wdrożenia zamiast prawdziwej: 34 z 38 adresów
+ * spoza bloga miały identyczne `2026-07-30`, w tym 18 adresów projektów, choć
+ * `src/data/projects.js` ostatnio zmieniał się 2025-12-01. Niewiarygodny
+ * `lastmod` jest gorszy niż jego brak — Google przestaje ufać całej sitemapie,
+ * a nie tylko jednemu wpisowi. Dlatego brak daty ma zatrzymać build, a nie
+ * wyprodukować wiarygodnie wyglądającą nieprawdę.
+ *
+ * Dwie drogi awarii, obie wcześniej ciche:
+ *  - `git log` rzuca — brak gita, brak repozytorium;
+ *  - `git log` kończy się sukcesem i nie wypisuje **nic**. Tak zachowuje się
+ *    płytki klon, który nie ma commita dotykającego tego pliku. To ta droga
+ *    odpalała się na Vercelu, bo nie rzucała wyjątku i nie zostawiała śladu.
  */
 function getGitLastModDate(relativePath) {
+  let iso;
+
   try {
-    const iso = execFileSync(
+    iso = execFileSync(
       "git",
       ["log", "-1", "--format=%cI", "--", relativePath],
       { cwd: ROOT, encoding: "utf-8" },
     ).trim();
-    if (iso) return iso.split("T")[0];
-  } catch {
-    // ignore
+  } catch (error) {
+    throw new Error(
+      `Nie udało się odczytać daty commita dla "${relativePath}": ` +
+        `polecenie git zakończyło się błędem (${error.message}).`,
+    );
   }
-  return new Date().toISOString().split("T")[0];
+
+  if (!iso) {
+    throw new Error(
+      `Brak daty commita dla "${relativePath}": git zakończył się sukcesem, ` +
+        `ale nie zwrócił żadnej daty. Najczęstsza przyczyna to płytki klon bez ` +
+        `historii sięgającej commita, który dotknął tego pliku — w takim ` +
+        `środowisku build musi mieć pełną historię. Sitemap nie zostanie ` +
+        `zapisany z podstawioną datą.`,
+    );
+  }
+
+  return iso.split("T")[0];
 }
 
 /**

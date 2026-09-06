@@ -6,10 +6,10 @@
 
 Independent of PR #29 and of the other two defects. Land first.
 
-- [ ] 2.1 Make `getGitLastModDate()` in `scripts/update-sitemap.js` throw instead of returning `new Date()`, covering **both** silent paths — the `catch` and the empty-stdout fall-through — with a message naming the path and which path failed; verify by calling it with a path git does not track and observing a named failure rather than today's date
+- [x] 2.1 Make `getGitLastModDate()` in `scripts/update-sitemap.js` throw instead of returning `new Date()`, covering **both** silent paths — the `catch` and the empty-stdout fall-through — with a message naming the path and which path failed; verify by calling it with a path git does not track and observing a named failure rather than today's date
 - [ ] 2.2 Ensure the build can resolve git history where it runs; verify `npm run blog:sitemap` in a shallow clone fails loudly and names the unresolvable file rather than emitting the current date
-- [ ] 2.3 Regenerate the sitemap and verify the three legal pages carry the commit dates of `PrivacyPolicy.jsx`, `TermsOfService.jsx` and `CookiePolicy.jsx`, and that the eighteen project URLs carry the commit date of `src/data/projects.js` — none of them `2026-07-30` unless that is genuinely the commit date
-- [ ] 2.4 Verify `<priority>` and `<changefreq>` are still emitted on every URL and listing pages still track the freshest post, per the existing `sitemap-lastmod` requirements this change does not alter
+- [x] 2.3 Regenerate the sitemap and verify the three legal pages carry the commit dates of `PrivacyPolicy.jsx`, `TermsOfService.jsx` and `CookiePolicy.jsx`, and that the eighteen project URLs carry the commit date of `src/data/projects.js` — none of them `2026-07-30` unless that is genuinely the commit date
+- [x] 2.4 Verify `<priority>` and `<changefreq>` are still emitted on every URL and listing pages still track the freshest post, per the existing `sitemap-lastmod` requirements this change does not alter
 
 ## 3. Structured data
 
