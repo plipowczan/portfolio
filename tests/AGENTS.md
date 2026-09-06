@@ -48,11 +48,19 @@ Never hardcode a port in a spec — take the URL from `baseURL` or that module.
   tags set their own `test.use({ baseURL })` — see
   `e2e/seo-metadata-invariants.spec.js`.
 
-  **JSON-LD counts as a head tag.** Until 2026-09-06 `StructuredData` appended
-  its script straight to `document.head`, outside Helmet, so JSON-LD was the one
-  piece of head content that did work on the dev server — and assertions about
-  it grew up inside interface specs. It goes through Helmet now, so it follows
-  the same rule as every other head tag. Two assertions moved to
+  **JSON-LD emitted through `StructuredData` counts as a head tag.** Until
+  2026-09-06 that component appended its script straight to `document.head`,
+  outside Helmet, so its output was the one piece of head content that did work
+  on the dev server — and assertions about it grew up inside interface specs. It
+  goes through Helmet now, so it follows the same rule as every other head tag.
+
+  This is not a rule about JSON-LD in general. `src/pages/ProjectPage.jsx`
+  renders its own `<script type="application/ld+json">` in the page body rather
+  than through `StructuredData`, so it is part of the component's render tree,
+  route-scoped by construction, and visible on the dev server like any other
+  markup. Assertions about that block do not need the preview server.
+
+  Two assertions moved to
   `seo-metadata-invariants.spec.js` for that reason: the breadcrumb
   `BreadcrumbList` (from `breadcrumbs.spec.js`) and the course hub's `FAQPage`
   (from `llm-wiki-course.spec.js`). Both files kept their visual assertions.

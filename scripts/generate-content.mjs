@@ -135,7 +135,7 @@ function validatePost(data, filename) {
 }
 
 /** Waliduje frontmatter lekcji. Rzuca z nazwą pliku i nazwą problemu. */
-function validateLesson(data, filename) {
+function validateLesson(data, filename, raw) {
   const missing = LESSON_REQUIRED.filter(
     (field) => data[field] === undefined || data[field] === null || data[field] === "",
   );
@@ -162,13 +162,24 @@ function validateLesson(data, filename) {
   // plik nietknięty od granicy skrótu raportował tę samą, fałszywą datę.
   // Data mieszka więc przy treści, a walidacja jest tutaj, żeby nowa lekcja bez
   // daty przewróciła build od razu, a nie dopiero przy generowaniu sitemapy.
-  const updatedIso =
-    data.updated instanceof Date
-      ? data.updated.toISOString().slice(0, 10)
-      : data.updated;
-  if (typeof updatedIso !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(updatedIso)) {
+  // Z surowego tekstu, nie z przetworzonego frontmattera: YAML zamienia
+  // niecytowaną datę na Date, a niemożliwa data przewija się po cichu
+  // (`2026-13-01` → `2027-01-01`), więc po przekształceniu nie da się jej już
+  // odróżnić od poprawnej.
+  const updatedRaw = raw.match(/^updated:\s*(\S+)/m)?.[1];
+  const updatedIso = updatedRaw;
+  const [uy, um, ud] = (updatedIso ?? "").split("-").map(Number);
+  const updatedReal =
+    Number.isFinite(uy) &&
+    new Date(Date.UTC(uy, um - 1, ud)).getUTCMonth() === um - 1 &&
+    new Date(Date.UTC(uy, um - 1, ud)).getUTCDate() === ud;
+  if (
+    typeof updatedIso !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(updatedIso) ||
+    !updatedReal
+  ) {
     throw new Error(
-      `Invalid 'updated' in ${filename}: expected YYYY-MM-DD, got ${String(data.updated)}`,
+      `Invalid 'updated' in ${filename}: expected a real YYYY-MM-DD date, got ${String(updatedRaw ?? data.updated)}`,
     );
   }
 }
@@ -205,16 +216,13 @@ function parsePost(raw, filename, lang) {
 /** @returns {{ entry: object, body: string }} */
 function parseLesson(raw, filename) {
   const { data, content } = matter(raw);
-  validateLesson(data, filename);
+  validateLesson(data, filename, raw);
 
   return {
     entry: {
       slug: data.slug,
       order: data.order,
-      updated:
-        data.updated instanceof Date
-          ? data.updated.toISOString().slice(0, 10)
-          : data.updated,
+      updated: raw.match(/^updated:\s*(\S+)/m)?.[1],
       title: data.title,
       excerpt: data.excerpt,
       // Opcjonalny screencast wpięty w górny slot lekcji. `video` = źródło
