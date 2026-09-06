@@ -230,8 +230,6 @@ inaczej portfolio wystawia martwy link w „Przydatnych zasobach". Przed scaleni
    warstwę certyfikatu i klucza podpisującego. Artykuł zaznacza istnienie wątku jednym
    zdaniem i go nie otwiera.
 
-## Post-Article Tasks
-
 6. **Trzy odwołania do Qamery zamiast jednego linku do narzędzia.** Plan (sekcja 11) mówi
    „nie sprzedawać Qamery: jeden link do narzędzia, jeden do artykułu biznesowego". Operator
    poprosił wprost o nazwanie i podlinkowanie projektu w leadzie oraz o wpuszczanie linków
@@ -251,6 +249,8 @@ inaczej portfolio wystawia martwy link w „Przydatnych zasobach". Przed scaleni
    ścisły. Gdyby brzmiał „trzy werdykty, które obaliłem", byłby nieprawdziwy.
    Alternatywa z planu na wypadek zmiany zdania: „Zmierzone, nie założone. Trzy razy
    pomyliłem się o ten sam plik" (mocniejszy hak, słabszy w wyszukiwarce).
+
+## Post-Article Tasks
 
 - [x] Prompt obrazu OG wygenerowany: `.claude/agents/prompts/og-zmierzone-nie-zalozone-prompt.txt`
 - [x] Obraz OG wygenerowany (`gemini-3-pro-image-preview`)
