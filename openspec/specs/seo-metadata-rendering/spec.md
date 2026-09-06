@@ -89,7 +89,7 @@ Prerendering przez Puppeteer MUSI widzieć komplet metadanych w DOM przed zrzute
 
 Blok `<script type="application/ld+json">` MUSI powstawać jako renderowany węzeł komponentu, nie jako efekt uboczny wstawiający go do `document.head`. Dzięki temu blok należy do trasy, która go deklaruje, a odmontowanie trasy usuwa go razem z komponentem.
 
-Treść bloku MUSI mieć uciekniete wszystkie wystąpienia znaku `<`, ponieważ trafia do dokumentu dosłownie, a prerender zapisuje ją do pliku.
+Treść bloku MUSI mieć ucieknięte wszystkie wystąpienia znaku `<`, ponieważ trafia do dokumentu dosłownie, a prerender zapisuje ją do pliku.
 
 #### Scenario: Blok należy do swojej trasy
 
