@@ -275,6 +275,46 @@ test.describe("SEO — page metadata invariants", () => {
     expect(types, "article is missing its BlogPosting").toContain("BlogPosting");
   });
 
+  /**
+   * FAQPage huba kursu — asercja przeniesiona z `llm-wiki-course.spec.js`
+   * 2026-09-06, z tego samego powodu co wyżej: pod StrictMode Helmet nie
+   * wystawia tagów na serwerze deweloperskim, więc jedynym uczciwym celem jest
+   * build. Sam widok FAQ testuje się dalej tam, gdzie testowały go asercje
+   * wizualne.
+   */
+  test("course hub emits a FAQPage whose questions match the rendered list", async ({
+    page,
+  }) => {
+    await page.goto("/llm-wiki/kurs");
+
+    const faqSchema = await page.evaluate(() =>
+      [...document.querySelectorAll('script[type="application/ld+json"]')]
+        .map((el) => {
+          try {
+            return JSON.parse(el.textContent);
+          } catch {
+            return null;
+          }
+        })
+        .find((data) => data && data["@type"] === "FAQPage"),
+    );
+
+    expect(faqSchema, "course hub is missing its FAQPage block").toBeTruthy();
+    expect(faqSchema.mainEntity.length).toBeGreaterThanOrEqual(3);
+
+    const rendered = await page
+      .getByTestId("course-faq")
+      .locator("dt")
+      .allTextContents();
+
+    for (const { name } of faqSchema.mainEntity) {
+      expect(
+        rendered.some((text) => text.includes(name)),
+        `FAQPage question not rendered on the page: ${name}`,
+      ).toBe(true);
+    }
+  });
+
   test("descriptions are unique across pages", async ({ page }) => {
     // One navigation per page in a single test, so the comparison sees them
     // all — worth the extra wall clock, hence test.slow().

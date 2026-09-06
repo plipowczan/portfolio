@@ -97,7 +97,11 @@ test.describe("Kurs LLM Wiki — hub", () => {
     ).toBeVisible();
   });
 
-  test("hub renderuje FAQ z obiekcjami i emituje FAQPage JSON-LD z danych", async ({
+  // Asercja o FAQPage JSON-LD przeniosła się 2026-09-06 do
+  // seo-metadata-invariants.spec.js: dane strukturalne idą teraz przez tę samą
+  // warstwę nagłówka co reszta metadanych, a ta pod StrictMode nie wystawia
+  // niczego na serwerze deweloperskim. Tu zostaje to, co widać na ekranie.
+  test("hub renderuje FAQ z obiekcjami", async ({
     page,
   }) => {
     await page.goto("/llm-wiki/kurs");
@@ -121,48 +125,6 @@ test.describe("Kurs LLM Wiki — hub", () => {
     // Blok FAQ nie dodaje linków (hub ma dokładnie jedno CTA do /llm-wiki).
     await expect(faq.locator("a")).toHaveCount(0);
 
-    // FAQPage JSON-LD wstrzykiwane przez StructuredData (useEffect) — poll.
-    await expect
-      .poll(async () =>
-        page.evaluate(() => {
-          const scripts = Array.from(
-            document.querySelectorAll('script[type="application/ld+json"]')
-          );
-          const faqSchema = scripts
-            .map((s) => {
-              try {
-                return JSON.parse(s.textContent);
-              } catch {
-                return null;
-              }
-            })
-            .find((s) => s && s["@type"] === "FAQPage");
-          return faqSchema ? faqSchema.mainEntity.map((q) => q.name) : null;
-        })
-      )
-      .not.toBeNull();
-
-    const schemaQuestions = await page.evaluate(() => {
-      const scripts = Array.from(
-        document.querySelectorAll('script[type="application/ld+json"]')
-      );
-      const faqSchema = scripts
-        .map((s) => {
-          try {
-            return JSON.parse(s.textContent);
-          } catch {
-            return null;
-          }
-        })
-        .find((s) => s && s["@type"] === "FAQPage");
-      return faqSchema.mainEntity.map((q) => q.name);
-    });
-
-    // Pytania w schemie odpowiadają wyrenderowanym wpisom.
-    const renderedQuestions = await faq.locator("dt").allTextContents();
-    for (const name of schemaQuestions) {
-      expect(renderedQuestions.some((text) => text.includes(name))).toBe(true);
-    }
   });
 });
 
