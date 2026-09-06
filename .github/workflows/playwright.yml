@@ -16,6 +16,32 @@ on:
     branches: [main]
 
 jobs:
+  # Testy jednostkowe: czyste funkcje, bez przeglądarki i bez serwera. Jeden
+  # job na przebieg, nie na projekt — nic tu nie zależy od silnika ani od
+  # viewportu, więc przepuszczanie ich przez macierz nic nie kupuje.
+  #
+  # Leci na obu wyzwalaczach, bo jest tani (kilkanaście sekund) i pilnuje
+  # rzeczy, których żaden test w przeglądarce nie widzi — m.in. ucieczki
+  # znaków w JSON-LD, która pękła raz po cichu.
+  unit:
+    name: Unit
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test:unit
+
   pr:
     name: PR — ${{ matrix.project }} (${{ matrix.shard }}/2)
     if: github.event_name == 'pull_request'

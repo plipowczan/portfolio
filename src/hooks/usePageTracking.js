@@ -5,14 +5,16 @@ import { initAnalytics, sendPageView } from "../utils/analytics";
 /**
  * How long to wait before reading `document.title`.
  *
- * react-helmet-async writes the title in an effect, asynchronously after the
- * route changes, so a page view sent immediately would carry the *previous*
- * page's title. `page_title` is a primary GA4 dimension, which would shift
- * every report by one page.
+ * The delay used to be load-bearing for a second reason: react-helmet-async
+ * wrote the title in an effect, after the route had already changed, so a page
+ * view sent immediately carried the *previous* page's title and shifted every
+ * report by one page. React 19 hoists `<title>` while committing the render,
+ * so that race is gone.
  *
- * The same delay buys a second property for free: a route the visitor passed
+ * What remains is the reason the delay is kept: a route the visitor passed
  * through and left within this window never reports, because the pending send
- * is cancelled on cleanup.
+ * is cancelled on cleanup. Shortening it would start counting those, and the
+ * numbers would stop matching everything collected since July.
  */
 const TITLE_SETTLE_MS = 300;
 

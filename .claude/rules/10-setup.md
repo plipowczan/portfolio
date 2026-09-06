@@ -72,4 +72,4 @@ src/
 - **Routing**: React Router 7 (`src/App.jsx`).
 - **State**: Local state + Props (Context where necessary).
 - **Animations**: Framer Motion (`src/components/animations/`).
-- **SEO**: React Helmet Async + Puppeteer Prerendering.
+- **SEO**: natywne hoistowanie metadanych z React 19 + prerendering przez Puppeteer.

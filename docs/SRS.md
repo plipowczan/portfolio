@@ -99,7 +99,6 @@ Tailwind CSS 3.4.18
 **Content & SEO:**
 
 ```
-react-helmet-async 2.0.5
 react-markdown 10.1.0
 ├── rehype-raw 7.0.0
 └── gray-matter 4.0.3
@@ -206,7 +205,7 @@ portfolio/
 │   │   │   └── NetworkBackground.jsx # Canvas network animation
 │   │   │
 │   │   ├── seo/                      # SEO components
-│   │   │   ├── SEO.jsx               # react-helmet-async wrapper
+│   │   │   ├── SEO.jsx               # head tags, hoisted by React 19
 │   │   │   └── StructuredData.jsx    # JSON-LD schema generator
 │   │   │
 │   │   ├── ui/                       # Reusable UI components
@@ -310,7 +309,7 @@ portfolio/
 ```
 <App>
   └─ <Layout>
-      ├─ <SEO> (react-helmet-async)
+      ├─ <SEO> (metadane hoistowane przez React 19)
       ├─ <StructuredData> (JSON-LD)
       ├─ <Navigation>
       │   ├─ Logo

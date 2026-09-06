@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
-import { PREVIEW_URL } from "../../scripts/ports.mjs";
+import matter from "gray-matter";
 
 /**
  * Page-level SEO invariants (openspec: fix-seo-hreflang-canonical-meta).
@@ -18,11 +18,11 @@ import { PREVIEW_URL } from "../../scripts/ports.mjs";
  * found the same page shipping a description from index.html, a canonical
  * pointing at the other language, and hreflang built by string surgery.
  *
- * Runs against the preview build, not the dev server: under
- * <React.StrictMode> react-helmet-async 2.0.5 + React 19 never commit their
- * <meta>/<link> tags, so the dev server shows an empty <head> regardless of
- * what the code does. StrictMode is development-only, so the build is the
- * honest target — and it is also what Vercel actually serves.
+ * Runs against the dev server. React 19 hoists <title>, <meta> and <link>
+ * itself as part of committing a render, so development and the production
+ * build put the same tags in <head>. What the generated `dist/` contains is a
+ * separate question, checked by scripts/verify-prerender-output.mjs,
+ * which `npm run build:prerender` runs as its last step.
  */
 
 const SITE_URL = "https://pawel.lipowczan.pl";
@@ -62,6 +62,20 @@ const parseSitemap = () => {
 
 const SITEMAP = parseSitemap();
 const SITEMAP_LOCS = new Set(SITEMAP.keys());
+
+/**
+ * A PL post's `excerpt` straight from its frontmatter — the exact string
+ * <BlogPostPage> hands to <SEO> as `description`, so it is the honest expected
+ * value for a metadata assertion.
+ */
+const readExcerpt = (slug) => {
+  const file = fileURLToPath(
+    new URL(`../../src/content/blog/${slug}.md`, import.meta.url),
+  );
+  const { excerpt } = matter(readFileSync(file, "utf8")).data;
+  if (!excerpt) throw new Error(`${slug}.md has no excerpt in frontmatter`);
+  return excerpt;
+};
 
 /**
  * The URL set from the change's task 5.7. `/llm-wiki/kurs/...` stands in for
@@ -107,7 +121,7 @@ const PAGES = [
 /** Canonical form of a site URL, so a trailing slash never decides a match. */
 const normalize = (url) => url.replace(/\/+$/, "") || "/";
 
-/** Navigate and let react-helmet-async write the tags into <head>. */
+/** Navigate and let React commit the render that hoists the tags. */
 const openPage = async (page, path) => {
   await page.goto(path);
   await page.waitForLoadState("networkidle");
@@ -125,17 +139,6 @@ const readHreflang = (page) =>
   );
 
 test.describe("SEO — page metadata invariants", () => {
-  test.use({ baseURL: PREVIEW_URL });
-
-  // Serwer preview startuje tylko pod `PW_PREVIEW=1` — patrz
-  // playwright.config.js. Bez niego nie ma czego odpytać, więc blok pomija
-  // się z nazwą zmiennej zamiast wywracać przebieg na odmowie połączenia.
-  // W CI zmienną ustawia workflow, w jobie chromium.
-  test.skip(
-    !process.env.PW_PREVIEW,
-    "Serwer preview nie działa — uruchom z PW_PREVIEW=1, żeby wykonać ten blok."
-  );
-
   test("sitemap.xml parsed and every checked path is listed in it", () => {
     expect(SITEMAP.size).toBeGreaterThan(0);
 
@@ -155,13 +158,20 @@ test.describe("SEO — page metadata invariants", () => {
       await openPage(page, path);
 
       // 1. Exactly one description tag. Two of them (the old static one in
-      //    index.html plus Helmet's) let a parser pick the wrong one.
+      //    index.html plus the one React renders) let a parser pick the wrong
+      //    one.
       const descriptions = await page.$$eval(
         'meta[name="description"]',
         (metas) => metas.map((m) => m.getAttribute("content")),
       );
       expect(descriptions).toHaveLength(1);
       expect(descriptions[0]?.trim().length ?? 0).toBeGreaterThan(0);
+
+      // 1a. Exactly one <title>, for the same reason. react-helmet-async used
+      //     to overwrite the text of the static tag in index.html, so a second
+      //     title was impossible; React 19 hoists a new element instead, which
+      //     is why that static tag had to go.
+      await expect(page.locator("title")).toHaveCount(1);
 
       // 2. Canonical points at this page, /en prefix kept.
       const canonical = await page
@@ -400,5 +410,168 @@ test.describe("SEO — page metadata invariants", () => {
     // Prefix mirror is fine here — the switcher is a user affordance, not an
     // hreflang declaration. What matters is that no hreflang was emitted.
     await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0);
+  });
+
+  /**
+   * Metadata after a client-side route change (openspec:
+   * migrate-seo-to-react19-metadata, decision D3).
+   *
+   * React 19 hoists <title>, <meta> and <link> into <head> by itself, but it
+   * does not deduplicate <meta> by `name` — two components rendering a
+   * description produce two tags. Here <SEO> renders once per route and
+   * unmounts on the way out, so React should remove the previous page's tags.
+   * "Should" is not enough for a layer that was just found silently broken,
+   * so these tests prove it instead of assuming it.
+   *
+   * Every case asserts the transition happened without a document load. A full
+   * reload would rebuild <head> from scratch and pass trivially, proving
+   * nothing about unmount cleanup.
+   */
+  test.describe("po nawigacji po stronie klienta", () => {
+    const POST_A = "/blog/slabe-strony-claude-code";
+    const POST_B = "/blog/rag-ragowi-nierowny";
+    const LESSON_WITHOUT_TRANSLATION = "/llm-wiki/kurs/0-co-to-drugi-mozg";
+
+    /** Counts main-frame document loads from the moment it is attached. */
+    const countDocumentLoads = (page) => {
+      const counter = { loads: 0 };
+      page.on("load", () => {
+        counter.loads += 1;
+      });
+      return counter;
+    };
+
+    /**
+     * A route change driven straight through the router.
+     *
+     * Clicking a <Link> would be closer to what a user does, but it is not a
+     * reliable way to *guarantee* a client-side transition here. Two reasons:
+     * nothing reaches /llm-wiki/kurs through the router at all (absent from
+     * nav and footer; the one article that mentions it uses raw HTML from
+     * markdown, which reloads), and on the dev server a click from the blog
+     * listing to an article performs a document navigation rather than a
+     * client-side one — behaviour that predates this change and does not
+     * happen on the production build.
+     *
+     * `pushState` plus a `popstate` event is exactly what React Router
+     * subscribes to, so the route swaps without a document load. That is the
+     * condition under test: <SEO> unmounting and React removing the tags it
+     * hoisted for the previous route.
+     */
+    const navigateClientSide = async (page, path) => {
+      await page.evaluate((target) => {
+        window.history.pushState({}, "", target);
+        window.dispatchEvent(new PopStateEvent("popstate", { state: {} }));
+      }, path);
+      await page.waitForFunction(
+        (target) => window.location.pathname === target,
+        path,
+      );
+    };
+
+    test("artykuł → artykuł: jeden opis, treść z artykułu docelowego", async ({
+      page,
+    }) => {
+      test.slow();
+
+      // Expected values come from the articles' frontmatter, not from a
+      // reference page load. <BlogPostPage> picks the post with
+      // getPostsByLang(i18n.language), and i18n settles its language in an
+      // effect — so the first render of a direct hit can be the "post not
+      // found" branch, which carries a description of its own. Reading the
+      // reference off the page catches that value on slower engines.
+      const expectedA = readExcerpt("slabe-strony-claude-code");
+      const expected = readExcerpt("rag-ragowi-nierowny");
+      expect(expectedA).not.toBe(expected);
+
+      await openPage(page, POST_A);
+      // Retrying assertion, so it also waits out the language settling above.
+      await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+        "content",
+        expectedA,
+      );
+
+      const loads = countDocumentLoads(page);
+      await navigateClientSide(page, POST_B);
+
+      // The router updates the URL before React commits the new render, so
+      // the tags lag the address by a frame or two. Retrying assertions, not a
+      // single read — a one-shot read here catches the listing's description.
+      await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+        "content",
+        expected,
+      );
+      await expect(page.locator('meta[name="description"]')).toHaveCount(1);
+      expect(loads.loads, "route change must not reload the document").toBe(0);
+    });
+
+    test("przełączenie języka: jeden canonical, na bieżącą wersję językową", async ({
+      page,
+    }) => {
+      await openPage(page, POST_A);
+      const loads = countDocumentLoads(page);
+
+      await page
+        .locator('a[aria-label="Switch to English"]:visible')
+        .first()
+        .click();
+      await page.waitForURL("**/en/blog/claude-code-weak-spots", {
+        timeout: 15000,
+      });
+
+      await expect
+        .poll(async () =>
+          normalize(
+            await page
+              .locator('link[rel="canonical"]')
+              .first()
+              .getAttribute("href"),
+          ),
+        )
+        .toBe(normalize(`${SITE_URL}/en/blog/claude-code-weak-spots`));
+      await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
+      expect(loads.loads, "route change must not reload the document").toBe(0);
+    });
+
+    test("strona z parą hreflang → strona bez tłumaczenia: zero hreflang", async ({
+      page,
+    }) => {
+      await openPage(page, POST_A);
+      await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(
+        3,
+      );
+
+      const loads = countDocumentLoads(page);
+      await navigateClientSide(page, LESSON_WITHOUT_TRANSLATION);
+
+      await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(
+        0,
+      );
+      expect(loads.loads, "route change must not reload the document").toBe(0);
+    });
+
+    test("każde przejście zostawia dokładnie jeden <title>", async ({
+      page,
+    }) => {
+      test.slow();
+
+      await openPage(page, POST_A);
+      await expect(page.locator("title")).toHaveCount(1);
+      const first = await page.title();
+
+      const loads = countDocumentLoads(page);
+
+      // toHaveTitle retries, so it waits out the gap between the URL changing
+      // and React committing the new <title>.
+      await navigateClientSide(page, LESSON_WITHOUT_TRANSLATION);
+      await expect(page).not.toHaveTitle(first);
+      await expect(page.locator("title")).toHaveCount(1);
+
+      await navigateClientSide(page, POST_A);
+      await expect(page).toHaveTitle(first);
+      await expect(page.locator("title")).toHaveCount(1);
+
+      expect(loads.loads, "route change must not reload the document").toBe(0);
+    });
   });
 });

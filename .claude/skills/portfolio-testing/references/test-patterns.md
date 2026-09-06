@@ -165,10 +165,10 @@ await page.waitForSelector('.loading', { state: 'hidden' });
 await page.waitForSelector('.blog-posts >> article', { state: 'visible' });
 ```
 
-### Wait for SEO tags (react-helmet-async)
+### Wait for SEO tags
 
 ```javascript
-// React Helmet updates title asynchronously
+// The title lands when React commits the render, not immediately
 await page.waitForFunction(() => {
   return document.title !== '' &&
          document.title !== 'Loading...' &&

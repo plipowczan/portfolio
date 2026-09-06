@@ -510,7 +510,7 @@ FAQPage schema to structured data format, który pozwala AI botom i wyszukiwarko
 
 ### Jak zintegrować FAQPage schema z istniejącym blog postem w React application?
 
-Dodaj <script type="application/ld+json"> z FAQPage schema do <head> sekcji page używając React Helmet lub Next.js Head component. Schema JSON zawiera @type: "FAQPage" oraz mainEntity array z Question objects. Każdy Question ma name (pytanie) i acceptedAnswer (Answer object z text). Możesz użyć helper function do auto-generowania schema z markdown FAQ content.
+Dodaj <script type="application/ld+json"> z FAQPage schema przez komponent StructuredData. Schema JSON zawiera @type: "FAQPage" oraz mainEntity array z Question objects. Każdy Question ma name (pytanie) i acceptedAnswer (Answer object z text). Możesz użyć helper function do auto-generowania schema z markdown FAQ content.
 
 ### Które narzędzia pozwalają zwalidować poprawność FAQPage structured data?
 

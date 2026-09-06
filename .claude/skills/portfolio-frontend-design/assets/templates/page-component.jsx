@@ -12,7 +12,7 @@
  * 4. Create OG image in public/images/og/
  */
 
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/seo/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../components/ui/Breadcrumbs';
@@ -62,42 +62,16 @@ const PageName = () => {
 
   return (
     <>
-      {/* SEO Meta Tags - TODO: Update all values */}
-      <Helmet>
-        <title>Page Title - {SITE_CONFIG.name}</title>
-        <meta
-          name="description"
-          content="Page description for SEO. Should be 150-160 characters max and describe the page content clearly."
-        />
-
-        {/* Open Graph */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Page Title" />
-        <meta
-          property="og:description"
-          content="Page description for social sharing"
-        />
-        <meta
-          property="og:image"
-          content={`${SITE_CONFIG.url}/images/og/page-slug.webp`}
-        />
-        <meta property="og:url" content={`${SITE_CONFIG.url}/page-slug`} />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Page Title" />
-        <meta
-          name="twitter:description"
-          content="Page description for Twitter"
-        />
-        <meta
-          name="twitter:image"
-          content={`${SITE_CONFIG.url}/images/og/page-slug.webp`}
-        />
-
-        {/* Canonical URL */}
-        <link rel="canonical" href={`${SITE_CONFIG.url}/page-slug`} />
-      </Helmet>
+      {/* SEO Meta Tags - TODO: Update all values.
+          Head tags never go inline in a page: <SEO> owns title, description,
+          canonical, hreflang, Open Graph and Twitter, and React 19 hoists them
+          into <head> while committing the render. */}
+      <SEO
+        title="Page Title"
+        description="Page description for SEO. 150-160 characters max, describing the page content clearly."
+        path="/page-slug"
+        image="/images/og/page-slug.webp"
+      />
 
       <motion.main
         variants={pageVariants}

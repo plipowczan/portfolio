@@ -248,7 +248,7 @@ Place components in correct directories:
 import { motion } from 'framer-motion';
 
 // SEO (for pages)
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/seo/SEO';
 
 // Routing
 import { Link, useNavigate } from 'react-router-dom';
@@ -265,15 +265,18 @@ import { SITE_CONFIG } from '../utils/constants';
 Kazda nowa strona musi miec:
 
 ```jsx
-<Helmet>
-  <title>Page Title - {SITE_CONFIG.name}</title>
-  <meta name="description" content="..." />
-  <meta property="og:title" content="..." />
-  <meta property="og:description" content="..." />
-  <meta property="og:image" content={`${SITE_CONFIG.url}/images/og/page.webp`} />
-  <link rel="canonical" href={`${SITE_CONFIG.url}/page-slug`} />
-</Helmet>
+<SEO
+  title="Page Title"
+  description="..."
+  path="/page-slug"
+  image="/images/og/page.webp"
+/>
 ```
+
+Znaczniki nagłówka nigdy nie idą wprost w stronie. `SEO.jsx` jest ich jedynym
+właścicielem — składa tytuł, opis, canonical, hreflang, Open Graph i Twitter, a
+React 19 przenosi je do `<head>` przy zatwierdzeniu renderu. `path` musi już
+zawierać prefiks `/en` na trasach angielskich (użyj `useLocalizedPath()`).
 
 Nowe routes musza byc dodane do:
 - `src/App.jsx` - routing

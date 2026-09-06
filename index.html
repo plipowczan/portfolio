@@ -4,17 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <!--
       The body-font preload is injected by the `preload-body-font` plugin in
       vite.config.js, not declared here: the font is fingerprinted at build
       time, so its filename is not knowable until the bundle exists.
     -->
-    <!-- Page description is owned solely by src/components/seo/SEO.jsx.
-         Declaring one here too would ship two of them on every page, and a
-         parser taking the first would read one description for the whole
-         domain. Do not reintroduce it. -->
-    <title>Pawel Lipowczan | Your Tech Guide</title>
+    <!-- Page title and description are owned solely by
+         src/components/seo/SEO.jsx. Declaring either here too would ship two of
+         them on every page, and a parser taking the first would read one value
+         for the whole domain. Do not reintroduce them.
+
+         The title used to be safe here because react-helmet-async overwrote the
+         text of this element. React 19 hoists a new <title> instead of editing
+         this one, so a static tag would survive as a duplicate — and the
+         prerenderer would bake both into every generated file. -->
     <script>
       (function () {
         var inject = function () {

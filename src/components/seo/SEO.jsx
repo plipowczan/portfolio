@@ -1,9 +1,14 @@
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { SITE_CONFIG } from "../../utils/constants";
 
 /**
  * Page-level metadata: title, description, canonical, hreflang, OG, Twitter.
+ *
+ * The tags are returned as a plain fragment — React 19 hoists `<title>`,
+ * `<meta>` and `<link>` into `<head>` itself, as part of committing the render.
+ * No metadata library is involved: `react-helmet-async` did this in an effect,
+ * which `<React.StrictMode>` broke by double-invoking (mount, cleanup, mount)
+ * until `<head>` came out empty in dev.
  *
  * @param {{
  *   title?: string,
@@ -81,7 +86,7 @@ const SEO = ({
   const enUrl = isEnglish ? canonicalUrl : resolvedAlternate;
 
   return (
-    <Helmet>
+    <>
       <title>{metaTitle}</title>
       <meta name="description" content={metaDescription} />
       <link rel="canonical" href={canonicalUrl} />
@@ -117,7 +122,7 @@ const SEO = ({
       <meta name="twitter:title" content={metaTitle} />
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={metaImage} />
-    </Helmet>
+    </>
   );
 };
 

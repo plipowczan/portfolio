@@ -57,7 +57,17 @@ and the one it landed in.
   `playwright.config.js` and `prerender.mjs` all read from it.
 - `prerender.mjs` exits non-zero only for routes it was *asked* to render.
   `verify-prerender-output.mjs` covers what that cannot see: a route never on
-  the list, and a page that rendered but lost its metadata.
+  the list, a page that rendered but lost its metadata, a page carrying two of
+  a tag that must appear once, and a canonical pointing somewhere other than
+  the page itself.
+- **`/` is prerendered last, and the order is load-bearing.** It writes
+  `dist/index.html`, the file the preview server also returns for any route
+  with no generated file yet. Rendered first, it left every later route
+  starting from a shell already carrying the home page's title, description and
+  canonical — React 19 hoists a route's own tags alongside what it finds rather
+  than replacing it, so 97 of 98 files shipped the home canonical first. Keep
+  the `orderedRoutes` list; `verify-prerender-output.mjs` fails the build if
+  this regresses.
 - Article and lesson bodies arrive through a dynamic `import()`, so those routes
   are captured only after `data-content-ready` appears on `<html>`
   (`src/utils/prerenderMarker.js`). Waiting on network idle instead cannot tell
