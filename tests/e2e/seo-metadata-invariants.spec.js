@@ -229,7 +229,7 @@ test.describe("SEO — page metadata invariants", () => {
   test("structured data belongs to the route that declares it", async ({
     page,
   }) => {
-    const blocksOn = async (path, { awaitContent = false } = {}) => {
+    const blocksOn = async (path, { awaitContent = false, expected = null } = {}) => {
       await page.goto(path);
       // Ciało artykułu i lekcji przychodzi osobnym `import()`, a schemat
       // `BlogPosting` powstaje dopiero z niego. Przed tym momentem hydratacja
@@ -243,11 +243,22 @@ test.describe("SEO — page metadata invariants", () => {
           { timeout: 10000 },
         );
       }
-      return page.evaluate(() =>
-        [...document.querySelectorAll('script[type="application/ld+json"]')].map(
-          (el) => el.textContent,
-        ),
-      );
+      const read = () =>
+        page.evaluate(() =>
+          [...document.querySelectorAll('script[type="application/ld+json"]')].map(
+            (el) => el.textContent,
+          ),
+        );
+
+      // Gdy spodziewamy się bloków, czekamy aż Helmet je wystawi. Gdy
+      // spodziewamy się zera, odczyt natychmiastowy nic nie dowodzi — dajemy
+      // stronie czas na ewentualny wyciek, zanim stwierdzimy, że go nie ma.
+      if (expected === null) {
+        await page.waitForTimeout(1000);
+        return read();
+      }
+      await expect.poll(async () => (await read()).length).toBe(expected);
+      return read();
     };
 
     // Strona bez własnych danych strukturalnych nie niesie cudzych.
@@ -258,12 +269,13 @@ test.describe("SEO — page metadata invariants", () => {
     ).toHaveLength(0);
 
     // Strona, która deklaruje jeden blok, niesie go dokładnie raz.
-    const en = await blocksOn("/en/");
+    const en = await blocksOn("/en/", { expected: 1 });
     expect(en, "/en/ should carry exactly one block").toHaveLength(1);
 
     // Artykuł niesie własne bloki, każdy raz, w tym okruszki nawigacyjne.
     const post = await blocksOn("/blog/rag-ragowi-nierowny", {
       awaitContent: true,
+      expected: 3,
     });
     expect(new Set(post).size, "article repeats a structured-data block").toBe(
       post.length,
@@ -287,20 +299,34 @@ test.describe("SEO — page metadata invariants", () => {
   }) => {
     await page.goto("/llm-wiki/kurs");
 
-    const faqSchema = await page.evaluate(() =>
-      [...document.querySelectorAll('script[type="application/ld+json"]')]
-        .map((el) => {
-          try {
-            return JSON.parse(el.textContent);
-          } catch {
-            return null;
-          }
-        })
-        .find((data) => data && data["@type"] === "FAQPage"),
-    );
+    // Helmet wystawia tagi dopiero po hydratacji, więc odczyt tuż po `goto`
+    // trafia w pustkę — w CI powtarzalnie. Odpytujemy, i bierzemy wartość z
+    // tego samego sprawdzenia: drugi odczyt po udanym pollu potrafił trafić w
+    // moment, gdy Helmet akurat przestawiał zawartość.
+    let faqSchema = null;
+    await expect
+      .poll(
+        async () => {
+          faqSchema = await page.evaluate(() =>
+            [...document.querySelectorAll('script[type="application/ld+json"]')]
+              .map((el) => {
+                try {
+                  return JSON.parse(el.textContent);
+                } catch {
+                  return null;
+                }
+              })
+              .find((data) => data && data["@type"] === "FAQPage"),
+          );
+          return Boolean(faqSchema?.mainEntity?.length);
+        },
+        { message: "course hub is missing its FAQPage block" },
+      )
+      .toBe(true);
 
-    expect(faqSchema, "course hub is missing its FAQPage block").toBeTruthy();
     expect(faqSchema.mainEntity.length).toBeGreaterThanOrEqual(3);
+
+    await expect(page.getByTestId("course-faq").locator("dt").first()).toBeVisible();
 
     const rendered = await page
       .getByTestId("course-faq")
