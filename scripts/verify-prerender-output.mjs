@@ -213,6 +213,28 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
         );
       }
     }
+
+    // Sekcja może wyjść widoczna, a jej zawartość ukryta — i to przechodziło
+    // przez sprawdzenie wyżej. Trafiło się naprawdę: przy jednej z wersji
+    // przejazdu strona główna wyszła z 67 ukrytymi kaflami przy widocznych
+    // nagłówkach, a build był zielony.
+    //
+    // Nie liczymy tu pojedynczych sztuk, bo karuzela opinii animuje się w kółko
+    // i zawsze wypadnie w połowie przejścia. Próg oddziela „jeden element w
+    // ruchu" od „sekcja, która nigdy się nie odsłoniła".
+    const HIDDEN_DESCENDANTS_LIMIT = 3;
+    for (const m of html.matchAll(/<section\b[^>]*\bid="([^"]+)"[^>]*>/g)) {
+      const from = m.index + m[0].length;
+      const to = html.indexOf("</section>", from);
+      const body = to === -1 ? html.slice(from) : html.slice(from, to);
+      const hidden = (body.match(/style="[^"]*opacity:\s*0(?![.\d])/g) ?? []).length;
+
+      if (hidden > HIDDEN_DESCENDANTS_LIMIT) {
+        problems.push(
+          `${name}: sekcja #${m[1]} wychodzi widoczna, ale ${hidden} elementów w środku ma opacity: 0 — nagłówek będzie, treści pod nim nie`
+        );
+      }
+    }
   }
 
   if (visibilityChecked > 0) {

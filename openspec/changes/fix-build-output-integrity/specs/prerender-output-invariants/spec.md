@@ -34,6 +34,19 @@ first time the page changes.
 - **THEN** the build fails and names the route and the offending element
 - **AND** nothing is written for that route
 
+#### Scenario: A section is visible but its content is not
+
+- **WHEN** a landmark section is captured visible while the elements inside it
+  are hidden
+- **THEN** the build fails, naming the section and how many of its elements are
+  hidden
+
+This scenario exists because asserting the section tag alone is not enough, and
+that gap was reached in practice: one revision of the capture produced a homepage
+whose headings were all visible and whose content beneath them was not, and the
+build was green. A tolerance separates one element mid-animation — the
+testimonials carousel always has one — from a section that never revealed.
+
 #### Scenario: A deliberately hidden element
 
 - **WHEN** a route contains an element hidden by design, such as a closed mobile

@@ -256,26 +256,59 @@ async function prerenderPage(browser, route, retries = 2) {
     // 120 ms zostawia 46 niewidocznych elementów, pół ekranu przy 250 ms
     // zostawia zero. Ćwierć ekranu nie poprawia już nic, więc połowa jest
     // najtańszym krokiem, który wystarcza.
+    // Przejazd kończy się, gdy nie ma już czego odsłaniać, a nie po dojechaniu
+    // do końca strony. Bezwarunkowy przejazd po wszystkich 98 trasach wydłużył
+    // build z 3 do 10 minut na Vercelu, a płaci go każde wdrożenie — podczas gdy
+    // sekcje odsłaniane przewijaniem ma garść tras, a nie artykuły bloga.
+    //
+    // Warunek jest samoograniczający: element jeszcze nieodsłonięty ma
+    // `opacity: 0`, więc pętla jedzie dopóki cokolwiek istotnego jest ukryte, i
+    // wychodzi po jednym sprawdzeniu tam, gdzie nie ma nic do odsłonięcia.
     await page.evaluate(async () => {
-      const step = window.innerHeight / 2;
       const settle = () => new Promise((r) => setTimeout(r, 250));
 
+      // Liczymy WSZYSTKIE ukryte elementy, nie tylko nagłówek i sekcje.
+      // Warunek zawężony do nagłówków wychodził za wcześnie: same sekcje stają
+      // się widoczne od razu, a animują się dopiero elementy w środku — strona
+      // główna kończyła wtedy z 67 ukrytymi kaflami przy widocznych nagłówkach.
+      const hiddenCount = () =>
+        [...document.querySelectorAll("[style]")].filter((el) =>
+          /opacity:\s*0(?![.\d])/.test(el.getAttribute("style") || ""),
+        ).length;
+
+      const step = window.innerHeight / 2;
       let position = 0;
       let guard = 0;
-      // Wysokość rośnie w trakcie, bo odsłaniane sekcje dokładają treści.
-      // Czytamy ją w każdej iteracji; `guard` chroni przed stroną, która rośnie
-      // w nieskończoność.
-      while (position < document.body.scrollHeight && guard < 200) {
+      let previous = hiddenCount();
+      let stagnant = 0;
+
+      // Jedziemy, dopóki przewijanie coś odsłania. Zatrzymanie po braku postępu,
+      // a nie po dojechaniu do końca strony, jest tu istotne z dwóch powodów:
+      // artykuły bloga nie mają czego odsłaniać i wychodzą po dwóch krokach
+      // zamiast przewijać całą długość, a karuzela opinii animuje się w kółko i
+      // nigdy nie dojdzie do zera — bez tego warunku pętla kręciłaby się do
+      // wyczerpania `guard`. Bezwarunkowy przejazd po wszystkich 98 trasach
+      // wydłużył build z 3 do 10 minut, a płaci go każde wdrożenie.
+      while (previous > 0 && position < document.body.scrollHeight && guard < 200) {
         window.scrollTo(0, position);
         await settle();
+
+        const current = hiddenCount();
+        if (current === 0) break;
+        stagnant = current < previous ? 0 : stagnant + 1;
+        if (stagnant >= 3) break;
+
+        previous = current;
         position += step;
         guard += 1;
       }
 
-      window.scrollTo(0, document.body.scrollHeight);
-      await settle();
-      window.scrollTo(0, 0);
-      await settle();
+      if (guard > 0) {
+        window.scrollTo(0, document.body.scrollHeight);
+        await settle();
+        window.scrollTo(0, 0);
+        await settle();
+      }
     });
 
     // Dodatkowy czas na animacje i lazy loading (zmniejszony dla Vercel)
