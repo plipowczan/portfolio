@@ -1,13 +1,13 @@
 ## 1. Branch setup
 
-- [ ] 1.1 Branch from `perf/speed-up-first-load` (not `main`) and verify `scripts/prerender.mjs` on the branch contains `CONTENT_ROUTES` and the `data-content-ready` wait — if either is absent, the base is wrong and the prerender work will conflict
+- [x] 1.1 Branch from a base that already carries PR #29 and verify `scripts/prerender.mjs` contains `CONTENT_ROUTES` and the `data-content-ready` wait — if either is absent, the base is wrong and the prerender work will conflict. **#29 merged 2026-09-06, so the base is now `main` (`10c0e59`) rather than `perf/speed-up-first-load`; both markers confirmed present.**
 
 ## 2. Sitemap lastmod
 
 Independent of PR #29 and of the other two defects. Land first.
 
 - [x] 2.1 Make `getGitLastModDate()` in `scripts/update-sitemap.js` throw instead of returning `new Date()`, covering **both** silent paths — the `catch` and the empty-stdout fall-through — with a message naming the path and which path failed; verify by calling it with a path git does not track and observing a named failure rather than today's date
-- [ ] 2.2 Ensure the build can resolve git history where it runs; verify `npm run blog:sitemap` in a shallow clone fails loudly and names the unresolvable file rather than emitting the current date
+- [x] 2.2 Ensure the build can resolve git history where it runs. **Scope corrected after measuring a real Vercel build:** the failure is not an unresolvable file. A shallow clone grafts its boundary commit as parentless, so every file untouched since then reports the boundary date — non-empty, well-formed and wrong, which is why the 2.1 guard alone passed a preview build that still emitted 33 fabricated dates. Detect the shallow state with `git rev-parse --is-shallow-repository`, attempt `git fetch --unshallow`, and throw only if the repository is still shallow. Verified in a `--depth 1` clone: before the guard both `src/data/projects.js` and `src/pages/PrivacyPolicy.jsx` reported the same boundary date; after it, 2025-12-01 and 2026-07-29
 - [x] 2.3 Regenerate the sitemap and verify the three legal pages carry the commit dates of `PrivacyPolicy.jsx`, `TermsOfService.jsx` and `CookiePolicy.jsx`, and that the eighteen project URLs carry the commit date of `src/data/projects.js` — none of them `2026-07-30` unless that is genuinely the commit date
 - [x] 2.4 Verify `<priority>` and `<changefreq>` are still emitted on every URL and listing pages still track the freshest post, per the existing `sitemap-lastmod` requirements this change does not alter
 

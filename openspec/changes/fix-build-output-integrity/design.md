@@ -18,10 +18,27 @@ if (iso) return iso.split("T")[0];
 return new Date().toISOString().split("T")[0];
 ```
 
-A shallow clone does not make `git log` throw. It makes it succeed and print
-nothing. `iso` is `""`, the `if` is skipped, and the current date is returned
-without any error ever being raised. That is why 34 URLs carry the deploy date
-and nothing in the build log mentions it.
+**Corrected 2026-09-06, after measuring a real Vercel build.** The empty-output
+path above is real but is *not* what fires. A shallow clone does not make
+`git log` return nothing — it makes it return a plausible wrong date.
+
+In a shallow clone the boundary commit is grafted as parentless, so every file
+untouched since that boundary looks as though it was *introduced* there.
+`git log -1 --format=%cI -- <path>` then returns the boundary date for all of
+them. Verified in a `--depth 1` clone of this repository:
+
+```
+git log -1 --format=%cI -- src/data/projects.js       2026-09-06   (really 2025-12-01)
+git log -1 --format=%cI -- src/pages/PrivacyPolicy.jsx 2026-09-06   (really 2026-07-29)
+```
+
+Non-empty, well-formed, and wrong. That is why 34 URLs shared one date, why
+nothing appeared in the build log, and why the first version of this fix — which
+only guarded the empty case — passed a preview build on Vercel while still
+emitting 33 fabricated dates.
+
+The usable signal is `git rev-parse --is-shallow-repository`, not the shape of
+`git log` output.
 
 The function is called at seven sites — three legal pages, the llm-wiki landing,
 the course hub, each lesson, and `src/data/projects.js` (line 265) whose single
@@ -123,15 +140,20 @@ class of defect stays unobservable. The point is not only to fix these two pages
 
 ### 4. `lastmod` failure is loud, and covers the empty-output path
 
-Chosen: `getGitLastModDate` throws, naming the path and whether git errored or
-returned nothing. Both paths must be handled — the empty-output one is the one
-that actually fires on Vercel and the one currently invisible.
+Chosen: check `git rev-parse --is-shallow-repository` once before resolving any
+date. On a shallow checkout, attempt `git fetch --unshallow`; if that leaves the
+repository shallow, or fails, throw. Separately `getGitLastModDate` still throws
+when git errors or returns nothing, naming the path.
 
-The build then needs git history deep enough to answer. Vercel clones shallow by
-default, so this will surface as a failing build until history is available. That
-is the intended behaviour and the reason the sitemap fix should land before the
-gates: a loud failure that names the file is a better starting point than a
-sitemap full of plausible lies.
+Self-healing rather than failing outright, because the alternative blocks every
+deployment until a build-environment setting changes — and there may be no such
+setting to change. Fetching the history the build already has access to is
+cheaper and keeps deployments working; the throw remains as the floor when it
+cannot.
+
+Verified in a `--depth 1` clone: the guard detects the shallow state, unshallows,
+and the same two paths then resolve to 2025-12-01 and 2026-07-29 instead of one
+shared boundary date.
 
 ### 5. Gate sequencing
 

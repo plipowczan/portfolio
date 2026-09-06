@@ -34,7 +34,75 @@ const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
  *    płytki klon, który nie ma commita dotykającego tego pliku. To ta droga
  *    odpalała się na Vercelu, bo nie rzucała wyjątku i nie zostawiała śladu.
  */
+/**
+ * Czy repozytorium ma skróconą historię (shallow clone).
+ *
+ * To jest sedno usterki, a nie pusty wynik `git log`. W skróconym klonie commit
+ * graniczny jest traktowany jak korzeń — nie ma rodzica — więc każdy plik
+ * nietknięty od tej granicy wygląda, jakby **powstał** właśnie w niej.
+ * `git log -1 -- <plik>` zwraca wtedy datę graniczną: wynik niepusty,
+ * wiarygodnie wyglądający i nieprawdziwy. Żadne sprawdzanie pustki tego nie
+ * złapie.
+ *
+ * Zmierzone na wdrożeniu podglądowym 2026-09-06: build serwerowy wypuścił 33
+ * adresy z identycznym `2026-07-30`, mimo że w commicie leżała poprawna mapa,
+ * a te same ścieżki lokalnie dają daty od 2025-12-01. Granicą był poprzedni
+ * szczyt gałęzi głównej.
+ */
+let shallowChecked = false;
+
+function assertFullGitHistory() {
+  if (shallowChecked) return;
+  shallowChecked = true;
+
+  let shallow;
+  try {
+    shallow = execFileSync("git", ["rev-parse", "--is-shallow-repository"], {
+      cwd: ROOT,
+      encoding: "utf-8",
+    }).trim();
+  } catch (error) {
+    throw new Error(
+      `Nie udało się sprawdzić, czy repozytorium ma pełną historię: ${error.message}`,
+    );
+  }
+
+  if (shallow !== "true") return;
+
+  // Próba samonaprawy: bez pełnej historii daty są zmyślone, więc lepiej ją
+  // dociągnąć niż wywrócić build. Jeśli się nie uda, dopiero wtedy błąd.
+  try {
+    execFileSync("git", ["fetch", "--unshallow", "--quiet"], {
+      cwd: ROOT,
+      encoding: "utf-8",
+      stdio: "pipe",
+    });
+  } catch {
+    throw new Error(
+      `Repozytorium ma skróconą historię, a dociągnięcie pełnej nie powiodło się. ` +
+        `Bez pełnej historii daty w sitemapie byłyby zmyślone: każdy plik ` +
+        `nietknięty od granicy skrótu dostałby datę tej granicy. ` +
+        `Ustaw pełne klonowanie w środowisku budowania.`,
+    );
+  }
+
+  const stillShallow = execFileSync(
+    "git",
+    ["rev-parse", "--is-shallow-repository"],
+    { cwd: ROOT, encoding: "utf-8" },
+  ).trim();
+
+  if (stillShallow === "true") {
+    throw new Error(
+      `Repozytorium nadal ma skróconą historię po próbie jej dociągnięcia. ` +
+        `Daty w sitemapie byłyby zmyślone, więc przerywam.`,
+    );
+  }
+}
+
 function getGitLastModDate(relativePath) {
+  assertFullGitHistory();
+
   let iso;
 
   try {
