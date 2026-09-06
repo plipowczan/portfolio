@@ -53,7 +53,9 @@ Wiadomości wymagające ludzkiej interwencji są automatycznie przekierowywane d
 
 ## Stack technologiczny
 
-- **Make** - automatyzacja workflow i integracje
+Pełny opis tego wdrożenia u klienta: [Frontdesk AI](/projects/frontdesk-ai).
+
+- **Make** - automatyzacja workflow i integracje (dlaczego akurat Make, a nie Zapier czy n8n: [porównanie Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia))
 - **OpenAI GPT-4** - analiza treści i generowanie odpowiedzi
 - **Gmail/Outlook API** - integracja z pocztą email
 - **Airtable** - baza wiedzy i tracking wiadomości

@@ -94,7 +94,7 @@ Większość firm utyka już na kroku 2-3. Mają dane, ale nie potrafią ich po�
 
 Przez ostatnie 4 lata obserwuję, jak no-code zmienia sposób pracy z danymi w firmach.
 
-Platformy takie jak **Airtable, Make, n8n czy Zapier** radykalnie obniżają barierę wejścia. Ludzie z działów biznesowych, marketingu, finansów mogą sami:
+Platformy takie jak **Airtable, Make, n8n czy Zapier** radykalnie obniżają barierę wejścia. Różnice między nimi opisuję w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Ludzie z działów biznesowych, marketingu, finansów mogą sami:
 
 - Tworzyć struktury danych
 - Integrować różne źródła
@@ -236,6 +236,10 @@ AI pomaga w pisaniu testów, dokumentacji, optymalizacji. Kod jest czystszy i ł
 Wybór podejścia zależy od zasobów w organizacji:
 
 **Masz senior programistę?** → Idź w kod z AI. Dostaniesz elastyczność, brak ograniczeń i pełną kontrolę.
+
+Jak wygląda wzbogacanie danych w praktyce: [Lead Enrichment](/projects/lead-enrichment).
+
+Skąd w ogóle biorą się te nieoptymalne procesy, opisuję w [każda firma działa nieoptymalnie](/blog/kazda-firma-dziala-nieoptymalnie).
 
 **Nie masz technicznego zaplecza?** → Zostań przy no-code (Airtable, Make, n8n). To rozwiązanie zdecydowanie bardziej przystępne dla ludzi bez doświadczenia programistycznego.
 

@@ -42,6 +42,10 @@ Chatboty nowej generacji wykorzystujące LLM (Large Language Models) potrafią p
 
 ## Architektura Context-based Chatbota
 
+Działające wdrożenie tej architektury: [Context-based Chatbot](/projects/context-based-chatbot).
+
+Warstwa integracji opiera się na n8n. Kiedy sięgać po n8n, a kiedy wystarczy Zapier albo Make, rozbieram w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia).
+
 ### 1. Frontend - Interface użytkownika
 
 **Web widget:**

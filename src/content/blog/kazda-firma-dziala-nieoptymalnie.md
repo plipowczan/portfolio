@@ -81,7 +81,7 @@ Teoria teorią, ale spójrzmy na praktykę. Agencja eventowa **El Padre** zgłos
 2. **Krok 2: Centralny Mózg (Airtable)**
    Stworzyliśmy bazę wiedzy, gdzie trafiają transkrypcje, kosztorysy i dane o projektach.
 
-3. **Krok 3: Automatyzacja (Make & AION)**
+3. **Krok 3: Automatyzacja (Make & AION)** - zanim tu dojdziesz, potrzebujesz uporządkowanych danych: [dane jako paliwo biznesu](/blog/dane-jako-paliwo-biznesu). Wybór narzędzia to osobna decyzja, rozbieram ją w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia).
    Zbudowaliśmy "asystentów AI" (w oparciu o nasze narzędzie AION), którzy realizują konkretne zadania:
    - **Briefing:** Generuje brief na podstawie transkrypcji rozmowy.
    - **Event Ideas:** Podrzuca pomysły na wydarzenie, bazując na briefie i historii agencji.

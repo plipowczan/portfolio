@@ -20,6 +20,8 @@ alternateSlug: openclaw-ai-agent-security
 
 # OpenClaw: lekcja bezpieczeństwa, której potrzebował świat agentów AI
 
+Ostrzeżenie dotyczy świata, który opisuję w [Software 3.0 i agentic engineering](/blog/software-3-0-agentic-engineering) - i architektur z [systemu agentów](/blog/system-agentow-ai-skills-rules-kontekst) oraz [środowiska dla dwóch firm](/blog/srodowisko-agentowe-ai-dwie-firmy).
+
 **150 tysięcy gwiazdek na GitHubie w dwa tygodnie.** Dla porównania - React, framework na którym stoi pół internetu, zbierał swoje 240 tysięcy przez 10 lat. OpenClaw stał się najpopularniejszym hasłem technologicznym w Google Trends, ludzie wykupili komputery Mac Mini żeby stawiać na nich dedykowane instancje, a Cloudflare w kilkanaście godzin dostosował infrastrukturę pod nowy ruch.
 
 Obserwuję świat agentów AI od dłuższego czasu - [piszę o Claude Code](/blog/5-technik-pracy-z-claude-code), buduję [strukturyzowane workflow z AI](/blog/opsx-workflow-strukturyzowana-praca-z-ai) i testuję nowe narzędzia na co dzień. OpenClaw przykuł moją uwagę nie jako kolejny agent, ale jako case study tego, co się dzieje, gdy potężna technologia agentowa trafia do masowego odbiorcy bez fundamentów bezpieczeństwa.

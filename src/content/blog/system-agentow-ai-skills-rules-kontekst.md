@@ -26,6 +26,8 @@ Dziś jest 9 maja 2026. Dwa dni temu prowadziłem prelekcję na NoCode Poland #4
 
 Pierwszego maja w 200IQ LABS - pre-revenue spółce, którą prowadzę z Przemkiem - nie było działu finansów. Zero raportu zarządczego za kwiecień. Zero kontroli kosztów na poziomie kategorii. Zero spec-a. **Trzeciego maja był pierwszy close kwietnia**: 30+ reguł klasyfikacji wytrenowanych z zera, raport zarządczy w `monthly/2026-04.md`, real EBITDA −16 804 PLN udokumentowane z trzema decyzjami korekcyjnymi planu na kolejne miesiące.
 
+Szerszą ramę, w którą ten system się wpisuje, opisuję w [Software 3.0 i agentic engineering](/blog/software-3-0-agentic-engineering).
+
 Dwa dni od zera do działającego systemu zarządczego. Powiem szczerze - robiłem to częściowo na potrzeby prelekcji. **Event Driven Development™** (eventem była ta prelekcja). Ale ten system od dawna miał powstać. Wolę wdrażać PR-y na produkcję niż siedzieć nad numerami - taka prawda founderska. Prelekcja po prostu wymusiła timing.
 
 Ten artykuł nie jest o tym, że *"AI zastąpi księgowych"*. Nie zastąpi - formalna księgowość przez inFakt + księgową robi compliance, i nadal to robi. Ten artykuł jest o tym, **jak architektonicznie zbudować system agentów AI, który realnie zastępuje role specjalistów w warstwie zarządczej** - w tym, gdzie dział nie istnieje, bo firma jest za mała, żeby zatrudnić, i za duża, żeby improwizować.

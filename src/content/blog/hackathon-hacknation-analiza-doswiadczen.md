@@ -38,7 +38,7 @@ Oto historia o tym, jak technologia spotkała się z biurokracją, dlaczego brak
 
 Nasze zadanie dotyczyło procesu budżetowania w administracji publicznej. Brzmi nudno? Może, ale skala problemu jest ogromna.
 
-Core problemem okazał się proces oparty na ręcznej wymianie setek tysięcy plików Excel. Błędy, chaos informacyjny, brak transparentności - to codzienność urzędników. Stworzyliśmy metaforę tego procesu, którą nazwaliśmy **„Pani Zosia i Tysiące Exceli”**:
+Core problemem okazał się proces oparty na ręcznej wymianie setek tysięcy plików Excel. To ten sam mechanizm, który opisuję w [każda firma działa nieoptymalnie](/blog/kazda-firma-dziala-nieoptymalnie) - tylko w skali urzędu. Błędy, chaos informacyjny, brak transparentności - to codzienność urzędników. Stworzyliśmy metaforę tego procesu, którą nazwaliśmy **„Pani Zosia i Tysiące Exceli”**:
 
 1. **Start (Dół):** „Pani Zosia” w urzędzie gminy „wróży z fusów”, ręcznie wpisując dane budżetowe do Excela (np. zapotrzebowanie na nowy komputer).
 2. **Eskalacja (Góra):** Plik wędruje w górę hierarchii: Urząd Miasta → Województwo → Ministerstwo Finansów.
