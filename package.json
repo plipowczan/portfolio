@@ -48,7 +48,6 @@
     "puppeteer-core": "^24.32.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-helmet-async": "^2.0.5",
     "react-i18next": "^17.0.2",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",

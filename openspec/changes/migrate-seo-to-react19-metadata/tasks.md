@@ -37,9 +37,11 @@
 
 ## 4. Usunięcie zależności
 
-- [ ] 4.1 Usuń `react-helmet-async` z `package.json` i uruchom instalację
-- [ ] 4.2 Potwierdź brak wystąpień `helmet` w `src/` (poza komentarzami wyjaśniającymi historię)
-- [ ] 4.3 `npm run build` — build przechodzi bez zależności
+- [x] 4.1 Usuń `react-helmet-async` z `package.json` i uruchom instalację
+  - Zniknęło też z `package-lock.json`.
+- [x] 4.2 Potwierdź brak wystąpień `helmet` w `src/` (poza komentarzami wyjaśniającymi historię)
+  - Zostaje jedno wystąpienie: komentarz w `SEO.jsx` tłumaczący, skąd wzięła się zmiana.
+- [x] 4.3 `npm run build` — build przechodzi bez zależności
 
 ## 5. Zdjęcie podpórek testowych
 
