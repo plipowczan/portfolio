@@ -31,10 +31,7 @@ const StructuredData = ({ schema }) => {
   const json = serializeJsonLd(schema);
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: json }}
-    />
+    <script type="application/ld+json">{json}</script>
   );
 };
 
