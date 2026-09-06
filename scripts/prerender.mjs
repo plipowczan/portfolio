@@ -267,40 +267,52 @@ async function prerenderPage(browser, route, retries = 2) {
     await page.evaluate(async () => {
       const settle = () => new Promise((r) => setTimeout(r, 250));
 
-      // Liczymy WSZYSTKIE ukryte elementy, nie tylko nagłówek i sekcje.
-      // Warunek zawężony do nagłówków wychodził za wcześnie: same sekcje stają
-      // się widoczne od razu, a animują się dopiero elementy w środku — strona
-      // główna kończyła wtedy z 67 ukrytymi kaflami przy widocznych nagłówkach.
-      const hiddenCount = () =>
-        [...document.querySelectorAll("[style]")].filter((el) =>
-          /opacity:\s*0(?![.\d])/.test(el.getAttribute("style") || ""),
-        ).length;
+      // Liczymy ukryte elementy WEWNĄTRZ sekcji z identyfikatorem — dokładnie
+      // to, co sprawdza scripts/verify-prerender-output.mjs.
+      //
+      // Wcześniej liczyliśmy wszystko na stronie i pętla wychodziła po trzech
+      // krokach bez postępu. Lokalnie kończyła robotę, na Vercelu nie:
+      // wdrożenie produkcyjne padło z 34 ukrytymi elementami w `#skills` i po
+      // cztery w `#testimonials`, `#contact` i `#booking`. Maszyna budująca jest
+      // wolniejsza, więc animacja nie zdążała w oknie kroku, licznik nie
+      // spadał i przejazd uznawał, że skończył.
+      //
+      // Zestrojenie warunku zatrzymania z warunkiem bramki usuwa obie wady
+      // naraz: strona bez sekcji do odsłonięcia wychodzi po pierwszym
+      // sprawdzeniu (banner zgody leży poza sekcjami, więc już nie trzyma
+      // pętli), a strona główna jedzie do skutku.
+      const hiddenInSections = () =>
+        [...document.querySelectorAll("section[id]")].reduce(
+          (sum, section) =>
+            sum +
+            [...section.querySelectorAll("[style]")].filter((el) =>
+              /opacity:\s*0(?![.\d])/.test(el.getAttribute("style") || ""),
+            ).length,
+          0,
+        );
 
       const step = window.innerHeight / 2;
       let position = 0;
       let guard = 0;
-      let previous = hiddenCount();
-      let stagnant = 0;
 
-      // Jedziemy, dopóki przewijanie coś odsłania. Zatrzymanie po braku postępu,
-      // a nie po dojechaniu do końca strony, jest tu istotne z dwóch powodów:
-      // artykuły bloga nie mają czego odsłaniać i wychodzą po dwóch krokach
-      // zamiast przewijać całą długość, a karuzela opinii animuje się w kółko i
-      // nigdy nie dojdzie do zera — bez tego warunku pętla kręciłaby się do
-      // wyczerpania `guard`. Bezwarunkowy przejazd po wszystkich 98 trasach
-      // wydłużył build z 3 do 10 minut, a płaci go każde wdrożenie.
-      while (previous > 0 && position < document.body.scrollHeight && guard < 200) {
+      // Wysokość rośnie w trakcie, bo odsłaniane sekcje dokładają treści, więc
+      // czytamy ją w każdej iteracji. `guard` chroni przed stroną rosnącą bez
+      // końca.
+      while (hiddenInSections() > 0 && position < document.body.scrollHeight && guard < 200) {
         window.scrollTo(0, position);
         await settle();
-
-        const current = hiddenCount();
-        if (current === 0) break;
-        stagnant = current < previous ? 0 : stagnant + 1;
-        if (stagnant >= 3) break;
-
-        previous = current;
         position += step;
         guard += 1;
+      }
+
+      // Ostatnie podejście: gdy po przejeździe coś nadal jest ukryte, maszyna
+      // była wolniejsza niż okno kroku. Drugi, wolniejszy przebieg kosztuje
+      // tylko te strony, które faktycznie go potrzebują.
+      if (hiddenInSections() > 0) {
+        for (let y = 0; y < document.body.scrollHeight && hiddenInSections() > 0; y += step) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 600));
+        }
       }
 
       if (guard > 0) {
