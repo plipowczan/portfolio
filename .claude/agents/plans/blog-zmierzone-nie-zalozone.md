@@ -213,3 +213,9 @@ grep -nE '^```[[:space:]]*$' src/content/blog/zmierzone-nie-zalozone.md
 Pierwsze trzy przechodzą na zero trafień w prozie. Czwarta to lista do obejrzenia, nie licznik.
 
 Dalej: `npm run og:check`, `npm run blog:sitemap`, `npm test`.
+
+⚠️ **`npm run og:check` nie jest bramą na obecność obrazu.** Skrypt iteruje po plikach
+`og-*.webp` leżących w `public/images/` i sprawdza ich wymiary; **nie czyta pola `image:`
+z frontmatteru**, więc brakujący obraz artykułu przechodzi z kodem 0. Obecność sprawdź
+osobno: `test -f public/images/og-<slug>.webp`. Wymiary muszą wyjść 1200x630 - generator
+zapisuje 1424x752, więc potrzebny jest krok skalujący (`scripts/resize-og-image.mjs`).

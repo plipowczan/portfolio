@@ -79,7 +79,10 @@ Sprawdzone na `http://localhost:3128/blog/zmierzone-nie-zalozone`:
 - 6 akordeonów `<details>`, wszystkie z atrybutem `open`
 - JSON-LD: `BlogPosting`, `BreadcrumbList`, `FAQPage` z **6** pytaniami (ekstraktor złapał komplet)
 - CTA: tekst „Umów bezpłatną konsultację", `href="/#contact"`
-- Jedyny błąd w konsoli: brak `/images/og-zmierzone-nie-zalozone.webp` (patrz FAILURES)
+- Jedyny błąd w konsoli w **pierwszym** przebiegu: brak `/images/og-zmierzone-nie-zalozone.webp`.
+  **Nieaktualne od domknięcia obrazu** - po wygenerowaniu i przeskalowaniu obraz ładuje się
+  w naturalnym rozmiarze 1200x630, a konsola jest czysta. Szczegół w sekcji „Obraz OG" niżej.
+  Wiersz zostaje w tej formie, bo opisuje przebieg, w którym powstał, a nie stan dzisiejszy.
 
 ## ⚠️ WARNINGS
 
@@ -94,7 +97,9 @@ Sprawdzone na `http://localhost:3128/blog/zmierzone-nie-zalozone`:
 3. ~~Brak linku do bliźniaczego artykułu biznesowego na blogu qamera.ai.~~ **Domknięte
    w rundzie trzeciej** - adres podała sesja `portfolio-23`, link jest w „Przydatnych
    zasobach". Zamienia się jednak w blokadę scalenia, bo cel zwraca dziś `404`.
-4. **`alternateSlug` nieustawiony i tak ma zostać** do czasu powstania pliku w `blog/en/`.
+4. ~~`alternateSlug` nieustawiony i tak ma zostać do czasu powstania pliku w `blog/en/`.~~
+   **Nieaktualne** - plik EN powstał, `alternateSlug` jest dwukierunkowy po obu stronach.
+   Patrz sekcja „EN Translation".
 
 ## ❌ FAILURES
 
@@ -216,6 +221,17 @@ inaczej portfolio wystawia martwy link w „Przydatnych zasobach". Przed scaleni
    („jeśli zdanie da się skreślić bez straty informacji - skreśl je"). Plan wyznaczał
    wyłącznie górny limit (~3800, po którym tnie się sekcję 2).
 
+4. **Edytor wideo nie jest nazwany z nazwy**, zgodnie z brzmieniem planu i sekcji ograniczeń
+   („jeden edytor, nie klasa edytorów"). Nazwa nie jest na liście wykluczeń, ale nazwanie
+   go zmieniłoby ton z opisowego na recenzencki, czego plan zakazuje.
+
+5. **Wątek zaufania do wystawcy certyfikatu pominięty w całości** przy regule 2, mimo że
+   to on tłumaczy, czemu etykieta stanęła na jednym z dwóch plików. Prime wyklucza całą
+   warstwę certyfikatu i klucza podpisującego. Artykuł zaznacza istnienie wątku jednym
+   zdaniem i go nie otwiera.
+
+## Post-Article Tasks
+
 6. **Trzy odwołania do Qamery zamiast jednego linku do narzędzia.** Plan (sekcja 11) mówi
    „nie sprzedawać Qamery: jeden link do narzędzia, jeden do artykułu biznesowego". Operator
    poprosił wprost o nazwanie i podlinkowanie projektu w leadzie oraz o wpuszczanie linków
@@ -235,17 +251,6 @@ inaczej portfolio wystawia martwy link w „Przydatnych zasobach". Przed scaleni
    ścisły. Gdyby brzmiał „trzy werdykty, które obaliłem", byłby nieprawdziwy.
    Alternatywa z planu na wypadek zmiany zdania: „Zmierzone, nie założone. Trzy razy
    pomyliłem się o ten sam plik" (mocniejszy hak, słabszy w wyszukiwarce).
-
-4. **Edytor wideo nie jest nazwany z nazwy**, zgodnie z brzmieniem planu i sekcji ograniczeń
-   („jeden edytor, nie klasa edytorów"). Nazwa nie jest na liście wykluczeń, ale nazwanie
-   go zmieniłoby ton z opisowego na recenzencki, czego plan zakazuje.
-
-5. **Wątek zaufania do wystawcy certyfikatu pominięty w całości** przy regule 2, mimo że
-   to on tłumaczy, czemu etykieta stanęła na jednym z dwóch plików. Prime wyklucza całą
-   warstwę certyfikatu i klucza podpisującego. Artykuł zaznacza istnienie wątku jednym
-   zdaniem i go nie otwiera.
-
-## Post-Article Tasks
 
 - [x] Prompt obrazu OG wygenerowany: `.claude/agents/prompts/og-zmierzone-nie-zalozone-prompt.txt`
 - [x] Obraz OG wygenerowany (`gemini-3-pro-image-preview`)

@@ -62,9 +62,16 @@ node scripts/generate-image.js \
   --output public/images \
   --model gemini-3-pro-image-preview
 
-Następnie:
-  node scripts/convert-to-webp.js public/images/og-zmierzone-nie-zalozone.png
+Następnie (generator zapisuje .jpeg, nie .png):
+  node scripts/convert-to-webp.js public/images/og-zmierzone-nie-zalozone.jpeg
+  node scripts/resize-og-image.mjs og-zmierzone-nie-zalozone.webp
+  rm public/images/og-zmierzone-nie-zalozone.jpeg
 
-UWAGA: krok generowania obrazu wymaga GEMINI_API_KEY w pliku .env.
-W tym worktree nie ma pliku .env (jest tylko .env.example), więc obraz
-nie został wygenerowany w przebiegu walidacji.
+Krok skalujący jest konieczny: generator wypuszcza 1424x752, a brama
+check-og-images.mjs wymaga 1200x630.
+
+WYMAGANIA: generowanie obrazu potrzebuje GEMINI_API_KEY w pliku .env.
+Jeśli w bieżącym worktree jest tylko .env.example, skopiuj .env z głównego
+checkoutu (jest w .gitignore, więc nie wejdzie do commita) albo ustaw klucz
+w środowisku. Bez klucza scripts/generate-image.js kończy się błędem
+uwierzytelnienia i obraz nie powstaje.
