@@ -1,6 +1,7 @@
 ---
 slug: 4-pytania-i-zarzadzanie
 order: 4
+updated: 2026-07-08
 title: Pytania i zarządzanie
 excerpt: Pytaj bazę, nie czat - /qa z cytowaniami, /lint i /reindex do utrzymania jakości. Pełna ściąga komend, zasady jakości i anty-wzorce.
 video: /videos/kurs/4-pytania-i-zarzadzanie.webm

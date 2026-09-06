@@ -1,6 +1,7 @@
 ---
 slug: 3-pierwszy-ingest
 order: 3
+updated: 2026-07-08
 title: Pierwszy ingest
 excerpt: Zamień surowe źródło w noty i indeksy komendą /ingest. To różnica między stertą plików a żywą wiki z linkami i frontmatterem OKF.
 video: /videos/kurs/3-pierwszy-ingest.webm

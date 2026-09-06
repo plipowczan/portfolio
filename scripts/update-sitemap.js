@@ -1,4 +1,3 @@
-import { execFileSync } from "child_process";
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
@@ -18,117 +17,58 @@ const ROOT = path.join(__dirname, "..");
 const DOC_FILES = new Set(["README.md", "AGENTS.md", "CLAUDE.md"]);
 
 /**
- * Zwraca git committer date (ISO 8601, date-only) dla pliku.
+ * Data ostatniej zmiany strony, czytana ze znacznika `@sitemapUpdated` w jej
+ * własnym pliku.
  *
- * Rzuca, gdy daty nie da się ustalić. Wcześniej wracała wtedy dzisiejsza data,
- * przez co sitemap niósł datę wdrożenia zamiast prawdziwej: 34 z 38 adresów
- * spoza bloga miały identyczne `2026-07-30`, w tym 18 adresów projektów, choć
- * `src/data/projects.js` ostatnio zmieniał się 2025-12-01. Niewiarygodny
- * `lastmod` jest gorszy niż jego brak — Google przestaje ufać całej sitemapie,
- * a nie tylko jednemu wpisowi. Dlatego brak daty ma zatrzymać build, a nie
- * wyprodukować wiarygodnie wyglądającą nieprawdę.
+ * Wcześniej brała się z `git log`. To nie działa w środowisku budowania, które
+ * klonuje repozytorium ze skróconą historią: commit graniczny jest wtedy
+ * traktowany jak korzeń, więc każdy plik nietknięty od tej granicy wygląda,
+ * jakby powstał właśnie w niej. `git log` zwracał datę graniczną — niepustą,
+ * poprawnie sformatowaną i nieprawdziwą — przez co 34 z 38 adresów spoza bloga
+ * dostawały jedną wspólną datę. Zmierzone na wdrożeniu 2026-09-06: próba
+ * dociągnięcia pełnej historii kończyła się bez błędu i bez skutku.
  *
- * Dwie drogi awarii, obie wcześniej ciche:
- *  - `git log` rzuca — brak gita, brak repozytorium;
- *  - `git log` kończy się sukcesem i nie wypisuje **nic**. Tak zachowuje się
- *    płytki klon, który nie ma commita dotykającego tego pliku. To ta droga
- *    odpalała się na Vercelu, bo nie rzucała wyjątku i nie zostawiała śladu.
+ * Data mieszka więc przy treści, tak jak we frontmatterze artykułów. Brak
+ * znacznika zatrzymuje generowanie: lepszy zepsuty build niż mapa, która kłamie
+ * Google o świeżości — jedna fałszywa data podważa zaufanie do całej mapy.
  */
-/**
- * Czy repozytorium ma skróconą historię (shallow clone).
- *
- * To jest sedno usterki, a nie pusty wynik `git log`. W skróconym klonie commit
- * graniczny jest traktowany jak korzeń — nie ma rodzica — więc każdy plik
- * nietknięty od tej granicy wygląda, jakby **powstał** właśnie w niej.
- * `git log -1 -- <plik>` zwraca wtedy datę graniczną: wynik niepusty,
- * wiarygodnie wyglądający i nieprawdziwy. Żadne sprawdzanie pustki tego nie
- * złapie.
- *
- * Zmierzone na wdrożeniu podglądowym 2026-09-06: build serwerowy wypuścił 33
- * adresy z identycznym `2026-07-30`, mimo że w commicie leżała poprawna mapa,
- * a te same ścieżki lokalnie dają daty od 2025-12-01. Granicą był poprzedni
- * szczyt gałęzi głównej.
- */
-let shallowChecked = false;
-
-function assertFullGitHistory() {
-  if (shallowChecked) return;
-  shallowChecked = true;
-
-  let shallow;
+function readPageDate(relativePath) {
+  let source;
   try {
-    shallow = execFileSync("git", ["rev-parse", "--is-shallow-repository"], {
-      cwd: ROOT,
-      encoding: "utf-8",
-    }).trim();
+    source = fs.readFileSync(path.join(ROOT, relativePath), "utf-8");
   } catch (error) {
     throw new Error(
-      `Nie udało się sprawdzić, czy repozytorium ma pełną historię: ${error.message}`,
+      `Nie udało się odczytać "${relativePath}" przy ustalaniu daty: ${error.message}`,
     );
   }
 
-  if (shallow !== "true") return;
-
-  // Próba samonaprawy: bez pełnej historii daty są zmyślone, więc lepiej ją
-  // dociągnąć niż wywrócić build. Jeśli się nie uda, dopiero wtedy błąd.
-  try {
-    execFileSync("git", ["fetch", "--unshallow", "--quiet"], {
-      cwd: ROOT,
-      encoding: "utf-8",
-      stdio: "pipe",
-    });
-  } catch {
+  const match = source.match(/@sitemapUpdated\s+(\d{4}-\d{2}-\d{2})/);
+  if (!match) {
     throw new Error(
-      `Repozytorium ma skróconą historię, a dociągnięcie pełnej nie powiodło się. ` +
-        `Bez pełnej historii daty w sitemapie byłyby zmyślone: każdy plik ` +
-        `nietknięty od granicy skrótu dostałby datę tej granicy. ` +
-        `Ustaw pełne klonowanie w środowisku budowania.`,
+      `Brak znacznika @sitemapUpdated w "${relativePath}". Każda strona ` +
+        `wchodząca do sitemapy musi nieść datę swojej ostatniej zmiany ` +
+        `w formacie RRRR-MM-DD.`,
     );
   }
 
-  const stillShallow = execFileSync(
-    "git",
-    ["rev-parse", "--is-shallow-repository"],
-    { cwd: ROOT, encoding: "utf-8" },
-  ).trim();
-
-  if (stillShallow === "true") {
-    throw new Error(
-      `Repozytorium nadal ma skróconą historię po próbie jej dociągnięcia. ` +
-        `Daty w sitemapie byłyby zmyślone, więc przerywam.`,
-    );
-  }
+  return match[1];
 }
 
-function getGitLastModDate(relativePath) {
-  assertFullGitHistory();
-
-  let iso;
-
-  try {
-    iso = execFileSync(
-      "git",
-      ["log", "-1", "--format=%cI", "--", relativePath],
-      { cwd: ROOT, encoding: "utf-8" },
-    ).trim();
-  } catch (error) {
-    throw new Error(
-      `Nie udało się odczytać daty commita dla "${relativePath}": ` +
-        `polecenie git zakończyło się błędem (${error.message}).`,
-    );
+/**
+ * Sprowadza datę z frontmattera albo z modułu danych do postaci RRRR-MM-DD.
+ * `gray-matter` zwraca `Date` dla niecytowanej daty w YAML i `string` dla
+ * cytowanej, więc obie postacie muszą być obsłużone.
+ */
+function normalizeDate(value, source) {
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}/.test(value)) {
+    return value.slice(0, 10);
   }
-
-  if (!iso) {
-    throw new Error(
-      `Brak daty commita dla "${relativePath}": git zakończył się sukcesem, ` +
-        `ale nie zwrócił żadnej daty. Najczęstsza przyczyna to płytki klon bez ` +
-        `historii sięgającej commita, który dotknął tego pliku — w takim ` +
-        `środowisku build musi mieć pełną historię. Sitemap nie zostanie ` +
-        `zapisany z podstawioną datą.`,
-    );
+  if (value instanceof Date && !Number.isNaN(value.valueOf())) {
+    return value.toISOString().split("T")[0];
   }
-
-  return iso.split("T")[0];
+  throw new Error(
+    `Brak poprawnej daty dla ${source}. Oczekiwano RRRR-MM-DD, otrzymano: ${String(value)}`,
+  );
 }
 
 /**
@@ -200,7 +140,7 @@ function getCourseLessons(kursDir) {
       const { data } = matter(
         fs.readFileSync(path.join(kursDir, file), "utf-8")
       );
-      return { file, slug: data.slug, order: data.order };
+      return { file, slug: data.slug, order: data.order, updated: data.updated };
     })
     .filter(
       (l) =>
@@ -230,11 +170,11 @@ function generateSitemap() {
       ? allLastmods.sort().slice(-1)[0]
       : today;
 
-  // Legal pages: lastmod = git mtime of corresponding .jsx
+  // Strony prawne: data ze znacznika @sitemapUpdated w ich własnym pliku
   const legalLastmods = {
-    "privacy-policy": getGitLastModDate("src/pages/PrivacyPolicy.jsx"),
-    "terms-of-service": getGitLastModDate("src/pages/TermsOfService.jsx"),
-    "cookie-policy": getGitLastModDate("src/pages/CookiePolicy.jsx"),
+    "privacy-policy": readPageDate("src/pages/PrivacyPolicy.jsx"),
+    "terms-of-service": readPageDate("src/pages/TermsOfService.jsx"),
+    "cookie-policy": readPageDate("src/pages/CookiePolicy.jsx"),
   };
 
   // Static pages — mix of listing and legal, each with its own lastmod
@@ -252,7 +192,7 @@ function generateSitemap() {
       url: "llm-wiki",
       priority: "0.8",
       changefreq: "monthly",
-      lastmod: getGitLastModDate("src/pages/LlmWikiLanding.jsx"),
+      lastmod: readPageDate("src/pages/LlmWikiLanding.jsx"),
     },
   ];
 
@@ -265,14 +205,14 @@ function generateSitemap() {
       url: "llm-wiki/kurs",
       priority: "0.7",
       changefreq: "monthly",
-      lastmod: getGitLastModDate("src/pages/CourseHub.jsx"),
+      lastmod: readPageDate("src/pages/CourseHub.jsx"),
     });
     for (const lesson of courseLessons) {
       plOnlyPages.push({
         url: `llm-wiki/kurs/${lesson.slug}`,
         priority: "0.6",
         changefreq: "monthly",
-        lastmod: getGitLastModDate(`src/content/kurs/${lesson.file}`),
+        lastmod: normalizeDate(lesson.updated, `lekcji ${lesson.file}`),
       });
     }
   }
@@ -357,8 +297,7 @@ function generateSitemap() {
     xml += "  </url>\n";
   });
 
-  // Projects — PL and EN (lastmod = git mtime of projects.js as best proxy)
-  const projectsLastmod = getGitLastModDate("src/data/projects.js");
+  // Projects — PL and EN; każdy niesie własną datę w src/data/projects.js
   projects.forEach((project) => {
     const plUrl = `${SITE_URL}/projects/${project.slug}`;
     const enUrl = `${SITE_URL}/en/projects/${project.slug}`;
@@ -366,7 +305,7 @@ function generateSitemap() {
     // PL
     xml += "  <url>\n";
     xml += `    <loc>${plUrl}</loc>\n`;
-    xml += `    <lastmod>${projectsLastmod}</lastmod>\n`;
+    xml += `    <lastmod>${normalizeDate(project.updated, `projektu ${project.slug}`)}</lastmod>\n`;
     xml += "    <changefreq>monthly</changefreq>\n";
     xml += "    <priority>0.8</priority>\n";
     xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;
@@ -377,7 +316,7 @@ function generateSitemap() {
     // EN
     xml += "  <url>\n";
     xml += `    <loc>${enUrl}</loc>\n`;
-    xml += `    <lastmod>${projectsLastmod}</lastmod>\n`;
+    xml += `    <lastmod>${normalizeDate(project.updated, `projektu ${project.slug}`)}</lastmod>\n`;
     xml += "    <changefreq>monthly</changefreq>\n";
     xml += "    <priority>0.8</priority>\n";
     xml += `    <xhtml:link rel="alternate" hreflang="pl" href="${plUrl}"/>\n`;

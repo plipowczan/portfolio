@@ -1,6 +1,7 @@
 ---
 slug: 0-uruchom-w-swoim-narzedziu
 order: 0.3
+updated: 2026-07-08
 title: Uruchom w swoim narzędziu
 excerpt: Gdzie i jak odpalić szablon bez terminala i bez komend gita. Lista narzędzi z asystentem AI, jak wołać komendy, jak zapisać zmiany i jak pobrać przez ZIP.
 ---

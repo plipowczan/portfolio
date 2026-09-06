@@ -1,6 +1,7 @@
 ---
 slug: 1-zaloz-katalog
 order: 1
+updated: 2026-07-08
 title: Załóż katalog z szablonu
 excerpt: Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy - architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
 video: /videos/kurs/1-zaloz-katalog.webm

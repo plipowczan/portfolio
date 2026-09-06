@@ -58,7 +58,7 @@ const BLOG_REQUIRED = [
   "image",
 ];
 
-const LESSON_REQUIRED = ["slug", "order", "title", "excerpt"];
+const LESSON_REQUIRED = ["slug", "order", "title", "excerpt", "updated"];
 
 /**
  * Pliki, które w danym katalogu kandydują na treść: markdown, nie szkic
@@ -156,6 +156,21 @@ function validateLesson(data, filename) {
   if (typeof data.excerpt !== "string") {
     throw new Error(`Invalid 'excerpt' type in ${filename}: expected string`);
   }
+
+  // `updated` zasila <lastmod> w sitemapie. Kiedyś brało się z historii gita,
+  // ale środowisko budujące klonuje repozytorium ze skróconą historią i każdy
+  // plik nietknięty od granicy skrótu raportował tę samą, fałszywą datę.
+  // Data mieszka więc przy treści, a walidacja jest tutaj, żeby nowa lekcja bez
+  // daty przewróciła build od razu, a nie dopiero przy generowaniu sitemapy.
+  const updatedIso =
+    data.updated instanceof Date
+      ? data.updated.toISOString().slice(0, 10)
+      : data.updated;
+  if (typeof updatedIso !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(updatedIso)) {
+    throw new Error(
+      `Invalid 'updated' in ${filename}: expected YYYY-MM-DD, got ${String(data.updated)}`,
+    );
+  }
 }
 
 /** @returns {{ entry: object, body: string }} */
@@ -196,6 +211,10 @@ function parseLesson(raw, filename) {
     entry: {
       slug: data.slug,
       order: data.order,
+      updated:
+        data.updated instanceof Date
+          ? data.updated.toISOString().slice(0, 10)
+          : data.updated,
       title: data.title,
       excerpt: data.excerpt,
       // Opcjonalny screencast wpięty w górny slot lekcji. `video` = źródło

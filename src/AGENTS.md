@@ -27,6 +27,15 @@ and the shared hooks and utilities behind them.
 General React, Tailwind, and router style is not repeated here — it lives in
 `.claude/rules/`. What follows is specific to this repository.
 
+- **A page in the sitemap that is not backed by markdown carries an
+  `@sitemapUpdated YYYY-MM-DD` marker** in a comment at the top of its own
+  `.jsx`. Today that is `PrivacyPolicy`, `TermsOfService`, `CookiePolicy`,
+  `LlmWikiLanding` and `CourseHub`. `scripts/update-sitemap.js` reads it and
+  fails the build when it is missing, so a new route of this kind cannot ship
+  without a date. The marker exists because the date used to come from
+  `git log`, which the shallow clone in the build environment turns into the
+  same wrong date for every untouched file. Change the page's content, change
+  the marker.
 - **No PropTypes.** `prop-types` is not a dependency; importing it breaks Vite
   module resolution and blanks the entire app. Document props with JSDoc and
   validate data at module boundaries instead.
