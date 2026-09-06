@@ -1,9 +1,9 @@
 ## MODIFIED Requirements
 
-### Requirement: Legal page lastmod reflects the date recorded in the page
+### Requirement: Legal page lastmod reflects source file modification time
 
 Legal page URLs (`/privacy-policy`, `/cookie-policy`, `/terms-of-service`) in
-`sitemap.xml` SHALL have `<lastmod>` equal to the date recorded in the
+`sitemap.xml` SHALL have `<lastmod>` equal to the modification date recorded in the
 corresponding React source file (`src/pages/PrivacyPolicy.jsx`,
 `src/pages/CookiePolicy.jsx`, `src/pages/TermsOfService.jsx`) as an
 `@sitemapUpdated YYYY-MM-DD` marker. The generator SHALL fail, naming the file,
@@ -16,7 +16,7 @@ so every file untouched since that boundary reports the boundary date. The value
 came back non-empty and well-formed, so no emptiness check could catch it, and
 `git fetch --unshallow` returned success without deepening the history.
 
-#### Scenario: Legal page carries its own date
+#### Scenario: Legal page tracks its source file
 
 - **WHEN** `src/pages/PrivacyPolicy.jsx` records `@sitemapUpdated 2026-07-29`
 - **THEN** the sitemap entry for `/privacy-policy` contains `<lastmod>2026-07-29</lastmod>`
