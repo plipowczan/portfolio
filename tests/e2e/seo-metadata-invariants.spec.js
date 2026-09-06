@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
-import { PREVIEW_URL } from "../../scripts/ports.mjs";
 import matter from "gray-matter";
 
 /**
@@ -19,11 +18,10 @@ import matter from "gray-matter";
  * found the same page shipping a description from index.html, a canonical
  * pointing at the other language, and hreflang built by string surgery.
  *
- * Runs against the preview build, not the dev server: under
- * <React.StrictMode> react-helmet-async 2.0.5 + React 19 never commit their
- * <meta>/<link> tags, so the dev server shows an empty <head> regardless of
- * what the code does. StrictMode is development-only, so the build is the
- * honest target — and it is also what Vercel actually serves.
+ * Runs against the dev server. React 19 hoists <title>, <meta> and <link>
+ * itself as part of committing a render, so development and the production
+ * build put the same tags in <head>. What the generated `dist/` contains is a
+ * separate question, checked by prerender-metadata.spec.js.
  */
 
 const SITE_URL = "https://pawel.lipowczan.pl";
@@ -122,7 +120,7 @@ const PAGES = [
 /** Canonical form of a site URL, so a trailing slash never decides a match. */
 const normalize = (url) => url.replace(/\/+$/, "") || "/";
 
-/** Navigate and let react-helmet-async write the tags into <head>. */
+/** Navigate and let React commit the render that hoists the tags. */
 const openPage = async (page, path) => {
   await page.goto(path);
   await page.waitForLoadState("networkidle");
@@ -140,17 +138,6 @@ const readHreflang = (page) =>
   );
 
 test.describe("SEO — page metadata invariants", () => {
-  test.use({ baseURL: PREVIEW_URL });
-
-  // Serwer preview startuje tylko pod `PW_PREVIEW=1` — patrz
-  // playwright.config.js. Bez niego nie ma czego odpytać, więc blok pomija
-  // się z nazwą zmiennej zamiast wywracać przebieg na odmowie połączenia.
-  // W CI zmienną ustawia workflow, w jobie chromium.
-  test.skip(
-    !process.env.PW_PREVIEW,
-    "Serwer preview nie działa — uruchom z PW_PREVIEW=1, żeby wykonać ten blok."
-  );
-
   test("sitemap.xml parsed and every checked path is listed in it", () => {
     expect(SITEMAP.size).toBeGreaterThan(0);
 
@@ -454,13 +441,21 @@ test.describe("SEO — page metadata invariants", () => {
     };
 
     /**
-     * A route change the router handles, with no <Link> to click.
+     * A route change driven straight through the router.
      *
-     * Nothing reaches /llm-wiki/kurs through the router: it is absent from the
-     * nav and the footer, and the one article that mentions it does so with
-     * raw HTML from markdown, which reloads the document. `pushState` plus a
-     * `popstate` event is precisely what React Router subscribes to, so the
-     * route swaps client-side — the condition under test.
+     * Clicking a <Link> would be closer to what a user does, but it is not a
+     * reliable way to *guarantee* a client-side transition here. Two reasons:
+     * nothing reaches /llm-wiki/kurs through the router at all (absent from
+     * nav and footer; the one article that mentions it uses raw HTML from
+     * markdown, which reloads), and on the dev server a click from the blog
+     * listing to an article performs a document navigation rather than a
+     * client-side one — behaviour that predates this change and does not
+     * happen on the production build.
+     *
+     * `pushState` plus a `popstate` event is exactly what React Router
+     * subscribes to, so the route swaps without a document load. That is the
+     * condition under test: <SEO> unmounting and React removing the tags it
+     * hoisted for the previous route.
      */
     const navigateClientSide = async (page, path) => {
       await page.evaluate((target) => {
@@ -496,12 +491,7 @@ test.describe("SEO — page metadata invariants", () => {
       );
 
       const loads = countDocumentLoads(page);
-
-      // The listing is the only page holding a <Link> to both articles.
-      await page.locator(`a[href="/blog"]:visible`).first().click();
-      await page.waitForURL("**/blog");
-      await page.locator(`a[href="${POST_B}"]:visible`).first().click();
-      await page.waitForURL(`**${POST_B}`);
+      await navigateClientSide(page, POST_B);
 
       // The router updates the URL before React commits the new render, so
       // the tags lag the address by a frame or two. Retrying assertions, not a

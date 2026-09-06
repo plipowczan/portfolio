@@ -96,41 +96,13 @@ test.describe("Blog - Lista postów", () => {
     page,
   }) => {
     const metaTags = await getSeoMetaTags(page);
-    const isDevMode = page.url().includes("localhost") || page.url().includes("127.0.0.1");
 
     expect(metaTags.title).toBeTruthy();
     expect(metaTags.title).toMatch(/Blog/i);
 
-    // Description pochodzi wyłącznie z Helmeta, a ten pod React 19 nie wstawia
-    // tagów w trybie deweloperskim (StrictMode). Ta sama tolerancja co dla og:*.
-    if (!metaTags.description) {
-      const message = "meta description is missing";
-      if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - expected under StrictMode`);
-      } else {
-        throw new Error(`PRODUCTION: ${message} - required for SEO`);
-      }
-    }
-
-    // og:title może nie być dostępny w dev mode (React Helmet timing issue)
-    // ale jest obecny w production/prerendered builds
-    if (!metaTags.ogTitle) {
-      console.warn(
-        "⚠️ og:title not found - expected in dev mode, should be present in production"
-      );
-    }
-
-    // Sprawdź Canonical Tag
-    if (!metaTags.canonical) {
-      const message = "canonical link tag is missing";
-      if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - expected due to React Helmet limitation`);
-      } else {
-        throw new Error(`PRODUCTION: ${message} - canonical tag is required for SEO`);
-      }
-    } else {
-      expect(metaTags.canonical).toBe("https://pawel.lipowczan.pl/blog");
-    }
+    expect(metaTags.description).toBeTruthy();
+    expect(metaTags.ogTitle).toBeTruthy();
+    expect(metaTags.canonical).toBe("https://pawel.lipowczan.pl/blog");
   });
 
   test("powinna wyświetlać daty publikacji postów", async ({ page }) => {
@@ -239,64 +211,23 @@ test.describe("Blog - Pojedynczy post", () => {
     await waitForAnimations(page, 1000);
 
     const metaTags = await getSeoMetaTags(page);
-    const isDevMode = page.url().includes("localhost") || page.url().includes("127.0.0.1");
 
-    // Sprawdź podstawowe tagi (zawsze wymagane)
     expect(metaTags.title).toBeTruthy();
 
-    // Description pochodzi wyłącznie z Helmeta, a ten pod React 19 nie wstawia
-    // tagów w trybie deweloperskim (StrictMode). Ta sama tolerancja co dla og:*.
-    if (!metaTags.description) {
-      const message = "meta description is missing for blog post";
-      if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - expected under StrictMode`);
-      } else {
-        throw new Error(`PRODUCTION: ${message} - required for SEO`);
-      }
-    } else {
-      expect(metaTags.description.length).toBeGreaterThan(50);
-    }
+    expect(metaTags.description).toBeTruthy();
+    expect(metaTags.description.length).toBeGreaterThan(50);
 
-    // Sprawdź Open Graph dla postów (toleruj brak w dev mode)
-    if (!metaTags.ogTitle) {
-      const message = "og:title meta tag is missing for blog post";
-      if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - this is expected due to React Helmet async rendering`);
-      } else {
-        throw new Error(`PRODUCTION: ${message} - this should be present in production builds`);
-      }
-    } else {
-      expect(metaTags.ogTitle).toBeTruthy();
-    }
-
-    if (!metaTags.ogDescription) {
-      const message = "og:description meta tag is missing for blog post";
-      if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - this is expected due to React Helmet async rendering`);
-      } else {
-        throw new Error(`PRODUCTION: ${message} - this should be present in production builds`);
-      }
-    } else {
-      expect(metaTags.ogDescription).toBeTruthy();
-    }
+    expect(metaTags.ogTitle).toBeTruthy();
+    expect(metaTags.ogDescription).toBeTruthy();
 
     // Sprawdź czy ma obraz OG (jeśli zdefiniowany)
     if (metaTags.ogImage) {
       expect(metaTags.ogImage).toContain("http");
     }
 
-    // Sprawdź Canonical Tag dla posta
-    if (!metaTags.canonical) {
-      const message = "canonical link tag is missing for blog post";
-      if (isDevMode) {
-        console.warn(`⚠️ DEV MODE: ${message} - expected due to React Helmet limitation`);
-      } else {
-        throw new Error(`PRODUCTION: ${message} - canonical tag is required for SEO`);
-      }
-    } else {
-      expect(metaTags.canonical).toBeTruthy();
-      expect(metaTags.canonical).toMatch(/https:\/\/pawel\.lipowczan\.pl\/blog\/.+/);
-    }
+    expect(metaTags.canonical).toMatch(
+      /https:\/\/pawel\.lipowczan\.pl\/blog\/.+/
+    );
   });
 
   test('przycisk "Powrót do bloga" powinien działać', async ({ page }) => {
