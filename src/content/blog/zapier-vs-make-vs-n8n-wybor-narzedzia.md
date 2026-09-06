@@ -545,6 +545,8 @@ Nie musisz wybierać tylko jednej platformy!
 
 **Dlaczego Zapier?** Non-technical zespół, proste workflow, natychmiastowy rezultat.
 
+Podobny scenariusz opisałem na prawdziwym wdrożeniu: [pozyskiwanie leadów bez kodu](/blog/no-code-lead-generation).
+
 ### Case Study 2: Agencja kreatywna wybrała Make
 
 **Zespół:** 15 osób (designers, copywriters, project managers)  
@@ -574,6 +576,8 @@ Content submission → Make →
 
 **Dlaczego Make?** Power users, wizualna logika, najlepsza wartość za pieniądze.
 
+Tak wygląda to u prawdziwego klienta z branży eventowej: [automatyzacja ofertowania w El Padre](/blog/el-padre-automatyzacja-ofert-ai).
+
 ### Case Study 3: Software house wybrał n8n
 
 **Zespół:** 30 osób (15 developerów, 10 product, 5 ops)  
@@ -598,6 +602,8 @@ Content submission → Make →
 - ✅ Compliance: GDPR-compliant (EU-hosted)
 
 **Dlaczego n8n?** Technical team, high-volume, compliance requirements, ROI po 2 miesiącach.
+
+Dwa wdrożenia z tej półki: [obsługa skrzynki firmowej](/blog/automatyzacja-email-frontdesk-ai) i [chatboty od koncepcji do wdrożenia](/blog/chatboty-ai-od-koncepcji-do-wdrozenia).
 
 ### Case Study 4: Software startup wybrał Kod + AI
 
@@ -676,6 +682,8 @@ Webhook (5 źródeł) →
 - Governance: Multi-platform approach z central oversight
 
 ## Podsumowanie - Quick Decision Guide
+
+Zanim wybierzesz narzędzie, warto wiedzieć, co właściwie chcesz zautomatyzować. Pomagają w tym dwa teksty: [dane jako paliwo biznesu](/blog/dane-jako-paliwo-biznesu) o tym, czego potrzebujesz, żeby cokolwiek zautomatyzować, oraz [migracja z Excela do Airtable](/blog/airtable-vs-excel-migracja) o najczęstszym pierwszym kroku.
 
 ### Chcesz najprostszy start?
 

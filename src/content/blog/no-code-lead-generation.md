@@ -86,6 +86,10 @@ System automatycznie dodaje:
 
 ## Architektura systemu
 
+Pełny opis wdrożenia u klienta: [Lead Generator](/projects/lead-generator).
+
+Cały system stoi na n8n i Airtable. Dlaczego akurat te narzędzia, a nie Zapier czy Make, tłumaczę w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Pokrewne wdrożenie na tym samym zestawie: [obsługa skrzynki firmowej](/blog/automatyzacja-email-frontdesk-ai).
+
 **Baza Airtable:**
 
 - Tabela "Campaigns" - definicje kampanii

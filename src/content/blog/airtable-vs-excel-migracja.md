@@ -175,7 +175,7 @@ Kalendarz, Kanban, Grid, Gallery - wszystko z tych samych danych.
 Airtable ma to wbudowane, Excel wymaga VBA lub zewnętrznych narzędzi.
 
 **✅ Integracji z innymi narzędziami**
-API, Zapier, Make - Airtable jest stworzony do łączenia się z ekosystemem.
+API, Zapier, Make - Airtable jest stworzony do łączenia się z ekosystemem. Które z tych narzędzi wybrać, rozbieram w osobnym tekście: [porównanie Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia).
 
 Z kolei **Excel wciąż wygrywa** przy:
 - Zaawansowanych obliczeniach finansowych i statystycznych

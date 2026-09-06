@@ -25,6 +25,8 @@ alternateSlug: okf-standard-portable-knowledge-base
 
 Jakiś czas temu opisałem, [jak LLM Wiki Karpathy'ego pomogła mi uporządkować moją bazę wiedzy](/blog/llm-knowledge-base-brain-karpathy) - ponad 300 notatek, którymi zarządza agent, trzy indeksy nawigacyjne, workflow do ingestu i kompilacji. System działa. Codziennie. To mój drugi mózg.
 
+Samą budowę takiej bazy rozkładam na lekcje w [darmowy kurs LLM Wiki](/llm-wiki/kurs).
+
 Ale ostatnio złapałem się na niewygodnym pytaniu. Cała ta wiedza żyje w **moich** narzędziach - w Obsidian, w Quartz, w moim `CLAUDE.md`. A co, jeśli zechcę ją komuś przekazać? Zmienić tool? Albo potraktować jako aktyw firmowy, który ma przeżyć dowolny program i dowolny model? Notatki zamknięte w czyimś prywatnym formacie to vendor-lock-in - tyle że zrobiony własnoręcznie.
 
 Wniosek, do którego doszedłem, jest prosty: **trwałość wiedzy to nie narzędzie - to format.** I wtedy trafiłem na **OKF (Open Knowledge Format)** od Google. Zrobiłem audyt swojego brain pod kątem tego standardu, spodziewając się sporego rozjazdu. Wynik mnie zaskoczył: zgodność w okolicach 100% - mimo że nigdy nie projektowałem brain pod OKF. W tym artykule pokażę, dlaczego tak się stało, co dokładnie sprawdziłem i co wtedy, gdy czysty markdown to za mało. Bez teorii - konkretny audyt i konkretne liczby.

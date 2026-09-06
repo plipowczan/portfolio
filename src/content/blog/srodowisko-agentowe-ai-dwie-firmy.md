@@ -23,6 +23,8 @@ alternateSlug: agentic-ai-environment-two-companies
 
 Siadam rano do komputera, otwieram terminal i mówię: "sprawdź stan konta firmowego i porównaj z planem finansowym". Agent CFO ładuje kontekst, łączy się z Revolut API, analizuje ostatnie faktury i zostawia trzy rekomendacje. Potem pytam innego agenta o monitorowanie konkurencji - i dostaję briefing. Trzeci sprawdza terminy prawne i przypomina o zbliżającym się deadline umowy z klientem.
 
+To praktyczna wersja tego, co teoretycznie rozkładam w [Software 3.0 i agentic engineering](/blog/software-3-0-agentic-engineering).
+
 Każdy z tych agentów działa pod moim nadzorem - świadomie nie puszczam ich jeszcze w pełni autonomicznie. Uważam, że na tym etapie warto kilka razy przejść operację pod kontrolą, zanim ustawisz scheduler do działań cyklicznych. Ale sam fakt, że mam **osiem wyspecjalizowanych agentów**, z których każdy zarządza innym obszarem - finansami, prawem, marketingiem, contentem, produktem - to już ogromna zmiana. I co najważniejsze - ten sam zestaw agentów obsługuje **dwie różne firmy jednocześnie**.
 
 W artykule o [Skills 2.0](/blog/skills-2-0-multi-agent-system-zarzadzanie-firma) opisywałem jak zbudowałem system wieloagentowy. Teraz pokażę coś głębszego - **architekturę**, która za tym stoi. Bo to nie agenty są rewolucyjne. Rewolucyjna jest separacja warstw, która sprawia, że cały system jest przenośny, wersjonowany i niezależny od dostawcy AI.

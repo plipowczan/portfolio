@@ -26,6 +26,8 @@ Problem, który pewnie znasz: notatki rozrzucone po dziesiątkach narzędzi, his
 
 W tym artykule pokażę Ci jak połączenie **Obsidian**, **Claude Code** i **Skills** tworzy potężny system zarządzania wiedzą. To nie teoria - używam tego setup'u codziennie. Na końcu będziesz mieć wszystko co potrzebne, żeby zbudować własny **second brain** z AI w centrum.
 
+Jeśli wolisz przejść to krok po kroku, zamiast czytać opis: ten sam system rozkładam na osiem lekcji w [darmowy kurs LLM Wiki](/llm-wiki/kurs).
+
 ## Czym jest Second Brain i dlaczego go potrzebujesz
 
 **Second Brain** to zewnętrzny system do przechowywania i organizacji wiedzy. Koncepcja wywodzi się z **PKM (Personal Knowledge Management)** - podejścia do świadomego zbierania, organizowania i wykorzystywania informacji.

@@ -58,6 +58,10 @@ Agencja stanęła przed dylematem: albo zwiększyć zespół (co generuje koszty
 
 Zdecydowaliśmy się na wdrożenie platformy **AION** - systemu zarządzania procesami wspieranymi przez AI. Kluczem do sukcesu było nie tylko wprowadzenie narzędzi AI, ale przede wszystkim **integracja i centralizacja danych** oraz **dostosowanie workflow do realnych potrzeb zespołu**.
 
+Pokrewne wdrożenie po stronie dokumentów: [automatyzacje dokumentów](/projects/automatyzacje-dokumentow).
+
+Wybór platformy to osobna decyzja i osobny tekst: [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Drugie wdrożenie dla agencji, tym razem po stronie rozmów z klientem: [chatboty od koncepcji do wdrożenia](/blog/chatboty-ai-od-koncepcji-do-wdrozenia).
+
 ### Stack technologiczny
 
 - **AION** - platforma do zarządzania procesami wspieranymi AI

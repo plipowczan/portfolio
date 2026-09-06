@@ -21,6 +21,8 @@ alternateSlug: skills-2-0-multi-agent-system-company-management
 
 Od kilku dni buduję coś, czego szukałem od dawna - system, w którym agenci AI nie tylko odpowiadają na pytania, ale **zarządzają** konkretnymi obszarami moich firm. Zarówno 200IQ Labs (qamera.ai) jak i PLSoft.
 
+Dlaczego w ogóle przesuwamy się w tę stronę, tłumaczę w [Software 3.0 i agentic engineering](/blog/software-3-0-agentic-engineering).
+
 Problem znasz, jeśli prowadzisz firmę i korzystasz z AI. Masz Claude Project z promptem dla CFO. Osobny z promptami marketingowymi. Obsidian z notatkami. Pięć ad-hoc konwersacji dziennie, w których tłumaczysz kontekst od zera. Każda sesja to tabula rasa. Każdy agent nie wie nic o tym, co robi drugi.
 
 W [5 technikach pracy z Claude Code](/blog/5-technik-pracy-z-claude-code) opisywałem PRD-first development, modularność reguł i przekształcanie powtarzalnych zadań w komendy. To był fundament. Teraz przeskakuję na kolejny poziom - **Skills 2.0** + **Agent Skills standard** + **Git** = system wieloagentowy, który działa jak zespół specjalistów. Każdy agent zna swoją rolę, ma swoje narzędzia, i nie wchodzi drugiemu w paradę.

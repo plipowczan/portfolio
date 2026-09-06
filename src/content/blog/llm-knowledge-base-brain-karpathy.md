@@ -24,6 +24,8 @@ alternateSlug: karpathy-llm-wiki-knowledge-base
 
 Andrej Karpathy w kwietniu 2026 opublikował na X [wątek o "LLM Wiki"](https://x.com/karpathy/status/2039805659525644595) - koncepcji, w której LLM buduje i utrzymuje persistent wiki z Twoich źródeł. Zamiast klasycznego RAG, który szuka fragmentów na żądanie, LLM aktywnie zarządza bazą wiedzy: tworzy notatki, aktualizuje cross-referencje, flaguje sprzeczności.
 
+Jak zbudować taką bazę od zera, prowadzę krok po kroku w [darmowy kurs LLM Wiki](/llm-wiki/kurs).
+
 Czytam ten wątek i mam déjà vu. Nie dlatego, że zbudowałem to samo - ale dlatego, że od 2022 roku organicznie ewoluowałem w tym kierunku. Mój vault w Obsidian zaczynał jako klasyczny zbiór ręcznych notatek - kilkadziesiąt plików Markdown, ręcznie linkowanych, rosnących bez jasnej struktury. Z czasem **Claude Code** przejął coraz więcej pracy: najpierw proste formatowanie, potem indeksowanie, wreszcie pełne zarządzanie strukturą i standardami. W pewnym momencie zdałem sobie sprawę, że agent robi więcej maintenance niż ja.
 
 Repozytorium Karpathy'ego - [LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) - nie było dla mnie odkryciem nowego świata. Było **katalizatorem porządkowania**. Karpathy dał nazwę warstwom, które u mnie istniały chaotycznie. Pomógł mi sformalizować separation między raw sources a przetworzoną wiki. Dopisać safety rules, które wcześniej miałem tylko w głowie. Opisał navigation protocol, który u mnie działał intuicyjnie, ale nigdy nie był udokumentowany.

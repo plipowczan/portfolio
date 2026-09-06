@@ -65,7 +65,12 @@ System pozwala na zdefiniowanie profilu idealnego klienta (ICP), a następnie au
 2. **Wzbogacanie**: Pobieranie szczegółowych danych o firmach i pracownikach z API zewnętrznych.
 3. **Weryfikacja**: Sprawdzanie poprawności adresów email i numerów telefonów.
 4. **Eksport**: Przekazanie gotowych leadów do systemu CRM lub kampanii cold mailingowej.
-    `,
+    
+
+## Więcej na blogu
+
+[Architektura i narzędzia](/blog/no-code-lead-generation)
+`,
     features: [
       "Agregacja danych z wielu źródeł (Google, Apollo, LinkedIn)",
       "Automatyczna weryfikacja adresów email",
@@ -104,7 +109,12 @@ System "uczy się" na podstawie dostarczonej bazy wiedzy (dokumenty, strona www,
 - **Generowanie leadów**: Kwalifikacja potencjalnych klientów w trakcie rozmowy.
 - **Rezerwacja terminów**: Integracja z kalendarzami do umawiania spotkań.
 - **Wsparcie techniczne**: Rozwiązywanie problemów na podstawie dokumentacji technicznej.
-    `,
+    
+
+## Więcej na blogu
+
+[Od koncepcji do wdrożenia](/blog/chatboty-ai-od-koncepcji-do-wdrozenia)
+`,
     features: [
       "Pamięć kontekstowa rozmowy",
       "Integracja z bazą wiedzy (RAG - Retrieval Augmented Generation)",
@@ -185,7 +195,12 @@ Dzięki wykorzystaniu AI, system rozumie kontekst wiadomości, potrafi odróżni
 - **Auto-responder**: Inteligentne odpowiedzi na powtarzalne pytania.
 - **Ekstrakcja danych**: Wyciąganie kluczowych informacji (np. numer zamówienia, NIP) z treści maila.
 - **Routing**: Przekazywanie wiadomości do odpowiednich pracowników.
-    `,
+    
+
+## Więcej na blogu
+
+[Jak to zbudowaliśmy, krok po kroku](/blog/automatyzacja-email-frontdesk-ai)
+`,
     features: [
       "Integracja z Gmail i Outlook",
       "Klasyfikacja oparta na AI",
@@ -222,7 +237,12 @@ Systemy te integrują dane z CRM lub formularzy, generują dokumenty PDF na pods
 
 - **Energocentrum**: Automatyczne generowanie umów na instalacje fotowoltaiczne wraz z dokumentacją techniczną.
 - **Manufaktura Przygody**: Generowanie umów i kart wycieczek dla szkół i organizatorów turystyki.
-    `,
+    
+
+## Więcej na blogu
+
+[Podobne wdrożenie w agencji eventowej](/blog/el-padre-automatyzacja-ofert-ai)
+`,
     features: [
       "Generowanie PDF z dynamicznymi danymi",
       "Integracja z platformami e-podpisu (Autenti, DocuSign)",
@@ -302,7 +322,12 @@ Wykorzystując AI (Perplexity, GPT-4) oraz specjalistyczne bazy danych, system a
 ## Jak to działa
 
 System monitoruje nowe rekordy w CRM. Gdy pojawi się nowy lead, uruchamia proces researchu: sprawdza stronę www firmy, profil LinkedIn, rejestry KRS/CEIDG. Zebrane dane są analizowane, standaryzowane i zapisywane w odpowiednich polach w CRM.
-    `,
+    
+
+## Więcej na blogu
+
+[Dlaczego dane są tu wszystkim](/blog/dane-jako-paliwo-biznesu)
+`,
     features: [
       "Automatyczny research firm i osób",
       "Weryfikacja aktualności danych",
