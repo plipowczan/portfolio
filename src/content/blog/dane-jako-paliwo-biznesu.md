@@ -94,7 +94,7 @@ Większość firm utyka już na kroku 2-3. Mają dane, ale nie potrafią ich po�
 
 Przez ostatnie 4 lata obserwuję, jak no-code zmienia sposób pracy z danymi w firmach.
 
-Platformy takie jak **Airtable, Make, n8n czy Zapier** radykalnie obniżają barierę wejścia. Różnice między nimi opisuję w [porównanie Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Ludzie z działów biznesowych, marketingu, finansów mogą sami:
+Platformy takie jak **Airtable, Make, n8n czy Zapier** radykalnie obniżają barierę wejścia. Różnice między nimi opisuję w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Ludzie z działów biznesowych, marketingu, finansów mogą sami:
 
 - Tworzyć struktury danych
 - Integrować różne źródła

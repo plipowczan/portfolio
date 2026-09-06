@@ -60,7 +60,7 @@ Zdecydowaliśmy się na wdrożenie platformy **AION** - systemu zarządzania pro
 
 Pokrewne wdrożenie po stronie dokumentów: [automatyzacje dokumentów](/projects/automatyzacje-dokumentow).
 
-Wybór platformy to osobna decyzja i osobny tekst: [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Drugie wdrożenie dla agencji, tym razem po stronie rozmów z klientem: [chatboty od koncepcji do wdrożenia](/blog/chatboty-ai-od-koncepcji-do-wdrozenia).
+Wybór platformy to osobna decyzja i osobny tekst: [porównanie Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Drugie wdrożenie dla agencji, tym razem po stronie rozmów z klientem: [chatboty od koncepcji do wdrożenia](/blog/chatboty-ai-od-koncepcji-do-wdrozenia).
 
 ### Stack technologiczny
 
