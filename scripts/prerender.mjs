@@ -58,6 +58,7 @@ import { projects } from "../src/data/projects.js";
 import { COURSE_CONTENT_DIR, getCourseLessons } from "./course-lessons.mjs";
 import { PREVIEW_URL } from "./ports.mjs";
 import { PRERENDER_READY_ATTR } from "../src/utils/prerenderMarker.js";
+import { HIDDEN_DESCENDANTS_LIMIT } from "./verify-prerender-output.mjs";
 
 const blogPostsPl = getBlogPosts(join(__dirname, "..", "src", "content", "blog"));
 const blogPostsEn = getBlogPosts(join(__dirname, "..", "src", "content", "blog", "en"));
@@ -264,7 +265,7 @@ async function prerenderPage(browser, route, retries = 2) {
     // Warunek jest samoograniczający: element jeszcze nieodsłonięty ma
     // `opacity: 0`, więc pętla jedzie dopóki cokolwiek istotnego jest ukryte, i
     // wychodzi po jednym sprawdzeniu tam, gdzie nie ma nic do odsłonięcia.
-    await page.evaluate(async () => {
+    await page.evaluate(async (HIDDEN_DESCENDANTS_LIMIT) => {
       const settle = () => new Promise((r) => setTimeout(r, 250));
 
       // Liczymy ukryte elementy WEWNĄTRZ sekcji z identyfikatorem — dokładnie
@@ -282,18 +283,23 @@ async function prerenderPage(browser, route, retries = 2) {
       // sprawdzeniu (banner zgody leży poza sekcjami, więc już nie trzyma
       // pętli), a strona główna jedzie do skutku.
       const hiddenInSections = () =>
-        [...document.querySelectorAll("section[id]")].reduce(
-          (sum, section) =>
-            sum +
-            [...section.querySelectorAll("[style]")].filter((el) =>
-              /opacity:\s*0(?![.\d])/.test(el.getAttribute("style") || ""),
-            ).length,
-          0,
-        );
+        [...document.querySelectorAll("section[id]")].reduce((sum, section) => {
+          const hidden = [...section.querySelectorAll("[style]")].filter((el) =>
+            /opacity:\s*0(?![.\d])/.test(el.getAttribute("style") || ""),
+          ).length;
+          // Liczymy tylko NADWYŻKĘ ponad tolerancję bramki. Bramka dopuszcza
+          // kilka ukrytych elementów w sekcji, bo karuzela opinii animuje się w
+          // kółko i zawsze wypadnie w połowie przejścia. Bez odjęcia tolerancji
+          // ten warunek nigdy nie schodzi do zera na stronie głównej, więc
+          // pętla przejeżdżałaby całą stronę za każdym razem, a po niej i tak
+          // ruszałby wolny przebieg — podwójny koszt na każdym wdrożeniu.
+          return sum + Math.max(0, hidden - HIDDEN_DESCENDANTS_LIMIT);
+        }, 0);
 
       const step = window.innerHeight / 2;
       let position = 0;
       let guard = 0;
+      let slowGuard = 0;
 
       // Wysokość rośnie w trakcie, bo odsłaniane sekcje dokładają treści, więc
       // czytamy ją w każdej iteracji. `guard` chroni przed stroną rosnącą bez
@@ -309,9 +315,16 @@ async function prerenderPage(browser, route, retries = 2) {
       // była wolniejsza niż okno kroku. Drugi, wolniejszy przebieg kosztuje
       // tylko te strony, które faktycznie go potrzebują.
       if (hiddenInSections() > 0) {
-        for (let y = 0; y < document.body.scrollHeight && hiddenInSections() > 0; y += step) {
+        for (
+          let y = 0;
+          y < document.body.scrollHeight &&
+          hiddenInSections() > 0 &&
+          slowGuard < 200;
+          y += step
+        ) {
           window.scrollTo(0, y);
           await new Promise((r) => setTimeout(r, 600));
+          slowGuard += 1;
         }
       }
 
@@ -321,7 +334,7 @@ async function prerenderPage(browser, route, retries = 2) {
         window.scrollTo(0, 0);
         await settle();
       }
-    });
+    }, HIDDEN_DESCENDANTS_LIMIT);
 
     // Dodatkowy czas na animacje i lazy loading (zmniejszony dla Vercel)
     const waitTime = IS_VERCEL ? 1000 : 2000;

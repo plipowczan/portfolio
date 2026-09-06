@@ -30,6 +30,18 @@ const DEFAULT_DIST = join(HERE, "..", "dist");
 
 const DESCRIPTION_TAG = 'name="description"';
 
+/**
+ * Ile ukrytych elementów w sekcji jeszcze nie jest usterką.
+ *
+ * Karuzela opinii animuje się w kółko, więc któryś jej slajd zawsze wypadnie w
+ * połowie przejścia. Próg oddziela to od sekcji, która nigdy się nie odsłoniła.
+ *
+ * Eksportowana, bo `scripts/prerender.mjs` przewija dopóty, dopóki jest coś
+ * ponad ten próg. Dwie kopie tej liczby rozjechałyby się przy pierwszej zmianie
+ * i przejazd przestałby mówić o tym samym co bramka.
+ */
+export const HIDDEN_DESCENDANTS_LIMIT = 3;
+
 /** `/llm-wiki/kurs` → ["llm-wiki", "kurs"] — segmenty do złożenia ścieżki. */
 const COURSE_SEGMENTS = COURSE_BASE_PATH.split("/").filter(Boolean);
 
@@ -222,7 +234,6 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
     // Nie liczymy tu pojedynczych sztuk, bo karuzela opinii animuje się w kółko
     // i zawsze wypadnie w połowie przejścia. Próg oddziela „jeden element w
     // ruchu" od „sekcja, która nigdy się nie odsłoniła".
-    const HIDDEN_DESCENDANTS_LIMIT = 3;
     for (const m of html.matchAll(/<section\b[^>]*\bid="([^"]+)"[^>]*>/g)) {
       const from = m.index + m[0].length;
       const to = html.indexOf("</section>", from);
