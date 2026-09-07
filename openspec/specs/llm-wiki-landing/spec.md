@@ -32,7 +32,7 @@ One parameterised component reaches the same guarantee by construction: the land
 - **THEN** the graph renders a single static frame and does not animate or spawn new nodes
 
 #### Scenario: Growth is opt-in, not inherited
-- **WHEN** the shared background component is rendered without growth parameters, as on the homepage
+- **WHEN** `NetworkBackground` is rendered without growth parameters, as on the homepage
 - **THEN** it seeds an ambient field sized to the viewport and does not accrete nodes
 
 ### Requirement: Email capture via Formspree tagged as waitlist
