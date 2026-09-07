@@ -13,7 +13,7 @@ The landing SHALL POST valid submissions to the same-origin `/api/subscribe` end
 - **WHEN** the visitor submits an input that is not a valid email
 - **THEN** an inline error (`#waitlist-email-error`) is shown and no request is sent to `/api/subscribe`
 
-#### Scenario: Valid email is submitted to the subscribe endpoint with the waitlist tag
+#### Scenario: Valid email is submitted with the waitlist tag
 - **WHEN** the visitor submits a valid email
 - **THEN** the request goes to the same-origin `/api/subscribe` endpoint
 - **AND** the request body includes `email` and `source: "waitlist"`
