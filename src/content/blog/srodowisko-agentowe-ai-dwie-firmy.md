@@ -6,6 +6,7 @@ excerpt: "Dwa repozytoria, osiem agentów, zero vendor lock-in. Jak zbudowałem 
 category: AI
 author: Pawel Lipowczan
 date: 2026-03-23
+modified: 2026-10-12
 readTime: 14 min
 image: /images/og-srodowisko-agentowe-ai-dwie-firmy.webp
 tags:

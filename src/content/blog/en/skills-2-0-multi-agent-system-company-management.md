@@ -6,6 +6,7 @@ excerpt: "How to go from scattered AI prompts to an organized system of agents m
 category: AI
 author: Pawel Lipowczan
 date: 2026-03-08
+modified: 2026-10-12
 readTime: 14 min
 image: /images/og-skills-2-0-multi-agent-system.webp
 tags:
