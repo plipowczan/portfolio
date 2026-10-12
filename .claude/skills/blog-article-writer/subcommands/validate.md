@@ -76,7 +76,7 @@ if [ -n "$alt" ] && [ -f "src/content/blog/en/${alt}.md" ]; then
 fi
 ```
 
-**Reguła:** dla PL-only postów (najczęstszy przypadek w tym projekcie) **nie dodawaj** `alternateSlug` w ogóle. Pole dodajemy dopiero gdy plik EN realnie powstał. Subcommand `/blog-article-writer:execute` tworzy wyłącznie wersję PL — EN to świadoma, osobna decyzja autora.
+**Reguła:** przed `translate` plik PL nie ma `alternateSlug`. Pole dodajemy dopiero gdy plik EN realnie powstał, obie strony w tej samej zmianie. Każdy artykuł jest parą PL+EN (`src/content/blog/AGENTS.md`, `alternateSlug` pkt 2), więc po udanej walidacji PL zawsze następuje `/blog-article-writer:translate`.
 
 ### Step 2: Validate Content Quality
 

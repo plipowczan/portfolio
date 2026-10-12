@@ -150,7 +150,7 @@ lang: pl
 
 ### Bilingual rule (important)
 
-- Każdy nowy post domyślnie jest **PL-only**. Pole `alternateSlug` **NIE jest ustawiane** dopóki nie istnieje plik `src/content/blog/en/<en-slug>.md`.
+- Każdy post powstaje jako para PL+EN (reguła w `src/content/blog/AGENTS.md`, `alternateSlug` pkt 2). `execute` tworzy wersję PL, `translate` domyka parę. Pole `alternateSlug` **NIE jest ustawiane** w PL dopóki nie istnieje plik `src/content/blog/en/<en-slug>.md`.
 - Self-reference (`alternateSlug: <ten sam slug co slug:>`) to bug — powoduje że przełącznik języka produkuje URL `/en/blog/<pl-slug>` który nie istnieje → "Post not found".
 - Jeśli autor chce EN wersję: najpierw utwórz `src/content/blog/en/<en-slug>.md` z `lang: en` i `alternateSlug: <pl-slug>`, **potem** dodaj `alternateSlug: <en-slug>` do pliku PL. Symetria wymagana.
 
