@@ -162,6 +162,8 @@ Architektura opiera się na **Git submodules** i **symlinkach**:
 - `private-skills/` - osobne repozytorium z proprietary skills
 - Symlinki do katalogów IDE: `.claude/skills/`, `.github/copilot/`, `.cursor/skills/`, `.agent/skills/`
 
+Ten opis pokazuje wariant z submodułem Git. Wspólne skille z `shared-skills` można dziś zainstalować także jako wtyczkę Claude Code (paczkę instalowaną jako całość), dwiema komendami. Opisuję to w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
+
 Automatyczna synchronizacja odbywa się przez skrypt i git hooks:
 
 ```bash

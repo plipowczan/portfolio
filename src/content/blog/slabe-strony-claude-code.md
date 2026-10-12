@@ -87,6 +87,8 @@ Skill daje **23 komendy** pod `/impeccable`, między innymi `craft`, `shape`, `c
 
 Razem układa się to w linię: RULER mówi dla kogo, Pro Max buduje system, Impeccable pilnuje języka i ścina AI slop.
 
+Jak te skille wpisują się w planowanie mojego rozwoju, opisuję w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
+
 ## 🧠 Pamięć - Claude Code zapomina po każdej sesji
 
 Koniec sesji to zerowanie. Claude Code nie ma wbudowanej pamięci, która kumuluje się między rozmowami. Za każdym razem zaczyna od zera.

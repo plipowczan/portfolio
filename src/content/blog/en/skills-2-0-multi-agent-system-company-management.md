@@ -227,6 +227,8 @@ The architecture is based on **three Git repositories**:
 
 `shared-skills` is attached as a **git submodule** in both private repositories. A change in shared-skills propagates to both companies.
 
+The shared skills can also be installed as a Claude Code plugin (a package installed as a whole), without a submodule. I describe the installation and the list of items in [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
+
 The system includes **8 agents**, 4 of which are already operational:
 
 1. **CFO** (finance) ✅ - financial reports, cash flow analysis, budgeting

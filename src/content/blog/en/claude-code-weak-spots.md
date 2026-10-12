@@ -87,6 +87,8 @@ The skill ships **23 commands** under `/impeccable`, among them `craft`, `shape`
 
 Together it forms a line: RULER says who for, Pro Max builds the system, Impeccable guards the language and cuts the AI slop.
 
+How these skills fit into planning my own development is the subject of [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
+
 ## 🧠 Memory - Claude Code forgets after every session
 
 The end of a session is a reset. Claude Code has no built-in memory that accumulates across conversations. Every time it starts from zero.

@@ -110,6 +110,8 @@ To wygląda jak zbędny formalizm - i z perspektywy *"chcę szybko zamknąć"* t
 
 To pattern szerszy niż finanse: za każdym razem, gdy automatyzujesz coś, w czym wartość leży w **rozumieniu** a nie w **wykonaniu** - dodaj human-in-the-loop checkpoint, który nie da się ominąć. Inaczej zautomatyzujesz wykonanie i zniszczysz rozumienie.
 
+Które skille mam dziś podłączone i jak je zainstalować, opisuję w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
+
 ## Pillar 2: Determinizm przez reguły
 
 Klasyfikacja transakcji jest klasycznym problemem cold-start. Pure rules: każdy nowy vendor wymaga manual setup, miesiąc bez nowych vendorów to dobry tydzień, miesiąc z 5 nowymi to wieczór. Pure LLM: niedeterministyczny, niedrogi w skali, ale niedopuszczalny w finansach - audyt, regulator, przyszła kontrola.
