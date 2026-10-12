@@ -4,6 +4,8 @@
 
 ## Blog (PL)
 
+- [Skille Claude Code: kompetencję się instaluje, nie nabywa](https://pawel.lipowczan.pl/blog/skille-ktore-mam-podlaczone): Nie znam się na designie, a zbudowałem CRM dla branży nieruchomości. Skille przesunęły moją pracę z wykonania na ocenę. Lista skilli i dwie komendy instalacji.
+- [Zmierzone, nie założone. Trzy wnioski, które sam obaliłem](https://pawel.lipowczan.pl/blog/zmierzone-nie-zalozone): Sprawdziłem, co dzieje się z oznaczeniem pliku na dziewięciu kanałach. Trzy razy mój własny wniosek okazał się fałszywy. Pięć reguł, które z tego zostały.
 - [5 słabych stron Claude Code i jak je nadrobić](https://pawel.lipowczan.pl/blog/slabe-strony-claude-code): Claude Code jest świetny w kodzie, ale ślepy przy wideo, designie, pamięci i researchu. Oto 5 słabych stron i narzędzia, których używam, żeby je nadrobić.
 - [RAG ragowi nierówny: do kodu graf, do notatek indeks](https://pawel.lipowczan.pl/blog/rag-ragowi-nierowny): RAG to rodzina technik, nie jedna. Do kodu wygrywa retrieval strukturalny (AST, LSP, graf), do notatek kurowany indeks. Mapa doboru mechanizmu do materiału.
 - [Zbudowałem drugi mózg. Trafiłem w standard Google (OKF)](https://pawel.lipowczan.pl/blog/okf-standard-przenosnosc-bazy-wiedzy-ai): Mój second brain jest zgodny z Open Knowledge Format Google w ~100% - choć nigdy go pod niego nie projektowałem. O przenośności bazy wiedzy decyduje format, nie narzędzie.
@@ -37,6 +39,8 @@
 
 ## Blog (EN)
 
+- [Claude Code Skills: Competence Is Installed, Not Acquired](https://pawel.lipowczan.pl/en/blog/claude-code-skills-i-have-connected): I don't know design, yet I built a CRM for the real estate industry. Skills moved my work from doing to judging. The list of skills and two install commands.
+- [Measured, Not Assumed. Three Conclusions I Overturned Myself](https://pawel.lipowczan.pl/en/blog/measured-not-assumed): I measured what happens to a file's AI marking across nine channels. Three times my own conclusion turned out to be false. Five rules that survived.
 - [5 Weak Spots of Claude Code and How to Fix Them](https://pawel.lipowczan.pl/en/blog/claude-code-weak-spots): Claude Code is brilliant with code but blind at video, design, memory and research. Here are its 5 weak spots and the tools I use to fix each one.
 - [Not All RAG Is Equal: a Graph for Code, an Index for Notes](https://pawel.lipowczan.pl/en/blog/not-all-rag-is-equal): RAG is a family, not one technique. Code favors structural retrieval (AST, LSP, graphs), notes a curated index. A map for matching mechanism to material.
 - [I Built a Second Brain. It Already Matched Google's Standard (OKF)](https://pawel.lipowczan.pl/en/blog/okf-standard-portable-knowledge-base): My second brain hit ~100% compliance with Google's Open Knowledge Format - though I never designed it for OKF. Format, not tooling, decides whether your knowledge base is portable.
@@ -96,6 +100,511 @@
 
 - email: pawel@lipowczan.pl
 - strona: https://pawel.lipowczan.pl
+
+
+---
+
+# Skille Claude Code: kompetencję się instaluje, nie nabywa
+
+Source: https://pawel.lipowczan.pl/blog/skille-ktore-mam-podlaczone
+Published: 2026-10-12
+
+Zbudowałem z agentem CRM dla klientów z branży nieruchomości. **CRM** to system do prowadzenia klientów i ofert. Wcześniej bym tego nie zrobił.
+
+Kod napisał agent i to akurat nie było przeszkodą. Przeszkodą był wygląd, bo trzeba jeszcze przekonać klienta do interfejsu, który mu się spodoba. A ja nie znam się ani na tworzeniu designu, ani na **SEO** (pozycjonowaniu stron w wyszukiwarce).
+
+Nie nauczyłem się ani projektowania, ani SEO. Podłączyłem **skille**. Skill to plik z instrukcją, który agent czyta i dzięki któremu zaczyna robić rzecz, której wcześniej nie robił.
+
+Do designu używam trzech: `frontend-design`, `ui-ux-pro-max` i `impeccable`. Przy SEO pomaga mi `claude-seo`. Trzy pierwsze przygotowują propozycje wyglądu, z których klient wybiera.
+
+Ten tekst opiera się na dwóch twierdzeniach. Pierwsze dotyczy narzędzia: kompetencję można dziś podłączyć, a nie tylko zdobywać latami praktyki. Drugie dotyczy mojej pracy: skill dodany agentowi jest kompetencją dodaną mnie, więc zmienia się to, jak planuję własny rozwój.
+
+Pytanie „czego nauczyć się w tym kwartale" przestało być u mnie pierwsze. Pierwsze brzmi: co podłączyć i co dalej muszę umieć ocenić.
+
+Drugie twierdzenie ma granicę. Umiejętność nie przestała się liczyć, tylko przesunęła się z wykonania na ocenę wyniku. Mocniejszej tezy nie postawię, bo nie mam na nią podstaw.
+
+Dalej: czym jest skill i dlaczego ten format jest tani, co mam podłączone, dwie listy do wzięcia z instalacją, a na końcu to, czego nie oddaję.
+
+## Agent Skills: otwarty format, który działa poza Claude Code
+
+Skill nie jest funkcją jednego dostawcy ani ukrytym kodem Claude'a. Format nazywa się **Agent Skills** (otwarty standard opisu skilla). Wymyślił go Anthropic i wydał jako otwarty, a dziś obsługują go między innymi VS Code, GitHub Copilot, Cursor, Goose, Amp i OpenCode. Aktualną listę prowadzi [agentskills.io](https://agentskills.io).
+
+Skill to folder z plikiem `SKILL.md`. W pliku są nazwa, opis i instrukcje zapisane w **markdownie** (zwykłym tekstem z prostymi znacznikami). Agent na starcie zna tylko nazwy i opisy skilli, a pełną instrukcję czyta dopiero wtedy, gdy zadanie do niej pasuje. Specyfikacja zakłada na te metadane około 100 tokenów na skill (**token** to jednostka tekstu, którą model liczy).
+
+Sam format przenosi się między narzędziami. Instalacja już nie zawsze, o czym w następnej sekcji.
+
+## Dlaczego ten format jest tani
+
+Skill to markdown z kilkoma polami na górze pliku. Napisanie własnego kosztuje tyle, co napisanie instrukcji.
+
+Kilka skilli, komend i innych dodatków pakuje się w **wtyczkę** (paczkę instalowaną jako całość). Najprostsza wtyczka składa się z samego markdownu i JSON-a (formatu zapisu danych w plikach tekstowych), bez kroku budowania. Bardziej rozbudowane dokładają własne skrypty.
+
+```text
+moja-wtyczka/
+├── .claude-plugin/plugin.json   # nazwa, opis, licencja
+├── skills/<nazwa>/SKILL.md     # instrukcje skilla
+└── commands/                   # komendy wpisywane w sesji
+```
+
+Wtyczki instaluje się z **katalogu wtyczek** (ang. marketplace). To repozytorium z plikiem `marketplace.json`, który mówi, skąd pobrać każdą wtyczkę.
+
+Jedno zastrzeżenie, łatwe do przegapienia. Manifest wtyczki, czyli plik `plugin.json`, to konwencja Claude Code, a nie część specyfikacji Agent Skills. Specyfikacja opisuje folder skilla i nie mówi nic o instalowaniu paczek ani o katalogu docelowym. Dlatego narzędzia szukają skilli w różnych miejscach: Claude Code w `.claude/skills/`, Codex w `.agents/skills/`, Cursor w `.cursor/skills/` i `.agents/skills/`.
+
+Folder skilla da się więc wziąć i położyć w katalogu innego narzędzia. Manifest i komendy instalacji pochodzą z Claude Code.
+
+## Stan podłączenia: 29 wtyczek z 8 katalogów
+
+Na moim koncie mam globalnie podłączone **29 wtyczek z 8 katalogów wtyczek** (odczyt z 12 października 2026). Dwadzieścia dwie pochodzą z oficjalnego katalogu Anthropic. Wiele z nich to integracje z usługami, na przykład z GitHubem, Stripe czy Cloudflare.
+
+Nie traktuję tej liczby jako dowodu. Dowodem jest co innego: do designu i SEO nie musiałem uczyć się dziedziny, bo pozycje, które to robią, po prostu podłączyłem.
+
+Uwaga, żeby nie liczyć dwa razy. Tabele niżej to nie jest podział tych 29. To dwie osobne listy: 19 pozycji z mojego repozytorium i 10 cudzych, których sam używam. Że razem dają akurat 29, to przypadek.
+
+Trzy z tych dziesięciu (OpenSpec, `impeccable` i `hyperframes`) to skille instalowane osobno, nie wtyczki z katalogu. **OpenSpec** to narzędzie do spisywania specyfikacji zmiany przed kodem.
+
+Podłączenie ma koszt. Nazwa i opis każdego włączonego skilla są w kontekście agenta przy każdej turze, nawet gdy skill nie jest używany. Wtyczka wykonuje też kod z uprawnieniami użytkownika, więc przed instalacją warto ją przejrzeć. O ryzykach związanych z agentami pisałem w tekście [OpenClaw: lekcja bezpieczeństwa, której potrzebował świat agentów AI](/blog/openclaw-bezpieczenstwo-agentow-ai).
+
+## Moje skille do wzięcia za darmo
+
+Repozytorium [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) jest publiczne i deklaruje licencję Apache-2.0 (pozwala używać, zmieniać i rozpowszechniać kod z zachowaniem noty o licencji). Instalacja to dwie **komendy ukośnikowe** (polecenia wpisywane w sesji, zaczynające się od `/`):
+
+```text
+/plugin marketplace add 200iqlabs/shared-skills
+/plugin install ss@shared-skills
+```
+
+To samo w terminalu: `claude plugin marketplace add 200iqlabs/shared-skills` i `claude plugin install ss@shared-skills`. Po instalacji każda pozycja ma prefiks `ss:`.
+
+Poniżej 19 pozycji. Warianty `research*` i `prepare-goal*` zwinąłem w jedne wiersze, bo każda grupa to jeden przepływ.
+
+| Pozycja | Co robi |
+|---|---|
+| `/ss:cfo` | przepływ gotówki, zapas gotówki na kolejne miesiące, koszty, rentowność, budżet |
+| `/ss:tax-advisor` | PIT, VAT, ZUS, składka zdrowotna, IP Box, ryczałt kontra liniowy |
+| `/ss:legal` | umowy B2B i NDA, RODO, prawa autorskie do kodu, nieopłacone faktury |
+| `/ss:business-consultant` | notatki ze spotkania na architekturę rozwiązania i wycenę wdrożenia |
+| `/ss:process-mapping` | proces na diagram: kto, co i jakim narzędziem (Excalidraw albo Mermaid) |
+| `/ss:slides` | markdown na gotową prezentację PDF: karuzele i slajdy na wystąpienie, przez Marpa |
+| `/ss:prd` | opis produktu na dwie strony dla rozwiązania budowanego w tydzień |
+| `/ss:research` | analiza z planem: pozycje, pola i struktura wyniku |
+| `/ss:research-deep` | osobny agent na każdą pozycję planu, potem raport (`research-report`) |
+| `/ss:review-fix` | jeden przegląd gałęzi przez Codex (wtyczkę OpenAI do przeglądu kodu, warunek pod tabelą): poprawia to, co się broni, resztę odrzuca z powodem, potem commit i wysłanie zmian |
+| `/ss:review-loop` | pętla między Claude a Codexem na zgłoszeniu do przeglądu (pull request), aż nie zostanie nic ważnego. Kończy się zgłoszeniem, które zamyka człowiek |
+| `/ss:prepare-goal` | luźny opis zadania na warunek ukończenia, sprawdzalny w zapisie sesji (wariant `prepare-openspec-goal` dla zmian OpenSpeca) |
+| `/ss:find-skills` | szuka skilli w ekosystemie i instaluje po audycie bezpieczeństwa |
+| `/ss:vibe-coding` | widoczna warstwa aplikacji bez wiedzy o projektowaniu: wytyczne, tokeny projektowe, komponenty |
+| `/ss:environment-setup` | kreator konfiguracji plików kontekstu |
+| `/ss:decisions` | wyciąga otwarte decyzje po jednej, z rekomendacją, i czeka na odpowiedź |
+| `/ss:explain-diff` | omawia zmiany w kodzie plik po pliku, prostym polskim |
+| `/ss:explain-design` | omawia dokument projektowy OpenSpeca temat po temacie |
+| `/ss:working-mode` | przełącza sesję na polski i stały szkielet odpowiedzi |
+
+Skróty z tabeli: **IP Box** to preferencyjna stawka podatku od dochodów z własności intelektualnej, **NDA** to umowa o poufności, **PRD** to dokument opisujący wymagania wobec produktu. Excalidraw i Mermaid to narzędzia do rysowania diagramów, a Marp zamienia markdown na prezentację. **Tokeny projektowe** to nazwane wartości kolorów, odstępów i czcionek.
+
+**Warunek przy dwóch pozycjach.** `/ss:review-fix` i `/ss:review-loop` przeglądają kod przez wtyczkę Codex i wymagają planu ChatGPT, który obejmuje Codex. Skille są darmowe, recenzent nie: każda runda przeglądu zużywa limit tego planu. Bez zainstalowanej i zalogowanej wtyczki oba skille zatrzymują się i odsyłają do `/codex:setup`.
+
+## Cudze skille i narzędzia, których używam
+
+Druga tabela to ekosystem: cudze narzędzia, publiczne, z autorami. Zostawiłem w niej tylko to, czego używam. Resztę zainstalowanych skreśliłem, bo praktycznie jej nie używam.
+
+| Pozycja | Autor | Co robi |
+|---|---|---|
+| [OpenSpec](https://github.com/Fission-AI/OpenSpec) | Fission-AI, MIT | specyfikacja przed kodem; zostawia plik, nie rozmowę |
+| [claude-seo](https://github.com/AgriciDaniel/claude-seo) | AgriciDaniel | audyt SEO, Core Web Vitals (wskaźniki szybkości i stabilności strony), dane strukturalne (znaczniki opisujące treść strony dla wyszukiwarek), widoczność w odpowiedziach AI |
+| `frontend-design` | Anthropic | warstwa wizualna interfejsu |
+| [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | nextlevelbuilder | style, palety, pary fontów i wzorce projektowe |
+| `commit-commands` | Anthropic | commit, wysłanie zmian i zgłoszenie do przeglądu jedną komendą |
+| `document-skills` | Anthropic | xlsx, docx, pptx i pdf: czyta i pisze |
+| [impeccable](https://github.com/pbakaus/impeccable) | pbakaus, Apache-2.0 | projektowanie i poprawianie interfejsu: hierarchia, typografia, kolor, ruch, dostępność. Strona: [impeccable.style](https://impeccable.style), uruchomienie: `npx impeccable` |
+| [hyperframes](https://github.com/heygen-com/hyperframes) | HeyGen, Apache-2.0 | wideo w HTML: kompozycje, napisy zsynchronizowane z dźwiękiem, lektor, przejścia. Także przetwarzanie gotowego nagrania. Uruchomienie: `npx hyperframes` |
+| `skill-creator` | Anthropic | robi skill z opisu zachowania |
+| [superpowers](https://github.com/obra/superpowers) | Jesse Vincent, MIT | burza mózgów przed kodem, szukanie błędów po kolei, testy przed kodem, plany wdrożenia |
+
+Trzy z nich opisałem osobno w tekście [5 słabych stron Claude Code i jak je nadrobić](/blog/slabe-strony-claude-code): `ui-ux-pro-max`, `impeccable` i `hyperframes`.
+
+Z OpenSpeca i superpowers korzystam oba, ale do innych rzeczy. Do burzy mózgów przed kodem używam `/opsx:explore` z OpenSpeca, bo zostawia plik, a nie rozmowę. Szerzej o tym podejściu piszę w tekście [OPSX Workflow](/blog/opsx-workflow-strukturyzowana-praca-z-ai).
+
+Po superpowers sięgam rzadziej. Nie mierzyłem, które lepiej się sprawdza, więc tych dwóch nie porównuję.
+
+## Czego nie oddaję
+
+Nie wszystko, co mam, da się oddać. Zamknięcie sesji, rejestr zadań, kontrola spójności kontekstu i pętla publikacji żyją w moim prywatnym repozytorium. Są wersjonowane prywatnie i nie mają kanału dystrybucji, więc nie ma ich w żadnej z tabel i nie będzie do nich odnośnika.
+
+Piszę o nich tylko jako o wzorcu, nie jako o pozycjach do wzięcia. Nie chcę obiecywać czegoś, czego nie mogę dać.
+
+Podział na część wspólną i prywatną opisałem wcześniej w tekście [Skills 2.0 - jak buduję system wieloagentowy do zarządzania firmą](/blog/skills-2-0-multi-agent-system-zarzadzanie-firma). Wspólne skille były tam podpięte jako submoduł git. W tym tekście pokazuję instalację jako wtyczkę, którą może zrobić każdy.
+
+## Co to zmienia w planowaniu własnego rozwoju
+
+Oba pytania zostały, zmieniła się ich kolejność. Najlepiej widać to na CRM-ie. Kod pisze agent.
+
+Propozycje wyglądu przygotowują `frontend-design`, `ui-ux-pro-max` i `impeccable`, a klient wybiera z kilku z nich. Wideo obsługuje `hyperframes`. Cztery z podłączonych pozycji robią to, czego sam nie umiem: trzy projektują interfejs, jedna zajmuje się SEO.
+
+Skille zmieniły nie tempo mojej pracy, tylko to, jakie zlecenia w ogóle biorę pod uwagę. Pomogły mi myśleć o zleceniach takich jak CRM dla branży nieruchomości, czyli o złożonym narzędziu, którego wcześniej bym się nie podjął.
+
+Druga połowa pytania zostaje po mojej stronie. Nie muszę umieć zaprojektować interfejsu. Muszę umieć ocenić to, co podaje mi skill, zanim komuś to pokażę.
+
+W projekcie CRM część tej oceny przejął klient, bo wybiera z kilku propozycji. Za resztę odpowiadam ja.
+
+Wynik `claude-seo` sprawdzam na własnej domenie, pawel.lipowczan.pl. Efekt widać dopiero po publikacji, więc w tym tekście nie podaję wyników.
+
+Ocena wymaga czegoś więcej niż poczucia, że wynik wygląda dobrze. Pisałem o tym w tekście [Zmierzone, nie założone. Trzy wnioski, które sam obaliłem](/blog/zmierzone-nie-zalozone), gdzie wnioski brzmiące pewnie trzeba było wycofać po kolejnym pomiarze. Dotyczy to tak samo mnie, jak agenta.
+
+## Jak zacząć
+
+Wpisz w sesji Claude Code `/plugin marketplace add 200iqlabs/shared-skills`, potem `/plugin install ss@shared-skills` i zajrzyj do [repozytorium shared-skills](https://github.com/200iqlabs/shared-skills), żeby zobaczyć, co ci się przyda. Zacznij od pozycji z dziedziny, w której potrafisz ocenić wynik. Dopiero potem sięgaj po taką, na której się nie znasz.
+
+## Kluczowe wnioski
+
+1. **Skill dodany agentowi jest kompetencją dodaną mnie.** Dlatego plan rozwoju zaczynam od pytania, co podłączyć.
+2. **Podłączenie nie zwalnia z oceny.** Umiejętność przesuwa się z wykonania na ocenę wyniku.
+3. **Format jest otwarty i tani.** Skill to folder z `SKILL.md`, a manifest wtyczki i ścieżki instalacji to konwencje konkretnego narzędzia.
+4. **Podłączenie kosztuje.** Nazwa i opis skilla są w kontekście przy każdej turze, a wtyczka wykonuje kod z uprawnieniami użytkownika. Trzymaj to, czego używasz.
+5. **Lista jest do wzięcia.** Dwie komendy instalują wtyczkę `ss`, a dwie pozycje wymagają jeszcze planu ChatGPT z Codexem.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Chcesz wiedzieć, które skille podłączyć w swojej pracy?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Pomogę Ci dobrać skille do Twoich zleceń i ustalić, co dalej musisz umieć ocenić sam, zanim komuś pokażesz wynik.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
+## Przydatne zasoby
+
+- [shared-skills](https://github.com/200iqlabs/shared-skills) - repozytorium z wtyczką `ss`, instalacją i listą pozycji.
+- [Agent Skills](https://agentskills.io) - specyfikacja formatu i lista narzędzi, które go obsługują.
+- [Dokumentacja wtyczek Claude Code](https://code.claude.com/docs/en/plugins) - czym jest wtyczka i katalog wtyczek, koszt kontekstu, zaufanie do wtyczek.
+- [impeccable](https://impeccable.style) - projektowanie i poprawianie interfejsu.
+- [hyperframes](https://github.com/heygen-com/hyperframes) - wideo napisane w HTML.
+- [OpenSpec](https://github.com/Fission-AI/OpenSpec) - specyfikacja przed kodem.
+- [5 słabych stron Claude Code i jak je nadrobić](/blog/slabe-strony-claude-code) - trzy z cudzych skilli opisane osobno.
+- [Zmierzone, nie założone](/blog/zmierzone-nie-zalozone) - jak oceniać wynik pomiarem, a nie przekonaniem.
+- [Anatomia systemu agentów AI](/blog/system-agentow-ai-skills-rules-kontekst) - system, do którego wchodzą skille.
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czym jest skill w Claude Code i czym dokładnie różni się od wtyczki, którą instaluje się z katalogu?
+
+</summary>
+
+Skill to folder z plikiem `SKILL.md`, w którym są nazwa, opis i instrukcje dla agenta. Wtyczka to paczka instalowana jako całość, która może zawierać wiele skilli, komend i innych dodatków. Skill jest więc jednostką wiedzy, a wtyczka sposobem jej dostarczenia.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy skille napisane dla Claude Code zadziałają w innych narzędziach, na przykład w Cursorze albo w Codexie?
+
+</summary>
+
+Sam format tak, bo Agent Skills to otwarty standard obsługiwany przez wiele narzędzi. Manifest wtyczki i komendy instalacji to jednak konwencja Claude Code, a katalogi się różnią: Codex szuka w `.agents/skills/`, a Cursor w `.cursor/skills/` i `.agents/skills/`, ale czyta też `.claude/skills/`. Folder skilla przenosisz, instalator wtyczek zostaje w Claude Code.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy mogę używać skilli z repozytorium shared-skills w projektach komercyjnych i dla klientów?
+
+</summary>
+
+Repozytorium deklaruje licencję Apache-2.0 w README i w manifestach wtyczki. Ta licencja pozwala używać, zmieniać i rozpowszechniać kod, także komercyjnie, z zachowaniem noty o licencji. Jeśli używasz skilli w firmie, przeczytaj plik `LICENSE` i warunki licencji przed wdrożeniem.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy `/ss:review-fix` i `/ss:review-loop` są darmowe, skoro przeglądają kod przez Codex?
+
+</summary>
+
+Same skille są darmowe, ale recenzent nie. Przegląd robi wtyczka Codex, która wymaga planu ChatGPT zawierającego Codex, a każda runda przeglądu zużywa limit tego planu. Bez zainstalowanej i zalogowanej wtyczki oba skille zatrzymują się i odsyłają do `/codex:setup`.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy instalowanie cudzych skilli i wtyczek do Claude Code jest bezpieczne i co sprawdzić przed instalacją?
+
+</summary>
+
+Wtyczka może uruchamiać kod z uprawnieniami użytkownika, więc nie jest tak niewinna jak zwykły plik tekstowy. Dokumentacja Claude Code zaznacza, że dotyczy to każdego katalogu wtyczek, i opisuje, jak przejrzeć wtyczkę przed instalacją. Skill `/ss:find-skills` szuka skilli w ekosystemie i instaluje je po audycie bezpieczeństwa.
+
+</details>
+
+<details open>
+<summary>
+
+### Ile skilli i wtyczek warto mieć podłączonych naraz, żeby agent nie tracił miejsca w kontekście?
+
+</summary>
+
+Nie ma jednej liczby, bo koszt zależy od liczby i długości opisów. Nazwa i opis każdego włączonego skilla są w kontekście agenta przy każdej turze, nawet gdy skill nie jest używany, a pełna instrukcja ładuje się dopiero przy użyciu. Dokumentacja pokazuje, jak zmierzyć koszt wtyczki i które wtyczki dawno nie były używane. W drugiej tabeli w tym tekście zostawiłem tylko te, z których korzystam.
+
+</details>
+
+
+---
+
+# Zmierzone, nie założone. Trzy wnioski, które sam obaliłem
+
+Source: https://pawel.lipowczan.pl/blog/zmierzone-nie-zalozone
+Published: 2026-09-06
+
+W [Qamerze](https://qamera.ai) budujemy system, który generuje zdjęcia i wideo produktowe dla sklepów internetowych: packshoty i sesje z modelkami, bez studia i bez fotografa. Odpowiadam w niej za warstwę techniczną, w tym za to, żeby każdy wygenerowany plik niósł zapis swojego pochodzenia.
+
+Taki plik nie trafia do kupującego wprost. Najpierw idzie do sklepu, sklep robi z niego własne miniatury i warianty, a potem ten sam materiał ląduje na Instagramie, w reklamie i w porównywarce cen. Na każdym z tych przystanków ktoś zapisuje go od nowa. Pytanie, które z tego wynika, brzmi banalnie: czy oznaczenie, które wkładamy do pliku, dociera do człowieka po drugiej stronie.
+
+Normalnie zbywa się je machnięciem ręki, bo przecież metadane siedzą w pliku, a plik idzie do odbiorcy. W połowie lipca to przestało wystarczać, bo do projektu wszedł nam AI Act, czyli unijne rozporządzenie wymagające oznaczania treści generowanych przez AI. Nie piszę tu o samej regulacji i nie jest to tekst prawny. Liczy się to, co przepis zrobił z naszą pracą: zamienił „powinno działać" w pytanie „skąd wiesz".
+
+Analizy ruszyły na przełomie lipca i sierpnia, ostatni domiar zrobiłem 5 września. Przez ten czas zmierzyliśmy dziewięć kanałów: trzy silniki sklepowe, cztery platformy społecznościowe i dwa edytory. Każdy pomiar dostał datę, wsad i kontrolkę.
+
+Piszę „zmierzyliśmy", bo większości tej roboty nie wykonałem ręcznie. Zrobił ją agent: postawił sklepy lokalnie, przepuścił pliki przez pełną ścieżkę wgrywania, odczytał manifesty, przeskanował bajty pod kątem trzynastu wzorców naraz. To zadania, które opisuje się w trzech zdaniach, a wykonuje w kilkuset krokach. Moje było zaprojektowanie pomiaru i przeczytanie wyników. Jednej rzeczy agent zrobić nie mógł: wgrać materiału na platformy i sprawdzić, czy pod postem stanęła etykieta. Do tej odpowiedzi trzeba opublikować, a publikacja wymaga człowieka z kontem.
+
+Wyszło z tego kilkanaście tabel i pięć reguł, które przenoszą się daleko poza ten temat. Wyszły też trzy sytuacje, w których zapisałem wniosek, a potem sam go wycofałem. Nie po miesiącach, tylko po jednym domiarze. Raz wystarczyło poczekać dobę. Raz wystarczyło powtórzyć pomiar na własnym pliku zamiast na cudzym. Raz werdykt został ten sam, a rozsypało się uzasadnienie, którym go tłumaczyłem.
+
+Każdy z tych trzech wniosków brzmiał pewnie w chwili zapisu. O tym chcę napisać, bo pewność nie jest pomiarem. Dotyczy to tak samo mnie, jak agenta, który ten projekt ze mną prowadzi: agent formułuje wnioski gładko i szybko, w tym takie, które nie mają pokrycia w żadnym odczycie.
+
+Poniżej pięć reguł. Wszystkie wyszły z pomyłek, nie z podręcznika.
+
+## Wszyscy wiedzieli, nikt nie zmierzył
+
+Jeszcze dwa akapity domeny, bo bez nich reguły wiszą w powietrzu. Znać jej nie trzeba, żeby wziąć z tekstu metodę.
+
+Oznaczenie ma dwie warstwy i to rozróżnienie wraca w całym tekście. Pierwsza to **manifest C2PA**. [C2PA](https://spec.c2pa.org/specifications/specifications/2.1/index.html) to otwarty standard zapisu pochodzenia pliku, a manifest to blok danych osadzony w pliku, który mówi, czym plik jest i kto to poświadcza. Druga warstwa to **znak wodny**, czyli sygnał wpisany w same piksele, niewidoczny dla oka i odporny na przekształcenia samego pliku. Obok nich jedzie jeszcze `XMP` (standardowy pakiet metadanych, ten sam, w którym siedzi autor i tytuł zdjęcia).
+
+Warstwy różnią się odpornością i czytelnikiem, i w tym siedzi cały problem. Manifest kasuje **rekompresja**, czyli ponowny zapis obrazu, po którym piksele wyglądają tak samo, a bajty są inne. Znak wodny rekompresję przeżywa, tylko prawie nikt go nie czyta.
+
+Przed pomiarem wszyscy w projekcie mieliśmy to samo zdanie: metadane są w pliku, plik idzie dalej, więc metadane idą dalej. Nikt tego nie sprawdził, bo wydawało się zbyt oczywiste, żeby sprawdzać.
+
+Pomiar pokazał, że to zdanie jest prawdziwe w jednym przypadku: kiedy plik idzie bajt w bajt, czyli kiedy po drodze nikt go nie zapisuje od nowa. Wszędzie indziej trzeba sprawdzać osobno, kanał po kanale.
+
+## Reguła 1: kontrolka negatywna waży więcej niż pomiar pozytywny
+
+Pierwszy pomiar na Meta wyglądał na sukces. Wgrałem materiał niosący oznaczenie na Instagram i na Facebooka, i oba posty dostały etykietę o treściach utworzonych przez SI. Automatycznie, bez dotykania pola samodeklaracji przy wgrywaniu.
+
+Wniosek nasuwa się sam: platforma czyta nasze oznaczenie. Tyle że z tego pomiaru on nie wynika. Etykietę mógł postawić klasyfikator obrazu, czyli model oceniający sam kadr, któremu wszystko jedno, co siedzi w metadanych.
+
+Zarzut nie był teoretyczny. Dokładnie tę samą treść inne narzędzie rozpoznało jako wygenerowaną z samych pikseli, bez zaglądania do metadanych. Gdyby platforma robiła to samo, wynik pozytywny nie mówiłby nic o naszym oznaczeniu.
+
+Rozstrzyga kontrolka negatywna. Wziąłem ten sam materiał, ten sam kadr, te same piksele, w postaci, którą wcześniej zmierzyłem bajtowo jako pozbawioną wszystkich znaczników. Wgrałem go tak samo, na obie platformy.
+
+**Etykiety nie dostał na żadnej z nich** (pomiar 31 sierpnia 2026, kontrola po dobie 1 września). Dopiero to czyni wynik dowodem: etykieta bierze się z osadzonej deklaracji, a nie z rozpoznania obrazu.
+
+Ta sama konstrukcja zadziałała wcześniej na obrazach, 6 sierpnia 2026. Dwa posty, to samo zdjęcie produktu (**packshot**, czyli zdjęcie produktu na jednolitym tle), różniące się wyłącznie warstwą metadanych. Plik z manifestem dostał etykietę w około dwie minuty. Plik z samym znakiem wodnym, po przejściu przez sklep, nie dostał jej ani od razu, ani w kontroli po dobie.
+
+Przy okazji wypadł z tego fakt, którego się nie spodziewałem: platforma czyta manifest i nie czyta znaku wodnego. Warstwa odporna przeżyła całą drogę i nie wywołała żadnego skutku, bo nikt po tej stronie jej nie sprawdza.
+
+Reguła jest prosta w zapisie i kosztowna w wykonaniu. Pomiar pozytywny bez kontrolki pokazuje, że coś się dzieje. Nie pokazuje, z czego to coś wynika. Kontrolka kosztuje drugi przebieg i zwykle nie ma jej w planie, bo plan pisze się pod pytanie „czy działa", a nie pod pytanie „dlaczego działa".
+
+## Reguła 2: pierwszy odczyt kłamie
+
+31 sierpnia wgrałem dwa filmy na TikToka i sprawdziłem posty kilkanaście minut później. Żaden nie miał etykiety. Zapisałem wniosek: platforma nie czyta pochodzenia osadzonego w pliku.
+
+Wniosek był konkretny, pasował do reszty obrazu i miał konsekwencje. Wychodziło z niego, że na tym kanale nasze oznaczenie nie daje żadnego skutku widocznego dla odbiorcy.
+
+1 września wróciłem do tych samych postów. Jeden z nich miał etykietę o multimediach generowanych przez AI. Pole samodeklaracji jest na tej platformie domyślnie wyłączone i nie dotknąłem go w żadnym poście, więc etykieta przyszła z pliku.
+
+**Wniosek z 31 sierpnia poszedł do kosza.** Platforma czyta pochodzenie. Robi to wolniej, niż zdążyłem sprawdzić. Dlaczego etykieta stanęła akurat na jednym z dwóch plików, to osobny wątek i nie otwieram go tutaj.
+
+Dla reguły ważne jest co innego: **negatyw bez kontroli czasowej nie jest negatywem.** Jest zdaniem o tym, co widziałem w konkretnej minucie.
+
+Ten sam domiar wzmocnił inny wynik i to jest druga połowa reguły. Kontrolki na Meta po dobie **nadal** nie miały etykiety. Gdyby dostały ją z opóźnieniem, cały wniosek z reguły 1 by się posypał. Kontrola czasowa raz zabija wniosek, raz zamienia poszlakę w dowód, a z góry nie wiadomo, który raz jest który.
+
+Czego nie wiem do dziś: kiedy dokładnie ta etykieta się pojawiła. Wiem tyle, że po kilkunastu minutach jej nie było, a po dobie była. Okno jest szerokie i nie zawęziłem go. To też jest wynik, tylko mniej wygodny w tabeli.
+
+## Reguła 3: mierz na własnym artefakcie
+
+6 sierpnia zmierzyłem, co robią z metadanymi zdjęć produktowych dwa popularne silniki sklepowe. Pomiar był porządny: lokalne instancje, pełna ścieżka wgrywania, wszystkie pochodne (**pochodna** to mniejsza wersja obrazu, którą sklep generuje sam, na przykład miniatura na listingu).
+
+Miał jedną wadę, o której wiedziałem od początku. Szedł na cudzym pliku. Nasze własne eksporty nie niosły wtedy jeszcze kompletu metadanych, więc wsadem był plik z innego źródła, o innej strukturze.
+
+Wyniki wyglądały jednoznacznie.
+
+WooCommerce ma próg **2560 px** na dłuższej krawędzi. Poniżej progu plik idzie bajt w bajt: **hash SHA-256** pliku serwowanego zgadza się z wgranym co do znaku (hash to skrót kryptograficzny, identyczny wyłącznie dla identycznych bajtów). Powyżej progu WordPress tworzy wariant przeskalowany i to on wychodzi jako „pełny rozmiar", już bez manifestu.
+
+PrestaShop nie ma ani progu, ani ścieżki kopiującej. Najostrzejszy pojedynczy fakt z całego pomiaru siedzi w wierszu, który sklep nazywa „oryginałem": **te same wymiary 3712x4608, piąta część wagi (1 146 413 B wobec 5 666 168 B), zero metadanych.** Plik, którego nikt nie skalował, i tak został zapisany od nowa. Wersja 9, zmierzona 22 sierpnia, zachowuje się identycznie.
+
+Do wyników dopisałem zdanie, które wydawało się oczywistym wnioskiem: karta produktu pokazuje pochodną 600 px, bez manifestu, więc kupujący i tak ogląda plik nieoznaczony w warstwie metadanych.
+
+22 sierpnia powtórzyłem pomiar na naszym pliku produkcyjnym, z naszą strukturą metadanych. **To zdanie jest prawdziwe wyłącznie o manifeście.** Nasz pakiet `XMP` przechodzi do każdej pochodnej, łącznie z tą kartą produktu, która pokazuje 600 px. Że to nasz pakiet, a nie coś dokładanego przez sklep, widać po jego treści.
+
+Pierwszy pomiar nie mógł tego zobaczyć. Cudzy plik nie niósł naszego `XMP`, więc pytanie „czy `XMP` dojeżdża do pochodnych" w ogóle nie zostało zadane. Mierzyłem obiekt podobny do naszego i wyciągałem wnioski o naszym.
+
+Reguła: pomiar na cudzym artefakcie odpowiada na pytanie o cudzy artefakt. Jeśli własnego jeszcze nie masz, zapisz to przy wyniku i wróć, kiedy będziesz miał. Ja wróciłem po szesnastu dniach i dostałem inną odpowiedź.
+
+## Reguła 4: szukaj mechanizmu, nie korelacji
+
+31 sierpnia przepuściłem dwa filmy z oznaczeniem przez konsumencki edytor wideo, w ośmiu wariantach: przelot bez żadnej zmiany, przycięcie kadru, wycięcie dwóch sekund i zmiana rozdzielczości.
+
+**Oznaczenie zginęło w ośmiu przypadkach na osiem.** Skan objął trzynaście wzorców bajtowych, od nazw standardu po nazwy narzędzi. W eksportach zero trafień na każdym wzorcu, w oryginałach od ośmiu do jedenastu.
+
+Najważniejszy jest wiersz „przelot bez żadnej zmiany". Nie trzeba agresywnej obróbki. Wystarczy wczytać plik do edytora i wyeksportować go nietkniętym.
+
+Mechanizm wyglądał na oczywisty. **Kontener MP4**, czyli struktura pliku wideo złożona z pudełek, w których osobno siedzą obraz, dźwięk i metadane, jest w wyjściu zbudowany od nowa. Pudełka niosące oznaczenie po prostu nie istnieją: nie zostały okrojone ani przesunięte, nie ma ich wcale. Zapisałem więc, że zabija przebudowa kontenera.
+
+1 września zmierzyłem drugą oś, czyli to, co platformy serwują dalej. I tu uzasadnienie się posypało.
+
+TikTok kontener też przebudowuje. Deklaruje to wprost, osobną akcją **transkodowania** (ponownego zakodowania strumienia wideo do ustawień platformy). A łańcuch pochodzenia zostaje. Platforma zagnieżdża nasz manifest jako **składnik rodzicielski**, czyli zapis mówiący „ten plik powstał z tamtego", pod własnym nowym podpisem:
+
+```text
+plik pobrany z platformy
+└─ warstwa aktywna       podpis platformy      akcje: otwarcie + transkodowanie
+   └─ składnik rodzica    nasz podpis           akcja: utworzenie
+      └─ składnik         podpis dostawcy       akcja: utworzenie
+```
+
+Oba pliki walidują się jako poprawne. Platforma nie zgubiła łańcucha przy przebudowie, tylko odbudowała go razem z plikiem.
+
+**Werdykt się nie zmienił, uzasadnienie owszem.** Oznaczenie nadal ginie osiem na osiem w edytorze. Ale zabija je nie przebudowa kontenera, tylko przebudowa przez narzędzie nieświadome pochodzenia. Narzędzie, które o pochodzeniu wie, przebudowuje plik i łańcuch przenosi.
+
+Różnica jest praktyczna, nie akademicka. Z pierwszej wersji wynikało „unikaj przekodowania". Z drugiej wynika „sprawdź, czy narzędzie w łańcuchu zna standard", a to zdanie przenosi się na narzędzia, których jeszcze nie zmierzyłem. Korelacja opisuje osiem plików. Mechanizm opisuje dziewiąty.
+
+## Reguła 5: zapisz, czego nie zmierzyłeś
+
+Tabela z pustym polem jest gorsza niż brak tabeli, bo puste pole czyta się jak zero. W tym pomiarze pustych pól jest sporo i każde ma osobne zdanie w sekcji ograniczeń.
+
+**Jeden edytor, nie klasa edytorów.** Wybrałem najpopularniejszy edytor konsumencki na tym rynku. Mechanizm z reguły 4 jest własnością sposobu składania pliku, a nie tego programu, więc wynik powinien przenosić się na każde narzędzie, które nie przenosi nieznanych sobie pudełek. „Powinien" to argument, nie pomiar, i tak został zapisany.
+
+**Dwie platformy niezmierzone na drugiej osi.** Wiem, że oznaczają post. Nie wiem, czy plik, który serwują dalej, nadal niesie pochodzenie, bo materiał wgrany tam przeszedł wcześniej przez edytor i stracił oznaczenie przed wgraniem. Nie było czego zachowywać. To nie to samo co „sprawdzone i nie zachowuje".
+
+**Jeden wariant pominięty świadomie.** Uboższy z dwóch plików już przeszedł, więc bogatszy mógł tylko potwierdzić wynik. Pominięcie z uzasadnieniem jest w porządku. Pominięcie bez zapisu wygląda po miesiącu tak samo jak wynik negatywny.
+
+Osobno zapisuję pułapki metody. YouTube oznacza post automatycznie, a plik, który serwuje dalej, jest zdjęty do zera: żadnego manifestu, żadnego markera w surowych bajtach. Tyle że pierwsze podejście do tego pomiaru dałoby wynik fałszywie negatywny z winy narzędzia, którym pobierałem plik, bo automatyczne sklejanie strumieni nadpisuje metadane kontenera. Kto powtarza ten pomiar, musi powtórzyć też ten warunek, więc warunek stoi w notatce obok wyniku.
+
+Te dwie osie mieszają się najłatwiej ze wszystkiego, co tu zmierzyłem. „Platforma oznacza post" i „platforma przekazuje pochodzenie dalej" to dwie różne obietnice. Z czterech mierzonych platform obie dowozi jedna.
+
+## Warstwa krucha jest publiczna, odporna zamknięta
+
+Na koniec wynik, który podoba mi się najmniej, bo nie da się go naprawić po naszej stronie.
+
+Sprawdziłem cztery powierzchnie, na których człowiek może zweryfikować plik. Interesowała mnie jedna kolumna: czy da się to zrobić bez konta.
+
+Trzy z czterech wymagają zalogowania. Jedna, [publiczny weryfikator Content Authenticity](https://verify.contentauthenticity.org), działa bez konta i czyta **wyłącznie manifest**, czyli tę warstwę, którą kasuje pierwsza lepsza rekompresja. W tym rekompresja w sklepie, przez który jedzie zdjęcie produktu.
+
+Odporność obu warstw zmierzyliśmy osobno i wypada odwrotnie do ich dostępności. Manifest zginął na **dziesięciu przekształceniach na dziesięć**, łącznie z konwersją do formatu bezstratnego, gdzie piksele zostały identyczne co do bitu. Znak wodny przeszedł **pięć na pięć**: rekompresję bez zmiany wymiarów, skalowanie, mocną kompresję, nałożenie elementu graficznego i odbicie poziome, czyli klasyczny atak na tę warstwę. Wykryć go można wyłącznie w narzędziu, które wymaga zalogowania.
+
+Zbudowaliśmy własny [odczyt oznaczeń w przeglądarce](https://qamera.ai/tools/verify-image), też bez konta i bez instalowania czegokolwiek. Ma dokładnie to samo ograniczenie, bo czyta tę samą warstwę. Publiczna ścieżka sprawdzenia nie robi się pełniejsza od tego, że dokłada się do niej kolejne narzędzie po tej samej stronie.
+
+Podział ról wychodzi odwrotny do intuicyjnego:
+
+- warstwa **krucha** jest publicznie czytelna,
+- warstwa **odporna** jest zamknięta za kontem.
+
+Obie razem działają technicznie. Nie składają się w jedną publiczną ścieżkę sprawdzenia. Człowiek bez konta, który chce zweryfikować plik po tym, jak plik przeszedł przez sklep, nie ma czym.
+
+Tego nie wymyśliłem przy planowaniu pomiaru. Wyszło z tabeli, kiedy postawiłem obok siebie kolumnę „co czyta" i kolumnę „bez konta". Dwie kolumny, które w osobnych notatkach nie znaczyły nic.
+
+## Kluczowe wnioski
+
+Pięć reguł, każda kupiona pomyłką:
+
+1. **Kontrolka negatywna waży więcej niż pomiar pozytywny.** Bez przebiegu, w którym wynik ma nie wystąpić, nie wiesz, skąd bierze się ten, który wystąpił.
+2. **Pierwszy odczyt kłamie.** Systemy po drugiej stronie działają asynchronicznie, więc negatyw bez kontroli czasowej jest zdaniem o konkretnej minucie, nie o systemie.
+3. **Mierz na własnym artefakcie.** Pomiar na cudzym pliku odpowiada na pytanie o cudzy plik, choćby procedura była identyczna.
+4. **Szukaj mechanizmu, nie korelacji.** Korelacja opisuje przypadki, które zmierzyłeś. Dopiero mechanizm mówi cokolwiek o następnym.
+5. **Zapisz, czego nie zmierzyłeś.** Puste pole w tabeli czyta się po miesiącu jako zero, także przez ciebie.
+
+Żadna z nich nie jest nowa. Wszystkie znałem, zanim zacząłem. Trzy wnioski wycofałem mimo to, więc znajomość reguły i jej stosowanie to dwie różne rzeczy. Pomaga jedno: zapisywać przy każdym wyniku datę, wsad i kontrolkę, bo dopiero wtedy widać, którego z tych trzech elementów brakuje.
+
+Środowisko, w którym ten pomiar powstał, opisałem w tekście [jak buduję AI OS dla dwóch firm](/blog/srodowisko-agentowe-ai-dwie-firmy). O tym, jak taki projekt prowadzi się z agentem na co dzień, piszę w [anatomii systemu agentów AI](/blog/system-agentow-ai-skills-rules-kontekst).
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Nie wiesz, czy Twój system robi to, co myślisz?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    Różnica między „powinno działać" a „zmierzone" kosztuje najwięcej wtedy, gdy wychodzi późno. Pomogę Ci zaprojektować pomiar, przeprowadzić go z kontrolkami i zapisać wyniki tak, żeby dało się z nich korzystać za pół roku.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Umów bezpłatną konsultację</a>
+</div>
+
+## Przydatne zasoby
+
+- [Weryfikator obrazu Qamera](https://qamera.ai/tools/verify-image) - odczyt oznaczeń dowolnego pliku w przeglądarce, bez zakładania konta.
+- [Content Authenticity Verify](https://verify.contentauthenticity.org) - druga niezależna ścieżka odczytu manifestu, też bez konta.
+- [Specyfikacja C2PA](https://spec.c2pa.org/specifications/specifications/2.1/index.html) - podstawa formatu manifestu i nazw akcji, na które powołuję się w tekście.
+- [Co zostaje z oznaczenia zdjęcia na drodze do kupującego](https://qamera.ai/blog/co-zostaje-z-oznaczenia-zdjecia-na-drodze-do-kupujacego) - te same pomiary od strony sklepu: co z nich wynika dla karty produktu, feedu i kampanii.
+- [Moje środowisko agentowe](/blog/srodowisko-agentowe-ai-dwie-firmy) - stos, w którym ten pomiar powstał.
+- [Anatomia systemu agentów AI](/blog/system-agentow-ai-skills-rules-kontekst) - jak prowadzę projekty z agentem.
+- [Zbudowałem drugi mózg, trafiłem w standard Google](/blog/okf-standard-przenosnosc-bazy-wiedzy-ai) - jak zapisuję ustalenia, żeby dało się je czytać za pół roku.
+
+## FAQ
+
+<details open>
+<summary>
+
+### Czym różni się oznaczenie postu na platformie od przeniesienia pochodzenia w samym pliku?
+
+</summary>
+
+To dwie różne obietnice i trzeba je mierzyć osobno. „Platforma oznacza post" znaczy, że widz zobaczy etykietę pod materiałem. „Platforma przekazuje pochodzenie dalej" znaczy, że plik pobrany z platformy nadal niesie manifest, więc ktoś z zewnątrz odtworzy z niego historię. Z czterech platform, które zmierzyłem, obie rzeczy dowozi jedna: druga oznacza post, ale serwuje plik zdjęty do zera.
+
+</details>
+
+<details open>
+<summary>
+
+### Dlaczego pierwszy odczyt po publikacji na platformie społecznościowej potrafi dać fałszywie negatywny wynik?
+
+</summary>
+
+Bo systemy po stronie platformy działają asynchronicznie i etykieta pojawia się z opóźnieniem. Sprawdziłem post kilkanaście minut po publikacji, nie zobaczyłem etykiety i zapisałem wniosek, że platforma nie czyta oznaczenia z pliku. Po dobie etykieta była, a wniosek trzeba było wycofać. Każdy negatyw powtarzaj po dobie, zanim wpiszesz go do tabeli.
+
+</details>
+
+<details open>
+<summary>
+
+### Po co w pomiarze kontrolka negatywna, skoro wynik pozytywny już pokazuje, że mechanizm działa?
+
+</summary>
+
+Wynik pozytywny pokazuje, że coś się dzieje, ale nie mówi, z czego to wynika. W moim pomiarze etykietę mógł postawić klasyfikator obrazu zamiast osadzonej deklaracji, i zarzut był realny, bo inne narzędzie rozpoznało tę samą treść z samych pikseli. Dopiero drugi przebieg na materiale pozbawionym wszystkich znaczników, który etykiety nie dostał, zamienił obserwację w dowód.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy sklep internetowy kasuje metadane ze zdjęć produktowych i czy zależy to od silnika?
+
+</summary>
+
+Zależy od silnika i od progu, a różnice są duże. WooCommerce przepuszcza plik bajt w bajt poniżej progu 2560 px na dłuższej krawędzi, a powyżej podmienia go na wariant przeskalowany bez manifestu. PrestaShop zapisuje od nowa nawet plik, którego nie skaluje: te same wymiary, piąta część wagi, zero metadanych. Warstwy też zachowują się różnie, bo pakiet `XMP` przeżywa tam, gdzie manifest ginie.
+
+</details>
+
+<details open>
+<summary>
+
+### Jak sprawdzić, czy mój własny plik graficzny niesie oznaczenie o pochodzeniu z AI?
+
+</summary>
+
+Najprościej wrzucić plik do weryfikatora działającego w przeglądarce, na przykład [qamera.ai/tools/verify-image](https://qamera.ai/tools/verify-image) albo [verify.contentauthenticity.org](https://verify.contentauthenticity.org). Oba czytają manifest C2PA i pokazują, kto podpisał plik i jakie akcje zadeklarował. Pamiętaj o ograniczeniu: czytają wyłącznie warstwę metadanych, więc plik po rekompresji wyjdzie z nich jako nieoznaczony, nawet jeśli niesie znak wodny w pikselach.
+
+</details>
+
+<details open>
+<summary>
+
+### Czy te reguły pomiaru przydają się poza tematem oznaczania treści generowanych przez AI?
+
+</summary>
+
+Tak, bo żadna z nich nie mówi o metadanych. Kontrolka negatywna, kontrola czasowa negatywu, pomiar na własnym artefakcie, mechanizm zamiast korelacji i zapis luk działają tak samo przy testowaniu integracji, migracji danych i zachowań cudzego API. Wszędzie tam pytanie brzmi „skąd wiesz", a odpowiedzią jest odczyt z datą i kontrolką, a nie przekonanie o tym, jak system powinien działać.
+
+</details>
 
 
 ---
@@ -581,6 +1090,8 @@ Published: 2026-06-21
 
 Jakiś czas temu opisałem, [jak LLM Wiki Karpathy'ego pomogła mi uporządkować moją bazę wiedzy](/blog/llm-knowledge-base-brain-karpathy) - ponad 300 notatek, którymi zarządza agent, trzy indeksy nawigacyjne, workflow do ingestu i kompilacji. System działa. Codziennie. To mój drugi mózg.
 
+Samą budowę takiej bazy rozkładam na lekcje w [darmowy kurs LLM Wiki](/llm-wiki/kurs).
+
 Ale ostatnio złapałem się na niewygodnym pytaniu. Cała ta wiedza żyje w **moich** narzędziach - w Obsidian, w Quartz, w moim `CLAUDE.md`. A co, jeśli zechcę ją komuś przekazać? Zmienić tool? Albo potraktować jako aktyw firmowy, który ma przeżyć dowolny program i dowolny model? Notatki zamknięte w czyimś prywatnym formacie to vendor-lock-in - tyle że zrobiony własnoręcznie.
 
 Wniosek, do którego doszedłem, jest prosty: **trwałość wiedzy to nie narzędzie - to format.** I wtedy trafiłem na **OKF (Open Knowledge Format)** od Google. Zrobiłem audyt swojego brain pod kątem tego standardu, spodziewając się sporego rozjazdu. Wynik mnie zaskoczył: zgodność w okolicach 100% - mimo że nigdy nie projektowałem brain pod OKF. W tym artykule pokażę, dlaczego tak się stało, co dokładnie sprawdziłem i co wtedy, gdy czysty markdown to za mało. Bez teorii - konkretny audyt i konkretne liczby.
@@ -957,6 +1468,8 @@ Published: 2026-05-09
 Dziś jest 9 maja 2026. Dwa dni temu prowadziłem prelekcję na NoCode Poland #4 - *"Jak 2 założycieli robi robotę całego zespołu"*. Tytuł brzmi jak clickbait, ale tydzień wcześniej, 1 maja, część tego, o czym mówiłem, **jeszcze nie istniała**.
 
 Pierwszego maja w 200IQ LABS - pre-revenue spółce, którą prowadzę z Przemkiem - nie było działu finansów. Zero raportu zarządczego za kwiecień. Zero kontroli kosztów na poziomie kategorii. Zero spec-a. **Trzeciego maja był pierwszy close kwietnia**: 30+ reguł klasyfikacji wytrenowanych z zera, raport zarządczy w `monthly/2026-04.md`, real EBITDA −16 804 PLN udokumentowane z trzema decyzjami korekcyjnymi planu na kolejne miesiące.
+
+Szerszą ramę, w którą ten system się wpisuje, opisuję w [Software 3.0 i agentic engineering](/blog/software-3-0-agentic-engineering).
 
 Dwa dni od zera do działającego systemu zarządczego. Powiem szczerze - robiłem to częściowo na potrzeby prelekcji. **Event Driven Development™** (eventem była ta prelekcja). Ale ten system od dawna miał powstać. Wolę wdrażać PR-y na produkcję niż siedzieć nad numerami - taka prawda founderska. Prelekcja po prostu wymusiła timing.
 
@@ -2052,6 +2565,8 @@ Published: 2026-04-12
 
 Andrej Karpathy w kwietniu 2026 opublikował na X [wątek o "LLM Wiki"](https://x.com/karpathy/status/2039805659525644595) - koncepcji, w której LLM buduje i utrzymuje persistent wiki z Twoich źródeł. Zamiast klasycznego RAG, który szuka fragmentów na żądanie, LLM aktywnie zarządza bazą wiedzy: tworzy notatki, aktualizuje cross-referencje, flaguje sprzeczności.
 
+Jak zbudować taką bazę od zera, prowadzę krok po kroku w [darmowy kurs LLM Wiki](/llm-wiki/kurs).
+
 Czytam ten wątek i mam déjà vu. Nie dlatego, że zbudowałem to samo - ale dlatego, że od 2022 roku organicznie ewoluowałem w tym kierunku. Mój vault w Obsidian zaczynał jako klasyczny zbiór ręcznych notatek - kilkadziesiąt plików Markdown, ręcznie linkowanych, rosnących bez jasnej struktury. Z czasem **Claude Code** przejął coraz więcej pracy: najpierw proste formatowanie, potem indeksowanie, wreszcie pełne zarządzanie strukturą i standardami. W pewnym momencie zdałem sobie sprawę, że agent robi więcej maintenance niż ja.
 
 Repozytorium Karpathy'ego - [LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) - nie było dla mnie odkryciem nowego świata. Było **katalizatorem porządkowania**. Karpathy dał nazwę warstwom, które u mnie istniały chaotycznie. Pomógł mi sformalizować separation między raw sources a przetworzoną wiki. Dopisać safety rules, które wcześniej miałem tylko w głowie. Opisał navigation protocol, który u mnie działał intuicyjnie, ale nigdy nie był udokumentowany.
@@ -2639,6 +3154,8 @@ Published: 2026-03-23
 
 Siadam rano do komputera, otwieram terminal i mówię: "sprawdź stan konta firmowego i porównaj z planem finansowym". Agent CFO ładuje kontekst, łączy się z Revolut API, analizuje ostatnie faktury i zostawia trzy rekomendacje. Potem pytam innego agenta o monitorowanie konkurencji - i dostaję briefing. Trzeci sprawdza terminy prawne i przypomina o zbliżającym się deadline umowy z klientem.
 
+To praktyczna wersja tego, co teoretycznie rozkładam w [Software 3.0 i agentic engineering](/blog/software-3-0-agentic-engineering).
+
 Każdy z tych agentów działa pod moim nadzorem - świadomie nie puszczam ich jeszcze w pełni autonomicznie. Uważam, że na tym etapie warto kilka razy przejść operację pod kontrolą, zanim ustawisz scheduler do działań cyklicznych. Ale sam fakt, że mam **osiem wyspecjalizowanych agentów**, z których każdy zarządza innym obszarem - finansami, prawem, marketingiem, contentem, produktem - to już ogromna zmiana. I co najważniejsze - ten sam zestaw agentów obsługuje **dwie różne firmy jednocześnie**.
 
 W artykule o [Skills 2.0](/blog/skills-2-0-multi-agent-system-zarzadzanie-firma) opisywałem jak zbudowałem system wieloagentowy. Teraz pokażę coś głębszego - **architekturę**, która za tym stoi. Bo to nie agenty są rewolucyjne. Rewolucyjna jest separacja warstw, która sprawia, że cały system jest przenośny, wersjonowany i niezależny od dostawcy AI.
@@ -2975,6 +3492,8 @@ Source: https://pawel.lipowczan.pl/blog/skills-2-0-multi-agent-system-zarzadzani
 Published: 2026-03-08
 
 Od kilku dni buduję coś, czego szukałem od dawna - system, w którym agenci AI nie tylko odpowiadają na pytania, ale **zarządzają** konkretnymi obszarami moich firm. Zarówno 200IQ Labs (qamera.ai) jak i PLSoft.
+
+Dlaczego w ogóle przesuwamy się w tę stronę, tłumaczę w [Software 3.0 i agentic engineering](/blog/software-3-0-agentic-engineering).
 
 Problem znasz, jeśli prowadzisz firmę i korzystasz z AI. Masz Claude Project z promptem dla CFO. Osobny z promptami marketingowymi. Obsidian z notatkami. Pięć ad-hoc konwersacji dziennie, w których tłumaczysz kontekst od zera. Każda sesja to tabula rasa. Każdy agent nie wie nic o tym, co robi drugi.
 
@@ -3386,6 +3905,8 @@ Source: https://pawel.lipowczan.pl/blog/openclaw-bezpieczenstwo-agentow-ai
 Published: 2026-02-09
 
 # OpenClaw: lekcja bezpieczeństwa, której potrzebował świat agentów AI
+
+Ostrzeżenie dotyczy świata, który opisuję w [Software 3.0 i agentic engineering](/blog/software-3-0-agentic-engineering) - i architektur z [systemu agentów](/blog/system-agentow-ai-skills-rules-kontekst) oraz [środowiska dla dwóch firm](/blog/srodowisko-agentowe-ai-dwie-firmy).
 
 **150 tysięcy gwiazdek na GitHubie w dwa tygodnie.** Dla porównania - React, framework na którym stoi pół internetu, zbierał swoje 240 tysięcy przez 10 lat. OpenClaw stał się najpopularniejszym hasłem technologicznym w Google Trends, ludzie wykupili komputery Mac Mini żeby stawiać na nich dedykowane instancje, a Cloudflare w kilkanaście godzin dostosował infrastrukturę pod nowy ruch.
 
@@ -4655,6 +5176,8 @@ Claude Code to nie tylko narzędzie do kodowania. Brzmi jak clickbait, ale to je
 Problem, który pewnie znasz: notatki rozrzucone po dziesiątkach narzędzi, historia czatów z AI znika po każdej sesji, a przełączanie między aplikacjami zabija produktywność. Szukałem sposobu na **organizację wiedzy**, który nie wymaga ciągłego ręcznego porządkowania.
 
 W tym artykule pokażę Ci jak połączenie **Obsidian**, **Claude Code** i **Skills** tworzy potężny system zarządzania wiedzą. To nie teoria - używam tego setup'u codziennie. Na końcu będziesz mieć wszystko co potrzebne, żeby zbudować własny **second brain** z AI w centrum.
+
+Jeśli wolisz przejść to krok po kroku, zamiast czytać opis: ten sam system rozkładam na osiem lekcji w [darmowy kurs LLM Wiki](/llm-wiki/kurs).
 
 ## Czym jest Second Brain i dlaczego go potrzebujesz
 
@@ -7570,7 +8093,7 @@ Większość firm utyka już na kroku 2-3. Mają dane, ale nie potrafią ich po�
 
 Przez ostatnie 4 lata obserwuję, jak no-code zmienia sposób pracy z danymi w firmach.
 
-Platformy takie jak **Airtable, Make, n8n czy Zapier** radykalnie obniżają barierę wejścia. Ludzie z działów biznesowych, marketingu, finansów mogą sami:
+Platformy takie jak **Airtable, Make, n8n czy Zapier** radykalnie obniżają barierę wejścia. Różnice między nimi opisuję w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Ludzie z działów biznesowych, marketingu, finansów mogą sami:
 
 - Tworzyć struktury danych
 - Integrować różne źródła
@@ -7712,6 +8235,10 @@ AI pomaga w pisaniu testów, dokumentacji, optymalizacji. Kod jest czystszy i ł
 Wybór podejścia zależy od zasobów w organizacji:
 
 **Masz senior programistę?** → Idź w kod z AI. Dostaniesz elastyczność, brak ograniczeń i pełną kontrolę.
+
+Jak wygląda wzbogacanie danych w praktyce: [Lead Enrichment](/projects/lead-enrichment).
+
+Skąd w ogóle biorą się te nieoptymalne procesy, opisuję w [każda firma działa nieoptymalnie](/blog/kazda-firma-dziala-nieoptymalnie).
 
 **Nie masz technicznego zaplecza?** → Zostań przy no-code (Airtable, Make, n8n). To rozwiązanie zdecydowanie bardziej przystępne dla ludzi bez doświadczenia programistycznego.
 
@@ -8181,7 +8708,7 @@ Kalendarz, Kanban, Grid, Gallery - wszystko z tych samych danych.
 Airtable ma to wbudowane, Excel wymaga VBA lub zewnętrznych narzędzi.
 
 **✅ Integracji z innymi narzędziami**
-API, Zapier, Make - Airtable jest stworzony do łączenia się z ekosystemem.
+API, Zapier, Make - Airtable jest stworzony do łączenia się z ekosystemem. Które z tych narzędzi wybrać, rozbieram w osobnym tekście: [porównanie Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia).
 
 Z kolei **Excel wciąż wygrywa** przy:
 - Zaawansowanych obliczeniach finansowych i statystycznych
@@ -8315,7 +8842,7 @@ Oto historia o tym, jak technologia spotkała się z biurokracją, dlaczego brak
 
 Nasze zadanie dotyczyło procesu budżetowania w administracji publicznej. Brzmi nudno? Może, ale skala problemu jest ogromna.
 
-Core problemem okazał się proces oparty na ręcznej wymianie setek tysięcy plików Excel. Błędy, chaos informacyjny, brak transparentności - to codzienność urzędników. Stworzyliśmy metaforę tego procesu, którą nazwaliśmy **„Pani Zosia i Tysiące Exceli”**:
+Core problemem okazał się proces oparty na ręcznej wymianie setek tysięcy plików Excel. To ten sam mechanizm, który opisuję w [każda firma działa nieoptymalnie](/blog/kazda-firma-dziala-nieoptymalnie) - tylko w skali urzędu. Błędy, chaos informacyjny, brak transparentności - to codzienność urzędników. Stworzyliśmy metaforę tego procesu, którą nazwaliśmy **„Pani Zosia i Tysiące Exceli”**:
 
 1. **Start (Dół):** „Pani Zosia” w urzędzie gminy „wróży z fusów”, ręcznie wpisując dane budżetowe do Excela (np. zapotrzebowanie na nowy komputer).
 2. **Eskalacja (Góra):** Plik wędruje w górę hierarchii: Urząd Miasta → Województwo → Ministerstwo Finansów.
@@ -8729,7 +9256,7 @@ Teoria teorią, ale spójrzmy na praktykę. Agencja eventowa **El Padre** zgłos
 2. **Krok 2: Centralny Mózg (Airtable)**
    Stworzyliśmy bazę wiedzy, gdzie trafiają transkrypcje, kosztorysy i dane o projektach.
 
-3. **Krok 3: Automatyzacja (Make & AION)**
+3. **Krok 3: Automatyzacja (Make & AION)** - zanim tu dojdziesz, potrzebujesz uporządkowanych danych: [dane jako paliwo biznesu](/blog/dane-jako-paliwo-biznesu). Wybór narzędzia to osobna decyzja, rozbieram ją w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia).
    Zbudowaliśmy "asystentów AI" (w oparciu o nasze narzędzie AION), którzy realizują konkretne zadania:
    - **Briefing:** Generuje brief na podstawie transkrypcji rozmowy.
    - **Event Ideas:** Podrzuca pomysły na wydarzenie, bazując na briefie i historii agencji.
@@ -9351,6 +9878,8 @@ Nie musisz wybierać tylko jednej platformy!
 
 **Dlaczego Zapier?** Non-technical zespół, proste workflow, natychmiastowy rezultat.
 
+Podobny scenariusz opisałem na prawdziwym wdrożeniu: [pozyskiwanie leadów bez kodu](/blog/no-code-lead-generation).
+
 ### Case Study 2: Agencja kreatywna wybrała Make
 
 **Zespół:** 15 osób (designers, copywriters, project managers)  
@@ -9380,6 +9909,8 @@ Content submission → Make →
 
 **Dlaczego Make?** Power users, wizualna logika, najlepsza wartość za pieniądze.
 
+Tak wygląda to u prawdziwego klienta z branży eventowej: [automatyzacja ofertowania w El Padre](/blog/el-padre-automatyzacja-ofert-ai).
+
 ### Case Study 3: Software house wybrał n8n
 
 **Zespół:** 30 osób (15 developerów, 10 product, 5 ops)  
@@ -9404,6 +9935,8 @@ Content submission → Make →
 - ✅ Compliance: GDPR-compliant (EU-hosted)
 
 **Dlaczego n8n?** Technical team, high-volume, compliance requirements, ROI po 2 miesiącach.
+
+Dwa wdrożenia z tej półki: [obsługa skrzynki firmowej](/blog/automatyzacja-email-frontdesk-ai) i [chatboty od koncepcji do wdrożenia](/blog/chatboty-ai-od-koncepcji-do-wdrozenia).
 
 ### Case Study 4: Software startup wybrał Kod + AI
 
@@ -9482,6 +10015,8 @@ Webhook (5 źródeł) →
 - Governance: Multi-platform approach z central oversight
 
 ## Podsumowanie - Quick Decision Guide
+
+Zanim wybierzesz narzędzie, warto wiedzieć, co właściwie chcesz zautomatyzować. Pomagają w tym dwa teksty: [dane jako paliwo biznesu](/blog/dane-jako-paliwo-biznesu) o tym, czego potrzebujesz, żeby cokolwiek zautomatyzować, oraz [migracja z Excela do Airtable](/blog/airtable-vs-excel-migracja) o najczęstszym pierwszym kroku.
 
 ### Chcesz najprostszy start?
 
@@ -9636,6 +10171,10 @@ Agencja stanęła przed dylematem: albo zwiększyć zespół (co generuje koszty
 ## Rozwiązanie: AION jako centralny hub procesów ofertowania
 
 Zdecydowaliśmy się na wdrożenie platformy **AION** - systemu zarządzania procesami wspieranymi przez AI. Kluczem do sukcesu było nie tylko wprowadzenie narzędzi AI, ale przede wszystkim **integracja i centralizacja danych** oraz **dostosowanie workflow do realnych potrzeb zespołu**.
+
+Pokrewne wdrożenie po stronie dokumentów: [automatyzacje dokumentów](/projects/automatyzacje-dokumentow).
+
+Wybór platformy to osobna decyzja i osobny tekst: [porównanie Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Drugie wdrożenie dla agencji, tym razem po stronie rozmów z klientem: [chatboty od koncepcji do wdrożenia](/blog/chatboty-ai-od-koncepcji-do-wdrozenia).
 
 ### Stack technologiczny
 
@@ -9875,7 +10414,9 @@ Wiadomości wymagające ludzkiej interwencji są automatycznie przekierowywane d
 
 ## Stack technologiczny
 
-- **Make** - automatyzacja workflow i integracje
+Pełny opis tego wdrożenia u klienta: [Frontdesk AI](/projects/frontdesk-ai).
+
+- **Make** - automatyzacja workflow i integracje (dlaczego akurat Make, a nie Zapier czy n8n: [porównanie Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia))
 - **OpenAI GPT-4** - analiza treści i generowanie odpowiedzi
 - **Gmail/Outlook API** - integracja z pocztą email
 - **Airtable** - baza wiedzy i tracking wiadomości
@@ -10063,6 +10604,10 @@ System automatycznie dodaje:
 
 ## Architektura systemu
 
+Pełny opis wdrożenia u klienta: [Lead Generator](/projects/lead-generator).
+
+Cały system stoi na n8n i Airtable. Dlaczego akurat te narzędzia, a nie Zapier czy Make, tłumaczę w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia). Pokrewne wdrożenie na tym samym zestawie: [obsługa skrzynki firmowej](/blog/automatyzacja-email-frontdesk-ai).
+
 **Baza Airtable:**
 
 - Tabela "Campaigns" - definicje kampanii
@@ -10236,6 +10781,10 @@ Chatboty nowej generacji wykorzystujące LLM (Large Language Models) potrafią p
 - Wykonywanie akcji (booking, search, etc.)
 
 ## Architektura Context-based Chatbota
+
+Działające wdrożenie tej architektury: [Context-based Chatbot](/projects/context-based-chatbot).
+
+Warstwa integracji opiera się na n8n. Kiedy sięgać po n8n, a kiedy wystarczy Zapier albo Make, rozbieram w [porównaniu Zapier, Make i n8n](/blog/zapier-vs-make-vs-n8n-wybor-narzedzia).
 
 ### 1. Frontend - Interface użytkownika
 
@@ -10496,6 +11045,511 @@ Zbierz dokumenty (FAQ, dokumentacja produktu, artykuły, polityki firmy), podzie
 </summary>
 
 Gdy nie zna odpowiedzi, użytkownik jest sfrustrowany, sprawa wymaga decyzji wykraczających poza uprawnienia bota lub dotyczy wrażliwych tematów (reklamacje, sprawy prawne). Graceful degradation to kluczowa best practice - bot informuje, że przekazuje do konsultanta, zamiast generować niepewne odpowiedzi.
+
+</details>
+
+
+---
+
+# Claude Code Skills: Competence Is Installed, Not Acquired
+
+Source: https://pawel.lipowczan.pl/en/blog/claude-code-skills-i-have-connected
+Published: 2026-10-12
+
+I built a CRM with an agent for clients in the real estate industry. A **CRM** is a system for managing clients and offers. I would not have done this before.
+
+The agent wrote the code, and that was not the obstacle. The obstacle was the look, because you still have to convince the client of an interface they will like. And I know my way around neither design nor **SEO** (getting pages to rank in search engines).
+
+I did not learn either of them. I connected **skills**. A skill is a file with instructions that an agent reads and, thanks to it, starts doing something it did not do before.
+
+For design I use three: `frontend-design`, `ui-ux-pro-max` and `impeccable`. For SEO, `claude-seo` helps me. The first three prepare design proposals from which the client chooses.
+
+This text rests on two claims. The first is about the tool: competence can now be plugged in, not only built up over years of practice. The second is about my work: a skill added to an agent is competence added to me, so the way I plan my own development changes.
+
+The question "what should I learn this quarter" is no longer first for me. The first one now is: what to connect, and what I still need to be able to evaluate.
+
+The second claim has a limit. Expertise did not stop mattering. It shifted from execution to evaluating the result. I will not put forward a stronger thesis, because I have no grounds for it.
+
+Next: what a skill is and why the format is cheap, what I have connected, two lists you can take with installation, and at the end what I do not give away.
+
+## Agent Skills: an open format that works beyond Claude Code
+
+A skill is not one vendor's feature or a secret piece of Claude's code. The format is called **Agent Skills** (an open standard for describing a skill). Anthropic created it and released it as open, and today it is supported by VS Code, GitHub Copilot, Cursor, Goose, Amp and OpenCode, among others. The current list is kept at [agentskills.io](https://agentskills.io).
+
+A skill is a folder with a `SKILL.md` file. The file holds a name, a description and instructions written in **markdown** (plain text with simple markup). At startup the agent knows only the names and descriptions of skills, and reads the full instructions only when a task matches. The specification assumes about 100 tokens for this metadata per skill (a **token** is a unit of text that the model counts).
+
+The format itself travels between tools. Installation does not always, as the next section shows.
+
+## Why this format is cheap
+
+A skill is markdown with a few fields at the top of the file. Writing your own costs as much as writing instructions.
+
+Several skills, commands and other add-ons are packed into a **plugin** (a package installed as a whole). The simplest plugin consists of just markdown and JSON (a format for storing data in text files), with no build step. More elaborate ones add their own scripts.
+
+```text
+my-plugin/
+├── .claude-plugin/plugin.json   # name, description, license
+├── skills/<name>/SKILL.md       # the skill's instructions
+└── commands/                    # commands typed in the session
+```
+
+Plugins are installed from a **plugin marketplace**. It is a repository with a `marketplace.json` file that says where to download each plugin from.
+
+One caveat that is easy to miss. The plugin manifest, which is the `plugin.json` file, is a Claude Code convention, not part of the Agent Skills specification. The specification describes a skill folder and says nothing about installing packages or about the target directory. That is why tools look for skills in different places: Claude Code in `.claude/skills/`, Codex in `.agents/skills/`, Cursor in `.cursor/skills/` and `.agents/skills/`.
+
+So a skill folder can be taken and placed in another tool's directory. The manifest and the install commands come from Claude Code.
+
+## What I have connected: 29 plugins from 8 marketplaces
+
+On my account I have **29 plugins from 8 marketplaces** connected globally (read on 12 October 2026). Twenty-two come from Anthropic's official marketplace. Many of them are integrations with services, for example GitHub, Stripe or Cloudflare.
+
+I do not treat that number as proof. The proof is something else: for design and SEO I did not have to learn the field, because I simply connected the items that do it.
+
+A note so you do not count twice. The tables below are not a breakdown of those 29. They are two separate lists: 19 items from my repository and 10 from other people that I use myself. That together they make exactly 29 is a coincidence.
+
+Three of those ten (OpenSpec, `impeccable` and `hyperframes`) are skills installed separately, not plugins from a marketplace. **OpenSpec** is a tool for writing a change specification before the code.
+
+Connecting has a cost. The name and description of every enabled skill sit in the agent's context on every turn, even when the skill is not used. A plugin also runs code with the user's permissions, so it is worth reviewing before installing. I wrote about the risks of agents in [OpenClaw: the security lesson the AI agent world needed](/en/blog/openclaw-ai-agent-security).
+
+## My skills you can take for free
+
+The repository [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) is public and declares the Apache-2.0 license (it allows using, changing and distributing the code while keeping the license notice). Installation is two **slash commands** (commands typed in the session that start with `/`):
+
+```text
+/plugin marketplace add 200iqlabs/shared-skills
+/plugin install ss@shared-skills
+```
+
+The same in the terminal: `claude plugin marketplace add 200iqlabs/shared-skills` and `claude plugin install ss@shared-skills`. After installation every item has the `ss:` prefix.
+
+Below are 19 items. I folded the `research*` and `prepare-goal*` variants into single rows, because each group is one flow.
+
+| Item | What it does |
+|---|---|
+| `/ss:cfo` | cash flow, cash runway for the coming months, costs, profitability, budget |
+| `/ss:tax-advisor` | PIT, VAT, ZUS, health insurance contribution, IP Box, lump-sum versus flat tax |
+| `/ss:legal` | B2B contracts and NDAs, GDPR, copyright in code, unpaid invoices |
+| `/ss:business-consultant` | meeting notes into a solution architecture and an implementation estimate |
+| `/ss:process-mapping` | a process into a diagram: who, what and with which tool (Excalidraw or Mermaid) |
+| `/ss:slides` | markdown into a finished PDF presentation: carousels and conference slides, through Marp |
+| `/ss:prd` | a two-page product description for a solution built in a week |
+| `/ss:research` | analysis with a plan: items, fields and the structure of the result |
+| `/ss:research-deep` | a separate agent for every item in the plan, then a report (`research-report`) |
+| `/ss:review-fix` | one review of a branch through Codex (an OpenAI plugin for code review, condition below the table): fixes what holds up, rejects the rest with a reason, then a commit and push |
+| `/ss:review-loop` | a loop between Claude and Codex on a pull request until nothing important is left. It ends with a sign-off issue that only a person closes |
+| `/ss:prepare-goal` | a loose task description into a completion condition that can be checked in the session transcript (the `prepare-openspec-goal` variant is for OpenSpec changes) |
+| `/ss:find-skills` | searches for skills in the ecosystem and installs them after a security audit |
+| `/ss:vibe-coding` | the visible layer of an app without design knowledge: guidelines, design tokens, components |
+| `/ss:environment-setup` | a wizard for configuring context files |
+| `/ss:decisions` | pulls out open decisions one at a time, with a recommendation, and waits for an answer (in Polish) |
+| `/ss:explain-diff` | walks through code changes file by file, in plain Polish |
+| `/ss:explain-design` | walks through an OpenSpec design document topic by topic (in Polish) |
+| `/ss:working-mode` | switches the session to Polish and a fixed answer skeleton |
+
+Abbreviations from the table: **PIT** is personal income tax, **ZUS** is the Polish social insurance institution, **IP Box** is a preferential tax rate on income from intellectual property, **NDA** is a non-disclosure agreement, and **PRD** is a document describing the requirements for a product. Excalidraw and Mermaid are diagram tools, and Marp turns markdown into a presentation. **Design tokens** are named values for colors, spacing and fonts.
+
+**A condition for two items.** `/ss:review-fix` and `/ss:review-loop` review code through the Codex plugin and require a ChatGPT plan that includes Codex. The skills are free, the reviewer is not: every review round uses up that plan's allowance. Without an installed and signed-in plugin, both skills stop and point to `/codex:setup`.
+
+## Other people's skills and tools I use
+
+The second table is the ecosystem: other people's tools, public, with authors. I kept only what I use in it. I struck out the rest of what was installed, because I practically do not use it.
+
+| Item | Author | What it does |
+|---|---|---|
+| [OpenSpec](https://github.com/Fission-AI/OpenSpec) | Fission-AI, MIT | specification before code; leaves a file, not a conversation |
+| [claude-seo](https://github.com/AgriciDaniel/claude-seo) | AgriciDaniel | SEO audit, Core Web Vitals (metrics of a page's speed and stability), structured data (markup that describes a page's content to search engines), visibility in AI answers |
+| `frontend-design` | Anthropic | the visual layer of an interface |
+| [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | nextlevelbuilder | styles, palettes, font pairs and design patterns |
+| `commit-commands` | Anthropic | commit, push and a pull request with one command |
+| `document-skills` | Anthropic | xlsx, docx, pptx and pdf: reads and writes |
+| [impeccable](https://github.com/pbakaus/impeccable) | pbakaus, Apache-2.0 | designing and polishing interfaces: hierarchy, typography, color, motion, accessibility. Site: [impeccable.style](https://impeccable.style), run with: `npx impeccable` |
+| [hyperframes](https://github.com/heygen-com/hyperframes) | HeyGen, Apache-2.0 | video in HTML: compositions, captions synced to audio, voice-over, transitions. Also processing finished footage. Run with: `npx hyperframes` |
+| `skill-creator` | Anthropic | makes a skill from a description of the behavior |
+| [superpowers](https://github.com/obra/superpowers) | Jesse Vincent, MIT | brainstorming before code, step-by-step bug hunting, tests before code, implementation plans |
+
+I described three of them separately in [5 Weak Spots of Claude Code and How to Fix Them](/en/blog/claude-code-weak-spots): `ui-ux-pro-max`, `impeccable` and `hyperframes`.
+
+I use both OpenSpec and superpowers, but for different things. For brainstorming before code I use `/opsx:explore` from OpenSpec, because it leaves a file and not a conversation. I write more about this approach in [OPSX Workflow - a structured approach to working with AI coding assistants](/en/blog/opsx-workflow-structured-ai-work).
+
+I reach for superpowers less often. I have not measured which works better, so I do not compare the two.
+
+## What I do not give away
+
+Not everything I have can be given away. Session closing, a task register, a context-consistency check and the publishing loop live in my private repository. They are versioned privately and have no distribution channel, so they are in neither table and there will be no link to them.
+
+I write about them only as a pattern, not as items to take. I do not want to promise something I cannot deliver.
+
+I described the split between the shared and the private part earlier in [Skills 2.0 - how I'm building a multi-agent system to manage my company](/en/blog/skills-2-0-multi-agent-system-company-management). The shared skills were hooked in there as a git submodule. In this text I show installation as a plugin, which anyone can do.
+
+## What this changes in planning my own development
+
+Both questions stayed, their order changed. You can see it best in the CRM. The agent writes the code.
+
+The design proposals are prepared by `frontend-design`, `ui-ux-pro-max` and `impeccable`, and the client picks from a few of them. Video is handled by `hyperframes`. Four of the connected items do what I cannot do myself: three design the interface, one deals with SEO.
+
+Skills have not changed how fast I work. They changed which jobs I consider at all. They helped me think about jobs like a CRM for the real estate industry, a complex tool I would not have taken on before.
+
+The second half of the question stays on my side. I do not need to be able to design an interface. I need to be able to evaluate what a skill gives me before I show it to anyone.
+
+In the CRM project the client took over part of that evaluation, because they choose from a few proposals. I am responsible for the rest.
+
+I check the result of `claude-seo` on my own domain, pawel.lipowczan.pl. The effect is visible only after publication, so I give no results in this text.
+
+Evaluation takes more than a feeling that the result looks good. I wrote about this in [Measured, Not Assumed. Three Conclusions I Overturned Myself](/en/blog/measured-not-assumed), where conclusions that sounded confident had to be withdrawn after another measurement. It applies to me as much as to the agent.
+
+## Getting started
+
+In a Claude Code session type `/plugin marketplace add 200iqlabs/shared-skills`, then `/plugin install ss@shared-skills`, and look through the [shared-skills repository](https://github.com/200iqlabs/shared-skills) to see what will be useful to you. Start with an item from a field where you can evaluate the result. Only then reach for one in a field you do not know.
+
+## Key takeaways
+
+1. **A skill added to an agent is competence added to me.** That is why I start my development plan from the question of what to connect.
+2. **Connecting does not remove the need to evaluate.** Expertise shifts from execution to evaluating the result.
+3. **The format is open and cheap.** A skill is a folder with `SKILL.md`, while the plugin manifest and install paths are conventions of a specific tool.
+4. **Connecting costs.** A skill's name and description are in context on every turn, and a plugin runs code with the user's permissions. Keep what you use.
+5. **The list is yours to take.** Two commands install the `ss` plugin, and two items additionally need a ChatGPT plan with Codex.
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Want to know which skills to connect in your own work?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    I will help you pick skills for your projects and work out what you still need to evaluate yourself before you show anyone the result.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
+</div>
+
+## Useful Resources
+
+- [shared-skills](https://github.com/200iqlabs/shared-skills) - the repository with the `ss` plugin, installation and the list of items.
+- [Agent Skills](https://agentskills.io) - the format specification and a list of tools that support it.
+- [Claude Code plugins documentation](https://code.claude.com/docs/en/plugins) - what a plugin and a marketplace are, context cost, trust in plugins.
+- [impeccable](https://impeccable.style) - designing and polishing interfaces.
+- [hyperframes](https://github.com/heygen-com/hyperframes) - video written in HTML.
+- [OpenSpec](https://github.com/Fission-AI/OpenSpec) - specification before code.
+- [5 Weak Spots of Claude Code and How to Fix Them](/en/blog/claude-code-weak-spots) - three of the other people's skills described separately.
+- [Measured, Not Assumed](/en/blog/measured-not-assumed) - how to evaluate a result by measurement, not by conviction.
+- [Pre-revenue startup without a finance department. AI agent system anatomy.](/en/blog/ai-agent-system-skills-rules-shared-context) - the system the skills plug into.
+
+## FAQ
+
+<details open>
+<summary>
+
+### What is a skill in Claude Code, and how exactly does it differ from a plugin installed from a marketplace?
+
+</summary>
+
+A skill is a folder with a `SKILL.md` file that holds a name, a description and instructions for the agent. A plugin is a package installed as a whole that can contain many skills, commands and other add-ons. So a skill is a unit of knowledge, and a plugin is a way of delivering it.
+
+</details>
+
+<details open>
+<summary>
+
+### Will skills written for Claude Code work in other tools, for example in Cursor or in Codex?
+
+</summary>
+
+The format itself does, because Agent Skills is an open standard supported by many tools. The plugin manifest and install commands, however, are a Claude Code convention, and directories differ: Codex looks in `.agents/skills/`, and Cursor in `.cursor/skills/` and `.agents/skills/`, but it also reads `.claude/skills/`. You carry the skill folder over, while the plugin installer stays in Claude Code.
+
+</details>
+
+<details open>
+<summary>
+
+### Can I use the skills from the shared-skills repository in commercial projects and for clients?
+
+</summary>
+
+The repository declares the Apache-2.0 license in its README and in the plugin manifests. That license allows using, changing and distributing code, commercially too, while keeping the license notice. If you use the skills in a company, read the `LICENSE` file and the license terms before rollout.
+
+</details>
+
+<details open>
+<summary>
+
+### Are `/ss:review-fix` and `/ss:review-loop` free, given that they review code through Codex?
+
+</summary>
+
+The skills themselves are free, but the reviewer is not. The review is done by the Codex plugin, which requires a ChatGPT plan that includes Codex, and every review round uses up that plan's allowance. Without an installed and signed-in plugin, both skills stop and point to `/codex:setup`.
+
+</details>
+
+<details open>
+<summary>
+
+### Is installing other people's skills and plugins for Claude Code safe, and what should I check before installing?
+
+</summary>
+
+A plugin can run code with the user's permissions, so it is not as harmless as a plain text file. The Claude Code documentation notes that this applies to every marketplace and describes how to review a plugin before installing. The `/ss:find-skills` skill searches the ecosystem for skills and installs them after a security audit.
+
+</details>
+
+<details open>
+<summary>
+
+### How many skills and plugins is it worth having connected at once so the agent does not lose room in its context?
+
+</summary>
+
+There is no single number, because the cost depends on how many descriptions there are and how long they are. The name and description of every enabled skill sit in the agent's context on every turn, even when the skill is not used, while the full instructions load only on use. The documentation shows how to measure a plugin's cost and which plugins have not been used for a long time. In the second table of this text I kept only the ones I use.
+
+</details>
+
+
+---
+
+# Measured, Not Assumed. Three Conclusions I Overturned Myself
+
+Source: https://pawel.lipowczan.pl/en/blog/measured-not-assumed
+Published: 2026-09-06
+
+At [Qamera](https://qamera.ai) we build a system that generates product photos and video for online stores: packshots and model sessions, without a studio and without a photographer. I own the technical layer there, including the part that makes every generated file carry a record of where it came from.
+
+That file does not reach the buyer directly. It goes to the store first, the store builds its own thumbnails and variants, and then the same material ends up on Instagram, in an ad, and in a price comparison engine. At every one of those stops, someone writes the file again. The question that follows sounds trivial: does the marking we put into the file reach the person on the other end?
+
+Normally you wave that question away, because the metadata sits in the file and the file goes to the recipient. In mid-July that stopped being enough, because the AI Act landed in our project: the EU regulation that requires marking AI-generated content. I am not writing about the regulation here and this is not a legal text. What matters is what the rule did to our work: it turned "it should work" into "how do you know".
+
+The analysis started at the turn of July and August, and I ran the last follow-up measurement on 5 September. Over that time we measured nine channels: three store engines, four social platforms and two editors. Every measurement got a date, an input and a control.
+
+I write "we measured" because I did not do most of that work by hand. An agent did: it stood the stores up locally, pushed files through the full upload path, read the manifests, scanned bytes against thirteen patterns at once. Those are tasks you describe in three sentences and execute in several hundred steps. My part was designing the measurement and reading the results. There was one thing the agent could not do: upload material to the platforms and check whether a label appeared under the post. That answer requires publishing, and publishing requires a human with an account.
+
+Out of it came a dozen or so tables and five rules that carry far beyond this topic. Out of it also came three situations where I recorded a conclusion and then withdrew it myself. Not after months, but after a single follow-up. Once it was enough to wait a day. Once it was enough to repeat the measurement on our own file instead of someone else's. Once the verdict stayed the same and the reasoning behind it fell apart.
+
+Each of those three conclusions sounded confident at the moment I wrote it down. That is what I want to write about, because confidence is not measurement. It applies to me exactly as it applies to the agent running this project with me: an agent phrases conclusions smoothly and fast, including ones with no reading behind them.
+
+Five rules below. All of them came out of mistakes, not out of a textbook.
+
+## Everyone knew, nobody measured
+
+Two more paragraphs of domain, because without them the rules hang in the air. You do not need to know it to take the method from this text.
+
+A marking has two layers, and that distinction comes back throughout. The first is the **C2PA manifest**. [C2PA](https://spec.c2pa.org/specifications/specifications/2.1/index.html) is an open standard for recording a file's provenance, and a manifest is a block of data embedded in the file that says what the file is and who attests to it. The second layer is the **watermark**, a signal written into the pixels themselves, invisible to the eye and resistant to transformations of the file. Alongside them rides `XMP`, the standard metadata package, the same one that holds a photo's author and title.
+
+The layers differ in durability and in who reads them, and that is where the whole problem sits. The manifest is wiped by **recompression**, a re-save of the image after which the pixels look the same and the bytes are different. The watermark survives recompression, but almost nobody reads it.
+
+Before the measurement, everyone on the project held the same view: the metadata is in the file, the file travels onward, so the metadata travels onward. Nobody had checked, because it seemed too obvious to check.
+
+The measurement showed that view is true in exactly one case: when the file travels byte for byte, meaning nobody re-saves it along the way. Everywhere else you have to check separately, channel by channel.
+
+## Rule 1: a negative control outweighs a positive result
+
+The first measurement on Meta looked like a success. I uploaded material carrying the marking to Instagram and to Facebook, and both posts got an AI content label. Automatically, without touching the self-declaration field on upload.
+
+The conclusion suggests itself: the platform reads our marking. Except that conclusion does not follow from this measurement. The label could have been placed by an image classifier, a model judging the frame itself, which does not care what sits in the metadata.
+
+The objection was not theoretical. Another tool recognised that exact same content as generated from the pixels alone, without looking at metadata. If the platform did the same, a positive result would say nothing about our marking.
+
+The negative control settles it. I took the same material, the same frame, the same pixels, in a form I had previously measured at byte level as stripped of every marker. I uploaded it the same way, to both platforms.
+
+**It got a label on neither** (measured 31 August 2026, control after a day on 1 September). Only that makes the result proof: the label comes from the embedded declaration, not from image recognition.
+
+The same construction had worked earlier on images, on 6 August 2026. Two posts, the same product photo (a **packshot**, a product shot on a plain background), differing only in the metadata layer. The file with a manifest got a label in about two minutes. The file carrying only the watermark, after passing through a store, got none, neither immediately nor in the control a day later.
+
+A fact I had not expected fell out along the way: the platform reads the manifest and does not read the watermark. The durable layer survived the entire trip and produced no effect at all, because nobody on that side inspects it.
+
+The rule is simple to write down and expensive to carry out. A positive result without a control shows that something is happening. It does not show what that something follows from. A control costs a second run, and it is usually missing from the plan, because plans get written around "does it work" rather than around "why does it work".
+
+## Rule 2: the first read lies
+
+On 31 August I uploaded two videos to TikTok and checked the posts a dozen or so minutes later. Neither had a label. I recorded the conclusion: the platform does not read provenance embedded in the file.
+
+The conclusion was specific, it fitted the rest of the picture, and it had consequences. It implied that on this channel our marking produces no effect visible to the audience.
+
+On 1 September I came back to the same posts. One of them carried a label about AI-generated media. The self-declaration field is off by default on that platform and I did not touch it in either post, so the label came from the file.
+
+**The conclusion from 31 August went in the bin.** The platform reads provenance. It just does it more slowly than I managed to check. Why the label landed on one of the two files rather than the other is a separate thread, and I am not opening it here.
+
+What matters for the rule is different: **a negative without a time control is not a negative.** It is a statement about what I saw in one particular minute.
+
+That same follow-up strengthened a different result, and that is the second half of the rule. The controls on Meta still had no label after a day. Had they picked one up late, the whole conclusion from rule 1 would have collapsed. A time control sometimes kills a conclusion and sometimes turns circumstantial evidence into proof, and you cannot tell in advance which time is which.
+
+What I still do not know: exactly when that label appeared. I know it was not there after a dozen or so minutes, and it was there after a day. The window is wide and I did not narrow it. That is a result too, just a less convenient one to put in a table.
+
+## Rule 3: measure on your own artifact
+
+On 6 August I measured what two popular store engines do to the metadata of product photos. The measurement was sound: local instances, the full upload path, every derivative (a **derivative** is the smaller version of an image the store generates itself, a listing thumbnail for instance).
+
+It had one flaw I knew about from the start. It ran on someone else's file. Our own exports did not yet carry the full metadata package, so the input was a file from another source, with a different structure.
+
+The results looked unambiguous.
+
+WooCommerce has a **2560 px** threshold on the longer edge. Below it, the file travels byte for byte: the **SHA-256 hash** of the served file matches the uploaded one exactly (a hash being a cryptographic digest, identical only for identical bytes). Above the threshold, WordPress creates a scaled variant and that is what comes out as "full size", without the manifest.
+
+PrestaShop has neither a threshold nor a copying path. The single sharpest fact from the whole measurement sits in the row the store calls the "original": **the same dimensions, 3712x4608, a fifth of the weight (1,146,413 B against 5,666,168 B), zero metadata.** A file nobody scaled was re-saved anyway. Version 9, measured on 22 August, behaves identically.
+
+To those results I added a sentence that seemed an obvious conclusion: the product page shows a 600 px derivative, without a manifest, so the buyer looks at an unmarked file anyway.
+
+On 22 August I repeated the measurement on our own production file, with our metadata structure. **That sentence is true about the manifest only.** Our `XMP` package reaches every derivative, including the product page that shows 600 px. That it is our package, and not something the store adds, is visible from its contents.
+
+The first measurement could not see this. Someone else's file did not carry our `XMP`, so the question "does XMP reach the derivatives" was never asked at all. I was measuring an object similar to ours and drawing conclusions about ours.
+
+The rule: a measurement on someone else's artifact answers a question about someone else's artifact. If you do not have your own yet, write that down next to the result and come back when you do. I came back sixteen days later and got a different answer.
+
+## Rule 4: look for the mechanism, not the correlation
+
+On 31 August I pushed two marked videos through a consumer video editor, in eight variants: a pass-through with no change at all, a crop, a two-second trim, and a resolution change.
+
+**The marking died in eight cases out of eight.** The scan covered thirteen byte patterns, from standard names to tool names. Zero hits on every pattern in the exports, eight to eleven in the originals.
+
+The row that matters most is "pass-through with no change at all". Aggressive processing is not required. It is enough to load the file into the editor and export it untouched.
+
+The mechanism looked obvious. The **MP4 container**, the structure of a video file made of boxes holding the picture, the audio and the metadata separately, is rebuilt from scratch in the output. The boxes carrying the marking simply do not exist: they were not trimmed or moved, they are absent. So I wrote down that the container rebuild is what kills it.
+
+On 1 September I measured the second axis, meaning what the platforms serve onward. And there the reasoning fell apart.
+
+TikTok rebuilds the container too. It declares that outright, as a separate **transcoding** action (re-encoding the video stream to the platform's own settings). And the provenance chain survives. The platform nests our manifest as a **parent ingredient**, a record saying "this file came from that one", under its own new signature:
+
+```text
+file downloaded from the platform
+└─ active layer          platform signature   actions: opened + transcoded
+   └─ parent ingredient  our signature        action: created
+      └─ ingredient      vendor signature     action: created
+```
+
+Both files validate as sound. The platform did not lose the chain in the rebuild, it rebuilt the chain along with the file.
+
+**The verdict did not change, the reasoning did.** The marking still dies eight out of eight in the editor. But what kills it is not the container rebuild, it is a rebuild by a tool unaware of provenance. A tool that knows about provenance rebuilds the file and carries the chain across.
+
+The difference is practical, not academic. The first version implied "avoid re-encoding". The second implies "check whether the tool in your chain knows the standard", and that sentence carries over to tools I have not measured yet. A correlation describes eight files. A mechanism describes the ninth.
+
+## Rule 5: write down what you did not measure
+
+A table with an empty cell is worse than no table, because an empty cell reads as a zero. This measurement has plenty of empty cells, and each one gets its own sentence in the limitations section.
+
+**One editor, not a class of editors.** I picked the most popular consumer editor on this market. The mechanism from rule 4 is a property of how the file is assembled rather than of that program, so the result should carry over to any tool that does not carry boxes it does not recognise. "Should" is an argument, not a measurement, and that is how it was recorded.
+
+**Two platforms unmeasured on the second axis.** I know they label the post. I do not know whether the file they serve onward still carries provenance, because the material uploaded there had already passed through the editor and lost its marking before upload. There was nothing to preserve. That is not the same as "checked, and it does not preserve it".
+
+**One variant skipped deliberately.** The poorer of the two files had already passed, so the richer one could only have confirmed the result. Skipping with a justification is fine. Skipping without a record looks, a month later, exactly like a negative result.
+
+I record method traps separately. YouTube labels the post automatically, and the file it serves onward is stripped to zero: no manifest, no marker in the raw bytes. Except my first approach to that measurement would have produced a false negative through the fault of the tool I was downloading with, because automatic stream joining overwrites container metadata. Anyone repeating this measurement has to repeat that condition too, so the condition sits in the note next to the result.
+
+Those two axes are the easiest thing here to conflate. "The platform labels the post" and "the platform passes provenance onward" are two different promises. Of the four platforms measured, one delivers both.
+
+## The fragile layer is public, the robust one is locked
+
+Finally, the result I like least, because it cannot be fixed from our side.
+
+I checked four surfaces where a person can verify a file. One column interested me: can it be done without an account.
+
+Three of the four require signing in. One, the [public Content Authenticity verifier](https://verify.contentauthenticity.org), works without an account and reads **the manifest only**, meaning the layer wiped by the first recompression that comes along. Including recompression in the store the product photo travels through.
+
+We measured the durability of both layers separately, and it comes out the inverse of their accessibility. The manifest died across **ten transformations out of ten**, including conversion to a lossless format where the pixels stayed bit-identical. The watermark passed **five out of five**: recompression without a change of dimensions, scaling, heavy compression, an overlaid graphic element, and a horizontal flip, the classic attack on this layer. It can only be detected in a tool that requires signing in.
+
+We built our own [marking reader in the browser](https://qamera.ai/tools/verify-image), also without an account and without installing anything. It has exactly the same limitation, because it reads the same layer. A public verification path does not get any fuller by adding one more tool on the same side of it.
+
+The split of roles comes out the inverse of the intuitive one:
+
+- the **fragile** layer is publicly readable,
+- the **robust** layer is locked behind an account.
+
+Both together work technically. They do not add up to a single public path for checking. A person without an account who wants to verify a file after it has been through a store has nothing to do it with.
+
+I did not come up with this while planning the measurement. It fell out of the table when I put the "what it reads" column next to the "no account" column. Two columns that meant nothing in separate notes.
+
+## Key takeaways
+
+Five rules, each one bought with a mistake:
+
+1. **A negative control outweighs a positive result.** Without a run in which the result is supposed to be absent, you do not know where the result you got comes from.
+2. **The first read lies.** The systems on the other side work asynchronously, so a negative without a time control is a statement about one particular minute, not about the system.
+3. **Measure on your own artifact.** A measurement on someone else's file answers a question about someone else's file, however identical the procedure.
+4. **Look for the mechanism, not the correlation.** A correlation describes the cases you measured. Only a mechanism says anything about the next one.
+5. **Write down what you did not measure.** An empty cell in a table reads as a zero a month later, including to you.
+
+None of these is new. I knew all of them before I started. I withdrew three conclusions anyway, so knowing a rule and applying it are two different things. One thing helps: recording the date, the input and the control next to every result, because only then can you see which of the three is missing.
+
+I described the environment this measurement came out of in [how I'm building an AI OS for two companies](/en/blog/agentic-ai-environment-two-companies). How a project like this is run with an agent day to day is in [AI agent system anatomy](/en/blog/ai-agent-system-skills-rules-shared-context).
+
+<div class="mt-10 mb-14 p-6 md:p-8 rounded-xl bg-dark-800/50 backdrop-blur-md border border-white/10 hover:border-primary-500/30 transition-all duration-300 text-center">
+  <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+    Not sure your system does what you think it does?
+  </h3>
+  <p class="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+    The gap between "it should work" and "measured" costs the most when it surfaces late. I can help you design the measurement, run it with proper controls, and record the results so they are still usable six months from now.
+  </p>
+  <a href="/#contact" class="btn-primary inline-block">Book a free consultation</a>
+</div>
+
+## Useful Resources
+
+- [Qamera image verifier](https://qamera.ai/tools/verify-image) - read the markings of any file in the browser, no account needed.
+- [Content Authenticity Verify](https://verify.contentauthenticity.org) - a second independent path for reading the manifest, also without an account.
+- [C2PA specification](https://spec.c2pa.org/specifications/specifications/2.1/index.html) - the basis for the manifest format and the action names referenced in this text.
+- [What survives of an image's marking on the way to the buyer](https://qamera.ai/blog/co-zostaje-z-oznaczenia-zdjecia-na-drodze-do-kupujacego) - the same measurements from the store's side (in Polish).
+- [My agentic environment](/en/blog/agentic-ai-environment-two-companies) - the stack this measurement came out of.
+- [AI agent system anatomy](/en/blog/ai-agent-system-skills-rules-shared-context) - how I run projects with an agent.
+- [I built a second brain and matched Google's standard](/en/blog/okf-standard-portable-knowledge-base) - how I record findings so they are still readable in six months.
+
+## FAQ
+
+<details open>
+<summary>
+
+### What is the difference between a platform labelling a post and provenance being carried in the file?
+
+</summary>
+
+They are two different promises and they have to be measured separately. "The platform labels the post" means a viewer sees a label under the material. "The platform passes provenance onward" means the file downloaded from the platform still carries a manifest, so someone outside can reconstruct its history. Of the four platforms I measured, one delivers both: another labels the post but serves a file stripped to zero.
+
+</details>
+
+<details open>
+<summary>
+
+### Why can the first read after publishing on a social platform produce a false negative?
+
+</summary>
+
+Because the systems on the platform's side work asynchronously and the label appears with a delay. I checked a post a dozen or so minutes after publishing, saw no label, and recorded the conclusion that the platform does not read the marking from the file. A day later the label was there and the conclusion had to be withdrawn. Repeat every negative after a day before you enter it in a table.
+
+</details>
+
+<details open>
+<summary>
+
+### Why do I need a negative control if a positive result already shows the mechanism works?
+
+</summary>
+
+A positive result shows that something is happening, but not what it follows from. In my measurement the label could have come from an image classifier rather than the embedded declaration, and the objection was real, because another tool recognised the same content from the pixels alone. Only a second run on material stripped of every marker, which got no label, turned the observation into proof.
+
+</details>
+
+<details open>
+<summary>
+
+### Do online stores strip metadata from product photos, and does it depend on the engine?
+
+</summary>
+
+It depends on the engine and on the threshold, and the differences are large. WooCommerce passes a file byte for byte below its 2560 px threshold on the longer edge, and above it swaps in a scaled variant with no manifest. PrestaShop re-saves even a file it does not scale: same dimensions, a fifth of the weight, zero metadata. The layers also behave differently, because the `XMP` package survives where the manifest dies.
+
+</details>
+
+<details open>
+<summary>
+
+### How can I check whether my own image file carries an AI provenance marking?
+
+</summary>
+
+The simplest way is to drop the file into a browser-based verifier, for example [qamera.ai/tools/verify-image](https://qamera.ai/tools/verify-image) or [verify.contentauthenticity.org](https://verify.contentauthenticity.org). Both read the C2PA manifest and show who signed the file and which actions they declared. Mind the limitation: they read the metadata layer only, so a file that has been recompressed comes back as unmarked even if it still carries a watermark in the pixels.
+
+</details>
+
+<details open>
+<summary>
+
+### Are these measurement rules useful outside the topic of marking AI-generated content?
+
+</summary>
+
+Yes, because none of them is about metadata. A negative control, a time control on negatives, measuring on your own artifact, mechanism over correlation, and recording the gaps all work the same way when testing integrations, data migrations and the behaviour of someone else's API. In all of those the question is "how do you know", and the answer is a reading with a date and a control, not a belief about how the system ought to behave.
 
 </details>
 
