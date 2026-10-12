@@ -1,0 +1,65 @@
+Generated: 2026-10-12
+Article: Skille Claude Code: kompetencję się instaluje, nie nabywa
+Slug: skille-ktore-mam-podlaczone
+Category: AI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GEMINI API PROMPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create an abstract Open Graph image (1200x630px aspect ratio) for a blog article about [AI] with this exact visual specification:
+
+**Article Context:**
+- Title: Skille Claude Code: kompetencję się instaluje, nie nabywa
+- Topic: AI
+- Theme: Professional developer blog focused on AI
+
+**Visual Design Requirements:**
+
+Background:
+- Deep dark gradient from #0a0e1a (bottom) to #151b2b (top)
+- Smooth, professional gradient transition matching portfolio aesthetic
+
+Primary Visual Elements (bright green #00ff9d):
+- Abstract geometric shapes suggesting code/technology
+- Neural network node patterns with connecting lines
+- Circuit board inspired pathways
+- Floating hexagons and triangular elements
+- Subtle glow effects on key elements
+
+Secondary Visual Elements (cyan #00b8ff):
+- Complementary geometric shapes
+- Lightning bolt accents
+- Terminal window outlines (no text inside)
+- Data flow visualization patterns
+
+Style & Effects:
+- Glassmorphism-inspired transparency on some elements
+- Subtle blur effects creating depth
+- Modern tech aesthetic matching portfolio website
+- Professional, high-end, minimalist composition
+- Clean, uncluttered layout with breathing room
+
+**CRITICAL CONSTRAINTS:**
+- ABSOLUTELY NO TEXT, LETTERS, NUMBERS, WORDS, OR CHARACTER GLYPHS
+- Pure abstract visual art only
+- NO readable symbols, NO typography, NO linguistic characters
+- Focus on shapes, patterns, gradients, and geometric elements
+- Professional enough for LinkedIn/Twitter social previews
+- Must work as a thumbnail (recognizable at small sizes)
+
+**Aspect Ratio:** 1200x630 pixels (Open Graph standard)
+
+**Mood:** Innovative, professional, cutting-edge, trustworthy, expert
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The prompt above is the text between the two separator lines. Image pipeline (three steps, not two,
+because generate-image.js writes a 1424x752 .jpeg and the og:check gate rejects that size):
+
+node scripts/generate-image.js "<prompt text above>" --filename og-skille-ktore-mam-podlaczone --output public/images --model gemini-3-pro-image-preview
+node scripts/convert-to-webp.js public/images/og-skille-ktore-mam-podlaczone.jpeg
+node scripts/resize-og-image.mjs og-skille-ktore-mam-podlaczone.webp
+rm public/images/og-skille-ktore-mam-podlaczone.jpeg
