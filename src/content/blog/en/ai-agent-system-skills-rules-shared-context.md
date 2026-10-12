@@ -108,6 +108,8 @@ This looks like pointless formalism - and from the *"I just want to close fast"*
 
 This pattern is broader than finances: every time you automate something where value lies in **understanding** rather than **execution** - add a human-in-the-loop checkpoint that can't be skipped. Otherwise you'll automate execution and destroy understanding.
 
+Which skills I have connected today and how to install them, I describe in [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
+
 ## Pillar 2: Determinism through rules
 
 Transaction classification is a classic cold-start problem. Pure rules: every new vendor needs manual setup, a month with no new vendors is a good week, a month with 5 new ones is an evening. Pure LLM: non-deterministic, cheap at scale, but unacceptable in finance - audit, regulator, future inspection.

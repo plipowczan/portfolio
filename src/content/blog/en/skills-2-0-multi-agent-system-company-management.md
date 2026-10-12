@@ -6,6 +6,7 @@ excerpt: "How to go from scattered AI prompts to an organized system of agents m
 category: AI
 author: Pawel Lipowczan
 date: 2026-03-08
+modified: 2026-10-12
 readTime: 14 min
 image: /images/og-skills-2-0-multi-agent-system.webp
 tags:
@@ -226,6 +227,8 @@ The architecture is based on **three Git repositories**:
 - **`agentic-ai-private`** (private) - personal and freelance PLSoft skills. Coaching, LinkedIn content, consulting.
 
 `shared-skills` is attached as a **git submodule** in both private repositories. A change in shared-skills propagates to both companies.
+
+The shared skills can also be installed as a Claude Code plugin (a package installed as a whole), without a submodule. I describe the installation and the list of items in [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
 
 The system includes **8 agents**, 4 of which are already operational:
 

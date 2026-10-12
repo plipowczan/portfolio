@@ -683,6 +683,8 @@ Skill daje **23 komendy** pod `/impeccable`, między innymi `craft`, `shape`, `c
 
 Razem układa się to w linię: RULER mówi dla kogo, Pro Max buduje system, Impeccable pilnuje języka i ścina AI slop.
 
+Jak te skille wpisują się w planowanie mojego rozwoju, opisuję w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
+
 ## 🧠 Pamięć - Claude Code zapomina po każdej sesji
 
 Koniec sesji to zerowanie. Claude Code nie ma wbudowanej pamięci, która kumuluje się między rozmowami. Za każdym razem zaczyna od zera.
@@ -1552,6 +1554,8 @@ To wygląda jak zbędny formalizm - i z perspektywy *"chcę szybko zamknąć"* t
 **Refleksja jest częścią procesu, nie opcją.**
 
 To pattern szerszy niż finanse: za każdym razem, gdy automatyzujesz coś, w czym wartość leży w **rozumieniu** a nie w **wykonaniu** - dodaj human-in-the-loop checkpoint, który nie da się ominąć. Inaczej zautomatyzujesz wykonanie i zniszczysz rozumienie.
+
+Które skille mam dziś podłączone i jak je zainstalować, opisuję w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
 
 ## Pillar 2: Determinizm przez reguły
 
@@ -3293,6 +3297,8 @@ Architektura opiera się na **Git submodules** i **symlinkach**:
 - `private-skills/` - osobne repozytorium z proprietary skills
 - Symlinki do katalogów IDE: `.claude/skills/`, `.github/copilot/`, `.cursor/skills/`, `.agent/skills/`
 
+Ten opis pokazuje wariant z submodułem Git. Wspólne skille z `shared-skills` można dziś zainstalować także jako wtyczkę Claude Code (paczkę instalowaną jako całość), dwiema komendami. Opisuję to w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
+
 Automatyczna synchronizacja odbywa się przez skrypt i git hooks:
 
 ```bash
@@ -3700,6 +3706,8 @@ Architektura opiera się na **trzech repozytoriach Git**:
 - **`agentic-ai-private`** (private) - skills osobiste i freelance PLSoft. Coaching, content LinkedIn, consulting.
 
 `shared-skills` jest podpięte jako **git submodule** w obu prywatnych repozytoriach. Zmiana w shared-skills propaguje się do obu firm.
+
+Wspólne skills da się też zainstalować jako wtyczkę Claude Code (paczkę instalowaną jako całość), bez submodułu. Instalację i listę pozycji opisuję w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
 
 System obejmuje **8 agentów**, z których 4 już działają:
 
@@ -11630,6 +11638,8 @@ The skill ships **23 commands** under `/impeccable`, among them `craft`, `shape`
 
 Together it forms a line: RULER says who for, Pro Max builds the system, Impeccable guards the language and cuts the AI slop.
 
+How these skills fit into planning my own development is the subject of [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
+
 ## 🧠 Memory - Claude Code forgets after every session
 
 The end of a session is a reset. Claude Code has no built-in memory that accumulates across conversations. Every time it starts from zero.
@@ -12481,6 +12491,8 @@ This looks like pointless formalism - and from the *"I just want to close fast"*
 **Reflection is part of the process, not optional.**
 
 This pattern is broader than finances: every time you automate something where value lies in **understanding** rather than **execution** - add a human-in-the-loop checkpoint that can't be skipped. Otherwise you'll automate execution and destroy understanding.
+
+Which skills I have connected today and how to install them, I describe in [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
 
 ## Pillar 2: Determinism through rules
 
@@ -14218,6 +14230,8 @@ The architecture relies on **Git submodules** and **symlinks**:
 - `private-skills/` - separate repository with proprietary skills
 - Symlinks to IDE directories: `.claude/skills/`, `.github/copilot/`, `.cursor/skills/`, `.agent/skills/`
 
+This description shows the Git submodule variant. The shared skills from `shared-skills` can today also be installed as a Claude Code plugin (a package installed as a whole), with two commands. I describe it in [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
+
 Automatic synchronization happens via a script and git hooks:
 
 ```bash
@@ -14623,6 +14637,8 @@ The architecture is based on **three Git repositories**:
 - **`agentic-ai-private`** (private) - personal and freelance PLSoft skills. Coaching, LinkedIn content, consulting.
 
 `shared-skills` is attached as a **git submodule** in both private repositories. A change in shared-skills propagates to both companies.
+
+The shared skills can also be installed as a Claude Code plugin (a package installed as a whole), without a submodule. I describe the installation and the list of items in [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
 
 The system includes **8 agents**, 4 of which are already operational:
 

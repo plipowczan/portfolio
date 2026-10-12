@@ -6,6 +6,7 @@ excerpt: "Dwa repozytoria, osiem agentów, zero vendor lock-in. Jak zbudowałem 
 category: AI
 author: Pawel Lipowczan
 date: 2026-03-23
+modified: 2026-10-12
 readTime: 14 min
 image: /images/og-srodowisko-agentowe-ai-dwie-firmy.webp
 tags:
@@ -161,6 +162,8 @@ Architektura opiera się na **Git submodules** i **symlinkach**:
 - `shared-skills/` - submoduł Git z open-source skills (CFO, Legal, Tax, Business Consultant)
 - `private-skills/` - osobne repozytorium z proprietary skills
 - Symlinki do katalogów IDE: `.claude/skills/`, `.github/copilot/`, `.cursor/skills/`, `.agent/skills/`
+
+Ten opis pokazuje wariant z submodułem Git. Wspólne skille z `shared-skills` można dziś zainstalować także jako wtyczkę Claude Code (paczkę instalowaną jako całość), dwiema komendami. Opisuję to w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
 
 Automatyczna synchronizacja odbywa się przez skrypt i git hooks:
 

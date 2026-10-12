@@ -6,6 +6,7 @@ excerpt: "Two repositories, eight agents, zero vendor lock-in. How I built an ag
 category: AI
 author: Pawel Lipowczan
 date: 2026-03-23
+modified: 2026-10-12
 readTime: 14 min
 image: /images/og-srodowisko-agentowe-ai-dwie-firmy.webp
 tags:
@@ -159,6 +160,8 @@ The architecture relies on **Git submodules** and **symlinks**:
 - `shared-skills/` - Git submodule with open-source skills (CFO, Legal, Tax, Business Consultant)
 - `private-skills/` - separate repository with proprietary skills
 - Symlinks to IDE directories: `.claude/skills/`, `.github/copilot/`, `.cursor/skills/`, `.agent/skills/`
+
+This description shows the Git submodule variant. The shared skills from `shared-skills` can today also be installed as a Claude Code plugin (a package installed as a whole), with two commands. I describe it in [Claude Code Skills: Competence Is Installed, Not Acquired](/en/blog/claude-code-skills-i-have-connected).
 
 Automatic synchronization happens via a script and git hooks:
 

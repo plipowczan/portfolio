@@ -6,6 +6,7 @@ excerpt: "Jak przejść od rozproszonych promptów AI do zorganizowanego systemu
 category: AI
 author: Pawel Lipowczan
 date: 2026-03-08
+modified: 2026-10-12
 readTime: 14 min
 image: /images/og-skills-2-0-multi-agent-system.webp
 tags:
@@ -228,6 +229,8 @@ Architektura opiera się na **trzech repozytoriach Git**:
 - **`agentic-ai-private`** (private) - skills osobiste i freelance PLSoft. Coaching, content LinkedIn, consulting.
 
 `shared-skills` jest podpięte jako **git submodule** w obu prywatnych repozytoriach. Zmiana w shared-skills propaguje się do obu firm.
+
+Wspólne skills da się też zainstalować jako wtyczkę Claude Code (paczkę instalowaną jako całość), bez submodułu. Instalację i listę pozycji opisuję w tekście [Skille Claude Code: kompetencję się instaluje, nie nabywa](/blog/skille-ktore-mam-podlaczone).
 
 System obejmuje **8 agentów**, z których 4 już działają:
 
