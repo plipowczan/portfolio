@@ -62,9 +62,12 @@ tags:                                   # list; warns and falls back to [] if ab
      pair by slug *and* language, so identical names are fine. What is never
      acceptable is pointing at a slug with no file in the other locale: the pair
      resolves to nothing and the post loses its hreflang.
-  2. Every post is PL-only by default. Translation is a deliberate separate
-     step. Only once `src/content/blog/en/<en-slug>.md` exists do both sides get
-     `alternateSlug`. Prefer omitting the field over guessing.
+  2. Every article ships as a PL+EN pair. `translate` is the last step of the
+     `/blog-article-writer:*` chain and runs in the same pass as `validate`; a
+     PL post without its EN twin is an unfinished run, not a normal state. Until
+     `src/content/blog/en/<en-slug>.md` exists the PL file carries no
+     `alternateSlug`; once it exists both sides get it in the same change.
+     Prefer omitting the field over guessing.
 
 ### FAQ section
 
