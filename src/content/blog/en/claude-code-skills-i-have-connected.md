@@ -8,6 +8,7 @@ excerpt: >-
 category: AI
 author: Pawel Lipowczan
 date: 2026-10-12
+modified: 2026-10-13
 readTime: 13 min
 image: /images/og-skille-ktore-mam-podlaczone.webp
 tags:
@@ -77,7 +78,7 @@ Connecting has a cost. The name and description of every enabled skill sit in th
 
 ## My skills you can take for free
 
-The repository [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) is public and declares the Apache-2.0 license (it allows using, changing and distributing the code while keeping the license notice). Installation is two **slash commands** (commands typed in the session that start with `/`):
+The repository [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) is public and released under the Apache-2.0 license (it allows using, changing and distributing the code while keeping the license notice). Installation is two **slash commands** (commands typed in the session that start with `/`):
 
 ```text
 /plugin marketplace add 200iqlabs/shared-skills
@@ -226,7 +227,7 @@ The format itself does, because Agent Skills is an open standard supported by ma
 
 </summary>
 
-The repository declares the Apache-2.0 license in its README and in the plugin manifests. That license allows using, changing and distributing code, commercially too, while keeping the license notice. If you use the skills in a company, read the `LICENSE` file and the license terms before rollout.
+The repository is licensed under Apache-2.0, and the full license text is in its `LICENSE` file. That license allows using, changing and distributing code, commercially too, while keeping the license notice. If you use the skills in a company, read its terms before rollout.
 
 </details>
 
