@@ -8,6 +8,7 @@ excerpt: >-
 category: AI
 author: Pawel Lipowczan
 date: 2026-10-12
+modified: 2026-10-13
 readTime: 13 min
 image: /images/og-skille-ktore-mam-podlaczone.webp
 tags:
@@ -77,7 +78,7 @@ Podłączenie ma koszt. Nazwa i opis każdego włączonego skilla są w kontekś
 
 ## Moje skille do wzięcia za darmo
 
-Repozytorium [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) jest publiczne i deklaruje licencję Apache-2.0 (pozwala używać, zmieniać i rozpowszechniać kod z zachowaniem noty o licencji). Instalacja to dwie **komendy ukośnikowe** (polecenia wpisywane w sesji, zaczynające się od `/`):
+Repozytorium [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) jest publiczne i udostępnione na licencji Apache-2.0 (pozwala używać, zmieniać i rozpowszechniać kod z zachowaniem noty o licencji). Instalacja to dwie **komendy ukośnikowe** (polecenia wpisywane w sesji, zaczynające się od `/`):
 
 ```text
 /plugin marketplace add 200iqlabs/shared-skills
@@ -226,7 +227,7 @@ Sam format tak, bo Agent Skills to otwarty standard obsługiwany przez wiele nar
 
 </summary>
 
-Repozytorium deklaruje licencję Apache-2.0 w README i w manifestach wtyczki. Ta licencja pozwala używać, zmieniać i rozpowszechniać kod, także komercyjnie, z zachowaniem noty o licencji. Jeśli używasz skilli w firmie, przeczytaj plik `LICENSE` i warunki licencji przed wdrożeniem.
+Repozytorium jest na licencji Apache-2.0, a jej pełny tekst znajdziesz w pliku `LICENSE`. Ta licencja pozwala używać, zmieniać i rozpowszechniać kod, także komercyjnie, z zachowaniem noty o licencji. Jeśli używasz skilli w firmie, przeczytaj jej warunki przed wdrożeniem.
 
 </details>
 

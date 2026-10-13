@@ -166,7 +166,7 @@ Podłączenie ma koszt. Nazwa i opis każdego włączonego skilla są w kontekś
 
 ## Moje skille do wzięcia za darmo
 
-Repozytorium [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) jest publiczne i deklaruje licencję Apache-2.0 (pozwala używać, zmieniać i rozpowszechniać kod z zachowaniem noty o licencji). Instalacja to dwie **komendy ukośnikowe** (polecenia wpisywane w sesji, zaczynające się od `/`):
+Repozytorium [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) jest publiczne i udostępnione na licencji Apache-2.0 (pozwala używać, zmieniać i rozpowszechniać kod z zachowaniem noty o licencji). Instalacja to dwie **komendy ukośnikowe** (polecenia wpisywane w sesji, zaczynające się od `/`):
 
 ```text
 /plugin marketplace add 200iqlabs/shared-skills
@@ -315,7 +315,7 @@ Sam format tak, bo Agent Skills to otwarty standard obsługiwany przez wiele nar
 
 </summary>
 
-Repozytorium deklaruje licencję Apache-2.0 w README i w manifestach wtyczki. Ta licencja pozwala używać, zmieniać i rozpowszechniać kod, także komercyjnie, z zachowaniem noty o licencji. Jeśli używasz skilli w firmie, przeczytaj plik `LICENSE` i warunki licencji przed wdrożeniem.
+Repozytorium jest na licencji Apache-2.0, a jej pełny tekst znajdziesz w pliku `LICENSE`. Ta licencja pozwala używać, zmieniać i rozpowszechniać kod, także komercyjnie, z zachowaniem noty o licencji. Jeśli używasz skilli w firmie, przeczytaj jej warunki przed wdrożeniem.
 
 </details>
 
@@ -11121,7 +11121,7 @@ Connecting has a cost. The name and description of every enabled skill sit in th
 
 ## My skills you can take for free
 
-The repository [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) is public and declares the Apache-2.0 license (it allows using, changing and distributing the code while keeping the license notice). Installation is two **slash commands** (commands typed in the session that start with `/`):
+The repository [`200iqlabs/shared-skills`](https://github.com/200iqlabs/shared-skills) is public and released under the Apache-2.0 license (it allows using, changing and distributing the code while keeping the license notice). Installation is two **slash commands** (commands typed in the session that start with `/`):
 
 ```text
 /plugin marketplace add 200iqlabs/shared-skills
@@ -11270,7 +11270,7 @@ The format itself does, because Agent Skills is an open standard supported by ma
 
 </summary>
 
-The repository declares the Apache-2.0 license in its README and in the plugin manifests. That license allows using, changing and distributing code, commercially too, while keeping the license notice. If you use the skills in a company, read the `LICENSE` file and the license terms before rollout.
+The repository is licensed under Apache-2.0, and the full license text is in its `LICENSE` file. That license allows using, changing and distributing code, commercially too, while keeping the license notice. If you use the skills in a company, read its terms before rollout.
 
 </details>
 
