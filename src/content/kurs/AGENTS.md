@@ -53,6 +53,12 @@ and breaks the build. Quote the value or use a `>-` block scalar.
 
 - Plain-Polish rules for every lesson: `.claude/rules/content/10-prosty-polski.md`.
   Follow that file; do not restate its replacement table or keep-list here.
+- State no figure for how far the method scales (a number of sources or notes)
+  without a recorded measurement behind it — in a lesson or in the landing copy.
+  **Trap:** a "works without RAG up to N sources" claim stood in lesson 1 and on
+  `/llm-wiki` with no measurement and had to be removed (PL-462). The rule is the
+  `course-content-style` requirement "Course copy states no unmeasured scale
+  limit"; do not restate it here.
 - `order` values decide lesson sequence across nav, prerender, and sitemap.
   Renumbering reorders the whole course — check the hub after changing one.
 - Renaming a `slug` changes a live URL and needs a redirect in `vercel.json`.

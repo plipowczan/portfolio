@@ -1,7 +1,7 @@
 ---
 slug: 1-zaloz-katalog
 order: 1
-updated: 2026-07-08
+updated: 2026-10-13
 title: Załóż katalog z szablonu
 excerpt: Czym jest LLM Wiki (koncept Karpathy'ego) i jak z darmowego szablonu postawić uzbrojoną, pustą bazę wiedzy - architektura 3 warstw, 3 indeksy, progressive disclosure, zero RAG.
 video: /videos/kurs/1-zaloz-katalog.webm
@@ -144,7 +144,7 @@ Porównaj dwa podejścia do tego samego pytania:
 - **Klasyczny RAG - „wrzuć wszystko”.** Do kontekstu ląduje np. 35 000 tokenów notatek i historii, z czego realnie trafne jest może 2 000. Efektywność ~6%. Reszta zabiera uwagę modelu i miejsce na właściwe zadanie.
 - **Index-first - progressive disclosure.** Agent czyta najpierw **indeks** (~kilkaset tokenów): co istnieje, jakiego typu, z jakimi tagami. Na tej podstawie pobiera **tylko** 2-3 trafne noty (~kilkaset tokenów). Trafność bliska 100%, a okno kontekstu zostaje wolne na myślenie.
 
-To dlatego baza działa **bez embeddings i bez RAG do ~500 źródeł**: nie trzeba liczyć wektorów, gdy dobry indeks pozwala agentowi zawęzić wyszukiwanie samą lekturą.
+To dlatego baza działa **bez embeddings i bez RAG**: nie trzeba liczyć wektorów, gdy dobry indeks pozwala agentowi zawęzić wyszukiwanie samą lekturą.
 
 ## 3 indeksy - trzy poziomy powiększenia
 
@@ -223,7 +223,7 @@ Nie pisz wiki ręcznie - to robota agenta; Ty dostarczasz źródła i dobre pyta
 
 ### Czym LLM Wiki różni się od RAG i baz wektorowych?
 
-RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2-3 trafne noty. Nie liczy wektorów ani embeddingów - do ~500 źródeł dobry indeks wystarcza, żeby zawęzić wyszukiwanie samą lekturą.
+RAG za każdym pytaniem przeszukuje surowe dokumenty i wrzuca do kontekstu masę tekstu, z którego trafna jest garstka. LLM Wiki odwraca to: agent czyta najpierw lekki indeks (co istnieje, jakiego typu, z jakimi tagami) i dociąga tylko 2-3 trafne noty. Nie liczy wektorów ani embeddingów - dobry indeks pozwala zawęzić wyszukiwanie samą lekturą.
 
 ### Agent ma grep - po co mu jeszcze indeks?
 
@@ -245,6 +245,6 @@ Szablon jest darmowy, a cała baza to pliki markdown w Twoim repo - żadnej zewn
 
 Cała mechanika jest gotowa od pierwszej minuty: slash-komendy, skille, trzy indeksy nawigacyjne, hook ładujący mapę vaultu, kontrakt frontmatteru (`schema.yml`) i szablony not. Brakuje wyłącznie Twojej wiedzy. Nie budujesz narzędzi - od razu ich używasz, a baza rośnie z każdym źródłem.
 
-### Co, gdy baza urośnie powyżej ~500 źródeł?
+### Co, gdy baza bardzo urośnie?
 
-Progressive disclosure skaluje się dalej - indeks i graf rosną wolniej niż treść, więc agent nadal zawęża zanim otworzy notę. Przy bardzo dużych bazach można podzielić wiedzę na tematyczne podbazy (multi-brain, lekcja 5) albo dołożyć warstwę wyszukiwania. Granica ~500 to moment, w którym warto o tym pomyśleć, a nie twardy limit.
+Przy bardzo dużych bazach można podzielić wiedzę na tematyczne podbazy (multi-brain, lekcja 5) albo dołożyć warstwę wyszukiwania.
