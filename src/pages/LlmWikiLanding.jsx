@@ -1,5 +1,5 @@
 /**
- * @sitemapUpdated 2026-07-29
+ * @sitemapUpdated 2026-10-13
  *
  * Data ostatniej znaczacej zmiany tresci tej strony, czytana przez
  * scripts/update-sitemap.js. Trzymana tutaj, a nie wyciagana z historii
@@ -29,7 +29,7 @@ const VALUE_INDEX = [
   {
     num: "01",
     title: "Index-first",
-    body: "Agent czyta indeks i wchodzi tylko w trafne noty. Do ~500 źródeł bez embeddings i RAG.",
+    body: "Agent czyta indeks i wchodzi tylko w trafne noty. Bez embeddings i RAG.",
   },
   {
     num: "02",
