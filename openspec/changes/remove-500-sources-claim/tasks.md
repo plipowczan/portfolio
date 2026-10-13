@@ -27,6 +27,6 @@
 
 ## 5. Pull request
 
-- [ ] 5.1 Open the PR with the three old/new pairs side by side in the description; verify the description also names what was done with the FAQ entry and why, and that the PR is not merged
-- [ ] 5.2 Run the Codex review (`ss:review-fix`) on the PR and record each finding and its outcome in `openspec/changes/remove-500-sources-claim/review.md`; verify every finding is fixed or rejected with a reason
+- [x] 5.1 Open the PR with the three old/new pairs side by side in the description; verify the description also names what was done with the FAQ entry and why, and that the PR is not merged
+- [x] 5.2 Run the Codex review (`ss:review-fix`) on the PR and record each finding and its outcome in `openspec/changes/remove-500-sources-claim/review.md`; verify every finding is fixed or rejected with a reason
 - [ ] 5.3 After the owner merges (outside this change): check live that `/llm-wiki`, `/llm-wiki/kurs/1-zaloz-katalog` and `/llms-full.txt` contain no `500 źr`
