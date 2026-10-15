@@ -48,6 +48,7 @@ Status contract — deviating from it is a behaviour change, not a refactor:
 node --test tests/unit/subscribe.test.mjs   # 10 tests over the status contract
 ```
 
-Not `npm run test:unit` — that form is broken on Node 24; see `tests/AGENTS.md`.
+`npm run test:unit` runs the whole unit suite, this file included, and CI runs
+it too; see `tests/AGENTS.md`.
 
 ## Child DOX Index
