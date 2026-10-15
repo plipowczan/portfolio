@@ -1,5 +1,5 @@
 /**
- * @sitemapUpdated 2026-10-13
+ * @sitemapUpdated 2026-10-15
  *
  * Data ostatniej znaczacej zmiany tresci tej strony, czytana przez
  * scripts/update-sitemap.js. Trzymana tutaj, a nie wyciagana z historii
@@ -91,7 +91,7 @@ const LlmWikiLanding = () => {
     <>
       <SEO
         title="LLM Wiki - baza wiedzy, która rośnie sama"
-        description="Darmowy szablon second brain w modelu LLM Wiki (Karpathy), zgodny ze standardem OKF. Zapisz się na listę - dam znać, gdy ruszy kurs i kolejne materiały."
+        description="Darmowy szablon second brain w modelu LLM Wiki (Karpathy), zgodny ze standardem OKF. Zapisz się na listę - dam znać o kolejnych materiałach."
         path="/llm-wiki"
         // PL-only page: no `alternateUrl` and no `mirroredByPrefix`, so <SEO>
         // emits no hreflang at all. A /en/llm-wiki mirror does not exist.
@@ -181,12 +181,12 @@ const LlmWikiLanding = () => {
               <motion.div variants={FADE_IN_UP} className="space-y-6">
                 <div className="space-y-2">
                   <p role="alert" className="text-xl font-bold text-primary-500">
-                    ✅ Jesteś na liście!
+                    ✅ Adres zapisany!
                   </p>
                   <p className="text-gray-400">
-                    Kurs już ruszył - a o kolejnych materiałach dam znać. Skoro
-                    już tu jesteś - zacznij od razu. Szablon jest darmowy i
-                    publiczny.
+                    Zapisałem Twój adres - o kolejnych materiałach dam znać
+                    mailem. Szablon i kurs są darmowe i publiczne, więc możesz
+                    zacząć od razu.
                   </p>
                 </div>
 
@@ -248,18 +248,13 @@ const LlmWikiLanding = () => {
                     </li>
                   </ol>
                 </div>
-
-                <p className="text-xs text-gray-400">
-                  Pełny przewodnik + akceleratory (gotowe skille, ekstrakt realnej
-                  bazy) będą w kursie. Odezwę się.
-                </p>
               </motion.div>
             ) : (
               <motion.div variants={FADE_IN_UP} className="space-y-4">
                 <p className="text-gray-300">
-                  Zostaw maila - dostaniesz darmowy szablon i dam znać, gdy ruszy
-                  kurs i kolejne materiały. Metoda, szablon i kurs są darmowe -
-                  płatne będą tylko paczki gotowych, obrobionych notatek, dla
+                  Zostaw maila - zobaczysz od razu darmowy szablon, a o kolejnych
+                  materiałach dam znać mailem. Metoda, szablon i kurs są darmowe
+                  - płatne będą tylko paczki gotowych, obrobionych notatek, dla
                   tych, którzy wolą zacząć z pełną półką.
                 </p>
 

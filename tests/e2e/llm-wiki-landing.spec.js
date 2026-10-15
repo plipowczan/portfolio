@@ -169,7 +169,7 @@ test.describe("Landing LLM Wiki — waitlist form", () => {
     await page.locator("#waitlist-email").fill("test@example.com");
     await page.getByRole("button", { name: /Zapisz mnie/i }).click();
 
-    await expect(page.getByText(/Jesteś na liście/i)).toBeVisible();
+    await expect(page.getByText(/Adres zapisany/i)).toBeVisible();
     expect(body).toMatchObject({
       email: "test@example.com",
       source: "waitlist",
@@ -202,7 +202,51 @@ test.describe("Landing LLM Wiki — waitlist form", () => {
     await page.locator("#waitlist-email").fill("dupe@example.com");
     await page.getByRole("button", { name: /Zapisz mnie/i }).click();
 
-    await expect(page.getByText(/Jesteś na liście/i)).toBeVisible();
+    await expect(page.getByText(/Adres zapisany/i)).toBeVisible();
+  });
+
+  test("spójność tekstów: ani przed, ani po zapisie strona nie ogłasza startu kursu, który już jest publiczny", async ({
+    page,
+  }) => {
+    await page.route("**/api/subscribe", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true }),
+      });
+    });
+
+    // Sformułowania, które wiążą tekst z chwilą startu kursu. Kurs jest
+    // publiczny i podlinkowany ze strony, więc takie zdanie jej przeczy.
+    const launchWording = /ruszy|ruszył|będą w kursie/i;
+
+    await page.goto("/llm-wiki");
+
+    // Przed zapisem: akapit nad formularzem opisuje listę przez to, co
+    // dostarcza (wiadomości o kolejnych materiałach), nie przez start kursu.
+    const formCopy = page.locator("main p", { hasText: "Zostaw maila" });
+    await expect(formCopy).toContainText(
+      "o kolejnych materiałach dam znać mailem"
+    );
+    await expect(page.locator("main")).not.toContainText(launchWording);
+
+    // To samo w opisie strony (meta description trafia do wyników wyszukiwania).
+    const description = await page
+      .locator('meta[name="description"]')
+      .getAttribute("content");
+    expect(description).toContain("o kolejnych materiałach");
+    expect(description).not.toMatch(launchWording);
+
+    await page.locator("#waitlist-email").fill("test@example.com");
+    await page.getByRole("button", { name: /Zapisz mnie/i }).click();
+
+    // Po zapisie: endpoint nie wysyła maila, więc ten ekran jest jedynym
+    // potwierdzeniem — mówi, że adres jest zapisany, i nie ogłasza startu.
+    await expect(page.getByText(/Adres zapisany/i)).toBeVisible();
+    await expect(page.getByText(/Zapisałem Twój adres/i)).toContainText(
+      "o kolejnych materiałach dam znać mailem"
+    );
+    await expect(page.locator("main")).not.toContainText(launchWording);
   });
 
   test("błąd endpointu (500) → brak success, inline error, formularz zostaje", async ({
@@ -221,7 +265,7 @@ test.describe("Landing LLM Wiki — waitlist form", () => {
     await page.getByRole("button", { name: /Zapisz mnie/i }).click();
 
     // brak ekranu success
-    await expect(page.getByText(/Jesteś na liście/i)).toHaveCount(0);
+    await expect(page.getByText(/Adres zapisany/i)).toHaveCount(0);
     // inline error widoczny
     await expect(page.getByText(/Coś poszło nie tak/i)).toBeVisible();
     // formularz nadal obecny

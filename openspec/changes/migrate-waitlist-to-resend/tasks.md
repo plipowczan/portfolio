@@ -1,9 +1,9 @@
 ## 1. Config & environment (manual — Resend + Vercel dashboards)
 
 - [x] 1.1 Use the existing **LLM Wiki** Audience in Resend (already created); copy its `audience_id`. Landing + course signups share the same form → `/api/subscribe`, so both land here automatically.
-- [ ] 1.2 In Resend, create an API key with contacts + sending scope; copy it once
-- [ ] 1.3 Add `RESEND_API_KEY` and `RESEND_AUDIENCE_ID` to Vercel env for **Production and Preview** (server-only — never `VITE_`-prefixed)
-- [ ] 1.4 Add the same two vars to local `.env` (gitignored) for running the endpoint unit test locally
+- [x] 1.2 In Resend, create an API key with contacts + sending scope; copy it once — confirmed by the owner, 2026-10-15
+- [x] 1.3 Add `RESEND_API_KEY` and `RESEND_AUDIENCE_ID` to Vercel env for **Production and Preview** (server-only — never `VITE_`-prefixed) — confirmed by the owner, 2026-10-15 (both variables are set in Vercel)
+- [x] 1.4 Add the same two vars to local `.env` (gitignored) for running the endpoint unit test locally — not needed: `tests/unit/subscribe.test.mjs` sets both variables itself and stubs `fetch`; `npm run test:unit` passes (14/14) with no `.env`, checked 2026-10-15
 
 ## 2. Subscribe endpoint (TDD, unit-tested)
 
@@ -30,14 +30,14 @@
 ## 5. Build & preview verification
 
 - [x] 5.1 `npm run build:prerender` → `/llm-wiki` still prerenders (`dist/llm-wiki/index.html` has `rośnie sama` + meta), no EN mirror, no regressions
-- [ ] 5.2 Deploy a Vercel **preview**; smoke-test `POST /api/subscribe` returns 2xx (confirms the `/(.*) → /index.html` rewrite does NOT swallow `/api/*`); if swallowed, add an explicit `/api/(.*)` rewrite exclusion in `vercel.json`
-- [ ] 5.3 On preview, submit a real test email through the form → confirm the contact appears in the Resend Audience
+- [x] 5.2 Deploy a Vercel **preview**; smoke-test `POST /api/subscribe` returns 2xx (confirms the `/(.*) → /index.html` rewrite does NOT swallow `/api/*`); if swallowed, add an explicit `/api/(.*)` rewrite exclusion in `vercel.json` — checked on production instead of a preview, 2026-10-15: `GET` → 405 with `Allow: POST`; `POST` with an invalid email → 400 JSON; `POST` with a filled honeypot → 200; no contact was created by any of the three, and the rewrite does not swallow `/api/*` (no `vercel.json` change needed)
+- [x] 5.3 On preview, submit a real test email through the form → confirm the contact appears in the Resend Audience — covered by 6.2 on production: the owner submitted a test signup and saw it in the Audience, 2026-10-15; no separate preview run
 - [x] 5.4 Confirm the built client bundle contains no `RESEND_API_KEY` value (grep of `dist/assets` clean)
 
 ## 6. Production cutover
 
-- [ ] 6.1 Merge to `main` → production deploy
-- [ ] 6.2 Verify one real signup end-to-end on production → contact lands in the Audience (rollback if not: revert fetch target to Formspree)
+- [x] 6.1 Merge to `main` → production deploy — PR #11 (`36e3a83`) is an ancestor of `origin/main`, and production serves `/api/subscribe` (see 5.2)
+- [x] 6.2 Verify one real signup end-to-end on production → contact lands in the Audience (rollback if not: revert fetch target to Formspree) — confirmed by the owner, 2026-10-15 (test signup on `/llm-wiki` works and reaches the Audience)
 
 ## 7. One-time import of existing 24 addresses (manual runbook)
 
