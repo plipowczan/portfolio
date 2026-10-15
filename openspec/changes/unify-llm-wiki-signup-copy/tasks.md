@@ -27,5 +27,6 @@
 ## 5. Spec sync and pull request
 
 - [x] 5.1 Sync the delta into `openspec/specs/llm-wiki-landing/spec.md` (success requirement restated, copy requirement added); verify `openspec validate --specs` passes (26 of 26). `--strict` still fails 13 specs, `llm-wiki-landing` among them, on the placeholder Purpose line that predates this change; fixing those is outside it
-- [ ] 5.2 Open the PR against `main` with the old/new copy table in the description; verify the PR is not merged
-- [ ] 5.3 After the owner merges (outside this change): archive this change with `/opsx:archive`; check live that `/llm-wiki` shows the new paragraph above the form
+- [x] 5.2 Open the PR against `main` with the old/new copy table in the description; verify the PR is not merged (PR #50, open)
+- [x] 5.3 Run the Codex review (`ss:review-fix`) on the PR and record each finding and its outcome in `openspec/changes/unify-llm-wiki-signup-copy/review.md`; verify every finding is fixed or rejected with a reason (round 1: no findings)
+- [ ] 5.4 After the owner merges (outside this change): archive this change with `/opsx:archive`; check live that `/llm-wiki` shows the new paragraph above the form
