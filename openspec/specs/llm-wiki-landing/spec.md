@@ -35,31 +35,46 @@ One parameterised component reaches the same guarantee by construction: the land
 - **WHEN** `NetworkBackground` is rendered without growth parameters, as on the homepage
 - **THEN** it seeds an ambient field sized to the viewport and does not accrete nodes
 
-### Requirement: Email capture via Formspree tagged as waitlist
-The landing SHALL POST valid submissions to `https://formspree.io/f/xblqpqab` with a hidden `source: "waitlist"` field and a `_subject`, reusing the existing Formspree endpoint without sending any campaign.
+### Requirement: Email capture via server endpoint into Resend
+
+The landing SHALL POST valid submissions to the same-origin `/api/subscribe` endpoint (NOT to Formspree) with a JSON body containing `email` and a `source: "waitlist"` field, plus a hidden honeypot field that real users leave empty. The landing SHALL reject invalid emails client-side before sending any request, SHALL treat any 2xx response — including an already-subscribed email — as success (showing the success screen), and SHALL show an inline error without leaving the form on a non-2xx response or network failure. The contact form's separate use of Formspree is unaffected.
 
 #### Scenario: Invalid email is rejected client-side
 - **WHEN** the visitor submits an input that is not a valid email
-- **THEN** an inline error (`#waitlist-email-error`) is shown and no request is sent to Formspree
+- **THEN** an inline error (`#waitlist-email-error`) is shown and no request is sent to `/api/subscribe`
 
 #### Scenario: Valid email is submitted with the waitlist tag
 - **WHEN** the visitor submits a valid email
-- **THEN** the request body to Formspree includes `email` and `source: "waitlist"`
+- **THEN** the request goes to the same-origin `/api/subscribe` endpoint
+- **AND** the request body includes `email` and `source: "waitlist"`
+
+#### Scenario: Already-subscribed email still shows success
+- **WHEN** the endpoint responds 2xx for an email already on the list
+- **THEN** the form is replaced in place by the success screen (identical to a first-time signup)
+
+#### Scenario: Endpoint error keeps the form and shows an inline error
+- **WHEN** the endpoint responds with a non-2xx status or the request fails
+- **THEN** the success screen is NOT shown and an inline error message is displayed
 
 ### Requirement: Gated repo + onboarding delivery on success
 
-The repo link and onboarding guide SHALL be hidden before signup and revealed only after a successful submit, in an in-place success screen (no navigation). The success header MUST contain "Jesteś na liście". The success screen SHALL additionally reveal a link to the free course hub (`/llm-wiki/kurs`), so a fresh signup gets the course link on-page. The course itself remains publicly reachable (ungated); this link is a convenience nudge, not a gate.
+The repo link and onboarding guide SHALL be hidden before signup and revealed only after a successful submit, in an in-place success screen (no navigation). The signup endpoint sends no email, so the success screen is the visitor's only confirmation: its header MUST state that the address is saved and contain "Adres zapisany", and its text SHALL say that news about further materials arrives by email. The success screen SHALL additionally reveal a link to the free course hub (`/llm-wiki/kurs`). The course is publicly reachable (ungated) and the landing links to it below the signup form before signup as well, so neither course link is a gate; the repo link and the onboarding guide are the only items hidden until signup.
 
 #### Scenario: Repo link gated before signup
 
 - **WHEN** the landing first renders, before any successful submit
 - **THEN** there is no link to `https://github.com/plipowczan/second-brain-template`
-- **AND** there is no link to `/llm-wiki/kurs`
+- **AND** the onboarding quick-start is not shown
+
+#### Scenario: Course link reachable before signup
+
+- **WHEN** the landing first renders, before any successful submit
+- **THEN** a link to `/llm-wiki/kurs` is present below the signup form
 
 #### Scenario: Success screen reveals repo link and quick-start
 
 - **WHEN** a valid email submission succeeds
-- **THEN** the form is replaced in place by a success screen whose header contains "Jesteś na liście"
+- **THEN** the form is replaced in place by a success screen whose header contains "Adres zapisany"
 - **AND** a link to `https://github.com/plipowczan/second-brain-template` is present
 - **AND** a "first 5 minutes" quick-start guide is shown
 
@@ -67,6 +82,22 @@ The repo link and onboarding guide SHALL be hidden before signup and revealed on
 
 - **WHEN** a valid email submission succeeds
 - **THEN** the success screen contains a link to `/llm-wiki/kurs`
+
+### Requirement: Signup copy describes what the list delivers, not a course launch
+
+The signup copy on the landing — the paragraph above the form, the success screen, and the page's meta description — SHALL describe the mailing list by what it delivers (news about further materials, sent by email) and SHALL NOT announce a course start, either as upcoming ("gdy ruszy kurs") or as just happened ("kurs już ruszył"). The course is public and linked from the page, so a launch announcement contradicts the page itself. The copy SHALL NOT say what "will be in the course" either; the course is live and its content is stated by the course. It SHALL NOT assert that no confirmation email will be sent, so that adding a welcome mail later does not leave a false sentence behind.
+
+#### Scenario: Copy above the form names the delivery, not a launch
+
+- **WHEN** the landing first renders, before any successful submit
+- **THEN** the paragraph above the form says that news about further materials arrives by email
+- **AND** neither that paragraph nor the page's meta description contains wording that announces the course start
+
+#### Scenario: Success screen confirms the saved address and announces no launch
+
+- **WHEN** a valid email submission succeeds
+- **THEN** the success screen says the address was saved and that news arrives by email
+- **AND** it contains no sentence announcing the course start or saying what will be in the course
 
 ### Requirement: Consent copy reflects capture-only backend
 The landing SHALL present a RODO/consent line referencing mail contact (not newsletter subscription) and linking to `/privacy-policy`, and SHALL hide that line once the success screen is shown.

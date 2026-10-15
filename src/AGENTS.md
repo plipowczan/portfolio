@@ -63,6 +63,14 @@ General React, Tailwind, and router style is not repeated here — it lives in
 - A route whose body arrives asynchronously must set the readiness marker
   (`utils/prerenderMarker.js`), or the prerenderer will fail that route. The
   marker is handled for you by `hooks/useContentBody.js`.
+- The `/llm-wiki` signup copy (the paragraph above the form, the success screen
+  and the meta description) describes the list by what it delivers, never by a
+  launch of the course. The course is public and linked from the page, so "gdy
+  ruszy kurs" and "kurs już ruszył" both went stale and contradicted each other.
+  The rule is the `llm-wiki-landing` requirement "Signup copy describes what the
+  list delivers, not a course launch". The endpoint sends no email, so the
+  success screen is the only confirmation; do not write there that no mail will
+  follow — a welcome mail may be added.
 
 ## Verification
 

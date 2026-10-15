@@ -238,7 +238,7 @@ test.describe("Kurs LLM Wiki — wejście w kurs z landingu", () => {
     await page.locator("#waitlist-email").fill("test@example.com");
     await page.getByRole("button", { name: /Zapisz mnie/i }).click();
 
-    await expect(page.getByText(/Jesteś na liście/i)).toBeVisible();
+    await expect(page.getByText(/Adres zapisany/i)).toBeVisible();
 
     // Ekran sukcesu ma własne wejście w kurs.
     await expect(page.locator('main a[href="/llm-wiki/kurs"]')).toHaveCount(1);
