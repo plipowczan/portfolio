@@ -223,6 +223,30 @@ test.describe("SEO — page metadata invariants", () => {
     });
   }
 
+  // A page that passes no `title` gets the tagline of its own language. The
+  // default used to be a Polish constant, so /en/ shipped a Polish <title> and
+  // og:title next to an English description.
+  for (const { path, expected } of [
+    { path: "/", expected: "Pawel Lipowczan | Twój Przewodnik Technologiczny" },
+    { path: "/en/", expected: "Pawel Lipowczan | Your Tech Guide" },
+  ]) {
+    test(`home page title follows the route language (${path})`, async ({
+      page,
+    }) => {
+      await openPage(page, path);
+
+      await expect(page).toHaveTitle(expected);
+      await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+        "content",
+        expected,
+      );
+      await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
+        "content",
+        expected,
+      );
+    });
+  }
+
   /**
    * Dane strukturalne należą do trasy, która je deklaruje.
    *

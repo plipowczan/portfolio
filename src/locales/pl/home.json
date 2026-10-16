@@ -54,5 +54,14 @@
   "contact.validation.messageMinLength": "Wiadomość musi mieć co najmniej 10 znaków",
   "projects.title": "Projekty",
   "projects.description": "Wybrane projekty automatyzacji i systemów no-code wdrożone dla klientów.",
-  "projects.viewMore": "Zobacz więcej projektów"
+  "projects.viewMore": "Zobacz więcej projektów",
+  "booking.title": "Umów spotkanie",
+  "booking.subtitle": "Umów bezpłatną konsultację",
+  "booking.description": "Oferuję 30-minutową bezpłatną konsultację online, podczas której wspólnie przeanalizujemy Twoje procesy biznesowe i zaproponuję konkretne rozwiązania. Bez zobowiązań, bez ukrytych kosztów - po prostu rozmowa o tym, jak technologia może pomóc Twojej firmie.",
+  "booking.benefit1": "Analiza obecnych wyzwań i możliwości optymalizacji",
+  "booking.benefit2": "Propozycja najlepszych narzędzi i technologii dla Twojej firmy",
+  "booking.benefit3": "Oszacowanie czasu i kosztów wdrożenia",
+  "booking.benefit4": "Odpowiedzi na wszystkie pytania technologiczne",
+  "booking.cta": "Zarezerwuj Bezpłatną Konsultację",
+  "booking.note": "30 minut online · Bez zobowiązań · Całkowicie za darmo"
 }

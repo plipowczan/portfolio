@@ -43,6 +43,150 @@ const DESCRIPTION_TAG = 'name="description"';
  */
 export const HIDDEN_DESCENDANTS_LIMIT = 3;
 
+/**
+ * Nazwy własne, które mogą stać w angielskich metadanych mimo polskich liter.
+ *
+ * Pusta z założenia. Sprawdzenie niżej uznaje polską literę w tytule albo
+ * opisie trasy `/en/` za ślad powrotu do polskiego tekstu domyślnego. Gdy
+ * build zatrzyma prawdziwy przypadek (na przykład „Paweł" w opisie), dopisz tu
+ * to słowo zamiast wyłączać sprawdzenie.
+ *
+ * @type {string[]}
+ */
+export const ALLOWED_POLISH_TERMS_IN_EN_META = [];
+
+const POLISH_DIACRITICS = /[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/;
+
+const stripComments = (html) => html.replace(/<!--[\s\S]*?-->/g, "");
+
+/** Odwraca kodowanie znaków, którym HTML podaje tekst (`&amp;`, `&#x27;`, `&nbsp;`). */
+const decodeEntities = (text) =>
+  text
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
+    .replace(/&nbsp;/g, " ")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+
+/**
+ * `content` znacznika `<meta>`, który niesie dany atrybut — niezależnie od
+ * kolejności atrybutów w znaczniku.
+ */
+const metaContent = (html, attribute, value) => {
+  for (const [tag] of html.matchAll(/<meta\b[^>]*>/g)) {
+    if (tag.includes(`${attribute}="${value}"`)) {
+      return tag.match(/\scontent="([^"]*)"/)?.[1];
+    }
+  }
+  return undefined;
+};
+
+/** Tekst, który widzi odwiedzający: bez skryptów, stylów i znaczników. */
+const visibleText = (html) =>
+  decodeEntities(
+    html.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, " ").replace(/<[^>]+>/g, " ")
+  ).replace(/\s+/g, " ");
+
+/**
+ * Polskie wartości kluczy `booking.*` z `src/locales/pl`.
+ *
+ * Czytane z plików, nie przepisane tutaj: przeredagowany polski tekst
+ * rezerwacji jest objęty sprawdzeniem bez dotykania tego pliku.
+ *
+ * @param {string} [localesDir]
+ * @returns {string[]}
+ */
+export function readPolishBookingStrings(
+  localesDir = join(HERE, "..", "src", "locales", "pl")
+) {
+  return ["home.json", "common.json"].flatMap((name) =>
+    Object.entries(JSON.parse(readFileSync(join(localesDir, name), "utf-8")))
+      .filter(([key]) => key.startsWith("booking."))
+      .map(([, value]) => value)
+  );
+}
+
+/**
+ * Trasy angielskie nie mogą nieść polskich metadanych ani polskiego tekstu
+ * rezerwacji.
+ *
+ * Dwa razy angielska wersja serwisu wyszła po polsku, a build nic nie
+ * powiedział: `/en/` miał polski `<title>` i `og:title` przy angielskim opisie,
+ * bo `SEO` bez własnego tytułu sięgało po polską stałą; sekcja rezerwacji była
+ * zaszyta po polsku w komponencie. Sprawdzenie łapie oba ślady, nie łapie
+ * polskiej prozy w ogóle — do tego trzeba by rozpoznawania języka.
+ *
+ *   1. polskie litery w `<title>`, `og:title`, `twitter:title`, opisie i
+ *      `og:description`,
+ *   2. widoczny tekst równy którejś polskiej wartości `booking.*`.
+ *
+ * Czysta funkcja, bez dostępu do plików, żeby test jednostkowy mógł ją karmić
+ * sztucznym HTML-em. Test czytający `dist/` mógłby się tylko pominąć.
+ *
+ * @param {{ file: string, html: string }[]} pages pliki tras pod `en/`
+ * @param {string[]} polishBookingStrings polskie teksty rezerwacji
+ * @param {string[]} [allowedTerms] nazwy własne dozwolone w metadanych
+ * @returns {string[]} problemy; pusta tablica = wszystko w porządku
+ */
+export function findPolishInEnglishPages(
+  pages,
+  polishBookingStrings,
+  allowedTerms = ALLOWED_POLISH_TERMS_IN_EN_META
+) {
+  const problems = [];
+
+  // Puste wejście przechodziłoby każdą asercję pustym przebiegiem.
+  if (pages.length === 0) {
+    problems.push(
+      "nie znaleziono żadnej trasy /en w dist — sprawdzenie polskiego tekstu nie miałoby czego weryfikować"
+    );
+  }
+  if (polishBookingStrings.length === 0) {
+    problems.push(
+      "w src/locales/pl nie ma żadnego klucza booking.* — sprawdzenie tekstów rezerwacji nie miałoby czego szukać"
+    );
+  }
+
+  const withoutAllowed = (text) =>
+    allowedTerms.reduce((acc, term) => acc.split(term).join(""), text);
+  const bookingStrings = polishBookingStrings.map((text) => text.replace(/\s+/g, " "));
+
+  for (const { file, html: rawHtml } of pages) {
+    const html = stripComments(rawHtml);
+
+    const fields = [
+      ["<title>", html.match(/<title[^>]*>([\s\S]*?)<\/title>/)?.[1]],
+      ["og:title", metaContent(html, "property", "og:title")],
+      ["twitter:title", metaContent(html, "name", "twitter:title")],
+      ["description", metaContent(html, "name", "description")],
+      ["og:description", metaContent(html, "property", "og:description")],
+    ];
+    const polishFields = fields
+      .filter(([, value]) => value !== undefined)
+      .map(([label, value]) => [label, decodeEntities(value)])
+      .filter(([, value]) => POLISH_DIACRITICS.test(withoutAllowed(value)));
+
+    if (polishFields.length > 0) {
+      const labels = polishFields.map(([label]) => label).join(", ");
+      problems.push(
+        `${file}: polskie litery w ${labels} — "${polishFields[0][1]}". Trasa /en wróciła do polskiego tekstu (domyślny tytuł albo opis z polskiej stałej?). Nazwę własną dopisz do ALLOWED_POLISH_TERMS_IN_EN_META`
+      );
+    }
+
+    const text = visibleText(html);
+    const found = bookingStrings.filter((phrase) => text.includes(phrase));
+    if (found.length > 0) {
+      problems.push(
+        `${file}: widoczny polski tekst rezerwacji — ${found.map((phrase) => `"${phrase}"`).join(", ")}. Teksty rezerwacji idą przez klucze booking.* w src/locales`
+      );
+    }
+  }
+
+  return problems;
+}
+
 /** `/llm-wiki/kurs` → ["llm-wiki", "kurs"] — segmenty do złożenia ścieżki. */
 const COURSE_SEGMENTS = COURSE_BASE_PATH.split("/").filter(Boolean);
 
@@ -200,7 +344,6 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
   // zastane elementy z `data-rh`; React 19 nie znaczy niczego, co hoistuje,
   // więc kolejność w `scripts/prerender.mjs` ("/" na końcu) jest tym, co
   // trzyma poprawność. To sprawdzenie pilnuje, żeby tak zostało.
-  const stripComments = (html) => html.replace(/<!--[\s\S]*?-->/g, "");
   const trimSlash = (url) => url.replace(/\/+$/, "") || "/";
 
   // Tylko pliki tras. Prerender zapisuje każdą trasę jako `<ścieżka>/index.html`,
@@ -284,6 +427,25 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
   ) {
     checked.push(
       `${routeFiles.length} plików tras: po jednym title/description/canonical, canonical na własny adres, poprawny lang`
+    );
+  }
+
+  // Trasy angielskie: ani polskich metadanych, ani polskiej rezerwacji.
+  // Szczegóły i granice sprawdzenia: `findPolishInEnglishPages`.
+  const englishPages = routeFiles
+    .filter((name) => /^en[\\/]/.test(name))
+    .map((name) => ({
+      file: name.replace(/\\/g, "/"),
+      html: readFileSync(join(distDir, name), "utf-8"),
+    }));
+  const englishProblems = findPolishInEnglishPages(
+    englishPages,
+    readPolishBookingStrings()
+  );
+  problems.push(...englishProblems);
+  if (englishProblems.length === 0) {
+    checked.push(
+      `${englishPages.length} tras /en: metadane i rezerwacja bez polskiego tekstu`
     );
   }
 

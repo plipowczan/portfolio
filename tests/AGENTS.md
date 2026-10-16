@@ -182,7 +182,9 @@ is SC 2.5.5 at Level AAA and is not the site-wide bar.
   never into a spec — see the prohibition above. That file already checks the
   metadata a crawler receives: one `<title>`, one description and one canonical
   per page, the canonical pointing at the page's own URL, no page saved with
-  "not found" metadata, and `lang` matching the route.
+  "not found" metadata, `lang` matching the route, and no Polish title,
+  description or booking text on any `/en/` route (the pure check has a unit
+  test, `unit/verify-prerender-english.test.mjs`).
 - Known issue: webkit and Mobile Safari time out on `/llm-wiki/kurs/*` locally
   on Windows — tracked in `docs/TODO.md`, not a regression.
 

@@ -53,6 +53,10 @@ General React, Tailwind, and router style is not repeated here — it lives in
   `.claude/rules/tailwindcss/`, `.claude/rules/react-router/`, and
   `.claude/rules/framer-motion/`. Follow those; do not restate them here.
 - New user-visible strings go into both `locales/pl/` and `locales/en/`.
+- `<SEO>` without a `title` or `description` falls back to the `siteConfig.*`
+  keys of the page's language. There is no Polish constant to fall back to: one
+  used to be, and `/en/` shipped a Polish `<title>`. The build now fails on
+  Polish metadata under `/en/` (`scripts/verify-prerender-output.mjs`).
 - Animate `transform` and `opacity` only; respect `prefers-reduced-motion`.
 - Adding a route means updating `App.jsx`, the prerender route list in
   `scripts/prerender.mjs`, and `scripts/update-sitemap.js`.

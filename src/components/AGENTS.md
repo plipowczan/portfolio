@@ -39,6 +39,13 @@ One folder per role. A new component goes in exactly one of them:
   in a component.
 - Modals render through the shared `ui/Modal.jsx` portal so focus handling and
   accessibility stay consistent.
+- The booking copy (home section, modal title and description, calendar loading
+  text) lives in the `booking.*` locale keys. It was hard-coded Polish, so
+  `/en/` showed a Polish section and a Polish calendar.
+- `widgets/ZencalWidget.jsx` takes its interface language from `data-lang`,
+  set from the route language. The embed reads that attribute and ignores a
+  `?lang=` query, which only the hosted booking page understands. It reads the
+  attribute once at load, so `BookingModalContent` keys the widget by language.
 
 ## Verification
 
