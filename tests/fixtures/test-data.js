@@ -4,6 +4,7 @@
 
 export const testUrls = {
   home: "/",
+  homeEn: "/en/",
   blog: "/blog",
   privacyPolicy: "/privacy-policy",
   termsOfService: "/terms-of-service",

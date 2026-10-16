@@ -41,5 +41,8 @@
   "blog.contentError": "This article's content could not be loaded. Check your connection and reload the page, or go back to the article list.",
   "blog.seoDescription": "Technical articles and insights about web development, React, and modern technologies.",
   "siteConfig.title": "Your Tech Guide",
-  "siteConfig.description": "Software architect and technology advisor - technology-agnostic tool selection, business process optimization through automation and intelligent no-code and AI solutions."
+  "siteConfig.description": "Software architect and technology advisor - technology-agnostic tool selection, business process optimization through automation and intelligent no-code and AI solutions.",
+  "booking.modalTitle": "Book a free consultation",
+  "booking.modalDescription": "Pick a time that suits you in the calendar below. After booking you will get a link to the online meeting and preparation instructions.",
+  "booking.loading": "Loading calendar..."
 }

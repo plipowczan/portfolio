@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
+/**
+ * Zencal booking embed for the free consultation.
+ *
+ * The interface language follows the route (`en` under `/en/`, `pl` elsewhere).
+ * The embed takes it from `data-lang`; it ignores a `?lang=` query, which only
+ * the hosted booking page reads.
+ */
 const ZencalWidget = () => {
+  const { t, i18n } = useTranslation("common");
   const [isLoaded, setIsLoaded] = useState(false);
+  const lang = i18n.language === "en" ? "en" : "pl";
 
   useEffect(() => {
     // Sprawdź czy script już załadowany
@@ -46,7 +56,7 @@ const ZencalWidget = () => {
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center space-y-4">
               <div className="w-12 h-12 border-4 border-primary-500/20 border-t-primary-500 rounded-full animate-spin mx-auto" />
-              <p className="text-gray-300">Ładowanie kalendarza...</p>
+              <p className="text-gray-300">{t("booking.loading")}</p>
             </div>
           </div>
         )}
@@ -59,7 +69,7 @@ const ZencalWidget = () => {
           data-primary="#00ff9d"
           data-secondary="#00b8ff"
           data-avatar="https://meetendly.fra1.digitaloceanspaces.com/profile-images/a1wSWEyLimmWBNqhXhAk6aIMvNfKPf.jpg"
-          data-lang="pl"
+          data-lang={lang}
           data-ampm="0"
           className="zencal-embed"
           style={{ opacity: isLoaded ? 1 : 0, transition: "opacity 0.1s" }}

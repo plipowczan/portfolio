@@ -60,6 +60,13 @@ and the one it landed in.
   the list, a page that rendered but lost its metadata, a page carrying two of
   a tag that must appear once, and a canonical pointing somewhere other than
   the page itself.
+- `verify-prerender-output.mjs` also fails the build on Polish under `/en/`:
+  a Polish letter in a route's `<title>`, `og:title`, `twitter:title`,
+  description or `og:description`, or a Polish `booking.*` string in its
+  visible text. It cannot recognise Polish prose in general. A legitimate
+  Polish name in English metadata goes into `ALLOWED_POLISH_TERMS_IN_EN_META`;
+  do not switch the check off. The logic is `findPolishInEnglishPages`, a pure
+  function covered by `tests/unit/verify-prerender-english.test.mjs`.
 - **`/` is prerendered last, and the order is load-bearing.** It writes
   `dist/index.html`, the file the preview server also returns for any route
   with no generated file yet. Rendered first, it left every later route

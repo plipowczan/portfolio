@@ -580,3 +580,85 @@ test.describe("Integracja Booking CTA z innymi sekcjami", () => {
     await expect(contactSection).toBeVisible();
   });
 });
+
+test.describe("Booking CTA - wersja angielska (/en/)", () => {
+  test.setTimeout(60000);
+  test.describe.configure({ retries: 1 });
+
+  // Skrypt osadzenia Zencala ładuje się z app.zencal.io. Podmieniamy go, żeby
+  // test nie zależał od cudzego serwera; sprawdzamy atrybut, który strona mu
+  // przekazuje, nie to, co widżet z nim zrobi.
+  test.beforeEach(async ({ page }) => {
+    await page.route("**/app.zencal.io/**", (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: "text/javascript",
+        body: "/* Zencal embed mocked */",
+      });
+    });
+  });
+
+  test("sekcja rezerwacji na /en/ jest po angielsku", async ({ page }) => {
+    await page.goto(testUrls.homeEn, { timeout: 45000 });
+    await waitForAnimations(page, 1500);
+    await scrollToElement(page, "#booking");
+    await waitForAnimations(page, 1500);
+
+    const section = page.locator("#booking");
+    await expect(section.locator("h2")).toHaveText("Book a meeting");
+    await expect(section.locator("h3")).toHaveText("Book a free consultation");
+    await expect(section.locator("ul li")).toHaveCount(4);
+    await expect(
+      section.getByRole("button", { name: "Book a Free Consultation" }),
+    ).toBeVisible();
+    await expect(section).toContainText("30 minutes online");
+
+    // Żaden polski tekst rezerwacji nie został w sekcji.
+    await expect(section).not.toContainText(/Umów|konsultację|Zarezerwuj|zobowiązań/);
+  });
+
+  test("modal na /en/ ma angielski tytuł, opis i widżet z data-lang=en", async ({
+    page,
+  }) => {
+    await page.goto(testUrls.homeEn, { timeout: 45000 });
+    await waitForAnimations(page, 1500);
+    await scrollToElement(page, "#booking");
+    await waitForAnimations(page, 1500);
+
+    await page.getByRole("button", { name: "Book a Free Consultation" }).click();
+
+    const modal = page.locator('[role="dialog"]');
+    await expect(modal).toBeVisible({ timeout: 5000 });
+    await expect(modal.locator("h2")).toHaveText("Book a free consultation");
+    await expect(modal).toContainText("Pick a time that suits you");
+    await expect(modal).not.toContainText(/Rezerwacja|Wybierz dogodny/);
+
+    await expect(modal.locator(".zencal-embed")).toHaveAttribute(
+      "data-lang",
+      "en",
+    );
+  });
+
+  test("modal na stronie polskiej zostaje po polsku z data-lang=pl", async ({
+    page,
+  }) => {
+    await page.goto(testUrls.home, { timeout: 45000 });
+    await waitForAnimations(page, 1500);
+    await scrollToElement(page, "#booking");
+    await waitForAnimations(page, 1500);
+
+    await page
+      .getByRole("button", { name: "Zarezerwuj Bezpłatną Konsultację" })
+      .click();
+
+    const modal = page.locator('[role="dialog"]');
+    await expect(modal).toBeVisible({ timeout: 5000 });
+    await expect(modal.locator("h2")).toHaveText(
+      "Rezerwacja bezpłatnej konsultacji",
+    );
+    await expect(modal.locator(".zencal-embed")).toHaveAttribute(
+      "data-lang",
+      "pl",
+    );
+  });
+});

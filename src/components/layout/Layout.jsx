@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
       <Modal
         isOpen={isBookingModalOpen}
         onClose={closeBookingModal}
-        title="Rezerwacja bezpłatnej konsultacji"
+        title={t("booking.modalTitle")}
       >
         <BookingModalContent />
       </Modal>

@@ -42,5 +42,8 @@
   "blog.contentError": "Nie udało się wczytać treści tego artykułu. Sprawdź połączenie i odśwież stronę albo wróć do listy artykułów.",
   "blog.seoDescription": "Artykuły techniczne i porady dotyczące web developmentu, React i nowoczesnych technologii.",
   "siteConfig.title": "Twój Przewodnik Technologiczny",
-  "siteConfig.description": "Architekt oprogramowania i doradca ds. technologii - agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI."
+  "siteConfig.description": "Architekt oprogramowania i doradca ds. technologii - agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI.",
+  "booking.modalTitle": "Rezerwacja bezpłatnej konsultacji",
+  "booking.modalDescription": "Wybierz dogodny termin z kalendarza poniżej. Po rezerwacji otrzymasz link do spotkania online oraz instrukcje przygotowania.",
+  "booking.loading": "Ładowanie kalendarza..."
 }

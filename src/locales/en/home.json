@@ -54,5 +54,14 @@
   "contact.validation.messageMinLength": "Message must be at least 10 characters",
   "projects.title": "Projects",
   "projects.description": "Selected automation and no-code system projects delivered for clients.",
-  "projects.viewMore": "See more projects"
+  "projects.viewMore": "See more projects",
+  "booking.title": "Book a meeting",
+  "booking.subtitle": "Book a free consultation",
+  "booking.description": "I offer a free 30-minute online consultation where we go through your business processes together and I suggest concrete solutions. No obligation, no hidden costs - just a conversation about how technology can help your company.",
+  "booking.benefit1": "Analysis of your current challenges and room for optimization",
+  "booking.benefit2": "Recommended tools and technologies for your company",
+  "booking.benefit3": "Estimate of implementation time and cost",
+  "booking.benefit4": "Answers to all your technology questions",
+  "booking.cta": "Book a Free Consultation",
+  "booking.note": "30 minutes online · No obligation · Completely free"
 }

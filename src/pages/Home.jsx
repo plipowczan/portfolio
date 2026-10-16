@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import About from "../components/sections/About";
 import BookingCTA from "../components/sections/BookingCTA";
@@ -17,7 +16,6 @@ import { SITE_CONFIG } from "../utils/constants";
 const Home = () => {
   const location = useLocation();
   const localizedPath = useLocalizedPath();
-  const { t } = useTranslation("common");
 
   useEffect(() => {
     // Obsługa hash linków przy wejściu na stronę
@@ -58,13 +56,7 @@ const Home = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Explicit description: the SITE_CONFIG fallback is Polish, so / and
-          /en/ would otherwise ship the same text. */}
-      <SEO
-        description={t("siteConfig.description")}
-        path={localizedPath("/")}
-        mirroredByPrefix
-      />
+      <SEO path={localizedPath("/")} mirroredByPrefix />
       <StructuredData schema={personSchema} />
       <Hero />
       <About />

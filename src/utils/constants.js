@@ -1,10 +1,7 @@
 // Site configuration
 export const SITE_CONFIG = {
   name: "Pawel Lipowczan",
-  title: "Twój Przewodnik Technologiczny",
   email: "pawel@lipowczan.pl",
-  description:
-    "Architekt oprogramowania i doradca ds. technologii - agnostyczny dobór narzędzi do problemu, optymalizacja procesów biznesowych przez automatyzację i inteligentne rozwiązania no-code oraz AI.",
   url: "https://pawel.lipowczan.pl",
   ogImage: "/images/og-home.webp",
   schemaLogo: "/logo-schema.png",

@@ -32,6 +32,10 @@ import { SITE_CONFIG } from "../../utils/constants";
  * genuinely are the same path with an `/en` prefix opts in with
  * `mirroredByPrefix`. Without either, no `alternate` tag is emitted — a
  * guessed URL that 404s is worse than a missing tag.
+ *
+ * The default title (`<name> | <tagline>`) and the default description are the
+ * `siteConfig.*` locale keys of the page's language, never a constant: a
+ * constant is one language, and the English routes would inherit it.
  */
 const SEO = ({
   title,
@@ -45,7 +49,7 @@ const SEO = ({
   alternateUrl,
   mirroredByPrefix = false,
 }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const siteUrl = SITE_CONFIG.url;
   const currentLang = i18n.language;
 
@@ -55,9 +59,9 @@ const SEO = ({
 
   const metaTitle = title
     ? `${title} | ${SITE_CONFIG.name}`
-    : `${SITE_CONFIG.name} | ${SITE_CONFIG.title}`;
+    : `${SITE_CONFIG.name} | ${t("siteConfig.title")}`;
 
-  const metaDescription = description || SITE_CONFIG.description;
+  const metaDescription = description || t("siteConfig.description");
 
   const metaImage = image
     ? image.startsWith("http")
