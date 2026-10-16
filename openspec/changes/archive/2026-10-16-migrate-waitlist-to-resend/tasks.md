@@ -42,12 +42,12 @@
 ## 7. One-time import of existing 24 addresses (manual runbook)
 
 - [x] 7.1 Build a CSV with an `email` header from `C:\Users\pawel\formspree_llmwiki_waitlist.txt` → `C:\Users\pawel\llmwiki_waitlist.csv` (24 lines → **22 unique** after dedup; kept out of the repo — PII)
-- [ ] 7.2 Import via the Resend dashboard CSV upload into the **LLM Wiki** Audience; if the free tier lacks CSV import, run a one-time idempotent Node script (reads the `.txt`, POSTs each via the same REST call, skips existing)
-- [ ] 7.3 Verify the **LLM Wiki** Audience holds 22 unique contacts (plus any test signups), no duplicates
+- [x] 7.2 Import via the Resend dashboard CSV upload into the **LLM Wiki** Audience; if the free tier lacks CSV import, run a one-time idempotent Node script (reads the `.txt`, POSTs each via the same REST call, skips existing) — confirmed by the owner, 2026-10-16 (the import was done)
+- [x] 7.3 Verify the **LLM Wiki** Audience holds 22 unique contacts (plus any test signups), no duplicates — confirmed by the owner: the Audience held 79 contacts at the 2026-10-15 reading (the 22 imported plus form signups since the cutover, so more than the 22 + tests this task assumed); the 2026-10-15 test signup is removed, per the owner on 2026-10-16
 
 ## 8. Launch broadcast (manual runbook — GATED)
 
-- [ ] 8.1 Create a Resend broadcast; paste the body from `2026-07-03_mail-waitlist-kurs-live.md`; set `From: …@lipowczan.pl` and `Reply-To:` the personal Gmail
-- [ ] 8.2 Replace the "odpisz «stop»" footer with Resend's native `{{{RESEND_UNSUBSCRIBE_URL}}}`
-- [ ] 8.3 Send a test to self → verify inbox placement, SPF/DKIM/DMARC = PASS, and the unsubscribe link works
-- [ ] 8.4 **GATE:** confirm the course is live at `https://pawel.lipowczan.pl/llm-wiki/kurs`, then send the broadcast to the Audience
+- [x] 8.1 Create a Resend broadcast; paste the body from `2026-07-03_mail-waitlist-kurs-live.md`; set `From: …@lipowczan.pl` and `Reply-To:` the personal Gmail — confirmed by the owner, 2026-10-16 (the `WaitlistLaunch` broadcast went out)
+- [x] 8.2 Replace the "odpisz «stop»" footer with Resend's native `{{{RESEND_UNSUBSCRIBE_URL}}}` — ticked on the owner's word, 2026-10-16, that the broadcast was sent; this sub-step was not verified separately
+- [x] 8.3 Send a test to self → verify inbox placement, SPF/DKIM/DMARC = PASS, and the unsubscribe link works — ticked on the owner's word, 2026-10-16, that the broadcast was sent; this sub-step was not verified separately
+- [x] 8.4 **GATE:** confirm the course is live at `https://pawel.lipowczan.pl/llm-wiki/kurs`, then send the broadcast to the Audience — confirmed by the owner, 2026-10-16: the `WaitlistLaunch` broadcast was sent on 2026-07-04 to 23 addresses (Broadcasts tab in Resend). A second broadcast, "Szablon LLM Wiki ma pierwszą wersję: v0.1.0", followed on 2026-07-13; nothing since, so contacts who signed up later have not received any message yet
