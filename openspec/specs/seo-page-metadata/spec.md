@@ -19,7 +19,7 @@ Every HTML document the site serves SHALL contain exactly one `<meta name="descr
 
 - **WHEN** the `SEO` component renders without a `description` prop
 - **THEN** the document still contains exactly one `<meta name="description">` tag
-- **AND** its content is the default from `SITE_CONFIG.description`
+- **AND** its content is the `siteConfig.description` locale value of the page's language, not a Polish constant on an English route
 
 ### Requirement: Canonical points at the page's own URL
 
@@ -128,3 +128,17 @@ one part of the head that currently escapes it.
 - **WHEN** a crawler fetches `/en/` and the Polish and English homepages both
   declare the same entity
 - **THEN** the document contains that entity exactly once
+
+### Requirement: The default title is localised
+
+A page that passes no `title` to `SEO` SHALL get the title `<site name> | <siteConfig.title>`, with `siteConfig.title` taken from the locale of the page's language. `<title>`, `og:title` and `twitter:title` SHALL carry the same string.
+
+#### Scenario: English home page title
+
+- **WHEN** a crawler fetches `/en/`
+- **THEN** `<title>`, `og:title` and `twitter:title` are "Pawel Lipowczan | Your Tech Guide"
+
+#### Scenario: Polish home page title is unchanged
+
+- **WHEN** a crawler fetches `/`
+- **THEN** `<title>`, `og:title` and `twitter:title` are "Pawel Lipowczan | Twój Przewodnik Technologiczny"
