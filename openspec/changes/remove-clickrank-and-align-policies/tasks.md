@@ -17,15 +17,16 @@
 
 ## 3. Policy copy
 
-- [ ] 3.1 Draft the cookie-policy and privacy-policy changes (PL and EN) from the inventory in `design.md`: Google Fonts and the "font size" example out; storage entries, Google Analytics after accept, Zencal on booking, Vercel Analytics and Speed Insights in; recipients named by service, LLM Wiki list as a purpose
-- [ ] 3.2 Review the draft with the `ss:legal` skill; apply remarks that correct a factual or wording error, and record every remark with its outcome for the pull request; verify no sentence asserts a lawful basis, transfer safeguard or retention period that the code or vendor documentation does not establish
-- [ ] 3.3 Apply the copy to `src/locales/pl/legal.json`, `src/locales/en/legal.json` and the page components; verify `/cookie-policy`, `/en/cookie-policy`, `/privacy-policy` and `/en/privacy-policy` render with no missing key and no mention of Google Fonts or ClickRank
-- [ ] 3.4 Run the plain-Polish vocabulary gate from `.claude/rules/content/10-prosty-polski.md` on the PL copy; verify no hit in prose
+- [x] 3.1 Draft the cookie-policy and privacy-policy changes (PL and EN) from the inventory in `design.md`: Google Fonts and the "font size" example out; storage entries, Google Analytics after accept, Zencal on booking, Vercel Analytics and Speed Insights in; recipients named by service, LLM Wiki list as a purpose
+- [x] 3.2 Review the draft with the `ss:legal` skill; apply remarks that correct a factual or wording error, and record every remark with its outcome for the pull request; verify no sentence asserts a lawful basis, transfer safeguard or retention period that the code or vendor documentation does not establish
+- [x] 3.3 Apply the copy to `src/locales/pl/legal.json`, `src/locales/en/legal.json` and the page components; verify `/cookie-policy`, `/en/cookie-policy`, `/privacy-policy` and `/en/privacy-policy` render with no missing key and no mention of Google Fonts or ClickRank
+- [x] 3.4 Run the plain-Polish vocabulary gate from `.claude/rules/content/10-prosty-polski.md` on the PL copy; verify no hit in prose
+- [x] 3.6 Add to `tests/e2e/policy-pages.spec.js`: each legal page shows the date its file declares (PL and EN, no unresolved key), and the cookie and privacy policies name the services the site loads and none it removed; verify the spec passes on the default projects
 - [ ] 3.5 Run the `policy-pages`, `a11y-baseline` and `analytics-consent` specs; verify they pass
 
 ## 4. Scope move out of consolidate-ui-drift
 
-- [ ] 4.1 Remove task group 1, the cookie-policy bullets in `proposal.md` and `design.md`, and `specs/analytics-consent/` from `openspec/changes/consolidate-ui-drift/`, noting that the disclosure moved to this change; verify `openspec validate consolidate-ui-drift` passes
+- [x] 4.1 Remove task group 1, the cookie-policy bullets in `proposal.md` and `design.md`, and `specs/analytics-consent/` from `openspec/changes/consolidate-ui-drift/`, noting that the disclosure moved to this change; verify `openspec validate consolidate-ui-drift` passes
 
 ## 5. Integration
 
