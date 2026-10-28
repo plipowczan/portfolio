@@ -76,6 +76,9 @@ const CookiePolicy = () => {
                 <p className="leading-relaxed">
                   {t("cookies.section1.content")}
                 </p>
+                <p className="leading-relaxed mt-4">
+                  {t("cookies.section1.storage")}
+                </p>
               </section>
 
               <section>
@@ -89,19 +92,10 @@ const CookiePolicy = () => {
                 <div className="space-y-4">
                   <div className="card">
                     <h3 className="text-xl font-bold text-white mb-2">
-                      {t("cookies.section2.essential.title")}
+                      {t("cookies.section2.preferences.title")}
                     </h3>
                     <p className="text-gray-400">
-                      {t("cookies.section2.essential.content")}
-                    </p>
-                  </div>
-
-                  <div className="card">
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      {t("cookies.section2.functional.title")}
-                    </h3>
-                    <p className="text-gray-400">
-                      {t("cookies.section2.functional.content")}
+                      {t("cookies.section2.preferences.content")}
                     </p>
                   </div>
 
@@ -111,6 +105,15 @@ const CookiePolicy = () => {
                     </h3>
                     <p className="text-gray-400">
                       {t("cookies.section2.analytics.content")}
+                    </p>
+                  </div>
+
+                  <div className="card">
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {t("cookies.section2.booking.title")}
+                    </h3>
+                    <p className="text-gray-400">
+                      {t("cookies.section2.booking.content")}
                     </p>
                   </div>
 
@@ -140,6 +143,10 @@ const CookiePolicy = () => {
                   <li>
                     <strong>{t("cookies.section3.item2.label")}</strong>
                     {t("cookies.section3.item2.text")}
+                  </li>
+                  <li>
+                    <strong>{t("cookies.section3.item3.label")}</strong>
+                    {t("cookies.section3.item3.text")}
                   </li>
                 </ul>
                 <p className="leading-relaxed mt-4">

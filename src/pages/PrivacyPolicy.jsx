@@ -73,6 +73,8 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section2.item1")}</li>
                   <li>{t("privacy.section2.item2")}</li>
                   <li>{t("privacy.section2.item3")}</li>
+                  <li>{t("privacy.section2.item4")}</li>
+                  <li>{t("privacy.section2.item5")}</li>
                 </ul>
               </section>
 
@@ -88,6 +90,7 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section3.item2")}</li>
                   <li>{t("privacy.section3.item3")}</li>
                   <li>{t("privacy.section3.item4")}</li>
+                  <li>{t("privacy.section3.item5")}</li>
                 </ul>
               </section>
 
@@ -144,6 +147,9 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section7.item1")}</li>
                   <li>{t("privacy.section7.item2")}</li>
                   <li>{t("privacy.section7.item3")}</li>
+                  <li>{t("privacy.section7.item4")}</li>
+                  <li>{t("privacy.section7.item5")}</li>
+                  <li>{t("privacy.section7.item6")}</li>
                 </ul>
                 <p className="leading-relaxed mt-4">
                   {t("privacy.section7.footer")}
