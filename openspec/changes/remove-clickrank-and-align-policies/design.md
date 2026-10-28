@@ -59,7 +59,7 @@ The new build check parses `<script>` elements of every built HTML file and fail
 
 Alternative considered: a generic "no third-party script in static HTML" rule. Rejected for now — Vercel's same-origin scripts and future embeds would need an allowlist whose design is a change of its own. The named check is what the removal needs.
 
-A second, runtime guard lives in a new E2E spec: load a page, wait past the 3 s idle timeout, assert no request reached a `clickrank.ai` host. It covers a reintroduction through application code, which the static check cannot see. It asserts only on network requests, so it qualifies for `ENGINE_INDEPENDENT`.
+A second, runtime guard lives in a new E2E spec: load a page, wait past the 3 s idle timeout, assert no request reached a `clickrank.ai` host. It covers a reintroduction through application code, which the static check cannot see. It asserts only on network requests and would qualify for `ENGINE_INDEPENDENT`; it stays on the default projects so the pinned list and the rule that documents it stay untouched.
 
 ### D3 — The visible date reuses the sitemap marker's date, enforced by the sitemap step
 
@@ -88,7 +88,7 @@ That change's task group 1 and its `analytics-consent` delta are removed there a
 
 - **The removal discards whatever ClickRank's server had stored for this site.** → Measured above: its only effect was a duplicate canonical tag. Nothing to preserve. Any paid subscription is cancelled by Paweł outside the repository.
 - **Policy wording without a lawyer.** → Drafted from observed facts only, reviewed with `ss:legal`; open legal questions are listed in the pull request rather than resolved in copy.
-- **The E2E spec waits ~4 s per test.** → One spec file, two routes, chromium only.
+- **The E2E spec waits ~4 s per test.** → One spec file, two routes; about 12 s per project locally.
 - **The `LAST_UPDATED` / marker pairing is two values in one file.** → The sitemap step fails the build on disagreement, so the pair cannot drift silently.
 - **Zencal may change what it stores.** → The policy describes the widget's category of storage and links the vendor, not a frozen key list.
 

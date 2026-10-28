@@ -32,7 +32,7 @@ Policy wording is legal material. It is drafted from what the code and a live ch
 
 - **Code:** `index.html`, `vercel.json`, `src/utils/analytics.js` (comment), `src/pages/PrivacyPolicy.jsx`, `src/pages/TermsOfService.jsx`, `src/pages/CookiePolicy.jsx`, a new pure date formatter in `src/utils/`, `scripts/update-sitemap.js`, `scripts/verify-prerender-output.mjs`.
 - **Copy:** `src/locales/pl/legal.json`, `src/locales/en/legal.json`.
-- **Tests:** `tests/e2e/seo-security-headers.spec.js` (CSP expectation inverted), a new engine-independent E2E spec for third-party requests, new unit tests for the prerender check and the date formatter.
+- **Tests:** `tests/e2e/seo-security-headers.spec.js` (CSP expectation inverted), a new E2E spec for third-party requests, date and inventory assertions in `tests/e2e/policy-pages.spec.js`, new unit tests for the prerender check and the date formatter.
 - **Other change:** `openspec/changes/consolidate-ui-drift/` loses task group 1 and its `analytics-consent` delta.
-- **Docs:** `src/AGENTS.md` (legal-page date rule, utils list), `scripts/AGENTS.md` (new prerender check), `tests/AGENTS.md` if the engine-independent list changes.
+- **Docs:** `src/AGENTS.md` (legal-page date rule, utils list), `scripts/AGENTS.md` (new prerender check).
 - **Not touched:** the blog article that describes the 2026-04 ClickRank deferral as a case study (`src/content/blog/spec-driven-seo-portfolio-qamera-ai.md` and its EN translation) — it is published history, and whether to annotate it is left to Paweł. The ClickRank subscription itself, if one exists, is Paweł's to cancel outside the repository.

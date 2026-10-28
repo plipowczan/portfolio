@@ -22,7 +22,7 @@
 - [x] 3.3 Apply the copy to `src/locales/pl/legal.json`, `src/locales/en/legal.json` and the page components; verify `/cookie-policy`, `/en/cookie-policy`, `/privacy-policy` and `/en/privacy-policy` render with no missing key and no mention of Google Fonts or ClickRank
 - [x] 3.4 Run the plain-Polish vocabulary gate from `.claude/rules/content/10-prosty-polski.md` on the PL copy; verify no hit in prose
 - [x] 3.6 Add to `tests/e2e/policy-pages.spec.js`: each legal page shows the date its file declares (PL and EN, no unresolved key), and the cookie and privacy policies name the services the site loads and none it removed; verify the spec passes on the default projects
-- [ ] 3.5 Run the `policy-pages`, `a11y-baseline` and `analytics-consent` specs; verify they pass
+- [x] 3.5 Run the `policy-pages`, `a11y-baseline` and `analytics-consent` specs; verify they pass
 
 ## 4. Scope move out of consolidate-ui-drift
 
@@ -32,4 +32,4 @@
 
 - [ ] 5.1 Run `npm run build:prerender`; verify the output check passes and `grep -ril clickrank dist --include=*.html` lists only the case-study article pages
 - [ ] 5.2 Run `npm test` and `npm run test:unit`; verify both pass
-- [ ] 5.3 Run `openspec validate remove-clickrank-and-align-policies --strict`; verify it passes
+- [x] 5.3 Run `openspec validate remove-clickrank-and-align-policies --strict`; verify it passes
