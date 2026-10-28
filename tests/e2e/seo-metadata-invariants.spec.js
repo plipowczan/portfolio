@@ -620,8 +620,8 @@ test.describe("SEO — page metadata invariants", () => {
   test.describe("prerendered head is replaced on mount, not added to", () => {
     test.beforeEach(async ({ page, baseURL }) => {
       // Only the app may write to <head> here. A third-party script that adds
-      // tags of its own (ClickRank inserts canonicals) would make the count
-      // measure it instead.
+      // tags of its own (ClickRank inserted canonicals until 2026-10-28) would
+      // make the count measure it instead.
       const own = new URL(baseURL).origin;
       await page.route(
         (url) => url.origin !== own,
