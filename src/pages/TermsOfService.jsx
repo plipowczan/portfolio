@@ -1,5 +1,5 @@
 /**
- * @sitemapUpdated 2026-07-29
+ * @sitemapUpdated 2026-03-31
  *
  * Data ostatniej znaczacej zmiany tresci tej strony, czytana przez
  * scripts/update-sitemap.js. Trzymana tutaj, a nie wyciagana z historii
@@ -18,7 +18,7 @@ import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
 import { formatCalendarDate } from "../utils/formatCalendarDate";
 
 /** Dzien ostatniej zmiany tresci dokumentu - ten sam co @sitemapUpdated wyzej. */
-const LAST_UPDATED = "2026-07-29";
+const LAST_UPDATED = "2026-03-31";
 
 const TermsOfService = () => {
   const { t, i18n } = useTranslation("legal");

@@ -42,7 +42,7 @@ With ClickRank running, the DOM ends with four `rel="canonical"` links instead o
 
 **Non-Goals:**
 
-- Rewriting the policies' legal analysis. Lawful basis per processing, transfer safeguards and retention periods are questions for Paweł, raised in the pull request with the `ss:legal` review notes — not answered by this change.
+- A full legal review of the policies. The bases, safeguards and retention added under D7 are Paweł's decisions on concrete gaps, not a rewrite; a review by a data-protection specialist stays recommended.
 - Fixing the duplicated head tags after hydration (see the side observation above).
 - Editing the published case-study article.
 - Changing what the Zencal widget stores; it is a vendor embed and is only described.
@@ -84,6 +84,21 @@ Statements about the cookieless tools follow Vercel's own documentation (no cook
 
 That change's task group 1 and its `analytics-consent` delta are removed there and absorbed here (`specs/analytics-consent/spec.md`, reworded so the general naming rule lives once, in `policy-pages`). Two changes editing the same policy paragraphs would conflict, and the requirement would be specified twice. The move is a separate commit so it can be reverted alone if Paweł prefers the original split.
 
+### D7 — Paweł's decisions of 2026-10-28 (`/ss:decisions`)
+
+| Question | Decision |
+| --- | --- |
+| Vercel measurement without consent | stays without consent; the policy discloses it; legal risk (EDPB Guidelines 2/2023, art. 399 PKE) left for a specialist |
+| Cookie banner sentence | names Google Analytics instead of "analytics" |
+| Where the Vercel disclosure lives | this change (D6 stands) |
+| Legal basis per purpose (§4) | the `ss:legal` mapping: contact form (f), consultation (b), LLM Wiki list (a), Google Analytics (a), Vercel measurement, hosting and Sentry reports (f) |
+| Transfers outside the EEA | one sentence, from the vendors' own documents, for the vendors whose documents name a mechanism (Vercel, Google, Resend: Data Privacy Framework, standard contractual clauses in the DPA). Formspree names none, so the policy claims none for it |
+| LLM Wiki list | address kept until unsubscribe; unsubscribe by the link in each message or by email |
+| Controller name | "Paweł" with "ł" in both policies; the terms are not touched, so their date stays true |
+| Terms date | 2026-03-31, when today's wording settled in both languages; marker and constant move together |
+
+The official DPF participant list renders only in a browser component the check could not query, so the DPF statements rest on the vendors' pages; Paweł confirms them on the list.
+
 ## Risks / Trade-offs
 
 - **The removal discards whatever ClickRank's server had stored for this site.** → Measured above: its only effect was a duplicate canonical tag. Nothing to preserve. Any paid subscription is cancelled by Paweł outside the repository.
@@ -102,5 +117,7 @@ That change's task group 1 and its `analytics-consent` delta are removed there a
 Rollback: revert the commit. Reintroducing ClickRank would also require reverting the build check, which is the point.
 
 ## Open Questions
+
+- Formspree: request its DPA with standard contractual clauses, or move the contact form to a same-origin endpoint as the LLM Wiki list already is. Until then the policy names Formspree as US-based and claims no safeguard for it.
 
 - Whether to annotate the 2026-04 case-study article that ClickRank has since been removed. Does not affect this change.

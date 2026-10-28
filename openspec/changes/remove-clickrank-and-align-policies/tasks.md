@@ -28,8 +28,16 @@
 
 - [x] 4.1 Remove task group 1, the cookie-policy bullets in `proposal.md` and `design.md`, and `specs/analytics-consent/` from `openspec/changes/consolidate-ui-drift/`, noting that the disclosure moved to this change; verify `openspec validate consolidate-ui-drift` passes
 
-## 5. Integration
+## 5. Paweł's decisions of 2026-10-28
 
-- [x] 5.1 Run `npm run build:prerender`; verify the output check passes and `grep -ril clickrank dist --include=*.html` lists only the case-study article pages
-- [x] 5.2 Run `npm test` and `npm run test:unit`; verify both pass
-- [x] 5.3 Run `openspec validate remove-clickrank-and-align-policies --strict`; verify it passes
+- [x] 5.1 Check each US provider's published transfer mechanism (DPA, DPF statement); verify every claim in the policy has a vendor source and that a provider without one gets no claim
+- [x] 5.2 Pair each purpose with its legal basis in §4, add the LLM Wiki retention and unsubscribe sentence to §5, the transfer sentence to §7, and "Paweł" to §1 (PL and EN); verify the plain-Polish and dash gates have no hit
+- [x] 5.3 Change the cookie banner sentence to name Google Analytics (PL and EN); verify no remaining copy says all analytics waits for consent
+- [x] 5.4 Set the terms marker and `LAST_UPDATED` to 2026-03-31 and regenerate the sitemap; verify `npm run blog:sitemap` passes
+- [x] 5.5 Assert in `tests/e2e/policy-pages.spec.js` that the privacy policy names the legal bases and the unsubscribe path in both languages; verify `policy-pages`, `analytics-consent` and `a11y-baseline` pass
+
+## 6. Integration
+
+- [x] 6.1 Run `npm run build:prerender`; verify the output check passes and `grep -ril clickrank dist --include=*.html` lists only the case-study article pages
+- [x] 6.2 Run `npm test` and `npm run test:unit`; verify both pass
+- [x] 6.3 Run `openspec validate remove-clickrank-and-align-policies --strict`; verify it passes

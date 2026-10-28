@@ -74,3 +74,19 @@ A change that adds or removes a third-party service SHALL update both policies i
 
 - **WHEN** a third-party service is removed from the site
 - **THEN** the same change removes it from both policies
+
+### Requirement: The privacy policy states a legal basis for each purpose
+
+The privacy policy SHALL pair each purpose of processing it lists with the legal basis that applies to it, and SHALL name the legitimate interest wherever that is the basis. For a purpose that rests on consent it SHALL say how the consent is withdrawn and how long the data is kept.
+
+The bases are the controller's own statement. They were set by Paweł on 2026-10-28 and SHALL NOT be changed by an agent without his decision.
+
+#### Scenario: Every purpose has a basis
+
+- **WHEN** the privacy policy is read in Polish or in English
+- **THEN** each purpose listed in its purposes section has a legal basis with its GDPR article in the legal-basis section
+
+#### Scenario: Consent-based mailing list says how to leave it
+
+- **WHEN** the privacy policy is read in Polish or in English
+- **THEN** it states that the LLM Wiki list address is kept until the subscriber unsubscribes, and how to unsubscribe

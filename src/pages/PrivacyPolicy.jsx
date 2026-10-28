@@ -105,6 +105,8 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section4.item1")}</li>
                   <li>{t("privacy.section4.item2")}</li>
                   <li>{t("privacy.section4.item3")}</li>
+                  <li>{t("privacy.section4.item4")}</li>
+                  <li>{t("privacy.section4.item5")}</li>
                 </ul>
               </section>
 

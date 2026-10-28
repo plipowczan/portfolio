@@ -76,8 +76,20 @@ const LEGAL_PAGES = [
 ];
 
 const LANGUAGES = [
-  { prefix: "", locale: "pl-PL", label: "Ostatnia aktualizacja" },
-  { prefix: "/en", locale: "en-US", label: "Last updated" },
+  {
+    prefix: "",
+    locale: "pl-PL",
+    label: "Ostatnia aktualizacja",
+    bases: ["art. 6 ust. 1 lit. a", "art. 6 ust. 1 lit. b", "art. 6 ust. 1 lit. f"],
+    unsubscribe: /do czasu wypisania/,
+  },
+  {
+    prefix: "/en",
+    locale: "en-US",
+    label: "Last updated",
+    bases: ["Art. 6(1)(a)", "Art. 6(1)(b)", "Art. 6(1)(f)"],
+    unsubscribe: /until you unsubscribe/,
+  },
 ];
 
 test.describe("Policy Pages - fixed last-updated date", () => {
@@ -98,7 +110,7 @@ test.describe("Policy Pages - fixed last-updated date", () => {
 });
 
 test.describe("Policy Pages - services named match what the site loads", () => {
-  for (const { prefix } of LANGUAGES) {
+  for (const { prefix, bases, unsubscribe } of LANGUAGES) {
     test(`${prefix}/cookie-policy names every service it loads, and no removed one`, async ({
       page,
     }) => {
@@ -120,6 +132,11 @@ test.describe("Policy Pages - services named match what the site loads", () => {
       for (const name of ["Vercel", "Google", "Formspree", "Resend", "Zencal", "Sentry", "LLM Wiki"]) {
         await expect(body).toContainText(name);
       }
+      // Each purpose is paired with its basis; the consent-based list says how to leave it.
+      for (const basis of bases) {
+        await expect(body).toContainText(basis);
+      }
+      await expect(body).toContainText(unsubscribe);
       await expect(body).not.toContainText(/Google Fonts|ClickRank/i);
     });
   }
