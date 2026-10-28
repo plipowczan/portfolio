@@ -1,11 +1,14 @@
 /**
- * @sitemapUpdated 2026-07-30
+ * @sitemapUpdated 2026-10-28
  *
  * Data ostatniej znaczacej zmiany tresci tej strony, czytana przez
  * scripts/update-sitemap.js. Trzymana tutaj, a nie wyciagana z historii
  * gita, bo srodowisko budujace klonuje repozytorium ze skrocona historia
  * i kazdy plik nietkniety od granicy skrotu raportowal te sama, falszywa
  * date. Zmieniasz tresc strony - zmieniasz te date.
+ *
+ * Ten sam dzien pokazuje wiersz "Ostatnia aktualizacja" (LAST_UPDATED nizej).
+ * scripts/update-sitemap.js zatrzymuje build, gdy obie daty sie rozjada.
  */
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -14,6 +17,10 @@ import SEO from "../components/seo/SEO";
 import useLocalizedPath from "../hooks/useLocalizedPath";
 import { getConsentState, withdrawAnalyticsConsent } from "../utils/analytics";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
+import { formatCalendarDate } from "../utils/formatCalendarDate";
+
+/** Dzien ostatniej zmiany tresci dokumentu - ten sam co @sitemapUpdated wyzej. */
+const LAST_UPDATED = "2026-10-28";
 
 const CookiePolicy = () => {
   const { t, i18n } = useTranslation("legal");
@@ -57,7 +64,7 @@ const CookiePolicy = () => {
               </h1>
               <p className="text-gray-400">{t("cookies.subtitle")}</p>
               <p className="text-sm text-gray-400">
-                {t("cookies.lastUpdate", { date: new Date().toLocaleDateString(dateLocale) })}
+                {t("cookies.lastUpdate", { date: formatCalendarDate(LAST_UPDATED, dateLocale) })}
               </p>
             </div>
 
@@ -68,6 +75,9 @@ const CookiePolicy = () => {
                 </h2>
                 <p className="leading-relaxed">
                   {t("cookies.section1.content")}
+                </p>
+                <p className="leading-relaxed mt-4">
+                  {t("cookies.section1.storage")}
                 </p>
               </section>
 
@@ -82,19 +92,10 @@ const CookiePolicy = () => {
                 <div className="space-y-4">
                   <div className="card">
                     <h3 className="text-xl font-bold text-white mb-2">
-                      {t("cookies.section2.essential.title")}
+                      {t("cookies.section2.preferences.title")}
                     </h3>
                     <p className="text-gray-400">
-                      {t("cookies.section2.essential.content")}
-                    </p>
-                  </div>
-
-                  <div className="card">
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      {t("cookies.section2.functional.title")}
-                    </h3>
-                    <p className="text-gray-400">
-                      {t("cookies.section2.functional.content")}
+                      {t("cookies.section2.preferences.content")}
                     </p>
                   </div>
 
@@ -104,6 +105,15 @@ const CookiePolicy = () => {
                     </h3>
                     <p className="text-gray-400">
                       {t("cookies.section2.analytics.content")}
+                    </p>
+                  </div>
+
+                  <div className="card">
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {t("cookies.section2.booking.title")}
+                    </h3>
+                    <p className="text-gray-400">
+                      {t("cookies.section2.booking.content")}
                     </p>
                   </div>
 
@@ -133,6 +143,10 @@ const CookiePolicy = () => {
                   <li>
                     <strong>{t("cookies.section3.item2.label")}</strong>
                     {t("cookies.section3.item2.text")}
+                  </li>
+                  <li>
+                    <strong>{t("cookies.section3.item3.label")}</strong>
+                    {t("cookies.section3.item3.text")}
                   </li>
                 </ul>
                 <p className="leading-relaxed mt-4">

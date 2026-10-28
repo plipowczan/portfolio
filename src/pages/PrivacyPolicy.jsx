@@ -1,17 +1,24 @@
 /**
- * @sitemapUpdated 2026-07-29
+ * @sitemapUpdated 2026-10-28
  *
  * Data ostatniej znaczacej zmiany tresci tej strony, czytana przez
  * scripts/update-sitemap.js. Trzymana tutaj, a nie wyciagana z historii
  * gita, bo srodowisko budujace klonuje repozytorium ze skrocona historia
  * i kazdy plik nietkniety od granicy skrotu raportowal te sama, falszywa
  * date. Zmieniasz tresc strony - zmieniasz te date.
+ *
+ * Ten sam dzien pokazuje wiersz "Ostatnia aktualizacja" (LAST_UPDATED nizej).
+ * scripts/update-sitemap.js zatrzymuje build, gdy obie daty sie rozjada.
  */
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import SEO from "../components/seo/SEO";
 import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
+import { formatCalendarDate } from "../utils/formatCalendarDate";
+
+/** Dzien ostatniej zmiany tresci dokumentu - ten sam co @sitemapUpdated wyzej. */
+const LAST_UPDATED = "2026-10-28";
 
 const PrivacyPolicy = () => {
   const { t, i18n } = useTranslation("legal");
@@ -41,7 +48,7 @@ const PrivacyPolicy = () => {
               </h1>
               <p className="text-gray-400">{t("privacy.subtitle")}</p>
               <p className="text-sm text-gray-400">
-                {t("privacy.lastUpdate", { date: new Date().toLocaleDateString(dateLocale) })}
+                {t("privacy.lastUpdate", { date: formatCalendarDate(LAST_UPDATED, dateLocale) })}
               </p>
             </div>
 
@@ -66,6 +73,8 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section2.item1")}</li>
                   <li>{t("privacy.section2.item2")}</li>
                   <li>{t("privacy.section2.item3")}</li>
+                  <li>{t("privacy.section2.item4")}</li>
+                  <li>{t("privacy.section2.item5")}</li>
                 </ul>
               </section>
 
@@ -81,6 +90,7 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section3.item2")}</li>
                   <li>{t("privacy.section3.item3")}</li>
                   <li>{t("privacy.section3.item4")}</li>
+                  <li>{t("privacy.section3.item5")}</li>
                 </ul>
               </section>
 
@@ -95,6 +105,8 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section4.item1")}</li>
                   <li>{t("privacy.section4.item2")}</li>
                   <li>{t("privacy.section4.item3")}</li>
+                  <li>{t("privacy.section4.item4")}</li>
+                  <li>{t("privacy.section4.item5")}</li>
                 </ul>
               </section>
 
@@ -137,6 +149,9 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section7.item1")}</li>
                   <li>{t("privacy.section7.item2")}</li>
                   <li>{t("privacy.section7.item3")}</li>
+                  <li>{t("privacy.section7.item4")}</li>
+                  <li>{t("privacy.section7.item5")}</li>
+                  <li>{t("privacy.section7.item6")}</li>
                 </ul>
                 <p className="leading-relaxed mt-4">
                   {t("privacy.section7.footer")}

@@ -11,11 +11,10 @@ The sequencing constraint matters more than any single decision here. `meet-wcag
 - One implementation of the article table of contents.
 - One declaration of the brand colour.
 - Animations that comply with the repository's own stated motion rule.
-- A cookie policy that matches what the site loads.
 
 **Non-Goals:**
 
-- Any change to how anything looks. A reviewer comparing screenshots before and after should find no difference outside the cookie policy's text.
+- Any change to how anything looks. A reviewer comparing screenshots before and after should find no difference.
 - Changing palette values, spacing, typography, or layout.
 - Extracting further shared components. The duplication being removed is the one the audit measured; hunting for more is a different change.
 - Adding a design-token system. One colour has four sources of truth; that is a specific defect, not an argument for a token layer.
@@ -56,14 +55,12 @@ The visible caveat: scaling a fill also scales anything painted inside it. The f
 - **The canvas reads a custom property at runtime.** If the stylesheet has not applied when the component mounts, `getComputedStyle` returns an empty string and the particles render invisible. → Read once with a literal fallback, and verify on a cold load rather than only on a hot reload.
 - **`scaleX` distorts a rounded cap** at very low fill values. → Inspect the bars at their smallest configured level; this is a visual check, not an assertable one.
 - **Merge conflicts with `meet-wcag-aa-baseline`** across four shared files. → The sequencing in Context; rebase rather than merge, and land this change only after the accessibility change is on `main`.
-- **Cookie policy wording is a legal-adjacent text.** → It states what the code does and nothing more; it makes no new claim about lawful basis or retention.
 
 ## Migration Plan
 
-1. Cookie policy disclosure — independent of every other item, no shared files, can land alone.
-2. Brand colour consolidation — mechanical, verified by grep plus a visual check.
-3. Modal exit animation — one-line structural fix, verified by watching the booking modal close.
-4. Animation substitutions — after `meet-wcag-aa-baseline` is on `main`.
-5. Table of contents deduplication — largest deletion, kept last so a revert touches nothing else.
+1. Brand colour consolidation — mechanical, verified by grep plus a visual check.
+2. Modal exit animation — one-line structural fix, verified by watching the booking modal close.
+3. Animation substitutions — after `meet-wcag-aa-baseline` is on `main`.
+4. Table of contents deduplication — largest deletion, kept last so a revert touches nothing else.
 
-**Rollback:** each step is independently revertable. Steps 2–5 change no rendered output, so a regression shows up as a visual or behavioural difference rather than as a data problem.
+**Rollback:** each step is independently revertable. No step changes rendered output, so a regression shows up as a visual or behavioural difference rather than as a data problem.

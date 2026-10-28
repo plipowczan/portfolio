@@ -16,7 +16,8 @@ and the shared hooks and utilities behind them.
 - `locales/pl/`, `locales/en/` — i18next translation resources
 - `styles/` — `index.css` (global + custom animations) and `fonts.css`
 - `utils/` — `analytics.js`, `constants.js`, `extractFirstParagraph.js`,
-  `faqExtractor.js`, `prerenderMarker.js`, `prerenderedHead.js`
+  `faqExtractor.js`, `formatCalendarDate.js`, `prerenderMarker.js`,
+  `prerenderedHead.js`, `serializeJsonLd.js`
 - `assets/fonts/` — self-hosted font files
 - `App.jsx`, `main.jsx`, `i18n.js`
 
@@ -36,6 +37,13 @@ General React, Tailwind, and router style is not repeated here — it lives in
   `git log`, which the shallow clone in the build environment turns into the
   same wrong date for every untouched file. Change the page's content, change
   the marker.
+- **The three legal pages show that same date as "Ostatnia aktualizacja".**
+  Each declares `const LAST_UPDATED = "YYYY-MM-DD"` under its marker and renders
+  it with `utils/formatCalendarDate.js`, which formats in UTC so a visitor west
+  of UTC does not see the day before. `scripts/update-sitemap.js` fails the
+  build when `LAST_UPDATED` and the marker differ. Never render `new Date()`
+  there: the static HTML then carried the build day and each visitor saw the
+  day of the visit, so the date said nothing about when the text changed.
 - **No PropTypes.** `prop-types` is not a dependency; importing it breaks Vite
   module resolution and blanks the entire app. Document props with JSDoc and
   validate data at module boundaries instead.
