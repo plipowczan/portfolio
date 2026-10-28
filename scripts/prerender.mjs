@@ -118,7 +118,7 @@ const CONTENT_ROUTES = new Set([
   ...courseRoutes.filter((route) => route !== "/llm-wiki/kurs"),
 ]);
 
-// "/" goes last, and the order is load-bearing.
+// "/" goes last.
 //
 // Prerendering "/" writes dist/index.html — the very file `vite preview` hands
 // back for any route that has no generated file yet. Render it first and every
@@ -130,8 +130,9 @@ const CONTENT_ROUTES = new Set([
 //
 // react-helmet-async used to hide this: it tagged what it managed with
 // `data-rh` and dropped pre-existing `data-rh` elements on mount, sweeping the
-// shell clean. React 19 marks nothing, so the pipeline has to stop poisoning
-// the shell in the first place.
+// shell clean. <SEO> does the same again since 2026-10-28 (`data-seo`, see
+// src/utils/prerenderedHead.js), so a poisoned shell would now be swept too.
+// The order stays as the guard that does not depend on client code.
 //
 // scripts/verify-prerender-output.mjs fails the build if this regresses.
 const orderedRoutes = [...allRoutes.filter((r) => r !== "/"), "/"];

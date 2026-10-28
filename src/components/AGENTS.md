@@ -35,6 +35,14 @@ One folder per role. A new component goes in exactly one of them:
 ## Work Guidance
 
 - Head tags and JSON-LD go through `seo/`, never inline in a page.
+- Every tag `seo/SEO.jsx` emits spreads `seoTag` (the `data-seo` mark) last.
+  The mark is how the prerendered copy of a tag is found and removed on mount
+  (`src/utils/prerenderedHead.js`). A tag without it survives next to React's
+  own, and the page carries two once JavaScript runs. React 19 reuses an
+  existing head tag only while hydrating, and the app mounts with
+  `createRoot`. That is how every production page carried two of each until
+  2026-10-28. The replay block in `tests/e2e/seo-metadata-invariants.spec.js`
+  fails on any repeated head tag.
 - Text is translated through i18next; do not hardcode Polish or English strings
   in a component.
 - Modals render through the shared `ui/Modal.jsx` portal so focus handling and

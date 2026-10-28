@@ -1,5 +1,15 @@
+import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SITE_CONFIG } from "../../utils/constants";
+import {
+  SEO_TAG_ATTR,
+  removePrerenderedHead,
+} from "../../utils/prerenderedHead";
+
+// Spread last on every tag below. The mark is how the prerendered copies are
+// told apart from these on mount (see utils/prerenderedHead.js); placing it
+// last keeps the attribute order scripts/verify-prerender-output.mjs reads.
+const seoTag = { [SEO_TAG_ATTR]: "" };
 
 /**
  * Page-level metadata: title, description, canonical, hreflang, OG, Twitter.
@@ -36,6 +46,11 @@ import { SITE_CONFIG } from "../../utils/constants";
  * The default title (`<name> | <tagline>`) and the default description are the
  * `siteConfig.*` locale keys of the page's language, never a constant: a
  * constant is one language, and the English routes would inherit it.
+ *
+ * On a prerendered page `<head>` already holds these tags when the app mounts,
+ * and React 19 adds its own beside them rather than reusing them. The layout
+ * effect removes the prerendered copies in the same commit that inserts these,
+ * so the document never holds two sets — see `utils/prerenderedHead.js`.
  */
 const SEO = ({
   title,
@@ -50,6 +65,7 @@ const SEO = ({
   mirroredByPrefix = false,
 }) => {
   const { t, i18n } = useTranslation();
+  useLayoutEffect(() => removePrerenderedHead(), []);
   const siteUrl = SITE_CONFIG.url;
   const currentLang = i18n.language;
 
@@ -91,41 +107,63 @@ const SEO = ({
 
   return (
     <>
-      <title>{metaTitle}</title>
-      <meta name="description" content={metaDescription} />
-      <link rel="canonical" href={canonicalUrl} />
+      <title {...seoTag}>{metaTitle}</title>
+      <meta name="description" content={metaDescription} {...seoTag} />
+      <link rel="canonical" href={canonicalUrl} {...seoTag} />
 
       {/* Hreflang — emitted as a complete set or not at all */}
-      {hasAlternate && <link rel="alternate" hreflang="pl" href={plUrl} />}
-      {hasAlternate && <link rel="alternate" hreflang="en" href={enUrl} />}
       {hasAlternate && (
-        <link rel="alternate" hreflang="x-default" href={plUrl} />
+        <link rel="alternate" hreflang="pl" href={plUrl} {...seoTag} />
+      )}
+      {hasAlternate && (
+        <link rel="alternate" hreflang="en" href={enUrl} {...seoTag} />
+      )}
+      {hasAlternate && (
+        <link rel="alternate" hreflang="x-default" href={plUrl} {...seoTag} />
       )}
 
       {/* Open Graph */}
-      <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:type" content={article ? "article" : "website"} />
-      <meta property="og:title" content={metaTitle} />
-      <meta property="og:description" content={metaDescription} />
-      <meta property="og:image" content={metaImage} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:locale" content={currentLang === "en" ? "en_US" : "pl_PL"} />
+      <meta property="og:url" content={canonicalUrl} {...seoTag} />
+      <meta
+        property="og:type"
+        content={article ? "article" : "website"}
+        {...seoTag}
+      />
+      <meta property="og:title" content={metaTitle} {...seoTag} />
+      <meta property="og:description" content={metaDescription} {...seoTag} />
+      <meta property="og:image" content={metaImage} {...seoTag} />
+      <meta property="og:image:width" content="1200" {...seoTag} />
+      <meta property="og:image:height" content="630" {...seoTag} />
+      <meta
+        property="og:locale"
+        content={currentLang === "en" ? "en_US" : "pl_PL"}
+        {...seoTag}
+      />
 
       {/* Article Specific Meta Tags */}
       {article && publishedTime && (
-        <meta property="article:published_time" content={publishedTime} />
+        <meta
+          property="article:published_time"
+          content={publishedTime}
+          {...seoTag}
+        />
       )}
       {article && modifiedTime && (
-        <meta property="article:modified_time" content={modifiedTime} />
+        <meta
+          property="article:modified_time"
+          content={modifiedTime}
+          {...seoTag}
+        />
       )}
-      {article && author && <meta property="article:author" content={author} />}
+      {article && author && (
+        <meta property="article:author" content={author} {...seoTag} />
+      )}
 
       {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={metaTitle} />
-      <meta name="twitter:description" content={metaDescription} />
-      <meta name="twitter:image" content={metaImage} />
+      <meta name="twitter:card" content="summary_large_image" {...seoTag} />
+      <meta name="twitter:title" content={metaTitle} {...seoTag} />
+      <meta name="twitter:description" content={metaDescription} {...seoTag} />
+      <meta name="twitter:image" content={metaImage} {...seoTag} />
     </>
   );
 };

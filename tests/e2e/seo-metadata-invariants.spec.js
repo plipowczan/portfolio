@@ -138,6 +138,43 @@ const readHreflang = (page) =>
     })),
   );
 
+/** Counts main-frame document loads from the moment it is attached. */
+const countDocumentLoads = (page) => {
+  const counter = { loads: 0 };
+  page.on("load", () => {
+    counter.loads += 1;
+  });
+  return counter;
+};
+
+/**
+ * A route change driven straight through the router.
+ *
+ * Clicking a <Link> would be closer to what a user does, but it is not a
+ * reliable way to *guarantee* a client-side transition here. Two reasons:
+ * nothing reaches /llm-wiki/kurs through the router at all (absent from
+ * nav and footer; the one article that mentions it uses raw HTML from
+ * markdown, which reloads), and on the dev server a click from the blog
+ * listing to an article performs a document navigation rather than a
+ * client-side one — behaviour that predates this change and does not
+ * happen on the production build.
+ *
+ * `pushState` plus a `popstate` event is exactly what React Router
+ * subscribes to, so the route swaps without a document load. That is the
+ * condition under test: <SEO> unmounting and React removing the tags it
+ * hoisted for the previous route.
+ */
+const navigateClientSide = async (page, path) => {
+  await page.evaluate((target) => {
+    window.history.pushState({}, "", target);
+    window.dispatchEvent(new PopStateEvent("popstate", { state: {} }));
+  }, path);
+  await page.waitForFunction(
+    (target) => window.location.pathname === target,
+    path,
+  );
+};
+
 test.describe("SEO — page metadata invariants", () => {
   test("sitemap.xml parsed and every checked path is listed in it", () => {
     expect(SITEMAP.size).toBeGreaterThan(0);
@@ -456,43 +493,6 @@ test.describe("SEO — page metadata invariants", () => {
     const POST_B = "/blog/rag-ragowi-nierowny";
     const LESSON_WITHOUT_TRANSLATION = "/llm-wiki/kurs/0-co-to-drugi-mozg";
 
-    /** Counts main-frame document loads from the moment it is attached. */
-    const countDocumentLoads = (page) => {
-      const counter = { loads: 0 };
-      page.on("load", () => {
-        counter.loads += 1;
-      });
-      return counter;
-    };
-
-    /**
-     * A route change driven straight through the router.
-     *
-     * Clicking a <Link> would be closer to what a user does, but it is not a
-     * reliable way to *guarantee* a client-side transition here. Two reasons:
-     * nothing reaches /llm-wiki/kurs through the router at all (absent from
-     * nav and footer; the one article that mentions it uses raw HTML from
-     * markdown, which reloads), and on the dev server a click from the blog
-     * listing to an article performs a document navigation rather than a
-     * client-side one — behaviour that predates this change and does not
-     * happen on the production build.
-     *
-     * `pushState` plus a `popstate` event is exactly what React Router
-     * subscribes to, so the route swaps without a document load. That is the
-     * condition under test: <SEO> unmounting and React removing the tags it
-     * hoisted for the previous route.
-     */
-    const navigateClientSide = async (page, path) => {
-      await page.evaluate((target) => {
-        window.history.pushState({}, "", target);
-        window.dispatchEvent(new PopStateEvent("popstate", { state: {} }));
-      }, path);
-      await page.waitForFunction(
-        (target) => window.location.pathname === target,
-        path,
-      );
-    };
-
     test("artykuł → artykuł: jeden opis, treść z artykułu docelowego", async ({
       page,
     }) => {
@@ -597,5 +597,160 @@ test.describe("SEO — page metadata invariants", () => {
 
       expect(loads.loads, "route change must not reload the document").toBe(0);
     });
+  });
+
+  /**
+   * The prerendered head is replaced on mount, never added to (openspec:
+   * fix-prerendered-head-duplicates).
+   *
+   * Every other test here loads from the dev server, whose HTML carries no
+   * metadata, so React's tags are the only ones in <head>. Production serves
+   * each route from a file scripts/prerender.mjs saved with the tags already
+   * in it, and the app mounts with `createRoot`. React 19 reuses an existing
+   * head tag only while hydrating; on a plain render it inserts its own next
+   * to the static ones. Measured 2026-10-28: two of every tag on every
+   * production page, and after `/` → `/blog` the home canonical still first.
+   *
+   * No server here reproduces that file — the dev server has no prerender,
+   * and neither does `PW_PREVIEW`, whose `build:test` is a plain `vite build`
+   * — and a spec may not read `dist/`. So the test makes the file: render the
+   * route, take `page.content()` (the call the prerender writes to disk), and
+   * serve it as the next document load.
+   */
+  test.describe("prerendered head is replaced on mount, not added to", () => {
+    test.beforeEach(async ({ page, baseURL }) => {
+      // Only the app may write to <head> here. A third-party script that adds
+      // tags of its own (ClickRank inserted canonicals until 2026-10-28) would
+      // make the count measure it instead.
+      const own = new URL(baseURL).origin;
+      await page.route(
+        (url) => url.origin !== own,
+        (route) => route.abort(),
+      );
+    });
+
+    /**
+     * Resolves once React has inserted its own canonical for `path`.
+     *
+     * The replayed file holds exactly one of each tag before any script runs,
+     * so counting too early passes on broken code. React stamps every node it
+     * manages with an own property `__reactFiber$<random>`. It is not an API —
+     * acceptable in a test, and the reason production code never reads it. If
+     * a React upgrade renames it, this wait times out: a loud failure, never a
+     * silent pass.
+     */
+    const waitForReactCanonical = (page, path) =>
+      page.waitForFunction(
+        (target) => {
+          const trim = (p) => p.replace(/\/+$/, "");
+          return [...document.querySelectorAll('link[rel="canonical"]')].some(
+            (link) =>
+              Object.keys(link).some((key) => key.startsWith("__reactFiber$")) &&
+              trim(new URL(link.href).pathname) === trim(target),
+          );
+        },
+        path,
+        { timeout: 15000 },
+      );
+
+    /** Loads `path` the way production serves it: from its prerendered file. */
+    const openPrerendered = async (page, path, { awaitContent = false } = {}) => {
+      await openPage(page, path);
+      await waitForReactCanonical(page, path);
+      if (awaitContent) {
+        await page.waitForFunction(
+          () => document.documentElement.dataset.contentReady === "true",
+          null,
+          { timeout: 10000 },
+        );
+      }
+      const prerendered = await page.content();
+
+      const target = new URL(path, page.url()).href;
+      await page.route(
+        (url) => url.href === target,
+        (route) =>
+          route.fulfill({
+            body: prerendered,
+            contentType: "text/html; charset=utf-8",
+          }),
+        { times: 1 },
+      );
+      await page.goto(path);
+      await waitForReactCanonical(page, path);
+    };
+
+    /** Every head tag <SEO> emits, keyed the way a crawler tells them apart. */
+    const readSeoTags = (page) =>
+      page.evaluate(() =>
+        [
+          ...document.head.querySelectorAll(
+            'title, meta[name], meta[property], link[rel="canonical"], link[rel="alternate"][hreflang]',
+          ),
+        ]
+          .filter((el) => el.getAttribute("name") !== "viewport")
+          .map((el) => {
+            if (el.tagName === "TITLE") return "title";
+            if (el.tagName === "LINK") {
+              return el.hreflang ? `hreflang=${el.hreflang}` : el.rel;
+            }
+            return el.getAttribute("name") ?? el.getAttribute("property");
+          }),
+      );
+
+    const expectOneSet = async (page, path) => {
+      const tags = await readSeoTags(page);
+      const count = (key) => tags.filter((tag) => tag === key).length;
+
+      expect({
+        title: count("title"),
+        description: count("description"),
+        canonical: count("canonical"),
+      }).toEqual({ title: 1, description: 1, canonical: 1 });
+
+      const repeated = [...new Set(tags.filter((tag, i) => tags.indexOf(tag) !== i))];
+      expect(repeated, "a head tag appears more than once").toEqual([]);
+
+      expect(
+        normalize(
+          await page.locator('link[rel="canonical"]').getAttribute("href"),
+        ),
+      ).toBe(normalize(`${SITE_URL}${path}`));
+    };
+
+    for (const { path, awaitContent } of [
+      { path: "/" },
+      { path: "/en/" },
+      { path: "/blog" },
+      { path: "/blog/slabe-strony-claude-code", awaitContent: true },
+    ]) {
+      test(`direct load of ${path}: one set of head tags`, async ({ page }) => {
+        await openPrerendered(page, path, { awaitContent });
+        await expectOneSet(page, path);
+        // Each of these pages has a translation, so its file carries one
+        // hreflang trio. Six meant the static trio had survived next to React's.
+        await expect(
+          page.locator('link[rel="alternate"][hreflang]'),
+        ).toHaveCount(3);
+      });
+    }
+
+    for (const [from, to] of [
+      ["/", "/blog"],
+      ["/en/", "/en/blog"],
+    ]) {
+      test(`${from} → ${to} client-side: only the current page's tags`, async ({
+        page,
+      }) => {
+        await openPrerendered(page, from);
+        const loads = countDocumentLoads(page);
+
+        await navigateClientSide(page, to);
+        await waitForReactCanonical(page, to);
+
+        await expectOneSet(page, to);
+        expect(loads.loads, "route change must not reload the document").toBe(0);
+      });
+    }
   });
 });

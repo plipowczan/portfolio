@@ -76,14 +76,18 @@ and the one it landed in.
   `findClickRankScripts`, covered by
   `tests/unit/verify-prerender-scripts.test.mjs`. Never filter the tag out in
   `prerender.mjs` instead — that hides a reintroduction rather than failing on it.
-- **`/` is prerendered last, and the order is load-bearing.** It writes
-  `dist/index.html`, the file the preview server also returns for any route
-  with no generated file yet. Rendered first, it left every later route
-  starting from a shell already carrying the home page's title, description and
-  canonical — React 19 hoists a route's own tags alongside what it finds rather
-  than replacing it, so 97 of 98 files shipped the home canonical first. Keep
-  the `orderedRoutes` list; `verify-prerender-output.mjs` fails the build if
-  this regresses.
+- **`/` is prerendered last.** It writes `dist/index.html`, the file the
+  preview server also returns for any route with no generated file yet.
+  Rendered first, it left every later route starting from a shell already
+  carrying the home page's title, description and canonical. React 19 hoists a
+  route's own tags alongside what it finds rather than replacing them, so 97 of
+  98 files shipped the home canonical first. Since 2026-10-28 `<SEO>` also
+  removes any prerendered copy of its tags on mount
+  (`src/utils/prerenderedHead.js`), which would sweep such a shell too. The
+  order is therefore one of two guards, not the only one. Keep the
+  `orderedRoutes` list anyway: it does not depend on client code, and
+  `verify-prerender-output.mjs` fails the build if the output regresses either
+  way.
 - Article and lesson bodies arrive through a dynamic `import()`, so those routes
   are captured only after `data-content-ready` appears on `<html>`
   (`src/utils/prerenderMarker.js`). Waiting on network idle instead cannot tell
