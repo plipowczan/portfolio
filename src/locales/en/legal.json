@@ -41,18 +41,16 @@
   "privacy.section7.intro": "Data is passed to these service providers:",
   "privacy.section7.item1": "Vercel - website hosting (IP address and technical data of every request) and cookieless traffic and performance measurement",
   "privacy.section7.item2": "Google - Google Analytics, only after consent to analytics cookies",
-  "privacy.section7.item3": "Formspree - contact form handling (contact details and message)",
-  "privacy.section7.item4": "Resend - LLM Wiki mailing list (email address)",
-  "privacy.section7.item5": "Zencal - consultation booking calendar (details given when booking). The widget loads a profile picture from a DigitalOcean server.",
-  "privacy.section7.item6": "Sentry - reports the browser sends when the site tries to load a resource outside its list of allowed sources (page and resource address, browser type, IP address)",
-  "privacy.section7.footer": "Some providers (Vercel, Google, Formspree, Resend) operate in the United States, so data may be transferred outside the European Economic Area. For Vercel, Google and Resend the transfer relies on the European Commission's adequacy decision (EU-US Data Privacy Framework), and these providers' data processing agreements also include standard contractual clauses.",
+  "privacy.section7.item3": "Resend - LLM Wiki mailing list (email address) and delivery of contact form messages (contact details and message)",
+  "privacy.section7.item4": "Zencal - consultation booking calendar (details given when booking). The widget loads a profile picture from a DigitalOcean server.",
+  "privacy.section7.item5": "Sentry - reports the browser sends when the site tries to load a resource outside its list of allowed sources (page and resource address, browser type, IP address)",
+  "privacy.section7.footer": "Some providers (Vercel, Google, Resend) operate in the United States, so data may be transferred outside the European Economic Area. The transfer relies on the European Commission's adequacy decision (EU-US Data Privacy Framework), and these providers' data processing agreements also include standard contractual clauses.",
   "privacy.section8.title": "8. Data Security",
   "privacy.section8.content": "We implement appropriate technical and organizational measures to protect personal data against accidental or unlawful destruction, loss, modification, unauthorized disclosure, or access.",
   "privacy.section9.title": "9. Contact",
   "privacy.section9.content": "For matters related to the processing of personal data and the exercise of rights under the GDPR, please contact us at the email address: ",
   "privacy.section10.title": "10. Changes to the Privacy Policy",
   "privacy.section10.content": "We reserve the right to make changes to this Privacy Policy. Any changes will be communicated by updating the date of the last modification.",
-
   "terms.title": "Terms of Service",
   "terms.subtitle": "Terms of Service",
   "terms.lastUpdate": "Last updated: {{date}}",
@@ -93,7 +91,6 @@
   "terms.section9.content": "These Terms of Service are governed by Polish law. In matters not regulated by these Terms of Service, the provisions of Polish law shall apply.",
   "terms.section10.title": "10. Contact",
   "terms.section10.content": "For matters related to the Terms of Service or the operation of the Service, please contact us at the email address: ",
-
   "cookies.title": "Cookie Policy",
   "cookies.subtitle": "Cookie Policy",
   "cookies.lastUpdate": "Last updated: {{date}}",
@@ -142,7 +139,6 @@
   "cookies.section7.content": "For more information about cookies, please visit: ",
   "cookies.section8.title": "8. Contact",
   "cookies.section8.content": "For matters related to the Cookie Policy, please contact us at the email address: ",
-
   "privacy.seoDescription": "Privacy policy for pawel.lipowczan.pl - what data is collected, why it is processed, and the rights you have under GDPR.",
   "terms.seoDescription": "Terms of service for pawel.lipowczan.pl - rules for using the site, copyright, and the limits of liability.",
   "cookies.seoDescription": "Cookie policy for pawel.lipowczan.pl - which cookies are used, what for, and how to change the settings in your browser."

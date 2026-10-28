@@ -41,18 +41,16 @@
   "privacy.section7.intro": "Dane trafiają do tych dostawców usług:",
   "privacy.section7.item1": "Vercel - hosting strony (adres IP i dane techniczne każdego żądania) oraz pomiar ruchu i wydajności bez ciasteczek",
   "privacy.section7.item2": "Google - Google Analytics, tylko po zgodzie na ciasteczka analityczne",
-  "privacy.section7.item3": "Formspree - obsługa formularza kontaktowego (dane i treść wiadomości)",
-  "privacy.section7.item4": "Resend - lista mailowa LLM Wiki (adres e-mail)",
-  "privacy.section7.item5": "Zencal - kalendarz rezerwacji konsultacji (dane podane przy rezerwacji). Widżet wczytuje zdjęcie profilowe z serwera DigitalOcean.",
-  "privacy.section7.item6": "Sentry - raporty, które przeglądarka wysyła, gdy strona próbuje wczytać zasób spoza listy dozwolonych źródeł (adres strony i zasobu, typ przeglądarki, adres IP)",
-  "privacy.section7.footer": "Część dostawców (Vercel, Google, Formspree, Resend) działa w Stanach Zjednoczonych, więc dane mogą trafić poza Europejski Obszar Gospodarczy. W przypadku Vercel, Google i Resend przekazanie opiera się na decyzji Komisji Europejskiej o odpowiednim stopniu ochrony (EU-US Data Privacy Framework), a umowy powierzenia tych dostawców przewidują też standardowe klauzule umowne.",
+  "privacy.section7.item3": "Resend - lista mailowa LLM Wiki (adres e-mail) i dostarczanie wiadomości z formularza kontaktowego (dane i treść wiadomości)",
+  "privacy.section7.item4": "Zencal - kalendarz rezerwacji konsultacji (dane podane przy rezerwacji). Widżet wczytuje zdjęcie profilowe z serwera DigitalOcean.",
+  "privacy.section7.item5": "Sentry - raporty, które przeglądarka wysyła, gdy strona próbuje wczytać zasób spoza listy dozwolonych źródeł (adres strony i zasobu, typ przeglądarki, adres IP)",
+  "privacy.section7.footer": "Część dostawców (Vercel, Google, Resend) działa w Stanach Zjednoczonych, więc dane mogą trafić poza Europejski Obszar Gospodarczy. Przekazanie opiera się na decyzji Komisji Europejskiej o odpowiednim stopniu ochrony (EU-US Data Privacy Framework), a umowy powierzenia tych dostawców przewidują też standardowe klauzule umowne.",
   "privacy.section8.title": "8. Bezpieczeństwo danych",
   "privacy.section8.content": "Stosujemy odpowiednie środki techniczne i organizacyjne w celu ochrony danych osobowych przed przypadkowym lub niezgodnym z prawem zniszczeniem, utratą, modyfikacją, nieuprawnionym ujawnieniem lub dostępem.",
   "privacy.section9.title": "9. Kontakt",
   "privacy.section9.content": "W sprawach dotyczących przetwarzania danych osobowych oraz realizacji praw wynikających z RODO, prosimy o kontakt pod adresem email: ",
   "privacy.section10.title": "10. Zmiany w Polityce Prywatności",
   "privacy.section10.content": "Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej Polityce Prywatności. O wszelkich zmianach poinformujemy poprzez aktualizację daty ostatniej modyfikacji.",
-
   "terms.title": "Regulamin Serwisu",
   "terms.subtitle": "Terms of Service",
   "terms.lastUpdate": "Ostatnia aktualizacja: {{date}}",
@@ -93,7 +91,6 @@
   "terms.section9.content": "Niniejszy Regulamin podlega prawu polskiemu. W sprawach nieuregulowanych niniejszym Regulaminem mają zastosowanie przepisy prawa polskiego.",
   "terms.section10.title": "10. Kontakt",
   "terms.section10.content": "W sprawach dotyczących Regulaminu lub działania Serwisu prosimy o kontakt pod adresem email: ",
-
   "cookies.title": "Polityka Ciasteczek",
   "cookies.subtitle": "Cookie Policy",
   "cookies.lastUpdate": "Ostatnia aktualizacja: {{date}}",
@@ -142,7 +139,6 @@
   "cookies.section7.content": "Więcej informacji o plikach cookies można znaleźć na stronie: ",
   "cookies.section8.title": "8. Kontakt",
   "cookies.section8.content": "W sprawach dotyczących Polityki Ciasteczek prosimy o kontakt pod adresem email: ",
-
   "privacy.seoDescription": "Polityka prywatności serwisu pawel.lipowczan.pl - jakie dane zbieramy, w jakim celu i jakie prawa masz na gruncie RODO.",
   "terms.seoDescription": "Regulamin serwisu pawel.lipowczan.pl - zasady korzystania ze strony, prawa autorskie i zakres odpowiedzialności.",
   "cookies.seoDescription": "Polityka cookies serwisu pawel.lipowczan.pl - jakich plików cookie używamy, po co i jak zmienić ustawienia w przeglądarce."
