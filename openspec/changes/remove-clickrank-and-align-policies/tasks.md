@@ -30,6 +30,6 @@
 
 ## 5. Integration
 
-- [ ] 5.1 Run `npm run build:prerender`; verify the output check passes and `grep -ril clickrank dist --include=*.html` lists only the case-study article pages
+- [x] 5.1 Run `npm run build:prerender`; verify the output check passes and `grep -ril clickrank dist --include=*.html` lists only the case-study article pages
 - [ ] 5.2 Run `npm test` and `npm run test:unit`; verify both pass
 - [x] 5.3 Run `openspec validate remove-clickrank-and-align-policies --strict`; verify it passes
