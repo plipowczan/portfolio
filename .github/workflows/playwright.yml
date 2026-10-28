@@ -46,7 +46,11 @@ jobs:
     name: PR — ${{ matrix.project }} (${{ matrix.shard }}/2)
     if: github.event_name == 'pull_request'
     timeout-minutes: 20
-    runs-on: ubuntu-latest
+    # Przypięte do 24.04, nie ubuntu-latest: obraz latest przeszedł na 26.04, a
+    # Playwright 1.56 odmawia tam instalacji ("does not support chromium on
+    # ubuntu26.04-x64") i padały wszystkie joby z przeglądarką. Odepnij razem z
+    # podbiciem @playwright/test do wersji, która 26.04 obsługuje.
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -121,7 +125,11 @@ jobs:
     name: main — ${{ matrix.project }}
     if: github.event_name == 'push'
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    # Przypięte do 24.04, nie ubuntu-latest: obraz latest przeszedł na 26.04, a
+    # Playwright 1.56 odmawia tam instalacji ("does not support chromium on
+    # ubuntu26.04-x64") i padały wszystkie joby z przeglądarką. Odepnij razem z
+    # podbiciem @playwright/test do wersji, która 26.04 obsługuje.
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
