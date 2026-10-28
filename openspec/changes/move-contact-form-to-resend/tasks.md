@@ -1,9 +1,9 @@
 ## 1. Contact endpoint
 
-- [ ] 1.1 Write `tests/unit/contact.test.mjs` first, in the style of `subscribe.test.mjs`: valid message (one Resend call to `/emails`, from, to, reply_to, subject tag, body fields), empty subject defaulted, invalid and oversized fields, line breaks collapsed in the subject, non-POST 405 with `Allow`, honeypot 200 without a call, each missing variable 500 without a call, upstream non-2xx and network failure 502, no key or recipient in any response body; verify it fails because `api/contact.js` does not exist
-- [ ] 1.2 Implement `api/contact.js` per design D1–D6 (global `fetch`, no dependency, fail closed, status-only `console.error`); verify `node --test tests/unit/contact.test.mjs` and `npm run test:unit` pass
-- [ ] 1.3 Add `CONTACT_FORM_FROM` and `CONTACT_FORM_TO` to `.env.example` with placeholders and a server-only note, and drop the commented Formspree `VITE_FORM_ENDPOINT` line there and in `.claude/rules/10-setup.md`; verify `grep -ri formspree .env.example .claude/rules` returns nothing
-- [ ] 1.4 DOX: `api/AGENTS.md` describes two functions and carries the contact status contract and its verification command; verify every path it cites exists
+- [x] 1.1 Write `tests/unit/contact.test.mjs` first, in the style of `subscribe.test.mjs`: valid message (one Resend call to `/emails`, from, to, reply_to, subject tag, body fields), empty subject defaulted, invalid and oversized fields, line breaks collapsed in the subject, non-POST 405 with `Allow`, honeypot 200 without a call, each missing variable 500 without a call, upstream non-2xx and network failure 502, no key or recipient in any response body; verify it fails because `api/contact.js` does not exist
+- [x] 1.2 Implement `api/contact.js` per design D1–D6 (global `fetch`, no dependency, fail closed, status-only `console.error`); verify `node --test tests/unit/contact.test.mjs` and `npm run test:unit` pass
+- [x] 1.3 Add `CONTACT_FORM_FROM` and `CONTACT_FORM_TO` to `.env.example` with placeholders and a server-only note, and drop the commented Formspree `VITE_FORM_ENDPOINT` line there and in `.claude/rules/10-setup.md`; verify `grep -ri formspree .env.example .claude/rules` returns nothing
+- [x] 1.4 DOX: `api/AGENTS.md` describes two functions and carries the contact status contract and its verification command; verify every path it cites exists
 
 ## 2. Contact form
 
