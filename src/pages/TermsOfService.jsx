@@ -6,12 +6,19 @@
  * gita, bo srodowisko budujace klonuje repozytorium ze skrocona historia
  * i kazdy plik nietkniety od granicy skrotu raportowal te sama, falszywa
  * date. Zmieniasz tresc strony - zmieniasz te date.
+ *
+ * Ten sam dzien pokazuje wiersz "Ostatnia aktualizacja" (LAST_UPDATED nizej).
+ * scripts/update-sitemap.js zatrzymuje build, gdy obie daty sie rozjada.
  */
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import SEO from "../components/seo/SEO";
 import useLocalizedPath from "../hooks/useLocalizedPath";
 import { FADE_IN_UP, SITE_CONFIG } from "../utils/constants";
+import { formatCalendarDate } from "../utils/formatCalendarDate";
+
+/** Dzien ostatniej zmiany tresci dokumentu - ten sam co @sitemapUpdated wyzej. */
+const LAST_UPDATED = "2026-07-29";
 
 const TermsOfService = () => {
   const { t, i18n } = useTranslation("legal");
@@ -41,7 +48,7 @@ const TermsOfService = () => {
               </h1>
               <p className="text-gray-400">{t("terms.subtitle")}</p>
               <p className="text-sm text-gray-400">
-                {t("terms.lastUpdate", { date: new Date().toLocaleDateString(dateLocale) })}
+                {t("terms.lastUpdate", { date: formatCalendarDate(LAST_UPDATED, dateLocale) })}
               </p>
             </div>
 

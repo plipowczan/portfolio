@@ -10,10 +10,10 @@
 
 ## 2. Fixed last-updated date
 
-- [ ] 2.1 Add a pure helper in `src/utils/` that formats an ISO `YYYY-MM-DD` date as that calendar day for a locale, in UTC; cover it with a unit test that sets a time zone behind UTC and asserts `pl-PL` and `en-US` output; verify `npm run test:unit` passes
-- [ ] 2.2 Declare `LAST_UPDATED` under the `@sitemapUpdated` marker in `PrivacyPolicy.jsx`, `TermsOfService.jsx` and `CookiePolicy.jsx`, render it through the helper instead of `new Date()`, and set privacy and cookie policy dates (marker and constant) to the day their copy changes; verify the pages show the declared date on the dev server in both languages
-- [ ] 2.3 Make `scripts/update-sitemap.js` fail when a page declares `LAST_UPDATED` that differs from its `@sitemapUpdated` marker; verify `npm run blog:sitemap` passes, then fails with a deliberately mismatched date (reverted afterwards)
-- [ ] 2.4 DOX: add the `LAST_UPDATED` rule to the `@sitemapUpdated` contract and the helper to the `utils/` list in `src/AGENTS.md`; verify the cited files exist
+- [x] 2.1 Add a pure helper in `src/utils/` that formats an ISO `YYYY-MM-DD` date as that calendar day for a locale, in UTC; cover it with a unit test that sets a time zone behind UTC and asserts `pl-PL` and `en-US` output; verify `npm run test:unit` passes
+- [x] 2.2 Declare `LAST_UPDATED` under the `@sitemapUpdated` marker in `PrivacyPolicy.jsx`, `TermsOfService.jsx` and `CookiePolicy.jsx`, render it through the helper instead of `new Date()`, and set privacy and cookie policy dates (marker and constant) to the day their copy changes; verify the pages show the declared date on the dev server in both languages
+- [x] 2.3 Make `scripts/update-sitemap.js` fail when a page declares `LAST_UPDATED` that differs from its `@sitemapUpdated` marker; verify `npm run blog:sitemap` passes, then fails with a deliberately mismatched date (reverted afterwards)
+- [x] 2.4 DOX: add the `LAST_UPDATED` rule to the `@sitemapUpdated` contract and the helper to the `utils/` list in `src/AGENTS.md`; verify the cited files exist
 
 ## 3. Policy copy
 
