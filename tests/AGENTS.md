@@ -81,6 +81,18 @@ Never hardcode a port in a spec — take the URL from `baseURL` or that module.
   body that arrives by dynamic import, so wait for `data-content-ready` on
   `<html>` before reading — the same marker `scripts/prerender.mjs` waits on.
 
+  **What the app does on top of a prerendered file needs neither server.** The
+  dev server has no prerender, and neither does `PW_PREVIEW`: `build:test` is
+  a plain `vite build`. The replay block in `seo-metadata-invariants.spec.js`
+  makes the file itself. It renders the route, takes `page.content()` (the
+  call `prerender.mjs` writes to disk), and serves that as the next document
+  load through `page.route(..., { times: 1 })`. It blocks every foreign origin,
+  so a third-party script writing to `<head>` cannot skew the count. It counts
+  only once React owns a canonical, read from the `__reactFiber$…` key React
+  sets on its nodes. The replayed file already holds one of each tag before
+  any script runs, so an earlier count passes on broken code. Reuse this
+  pattern rather than reading `dist/`.
+
 `PW_DEPLOYED=1` starts neither server: the target is a deployment, addressed
 through `SEO_HEADERS_URL`.
 

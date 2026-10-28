@@ -16,7 +16,7 @@ and the shared hooks and utilities behind them.
 - `locales/pl/`, `locales/en/` — i18next translation resources
 - `styles/` — `index.css` (global + custom animations) and `fonts.css`
 - `utils/` — `analytics.js`, `constants.js`, `extractFirstParagraph.js`,
-  `faqExtractor.js`, `prerenderMarker.js`
+  `faqExtractor.js`, `prerenderMarker.js`, `prerenderedHead.js`
 - `assets/fonts/` — self-hosted font files
 - `App.jsx`, `main.jsx`, `i18n.js`
 
@@ -64,6 +64,13 @@ General React, Tailwind, and router style is not repeated here — it lives in
   purpose. It is the route this repository optimises for, and it is what the
   build's payload budget measures (`scripts/check-payload-budget.mjs`). Making
   it lazy would add a round trip to its critical path and hide it from the gate.
+- `main.jsx` calls `collectPrerenderedHead()` before `createRoot(...).render`.
+  It must stay ahead of the render: at that moment every marked head tag came
+  from the prerendered file, and `<SEO>` removes exactly those on mount. The
+  marking rule lives in `src/components/AGENTS.md`. Do not switch to
+  `hydrateRoot` to get the tags adopted. The prerendered file is a Puppeteer
+  DOM snapshot, not React server output, so hydration mismatches and falls back
+  to a client render, which brings the duplicates back.
 - A route whose body arrives asynchronously must set the readiness marker
   (`utils/prerenderMarker.js`), or the prerenderer will fail that route. The
   marker is handled for you by `hooks/useContentBody.js`.
