@@ -103,8 +103,8 @@ const injectLoader = () => {
 };
 
 /**
- * Defers injection off the critical rendering path, the same way `index.html`
- * loads clickrank.ai. Required by openspec/specs/performance-third-party-scripts.
+ * Defers injection off the critical rendering path.
+ * Required by openspec/specs/performance-third-party-scripts.
  */
 const injectWhenIdle = () => {
   if ("requestIdleCallback" in window) {

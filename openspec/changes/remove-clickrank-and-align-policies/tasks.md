@@ -1,12 +1,12 @@
 ## 1. Remove ClickRank
 
-- [ ] 1.1 Delete the ClickRank injector `<script>` block from `index.html`; verify `grep -i clickrank index.html` returns nothing
-- [ ] 1.2 Remove `https://js.clickrank.ai` from `script-src` and `connect-src` of the Report-Only CSP in `vercel.json`; verify `grep -c clickrank vercel.json` is 0 and the file still parses as JSON
-- [ ] 1.3 Invert the CSP expectation in `tests/e2e/seo-security-headers.spec.js`: `connect-src` and `script-src` must not contain `https://js.clickrank.ai`; verify the file has no remaining positive ClickRank assertion
-- [ ] 1.4 Rewrite the `injectWhenIdle` comment in `src/utils/analytics.js` so it no longer cites ClickRank; verify `grep -ri clickrank src/utils` returns nothing
-- [ ] 1.5 Add a pure, exported check to `scripts/verify-prerender-output.mjs` that finds executable `<script>` elements (external `src` or inline code, skipping JSON-LD) referencing `clickrank.ai`, wire it into `checkPrerenderOutput`, and cover it with `tests/unit/verify-prerender-scripts.test.mjs` (static tag, inline injector, JSON-LD mention, code-sample mention, clean page); verify `npm run test:unit` passes
-- [ ] 1.6 Add `tests/e2e/third-party-scripts.spec.js`: on `/` and a blog post, no request reaches a `clickrank.ai` host past the 3 s idle window, and the CSP in `vercel.json` does not allowlist it; verify the spec passes on the default projects
-- [ ] 1.7 DOX: record the new prerender check in `scripts/AGENTS.md`; verify every path it cites exists
+- [x] 1.1 Delete the ClickRank injector `<script>` block from `index.html`; verify `grep -i clickrank index.html` returns nothing
+- [x] 1.2 Remove `https://js.clickrank.ai` from `script-src` and `connect-src` of the Report-Only CSP in `vercel.json`; verify `grep -c clickrank vercel.json` is 0 and the file still parses as JSON
+- [x] 1.3 Invert the CSP expectation in `tests/e2e/seo-security-headers.spec.js`: `connect-src` and `script-src` must not contain `https://js.clickrank.ai`; verify the file has no remaining positive ClickRank assertion
+- [x] 1.4 Rewrite the `injectWhenIdle` comment in `src/utils/analytics.js` so it no longer cites ClickRank; verify `grep -ri clickrank src/utils` returns nothing
+- [x] 1.5 Add a pure, exported check to `scripts/verify-prerender-output.mjs` that finds executable `<script>` elements (external `src` or inline code, skipping JSON-LD) referencing `clickrank.ai`, wire it into `checkPrerenderOutput`, and cover it with `tests/unit/verify-prerender-scripts.test.mjs` (static tag, inline injector, JSON-LD mention, code-sample mention, clean page); verify `npm run test:unit` passes
+- [x] 1.6 Add `tests/e2e/third-party-scripts.spec.js`: on `/` and a blog post, no request reaches a `clickrank.ai` host past the 3 s idle window, and the CSP in `vercel.json` does not allowlist it; verify the spec passes on the default projects
+- [x] 1.7 DOX: record the new prerender check in `scripts/AGENTS.md`; verify every path it cites exists
 
 ## 2. Fixed last-updated date
 
