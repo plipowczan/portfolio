@@ -76,6 +76,18 @@ function readPageDate(relativePath) {
     );
   }
 
+  // Strony prawne pokazują tę samą datę czytelnikowi („Ostatnia aktualizacja”)
+  // ze stałej obok znacznika. Dwie wartości w jednym pliku rozjadą się przy
+  // pierwszej zmianie jednej z nich, a wtedy mapa i strona mówią co innego.
+  const shown = source.match(/\bLAST_UPDATED\s*=\s*["'](\d{4}-\d{2}-\d{2})["']/);
+  if (shown && shown[1] !== match[1]) {
+    throw new Error(
+      `"${relativePath}": LAST_UPDATED (${shown[1]}) różni się od ` +
+        `@sitemapUpdated (${match[1]}). To ta sama data ostatniej zmiany ` +
+        `treści — zmień obie.`,
+    );
+  }
+
   return match[1];
 }
 

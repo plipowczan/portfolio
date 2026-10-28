@@ -74,12 +74,16 @@ test.describe("SEO — security headers on deployed site", () => {
     expect(directive("style-src")).not.toContain("https://fonts.googleapis.com");
 
     const connectSrc = directive("connect-src");
-    expect(connectSrc).toContain("https://js.clickrank.ai");
     expect(connectSrc).toContain("https://formspree.io");
     expect(connectSrc).toContain("https://app.zencal.io");
 
     expect(directive("script-src")).toContain("https://app.zencal.io");
     expect(directive("frame-src")).toContain("https://app.zencal.io");
+
+    // ClickRank was removed on 2026-10-28. An entry left behind would let a
+    // reintroduced loader run without the violation report that flags it.
+    expect(directive("script-src")).not.toContain("https://js.clickrank.ai");
+    expect(connectSrc).not.toContain("https://js.clickrank.ai");
   });
 
   test("CSP allowlist pokrywa hosty Google Analytics", async ({ request }) => {

@@ -67,6 +67,15 @@ and the one it landed in.
   Polish name in English metadata goes into `ALLOWED_POLISH_TERMS_IN_EN_META`;
   do not switch the check off. The logic is `findPolishInEnglishPages`, a pure
   function covered by `tests/unit/verify-prerender-english.test.mjs`.
+- `verify-prerender-output.mjs` fails the build when any built HTML file
+  carries an executable `<script>` referencing `clickrank.ai` — an external
+  `src` or inline code. ClickRank was removed on 2026-10-28; its injector lived
+  in `index.html` and the prerender baked the tag it created into every file,
+  so it loaded twice per page. JSON-LD and article text are skipped on purpose:
+  a published case study quotes the loader. The logic is
+  `findClickRankScripts`, covered by
+  `tests/unit/verify-prerender-scripts.test.mjs`. Never filter the tag out in
+  `prerender.mjs` instead — that hides a reintroduction rather than failing on it.
 - **`/` is prerendered last, and the order is load-bearing.** It writes
   `dist/index.html`, the file the preview server also returns for any route
   with no generated file yet. Rendered first, it left every later route

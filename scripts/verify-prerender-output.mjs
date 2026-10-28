@@ -90,6 +90,38 @@ const visibleText = (html) =>
   ).replace(/\s+/g, " ");
 
 /**
+ * Pliki, w których wykonywalny `<script>` odwołuje się do ClickRank.
+ *
+ * ClickRank usunięto 2026-10-28 (PL-463). Wstrzykiwacz siedział w
+ * `index.html`, a prerender utrwalał w każdym pliku tag, który ten
+ * wstrzykiwacz zdążył dodać — jedna linijka źródła dawała dwa skrypty na
+ * każdej stronie. Łapie oba ślady: `src` wskazujący na `clickrank.ai` i kod
+ * inline, który go wymienia.
+ *
+ * Liczy się tylko skrypt wykonywalny. Wpis bloga o odroczeniu ClickRank cytuje
+ * jego loader w bloku kodu, a treść artykułu trafia też do JSON-LD, więc
+ * zwykłe szukanie napisu zatrzymałoby build na opublikowanym tekście.
+ *
+ * Czysta funkcja, żeby test jednostkowy mógł ją karmić sztucznym HTML-em.
+ *
+ * @param {{ file: string, html: string }[]} pages
+ * @returns {string[]} nazwy plików z takim skryptem
+ */
+export function findClickRankScripts(pages) {
+  const SCRIPT = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+  const CLICKRANK = /clickrank\.ai/i;
+
+  return pages
+    .filter(({ html }) =>
+      [...stripComments(html).matchAll(SCRIPT)].some(([, attributes, body]) => {
+        if (/\btype\s*=\s*["']?application\/ld\+json/i.test(attributes)) return false;
+        return CLICKRANK.test(attributes) || CLICKRANK.test(body);
+      })
+    )
+    .map(({ file }) => file);
+}
+
+/**
  * Polskie wartości kluczy `booking.*` z `src/locales/pl`.
  *
  * Czytane z plików, nie przepisane tutaj: przeredagowany polski tekst
@@ -274,6 +306,20 @@ export function checkPrerenderOutput(distDir = DEFAULT_DIST) {
     );
   } else {
     checked.push(`${htmlFiles.length} plików HTML bez odwołań do googletagmanager`);
+  }
+
+  const withClickRank = findClickRankScripts(
+    htmlFiles.map((name) => ({
+      file: name,
+      html: readFileSync(join(distDir, name), "utf-8"),
+    }))
+  );
+  if (withClickRank.length > 0) {
+    problems.push(
+      `statyczny HTML ładuje usunięty skrypt ClickRank (wstrzykiwacz w index.html albo tag utrwalony przez prerender): ${withClickRank.join(", ")}`
+    );
+  } else {
+    checked.push(`${htmlFiles.length} plików HTML bez skryptu ClickRank`);
   }
 
   // Dane strukturalne: każdy blok ma być poprawnym JSON-em i ma wystąpić raz.
