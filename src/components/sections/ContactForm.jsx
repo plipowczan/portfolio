@@ -8,6 +8,14 @@ import {
   STAGGER_CONTAINER,
 } from "../../utils/constants";
 
+// Same-origin Vercel function (api/contact.js) — sends the message through
+// Resend, so no third-party form service receives visitor data.
+const CONTACT_ENDPOINT = "/api/contact";
+
+// Server-side limits from api/contact.js, enforced here by the browser so a
+// visitor is never stopped by a generic error instead.
+const MAX_LENGTH = { name: 200, email: 254, subject: 200, message: 10000 };
+
 const ContactForm = () => {
   const { t } = useTranslation("home");
   const [formData, setFormData] = useState({
@@ -81,7 +89,11 @@ const ContactForm = () => {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch("https://formspree.io/f/xblqpqab", {
+      // Honeypot value — real visitors leave it empty; bots that fill it are
+      // dropped server-side. Read from the DOM so it also catches autofill.
+      const gotcha = document.getElementById("contact-gotcha")?.value ?? "";
+
+      const response = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,6 +103,7 @@ const ContactForm = () => {
           email: formData.email,
           subject: formData.subject || t("contact.defaultSubject"),
           message: formData.message,
+          gotcha,
         }),
       });
 
@@ -203,6 +216,7 @@ const ContactForm = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     required
+                    maxLength={MAX_LENGTH.name}
                     aria-required="true"
                     aria-invalid={errors.name ? "true" : "false"}
                     aria-describedby={errors.name ? "name-error" : undefined}
@@ -231,6 +245,7 @@ const ContactForm = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     required
+                    maxLength={MAX_LENGTH.email}
                     aria-required="true"
                     aria-invalid={errors.email ? "true" : "false"}
                     aria-describedby={errors.email ? "email-error" : undefined}
@@ -257,6 +272,7 @@ const ContactForm = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
+                    maxLength={MAX_LENGTH.subject}
                     className="w-full px-4 py-3 bg-dark-700 border border-primary-500/50 rounded-lg text-white focus:border-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 transition-colors"
                     placeholder={t("contact.subjectPlaceholder")}
                   />
@@ -277,6 +293,7 @@ const ContactForm = () => {
                     onBlur={handleBlur}
                     rows="5"
                     required
+                    maxLength={MAX_LENGTH.message}
                     aria-required="true"
                     aria-invalid={errors.message ? "true" : "false"}
                     aria-describedby={errors.message ? "message-error" : undefined}
@@ -301,6 +318,25 @@ const ContactForm = () => {
                 >
                   {isSubmitting ? t("contact.submitting") : t("contact.submit")}
                 </button>
+
+                {/* Honeypot — off-screen, hidden from users & AT. Bots that
+                    fill it are silently dropped by /api/contact. Placed after
+                    the button so it never precedes a real field. */}
+                <div
+                  className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
+                  aria-hidden="true"
+                >
+                  <label htmlFor="contact-gotcha">
+                    {t("contact.honeypotLabel")}
+                  </label>
+                  <input
+                    type="text"
+                    id="contact-gotcha"
+                    name="gotcha"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
 
                 {submitStatus === "success" && (
                   <div className="success" role="alert">

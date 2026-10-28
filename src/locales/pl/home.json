@@ -47,6 +47,7 @@
   "contact.defaultSubject": "Wiadomość z formularza kontaktowego",
   "contact.success": "Wiadomość wysłana! Odezwę się wkrótce.",
   "contact.error": "Błąd wysyłania. Spróbuj ponownie lub napisz bezpośrednio na {{email}}",
+  "contact.honeypotLabel": "Nie wypełniaj tego pola",
   "contact.validation.nameRequired": "Imię i nazwisko jest wymagane",
   "contact.validation.emailRequired": "Email jest wymagany",
   "contact.validation.emailInvalid": "Email jest nieprawidłowy",
