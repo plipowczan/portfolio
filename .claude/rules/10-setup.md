@@ -17,7 +17,6 @@
 
 ```
 VITE_API_URL=https://api.example.com
-VITE_FORM_ENDPOINT=https://formspree.io/f/...
 ```
 
 ---

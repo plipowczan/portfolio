@@ -151,6 +151,11 @@ assertion that now lives in the build.
   `fixtures/test-data.js`.
 - Locally, `workers` is unset; in CI it is 1 per job, because navigation-heavy
   blog specs are timing-fragile and only pass serially.
+- A spec that submits a form stubs the form's endpoint with `page.route` in
+  every test, failing ones included. A red run written for a new endpoint once
+  submitted the old form to the live Formspree and delivered six test messages
+  to the real inbox; `e2e/contact-form.spec.js` now also aborts any
+  `formspree.io` request.
 - A spec whose result cannot depend on the rendering engine may be pinned to
   `chromium` through `ENGINE_INDEPENDENT` in `playwright.config.js`. The bar is
   strict: *no* assertion about visibility, layout, focus, animation or viewport.

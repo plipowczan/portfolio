@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import { testContactForm, testUrls } from "../fixtures/test-data.js";
 import {
@@ -6,16 +7,58 @@ import {
   waitForAnimations,
 } from "../utils/test-helpers.js";
 
+const readLocale = (lang) =>
+  JSON.parse(
+    readFileSync(new URL(`../../src/locales/${lang}/home.json`, import.meta.url), "utf8")
+  );
+const pl = readLocale("pl");
+const en = readLocale("en");
+const SITE_EMAIL = "pawel@lipowczan.pl";
+
+/**
+ * Stubs the same-origin contact endpoint and records every request the form
+ * sends to it. A later stub overrides an earlier one (Playwright runs the most
+ * recently registered matching route first).
+ */
+const stubContactEndpoint = async (page, status = 200) => {
+  const requests = [];
+  await page.route("**/api/contact", async (route) => {
+    requests.push(route.request());
+    await route.fulfill({
+      status,
+      contentType: "application/json",
+      body: JSON.stringify(status < 300 ? { ok: true } : { error: "Upstream error" }),
+    });
+  });
+  return requests;
+};
+
+/** Records any request to a third-party form service. */
+const watchFormServices = (page) => {
+  const hits = [];
+  page.on("request", (request) => {
+    if (/formspree\.io/i.test(request.url())) hits.push(request.url());
+  });
+  return hits;
+};
+
+const fillValid = async (form) => {
+  await form.locator('input[name="name"]').fill(testContactForm.validData.name);
+  await form.locator('input[name="email"]').fill(testContactForm.validData.email);
+  await form.locator('textarea[name="message"]').fill(testContactForm.validData.message);
+};
+
+/**
+ * A test must never reach a live form service: a red run against the old
+ * Formspree form once delivered six test messages to the real inbox.
+ */
+const blockFormServices = (page) =>
+  page.route(/formspree\.io/i, (route) => route.abort());
+
 test.describe("Formularz kontaktowy", () => {
   test.beforeEach(async ({ page }) => {
-    // Mockowanie requestu do Formspree
-    await page.route("https://formspree.io/f/xblqpqab", async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ ok: true }),
-      });
-    });
+    await blockFormServices(page);
+    await stubContactEndpoint(page);
 
     await page.goto(testUrls.home);
     await waitForAnimations(page, 1000);
@@ -140,57 +183,84 @@ test.describe("Formularz kontaktowy", () => {
     }
   });
 
-  test("powinien akceptować poprawnie wypełniony formularz", async ({
+  test("wysyła poprawny formularz na /api/contact i pokazuje sukces", async ({
     page,
   }) => {
-    const form = page.locator("form").first();
+    const requests = await stubContactEndpoint(page);
+    const formServiceHits = watchFormServices(page);
+    const form = page.locator("#contact form");
 
-    if ((await form.count()) > 0) {
-      // Wypełnij wszystkie pola
-      const nameInput = form
-        .locator('input[name="name"], input[type="text"]')
-        .first();
-      const emailInput = form
-        .locator('input[name="email"], input[type="email"]')
-        .first();
-      const messageInput = form
-        .locator('textarea[name="message"], textarea')
-        .first();
+    await fillValid(form);
+    await form.getByRole("button", { name: pl["contact.submit"] }).click();
 
-      if ((await nameInput.count()) > 0) {
-        await nameInput.fill(testContactForm.validData.name);
-      }
+    await expect(page.getByText(pl["contact.success"])).toBeVisible();
+    expect(requests).toHaveLength(1);
 
-      if ((await emailInput.count()) > 0) {
-        await emailInput.fill(testContactForm.validData.email);
-      }
+    const request = requests[0];
+    expect(request.method()).toBe("POST");
+    expect(new URL(request.url()).origin).toBe(new URL(page.url()).origin);
+    expect(request.postDataJSON()).toEqual({
+      name: testContactForm.validData.name,
+      email: testContactForm.validData.email,
+      subject: pl["contact.defaultSubject"],
+      message: testContactForm.validData.message,
+      gotcha: "",
+    });
 
-      if ((await messageInput.count()) > 0) {
-        await messageInput.fill(testContactForm.validData.message);
-      }
+    // Sukces czyści pola
+    await expect(form.locator('input[name="name"]')).toHaveValue("");
+    await expect(form.locator('input[name="email"]')).toHaveValue("");
+    await expect(form.locator('textarea[name="message"]')).toHaveValue("");
 
-      // Zrób screenshot przed wysłaniem (dla dokumentacji)
-      await page.screenshot({
-        path: "playwright-report/contact-form-filled.png",
-      });
+    expect(formServiceHits).toEqual([]);
+  });
 
-      // Kliknij submit
-      const submitButton = form
-        .locator('button[type="submit"], input[type="submit"]')
-        .first();
-      if ((await submitButton.count()) > 0) {
-        // Uwaga: To może faktycznie wysłać formularz lub pokazać komunikat sukcesu
-        // W testach możemy chcieć mockować endpoint
-        await submitButton.click();
-        await waitForAnimations(page, 2000);
+  test("błąd endpointu pokazuje komunikat i zostawia wpisany tekst", async ({
+    page,
+  }) => {
+    await stubContactEndpoint(page, 500);
+    const form = page.locator("#contact form");
 
-        // Sprawdź komunikat sukcesu lub error (w zależności od implementacji)
-        const successMessage = page
-          .locator('[class*="success"], [class*="message"]')
-          .first();
-        // Nie failuj jeśli nie ma komunikatu - może być redirect lub inna logika
-      }
-    }
+    await fillValid(form);
+    await form.getByRole("button", { name: pl["contact.submit"] }).click();
+
+    await expect(
+      page.getByText(pl["contact.error"].replace("{{email}}", SITE_EMAIL))
+    ).toBeVisible();
+    await expect(page.getByText(pl["contact.success"])).toHaveCount(0);
+    await expect(form.locator('input[name="name"]')).toHaveValue(
+      testContactForm.validData.name
+    );
+    await expect(form.locator('textarea[name="message"]')).toHaveValue(
+      testContactForm.validData.message
+    );
+  });
+
+  test("za krótka wiadomość nie wysyła żadnego żądania", async ({ page }) => {
+    const requests = await stubContactEndpoint(page);
+    const form = page.locator("#contact form");
+
+    await form.locator('input[name="name"]').fill(testContactForm.validData.name);
+    await form.locator('input[name="email"]').fill(testContactForm.validData.email);
+    await form.locator('textarea[name="message"]').fill("krótko");
+    await form.getByRole("button", { name: pl["contact.submit"] }).click();
+
+    await expect(page.getByText(pl["contact.validation.messageMinLength"])).toBeVisible();
+    expect(requests).toHaveLength(0);
+  });
+
+  test("pułapka na boty jest poza tabulacją i drzewem dostępności", async ({
+    page,
+  }) => {
+    const honeypot = page.locator('#contact form input[name="gotcha"]');
+    await expect(honeypot).toHaveAttribute("tabindex", "-1");
+    await expect(honeypot).toHaveAttribute("autocomplete", "off");
+    await expect(page.locator("#contact form [aria-hidden='true']")).toContainText(
+      pl["contact.honeypotLabel"]
+    );
+    await expect(
+      page.locator("#contact form").getByRole("textbox", { name: pl["contact.honeypotLabel"] })
+    ).toHaveCount(0);
   });
 
   test("pola formularza powinny być dostępne (accessibility)", async ({
@@ -212,60 +282,22 @@ test.describe("Formularz kontaktowy", () => {
     }
   });
 
-  test("formularz powinien pokazać wyraźny feedback po wysłaniu", async ({
+  test("wersja angielska wysyła angielski domyślny temat i pokazuje sukces", async ({
     page,
   }) => {
-    const form = page.locator("form").first();
+    const requests = await stubContactEndpoint(page);
+    await page.goto(testUrls.homeEn);
+    await waitForAnimations(page, 1000);
+    await scrollToElement(page, "#contact");
+    await waitForAnimations(page, 500);
+    const form = page.locator("#contact form");
 
-    if ((await form.count()) > 0) {
-      // Wypełnij formularz
-      const nameInput = form
-        .locator('input[name="name"], input[type="text"]')
-        .first();
-      const emailInput = form
-        .locator('input[name="email"], input[type="email"]')
-        .first();
-      const messageInput = form
-        .locator('textarea[name="message"], textarea')
-        .first();
+    await fillValid(form);
+    await form.getByRole("button", { name: en["contact.submit"] }).click();
 
-      if ((await nameInput.count()) > 0)
-        await nameInput.fill(testContactForm.validData.name);
-      if ((await emailInput.count()) > 0)
-        await emailInput.fill(testContactForm.validData.email);
-      if ((await messageInput.count()) > 0)
-        await messageInput.fill(testContactForm.validData.message);
-
-      const submitButton = form
-        .locator('button[type="submit"], input[type="submit"]')
-        .first();
-
-      if ((await submitButton.count()) > 0) {
-        await submitButton.click();
-        await waitForAnimations(page, 3000);
-
-        // Sprawdź różne możliwe komunikaty
-        const feedbackSelectors = [
-          '[class*="success"]',
-          '[class*="error"]',
-          '[class*="message"]',
-          '[role="alert"]',
-          '[class*="notification"]',
-        ];
-
-        let feedbackFound = false;
-        for (const selector of feedbackSelectors) {
-          const feedback = page.locator(selector).first();
-          if ((await feedback.count()) > 0 && (await feedback.isVisible())) {
-            feedbackFound = true;
-            break;
-          }
-        }
-
-        // Nie failuj testu jeśli nie znaleziono - może być redirect
-        console.log("Feedback znaleziony:", feedbackFound);
-      }
-    }
+    await expect(page.getByText(en["contact.success"])).toBeVisible();
+    expect(requests).toHaveLength(1);
+    expect(requests[0].postDataJSON().subject).toBe(en["contact.defaultSubject"]);
   });
 
   test("przycisk submit powinien być disabled podczas wysyłania", async ({
@@ -395,6 +427,8 @@ test.describe("Formularz kontaktowy", () => {
 
 test.describe("Formularz kontaktowy - Nawigacja klawiaturą", () => {
   test.beforeEach(async ({ page }) => {
+    await blockFormServices(page);
+    await stubContactEndpoint(page);
     await page.goto(testUrls.home);
     await waitForAnimations(page, 1000);
     await scrollToElement(page, "#contact");

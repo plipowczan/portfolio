@@ -47,6 +47,7 @@
   "contact.defaultSubject": "Message from contact form",
   "contact.success": "Message sent! I'll get back to you soon.",
   "contact.error": "Sending failed. Please try again or write directly to {{email}}",
+  "contact.honeypotLabel": "Leave this field empty",
   "contact.validation.nameRequired": "Full name is required",
   "contact.validation.emailRequired": "Email is required",
   "contact.validation.emailInvalid": "Email is invalid",

@@ -82,6 +82,7 @@ const LANGUAGES = [
     label: "Ostatnia aktualizacja",
     bases: ["art. 6 ust. 1 lit. a", "art. 6 ust. 1 lit. b", "art. 6 ust. 1 lit. f"],
     unsubscribe: /do czasu wypisania/,
+    contactDelivery: /Resend - .*dostarczanie wiadomości z formularza kontaktowego/,
   },
   {
     prefix: "/en",
@@ -89,6 +90,7 @@ const LANGUAGES = [
     label: "Last updated",
     bases: ["Art. 6(1)(a)", "Art. 6(1)(b)", "Art. 6(1)(f)"],
     unsubscribe: /until you unsubscribe/,
+    contactDelivery: /Resend - .*delivery of contact form messages/,
   },
 ];
 
@@ -110,7 +112,7 @@ test.describe("Policy Pages - fixed last-updated date", () => {
 });
 
 test.describe("Policy Pages - services named match what the site loads", () => {
-  for (const { prefix, bases, unsubscribe } of LANGUAGES) {
+  for (const { prefix, bases, unsubscribe, contactDelivery } of LANGUAGES) {
     test(`${prefix}/cookie-policy names every service it loads, and no removed one`, async ({
       page,
     }) => {
@@ -120,7 +122,7 @@ test.describe("Policy Pages - services named match what the site loads", () => {
       for (const name of ["Google Analytics", "Zencal", "Vercel Web Analytics", "Speed Insights"]) {
         await expect(body).toContainText(name);
       }
-      await expect(body).not.toContainText(/Google Fonts|ClickRank/i);
+      await expect(body).not.toContainText(/Google Fonts|ClickRank|Formspree/i);
     });
 
     test(`${prefix}/privacy-policy names every recipient, and no removed one`, async ({
@@ -129,7 +131,7 @@ test.describe("Policy Pages - services named match what the site loads", () => {
       await page.goto(`${prefix}/privacy-policy`);
       const body = page.locator("body");
 
-      for (const name of ["Vercel", "Google", "Formspree", "Resend", "Zencal", "Sentry", "LLM Wiki"]) {
+      for (const name of ["Vercel", "Google", "Resend", "Zencal", "Sentry", "LLM Wiki"]) {
         await expect(body).toContainText(name);
       }
       // Each purpose is paired with its basis; the consent-based list says how to leave it.
@@ -137,7 +139,9 @@ test.describe("Policy Pages - services named match what the site loads", () => {
         await expect(body).toContainText(basis);
       }
       await expect(body).toContainText(unsubscribe);
-      await expect(body).not.toContainText(/Google Fonts|ClickRank/i);
+      // The contact form is delivered by Resend since Formspree was dropped (2026-10-28).
+      await expect(body).toContainText(contactDelivery);
+      await expect(body).not.toContainText(/Google Fonts|ClickRank|Formspree/i);
     });
   }
 });

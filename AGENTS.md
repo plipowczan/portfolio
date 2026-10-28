@@ -115,6 +115,6 @@ Before reporting a change complete:
 - `src/AGENTS.md` — application source: routing, i18n, pages, hooks, styles, utils.
 - `scripts/AGENTS.md` — Node build and content tooling: prerender, sitemap, images, fonts.
 - `tests/AGENTS.md` — Playwright E2E and unit suites, and which automated run gates what.
-- `api/AGENTS.md` — Vercel Node functions; today just the waitlist endpoint.
+- `api/AGENTS.md` — Vercel Node functions: the waitlist signup and the contact form.
 - `openspec/AGENTS.md` — the primary workflow: capability specs and change artifacts.
 - `remotion/AGENTS.md` — Remotion video project, built and released separately.

@@ -366,7 +366,7 @@ All legal pages must be:
 
 1. ✅ Color scheme: Green/teal gradient confirmed and implemented
 2. ✅ Logo usage: Centered in header, SVG format
-3. ✅ Contact form backend: FormSpree (ready for integration, not yet connected)
+3. ✅ Contact form backend: same-origin Vercel function (`api/contact.js`) that sends through Resend
 4. ✅ Hosting platform: Vercel with automatic deployments
 5. ✅ Blog content: Markdown files with gray-matter frontmatter
 6. ✅ Multi-language: Polish only (English for technical documentation)

@@ -151,7 +151,6 @@ const PrivacyPolicy = () => {
                   <li>{t("privacy.section7.item3")}</li>
                   <li>{t("privacy.section7.item4")}</li>
                   <li>{t("privacy.section7.item5")}</li>
-                  <li>{t("privacy.section7.item6")}</li>
                 </ul>
                 <p className="leading-relaxed mt-4">
                   {t("privacy.section7.footer")}
