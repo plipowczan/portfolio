@@ -27,4 +27,4 @@
 
 - [x] 5.1 Verify `grep -rni formspree src api vercel.json tests` finds only the absence guards in `contact-form`, `policy-pages` and `seo-security-headers`
 - [x] 5.2 Run `npm run build:prerender`; verify it passes, including the sitemap date check
-- [ ] 5.3 Rebase onto `main` once PR #56 has merged, open a non-draft PR listing the two Vercel variables to set and the Preview test message, and run `openspec validate move-contact-form-to-resend`; verify the PR checks, Vercel included, are green
+- [x] 5.3 Rebase onto `main` once PR #56 has merged, open a non-draft PR listing the two Vercel variables to set and the Preview test message, and run `openspec validate move-contact-form-to-resend`; verify the PR checks, Vercel included, are green. Closed at archive on 2026-11-06: PR #58 merged on 2026-10-28 and the contact form's test message arrived on 2026-10-28 (confirmed by Paweł).

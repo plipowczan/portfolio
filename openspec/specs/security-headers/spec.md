@@ -41,7 +41,7 @@ The allowlist SHALL cover every external resource the site loads, so that report
 - `style-src`: `'self' 'unsafe-inline'`
 - `font-src`: `'self'` — fonts are self-hosted from `public/fonts/`, so no third-party font origin is allowed
 - `img-src`: `'self' data: https:`
-- `connect-src`: `'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://o4511257435308032.ingest.de.sentry.io https://formspree.io https://app.zencal.io https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com`
+- `connect-src`: `'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://o4511257435308032.ingest.de.sentry.io https://app.zencal.io https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com`
 - `frame-src`: `'self' https://app.zencal.io https://vercel.live`
 - `frame-ancestors`: `'none'`
 
@@ -64,13 +64,17 @@ These origins SHALL remain allowlisted even though the script that uses them loa
 #### Scenario: Allowlist covers self-loaded resources
 - **WHEN** the CSP-Report-Only header is inspected
 - **THEN** `font-src` is exactly `'self'` and `style-src` does NOT include `https://fonts.googleapis.com`
-- **AND** `connect-src` includes `https://formspree.io` and `https://app.zencal.io`
+- **AND** `connect-src` includes `https://app.zencal.io`
 - **AND** `script-src` includes `https://app.zencal.io`
 - **AND** `frame-src` includes `https://app.zencal.io`
 
 #### Scenario: Removed ClickRank origin is not allowlisted
 - **WHEN** the CSP-Report-Only header is inspected
 - **THEN** neither `script-src` nor `connect-src` includes `https://js.clickrank.ai`
+
+#### Scenario: Removed Formspree origin is not allowlisted
+- **WHEN** the CSP-Report-Only header is inspected
+- **THEN** `connect-src` does NOT include `https://formspree.io`, because the contact form posts to the same-origin `/api/contact` covered by `'self'`
 
 #### Scenario: Allowlist covers the analytics origins
 - **WHEN** the CSP-Report-Only header is inspected
@@ -95,7 +99,7 @@ On the current (free) Sentry plan the protection SHALL consist of: (a) a correct
 
 #### Scenario: Self-inflicted violations are eliminated
 - **WHEN** the corrected allowlist is live in production
-- **THEN** resources the site loads itself (Zencal, Formspree, Vercel Analytics and Speed Insights, Google Analytics after consent) no longer generate CSP reports
+- **THEN** resources the site loads itself (Zencal, Vercel Analytics and Speed Insights, Google Analytics after consent) no longer generate CSP reports
 
 #### Scenario: Known client-injected host is muted (free plan)
 - **WHEN** a CSP report references a known uncontrollable client-injected host (e.g. `connect.facebook.net`, `wasm-eval:`, a `data:` font)
