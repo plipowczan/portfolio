@@ -59,7 +59,7 @@ A change that adds or removes a third-party service SHALL update both policies i
 #### Scenario: Privacy policy names the recipients
 
 - **WHEN** the privacy policy is read in Polish or in English
-- **THEN** it names the hosting provider, the analytics providers, the contact-form provider, the mailing-list provider, the booking provider, and the receiver of browser security-violation reports, each with what it receives
+- **THEN** it names the hosting provider, the analytics providers, the provider that delivers contact-form messages, the mailing-list provider, the booking provider, and the receiver of browser security-violation reports, each with what it receives
 
 #### Scenario: Forms that point to the privacy policy are covered by it
 
@@ -69,7 +69,7 @@ A change that adds or removes a third-party service SHALL update both policies i
 #### Scenario: Services no longer used are not named
 
 - **WHEN** either policy is read
-- **THEN** it does not name Google Fonts or ClickRank
+- **THEN** it does not name Google Fonts, ClickRank or Formspree
 
 #### Scenario: Removing a service updates the policies
 

@@ -37,7 +37,7 @@ One parameterised component reaches the same guarantee by construction: the land
 
 ### Requirement: Email capture via server endpoint into Resend
 
-The landing SHALL POST valid submissions to the same-origin `/api/subscribe` endpoint (NOT to Formspree) with a JSON body containing `email` and a `source: "waitlist"` field, plus a hidden honeypot field that real users leave empty. The landing SHALL reject invalid emails client-side before sending any request, SHALL treat any 2xx response — including an already-subscribed email — as success (showing the success screen), and SHALL show an inline error without leaving the form on a non-2xx response or network failure. The contact form's separate use of Formspree is unaffected.
+The landing SHALL POST valid submissions to the same-origin `/api/subscribe` endpoint (NOT to Formspree) with a JSON body containing `email` and a `source: "waitlist"` field, plus a hidden honeypot field that real users leave empty. The landing SHALL reject invalid emails client-side before sending any request, SHALL treat any 2xx response — including an already-subscribed email — as success (showing the success screen), and SHALL show an inline error without leaving the form on a non-2xx response or network failure.
 
 #### Scenario: Invalid email is rejected client-side
 - **WHEN** the visitor submits an input that is not a valid email
